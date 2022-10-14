@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components'
 const GlobalStyle = createGlobalStyle`
   :root {
     /*Color Roles*/
-    --primary-dark-gray: #2A5578;
+    //--primary-dark-gray: #2A5578;
     --primary-light-1: #D4DDE4;
     --primary-light-2: #E1E8ED;
     --primary-light-3: #F4F6F8;
@@ -11,6 +11,14 @@ const GlobalStyle = createGlobalStyle`
     --secondary-light-green: #EBF1F0;
     --secondary-light-orage: #F6976D;
     --secondary-light-amber: #F3C262;
+
+    --dark-1: #111B23;
+    --dark-2: #263238;
+    --dark-3: #5E647B;
+    --dark-4: #8B8B8B;
+    --dark-5: #D9D9D9;
+    --dark-6: #EDF0F4;
+    --dark-7: #F0F4FA;
     
     --success: #03BC66;
     --error: #EA1F4D;
@@ -44,6 +52,9 @@ const GlobalStyle = createGlobalStyle`
     /*Shadows*/
     --base-box-shadow: -4px -4px 4px rgba(42, 85, 120, 0.05), 4px 4px 4px rgba(42, 85, 120, 0.05);
     --project-shadow: 0px 8px 8px rgba(17, 27, 35, 0.05);
+    
+    /* Constants */
+    --interval: clamp(15px, 5%, 50px)
   }
 
   * {
@@ -53,6 +64,10 @@ const GlobalStyle = createGlobalStyle`
   
   body {
     font-family: var(--font);
+  }
+  
+  html, body, #root {
+    height: 100%;
   }
 `
 

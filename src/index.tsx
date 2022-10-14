@@ -9,10 +9,10 @@ const root: ReactDOM.Root = ReactDOM.createRoot(
 )
 
 root.render(
-    <React.StrictMode>
+    <>
         <GlobalStyle/>
         <App/>
-    </React.StrictMode>
+    </>
 )
 
 reportWebVitals()
