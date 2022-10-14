@@ -20,6 +20,15 @@
     ],
     "rules": {
         "eol-last": 0,
-        "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }]
+        "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
+        "@typescript-eslint/strict-boolean-expressions": [
+            "warn",
+            {
+                "allowString": false,
+                "allowNumber": false,
+                "allowNullableObject": true,
+                "allowNullableBoolean": true
+            }
+        ]
     }
 }

@@ -1,9 +1,9 @@
 import React from 'react'
 
-export const Index: React.FC = () => {
+export const Home: React.FC = () => {
   return (
-        <>
-            index
-        </>
+    <div>
+      <h1>This is the Home Page</h1>
+    </div>
   )
 }
