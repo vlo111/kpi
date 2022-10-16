@@ -4,10 +4,14 @@ import { ButtonContainer } from './style'
 import { Button } from 'antd'
 import { ButtonType, IButton } from '../../../types/form'
 
-const ButtonComponent: React.FC<IButton> = ({ value, type = ButtonType.Primary }) => {
+const ButtonComponent: React.FC<IButton> = ({
+  value,
+  type = ButtonType.Primary,
+  onClick
+}) => {
   return (
         <ButtonContainer>
-            <Button type={type === ButtonType.Primary ? 'primary' : 'default'}>{value}</Button>
+            <Button onClick={onClick} htmlType='submit' type={type === ButtonType.Primary ? 'primary' : 'default'}>{value}</Button>
         </ButtonContainer>
   )
 }

@@ -5,7 +5,7 @@ import api from '../../services/api'
 import { Cookies, GlobalContext, Login, LogOut, Props, SetLogin, UseAuth, UseProvider } from '../../types/provider'
 
 const defaultValue = {
-  cookies: { name: '', token: '' },
+  cookies: { token: undefined },
   login: async ({ email, password }: Login) => { },
   logout: () => { }
 }
@@ -23,13 +23,12 @@ export const UserProvider: UseProvider = ({ children }: Props) => {
     })
 
     setCookies('token', res.data.token)
-    setCookies('name', res.data.name)
 
     navigate('/')
   }
 
   const logout: LogOut = () => {
-    ['token', 'name'].forEach(obj => removeCookie(obj)) // remove data save in cookies
+    removeCookie('token')
     navigate('/sign/in')
   }
 

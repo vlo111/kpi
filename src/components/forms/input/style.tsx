@@ -1,6 +1,7 @@
 import styled from 'styled-components'
+import { InputProps } from '../../../types/form'
 
-export const InputContainer = styled.div`
+export const InputContainer = styled.div<InputProps>`
   #basic_Password {
     border-radius: 1px;
   }
@@ -34,5 +35,19 @@ export const InputContainer = styled.div`
   .ant-form-item-explain-error {
     color: var(--error);
   }
+  
+  .ant-form-item-required:before {
+    content: ${(props) => props.requiredItem ? '*' : 'none !important'};
+    position: absolute;
+    right: -12px;
+    color: var(--dark-2) !important;
+  }
+  
+  .ant-form-item-label {
+    color: var(--dark2-2)
+  }
 
+  .ant-form-item-label > label {
+    color: var(--dark2-2)
+  }
 `

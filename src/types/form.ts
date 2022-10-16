@@ -31,9 +31,11 @@ export interface IInput {
   placeHolder?: string
   style?: style
   validatePassword?: boolean
+  onChange?: () => void
+  requiredItem?: boolean
 }
 
-export type InputRef = React.MutableRefObject<HTMLInputElement | undefined>
+export type InputRef = React.MutableRefObject<HTMLInputElement & { input: any } | undefined>
 
 export type UInputRef = InputRef | undefined
 
@@ -42,4 +44,9 @@ export type RefInput = React.MutableRefObject<UInputRef | null>
 export interface IButton {
   value: string
   type?: ButtonType
+  onClick?: () => void
+}
+
+export interface InputProps {
+  requiredItem: boolean
 }

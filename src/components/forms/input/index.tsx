@@ -4,7 +4,17 @@ import { IInput, InputType } from '../../../types/form'
 import 'antd/dist/antd.css'
 import { InputContainer } from './style'
 
-const InputComponent: React.FC<IInput> = ({ placeHolder, type, label, validatePassword }) => {
+const InputComponent: React.FC<IInput> = ({
+  id,
+  onRef,
+  onChange,
+  placeHolder,
+  type,
+  label,
+  validatePassword,
+  error,
+  requiredItem = false
+}) => {
   const passwordRules = [{
     required: true,
     message: 'Please input your password!'
@@ -25,15 +35,27 @@ const InputComponent: React.FC<IInput> = ({ placeHolder, type, label, validatePa
   const rules = type === InputType.Password ? passwordRules : type === InputType.Email ? emailRules : defaultRules
 
   return (
-        <InputContainer>
+        <InputContainer requiredItem={requiredItem}>
             <Form.Item
                 label={label}
                 name={label}
                 rules={rules}
+                validateStatus={error && 'error'}
+                help={error}
             >
                 {type === InputType.Password
-                  ? <Input.Password placeholder={placeHolder}/>
-                  : <Input placeholder={placeHolder}/>}
+                  ? <Input.Password
+                        id={id}
+                        onChange={onChange}
+                        ref={(ref) => onRef?.(ref)}
+                        placeholder={placeHolder}
+                    />
+                  : <Input
+                        id={id}
+                        onChange={onChange}
+                        ref={(ref) => onRef?.(ref)}
+                        placeholder={placeHolder}
+                    />}
             </Form.Item>
         </InputContainer>
   )

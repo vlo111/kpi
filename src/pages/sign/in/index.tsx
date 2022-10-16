@@ -1,12 +1,12 @@
 import React, { useRef } from 'react'
-import { Input } from '../../../components/forms/customInput'
-import { InputRef, RefInput, UInputRef } from '../../../types/form'
-import { FormEventHandler } from '../../../types/event'
+import { ButtonType, InputRef, InputType, RefInput, UInputRef } from '../../../types/form'
 import { Container, Wrapper } from './style'
 import { ReactComponent as LogoSvg } from '../../../assets/icons/logo.svg'
-import { Style } from '../../../data/style'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../hooks/auth'
+import Button from '../../../components/forms/button'
+import { Form } from 'antd'
+import Input from '../../../components/forms/input'
 
 const SignIn: React.FC = () => {
   const refEmail: RefInput = useRef(null)
@@ -15,16 +15,14 @@ const SignIn: React.FC = () => {
   const { login } = useAuth()
   const navigate = useNavigate()
 
-  const onSubmit: FormEventHandler = (ev) => {
+  const onFinish: () => void = () => {
     try {
-      ev.preventDefault()
-
-      const email = (refEmail as InputRef).current?.value ?? ''
-      const password = (refPassword as InputRef).current?.value ?? ''
-
-      navigate('/', { replace: true })
+      const email = (refEmail as InputRef).current?.input.value ?? ''
+      const password = (refPassword as InputRef).current?.input.value ?? ''
 
       void login({ email, password })
+
+      navigate('/', { replace: true })
     } catch (e) {
       console.log(e)
     }
@@ -40,25 +38,32 @@ const SignIn: React.FC = () => {
                     <div className="title">
                         sign in
                     </div>
-                    <form onSubmit={onSubmit}>
+                    <Form
+                        name="basic"
+                        initialValues={{
+                          remember: true
+                        }}
+                        layout="vertical"
+                        autoComplete="off"
+                        onFinish={onFinish}
+                    >
                         <Input
                             onRef={(ref: UInputRef) => {
                               refEmail.current = ref
                             }}
-                            label="Email Address"
-                            placeHolder="Email Address"
-                            style={Style.SignInInput}
-                        />
+                            label="Email"
+                            placeHolder="Email"
+                            type={InputType.Email}/>
                         <Input
                             onRef={(ref: UInputRef) => {
                               refPassword.current = ref
                             }}
                             label="Password"
                             placeHolder="Password"
-                            style={Style.SignInInput}
-                        />
-                        <button> submit</button>
-                    </form>
+                            type={InputType.Password}/>
+
+                        <Button type={ButtonType.Primary} value="Submit"/>
+                    </Form>
                 </Container>
             </Wrapper>
         </>

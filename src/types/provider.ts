@@ -14,8 +14,7 @@ export type SetLogin = ({ email, password }: Login) => Promise<void>
 export type LogOut = () => void
 
 export interface Cookies {
-  name: string
-  token: string
+  token: string | undefined
 }
 
 export interface GlobalContext {
