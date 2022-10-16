@@ -1,7 +1,7 @@
 import React from 'react'
-// import { InputContainer } from './style'
-import { IInput } from '../../../../types/form'
+import { IInput } from '../../../types/form'
 import { v4 as uuidv4 } from 'uuid'
+import { InputContainer } from './style'
 
 export const Input: React.FC<IInput> = ({
   id = uuidv4(),
@@ -14,12 +14,12 @@ export const Input: React.FC<IInput> = ({
   const labelEl = (label != null) && <label htmlFor={id}>{label}</label>
   const errorEl = (error != null) && <span className="error">{error}</span>
   return (
-        // <InputContainer error={error}>
+        <InputContainer error={error ?? ''}>
         <div>
             {labelEl}
             <input placeholder={placeHolder} ref={(ref) => onRef?.(ref)} id={id} style={style}/>
             {errorEl}
         </div>
-        // </InputContainer>
+        </InputContainer>
   )
 }

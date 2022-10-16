@@ -4,7 +4,7 @@ import { App } from './App'
 import reportWebVitals from './reportWebVitals'
 import GlobalStyle from './assets/styles/style'
 import { BrowserRouter } from 'react-router-dom'
-import { AuthProvider } from './context/AuthProvider'
+import AppProvider from './hooks'
 
 const root: ReactDOM.Root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,10 +12,10 @@ const root: ReactDOM.Root = ReactDOM.createRoot(
 
 root.render(
   <BrowserRouter>
-    <AuthProvider>
+    <AppProvider>
       <GlobalStyle/>
       <App/>
-    </AuthProvider>
+    </AppProvider>
   </BrowserRouter>
 )
 

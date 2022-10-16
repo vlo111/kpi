@@ -1,3 +1,29 @@
 import React from 'react'
 
-export interface IProvider { children: React.ReactNode }
+export interface Props {
+  children: React.ReactNode
+}
+
+export interface Login {
+  email: string
+  password: string
+}
+
+export type SetLogin = ({ email, password }: Login) => Promise<void>
+
+export type LogOut = () => void
+
+export interface Cookies {
+  name: string
+  token: string
+}
+
+export interface GlobalContext {
+  login: SetLogin
+  logout: LogOut
+  cookies: Cookies
+}
+
+export type UseAuth = () => GlobalContext
+
+export type UseProvider = (props: Props) => JSX.Element

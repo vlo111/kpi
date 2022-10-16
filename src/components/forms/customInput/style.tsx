@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface Props {
-  error: any
+  error: string
 }
 
 export const InputContainer = styled.div<Props>`
@@ -22,7 +22,6 @@ export const InputContainer = styled.div<Props>`
   }
 
   * {
-    text-transform: capitalize;
     width: 100%;
   }
 

@@ -1,10 +1,9 @@
 import React from 'react'
-import { Input1 } from '../../../components/forms/input/input1'
 import 'antd/dist/antd.css'
 import { Container, Wrapper } from './style'
 import { Button, Form } from 'antd'
 
-export const SignOut: React.FC = () => {
+export const Index: React.FC = () => {
   return (
         <Container>
             <Wrapper>
@@ -27,12 +26,12 @@ export const SignOut: React.FC = () => {
                             message: 'Name can only include letters and numbers.'
                           }
                         ]}>
-                        <Input1 type="email" placeHolder="email address"/>
+                        {/* <Input type="email" placeHolder="email address"/> */}
                     </Form.Item>
                     <Button htmlType="submit">Submit</Button>
                 </Form>
-                <Input1 type="password" placeHolder="email address"/>
-                <Input1 type="password" placeHolder="email address"/>
+                {/* <Input type="password" placeHolder="email address"/> */}
+                {/* <Input type="password" placeHolder="email address"/> */}
             </Wrapper>
         </Container>
   )
