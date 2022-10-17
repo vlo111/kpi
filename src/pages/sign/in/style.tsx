@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import img from '../../../assets/icons/loginBG.svg'
+import img from '../../../assets/icons/login-background.svg'
 import { Flex } from '../../../types/pages'
 
 const flex: Flex = (content, direction?) => ({
