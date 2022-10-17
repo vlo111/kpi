@@ -47,13 +47,14 @@ const GlobalStyle = createGlobalStyle`
     --font-regular: 300;
     
     --base-line-height: 1.5;
-
+    
     /*Shadows*/
     --base-box-shadow: -4px -4px 4px rgba(42, 85, 120, 0.05), 4px 4px 4px rgba(42, 85, 120, 0.05);
     --input-box-shadow: 0 0 0 2px #2a557833;
     --error-box-shadow: 0 0 0 2px #ff787533;
     --project-shadow: 0px 8px 8px rgba(17, 27, 35, 0.05);
-    
+    --header-box-shadow: 0px 4px 4px rgba(42, 85, 120, 0.1);
+    --manu-box-shadow: 4px 0px 4px rgba(42, 85, 120, 0.1);
     /* Constants */
     --interval: clamp(15px, 5%, 50px)
   }

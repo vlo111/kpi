@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo } from 'react'
 import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom'
-import api from '../../services/api'
+import client from '../../api/client'
 import { Cookies, GlobalContext, Login, LogOut, Props, SetLogin, UseAuth, UseProvider } from '../../types/provider'
 
 const defaultValue = {
@@ -17,7 +17,7 @@ export const UserProvider: UseProvider = ({ children }: Props) => {
   const [cookies, setCookies, removeCookie] = useCookies<string, Cookies>()
 
   const login: SetLogin = async ({ email, password }: Login) => {
-    const res = await api.post('/users/sign-in', {
+    const res = await client.post('/users/sign-in', {
       email,
       password
     })
