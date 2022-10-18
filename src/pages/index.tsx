@@ -1,7 +1,8 @@
 import React from 'react'
 import { Layout } from 'antd'
 import { Wrapper } from './style'
-// import { Menu } from '../components/menu'
+import { Menu } from '../components/menu'
+import { Project } from '../components/project'
 
 const { Header, Sider, Content } = Layout
 
@@ -10,12 +11,12 @@ export const Home: React.FC = () => {
     <Wrapper>
       <Layout>
         <Sider className="project-menu">
-          {/* <Menu /> */}
+          <Menu />
         </Sider>
         <Layout>
           <Header className="project-header">Header</Header>
-          <Content>
-            Content
+          <Content className="project-content">
+            <Project />
           </Content>
         </Layout>
       </Layout>

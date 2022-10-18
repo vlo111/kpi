@@ -19,6 +19,7 @@
         "react"
     ],
     "rules": {
+        "semi": ["error", "never"],
         "eol-last": 1,
         "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
         "@typescript-eslint/strict-boolean-expressions": [

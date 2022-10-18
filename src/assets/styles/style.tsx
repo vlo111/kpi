@@ -36,6 +36,7 @@ const GlobalStyle = createGlobalStyle`
     --font: Lexend;
     
     --large-hedline-font-size: 48px;
+    --large-font-size: 38px;
     --hedline-font-size: 20px;
     --base-font-size: 16px;
     --font-size-semismall: 14px;
