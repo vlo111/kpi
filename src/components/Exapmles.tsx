@@ -183,7 +183,7 @@ const Examples: React.FC = () => {
 
   const logOut = <div style={logStyle} onClick={() => {
     logout()
-    navigate('sign/in', { replace: true })
+    navigate('sign/sign-in', { replace: true })
   }}>Log out
     </div>
 
