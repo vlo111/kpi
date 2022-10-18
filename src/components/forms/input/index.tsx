@@ -42,7 +42,7 @@ export const ASInput: React.FC<IInput> = ({
     name: label,
     validateStatus: error ?? '',
     validatePassword,
-    help: error,
+    // help: error,
     type,
     children
   }

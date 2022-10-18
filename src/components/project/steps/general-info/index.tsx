@@ -4,6 +4,7 @@ import { ASInput } from '../../../forms/input'
 import { Form } from 'antd'
 import { InputRef, RefInput, UInputRef } from '../../../../types/form'
 import { PlaceHolderDescription } from '../../../../data/projects'
+import { ValidateProjectFirstStep } from '../../../../helpers/Validation'
 
 interface IError {
   title: string
@@ -23,18 +24,31 @@ const GeneralInfo: React.FC = () => {
     const title = (refTitle as InputRef).current?.input.value ?? ''
     const description = (refDescription as InputRef).current?.input.value ?? ''
 
-    let errorDescription = ''
+    // let errorDescription = ''
+    //
+    // if (description.length < 10) {
+    //   errorDescription = 'need to be > 10'
+    // } else {
+    //   errorDescription = ''
+    // }
+    //
+    // setError({
+    //   ...error,
+    //   [item]: item === 'title' ? title : errorDescription
+    // })
+    // const err = { description, title }
 
-    if (description.length < 10) {
-      errorDescription = 'need to be > 10'
-    } else {
-      errorDescription = ''
+    switch (item) {
+      case 'description': {
+        break
+      }
     }
 
-    setError({
-      ...error,
-      [item]: item === 'title' ? title : errorDescription
-    })
+    // const [titleError, descriptionError] = ValidateProjectFirstStep(title, description)
+
+    // if (title.length > 2 && title.length < 256) {
+    //
+    // }
   }
   return (
     <Container>
