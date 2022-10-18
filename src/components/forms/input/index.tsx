@@ -4,7 +4,7 @@ import { IInput, InputType } from '../../../types/form'
 import 'antd/dist/antd.css'
 import { InputContainer } from './style'
 
-const InputComponent: React.FC<IInput> = ({
+export const ASInput: React.FC<IInput> = ({
   id,
   onRef,
   onChange,
@@ -60,5 +60,3 @@ const InputComponent: React.FC<IInput> = ({
         </InputContainer>
   )
 }
-
-export default InputComponent

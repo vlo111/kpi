@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { useAuth } from '../hooks/auth'
+import { useAuth } from '../hooks/Auth'
 import { useNavigate } from 'react-router-dom'
-import Input from '../components/forms/input'
+import { ASInput } from '../components/forms/input'
 import { ButtonType, InputType } from '../types/form'
 import { Form, Divider, Space, Card, DatePicker } from 'antd'
 import Button from '../components/forms/button'
@@ -26,18 +26,18 @@ const Examples: React.FC = () => {
             layout="vertical"
             autoComplete="off"
         >
-            <Input
+            <ASInput
                 id="inputHome"
                 label="Required Input"
                 placeHolder="Enter Required Input"
                 requiredItem={true}
             />
-            <Input
+            <ASInput
                 label="Password"
                 validatePassword={false}
                 placeHolder="Password"
                 type={InputType.Password}/>
-            <Input
+            <ASInput
                 label="Email"
                 placeHolder="Email"
                 type={InputType.Email}
@@ -75,22 +75,22 @@ const Examples: React.FC = () => {
             autoComplete="off"
             style={{ width: '350px' }}
         >
-            <Input
+            <ASInput
                 id="1"
                 label="Gray Input"
                 placeHolder="Home"
             />
-            <Input
+            <ASInput
                 id="2"
                 label="Dark Gray Input"
                 placeHolder="Home"
             />
-            <Input
+            <ASInput
                 id="3"
                 label="Light Gray Border"
                 placeHolder="Home"
             />
-            <Input
+            <ASInput
                 id="4"
                 label="Title Input"
                 placeHolder="Home"
@@ -109,7 +109,7 @@ const Examples: React.FC = () => {
             layout="vertical"
             autoComplete="off"
         >
-            <Input
+            <ASInput
                 id="validateInput"
                 label="Custom Input"
                 placeHolder="Input PlaceHolder"
@@ -133,7 +133,7 @@ const Examples: React.FC = () => {
             layout="vertical"
             autoComplete="off"
         >
-            <Input
+            <ASInput
                 label="Custom Validation Password"
                 validatePassword={true}
                 placeHolder="Password"

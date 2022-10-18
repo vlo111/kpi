@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useMemo } from 'react'
 import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom'
-import client from '../../api/client'
-import { Cookies, GlobalContext, Login, LogOut, Props, SetLogin, UseAuth, UseProvider } from '../../types/provider'
+import client from '../api/client'
+import { Cookies, GlobalContext, Login, LogOut, Props, SetLogin, UseAuth, UseProvider } from '../types/provider'
 
 const defaultValue = {
   cookies: { token: undefined },
@@ -29,7 +29,7 @@ export const UserProvider: UseProvider = ({ children }: Props) => {
 
   const logout: LogOut = () => {
     removeCookie('token')
-    navigate('/sign/in')
+    navigate('/sign/sign-in')
   }
 
   const value = useMemo(
