@@ -9,11 +9,17 @@ export const Wrapper = styled.div`
     .project-header {
       background: var(--white);
       box-shadow: var(--header-box-shadow);
+      z-index: 1;
     }
 
-    //.project-menu {
-    //  background: var(--white);
-    //  box-shadow: var(--manu-box-shadow);
-    //}
+    .project-menu {
+      background: var(--white);
+      box-shadow: var(--manu-box-shadow);
+      z-index: 2;
+    }
+    
+    .project-content {
+      background: var(--background);
+    }
   }
 `
