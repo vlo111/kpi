@@ -3,10 +3,10 @@ import { ButtonType, InputRef, InputType, RefInput, UInputRef } from '../../../t
 import { Container, Wrapper } from './style'
 import { ReactComponent as LogoSvg } from '../../../assets/icons/logo.svg'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../../hooks/auth'
+import { useAuth } from '../../../hooks/Auth'
 import Button from '../../../components/forms/button'
 import { Form } from 'antd'
-import Input from '../../../components/forms/input'
+import { ASInput } from '../../../components/forms/input'
 
 const SignIn: React.FC = () => {
   const refEmail: RefInput = useRef(null)
@@ -47,14 +47,14 @@ const SignIn: React.FC = () => {
                         autoComplete="off"
                         onFinish={onFinish}
                     >
-                        <Input
+                        <ASInput
                             onRef={(ref: UInputRef) => {
                               refEmail.current = ref
                             }}
                             label="Email"
                             placeHolder="Email"
                             type={InputType.Email}/>
-                        <Input
+                        <ASInput
                             onRef={(ref: UInputRef) => {
                               refPassword.current = ref
                             }}

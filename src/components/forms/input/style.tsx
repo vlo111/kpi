@@ -44,10 +44,10 @@ export const InputContainer = styled.div<InputProps>`
   }
   
   .ant-form-item-label {
-    color: var(--dark2-2)
+    color: var(--dark-2)
   }
 
   .ant-form-item-label > label {
-    color: var(--dark2-2)
+    color: var(--dark-2)
   }
 `

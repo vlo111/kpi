@@ -1,5 +1,5 @@
 import React from 'react'
-import { UserProvider } from './auth'
+import { UserProvider } from './Auth'
 import { Props } from '../types/provider'
 
 const AppProvider: React.FC<Props> = ({ children }) => (
