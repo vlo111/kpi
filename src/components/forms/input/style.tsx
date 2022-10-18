@@ -50,4 +50,8 @@ export const InputContainer = styled.div<InputProps>`
   .ant-form-item-label > label {
     color: var(--dark-2)
   }
+  
+  .textarea {
+    resize: none;
+  }
 `

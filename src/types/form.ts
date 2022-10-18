@@ -33,6 +33,7 @@ export interface IInput {
   validatePassword?: boolean
   onChange?: () => void
   requiredItem?: boolean
+  area?: boolean
 }
 
 export type InputRef = React.MutableRefObject<HTMLInputElement & { input: any } | undefined>
