@@ -11,7 +11,7 @@ const defaultStyle = css`
   height: 52px;
   font-size: 16px;
   background: #ffffff;
-  border: 1px solid var(--dark-6);
+  border: 1px solid var(--dark-border-ultramarine);
 
   :disabled {
     background-color: #ffffff;
