@@ -14,10 +14,10 @@ const GeneralInfo: React.FC = () => {
         layout="vertical"
         validateMessages={ValidateMessages}
       >
-        <Form.Item name='Title' label="Title" rules={[{ required: true, min: 5, max: 8 }]}>
-          <AsnInput ref={refTitle} placeholder={PlaceHolderDescription} />
+        <Form.Item name='Title' label="Title" rules={[{ required: true, min: 2, max: 256 }]}>
+          <AsnInput ref={refTitle} placeholder="Example: AWDA" />
         </Form.Item>
-        <Form.Item name='Description' label="Description" rules={[{ required: true, min: 5, max: 8 }]}>
+        <Form.Item name='Description' label="Description" rules={[{ required: true, min: 1, max: 2048 }]}>
           <TextArea ref={refDescription} placeholder={PlaceHolderDescription}/>
         </Form.Item>
       </Form>

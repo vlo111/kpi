@@ -45,10 +45,10 @@ const StepContainer: React.FC = () => {
       <div className="steps-content">{steps[current].content}</div>
       <div className="steps-action">
         {current < steps.length - 1 && (
-          <Button onClick={() => next()} value="Next">Next</Button>
+          <Button type="primary" onClick={() => next()} value="Next">Next</Button>
         )}
         {current === steps.length - 1 && (
-          <Button
+          <Button type="primary"
             onClick={() => {
               void message.success('Processing complete!')
             }}

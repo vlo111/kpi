@@ -26,6 +26,12 @@ const defaultStyle = css`
   .ant-form-item-label > label {
     ${label}
   }
+
+  .ant-form-item-required:before {
+    position: absolute;
+    right: -12px;
+    color: var(--dark-2) !important;
+  }
 `
 
 export const Form = styled(AntForm)`
