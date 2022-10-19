@@ -5,7 +5,6 @@ import GeneralInfo from './general-info'
 import ProjectInfo from './project-input'
 import ProjectDetails from './project-details'
 import Button from '../../forms/button'
-import { ButtonType } from '../../../types/form'
 
 const { Step } = Steps
 
@@ -46,18 +45,17 @@ const StepContainer: React.FC = () => {
       <div className="steps-content">{steps[current].content}</div>
       <div className="steps-action">
         {current < steps.length - 1 && (
-          <Button type={ButtonType.Primary} onClick={() => next()} value="Next"/>
+          <Button onClick={() => next()} value="Next">Next</Button>
         )}
         {current === steps.length - 1 && (
           <Button
-            type={ButtonType.Primary}
             onClick={() => {
               void message.success('Processing complete!')
             }}
-            value="Next"/>
+            value="Next">Next</Button>
         )}
         {current > 0 && (
-          <Button type={ButtonType.Secondary} onClick={() => prev()} value="Previous"/>
+          <Button onClick={() => prev()} value="Previous">Previous</Button>
         )}
       </div>
     </Container>
