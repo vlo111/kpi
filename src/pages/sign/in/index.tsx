@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { ButtonType, InputRef, RefInput } from '../../../types/form'
 import { Container, Wrapper } from './style'
 import { ReactComponent as LogoSvg } from '../../../assets/icons/logo.svg'
@@ -28,6 +28,10 @@ const SignIn: React.FC = () => {
     }
   }
 
+  useEffect(() => {
+    void login({ email: 'vv@vv.vv', password: '1111111aA' })
+  }, [])
+
   return (
         <>
             <Wrapper>
@@ -46,7 +50,7 @@ const SignIn: React.FC = () => {
                         <AsnInput name="Email" placeholder="Email"/>
                         <AsnInput name="Password" placeholder="Password"/>
 
-                        <AsnButton type={ButtonType.Primary} value="Submit"/>
+                      <AsnButton type={ButtonType.Primary} value="Submit">submit </AsnButton>
                     </Form>
                 </Container>
             </Wrapper>
