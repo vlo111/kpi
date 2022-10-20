@@ -25,6 +25,8 @@ const GlobalStyle = createGlobalStyle`
     
     --white: #FFFFFF;
     --background: #F9FCFF;
+    
+    --scroll-bar-background: #F9F9F9;
 
     /*Borders*/
     --light-border: #EDF0F4;
@@ -71,6 +73,17 @@ const GlobalStyle = createGlobalStyle`
   
   html, body, #root {
     height: 100%;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: var(--scroll-bar-background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--dark-border-ultramarine);
+    border-radius: 3.5px;
   }
 `
 
