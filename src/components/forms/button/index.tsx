@@ -1,19 +1,39 @@
-import React from 'react'
-import 'antd/dist/antd.css'
-import { ButtonContainer } from './style'
+import styled from 'styled-components'
 import { Button } from 'antd'
-import { ButtonType, IButton } from '../../../types/form'
 
-const ButtonComponent: React.FC<IButton> = ({
-  value,
-  type = ButtonType.Primary,
-  onClick
-}) => {
-  return (
-        <ButtonContainer>
-            <Button onClick={onClick} htmlType='submit' type={type === ButtonType.Primary ? 'primary' : 'default'}>{value}</Button>
-        </ButtonContainer>
-  )
+const button = {
+  fontWeight: 'var(--font-bold)',
+  padding: '5px 30px',
+  fontSize: 'var(--base-font-size)',
+  height: 'auto'
 }
 
-export default ButtonComponent
+const AsnButton = styled(Button)`
+  border-radius: 10px;
+
+  &.ant-btn-primary {
+    color: var(--white);
+    border: none;
+    background: var(--dark-border-ultramarine);
+
+    ${button}
+
+    &:hover {
+      background: var(--primary-light-1);
+      color: var(--dark-border-ultramarine)
+    }
+  }
+
+  &.ant-btn-default {
+    color: var(--dark-border-ultramarine);
+    border: 1px solid var(--dark-border-ultramarine);
+
+    ${button}
+    
+    &:hover {
+      background: var(--primary-light-1);
+    }
+  }
+`
+
+export default AsnButton

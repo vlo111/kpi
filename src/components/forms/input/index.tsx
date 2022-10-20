@@ -1,62 +1,41 @@
-import React from 'react'
-import { Form, Input } from 'antd'
-import { IInput, InputType } from '../../../types/form'
-import 'antd/dist/antd.css'
-import { InputContainer } from './style'
+import styled, { css } from 'styled-components'
+import { Input } from 'antd'
 
-export const ASInput: React.FC<IInput> = ({
-  id,
-  onRef,
-  onChange,
-  placeHolder,
-  type,
-  label,
-  validatePassword,
-  error,
-  requiredItem = false
-}) => {
-  const passwordRules = [{
-    required: true,
-    message: 'Please input your password!'
-  },
-  validatePassword ? { min: 5, message: 'Password must be minimum 5 characters.' } : {}]
+const textArea = css`
+  resize: vertical !important;
+  max-height: 400px !important;
+  min-height: 100px !important;
+`
 
-  const emailRules = [{
-    required: true,
-    type: 'email',
-    message: 'The input is not valid E-mail!'
-  }]
+const defaultStyle = css`
+  height: 52px;
+  font-size: 16px;
+  background: #ffffff;
+  border: 1px solid var(--dark-border-ultramarine);
 
-  const defaultRules = [{
-    required: true,
-    message: `The input is not valid ${label ?? ''}!`
-  }]
+  :disabled {
+    background-color: #ffffff;
+  }
+  :hover {
+    border: 1px solid var(--dark-border-ultramarine);
+  }
+  :focus {
+    border: 1px solid var(--dark-border-ultramarine);
+    box-shadow: var(--input-box-shadow);
+  }
+`
 
-  const rules = type === InputType.Password ? passwordRules : type === InputType.Email ? emailRules : defaultRules
+const AsnInput = styled(Input)`
+  ${defaultStyle}
+`
 
-  return (
-        <InputContainer requiredItem={requiredItem}>
-            <Form.Item
-                label={label}
-                name={label}
-                rules={rules}
-                validateStatus={error && 'error'}
-                help={error}
-            >
-                {type === InputType.Password
-                  ? <Input.Password
-                        id={id}
-                        onChange={onChange}
-                        ref={(ref) => onRef?.(ref)}
-                        placeholder={placeHolder}
-                    />
-                  : <Input
-                        id={id}
-                        onChange={onChange}
-                        ref={(ref) => onRef?.(ref)}
-                        placeholder={placeHolder}
-                    />}
-            </Form.Item>
-        </InputContainer>
-  )
-}
+export const TextArea = styled(Input.TextArea)`
+  ${defaultStyle}
+  ${textArea}
+`
+
+export const Password = styled(Input.Password)`
+  ${defaultStyle}
+`
+
+export default AsnInput
