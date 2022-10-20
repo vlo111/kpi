@@ -27,6 +27,8 @@ const GlobalStyle = createGlobalStyle`
     --background: #F9FCFF;
     
     --scroll-bar-background: #F9F9F9;
+    
+    --forget-password-gray: #A2A2A2;
 
     /*Borders*/
     --light-border: #EDF0F4;

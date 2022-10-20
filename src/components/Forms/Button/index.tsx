@@ -12,7 +12,8 @@ const AsnButton = styled(Button)`
     padding: 5px 30px;
     font-size: var(--base-font-size);
     height: auto;
-
+    border-radius: 5px;
+    
     &:hover {
       background: var(--primary-light-1);
       color: var(--dark-border-ultramarine)
@@ -27,6 +28,7 @@ const AsnButton = styled(Button)`
     padding: 5px 30px;
     font-size: var(--base-font-size);
     height: auto;
+    border-radius: 5px;
     
     &:hover {
       background: var(--primary-light-1);
