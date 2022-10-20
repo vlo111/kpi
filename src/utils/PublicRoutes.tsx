@@ -1,17 +1,8 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
-import { PATHS } from '../helpers/constants';
+import { Outlet } from 'react-router-dom'
+import React from 'react'
 
-export const PublicRoutes = () => {
-  const { user } = useAuth();
-
-  // if (user) {
-  //   return <Navigate to={`/${PATHS.ROOT}`} />
-  // }
-
+export const PublicRoutes: React.FC = () => {
   return (
-    <div>
-      <Outlet />
-    </div>
+    <Outlet />
   )
-};
+}

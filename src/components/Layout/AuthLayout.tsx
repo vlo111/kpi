@@ -1,11 +1,17 @@
 import React from 'react'
 import { Layout } from 'antd'
+import styled from 'styled-components'
 
-const AuthLayout: any = () => {
+const LayoutStyle = styled(Layout)`
+  background-color: #F9FCFF;
+  height: 100%;
+`
+
+const AuthLayout: React.FC<{ children: React.ReactElement }> = ({ children }) => {
   return (
-        <Layout>
-            <>AuthLayout</>
-        </Layout>
+        <LayoutStyle>
+          {children}
+        </LayoutStyle>
   )
 }
 

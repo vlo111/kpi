@@ -1,13 +1,6 @@
 import styled from 'styled-components'
 import { Button } from 'antd'
 
-const button = {
-  fontWeight: 'var(--font-bold)',
-  padding: '5px 30px',
-  fontSize: 'var(--base-font-size)',
-  height: 'auto'
-}
-
 const AsnButton = styled(Button)`
   border-radius: 10px;
 
@@ -15,8 +8,10 @@ const AsnButton = styled(Button)`
     color: var(--white);
     border: none;
     background: var(--dark-border-ultramarine);
-
-    ${button}
+    font-weight: var(--font-bold);
+    padding: 5px 30px;
+    font-size: var(--base-font-size);
+    height: auto;
 
     &:hover {
       background: var(--primary-light-1);
@@ -28,8 +23,10 @@ const AsnButton = styled(Button)`
     color: var(--dark-border-ultramarine);
     border: 1px solid var(--dark-border-ultramarine);
     background: transparent;
-    
-    ${button}
+    font-weight: var(--font-bold);
+    padding: 5px 30px;
+    font-size: var(--base-font-size);
+    height: auto;
     
     &:hover {
       background: var(--primary-light-1);
