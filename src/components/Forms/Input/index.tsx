@@ -8,10 +8,11 @@ const textArea = css`
 `
 
 const defaultStyle = css`
-  height: 52px;
+  height: 40px;
   font-size: 16px;
   background: #ffffff;
   border: 1px solid var(--dark-border-ultramarine);
+  border-radius: 5px;
 
   :disabled {
     background-color: #ffffff;

@@ -1,11 +1,6 @@
 import styled, { css } from 'styled-components'
 import { Form as AntForm } from 'antd'
 
-const label = {
-  color: 'var(--dark-2)',
-  fontSize: 'var(--base-font-size)'
-}
-
 const defaultStyle = css`
   .ant-input-affix-wrapper-status-error, .ant-input-status-error {
     border-color: var(--error) !important;
@@ -20,11 +15,13 @@ const defaultStyle = css`
   }
 
   .ant-form-item-label {
-    ${label}
-  }
+    padding: 0;
 
-  .ant-form-item-label > label {
-    ${label}
+    > label {
+      padding: 0;
+      color: var(--dark-2);
+      font-size: var(--base-font-size);
+    }
   }
 
   .ant-form-item-required:before {

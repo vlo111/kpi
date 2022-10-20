@@ -14,12 +14,10 @@ export const HEADERS = {
 }
 
 export const VALIDATE_MESSAGES: any = {
-  required: '${label}ը պարտադիր է',
+  // eslint-disable-next-line no-template-curly-in-string
+  required: 'Please enter a valid ${name}',
   types: {
-    email: '${label} դաշտը վավեր չէ',
-    number: '${label} դաշտը վավեր չէ'
-  },
-  number: {
-    range: '${label}ը պետք է լինի ${min} և ${max}'
+    // eslint-disable-next-line no-template-curly-in-string
+    email: 'Please enter your ${name} in format: yourname@domain.com'
   }
 }
