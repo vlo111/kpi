@@ -44,18 +44,28 @@ const StepContainer: React.FC = () => {
       </Steps>
       <div className="steps-content">{steps[current].content}</div>
       <div className="steps-action">
+        {current === 0 && (
+          <Button onClick={() => prev()} value="Create">Create</Button>
+        )}
+
+        {current > 0 && (
+          <Button onClick={() => prev()} value="Previous">Previous</Button>
+        )}
+
+        {current === 1 && (
+          <Button onClick={() => prev()} value="Draft">Save as Draft</Button>
+        )}
+
         {current < steps.length - 1 && (
           <Button type="primary" onClick={() => next()} value="Next">Next</Button>
         )}
+
         {current === steps.length - 1 && (
           <Button type="primary"
             onClick={() => {
               void message.success('Processing complete!')
             }}
-            value="Next">Next</Button>
-        )}
-        {current > 0 && (
-          <Button onClick={() => prev()} value="Previous">Previous</Button>
+            value="Next">Publish</Button>
         )}
       </div>
     </Container>

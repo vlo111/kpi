@@ -27,7 +27,8 @@ const AsnButton = styled(Button)`
   &.ant-btn-default {
     color: var(--dark-border-ultramarine);
     border: 1px solid var(--dark-border-ultramarine);
-
+    background: transparent;
+    
     ${button}
     
     &:hover {
