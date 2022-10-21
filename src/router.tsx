@@ -7,6 +7,7 @@ import ForgotPassword from './pages/Auth/ForgotPassword'
 import RecoverPassword from './pages/Auth/RecoverPassword'
 import { PATHS } from './helpers/constants'
 import { PublicRoutes } from './utils/PublicRoutes'
+import Root from './pages/Root'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -16,6 +17,7 @@ export const router = createBrowserRouter(
         <Route path={PATHS.FORGOTPASSWORD} element={<ForgotPassword/>}/>
         <Route path={PATHS.RECOVERPASSWORD} element={<RecoverPassword/>}/>
       </Route>
+      <Route path={PATHS.ROOT} element={<Root/>}/>
       <Route path={PATHS.DASHBOARD} element={<Dashboard/>}/>
       <Route path={PATHS.ERROR_403} element={<Error403/>}/>
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace/>}/>
