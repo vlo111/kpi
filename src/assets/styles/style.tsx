@@ -78,14 +78,18 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     background-color: var(--scroll-bar-background);
+    padding: 5px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: var(--dark-border-ultramarine);
-    border-radius: 3.5px;
+    background-color: #646464;
+    border-radius: 3.5px;    
+    padding: 5px;
+    width: 12px;
+
   }
 `
 

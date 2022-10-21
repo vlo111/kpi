@@ -18,10 +18,12 @@ const Header = styled(LayoutStyle.Header)`
   background: var(--white);
   box-shadow: var(--header-box-shadow);
   z-index: 1;
+  height: 60px;
 `
 
 const Content = styled(LayoutStyle.Content)`
   background: var(--background)
+  padding: 30px;
 `
 
 const MainLayout: React.FC<{ children: React.ReactElement }> = ({ children }) => {

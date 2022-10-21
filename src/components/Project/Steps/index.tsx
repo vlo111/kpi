@@ -78,6 +78,10 @@ const Container = styled.div`
   }
 
   .steps-content {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: var(--base-box-shadow);
     width: 100%;
   }
 `
@@ -93,8 +97,10 @@ const StepContainer: React.FC = () => {
           <Step key={item.title} title={item.title}/>
         ))}
       </Steps>
-      <div className="steps-content">{steps[current].content}</div>
-      <Action current={current} setCurrent={setCurrent} />
+      <div className="steps-content">
+        {steps[current].content}
+        <Action current={current} setCurrent={setCurrent} />
+      </div>
     </Container>
   )
 }
