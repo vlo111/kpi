@@ -1,3 +1,5 @@
-const Error403 = () => <div>403 Forbidden</div>
+import React from 'react'
+
+const Error403: React.FC = () => <div>403 Forbidden</div>
 
 export default Error403
