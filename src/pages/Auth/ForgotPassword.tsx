@@ -6,6 +6,7 @@ import { ReactComponent as Key } from '../../assets/icons/forgot.svg'
 import { Form } from '../../components/Forms/Form'
 import AnsInput from '../../components/Forms/Input'
 import AnsButton from '../../components/Forms/Button'
+import { useNavigate } from 'react-router-dom'
 
 const { Title } = Typography
 
@@ -19,6 +20,7 @@ const ForgotPassword: React.FC = () => {
   const onFinishFailed: any = (values: any) => {
     console.log(values, 'failed')
   }
+  const navigate = useNavigate()
   return (
     <AuthLayout>
       <Form
@@ -42,7 +44,7 @@ const ForgotPassword: React.FC = () => {
               Reset Password
             </AnsButton>
           </Form.Item>
-          <div style={{ fontSize: 'var(----base-font-size)', color: '#2A5578', cursor: 'pointer' }}>Back To Sign In </div>
+          <div style={{ fontSize: 'var(----base-font-size)', color: '#2A5578', cursor: 'pointer' }} onClick={() => navigate('/sign-in')}>Back To Sign In </div>
         </div>
       </Form>
     </AuthLayout >
