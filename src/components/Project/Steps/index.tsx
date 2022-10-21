@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { message, Steps } from 'antd'
+import { Steps } from 'antd'
 import GeneralInfo from './GeneralInfo'
 import ProjectInfo from './ProjectInput'
 import ProjectDetails from './ProjectDetails'
-import Button from '../../Forms/Button'
 import styled, { css } from 'styled-components'
+import Action from './Action'
 
 const { Step } = Steps
 
@@ -58,12 +58,6 @@ const stepsStyle = css`
   }
 `
 
-const action = css`
-  width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-`
-
 const Container = styled.div`
   margin: 0 auto;
   display: flex;
@@ -83,10 +77,6 @@ const Container = styled.div`
     ${stepsStyle}
   }
 
-  .steps-action {
-    ${action}
-  }
-
   .steps-content {
     width: 100%;
   }
@@ -94,14 +84,6 @@ const Container = styled.div`
 
 const StepContainer: React.FC = () => {
   const [current, setCurrent] = useState(0)
-
-  const next: () => void = () => {
-    setCurrent(current + 1)
-  }
-
-  const prev: () => void = () => {
-    setCurrent(current - 1)
-  }
 
   return (
     <Container>
@@ -112,31 +94,7 @@ const StepContainer: React.FC = () => {
         ))}
       </Steps>
       <div className="steps-content">{steps[current].content}</div>
-      <div className="steps-action">
-        {current === 0 && (
-          <Button onClick={() => prev()} value="Create">Create</Button>
-        )}
-
-        {current > 0 && (
-          <Button onClick={() => prev()} value="Previous">Previous</Button>
-        )}
-
-        {current === 1 && (
-          <Button onClick={() => prev()} value="Draft">Save as Draft</Button>
-        )}
-
-        {current < steps.length - 1 && (
-          <Button type="primary" onClick={() => next()} value="Next">Next</Button>
-        )}
-
-        {current === steps.length - 1 && (
-          <Button type="primary"
-                  onClick={() => {
-                    void message.success('Processing complete!')
-                  }}
-                  value="Next">Publish</Button>
-        )}
-      </div>
+      <Action current={current} setCurrent={setCurrent} />
     </Container>
   )
 }
