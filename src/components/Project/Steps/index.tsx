@@ -3,8 +3,10 @@ import { Steps } from 'antd'
 import GeneralInfo from './GeneralInfo'
 import ProjectInfo from './ProjectInput'
 import ProjectDetails from './ProjectDetails'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import Action from './Action'
+import { VALIDATE_MESSAGES } from '../../../helpers/constants'
+import { Form } from '../../Forms/Form'
 
 const { Step } = Steps
 
@@ -23,41 +25,6 @@ const steps = [
   }
 ]
 
-const stepsStyle = css`
-  .ant-steps-item-process > .ant-steps-item-container {
-
-    > .ant-steps-item-content > .ant-steps-item-title {
-      color: var(--dark-2);
-    }
-
-    > .ant-steps-item-icon {
-      background: var(--dark-border-ultramarine);
-      border: none;
-    }
-  }
-
-  .ant-steps-finish-icon svg {
-    fill: var(--dark-border-ultramarine);
-  }
-
-  .ant-steps-item-finish {
-
-    .ant-steps-item-icon {
-      border-color: var(--dark-border-ultramarine);
-    }
-
-    > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
-      font-size: var(--font-size-semismall);
-      letter-spacing: 0.1px;
-      color: var(--dark-2);
-
-      &:after {
-        background-color: var(--dark-border-ultramarine);
-      }
-    }
-  }
-`
-
 const Container = styled.div`
   margin: 0 auto;
   display: flex;
@@ -74,20 +41,71 @@ const Container = styled.div`
   }
 
   .ant-steps {
-    ${stepsStyle}
-  }
+    .ant-steps-item-process > .ant-steps-item-container {
 
-  .steps-content {
-    background: var(--white);
-    border-radius: 20px;
-    padding: 32px;
-    box-shadow: var(--base-box-shadow);
-    width: 100%;
+      > .ant-steps-item-content > .ant-steps-item-title {
+        color: var(--dark-2);
+      }
+
+      > .ant-steps-item-icon {
+        background: var(--dark-border-ultramarine);
+        border: none;
+      }
+    }
+
+    .ant-steps-finish-icon svg {
+      fill: var(--dark-border-ultramarine);
+    }
+
+    .ant-steps-item-finish {
+
+      .ant-steps-item-icon {
+        border-color: var(--dark-border-ultramarine);
+      }
+
+      > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+        font-size: var(--font-size-semismall);
+        letter-spacing: 0.1px;
+        color: var(--dark-2);
+
+        &:after {
+          background-color: var(--dark-border-ultramarine);
+        }
+      }
+    }
   }
+`
+
+const StepForm = styled(Form)`
+  background: var(--white);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: var(--base-box-shadow);
+  width: 100%;
 `
 
 const StepContainer: React.FC = () => {
   const [current, setCurrent] = useState(0)
+  const [form] = Form.useForm()
+
+  const onSubmit: (stepCurrent: number) => void = (stepCurrent) => {
+    if (stepCurrent < current) {
+      // prev
+      console.log('456')
+    } else {
+      // next
+      console.log('123')
+    }
+
+    setCurrent(stepCurrent)
+  }
+
+  const onFinish: any = (values: any) => {
+    console.log(values, 'finish')
+  }
+  const onFinishFailed: any = (values: any) => {
+    console.log(values, 'failed')
+  }
 
   return (
     <Container>
@@ -98,8 +116,16 @@ const StepContainer: React.FC = () => {
         ))}
       </Steps>
       <div className="steps-content">
-        {steps[current].content}
-        <Action current={current} setCurrent={setCurrent} />
+        <StepForm
+          form={form}
+          layout="vertical"
+          validateMessages={VALIDATE_MESSAGES}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
+          {steps[current].content}
+          <Action current={current} stepLength={steps.length} onSubmit={onSubmit}/>
+        </StepForm>
       </div>
     </Container>
   )

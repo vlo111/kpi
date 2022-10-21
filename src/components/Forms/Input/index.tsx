@@ -10,12 +10,12 @@ const textArea = css`
 const defaultStyle = css`
   height: 40px;
   font-size: 16px;
-  background: #ffffff;
+  background: var(--white);
   border: 1px solid var(--dark-border-ultramarine);
   border-radius: 5px;
 
   :disabled {
-    background-color: #ffffff;
+    background-color: var(--white);
   }
   :hover {
     border: 1px solid var(--dark-border-ultramarine);

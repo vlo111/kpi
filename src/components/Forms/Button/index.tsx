@@ -11,8 +11,8 @@ const AsnButton = styled(Button)`
     font-weight: var(--font-bold);
     padding: 5px 30px;
     font-size: var(--base-font-size);
-    height: auto;
     border-radius: 5px;
+    height: 44px;
     
     &:hover {
       background: var(--primary-light-1);
