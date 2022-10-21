@@ -15,6 +15,7 @@ const SignIn: React.FC = () => {
 
   const onFinish: any = (values: any) => {
     console.log(values, 'success')
+    navigate('/confirm-email')
   }
 
   const onFinishFailed: any = (values: any) => {
@@ -33,7 +34,7 @@ const SignIn: React.FC = () => {
         style={{ paddingTop: '17vh' }}
       >
         <div style={{ width: 'clamp(15rem, 32vw, 30rem)' }}>
-          <Title level={1} style={{ fontSize: 'var(--large-hedline-font-size)', color: 'var(--dark-border-ultramarine)', textAlign: 'center' }}>Sign In</Title>
+          <Title level={1} style={{ fontSize: 'var(--large-hedline-font-size)', color: 'var(--dark-border-ultramarine)', textAlign: 'center', marginBottom: '32px' }}>Sign In</Title>
           <ErrorBackend message={`We have sent you an email confirmation. You need to
               confirm your email before you can login.
               Resend confirmation email.`}

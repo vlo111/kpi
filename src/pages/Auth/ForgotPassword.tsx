@@ -35,7 +35,7 @@ const ForgotPassword: React.FC = () => {
       >
         <div style={{ width: 'clamp(15rem, 32vw, 30rem)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Key style={{ marginBottom: '32px' }} />
-          <Title level={1} style={{ fontSize: 'var(--large-hedline-font-size)', color: 'var(--dark-border-ultramarine)', textAlign: 'center', marginBottom: '24px' }}>Forgot Password</Title>
+          <Title level={1} style={{ fontSize: 'var(--large-hedline-font-size)', color: 'var(--dark-border-ultramarine)', textAlign: 'center', marginBottom: '32px' }}>Forgot Password</Title>
           <div style={{ fontSize: 'var(--hedline-font-size)', width: '100%', marginBottom: '32px' }}>Please enter the email you use to sign in to Meetk.</div>
           <Form.Item style={{ width: '100%' }} name="email address" label="Email Address" rules={[{ required: true }, { type: 'email' }]}>
             <AnsInput placeholder="Email Address" />

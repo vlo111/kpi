@@ -30,7 +30,7 @@ const RecoverPassword: React.FC = () => {
         style={{ paddingTop: '17vh' }}
       >
         <div style={{ width: 'clamp(15rem, 32vw, 30rem)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Title level={1} style={{ fontSize: 'var(--large-hedline-font-size)', color: 'var(--dark-border-ultramarine)', textAlign: 'center', marginBottom: '24px' }}>Reset Password</Title>
+          <Title level={1} style={{ fontSize: 'var(--large-hedline-font-size)', color: 'var(--dark-border-ultramarine)', textAlign: 'center', marginBottom: '32px' }}>Reset Password</Title>
           <div style={{ fontSize: 'var(--hedline-font-size)', width: '100%', marginBottom: '32px' }}>The password should have atleast 6 characters</div>
           <Form.Item style={{ width: '100%' }} name="password" label="New Password" rules={[{ required: true }]}>
             <Password placeholder="New Password" />

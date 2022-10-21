@@ -5,6 +5,7 @@ import Error403 from './pages/error-pages/Error403'
 import SignIn from './pages/Auth/SignIn'
 import ForgotPassword from './pages/Auth/ForgotPassword'
 import RecoverPassword from './pages/Auth/ResetPassword'
+import ConfirmEmail from './pages/Auth/ConfirmMail'
 import { PATHS } from './helpers/constants'
 import { PublicRoutes } from './utils/PublicRoutes'
 import Root from './pages/Root'
@@ -12,15 +13,16 @@ import Root from './pages/Root'
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route element={<PublicRoutes/>}>
-        <Route path={PATHS.SIGNIN} element={<SignIn/>}/>
-        <Route path={PATHS.FORGOTPASSWORD} element={<ForgotPassword/>}/>
-        <Route path={PATHS.RECOVERPASSWORD} element={<RecoverPassword/>}/>
+      <Route element={<PublicRoutes />}>
+        <Route path={PATHS.SIGNIN} element={<SignIn />} />
+        <Route path={PATHS.FORGOTPASSWORD} element={<ForgotPassword />} />
+        <Route path={PATHS.RECOVERPASSWORD} element={<RecoverPassword />} />
       </Route>
-      <Route path={PATHS.ROOT} element={<Root/>}/>
-      <Route path={PATHS.DASHBOARD} element={<Dashboard/>}/>
-      <Route path={PATHS.ERROR_403} element={<Error403/>}/>
-      <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace/>}/>
+      <Route path={PATHS.ROOT} element={<Root />} />
+      <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
+      <Route path={PATHS.ERROR_403} element={<Error403 />} />
+      <Route path={PATHS.ConfirmEmail} element={<ConfirmEmail />} />
+      <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
     </>
   )
 )
