@@ -17,7 +17,7 @@ const Header = styled(MenuLayout.Header)`
   background: var(--white);
   font-style: normal;
   font-weight: var(--font-bold);
-  font-size: var(--hedline-font-size);
+  font-size: var(--headline-font-size);
   color: var(--dark-border-ultramarine);
   margin: 0 auto;
   padding: 0;

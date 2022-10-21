@@ -41,7 +41,7 @@ const GlobalStyle = createGlobalStyle`
     
     --large-hedline-font-size: 48px;
     --large-font-size: 38px;
-    --hedline-font-size: 20px;
+    --headline-font-size: 20px;
     --base-font-size: 16px;
     --font-size-semismall: 14px;
     --font-size-small: 12px;

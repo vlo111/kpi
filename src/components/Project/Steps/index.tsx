@@ -70,11 +70,11 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 48vw;
+  width: 43vw;
   gap: clamp(15px, 3vw, 25px);
 
   .title {
-    font-size: var(--hedline-font-size);
+    font-size: var(--headline-font-size);
     color: var(--dark-2);
     text-align: center;
   }
