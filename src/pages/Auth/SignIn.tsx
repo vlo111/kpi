@@ -6,6 +6,7 @@ import AnsButton from '../../components/Forms/Button'
 import AuthLayout from '../../components/Layout/AuthLayout'
 import { Form } from '../../components/Forms/Form'
 import ErrorBackend from '../../components/Errors/ErrorBackend'
+import { useNavigate } from 'react-router-dom'
 
 const { Title } = Typography
 
@@ -19,6 +20,7 @@ const SignIn: React.FC = () => {
   const onFinishFailed: any = (values: any) => {
     console.log(values, 'failed')
   }
+  const navigate = useNavigate()
   return (
     <AuthLayout>
       <Form
@@ -43,9 +45,11 @@ const SignIn: React.FC = () => {
             <Password placeholder="Password" />
           </Form.Item>
           <Form.Item>
-            <a style={{
-              color: 'var(--forget-password-gray)'
-            }} href="/forgot-password">Forgot password?</a>
+            <div style={{
+              color: 'var(--forget-password-gray)',
+              cursor: 'pointer',
+              fontSize: 'var(--base-font-size)'
+            }} onClick={() => navigate('/forgot-password')}>Forgot password?</div>
           </Form.Item>
           <Form.Item>
             <AnsButton style={{ height: '40px', width: '100%', fontSize: 'var(--hedline-font-size)' }} type="primary" htmlType="submit">
