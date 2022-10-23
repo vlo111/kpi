@@ -97,18 +97,6 @@ const StepContainer: React.FC = () => {
 
   const [form] = Form.useForm()
 
-  const onSubmit: (stepCurrent: number) => void = (stepCurrent) => {
-    if (stepCurrent < current) {
-      // prev
-      console.log('456')
-    } else {
-      // next
-      console.log('123')
-    }
-
-    setCurrent(stepCurrent)
-  }
-
   const onFinish: any = (values: any) => {
     console.log(values, 'finish')
     setSaveCurrent(current)
@@ -134,7 +122,7 @@ const StepContainer: React.FC = () => {
           onFinishFailed={onFinishFailed}
         >
           {steps[saveCurrent].content}
-          <Action current={saveCurrent} stepLength={steps.length} onSubmit={onSubmit}/>
+          <Action current={saveCurrent} stepLength={steps.length} onSubmit={setCurrent}/>
         </StepForm>
       </div>
     </Container>
