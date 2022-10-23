@@ -31,8 +31,8 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 43vw;
-  gap: clamp(15px, 3vw, 25px);
+  width: clamp(19rem, 42vw, 50rem);
+  gap: clamp(15px, 3vw, 30px);
 
   .title {
     font-size: var(--headline-font-size);
@@ -74,6 +74,10 @@ const Container = styled.div`
       }
     }
   }
+
+  .steps-content {
+    width: 100%;
+  }
 `
 
 const StepForm = styled(Form)`
@@ -82,10 +86,15 @@ const StepForm = styled(Form)`
   padding: 32px;
   box-shadow: var(--base-box-shadow);
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `
 
 const StepContainer: React.FC = () => {
   const [current, setCurrent] = useState(0)
+  const [saveCurrent, setSaveCurrent] = useState(0)
+
   const [form] = Form.useForm()
 
   const onSubmit: (stepCurrent: number) => void = (stepCurrent) => {
@@ -102,6 +111,7 @@ const StepContainer: React.FC = () => {
 
   const onFinish: any = (values: any) => {
     console.log(values, 'finish')
+    setSaveCurrent(current)
   }
   const onFinishFailed: any = (values: any) => {
     console.log(values, 'failed')
@@ -110,7 +120,7 @@ const StepContainer: React.FC = () => {
   return (
     <Container>
       <span className="title">To create a new project, please fill in the following information</span>
-      <Steps current={current}>
+      <Steps current={saveCurrent}>
         {steps.map(item => (
           <Step key={item.title} title={item.title}/>
         ))}
@@ -123,8 +133,8 @@ const StepContainer: React.FC = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-          {steps[current].content}
-          <Action current={current} stepLength={steps.length} onSubmit={onSubmit}/>
+          {steps[saveCurrent].content}
+          <Action current={saveCurrent} stepLength={steps.length} onSubmit={onSubmit}/>
         </StepForm>
       </div>
     </Container>

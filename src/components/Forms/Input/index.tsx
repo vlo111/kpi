@@ -2,13 +2,12 @@ import styled, { css } from 'styled-components'
 import { Input } from 'antd'
 
 const textArea = css`
-  resize: vertical !important;
-  max-height: 400px !important;
-  min-height: 100px !important;
+  height: 10rem !important;
+  resize: none !important;
 `
 
 const defaultStyle = css`
-  height: 40px;
+  height: 44px;
   font-size: 16px;
   background: var(--white);
   border: 1px solid var(--dark-border-ultramarine);

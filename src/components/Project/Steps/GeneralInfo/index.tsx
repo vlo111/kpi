@@ -83,6 +83,9 @@ const GeneralInfo: React.FC = () => {
                     />
                 </Form.Item>
             </Picker>
+            <Form.Item name="managers" label="Project Manager">
+                <span>Data</span>
+            </Form.Item>
         </>
   )
 }
