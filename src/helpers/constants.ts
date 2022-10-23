@@ -7,7 +7,9 @@ export const PATHS = {
   RECOVERPASSWORD: 'reset-password',
   DASHBOARD: 'dashboard',
   TEST: 'test',
-  ConfirmEmail: 'confirm-email'
+  ConfirmEmail: 'confirm-email',
+  SIGNUP: 'sign-up',
+  ConfirmEmailSignUp: 'confirm-email/:email'
 }
 
 export const HEADERS = {
