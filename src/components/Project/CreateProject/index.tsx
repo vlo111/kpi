@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { ReactComponent as CreateProjectSvg } from '../../../assets/icons/create-project.svg'
 import styled from 'styled-components'
+import { LayoutElement, StepProps } from '../../../types/project'
 
 const Container = styled.div`
   display: flex;
@@ -19,9 +20,9 @@ const Container = styled.div`
   }
 `
 
-export const CreateProject: React.FC<{ setStep: (b: boolean) => void }> = ({ setStep }) => {
+export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
   useEffect(() => {
-    const layout: Element & { style: React.CSSProperties } | null = document.querySelector('.ant-layout')
+    const layout: LayoutElement = document.querySelector('.ant-layout')
 
     if (layout) {
       layout.style.height = '100%'

@@ -91,12 +91,6 @@ const GeneralInfo: React.FC = () => {
             <Form.Item name="managers" label="Project Manager">
                 <span onClick={() => setIsModalOpen(!isModalOpen)}>Data</span>
             </Form.Item>
-            <Form.Item name="managers" label="Project Manager">
-                <span onClick={() => setIsModalOpen(!isModalOpen)}>Data</span>
-            </Form.Item>
-            <Form.Item name="managers" label="Project Manager">
-                <span onClick={() => setIsModalOpen(!isModalOpen)}>Data</span>
-            </Form.Item>
             <AddManagerModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} setAddManager={setAddManager}/>
         </>
   )

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Steps } from 'antd'
 import GeneralInfo from './GeneralInfo'
 import ProjectInfo from './ProjectInput'
@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import Action from './Action'
 import { VALIDATE_MESSAGES } from '../../../helpers/constants'
 import { Form } from '../../Forms/Form'
+import { LayoutElement } from '../../../types/project'
 
 const { Step } = Steps
 
@@ -104,6 +105,14 @@ const StepContainer: React.FC = () => {
   const onFinishFailed: any = (values: any) => {
     console.log(values, 'failed')
   }
+
+  useEffect(() => {
+    const layout: LayoutElement = document.querySelector('.ant-layout')
+
+    if (layout) {
+      layout.style.height = '100%'
+    }
+  }, [])
 
   return (
     <Container>
