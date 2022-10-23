@@ -138,15 +138,17 @@ const GeneralInfo: React.FC = () => {
                     <AddManagerIcon onClick={addManager}/>
                 </Form.Item>
             </Managers>
-            <AddManagerModal manager={managerModalOpen} setManagerModalOpen={setManagerModalOpen}
-                             setAddManager={(values) => {
-                               if (managers !== null) {
-                                 const m: any = managers.slice(0)
-                                 values.id = managers.length + 1
-                                 m.push(values)
-                                 setAddManager(m)
-                               }
-                             }}/>
+            <AddManagerModal
+                manager={managerModalOpen}
+                setManagerModalOpen={setManagerModalOpen}
+                setAddManager={(values) => {
+                  if (managers !== null) {
+                    const m: any = managers.slice(0)
+                    values.id = managers.length + 1
+                    m.push(values)
+                    setAddManager(m)
+                  }
+                }}/>
         </>
   )
 }
