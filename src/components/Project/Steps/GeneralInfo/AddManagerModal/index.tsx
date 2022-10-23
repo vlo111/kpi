@@ -53,7 +53,7 @@ const AddManagerModal: React.FC<AddManagers> = ({ manager, setManagerModalOpen, 
             cancelText="Cancel"
             onCancel={handleCancel}
             footer={[
-                <div key={'action'} className="action">
+                <div key={'action'} className="footer-action">
                     <AnsButton key="back" onClick={handleCancel}>
                         Cancel
                     </AnsButton>,
