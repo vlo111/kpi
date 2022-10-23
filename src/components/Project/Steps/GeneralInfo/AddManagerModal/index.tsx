@@ -38,7 +38,7 @@ const AddManagerModal: React.FC<AddManagers> = ({ manager, setManagerModalOpen, 
     },
     {
       name: ['assigned'],
-      value: manager?.assigned
+      value: 'Project'
     }
   ]
 
@@ -95,12 +95,10 @@ const AddManagerModal: React.FC<AddManagers> = ({ manager, setManagerModalOpen, 
                 }]}>
                     <AnsInput placeholder="Project Manager"/>
                 </Form.Item>
-                <Form.Item name="assigned" label="Assign to*" rules={[{
-                  required: true,
-                  min: 2,
-                  max: 256
+                <Form.Item name="assigned" label="Assign to" rules={[{
+                  required: true
                 }]}>
-                    <AnsInput placeholder="Project"/>
+                    <AnsInput disabled placeholder="Project" />
                 </Form.Item>
             </Form>
         </AnsModal>
