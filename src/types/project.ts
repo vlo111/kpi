@@ -14,7 +14,16 @@ export type LayoutElement = Element & { style: React.CSSProperties } | null
 export interface StepProps { setStep: (b: boolean) => void }
 
 export interface AddManagers {
-  isModalOpen: boolean
-  setIsModalOpen: (b: boolean) => void
+  setManagerModalOpen: (b: Manager | null) => void
   setAddManager: (b: any) => void
+  manager: Manager | null
+}
+
+export interface Manager {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  position: string
+  assigned: string
 }
