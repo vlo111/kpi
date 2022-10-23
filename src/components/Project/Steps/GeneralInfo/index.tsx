@@ -6,6 +6,7 @@ import AnsDatePicker from '../../../Forms/DatePicker'
 import styled from 'styled-components'
 import { Moment } from 'moment'
 import { Date, DisabledDate, OnChange } from '../../../../types/project'
+import AddManagerModal from './AddManagerModal'
 
 const Picker = styled.div`
   display: flex;
@@ -32,6 +33,7 @@ const GeneralInfo: React.FC = () => {
 
   const [startData, setStartData] = useState<Date>(null)
   const [endData, setEndDate] = useState<Date>(null)
+  const [managers, setAddManager] = useState([{}])
 
   const onChange: OnChange = (date: Date, item: string) => {
     if (item === 'start') {
@@ -48,6 +50,9 @@ const GeneralInfo: React.FC = () => {
       return current && current < (startData ?? current)
     }
   }
+
+  console.log(managers)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   return (
         <>
@@ -84,8 +89,15 @@ const GeneralInfo: React.FC = () => {
                 </Form.Item>
             </Picker>
             <Form.Item name="managers" label="Project Manager">
-                <span>Data</span>
+                <span onClick={() => setIsModalOpen(!isModalOpen)}>Data</span>
             </Form.Item>
+            <Form.Item name="managers" label="Project Manager">
+                <span onClick={() => setIsModalOpen(!isModalOpen)}>Data</span>
+            </Form.Item>
+            <Form.Item name="managers" label="Project Manager">
+                <span onClick={() => setIsModalOpen(!isModalOpen)}>Data</span>
+            </Form.Item>
+            <AddManagerModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} setAddManager={setAddManager}/>
         </>
   )
 }

@@ -4,8 +4,7 @@ import styled from 'styled-components'
 import { Menu } from '../Menu'
 
 const LayoutStyle = styled(Layout)`
-  background-color: #F9FCFF;
-  height: 100%;
+  background-color: var(--background);
 `
 
 const Sider = styled(LayoutStyle.Sider)`

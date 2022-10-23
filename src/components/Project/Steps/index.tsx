@@ -26,7 +26,7 @@ const steps = [
 ]
 
 const Container = styled.div`
-  margin: 0 auto;
+  margin: 2rem auto 0;
   display: flex;
   justify-content: center;
   align-items: center;

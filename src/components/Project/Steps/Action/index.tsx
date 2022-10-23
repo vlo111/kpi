@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import { Form } from '../../../Forms/Form'
 
 const FormItem = styled(Form.Item)`
+  margin: 0;
+  
   .ant-form-item-control-input-content {
     width: 100%;
     display: flex;
