@@ -41,7 +41,7 @@ const GlobalStyle = createGlobalStyle`
     
     --large-hedline-font-size: 48px;
     --large-font-size: 38px;
-    --hedline-font-size: 20px;
+    --headline-font-size: 20px;
     --base-font-size: 16px;
     --font-size-semismall: 14px;
     --font-size-small: 12px;
@@ -78,14 +78,18 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     background-color: var(--scroll-bar-background);
+    padding: 5px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: var(--dark-border-ultramarine);
-    border-radius: 3.5px;
+    background-color: #646464;
+    border-radius: 3.5px;    
+    padding: 5px;
+    width: 12px;
+
   }
 `
 

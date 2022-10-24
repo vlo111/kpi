@@ -4,8 +4,7 @@ import styled from 'styled-components'
 import { Menu } from '../Menu'
 
 const LayoutStyle = styled(Layout)`
-  background-color: #F9FCFF;
-  height: 100%;
+  background-color: var(--background);
 `
 
 const Sider = styled(LayoutStyle.Sider)`
@@ -18,10 +17,12 @@ const Header = styled(LayoutStyle.Header)`
   background: var(--white);
   box-shadow: var(--header-box-shadow);
   z-index: 1;
+  height: 60px;
 `
 
 const Content = styled(LayoutStyle.Content)`
   background: var(--background)
+  padding: 30px;
 `
 
 const MainLayout: React.FC<{ children: React.ReactElement }> = ({ children }) => {
