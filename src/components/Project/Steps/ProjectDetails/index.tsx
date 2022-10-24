@@ -18,7 +18,7 @@ export const ProjectDetails: React.FC = () => {
         {/* <h4>Org inputs M</h4> */}
       </AnsCollapse>
       <AnsCollapse header="Sectors">
-          <p>sd</p>
+          {/* <h4>Org inputs M</h4> */}
       </AnsCollapse>
     </Collapses>
   )

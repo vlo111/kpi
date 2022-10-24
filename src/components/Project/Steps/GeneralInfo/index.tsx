@@ -7,8 +7,8 @@ import styled from 'styled-components'
 import { Moment } from 'moment'
 import {
   Date,
-  DisabledDate,
-  Manager,
+  DisabledDate, HandleSubmit,
+  IManager,
   OnChange
 } from '../../../../types/project'
 import AddManagerModal from './AddManagerModal'
@@ -66,10 +66,10 @@ const managerList = [
 const GeneralInfo: React.FC = () => {
   const [startData, setStartData] = useState<Date>(null)
   const [endData, setEndDate] = useState<Date>(null)
-  const [managerModalOpen, setManagerModalOpen] = useState<Manager | null>(
+  const [managerModalOpen, setManagerModalOpen] = useState<IManager | null>(
     null
   )
-  const [managers, setAddManager] = useState<Manager[]>(managerList)
+  const [managers, setAddManager] = useState<IManager[]>(managerList)
 
   const onChange: OnChange = (date: Date, item: string) => {
     if (item === 'start') {
@@ -83,7 +83,7 @@ const GeneralInfo: React.FC = () => {
     setManagerModalOpen(managerList.find((m) => m.id === id) ?? null)
   }
 
-  const addManager: () => void = () => {
+  const addManager: HandleSubmit = () => {
     setManagerModalOpen({
       assigned: '',
       email: '',
@@ -104,86 +104,86 @@ const GeneralInfo: React.FC = () => {
 
   // console.log(managers)
   return (
-    <>
-      <Form.Item
-        name="Title"
-        label="Title"
-        rules={[
-          {
-            required: true,
-            min: 2,
-            max: 256
-          }
-        ]}
-      >
-        <AsnInput placeholder="Example: AWDA" />
-      </Form.Item>
-      <Form.Item
-        name="Description"
-        label="Description"
-        rules={[
-          {
-            required: true,
-            min: 1,
-            max: 2048
-          }
-        ]}
-      >
-        <TextArea placeholder={PlaceHolderDescription} />
-      </Form.Item>
-      <Picker>
-        <Form.Item
-          name="Start Date"
-          label="Start Date"
-          rules={[
-            {
-              required: true
-            }
-          ]}
-        >
-          <AnsDatePicker
-            disabledDate={(current: Moment) => disabledDate(current, 'start')}
-            onChange={(date: Date) => onChange(date, 'start')}
-          />
-        </Form.Item>
-        <Form.Item
-          name="End Date"
-          label="End Date"
-          rules={[
-            {
-              required: true
-            }
-          ]}
-        >
-          <AnsDatePicker
-            disabledDate={(current: Moment) => disabledDate(current, 'end')}
-            onChange={(date: Date) => onChange(date, 'end')}
-          />
-        </Form.Item>
-      </Picker>
-      <Managers>
-        <Form.Item name="managers" label="Project Manager">
-          {managers.map((m) => (
-            <div key={m.id} onClick={() => editManager(m.id)}>
-              <ManagerIcon letter={`${m.firstName[0]}${m.lastName[0]}`} />
-            </div>
-          ))}
-          <AddManagerIcon onClick={addManager} />
-        </Form.Item>
-      </Managers>
-      <AddManagerModal
-        manager={managerModalOpen}
-        setManagerModalOpen={setManagerModalOpen}
-        setAddManager={(values) => {
-          if (managers !== null) {
-            const m: any = managers.slice(0)
-            values.id = managers.length + 1
-            m.push(values)
-            setAddManager(m)
-          }
-        }}
-      />
-    </>
+        <>
+            <Form.Item
+                name="Title"
+                label="Title"
+                rules={[
+                  {
+                    required: true,
+                    min: 2,
+                    max: 256
+                  }
+                ]}
+            >
+                <AsnInput placeholder="Example: AWDA"/>
+            </Form.Item>
+            <Form.Item
+                name="Description"
+                label="Description"
+                rules={[
+                  {
+                    required: true,
+                    min: 1,
+                    max: 2048
+                  }
+                ]}
+            >
+                <TextArea placeholder={PlaceHolderDescription}/>
+            </Form.Item>
+            <Picker>
+                <Form.Item
+                    name="Start Date"
+                    label="Start Date"
+                    rules={[
+                      {
+                        required: true
+                      }
+                    ]}
+                >
+                    <AnsDatePicker
+                        disabledDate={(current: Moment) => disabledDate(current, 'start')}
+                        onChange={(date: Date) => onChange(date, 'start')}
+                    />
+                </Form.Item>
+                <Form.Item
+                    name="End Date"
+                    label="End Date"
+                    rules={[
+                      {
+                        required: true
+                      }
+                    ]}
+                >
+                    <AnsDatePicker
+                        disabledDate={(current: Moment) => disabledDate(current, 'end')}
+                        onChange={(date: Date) => onChange(date, 'end')}
+                    />
+                </Form.Item>
+            </Picker>
+            <Managers>
+                <Form.Item name="managers" label="Project Manager">
+                    {managers.map((m) => (
+                        <div key={m.id} onClick={() => editManager(m.id)}>
+                            <ManagerIcon letter={`${m.firstName[0]}${m.lastName[0]}`}/>
+                        </div>
+                    ))}
+                    <AddManagerIcon onClick={addManager}/>
+                </Form.Item>
+            </Managers>
+            <AddManagerModal
+                manager={managerModalOpen}
+                setManagerModalOpen={setManagerModalOpen}
+                setAddManager={(values) => {
+                  if (managers !== null) {
+                    const m: any = managers.slice(0)
+                    values.id = managers.length + 1
+                    m.push(values)
+                    setAddManager(m)
+                  }
+                }}
+            />
+        </>
   )
 }
 

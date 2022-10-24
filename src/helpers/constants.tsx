@@ -1,3 +1,8 @@
+import React from 'react'
+import GeneralInfo from '../components/Project/Steps/GeneralInfo'
+import ProjectInfo from '../components/Project/Steps/ProjectInput'
+import { ProjectDetails } from '../components/Project/Steps/ProjectDetails'
+
 export const PATHS = {
   ROOT: '/',
   ERROR_403: 'no-access',
@@ -26,3 +31,18 @@ export const VALIDATE_MESSAGES: any = {
 }
 
 export const PlaceHolderDescription = 'Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills'
+
+export const StepList = [
+  {
+    title: 'General info',
+    content: <GeneralInfo />
+  },
+  {
+    title: 'Project input',
+    content: <ProjectInfo />
+  },
+  {
+    title: 'Project details',
+    content: <ProjectDetails />
+  }
+]

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { HandleSubmit } from '../../../../../types/project'
 
 const AddManager = styled.div`
   height: 40px;
@@ -34,7 +35,7 @@ const AddManager = styled.div`
   }
 `
 
-const AddManagerIcon: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+const AddManagerIcon: React.FC<{ onClick: HandleSubmit }> = ({ onClick }) => {
   return (
       <AddManager onClick={onClick}>
           <div>
