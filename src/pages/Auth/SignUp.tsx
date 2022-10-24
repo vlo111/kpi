@@ -32,8 +32,7 @@ const SignUp: React.FC = () => {
         validateMessages={VALIDATE_MESSAGES}
         layout="vertical"
       >
-        <Row type="flex" justify="center" align="middle" style={{ minHeight: '100vh' }}>
-
+        <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
           <Col span={8} >
             <Form
               name="signin"
@@ -46,9 +45,8 @@ const SignUp: React.FC = () => {
               autoComplete="off"
               validateMessages={VALIDATE_MESSAGES}
               layout='vertical'
-
             >
-              <Title level={2} className="text-center" justify="center" align="middle">Sign Up</Title>
+              <Title level={2} className="text-center">Sign Up</Title>
               <Form.Item name="First Name" label="First Name" rules={[{ required: true }]}>
                 <AnsInput placeholder="First Name" />
               </Form.Item>
@@ -70,7 +68,7 @@ const SignUp: React.FC = () => {
               <Form.Item>
                 <Form.Item>
                   <Space size="middle">
-                    <AnsButton style={{ height: '40px', width: '100%', fontSize: 'var(--hedline-font-size)' }} type="primary" htmlType="submit">
+                    <AnsButton style={ { width: '100%' } } type="primary" htmlType="submit">
                       Sign In
                     </AnsButton>
                   </Space>

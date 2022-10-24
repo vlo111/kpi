@@ -1,26 +1,27 @@
 import React from 'react'
-import { Form, Typography, Row, Col, Space } from 'antd'
+import { Row, Col } from 'antd'
 import { VALIDATE_MESSAGES } from '../../helpers/constants'
 import AuthLayout from '../../components/Layout/AuthLayout'
-
 import AnsInput, { Password } from '../../components/Forms/Input'
 import AnsButton from '../../components/Forms/Button'
-const { Title } = Typography
+import { Form } from '../../components/Forms/Form'
+import { useNavigate } from 'react-router-dom'
+import { TitleAuth } from '../../components/Layout/TitleAuth'
 
 const SignIn: React.FC = () => {
   const [form] = Form.useForm()
+  const navigate = useNavigate()
 
-  const onFinish = (values: any) => {
-
+  const onFinish: any = (values: any) => {
+    console.log(values, 'values')
   }
-  const onFinishFailed = (values: any) => {
+  const onFinishFailed: any = (values: any) => {
     console.log(values, 'values')
   }
   return (
     <AuthLayout>
-      <Row type="flex" justify="center" align="middle" style={{ minHeight: '100vh' }}>
-
-        <Col span={8} >
+      <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
+        <Col span={8} style={ { maxWidth: '460px' } } >
           <Form
             name="signin"
             form={form}
@@ -32,23 +33,21 @@ const SignIn: React.FC = () => {
             autoComplete="off"
             validateMessages={VALIDATE_MESSAGES}
             layout='vertical'
-
           >
-            <Title level={2} className="text-center" justify="center" align="middle">Sign in</Title>
-
-            <Form.Item name="email" label="Email" rules={[{ required: true }, { type: 'email' }]}>
-              <AnsInput />
+            <TitleAuth>
+              Sign In
+            </TitleAuth>
+            <Form.Item name="email" label="Email Address" rules={[{ required: true }, { type: 'email' }]}>
+              <AnsInput placeholder="Email Address" />
             </Form.Item>
-            <Form.Item name="password" label="Confirm Password" rules={[{ required: true }]}>
+            <Form.Item name="password" label="Password" rules={[{ required: true }]}>
               <Password placeholder="Password" />
             </Form.Item>
-            <a style={{ float: 'right', color: '#0B847F' }} href="/forgot-password">Forgot password?</a>
+            <div style={{ color: ' #A2A2A2', fontSize: 'var(--base-font-size)', cursor: 'pointer', marginBottom: '24px' }} onClick={() => navigate('/forgot-password')}>Forgot password?</div>
             <Form.Item>
-              <Space size="middle">
-                <AnsButton htmlType="submit" >
+                <AnsButton type="primary" className='primary' htmlType="submit" >
                   Sign In
                 </AnsButton>
-              </Space>
             </Form.Item>
           </Form>
         </Col>
