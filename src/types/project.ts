@@ -28,7 +28,7 @@ export interface IManager {
   assigned: string
 }
 
-export type PanelType = React.FC<{ header: string, list: IPanelData[] }>
+export type PanelType = React.FC<{ header: string, list: IPanelData[], deleteData: any }>
 
 export interface IPanelData { id: string, name: string }
 

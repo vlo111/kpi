@@ -6,7 +6,7 @@ import { Form } from '../Forms/Form'
 import AsnInput from '../Forms/Input'
 import Button from '../Forms/Button'
 
-export const AnsCollapse: PanelType = ({ header, list }) => {
+export const AnsCollapse: PanelType = ({ header, list, deleteData }) => {
   const propsData: IPanelPropData = {
     defaultActiveKey: [header],
     expandIcon: ({ isActive }: IPanelIsActive) => (
@@ -25,7 +25,7 @@ export const AnsCollapse: PanelType = ({ header, list }) => {
                         >
                             <AsnInput placeholder="Organization name"/>
                         </Form.Item>
-                        <DeleteOutlined/>
+                        {list.length > 1 && <DeleteOutlined onClick={() => deleteData(header, l.id)}/>}
                     </div>
                 )}
                 <Button style={{ background: 'white', width: '100%' }} htmlType="submit" onClick={() => {

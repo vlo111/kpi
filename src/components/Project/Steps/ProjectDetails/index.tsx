@@ -14,11 +14,33 @@ export const ProjectDetails: React.FC = () => {
   const [regions, setRegions] = useState(RegionList(10))
   const [sectors, setSectors] = useState(SectorList(10))
 
+  const deleteData: (header: string, id: string) => void = (header: string, id: string) => {
+    if (header === 'Organization') {
+      let orgs = organization.slice(0)
+
+      orgs = orgs.filter((o) => o.id !== id)
+
+      setOrganization(orgs)
+    } else if (header === 'Regions/Marzes') {
+      let regs = organization.slice(0)
+
+      regs = regs.filter((r) => r.id !== id)
+
+      setRegions(regs)
+    } else {
+      let sects = organization.slice(0)
+
+      sects = sects.filter((s) => s.id !== id)
+
+      setSectors(sects)
+    }
+  }
+
   return (
         <Collapses>
-            <AnsCollapse header="Organization" list={organization}/>
-            <AnsCollapse header="Regions/Marzes" list={regions} />
-            <AnsCollapse header="Sectors" list={sectors} />
+            <AnsCollapse header="Organization" list={organization} deleteData={deleteData}/>
+            <AnsCollapse header="Regions/Marzes" list={regions} deleteData={deleteData}/>
+            <AnsCollapse header="Sectors" list={sectors} deleteData={deleteData} />
         </Collapses>
   )
 }
