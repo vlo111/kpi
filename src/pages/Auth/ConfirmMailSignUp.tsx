@@ -2,27 +2,43 @@ import React from 'react'
 import AuthLayout from '../../components/Layout/AuthLayout'
 import { Typography } from 'antd'
 import { useParams } from 'react-router-dom'
+import AnsButton from '../../components/Forms/Button'
+import { ReactComponent as Checked } from '../../assets/icons/checked.svg'
 
 const { Title } = Typography
 
 const ConfirmMailSignUp: React.FC = () => {
   const { email } = useParams()
-  console.log(email, 'emmm')
   return (
     <AuthLayout>
       <div>
-      <Title level={1}
-       style={{
-         fontSize: 'var(--large-hedline-font-size)',
-         color: 'var(--dark-border-ultramarine)',
-         textAlign: 'center',
-         marginBottom: '32px'
-       }}
-       >
-       We&apos;ve Sent An Email To
-      </Title>
-      <div style={ { fontSize: '24px', color: '#68A395' } }>{email}</div>
-      <div style={ { fontSize: 'var(--headline-font-size)' } }>Please make sure</div>
+        <Title level={1}
+          style={{
+            fontSize: 'var(--large-hedline-font-size)',
+            color: 'var(--dark-border-ultramarine)',
+            textAlign: 'center',
+            marginBottom: '32px'
+          }}
+        >
+          We&apos;ve Sent An Email To
+        </Title>
+        <div style={{ fontSize: '24px', color: '#68A395' }}>{email}</div>
+        <div style={{ fontSize: 'var(--headline-font-size)' }}>Please make sure</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+          <Checked />
+          <div>You&apos;ve entered it<span> correctly</span></div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+          <Checked />
+          <div>This email is <span>linked to your profile</span></div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '7px' }}>
+          <Checked />
+          <div>Check your <span>spam and notifications folders<br></br>in your inbox</span></div>
+        </div>
+        <AnsButton style={{ height: '40px', width: '100%', fontSize: 'var(--hedline-font-size)' }} type="primary" htmlType="submit">
+         Re-Send Confirmation Email
+        </AnsButton>
       </div>
     </AuthLayout>
   )
