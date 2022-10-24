@@ -15,12 +15,13 @@ const Container = styled.div`
   background-size: cover;
   background-position: center;
   background-position-y: 100%;
-  width: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 70%;
+  position: absolute;
+  width: 100%;
 `
 
 const AuthLayout: React.FC<{ children: React.ReactElement }> = ({ children }) => {
