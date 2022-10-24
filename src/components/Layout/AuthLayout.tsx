@@ -15,19 +15,19 @@ const Container = styled.div`
   background-size: cover;
   background-position: center;
   background-position-y: 100%;
-  width: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 70%;
+  // width: auto;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  // height: 70%;
 `
 
 const AuthLayout: React.FC<{ children: React.ReactElement }> = ({ children }) => {
   return (
     <LayoutStyle>
       <div style={{ position: 'absolute', padding: '32px 0 0 32px' }}>
-            <LogoSvg />
+        <LogoSvg />
       </div>
       <Container>
         {children}

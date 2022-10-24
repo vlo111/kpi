@@ -7,7 +7,7 @@ const textArea = css`
 `
 
 const defaultStyle = css`
-  height: 44px;
+  height: 58px;
   font-size: 16px;
   background: var(--white);
   border: 1px solid var(--dark-border-ultramarine);

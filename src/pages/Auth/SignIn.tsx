@@ -1,65 +1,59 @@
 import React from 'react'
-import { Typography } from 'antd'
+import { Form, Typography, Row, Col, Space } from 'antd'
 import { VALIDATE_MESSAGES } from '../../helpers/constants'
+import AuthLayout from '../../components/Layout/AuthLayout'
+
 import AnsInput, { Password } from '../../components/Forms/Input'
 import AnsButton from '../../components/Forms/Button'
-import AuthLayout from '../../components/Layout/AuthLayout'
-import { Form } from '../../components/Forms/Form'
-import ErrorBackend from '../../components/Errors/ErrorBackend'
-import { useNavigate } from 'react-router-dom'
-
 const { Title } = Typography
 
 const SignIn: React.FC = () => {
   const [form] = Form.useForm()
 
-  const onFinish: any = (values: any) => {
-    console.log(values, 'success')
-    navigate('/confirm-email')
-  }
+  const onFinish = (values: any) => {
 
-  const onFinishFailed: any = (values: any) => {
-    console.log(values, 'failed')
   }
-  const navigate = useNavigate()
+  const onFinishFailed = (values: any) => {
+    console.log(values, 'values')
+  }
   return (
     <AuthLayout>
-      <Form
-        name="signin"
-        form={form}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        validateMessages={VALIDATE_MESSAGES}
-        layout="vertical"
-        style={{ paddingTop: '17vh' }}
-      >
-        <div style={{ width: 'clamp(15rem, 32vw, 30rem)' }}>
-          <Title level={1} style={{ fontSize: 'var(--large-hedline-font-size)', color: 'var(--dark-border-ultramarine)', textAlign: 'center', marginBottom: '32px' }}>Sign In</Title>
-          <ErrorBackend message={`We have sent you an email confirmation. You need to
-              confirm your email before you can login.
-              Resend confirmation email.`}
-          />
-          <Form.Item name="email address" label="Email Address" rules={[{ required: true }, { type: 'email' }]}>
-            <AnsInput placeholder="Email Address" />
-          </Form.Item>
-          <Form.Item style={{ margin: 0 }} name="password" label="Password" rules={[{ required: true }]}>
-            <Password placeholder="Password" />
-          </Form.Item>
-          <Form.Item>
-            <div style={{
-              color: 'var(--forget-password-gray)',
-              cursor: 'pointer',
-              fontSize: 'var(--base-font-size)'
-            }} onClick={() => navigate('/forgot-password')}>Forgot password?</div>
-          </Form.Item>
-          <Form.Item>
-            <AnsButton style={{ height: '40px', width: '100%', fontSize: 'var(--hedline-font-size)' }} type="primary" htmlType="submit">
-              Sign In
-            </AnsButton>
-          </Form.Item>
-        </div>
-      </Form>
-    </AuthLayout >
+      <Row type="flex" justify="center" align="middle" style={{ minHeight: '100vh' }}>
+
+        <Col span={8} >
+          <Form
+            name="signin"
+            form={form}
+            initialValues={{
+              remember: false
+            }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+            validateMessages={VALIDATE_MESSAGES}
+            layout='vertical'
+
+          >
+            <Title level={2} className="text-center" justify="center" align="middle">Sign in</Title>
+
+            <Form.Item name="email" label="Email" rules={[{ required: true }, { type: 'email' }]}>
+              <AnsInput />
+            </Form.Item>
+            <Form.Item name="password" label="Confirm Password" rules={[{ required: true }]}>
+              <Password placeholder="Password" />
+            </Form.Item>
+            <a style={{ float: 'right', color: '#0B847F' }} href="/forgot-password">Forgot password?</a>
+            <Form.Item>
+              <Space size="middle">
+                <AnsButton htmlType="submit" >
+                  Sign In
+                </AnsButton>
+              </Space>
+            </Form.Item>
+          </Form>
+        </Col>
+      </Row>
+    </AuthLayout>
   )
 }
 
