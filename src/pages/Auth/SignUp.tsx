@@ -15,7 +15,7 @@ const SignUpForm = styled(Form)`
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 15%;
+  top: clamp(22%, 15%, 30%);
 `
 
 const SignUp: React.FC = () => {
@@ -69,7 +69,7 @@ const SignUp: React.FC = () => {
                     <Form.Item>
                         <AnsButton style={{ height: '40px', width: '100%', fontSize: 'var(--hedline-font-size)' }}
                                    type="primary" htmlType="submit">
-                            Sign In
+                            Sign Up
                         </AnsButton>
                     </Form.Item>
                 </div>
