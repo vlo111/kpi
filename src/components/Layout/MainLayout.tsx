@@ -21,7 +21,7 @@ const Header = styled(LayoutStyle.Header)`
 `
 
 const Content = styled(LayoutStyle.Content)`
-  background: var(--background)
+  background: var(--background);
   padding: 30px;
 `
 

@@ -7,11 +7,12 @@ const textArea = css`
 `
 
 const defaultStyle = css`
-  height: 58px;
+  height: 44px;
   font-size: 16px;
   background: var(--white);
   border: 1px solid var(--dark-border-ultramarine);
   border-radius: 5px;
+  max-width: 460px;
 
   :disabled {
     background-color: var(--white);
@@ -37,7 +38,7 @@ export const TextArea = styled(Input.TextArea)`
 export const Password = styled(Input.Password)`
   ${defaultStyle}
   &.ant-input-affix-wrapper-focused {
-    border: 1px solid var(--dark-border-ultramarine) ;
+    border: 1px solid var(--dark-border-ultramarine);
     box-shadow: var(--input-box-shadow) !important;
   }
 `
