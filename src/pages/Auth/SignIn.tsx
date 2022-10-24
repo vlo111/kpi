@@ -1,11 +1,12 @@
 import React from 'react'
 import { Row, Col } from 'antd'
 import { VALIDATE_MESSAGES } from '../../helpers/constants'
-import AuthLayout, { TitleAuth } from '../../components/Layout/AuthLayout'
+import AuthLayout from '../../components/Layout/AuthLayout'
 import AnsInput, { Password } from '../../components/Forms/Input'
 import AnsButton from '../../components/Forms/Button'
 import { Form } from '../../components/Forms/Form'
 import { useNavigate } from 'react-router-dom'
+import { TitleAuth } from '../../components/Layout/TitleAuth'
 
 const SignIn: React.FC = () => {
   const [form] = Form.useForm()

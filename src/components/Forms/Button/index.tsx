@@ -14,13 +14,13 @@ const AsnButton = styled(Button)`
     font-size: var(--base-font-size);
     border-radius: 5px;
     height: 44px;
-    max-width: 460px;
 
     &.primary{
      height: 44px;
      width: 100%;
      font-size: var(--headline-font-size);
-     margin-top: 8px
+     margin-top: 8px;
+     max-width: 460px;
   }
     
     &:hover {

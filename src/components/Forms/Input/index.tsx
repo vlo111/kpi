@@ -12,7 +12,6 @@ const defaultStyle = css`
   background: var(--white);
   border: 1px solid var(--dark-border-ultramarine);
   border-radius: 5px;
-  max-width: 460px;
 
   :disabled {
     background-color: var(--white);

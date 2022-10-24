@@ -1,10 +1,11 @@
 import React from 'react'
 import { Row, Col } from 'antd'
-import AuthLayout, { TitleAuth } from '../../components/Layout/AuthLayout'
+import AuthLayout from '../../components/Layout/AuthLayout'
 import { Form } from '../../components/Forms/Form'
 import { VALIDATE_MESSAGES } from '../../helpers/constants'
 import AnsInput, { Password } from '../../components/Forms/Input'
 import AnsButton from '../../components/Forms/Button'
+import { TitleAuth } from '../../components/Layout/TitleAuth'
 
 const RecoverPassword: React.FC = () => {
   const [form] = Form.useForm()

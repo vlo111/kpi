@@ -1,12 +1,13 @@
 import React from 'react'
 import { Row, Col } from 'antd'
-import AuthLayout, { TitleAuth } from '../../components/Layout/AuthLayout'
+import AuthLayout from '../../components/Layout/AuthLayout'
 import { VALIDATE_MESSAGES } from '../../helpers/constants'
 import { ReactComponent as Key } from '../../assets/icons/forgot.svg'
 import { Form } from '../../components/Forms/Form'
 import AnsInput from '../../components/Forms/Input'
 import AnsButton from '../../components/Forms/Button'
 import { useNavigate } from 'react-router-dom'
+import { TitleAuth } from '../../components/Layout/TitleAuth'
 
 const ForgotPassword: React.FC = () => {
   const [form] = Form.useForm()
