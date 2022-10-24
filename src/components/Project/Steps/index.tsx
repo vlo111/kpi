@@ -5,7 +5,7 @@ import { VALIDATE_MESSAGES, StepList } from '../../../helpers/constants'
 import { Form } from '../../Forms/Form'
 import { LayoutElement } from '../../../types/project'
 import { AnsSteps } from '../../Forms/Steps'
-import Step from '../../Forms/Steps/Step'
+import Step from './Step'
 
 const StepContainer: React.FC = () => {
   const [current, setCurrent] = useState(0)
