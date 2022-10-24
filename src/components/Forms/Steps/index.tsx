@@ -9,20 +9,6 @@ const AnsSteps = styled(Steps)`
   align-items: center;
   padding: 13px  40px  13px  40px;
   gap: 10px;
- 
-
-  &.ant-btn-default {
-    color: #0b847f;
-    height: 48px
-  } 
-  :disabled {
-    background-color: #cee6e5;
-    color: #ffffff;
-  }
-  &:hover {
-    background-color:red;
-    color: #ffffff;
-  }
 `
 
 export default AnsSteps
