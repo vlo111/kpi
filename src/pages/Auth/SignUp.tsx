@@ -67,7 +67,7 @@ const SignUp: React.FC = () => {
                         <Password placeholder="Confirm Password"/>
                     </Form.Item>
                     <Form.Item>
-                        <AnsButton style={{ height: '40px', width: '100%', fontSize: 'var(--hedline-font-size)' }}
+                        <AnsButton style={{ width: '100%', fontSize: 'var(--headline-font-size)' }}
                                    type="primary" htmlType="submit">
                             Sign In
                         </AnsButton>

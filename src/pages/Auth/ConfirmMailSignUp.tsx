@@ -22,7 +22,7 @@ const ConfirmMailSignUp: React.FC = () => {
        We&apos;ve Sent An Email To
       </Title>
       <div style={ { fontSize: '24px', color: '#68A395' } }>{email}</div>
-      <div style={ { fontSize: 'var(--hedline-font-size)' } }>Please make sure</div>
+      <div style={ { fontSize: 'var(--headline-font-size)' } }>Please make sure</div>
       </div>
     </AuthLayout>
   )

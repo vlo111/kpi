@@ -31,7 +31,7 @@ const RecoverPassword: React.FC = () => {
       >
         <div style={{ width: 'clamp(15rem, 32vw, 30rem)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Title level={1} style={{ fontSize: 'var(--large-hedline-font-size)', color: 'var(--dark-border-ultramarine)', textAlign: 'center', marginBottom: '32px' }}>Reset Password</Title>
-          <div style={{ fontSize: 'var(--hedline-font-size)', width: '100%', marginBottom: '32px' }}>The password should have atleast 6 characters</div>
+          <div style={{ fontSize: 'var(--headline-font-size)', width: '100%', marginBottom: '32px' }}>The password should have atleast 6 characters</div>
           <Form.Item style={{ width: '100%' }} name="password" label="New Password" rules={[{ required: true }]}>
             <Password placeholder="New Password" />
           </Form.Item>
@@ -39,7 +39,7 @@ const RecoverPassword: React.FC = () => {
             <AnsInput placeholder="Confirm Password" />
           </Form.Item>
           <Form.Item style={{ width: '100%', margin: '9px' }}>
-            <AnsButton style={{ height: '40px', width: '100%', fontSize: 'var(--hedline-font-size)' }} type="primary" htmlType="submit">
+            <AnsButton style={{ width: '100%', fontSize: 'var(--headline-font-size)' }} type="primary" htmlType="submit">
               Reset Password
             </AnsButton>
           </Form.Item>

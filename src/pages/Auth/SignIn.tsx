@@ -53,7 +53,7 @@ const SignIn: React.FC = () => {
             }} onClick={() => navigate('/forgot-password')}>Forgot password?</div>
           </Form.Item>
           <Form.Item>
-            <AnsButton style={{ height: '40px', width: '100%', fontSize: 'var(--hedline-font-size)' }} type="primary" htmlType="submit">
+            <AnsButton style={{ width: '100%', fontSize: 'var(--headline-font-size)' }} type="primary" htmlType="submit">
               Sign In
             </AnsButton>
           </Form.Item>
