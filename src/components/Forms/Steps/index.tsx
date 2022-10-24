@@ -7,11 +7,15 @@ const stepContent: FlattenSimpleInterpolation = css`
     .ant-form {
       display: flex;
       flex-direction: column;
-      gap: 2rem;
-      
+      gap: 1rem;
+
       .form-footer {
         .ant-btn-default {
           margin: 0 1rem;
+        }
+
+        .ant-btn-primary {
+          margin-left: 1rem
         }
       }
     }

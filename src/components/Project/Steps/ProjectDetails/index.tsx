@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { AnsCollapse } from '../../../Layout/CollapseLayout'
+import { OrganizationList, RegionList, SectorList } from '../../../../helpers/fakeData'
 
 const Collapses = styled.div`
   display: flex;
@@ -9,17 +10,15 @@ const Collapses = styled.div`
 `
 
 export const ProjectDetails: React.FC = () => {
+  const [organization, setOrganization] = useState(OrganizationList(10))
+  const [regions, setRegions] = useState(RegionList(20))
+  const [sectors, setSectors] = useState(SectorList(20))
+
   return (
-    <Collapses>
-      <AnsCollapse header="Organization">
-        {/* <h3>Org inputs</h3> */}
-      </AnsCollapse>
-      <AnsCollapse header="Regions/Marzes">
-        {/* <h4>Org inputs M</h4> */}
-      </AnsCollapse>
-      <AnsCollapse header="Sectors">
-          {/* <h4>Org inputs M</h4> */}
-      </AnsCollapse>
-    </Collapses>
+        <Collapses>
+            <AnsCollapse header="Organization" list={organization}/>
+            <AnsCollapse header="Regions/Marzes" list={regions} />
+            <AnsCollapse header="Sectors" list={sectors} />
+        </Collapses>
   )
 }

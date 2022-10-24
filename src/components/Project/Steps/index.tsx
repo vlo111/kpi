@@ -8,8 +8,8 @@ import { AnsSteps } from '../../Forms/Steps'
 import Step from './Step'
 
 const StepContainer: React.FC = () => {
-  const [current, setCurrent] = useState(0)
-  const [saveCurrent, setSaveCurrent] = useState(0)
+  const [current, setCurrent] = useState(2)
+  const [saveCurrent, setSaveCurrent] = useState(2)
 
   const [form] = Form.useForm()
 
