@@ -1,33 +1,25 @@
 import React from 'react'
-import { CaretRightOutlined } from '@ant-design/icons'
-import { AnsCollapse, Panel } from '../../../Forms/Collapse'
+import styled from 'styled-components'
+import { AnsCollapse } from '../../../Collapse'
 
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
+const Collapses = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: clamp(5px, 2vw, 20px);
 `
 
 export const ProjectDetails: React.FC = () => {
-  const onChange: (key: string | string[]) => void = (
-    key: string | string[]
-  ) => {
-    console.log(key)
-  }
   return (
-    <div>
-      <AnsCollapse
-        defaultActiveKey={['1']}
-        onChange={onChange}
-        expandIcon={({ isActive }) => (
-          <CaretRightOutlined rotate={isActive ? 90 : 0} />
-        )}
-        className="site-collapse-custom-collapse"
-      >
-        <Panel header="This is panel header 1" key="1">
-          <p>{text}</p>
-        </Panel>
-      </AnsCollapse>
-    </div>
+        <Collapses>
+            <AnsCollapse header="Organization">
+                {/* <h3>Org inputs</h3> */}
+            </AnsCollapse>
+
+            <AnsCollapse header="Regions/Marzes">
+                {/* <h4>Org inputs M</h4> */}
+            </AnsCollapse>
+            <AnsCollapse header="Sectors">
+            </AnsCollapse>
+        </Collapses>
   )
 }

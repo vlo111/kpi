@@ -27,3 +27,9 @@ export interface Manager {
   position: string
   assigned: string
 }
+
+export type PanelType = React.FC<{ header: string, children: React.ReactNode }>
+
+export interface PanelIsActive { isActive: boolean }
+
+export interface PanelPropData { defaultActiveKey: string[], expandIcon: (panelProps: any) => React.ReactNode }

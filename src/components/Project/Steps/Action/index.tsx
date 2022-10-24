@@ -37,7 +37,7 @@ const StepContainer: React.FC<{ current: number, onSubmit: (current: number) => 
                 <Button htmlType="submit" onClick={() => prev()} value="Previous">Previous</Button>
             )}
 
-            {current === 1 && (
+            {current > 0 && (
                 <Button htmlType="submit" onClick={() => prev()} value="Draft">Save as Draft</Button>
             )}
 
