@@ -29,7 +29,7 @@ export const AnsCollapseStyle = styled(Collapse)`
     background: transparent;
 
     >.ant-collapse-content-box {
-      padding: 32px 52px;
+      padding: 2rem 1rem 2rem 2rem;
     }
   }
 

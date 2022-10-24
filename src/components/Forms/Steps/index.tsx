@@ -18,17 +18,29 @@ const stepContent: FlattenSimpleInterpolation = css`
           margin-left: 1rem
         }
       }
-    }
 
-    .ant-col {
-      align-items: end;
+      .ant-col {
+        align-items: end;
+      }
 
-      .ant-form-item-control-input {
+      .ant-btn-default {
+        width: calc(100% - 2rem) !important;
+      }
 
-        &-content {
-          justify-content: space-between;
+      .form-item-collapse {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 24px;
+        
+        .ant-form-item {
+          margin-bottom: 0;
+          width: 100%;
         }
       }
+    }
+  }
 `
 
 const formContent: FlattenSimpleInterpolation = css`
@@ -81,8 +93,8 @@ export const AnsSteps = styled.div<{ current: number }>`
       }
 
       > .ant-steps-item-container
-        > .ant-steps-item-content
-        > .ant-steps-item-title {
+      > .ant-steps-item-content
+      > .ant-steps-item-title {
         font-size: var(--font-size-semismall);
         letter-spacing: 0.1px;
         color: var(--dark-2);
@@ -98,5 +110,5 @@ export const AnsSteps = styled.div<{ current: number }>`
     width: 100%;
   }
 
-  ${(props) => (props.current !== 0 ? stepContent : formContent)}
+  ${(props) => (props.current !== 0 ? props.current === 2 ? stepContent : {} : formContent)}
 `

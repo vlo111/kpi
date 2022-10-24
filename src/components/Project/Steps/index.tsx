@@ -6,6 +6,7 @@ import { Form } from '../../Forms/Form'
 import { LayoutElement } from '../../../types/project'
 import { AnsSteps } from '../../Forms/Steps'
 import Step from './Step'
+import { OrganizationList, RegionList, SectorList } from '../../../helpers/fakeData'
 
 const StepContainer: React.FC = () => {
   const [current, setCurrent] = useState(2)
@@ -29,31 +30,40 @@ const StepContainer: React.FC = () => {
     }
   }, [])
 
+  const fields = saveCurrent === 2
+    ? [
+        ...OrganizationList(10).map((o) => ({ name: [o.id], value: o.name })),
+        ...RegionList(10).map((o) => ({ name: [o.id], value: o.name })),
+        ...SectorList(10).map((o) => ({ name: [o.id], value: o.name }))
+      ]
+    : []
+
   return (
-    <AnsSteps current={saveCurrent}>
+        <AnsSteps current={saveCurrent}>
       <span className="title">
         To create a new project, please fill in the following information
       </span>
-      <Steps current={saveCurrent}>
-        <Step current={saveCurrent} />
-      </Steps>
-      <div className="steps-content">
-        <Form
-          form={form}
-          layout="vertical"
-          validateMessages={VALIDATE_MESSAGES}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-        >
-          {StepList[saveCurrent].content}
-          <Action
-            current={saveCurrent}
-            stepLength={StepList.length}
-            onSubmit={setCurrent}
-          />
-        </Form>
-      </div>
-    </AnsSteps>
+            <Steps current={saveCurrent}>
+                <Step current={saveCurrent}/>
+            </Steps>
+            <div className="steps-content">
+                <Form
+                    form={form}
+                    layout="vertical"
+                    validateMessages={VALIDATE_MESSAGES}
+                    fields={fields}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                >
+                    {StepList[saveCurrent].content}
+                    <Action
+                        current={saveCurrent}
+                        stepLength={StepList.length}
+                        onSubmit={setCurrent}
+                    />
+                </Form>
+            </div>
+        </AnsSteps>
   )
 }
 
