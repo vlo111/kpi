@@ -40,7 +40,10 @@ const stepContent: FlattenSimpleInterpolation = css`
       align-items: end;
 
       .ant-form-item-control-input {
-        width: 24vw;
+
+        .ant-btn-default {
+          margin: 0 1rem;
+        }
 
         &-content {
           justify-content: space-between;
@@ -115,10 +118,7 @@ const Container = styled.div<{ current: number }>`
     width: 100%;
   }
 
-  ${(props) =>
-          props.current !== 0
-? stepContent
-: formContent}
+  ${(props) => (props.current !== 0 ? stepContent : formContent)}
 `
 
 const StepContainer: React.FC = () => {

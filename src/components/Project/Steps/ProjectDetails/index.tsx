@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { AnsCollapse } from '../../../Collapse'
+import { AnsCollapse } from '../../../Layout/CollapseLayout'
 
 const Collapses = styled.div`
   display: flex;
@@ -10,16 +10,16 @@ const Collapses = styled.div`
 
 export const ProjectDetails: React.FC = () => {
   return (
-        <Collapses>
-            <AnsCollapse header="Organization">
-                {/* <h3>Org inputs</h3> */}
-            </AnsCollapse>
-
-            <AnsCollapse header="Regions/Marzes">
-                {/* <h4>Org inputs M</h4> */}
-            </AnsCollapse>
-            <AnsCollapse header="Sectors">
-            </AnsCollapse>
-        </Collapses>
+    <Collapses>
+      <AnsCollapse header="Organization">
+        {/* <h3>Org inputs</h3> */}
+      </AnsCollapse>
+      <AnsCollapse header="Regions/Marzes">
+        {/* <h4>Org inputs M</h4> */}
+      </AnsCollapse>
+      <AnsCollapse header="Sectors">
+          <p>sd</p>
+      </AnsCollapse>
+    </Collapses>
   )
 }
