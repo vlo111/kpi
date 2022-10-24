@@ -55,7 +55,7 @@ const GlobalStyle = createGlobalStyle`
     
     /*Shadows*/
     --base-box-shadow: -4px -4px 4px rgba(42, 85, 120, 0.05), 4px 4px 4px rgba(42, 85, 120, 0.05);
-    --input-box-shadow: 0 0 0 2px #2a557833;
+    --input-box-shadow: 3px -3px 4px rgba(42, 85, 120, 0.25), -3px 3px 4px rgba(42, 85, 120, 0.25);
     --error-box-shadow: 0 0 0 2px #ff787533;
     --project-shadow: 0px 8px 8px rgba(17, 27, 35, 0.05);
     --header-box-shadow: 0px 4px 4px rgba(42, 85, 120, 0.1);

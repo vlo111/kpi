@@ -4,9 +4,12 @@ export const PATHS = {
   SIGNIN: 'sign-in',
   CHANGEPASSWORD: 'change-password',
   FORGOTPASSWORD: 'forgot-password',
-  RECOVERPASSWORD: 'recover-password',
+  RECOVERPASSWORD: 'reset-password',
   DASHBOARD: 'dashboard',
-  TEST: 'test'
+  TEST: 'test',
+  ConfirmEmail: 'confirm-email',
+  SIGNUP: 'sign-up',
+  ConfirmEmailSignUp: 'confirm-email/:email'
 }
 
 export const HEADERS = {

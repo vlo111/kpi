@@ -17,10 +17,10 @@ const defaultStyle = css`
     background-color: var(--white);
   }
   :hover {
-    border: 1px solid var(--dark-border-ultramarine);
+    border: 1px solid var(--dark-border-ultramarine) !important;
   }
   :focus {
-    border: 1px solid var(--dark-border-ultramarine);
+    border: 1px solid var(--dark-border-ultramarine) ;
     box-shadow: var(--input-box-shadow);
   }
 `
@@ -36,6 +36,10 @@ export const TextArea = styled(Input.TextArea)`
 
 export const Password = styled(Input.Password)`
   ${defaultStyle}
+  &.ant-input-affix-wrapper-focused {
+    border: 1px solid var(--dark-border-ultramarine) ;
+    box-shadow: var(--input-box-shadow) !important;
+  }
 `
 
 export default AsnInput
