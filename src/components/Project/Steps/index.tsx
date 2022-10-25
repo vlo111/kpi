@@ -9,8 +9,8 @@ import Step from './Step'
 import { OrganizationList, RegionList, SectorList } from '../../../helpers/fakeData'
 
 const StepContainer: React.FC = () => {
-  const [current, setCurrent] = useState(2)
-  const [saveCurrent, setSaveCurrent] = useState(2)
+  const [current, setCurrent] = useState(1)
+  const [saveCurrent, setSaveCurrent] = useState(1)
 
   const [form] = Form.useForm()
 

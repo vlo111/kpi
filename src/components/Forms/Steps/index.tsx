@@ -1,6 +1,62 @@
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components'
 
-const stepContent: FlattenSimpleInterpolation = css`
+const firstStep: FlattenSimpleInterpolation = css`
+  .ant-form {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: var(--base-box-shadow);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+`
+
+const secondStep: FlattenSimpleInterpolation = css`
+  .steps-content {
+    width: 65vw;
+
+    .ant-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .form-footer {
+        .ant-btn-default {
+          margin: 0 1rem;
+        }
+
+        .ant-btn-primary {
+          margin-left: 1rem
+        }
+      }
+
+      .ant-col {
+        align-items: end;
+      }
+
+      .ant-btn-default {
+        width: calc(100% - 2rem) !important;
+      }
+
+      .form-item-collapse {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 24px;
+
+        .ant-form-item {
+          margin-bottom: 0;
+          width: 100%;
+        }
+      }
+    }
+  }
+`
+
+const lastStep: FlattenSimpleInterpolation = css`
   .steps-content {
     width: 65vw;
 
@@ -40,19 +96,6 @@ const stepContent: FlattenSimpleInterpolation = css`
         }
       }
     }
-  }
-`
-
-const formContent: FlattenSimpleInterpolation = css`
-  .ant-form {
-    background: var(--white);
-    border-radius: 20px;
-    padding: 32px;
-    box-shadow: var(--base-box-shadow);
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
   }
 `
 
@@ -110,5 +153,5 @@ export const AnsSteps = styled.div<{ current: number }>`
     width: 100%;
   }
 
-  ${(props) => (props.current !== 0 ? props.current === 2 ? stepContent : {} : formContent)}
+  ${(props) => (props.current !== 0 ? props.current === 2 ? lastStep : secondStep : firstStep)}
 `
