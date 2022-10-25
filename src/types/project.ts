@@ -14,12 +14,12 @@ export type LayoutElement = Element & { style: React.CSSProperties } | null
 export interface StepProps { setStep: (b: boolean) => void }
 
 export interface AddManagers {
-  setManagerModalOpen: (b: Manager | null) => void
+  setManagerModalOpen: (b: IManager | null) => void
   setAddManager: (b: any) => void
-  manager: Manager | null
+  manager: IManager | null
 }
 
-export interface Manager {
+export interface IManager {
   id: string
   firstName: string
   lastName: string
@@ -27,3 +27,19 @@ export interface Manager {
   position: string
   assigned: string
 }
+
+export type PanelType = React.FC<{ header: string, list: IPanelData[], deleteData: HandlePanelDelete, addData: HandlePanelAdd }>
+
+export interface IPanelData { id: string, name: string }
+
+export type HandlePanelDelete = (header: string, id: string) => void
+
+export type HandlePanelAdd = (header: string) => void
+
+export interface IPanelIsActive { isActive: boolean }
+
+export interface IPanelPropData { defaultActiveKey: string[], expandIcon: (panelProps: any) => React.ReactNode }
+
+export interface IStepAction { current: number, onSubmit: (current: number) => void, stepLength: number }
+
+export interface IStep { current: number }

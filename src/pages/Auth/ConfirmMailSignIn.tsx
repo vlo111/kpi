@@ -44,7 +44,7 @@ const ConfirmEmail: React.FC = () => {
                 <div style={{ width: 'clamp(15rem, 32vw, 30rem)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <ErrorBackend message='Email confirmation link has expired. Please enter your email
                   address and we’ll send another confirmation link.' />
-                    <div style={{ fontSize: 'var(--hedline-font-size)', width: '100%', marginBottom: '20px' }}>Enter the email address associated with your
+                    <div style={{ fontSize: 'var(--headline-font-size)', width: '100%', marginBottom: '20px' }}>Enter the email address associated with your
                      account and we’ll send you a link to confirm
                      your email.
                     </div>
@@ -52,7 +52,7 @@ const ConfirmEmail: React.FC = () => {
                       <AnsInput placeholder="Email Address" />
                     </Form.Item>
                     <Form.Item style={{ width: '100%', margin: '9px' }}>
-                      <AnsButton style={{ height: '40px', width: '100%', fontSize: 'var(--hedline-font-size)' }} type="primary" htmlType="submit">
+                      <AnsButton style={{ width: '100%', fontSize: 'var(--headline-font-size)' }} type="primary" htmlType="submit">
                         Send Confirmation Email
                       </AnsButton>
                     </Form.Item>
