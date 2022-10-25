@@ -38,11 +38,11 @@ const RecoverPassword: React.FC = () => {
             <TitleAuth>
               Reset Password
             </TitleAuth>
-            <div style={{ fontSize: 'var(--headline-font-size)', width: '100%', marginBottom: '32px' }}>The password should have atleast 6 characters</div>
-            <Form.Item name="password" label="New Password" rules={[{ required: true }]}>
+            <div style={{ fontSize: 'var(--headline-font-size)', width: '100%', marginBottom: '32px' }}>The password should have at least 8 characters</div>
+            <Form.Item name="password" label="New Password" rules={[{ required: true }, { min: 8 }, { max: 64 }]}>
               <Password placeholder="New Password" />
             </Form.Item>
-            <Form.Item name="confirm password" label="Confirm Password" rules={[{ required: true }]}>
+            <Form.Item name="confirmPassword" label="Confirm Password" rules={[{ required: true }, { min: 8 }, { max: 64 }]}>
               <AnsInput placeholder="Confirm Password" />
             </Form.Item>
             <Form.Item>

@@ -40,7 +40,7 @@ const ConfirmEmail: React.FC = () => {
                 account and we’ll send you a link to confirm
                 your email.
               </div>
-              <Form.Item name="email address" label="Email Address" rules={[{ required: true }, { type: 'email' }]}>
+              <Form.Item name="email address" label="Email Address" rules={[{ required: true }, { type: 'email' }, { max: 128 }]}>
                 <AnsInput placeholder="Email Address" />
               </Form.Item>
               <Form.Item>
