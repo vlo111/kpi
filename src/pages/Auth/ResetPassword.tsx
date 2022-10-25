@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col } from 'antd'
+import { Row, Col, message } from 'antd'
 import AuthLayout from '../../components/Layout/AuthLayout'
 import { Form } from '../../components/Forms/Form'
 import { VALIDATE_MESSAGES } from '../../helpers/constants'
@@ -11,7 +11,13 @@ const RecoverPassword: React.FC = () => {
   const [form] = Form.useForm()
 
   const onFinish: any = (values: any) => {
-    console.log(values, 'success')
+    const { password, confirmPassword } = values
+    if (password !== confirmPassword) {
+      void message.error("Password and Confirm password doesn't match")
+    }
+    if (password === confirmPassword) {
+      console.log(values, 'success')
+    }
   }
 
   const onFinishFailed: any = (values: any) => {

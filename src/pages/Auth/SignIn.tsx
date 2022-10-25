@@ -14,6 +14,7 @@ const SignIn: React.FC = () => {
 
   const onFinish: any = (values: any) => {
     console.log(values, 'values')
+    navigate('/confirm-email')
   }
   const onFinishFailed: any = (values: any) => {
     console.log(values, 'values')
