@@ -71,6 +71,55 @@ const Date = styled.div`
 const PeopleCount = styled.div`
   font-size: var( --base-font-size);
 `
+const TabContainer = styled.div`
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #FFFFFF;
+  border-radius: 0px 40px 0px 0px;
+  width: 16vw;
+  max-width: 231px;
+  margin-left: -28px;
+  `
+const TabInfoWrapper = styled.div`
+    display: flex;
+    height: 75%;
+    background: #EDF0F4;
+    justify-content: center;
+    border-radius: 0px 40px 0px 0px;
+    align-items: center;
+    width: 95%; 
+  `
+const TabNumber = styled.div`
+    width: 20px;
+    height: 20px;
+    border: 1px solid #2A5578;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-semismall);
+  `
+const TabName = styled.div`
+    font-size: var(--base-font-size);
+    padding-left: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 10vw;
+  `
+
+const Tab: React.FC = () => {
+  return (
+    <TabContainer>
+     <TabInfoWrapper>
+     <TabNumber>1</TabNumber>
+     <TabName>Societal perception hhhh</TabName>
+    </TabInfoWrapper>
+  </TabContainer>
+  )
+}
 
 export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
   useEffect(() => {
@@ -112,19 +161,34 @@ export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
           </ProjectInformation>
         </ProjectInfoContainer>
       </FlexWrap>
-      <div style={ { position: 'relative' } }>
-        <div style={ { display: 'flex', background: '#FFFFFF', height: '50px', alignItems: 'center', justifyContent: 'center', borderRadius: '0px 40px 0px 0px', width: '230px', clipPath: 'polygon(0 0, 0 100%, 100% 100%, 100% 100%, 75% 0)', top: 0 } }>
+      <div style={ { position: 'relative', display: 'flex' } }>
+        <div style={ { display: 'flex', background: '#FFFFFF', height: '50px', alignItems: 'center', justifyContent: 'center', borderRadius: '0px 40px 0px 0px', width: '230px', clipPath: 'polygon(0 0, 0 100%, 100% 100%, 100% 100%, 75% 0)' } }>
           <div style={ { width: '30px', height: '30px', border: '1px solid #2A5578', borderRadius: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' } }>1</div>
            <span style={ { paddingLeft: '4px' } }>Skill gap reduced</span>
           </div>
-          <div style={ { display: 'flex', background: '#EDF0F4', height: '50px', alignItems: 'center', justifyContent: 'center', borderRadius: '0px 40px 0px 0px', width: '230px', top: 0, left: '175px' } }>
+          <div style={ { height: '50px', width: '230px', display: 'flex', background: '#FFFFFF', justifyContent: 'center', alignItems: 'center', borderRadius: '0px 40px 0px 0px' } }>
+            <div style={ { display: 'flex', height: '75%', background: '#EDF0F4', alignItems: 'center', justifyContent: 'center', borderRadius: '0px 40px 0px 0px', width: '95%' } }>
           <div style={ { width: '30px', height: '30px', border: '1px solid #2A5578', borderRadius: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' } }>1</div>
            <span style={ { paddingLeft: '4px' } }>Skill gap reduced</span>
+           </div>
           </div>
-          <div style={ { display: 'flex', background: '#FFFFFF', height: '50px', alignItems: 'center', justifyContent: 'center', borderRadius: '0px 40px 0px 0px', width: '230px', top: 0, left: '350px' } }>
+          <div style={ { height: '50px', width: '230px', display: 'flex', background: '#FFFFFF', justifyContent: 'center', alignItems: 'center', borderRadius: '0px 40px 0px 0px' } }>
+            <div style={ { display: 'flex', height: '75%', background: '#EDF0F4', alignItems: 'center', justifyContent: 'center', borderRadius: '0px 40px 0px 0px', width: '95%' } }>
           <div style={ { width: '30px', height: '30px', border: '1px solid #2A5578', borderRadius: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' } }>1</div>
            <span style={ { paddingLeft: '4px' } }>Skill gap reduced</span>
+           </div>
           </div>
+            {/* <div style={ { height: '50px', width: '230px', display: 'flex', background: '#FFFFFF', justifyContent: 'center', alignItems: 'center', borderRadius: '0px 40px 0px 0px' } }>
+            <div style={ { display: 'flex', height: '75%', background: '#EDF0F4', alignItems: 'center', justifyContent: 'center', borderRadius: '0px 40px 0px 0px', width: '95%' } }>
+          <div style={ { width: '30px', height: '30px', border: '1px solid #2A5578', borderRadius: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' } }>1</div>
+           <span style={ { paddingLeft: '4px' } }>Skill gap reduced</span>
+           </div>
+          </div> */}
+          {/* <div style={ { display: 'flex', background: '#FFFFFF', height: '50px', alignItems: 'center', justifyContent: 'center', borderRadius: '0px 40px 0px 0px', width: '230px', top: 0, left: '350px' } }>
+          <div style={ { width: '30px', height: '30px', border: '1px solid #2A5578', borderRadius: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' } }>1</div>
+           <span style={ { paddingLeft: '4px' } }>Skil gap reduced</span>
+          </div> */}
+          <Tab />
         <div style={ { background: '#FFFFFF', minHeight: '70vh' } }></div>
       </div>
     </Wrapper>
