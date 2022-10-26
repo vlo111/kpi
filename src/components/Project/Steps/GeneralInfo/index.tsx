@@ -163,7 +163,7 @@ const GeneralInfo: React.FC = () => {
             </Picker>
             <Managers>
                 <Form.Item name="managers" label="Project Manager">
-                    {managers.map((m) => (
+                    {managers.map((m: { firstName: string, lastName: string, id: string }) => (
                         <div key={m.id} onClick={() => editManager(m.id)}>
                             <ManagerIcon letter={`${m.firstName[0]}${m.lastName[0]}`}/>
                         </div>

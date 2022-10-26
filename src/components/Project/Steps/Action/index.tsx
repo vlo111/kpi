@@ -21,7 +21,7 @@ const StepContainer: React.FC<IStepAction> = ({
   onSubmit
 }) => {
   const next: HandleSubmit = () => {
-    onSubmit(current + 1)
+    onSubmit(+current + 1)
   }
 
   const prev: HandleSubmit = () => {
