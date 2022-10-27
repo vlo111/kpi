@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col } from 'antd'
+import { Row, Col, message } from 'antd'
 import AuthLayout from '../../components/Layout/AuthLayout'
 import { Form } from '../../components/Forms/Form'
 import { VALIDATE_MESSAGES } from '../../helpers/constants'
@@ -11,7 +11,13 @@ const RecoverPassword: React.FC = () => {
   const [form] = Form.useForm()
 
   const onFinish: any = (values: any) => {
-    console.log(values, 'success')
+    const { password, confirmPassword } = values
+    if (password !== confirmPassword) {
+      void message.error("Password and Confirm password doesn't match")
+    }
+    if (password === confirmPassword) {
+      console.log(values, 'success')
+    }
   }
 
   const onFinishFailed: any = (values: any) => {
@@ -32,11 +38,11 @@ const RecoverPassword: React.FC = () => {
             <TitleAuth>
               Reset Password
             </TitleAuth>
-            <div style={{ fontSize: 'var(--headline-font-size)', width: '100%', marginBottom: '32px' }}>The password should have atleast 6 characters</div>
-            <Form.Item name="password" label="New Password" rules={[{ required: true }]}>
+            <div style={{ fontSize: 'var(--headline-font-size)', width: '100%', marginBottom: '32px' }}>The password should have at least 8 characters</div>
+            <Form.Item name="password" label="New Password" rules={[{ required: true }, { min: 8 }, { max: 64 }]}>
               <Password placeholder="New Password" />
             </Form.Item>
-            <Form.Item name="confirm password" label="Confirm Password" rules={[{ required: true }]}>
+            <Form.Item name="confirmPassword" label="Confirm Password" rules={[{ required: true }, { min: 8 }, { max: 64 }]}>
               <AnsInput placeholder="Confirm Password" />
             </Form.Item>
             <Form.Item>

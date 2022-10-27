@@ -5,6 +5,6 @@ export const TitleAuth = styled.div`
   font-size: 48px;
   color: #2A5578;
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 32px;
   max-width: 460px;
 `

@@ -1,45 +1,49 @@
 import React from 'react'
-import AuthLayout from '../../components/Layout/AuthLayout'
-import { Typography } from 'antd'
 import { useParams } from 'react-router-dom'
+import AuthLayout from '../../components/Layout/AuthLayout'
+import { Row, Col, Space } from 'antd'
+import { TitleAuth } from '../../components/Layout/TitleAuth'
 import AnsButton from '../../components/Forms/Button'
 import { ReactComponent as Checked } from '../../assets/icons/checked.svg'
-
-const { Title } = Typography
 
 const ConfirmMailSignUp: React.FC = () => {
   const { email } = useParams()
   return (
     <AuthLayout>
-      <div>
-        <Title level={1}
-          style={{
-            fontSize: 'var(--large-hedline-font-size)',
-            color: 'var(--dark-border-ultramarine)',
-            textAlign: 'center',
-            marginBottom: '32px'
-          }}
-        >
-          We&apos;ve Sent An Email To
-        </Title>
-        <div style={{ fontSize: '24px', color: '#68A395' }}>{email}</div>
-        <div style={{ fontSize: 'var(--headline-font-size)' }}>Please make sure</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-          <Checked />
-          <div>You&apos;ve entered it<span> correctly</span></div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-          <Checked />
-          <div>This email is <span>linked to your profile</span></div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '7px' }}>
-          <Checked />
-          <div>Check your <span>spam and notifications folders<br></br>in your inbox</span></div>
-        </div>
-        <AnsButton style={{ height: '40px', width: '100%', fontSize: 'var(--hedline-font-size)' }} type="primary" htmlType="submit">
-         Re-Send Confirmation Email
-        </AnsButton>
-      </div>
+      <Row align='middle' justify='center' style={{ minHeight: '100vh' }}>
+        <Col span={8} style={{ maxWidth: '460px' }}>
+          <Space direction='vertical' size={16}>
+            <Row justify='start'>
+              <TitleAuth style={{ minWidth: '50vw', marginBottom: '0', textAlign: 'left' }}>We&apos;ve Sent An Email To</TitleAuth>
+            </Row>
+            <Row justify='start' style={{ fontSize: '24px', color: '#68A395' }}>{email}</Row>
+            <Row justify='start' style={{ fontSize: 'var(--headline-font-size)' }}>Please make sure</Row>
+            <Row>
+              <Space direction='horizontal' size={7}>
+                <Checked />
+                <div style={{ fontSize: 'var(--headline-font-size)' }}>You&apos;ve entered it<span style={{ color: 'var(--dark-border-ultramarine)' }}> correctly</span></div>
+              </Space>
+            </Row>
+            <Row>
+              <Space direction='horizontal' size={7}>
+                <Checked />
+                <div style={{ fontSize: 'var(--headline-font-size)' }}>This email is <span style={{ color: 'var(--dark-border-ultramarine)' }}>linked to your profile</span></div>
+              </Space>
+            </Row>
+            <Row>
+              <Space direction='horizontal' size={7} align='baseline'>
+                <Checked />
+                <div style={{ fontSize: 'var(--headline-font-size)' }}>Check your <span style={{ color: 'var(--dark-border-ultramarine)' }}>spam and notifications folders<br></br>in your inbox</span></div>
+              </Space>
+            </Row>
+            <Row>
+              <AnsButton style={{ marginTop: '16px' }} className='primary' type="primary" htmlType="submit">
+                Re-Send Confirmation Email
+              </AnsButton>
+            </Row>
+          </Space>
+        </Col>
+      </Row>
     </AuthLayout>
   )
 }
