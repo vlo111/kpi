@@ -6,7 +6,7 @@ import { Form } from '../../Forms/Form'
 import { LayoutElement } from '../../../types/project'
 import { AnsSteps } from '../../Forms/Steps'
 import Step from './Step'
-import { OrganizationList, RegionList, SectorList } from '../../../helpers/fakeData'
+import { OrganizationList, RegionList, ResultArea, SectorList } from '../../../helpers/fakeData'
 
 const StepContainer: React.FC = () => {
   const [current, setCurrent] = useState(1)
@@ -36,7 +36,11 @@ const StepContainer: React.FC = () => {
         ...RegionList(10).map((o) => ({ name: [o.id], value: o.name })),
         ...SectorList(10).map((o) => ({ name: [o.id], value: o.name }))
       ]
-    : []
+    : saveCurrent === 1
+      ? [
+          ...ResultArea.map((o) => ({ name: [o.expectedResult[0].id], value: o.expectedResult[0].code }))
+        ]
+      : []
 
   return (
         <AnsSteps current={saveCurrent}>

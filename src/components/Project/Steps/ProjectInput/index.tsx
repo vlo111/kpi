@@ -6,6 +6,8 @@ import InputResult from './InputResult'
 const ProjectInfo: React.FC = () => {
   const [resultArea, setResultArea] = useState<IResultArea[]>(ResultArea)
 
+  console.log(setResultArea)
+
   return (
         <InputResult resultArea={resultArea} />
   )
