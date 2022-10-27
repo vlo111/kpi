@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { AnsCollapse } from '../../../Layout/CollapseLayout'
+import { Ans as AnsCollapse } from '../../../Layout/CollapseLayout'
 import {
   OrganizationList,
   RegionList,

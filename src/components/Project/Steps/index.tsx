@@ -38,7 +38,13 @@ const StepContainer: React.FC = () => {
       ]
     : saveCurrent === 1
       ? [
-          ...ResultArea.map((o) => ({ name: [o.expectedResult[0].id], value: o.expectedResult[0].code }))
+          ...ResultArea.map((o) => ({ name: [o.expectedResult[0].id], value: o.expectedResult[0].code })),
+          ...ResultArea.map((o) => o.expectedResult.map((l) => ([
+            { name: [`c${l.id}`], value: l.code },
+            { name: [`r${l.id}`], value: l.result },
+            { name: [`m${l.id}`], value: l.measure },
+            { name: [`t${l.id}`], value: l.target }
+          ]))).flat().flat()
         ]
       : []
 

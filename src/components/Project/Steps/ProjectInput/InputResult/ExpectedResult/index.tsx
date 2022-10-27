@@ -19,10 +19,6 @@ const ResultAreaContainer = styled.div`
     height: 58px !important;
   }
 
-  .ant-collapse-content-box {
-    padding: 1rem 1rem 2rem 1rem !important;
-  }
-
   .ant-row {
     > div:nth-child(1) input {
       width: 78px;
@@ -46,52 +42,56 @@ const ResultAreaContainer = styled.div`
   }
 `
 
+const firstLabel: (text: string, i: number) => string = (text, i) => i === 0 ? text : ''
+
 const ProjectInfo: React.FC<{ results: ExpectedResult[] }> = ({ results }) => {
   return (
     <>
-      {results.map((r) => (
-        <ResultAreaContainer key={r.id}>
-          <Row
-            gutter={16}
-            justify="start"
-            align="top"
-            style={{ minWidth: '20vw' }}
-          >
-            <Col>
-              <Form.Item name={`c${r.id}`} label="Code">
-                <AsnInput placeholder="OP1.1" />
-              </Form.Item>
-            </Col>
-            <Col>
-              <Form.Item
-                name={`r${r.id}`}
-                label="Input expected result statement"
-              >
-                <TextArea placeholder="individuals with improved technical and soft skills following participation in USG-assisted workforce development programs" />
-              </Form.Item>
-            </Col>
-            <Col>
-              <Form.Item name={`m${r.id}`} label="Measure">
-                <AsnInput placeholder="Number" />
-              </Form.Item>
-            </Col>
-            <Col>
-              <Form.Item name={`t${r.id}`} label="Target">
-                <AsnInput placeholder="100" />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Button
-              style={{ background: 'white', width: '100%', height: '44px' }}
-              htmlType="submit"
-              value="Create"
+      <ResultAreaContainer>
+        {results.map((r, i) => (
+          <div key={r.id}>
+            <Row
+              gutter={16}
+              justify="start"
+              align="top"
+              style={{ minWidth: '20vw' }}
             >
-              +Add Result Area
-            </Button>
-          </Row>
-        </ResultAreaContainer>
-      ))}
+              <Col>
+                <Form.Item name={`c${r.id}`} label={firstLabel('Code', i)}>
+                  <AsnInput placeholder="OP1.1" />
+                </Form.Item>
+              </Col>
+              <Col>
+                <Form.Item
+                  name={`r${r.id}`}
+                  label={firstLabel('Input expected result statement', i)}
+                >
+                  <TextArea placeholder="individuals with improved technical and soft skills following participation in USG-assisted workforce development programs" />
+                </Form.Item>
+              </Col>
+              <Col>
+                <Form.Item name={`m${r.id}`} label={firstLabel('Measure', i)}>
+                  <AsnInput placeholder="Number" />
+                </Form.Item>
+              </Col>
+              <Col>
+                <Form.Item name={`t${r.id}`} label={firstLabel('Target', i)}>
+                  <AsnInput placeholder="100" />
+                </Form.Item>
+              </Col>
+            </Row>
+          </div>
+        ))}
+        <Row>
+          <Button
+            style={{ background: 'white', width: '100%', height: '44px' }}
+            htmlType="submit"
+            value="Create"
+          >
+            +Add Result Area
+          </Button>
+        </Row>
+      </ResultAreaContainer>
     </>
   )
 }

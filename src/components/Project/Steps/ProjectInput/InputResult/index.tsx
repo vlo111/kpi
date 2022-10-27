@@ -11,17 +11,15 @@ const InputResult: React.FC<{ resultArea: IResultArea[] }> = ({
 }) => {
   return (
         <>
-            {resultArea.map((r) => (
-                // <AnsCollapseStyle key={r.id} {...getPropsData(r.id)}>
-                //     <Panel key={r.id} header={r.name}>
-                //         <ExpectedResult key={r.id} results={r.expectedResult}/>
-                //     </Panel>
-                // </AnsCollapseStyle>
-                <AnsCollapse key={r.id} id={r.id}>
-                  <Panel key={r.id} header={r.name}>
-                    <ExpectedResult key={r.id} results={r.expectedResult}/>
-                  </Panel>
-                </AnsCollapse>
+            {resultArea.map((r, i) => (
+                <div key={r.id}>
+                    <span className="ans-title">Input Result Area {i + 1} *</span>
+                    <AnsCollapse key={r.id} id={r.id}>
+                        <Panel key={r.id} header={r.name}>
+                            <ExpectedResult key={r.id} results={r.expectedResult}/>
+                        </Panel>
+                    </AnsCollapse>
+                </div>
             ))}
         </>
   )
