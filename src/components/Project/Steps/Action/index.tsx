@@ -3,6 +3,7 @@ import { message } from 'antd'
 import Button from '../../../Forms/Button'
 import styled from 'styled-components'
 import { Form } from '../../../Forms/Form'
+import { HandleSubmit, IStepAction } from '../../../../types/project'
 
 const FormItem = styled(Form.Item)`
   margin: 0;
@@ -14,21 +15,21 @@ const FormItem = styled(Form.Item)`
   }
 `
 
-const StepContainer: React.FC<{ current: number, onSubmit: (current: number) => void, stepLength: number }> = ({
+const StepContainer: React.FC<IStepAction> = ({
   stepLength,
   current,
   onSubmit
 }) => {
-  const next: () => void = () => {
+  const next: HandleSubmit = () => {
     onSubmit(current + 1)
   }
 
-  const prev: () => void = () => {
+  const prev: HandleSubmit = () => {
     onSubmit(current - 1)
   }
 
   return (
-        <FormItem>
+        <FormItem className="form-footer">
             {current === 0 && (
                 <Button htmlType="submit" onClick={() => prev()} value="Create">Create</Button>
             )}
@@ -37,7 +38,7 @@ const StepContainer: React.FC<{ current: number, onSubmit: (current: number) => 
                 <Button htmlType="submit" onClick={() => prev()} value="Previous">Previous</Button>
             )}
 
-            {current === 1 && (
+            {current > 0 && (
                 <Button htmlType="submit" onClick={() => prev()} value="Draft">Save as Draft</Button>
             )}
 

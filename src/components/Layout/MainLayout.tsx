@@ -5,6 +5,7 @@ import { Menu } from '../Menu'
 
 const LayoutStyle = styled(Layout)`
   background-color: var(--background);
+  overflow: hidden;
 `
 
 const Sider = styled(LayoutStyle.Sider)`
@@ -23,6 +24,7 @@ const Header = styled(LayoutStyle.Header)`
 const Content = styled(LayoutStyle.Content)`
   background: var(--background);
   padding: 30px;
+  overflow: auto;
 `
 
 const MainLayout: React.FC<{ children: React.ReactElement }> = ({ children }) => {
