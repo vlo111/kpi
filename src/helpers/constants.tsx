@@ -1,7 +1,7 @@
 import React from 'react'
-import GeneralInfo from '../components/Project/Steps/GeneralInfo'
-import ProjectInfo from '../components/Project/Steps/ProjectInput'
-import { ProjectDetails } from '../components/Project/Steps/ProjectDetails'
+import { First } from '../components/Project/Steps/first'
+import { Second } from '../components/Project/Steps/second'
+import { Last } from '../components/Project/Steps/last'
 
 export const PATHS = {
   ROOT: '/',
@@ -34,15 +34,15 @@ export const PlaceHolderDescription = 'Armenia Workforce Development Activity (A
 
 export const StepList = [
   {
-    title: 'General info',
-    content: <GeneralInfo />
+    title: 'First',
+    content: <First />
   },
   {
-    title: 'Project input',
-    content: <ProjectInfo />
+    title: 'Second',
+    content: <Second />
   },
   {
-    title: 'Project details',
-    content: <ProjectDetails />
+    title: 'Last',
+    content: <Last />
   }
 ]

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import reportWebVitals from './reportWebVitals'
 import GlobalStyle from './assets/styles/style'
 import Root from './Root'
+import { Providers } from './utils/Providers'
 
 const root: ReactDOM.Root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -10,8 +11,10 @@ const root: ReactDOM.Root = ReactDOM.createRoot(
 
 root.render(
   <>
-    <GlobalStyle/>
-    <Root/>
+    <Providers>
+      <GlobalStyle />
+      <Root />
+    </Providers>
   </>
 )
 

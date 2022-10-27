@@ -1,9 +1,4 @@
 import React, { useState } from 'react'
-import { RouterProvider } from 'react-router-dom'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { router } from './router'
-import { AuthProvider } from './hooks/useAuth'
-
 import 'antd/dist/antd.min.css'
 
 // const ReactQueryDevtoolsProduction = React.lazy(async () => {
@@ -12,14 +7,6 @@ import 'antd/dist/antd.min.css'
 //   }))
 // }
 // )
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false
-    }
-  }
-})
 
 const Root: React.FC = () => {
   const [showDevtools, setShowDevtools] = useState(false)
@@ -30,18 +17,13 @@ const Root: React.FC = () => {
   }, [])
 
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        {
-          showDevtools && (
-            <React.Suspense fallback={null}>
-              {/* <ReactQueryDevtoolsProduction /> */}
-            </React.Suspense>
-          )
-        }
-      </QueryClientProvider>
-    </AuthProvider>
+    <>
+      {showDevtools && (
+        <React.Suspense fallback={null}>
+          {/* <ReactQueryDevtoolsProduction /> */}
+        </React.Suspense>
+      )}
+    </>
   )
 }
 

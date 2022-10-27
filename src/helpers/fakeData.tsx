@@ -47,3 +47,22 @@ export const ResultArea: IResultArea[] = Array.from({ length: 10 }, (v, i) => ({
     }
   ]
 }))
+
+export const ManagerList = [
+  {
+    id: '1',
+    firstName: 'Volodya',
+    lastName: 'Vardanyan',
+    email: 'vv@vv.vv',
+    position: 'manager',
+    assigned: 'Project'
+  },
+  {
+    id: '2',
+    firstName: 'Diana',
+    lastName: 'Karapetyan',
+    email: 'vv@vv.vv',
+    position: 'manager',
+    assigned: 'Project'
+  }
+]

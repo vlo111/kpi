@@ -1,80 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Steps } from 'antd'
-import Action from './Action'
-import { VALIDATE_MESSAGES, StepList } from '../../../helpers/constants'
-import { Form } from '../../Forms/Form'
-import { LayoutElement } from '../../../types/project'
-import { AnsSteps } from '../../Forms/Steps'
-import Step from './Step'
-import { OrganizationList, RegionList, ResultArea, SectorList } from '../../../helpers/fakeData'
+import { StepList } from '../../../helpers/constants'
+import { useProject } from '../../../hooks/useProject'
+const { Step } = Steps
 
-const StepContainer: React.FC = () => {
-  const [current, setCurrent] = useState(1)
-  const [saveCurrent, setSaveCurrent] = useState(1)
-
-  const [form] = Form.useForm()
-
-  const onFinish: any = (values: any) => {
-    console.log(values, 'finish')
-    setSaveCurrent(current)
-  }
-  const onFinishFailed: any = (values: any) => {
-    console.log(values, 'failed')
-  }
-
-  useEffect(() => {
-    const layout: LayoutElement = document.querySelector('.ant-layout')
-
-    if (layout) {
-      layout.style.height = '100%'
-    }
-  }, [])
-
-  const fields = saveCurrent === 2
-    ? [
-        ...OrganizationList.map((o) => ({ name: [o.id], value: o.name })),
-        ...RegionList.map((o) => ({ name: [o.id], value: o.name })),
-        ...SectorList.map((o) => ({ name: [o.id], value: o.name }))
-      ]
-    : saveCurrent === 1
-      ? [
-          ...ResultArea.map((o) => ({ name: [o.expectedResult[0].id], value: o.expectedResult[0].code })),
-          ...ResultArea.map((o) => o.expectedResult.map((l) => ([
-            { name: [`c${l.id}`], value: l.code },
-            { name: [`r${l.id}`], value: l.result },
-            { name: [`m${l.id}`], value: l.measure },
-            { name: [`t${l.id}`], value: l.target }
-          ]))).flat().flat()
-        ]
-      : []
+export const ProjectSteps: React.FC = () => {
+  const { current } = useProject()
 
   return (
-        <AnsSteps current={saveCurrent}>
-      <span className="title">
-        To create a new project, please fill in the following information
-      </span>
-            <Steps current={saveCurrent}>
-                <Step current={saveCurrent}/>
-            </Steps>
-            <div className="steps-content">
-                <Form
-                    form={form}
-                    layout="vertical"
-                    validateMessages={VALIDATE_MESSAGES}
-                    fields={fields}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                >
-                    {StepList[saveCurrent].content}
-                    <Action
-                        current={saveCurrent}
-                        stepLength={StepList.length}
-                        onSubmit={setCurrent}
-                    />
-                </Form>
-            </div>
-        </AnsSteps>
+    <>
+      <Steps current={current}>
+        {StepList.map((item) => (
+          <Step key={item.title} title={item.title} />
+        ))}
+      </Steps>
+      <div className="steps-content">{StepList[current].content}</div>
+    </>
   )
 }
-
-export default StepContainer
