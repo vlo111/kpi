@@ -18,9 +18,9 @@ const Collapses = styled.div`
 `
 
 export const ProjectDetails: React.FC = () => {
-  const [organization, setOrganization] = useState(OrganizationList(10))
-  const [regions, setRegions] = useState(RegionList(10))
-  const [sectors, setSectors] = useState(SectorList(10))
+  const [organization, setOrganization] = useState(OrganizationList)
+  const [regions, setRegions] = useState(RegionList)
+  const [sectors, setSectors] = useState(SectorList)
 
   const deleteData: HandlePanelDelete = (header, id) => {
     if (header === 'Organization') {

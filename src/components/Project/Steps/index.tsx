@@ -32,9 +32,9 @@ const StepContainer: React.FC = () => {
 
   const fields = saveCurrent === 2
     ? [
-        ...OrganizationList(10).map((o) => ({ name: [o.id], value: o.name })),
-        ...RegionList(10).map((o) => ({ name: [o.id], value: o.name })),
-        ...SectorList(10).map((o) => ({ name: [o.id], value: o.name }))
+        ...OrganizationList.map((o) => ({ name: [o.id], value: o.name })),
+        ...RegionList.map((o) => ({ name: [o.id], value: o.name })),
+        ...SectorList.map((o) => ({ name: [o.id], value: o.name }))
       ]
     : saveCurrent === 1
       ? [

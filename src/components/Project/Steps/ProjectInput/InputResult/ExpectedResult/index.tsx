@@ -58,28 +58,25 @@ const ProjectInfo: React.FC<{ results: ExpectedResult[] }> = ({ results }) => {
             style={{ minWidth: '20vw' }}
           >
             <Col>
-              <Form.Item name={'Code'} label="Code">
+              <Form.Item name={`c${r.id}`} label="Code">
                 <AsnInput placeholder="OP1.1" />
               </Form.Item>
             </Col>
             <Col>
               <Form.Item
-                name={'result'}
+                name={`r${r.id}`}
                 label="Input expected result statement"
               >
-                <TextArea
-                  style={{ height: '44px' }}
-                  placeholder="individuals with improved technical and soft skills following participation in USG-assisted workforce development programs"
-                />
+                <TextArea placeholder="individuals with improved technical and soft skills following participation in USG-assisted workforce development programs" />
               </Form.Item>
             </Col>
             <Col>
-              <Form.Item name={'Measure'} label="Measure">
+              <Form.Item name={`m${r.id}`} label="Measure">
                 <AsnInput placeholder="Number" />
               </Form.Item>
             </Col>
             <Col>
-              <Form.Item name={'Target'} label="Target">
+              <Form.Item name={`t${r.id}`} label="Target">
                 <AsnInput placeholder="100" />
               </Form.Item>
             </Col>
