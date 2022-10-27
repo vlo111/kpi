@@ -43,3 +43,26 @@ export interface IPanelPropData { defaultActiveKey: string[], expandIcon: (panel
 export interface IStepAction { current: number, onSubmit: (current: number) => void, stepLength: number }
 
 export interface IStep { current: number }
+
+export interface ExpectedResult {
+  id: string
+  code: string
+  result: string
+  measure: string
+  target: number
+}
+
+export interface Activity {
+  id: string
+  code: string
+  milestone: string
+  measure: string
+  target: number
+}
+
+export interface IResultArea {
+  id: string
+  name: string
+  expectedResult: ExpectedResult[]
+  activity: Activity[]
+}

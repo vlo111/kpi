@@ -15,7 +15,7 @@ const firstStep: FlattenSimpleInterpolation = css`
 
 const secondStep: FlattenSimpleInterpolation = css`
   .steps-content {
-    width: 65vw;
+    width: 71vw;
 
     .ant-form {
       display: flex;
@@ -37,7 +37,7 @@ const secondStep: FlattenSimpleInterpolation = css`
       }
 
       .ant-btn-default {
-        width: calc(100% - 2rem) !important;
+        width: 100%;
       }
 
       .form-item-collapse {
