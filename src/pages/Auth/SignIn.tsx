@@ -14,6 +14,7 @@ const SignIn: React.FC = () => {
 
   const onFinish: any = (values: any) => {
     console.log(values, 'values')
+    navigate('/confirm-email')
   }
   const onFinishFailed: any = (values: any) => {
     console.log(values, 'values')
@@ -37,10 +38,10 @@ const SignIn: React.FC = () => {
             <TitleAuth>
               Sign In
             </TitleAuth>
-            <Form.Item name="email" label="Email Address" rules={[{ required: true }, { type: 'email' }]}>
+            <Form.Item name="email" label="Email Address" rules={[{ required: true }, { type: 'email' }, { max: 128 }]}>
               <AnsInput placeholder="Email Address" />
             </Form.Item>
-            <Form.Item name="password" label="Password" rules={[{ required: true }]}>
+            <Form.Item name="password" label="Password" rules={[{ required: true }, { min: 8 }, { max: 64 }]}>
               <Password placeholder="Password" />
             </Form.Item>
             <div style={{ color: ' #A2A2A2', fontSize: 'var(--base-font-size)', cursor: 'pointer', marginBottom: '24px' }} onClick={() => navigate('/forgot-password')}>Forgot password?</div>

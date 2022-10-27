@@ -36,7 +36,7 @@ const ForgotPassword: React.FC = () => {
             <Key style={{ width: '100%', marginBottom: '24px' }} />
             <TitleAuth>Forget Password</TitleAuth>
             <div style={{ fontSize: 'var(--headline-font-size)', width: '100%', marginBottom: '24px' }}>Please enter the email you use to sign in to Meetk.</div>
-            <Form.Item name="email address" label="Email Address" rules={[{ required: true }, { type: 'email' }]}>
+            <Form.Item name="email address" label="Email Address" rules={[{ required: true }, { type: 'email' }, { max: 128 }]}>
               <AnsInput placeholder="Email Address" />
             </Form.Item>
             <Form.Item>
