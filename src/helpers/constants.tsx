@@ -1,8 +1,8 @@
 import React from 'react'
-import { First } from '../components/Project/Steps/first'
+import { FirstStep } from '../components/Project/Steps/first'
 import { Second } from '../components/Project/Steps/second'
 import { Last } from '../components/Project/Steps/last'
-import { FormItemName } from '../types/project'
+import { FormItemName, IManager, ManagerFieldType } from '../types/project'
 
 export const PATHS = {
   ROOT: '/',
@@ -22,9 +22,35 @@ export const HEADERS = {
   X_API_VERSION: '1.0'
 }
 
-export const Name: FormItemName = (name) => ({ name: `${name}`, label: `${name}` })
+export const Name: FormItemName = (name: string) => ({
+  name: `${name}`,
+  label: `${name}`
+})
 
-export const VALIDATE_MESSAGES: any = {
+export const ManagerFields: ManagerFieldType = (manager: IManager | null) => ([
+  {
+    name: ['firstName'],
+    value: manager?.firstName
+  },
+  {
+    name: ['lastName'],
+    value: manager?.lastName
+  },
+  {
+    name: ['email'],
+    value: manager?.email
+  },
+  {
+    name: ['position'],
+    value: manager?.position
+  },
+  {
+    name: ['assigned'],
+    value: 'Project'
+  }
+])
+
+export const VALIDATE_MESSAGES = {
   // eslint-disable-next-line no-template-curly-in-string
   required: 'Please enter a valid ${name}',
   types: {
@@ -33,12 +59,13 @@ export const VALIDATE_MESSAGES: any = {
   }
 }
 
-export const PlaceHolderDescription = 'Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills'
+export const PlaceHolderDescription =
+  'Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills'
 
 export const StepList = [
   {
     title: 'General Info',
-    content: <First />
+    content: <FirstStep />
   },
   {
     title: 'Project Input',

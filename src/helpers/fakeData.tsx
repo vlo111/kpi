@@ -66,3 +66,12 @@ export const ManagerList = [
     assigned: 'Project'
   }
 ]
+
+export const InitManager = {
+  assigned: '',
+  email: '',
+  firstName: '',
+  id: '',
+  lastName: '',
+  position: ''
+}

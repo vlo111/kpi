@@ -32,6 +32,8 @@ export interface IManager {
   assigned: string
 }
 
+export type ManagerFieldType = (manager: (IManager | null)) => Array<{ name: string[], value: string | undefined }>
+
 export interface IPanel { header: string, list: IPanelData[], deleteData: HandlePanelDelete, addData: HandlePanelAdd }
 
 export interface IPanelData { id: string, name: string }
