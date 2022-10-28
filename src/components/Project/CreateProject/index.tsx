@@ -112,12 +112,11 @@ const TabContainer = styled.div`
     color: #2A5578;
   }
   &:hover{
-    z-index: 1070 !important;
     display: grid;
     visibility: visible;
-    font-size: 12px;
     z-index: 1000 !important;
     border-radius: 0px 40px 0px 40px;
+    
     /* width: auto;
     max-width: 50vw;
     z-index: 1070 !important;
@@ -147,6 +146,12 @@ const TabContainer = styled.div`
       padding: 6px;
     }
   }
+  /* .activeTab{
+      clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 100%, 89% 0);
+      translate: 0px -22px;
+      height: 72px;
+      border-radius: 0px 40px 0px 0px
+    } */
   `
 // const TabInfoWrapper = styled.div`
 //   `
@@ -190,27 +195,53 @@ const tabNames = [
 ]
 
 const width = window.innerWidth
+const activeTab = {
+  clipPath: 'polygon(0 0, 0 100%, 100% 100%, 100% 100%, 89% 0)',
+  translate: '0px -22px',
+  height: '72px',
+  borderRadius: '40px 40px 0px 0px',
+  display: 'flex'
+}
+const activeTabNum = {
+  width: '30px',
+  height: '30px',
+  fontSize: 'var(--base-font-size)'
+}
+const activeTabInfo = {
+  borderRadius: '40px 40px 0px 0px',
+  background: '#FFFFFF'
+}
+const activeTabName = {
+  color: '#2A5578',
+  fontSize: 'var(--base-font-size)',
+  paddingLeft: '4px',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  width: '8vw'
+}
 
+// const widthh = window.pageXOffset
+// console.log(widthh)
+// const el = document.getElementsByClassName('tabInfoWrapper')[0]
 const Tab: React.FC<TabNames> = ({ tabNumber, name, zIndex, active, handleActiveTab }) => {
   return (
     <TabContainer
       onClick={() => handleActiveTab(tabNumber)}
-      style={active ? { clipPath: 'polygon(0 0, 0 100%, 100% 100%, 100% 100%, 89% 0)', zIndex: zIndex, translate: '0px -22px', height: '72px', borderRadius: '0px 40px 0px 0px' } : { zIndex: zIndex }}>
-      <div className='tabInfoWrapper' style={active ? { background: '#FFFFFF' } : {}}>
-        <div className='tabNumber' style={active ? { width: '30px', height: '30px', fontSize: 'var(--base-font-size)' } : {}}>{tabNumber}</div>
-        {tabNames.length > 6 ? <></> : width < 1024 ? <></> : <div className='tabName' style={active ? { color: '#2A5578' } : {}}>{name}</div>}
+      style={active ? { ...activeTab, zIndex } : { zIndex: zIndex }}
+      ref={(el) => {
+        if (active && el) {
+          el.style.setProperty('z-index', `${zIndex}`, 'important')
+        }
+      }}
+      onMouseEnter={() => console.log(window.innerWidth)}
+    >
+      <div className='tabInfoWrapper' style={active ? { ...activeTabInfo } : {}}>
+        <div className='tabNumber' style={active ? { ...activeTabNum } : {}}>{tabNumber}</div>
+        {tabNames.length > 6 ? <></> : width < 1024 ? <></> : <div id="tabName" className='tabName' style={active ? { ...activeTabName } : {}}>{name}</div>}
       </div>
     </TabContainer >
   )
 }
-// const TabNameActive: React.FC<TabNames> = ({ tabNumber, name, zIndex }) => {
-//   return (
-//     <div style={{ display: 'flex', background: '#FFFFFF', height: '50px', alignItems: 'center', justifyContent: 'center', borderRadius: '0px 40px 0px 0px', width: '230px', clipPath: 'polygon(0 0, 0 100%, 100% 100%, 100% 100%, 75% 0)' }}>
-//           <div style={{ width: '30px', height: '30px', border: '1px solid #2A5578', borderRadius: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>1</div>
-//           <span style={{ paddingLeft: '4px' }}>Skill gap reduced</span>
-//     </div>
-//   )
-// }
 
 export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
   const [activeTab, setActiveTab] = useState({
@@ -233,12 +264,6 @@ export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
   const handleActiveTab = (tabNumber: any): void => {
     tabNumber === 1 ? setActiveTab({ number: tabNumber, default: true }) : setActiveTab({ number: tabNumber, default: false })
   }
-  const el: any = document.getElementsByClassName('tabName')[0]
-  if (el) {
-    el.style.overflow = 'visible'
-    el.style.width = 'auto'
-  }
-  console.log(el?.offsetWidth)
 
   return (
     // <Container onClick={() => setStep(true)}>
@@ -277,10 +302,6 @@ export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
             active={i === 0 ? activeTab.default : activeTab.number === i + 1}
           />
         ))}
-        {/* <Tab handleActiveTab={handleActiveTab} tabNumber={'1'} name={'Skill gap reduced'} zIndex={10} active={activeTab.default || activeTab.number === '1'} />
-        <Tab handleActiveTab={handleActiveTab} tabNumber={'2'} name={'Skill gap reduced'} zIndex={9} active={activeTab.number === '2'} />
-        <Tab handleActiveTab={handleActiveTab} tabNumber={'3'} name={'Societal perceptions shifted'} zIndex={8} active={activeTab.number === '3'} />
-        <Tab handleActiveTab={handleActiveTab} tabNumber={'4'} name={'Skill gap reduced'} zIndex={7} active={activeTab.number === '4'} /> */}
         <div style={{ background: '#FFFFFF', minHeight: '70vh' }}></div>
       </div>
     </Wrapper>
