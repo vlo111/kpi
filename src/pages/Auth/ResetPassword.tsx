@@ -3,8 +3,8 @@ import { Row, Col, message } from 'antd'
 import AuthLayout from '../../components/Layout/AuthLayout'
 import { Form } from '../../components/Forms/Form'
 import { VALIDATE_MESSAGES } from '../../helpers/constants'
-import AnsInput, { Password } from '../../components/Forms/Input'
-import AnsButton from '../../components/Forms/Button'
+import AsnInput, { Password } from '../../components/Forms/Input'
+import { AsnButton } from '../../components/Forms/Button'
 import { TitleAuth } from '../../components/Layout/TitleAuth'
 
 const RecoverPassword: React.FC = () => {
@@ -43,12 +43,12 @@ const RecoverPassword: React.FC = () => {
               <Password placeholder="New Password" />
             </Form.Item>
             <Form.Item name="confirmPassword" label="Confirm Password" rules={[{ required: true }, { min: 8 }, { max: 64 }]}>
-              <AnsInput placeholder="Confirm Password" />
+              <AsnInput placeholder="Confirm Password" />
             </Form.Item>
             <Form.Item>
-              <AnsButton className='primary' type="primary" htmlType="submit">
+              <AsnButton className='primary' type="primary" htmlType="submit">
                 Reset Password
-              </AnsButton>
+              </AsnButton>
             </Form.Item>
           </Form>
         </Col>

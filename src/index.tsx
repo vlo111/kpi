@@ -10,12 +10,12 @@ const root: ReactDOM.Root = ReactDOM.createRoot(
 )
 
 root.render(
-  <>
-    <Providers>
-      <GlobalStyle />
-      <Root />
-    </Providers>
-  </>
+    <>
+        <GlobalStyle/>
+        <Providers>
+            <Root/>
+        </Providers>
+    </>
 )
 
 reportWebVitals()

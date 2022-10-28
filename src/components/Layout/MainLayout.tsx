@@ -6,6 +6,7 @@ import { Menu } from '../Menu'
 const LayoutStyle = styled(Layout)`
   background-color: var(--background);
   overflow: hidden;
+  height: 100%;
 `
 
 const Sider = styled(LayoutStyle.Sider)`

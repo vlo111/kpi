@@ -2,6 +2,7 @@ import React from 'react'
 import { First } from '../components/Project/Steps/first'
 import { Second } from '../components/Project/Steps/second'
 import { Last } from '../components/Project/Steps/last'
+import { FormItemName } from '../types/project'
 
 export const PATHS = {
   ROOT: '/',
@@ -21,6 +22,8 @@ export const HEADERS = {
   X_API_VERSION: '1.0'
 }
 
+export const Name: FormItemName = (name) => ({ name: `${name}`, label: `${name}` })
+
 export const VALIDATE_MESSAGES: any = {
   // eslint-disable-next-line no-template-curly-in-string
   required: 'Please enter a valid ${name}',
@@ -34,15 +37,15 @@ export const PlaceHolderDescription = 'Armenia Workforce Development Activity (A
 
 export const StepList = [
   {
-    title: 'First',
+    title: 'General Info',
     content: <First />
   },
   {
-    title: 'Second',
+    title: 'Project Input',
     content: <Second />
   },
   {
-    title: 'Last',
+    title: 'Project details',
     content: <Last />
   }
 ]

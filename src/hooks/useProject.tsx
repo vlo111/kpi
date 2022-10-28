@@ -4,13 +4,14 @@ import React, { createContext, useContext, useMemo, useState } from 'react'
 const ProjectContext: any = createContext()
 
 export const ProjectProvider: any = ({ children }: any) => {
-  const [current, setCurrent] = useState(0)
+  const [current, setCurrent] = useState<number>(0)
 
   const prevCurrent: any = () => {
     setCurrent(current - 1)
   }
-  const nextCurrent: (next: number) => void = (next: number) => {
-    setCurrent(next)
+
+  const nextCurrent: () => void = () => {
+    setCurrent(current + 1)
   }
 
   const value = useMemo(

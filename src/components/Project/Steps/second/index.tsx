@@ -5,7 +5,7 @@ export const Second: React.FC = () => {
   const { prevCurrent } = useProject()
   return (
         <div>
-            Second
+            Project input
             <button onClick={() => {
               prevCurrent(0)
             }}>prev</button>

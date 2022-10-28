@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import AuthLayout from '../../components/Layout/AuthLayout'
 import { Row, Col, Space } from 'antd'
 import { TitleAuth } from '../../components/Layout/TitleAuth'
-import AnsButton from '../../components/Forms/Button'
+import { AsnButton } from '../../components/Forms/Button'
 import { ReactComponent as Checked } from '../../assets/icons/checked.svg'
 
 const ConfirmMailSignUp: React.FC = () => {
@@ -37,9 +37,9 @@ const ConfirmMailSignUp: React.FC = () => {
               </Space>
             </Row>
             <Row>
-              <AnsButton style={{ marginTop: '16px' }} className='primary' type="primary" htmlType="submit">
+              <AsnButton style={{ marginTop: '16px' }} className='primary' type="primary" htmlType="submit">
                 Re-Send Confirmation Email
-              </AnsButton>
+              </AsnButton>
             </Row>
           </Space>
         </Col>
