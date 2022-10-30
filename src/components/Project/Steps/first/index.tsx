@@ -10,7 +10,7 @@ import AsnInput, { TextArea } from '../../../Forms/Input'
 import { Pickers } from './Pickers'
 import { Rules } from '../../../../types/project'
 import { AsnButton } from '../../../Forms/Button'
-import { GeneralInput } from './GeneralInput'
+import { GeneralInput } from './GeneralInfo'
 import Managers from './Managers'
 
 const rules: Rules = (min, max) => ({ rules: [{ required: true, min, max }] })

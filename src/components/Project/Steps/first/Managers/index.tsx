@@ -6,10 +6,11 @@ import {
 } from '../../../../../types/project'
 import AddManagerModal from './AddManagerModal'
 import ManagerIcon from '../../../../ManagerIcon'
-import { InitManager, ManagerList } from '../../../../../helpers/fakeData'
+import { InitManager } from '../../../../../helpers/fakeData'
 import styled from 'styled-components'
 import { Name } from '../../../../../helpers/constants'
 import { ReactComponent as AddManagerSvg } from '../../../../../assets/icons/add-manager.svg'
+import { useProject } from '../../../../../hooks/useProject'
 
 const ManagerContainer = styled.div`
   
@@ -28,18 +29,14 @@ const ManagerContainer = styled.div`
       margin-left: -22px;
     }
   }
-  
-
 `
 
 const Managers: React.FC = () => {
-  const [managerModalOpen, setManagerModalOpen] = useState<IManager | null>(
-    null
-  )
-  const [managers, setAddManager] = useState<IManager[]>(ManagerList)
+  const [managerModalOpen, setManagerModalOpen] = useState<IManager | null>(null)
+  const { managers, addNewManager }: { managers: IManager[], addNewManager: (manager: IManager) => void } = useProject()
 
   const editManager: (id: string) => void = (id) => {
-    setManagerModalOpen(ManagerList.find((m) => m.id === id) ?? null)
+    setManagerModalOpen(managers.find((m) => m.id === id) ?? null)
   }
 
   const addManager: HandleSubmit = () => {
@@ -51,7 +48,7 @@ const Managers: React.FC = () => {
         <ManagerContainer>
           <Form.Item {...Name('Project Manager')} >
             {managers.map((m, i) => (
-                <div className={i > 0 ? 'justify-left' : ''} key={m.id} onClick={() => editManager(m.id)}>
+                <div key={m.id} className={i > 0 ? 'justify-left' : ''} onClick={() => editManager(m.id)}>
                   <ManagerIcon letter={`${m.firstName[0]}${m.lastName[0]}`}/>
                 </div>
             ))}
@@ -65,10 +62,8 @@ const Managers: React.FC = () => {
             setManagerModalOpen={setManagerModalOpen}
             setAddManager={(values) => {
               if (managers !== null) {
-                const m: any = managers.slice(0)
                 values.id = managers.length + 1
-                m.push(values)
-                setAddManager(m)
+                addNewManager(values)
               }
             }}
         />
