@@ -40,11 +40,47 @@ export const ResultArea: IResultArea[] = Array.from({ length: 10 }, (v, i) => ({
   activity: [
     {
       id: uuidv4(),
-      code: `AW5.${i}`,
-      milestone:
-        'skill mapping study completed and study report, summarizing findings.',
-      measure: 'Attachment',
-      target: '65'
+      name: '1.1 Example: Mapping the labor market mismatch and the skill gaps',
+      milestones: [
+        {
+          id: uuidv4(),
+          code: `AW4.${i}`,
+          milestone:
+              'skill mapping study completed and study report, summarizing findings.',
+          measure: 'Attachment',
+          target: '65'
+        },
+        {
+          id: uuidv4(),
+          code: `AW5.${i}`,
+          milestone:
+              'skill mapping study completed and study report, summarizing findings.',
+          measure: 'Attachment',
+          target: '65'
+        }
+      ]
+    },
+    {
+      id: uuidv4(),
+      name: '1.2 Example: Mapping the labor market mismatch and the skill gaps',
+      milestones: [
+        {
+          id: uuidv4(),
+          code: `AW6.${i}`,
+          milestone:
+              'skill mapping study completed and study report, summarizing findings.',
+          measure: 'Attachment',
+          target: '65'
+        },
+        {
+          id: uuidv4(),
+          code: `AW7.${i}`,
+          milestone:
+              'skill mapping study completed and study report, summarizing findings.',
+          measure: 'Attachment',
+          target: '65'
+        }
+      ]
     }
   ]
 }))

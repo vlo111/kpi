@@ -60,6 +60,12 @@ export interface ExpectedResultType {
 
 export interface Activity {
   id: string
+  name: string
+  milestones: Milestones[]
+}
+
+export interface Milestones {
+  id: string
   code: string
   milestone: string
   measure: string

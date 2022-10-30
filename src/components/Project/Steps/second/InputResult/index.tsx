@@ -1,6 +1,5 @@
 import React from 'react'
 import { IResultArea } from '../../../../../types/project'
-import ExpectedResult from '../ExpectedResult'
 import { AnsCollapse } from '../../../../AnsCollapse'
 import { Panel } from '../../../../Forms/AnsCollapse'
 import { Row } from 'antd'
@@ -20,14 +19,15 @@ const InputResult: React.FC<{ resultArea: IResultArea[] }> = ({
       name: [o.expectedResult[0].id],
       value: o.expectedResult[0].code
     })),
-    ...resultArea.map((o) =>
-      o.expectedResult.map((l) => [
-        { name: [`c${l.id}`], value: l.code },
-        { name: [`r${l.id}`], value: l.result },
-        { name: [`m${l.id}`], value: l.measure },
-        { name: [`t${l.id}`], value: l.target }
-      ])
-    )
+    ...resultArea
+      .map((o) =>
+        o.expectedResult.map((l) => [
+          { name: [`c${l.id}`], value: l.code },
+          { name: [`r${l.id}`], value: l.result },
+          { name: [`m${l.id}`], value: l.measure },
+          { name: [`t${l.id}`], value: l.target }
+        ])
+      )
       .flat()
       .flat()
   ]
@@ -56,10 +56,34 @@ const InputResult: React.FC<{ resultArea: IResultArea[] }> = ({
             <span className="ans-title">Input Result Area {i + 1} *</span>
             <AnsCollapse key={r.id} id={r.id}>
               <Panel key={r.id} header={r.name}>
-                <ExpectedResult id={r.id} results={r.expectedResult} />
+                {r.expectedResult.map((e) => (
+                  <div key={e.id}>{e.code}</div>
+                ))}
               </Panel>
             </AnsCollapse>
+            <span className="ans-title">
+              Please input at least one activity for the Result area {i + 1} *
+            </span>
+            <span>Input Activity* </span>
+            {r.activity.map((e) => (
+              <AnsCollapse key={e.id} id={e.id}>
+                <Panel key={e.id} header={e.name}>
+                  {e.milestones.map((m) => (
+                    <div key={m.id}>{m.code}</div>
+                  ))}
+                </Panel>
+              </AnsCollapse>
+            ))}
           </div>
+          // <div key={r.id}>
+          //     <span className="ans-title">Input Result Area {i + 1} *</span>
+          //     <AnsCollapse key={r.id} id={r.id}>
+          //         <ResultAreaContainer key={r.id} header={r.name}>
+          //             <ExpectedResult id={r.id} results={r.expectedResult}/>
+          //         </ResultAreaContainer>
+          //     </AnsCollapse>
+          //     <InputActivity/>
+          // </div>
         ))}
         <Row>
           <AsnButton
