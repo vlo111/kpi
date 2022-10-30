@@ -8,11 +8,22 @@ import styled from 'styled-components'
 const { Step } = Steps
 
 export const ProjectContainer = styled.div`
-  width: clamp(19rem, 45vw, 50rem);
   margin: 0 auto;
   display: flex;
+  align-items: center;
   flex-direction: column;
   gap: 2rem;
+
+  .project-header {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: clamp(19rem, 45vw, 50rem);
+  }
+  
+  .step_0 {
+    width: clamp(19rem, 45vw, 50rem);
+  }
 
   .project-title {
     display: flex;
@@ -23,19 +34,21 @@ export const ProjectContainer = styled.div`
 `
 
 export const ProjectSteps: React.FC = () => {
-  const { current } = useProject()
+  const { current }: { current: number } = useProject()
 
   return (
     <ProjectContainer>
-      <span className="project-title">
-        To create a new project, please fill in the following information
-      </span>
-      <AnsStepsHeader current={current}>
-        {StepList.map((item) => (
-          <Step key={item.title} title={item.title} />
-        ))}
-      </AnsStepsHeader>
-      <div className="steps-content">{StepList[current].content}</div>
+      <div className="project-header">
+        <span className="project-title">
+          To create a new project, please fill in the following information
+        </span>
+        <AnsStepsHeader current={current}>
+          {StepList.map((item) => (
+            <Step key={item.title} title={item.title} />
+          ))}
+        </AnsStepsHeader>
+      </div>
+      <div className={`step_${current}`}>{StepList[current].content}</div>
     </ProjectContainer>
   )
 }

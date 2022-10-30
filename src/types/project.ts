@@ -50,12 +50,12 @@ export interface IStepAction { current: number, onSubmit: (current: number) => v
 
 export interface IStep { current: number }
 
-export interface ExpectedResult {
+export interface ExpectedResultType {
   id: string
   code: string
   result: string
   measure: string
-  target: number
+  target: string
 }
 
 export interface Activity {
@@ -63,12 +63,12 @@ export interface Activity {
   code: string
   milestone: string
   measure: string
-  target: number
+  target: string
 }
 
 export interface IResultArea {
   id: string
   name: string
-  expectedResult: ExpectedResult[]
+  expectedResult: ExpectedResultType[]
   activity: Activity[]
 }

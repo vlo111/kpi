@@ -8,12 +8,10 @@ import {
 } from '../../../../helpers/constants'
 import AsnInput, { TextArea } from '../../../Forms/Input'
 import { Pickers } from './Pickers'
-import { Rules } from '../../../../types/project'
 import { AsnButton } from '../../../Forms/Button'
 import { GeneralInput } from './GeneralInfo'
 import Managers from './Managers'
-
-const rules: Rules = (min, max) => ({ rules: [{ required: true, min, max }] })
+import { rules } from '../../../../utils/ProjectUtils'
 
 export const FirstStep: React.FC = () => {
   const { nextCurrent } = useProject()
