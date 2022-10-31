@@ -16,7 +16,7 @@ export const SectorList: Array<{ name: string, id: string }> = Array.from(
   (v, i) => ({ id: `s${i}`, name: `Sector ${i}` })
 )
 
-export const ResultArea: IResultArea[] = Array.from({ length: 10 }, (v, i) => ({
+export const ResultArea: IResultArea[] = Array.from({ length: 2 }, (v, i) => ({
   id: uuidv4(),
   name: `${i}. Skill gap reduced`,
   expectedResult: [
