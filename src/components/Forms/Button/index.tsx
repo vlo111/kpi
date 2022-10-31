@@ -1,9 +1,8 @@
 import styled from 'styled-components'
 import { Button } from 'antd'
 
-const AsnButton = styled(Button)`
+export const AsnButton = styled(Button)`
   border-radius: 10px;
- 
 
   &.ant-btn-primary {
     color: var(--white);
@@ -44,5 +43,3 @@ const AsnButton = styled(Button)`
     }
   }
 `
-
-export default AsnButton

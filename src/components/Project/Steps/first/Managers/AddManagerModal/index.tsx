@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import AnsModal from '../../../../Forms/Modal'
-import AnsButton from '../../../../Forms/Button'
-import { AddManagers, HandleSubmit } from '../../../../../types/project'
-import { Form } from '../../../../Forms/Form'
-import AnsInput from '../../../../Forms/Input'
-import { VALIDATE_MESSAGES } from '../../../../../helpers/constants'
+import AnsModal from '../../../../../Forms/Modal'
+import { AsnButton } from '../../../../../Forms/Button'
+import { AddManagers, HandleSubmit } from '../../../../../../types/project'
+import { Form } from '../../../../../Forms/Form'
+import AnsInput from '../../../../../Forms/Input'
+import { ManagerFields, VALIDATE_MESSAGES } from '../../../../../../helpers/constants'
 
 const AddManagerModal: React.FC<AddManagers> = ({ manager, setManagerModalOpen, setAddManager }) => {
   const [form] = Form.useForm()
@@ -19,28 +19,7 @@ const AddManagerModal: React.FC<AddManagers> = ({ manager, setManagerModalOpen, 
     setManagerModalOpen(null)
   }
 
-  const fields = [
-    {
-      name: ['firstName'],
-      value: manager?.firstName
-    },
-    {
-      name: ['lastName'],
-      value: manager?.lastName
-    },
-    {
-      name: ['email'],
-      value: manager?.email
-    },
-    {
-      name: ['position'],
-      value: manager?.position
-    },
-    {
-      name: ['assigned'],
-      value: 'Project'
-    }
-  ]
+  const fields = ManagerFields(manager)
 
   useEffect(() => {
     form.resetFields()
@@ -54,12 +33,12 @@ const AddManagerModal: React.FC<AddManagers> = ({ manager, setManagerModalOpen, 
             onCancel={handleCancel}
             footer={[
                 <div key={'action'} className="footer-action">
-                    <AnsButton key="back" onClick={handleCancel}>
+                    <AsnButton key="back" onClick={handleCancel}>
                         Cancel
-                    </AnsButton>,
-                    <AnsButton form="managerForm" key="submit" type="primary" htmlType="submit">
+                    </AsnButton>,
+                    <AsnButton form="managerForm" key="submit" type="primary" htmlType="submit">
                         Add
-                    </AnsButton>
+                    </AsnButton>
                 </div>
             ]}
         >

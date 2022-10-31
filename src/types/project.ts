@@ -13,6 +13,10 @@ export type LayoutElement = Element & { style: React.CSSProperties } | null
 
 export interface StepProps { setStep: (b: boolean) => void }
 
+export type FormItemName = (name: string) => { name: string, label: string }
+
+export type Rules = (min: number, max: number) => { rules: [{ required: boolean, min: number, max: number }] }
+
 export interface AddManagers {
   setManagerModalOpen: (b: IManager | null) => void
   setAddManager: (b: any) => void
@@ -28,7 +32,9 @@ export interface IManager {
   assigned: string
 }
 
-export type PanelType = React.FC<{ header: string, list: IPanelData[], deleteData: HandlePanelDelete, addData: HandlePanelAdd }>
+export type ManagerFieldType = (manager: (IManager | null)) => Array<{ name: string[], value: string | undefined }>
+
+export interface IPanel { header: string, list: IPanelData[], deleteData: HandlePanelDelete, addData: HandlePanelAdd }
 
 export interface IPanelData { id: string, name: string }
 
@@ -43,3 +49,32 @@ export interface IPanelPropData { defaultActiveKey: string[], expandIcon: (panel
 export interface IStepAction { current: number, onSubmit: (current: number) => void, stepLength: number }
 
 export interface IStep { current: number }
+
+export interface ExpectedResultType {
+  id: string
+  code: string
+  result: string
+  measure: string
+  target: string
+}
+
+export interface Activity {
+  id: string
+  name: string
+  milestones: Milestones[]
+}
+
+export interface Milestones {
+  id: string
+  code: string
+  milestone: string
+  measure: string
+  target: string
+}
+
+export interface IResultArea {
+  id: string
+  name: string
+  expectedResult: ExpectedResultType[]
+  activity: Activity[]
+}

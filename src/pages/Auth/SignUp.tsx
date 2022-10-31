@@ -3,8 +3,8 @@ import AuthLayout from '../../components/Layout/AuthLayout'
 import { Form } from '../../components/Forms/Form'
 import { VALIDATE_MESSAGES } from '../../helpers/constants'
 import { Row, Col, message } from 'antd'
-import AnsInput, { Password } from '../../components/Forms/Input'
-import AnsButton from '../../components/Forms/Button'
+import AsnInput, { Password } from '../../components/Forms/Input'
+import { AsnButton } from '../../components/Forms/Button'
 import { useNavigate } from 'react-router-dom'
 import { TitleAuth } from '../../components/Layout/TitleAuth'
 
@@ -44,16 +44,16 @@ const SignUp: React.FC = () => {
             >
               <TitleAuth>Sign Up</TitleAuth>
               <Form.Item name="First Name" label="First Name" rules={[{ required: true }, { min: 3 }, { max: 128 }]}>
-                <AnsInput placeholder="First Name" />
+                <AsnInput placeholder="First Name" />
               </Form.Item>
               <Form.Item name="Last Name" label="Last Name" rules={[{ required: true }, { min: 3 }, { max: 128 }]}>
-                <AnsInput placeholder="Last Name" />
+                <AsnInput placeholder="Last Name" />
               </Form.Item>
               <Form.Item name="email" label="Email Address" rules={[{ required: true }, { type: 'email' }, { max: 128 }]}>
-                <AnsInput placeholder="Email Address" />
+                <AsnInput placeholder="Email Address" />
               </Form.Item>
               <Form.Item name="Organisation Name" label="Organisation" rules={[{ required: true }, { min: 2 }, { max: 128 }]}>
-                <AnsInput placeholder="Organisation" />
+                <AsnInput placeholder="Organisation" />
               </Form.Item>
               <Form.Item name="password" label="Password" rules={[{ required: true }, { min: 8 }, { max: 64 }]}>
                 <Password placeholder="Password" />
@@ -63,9 +63,9 @@ const SignUp: React.FC = () => {
               </Form.Item>
               <Form.Item>
                 <Form.Item>
-                    <AnsButton className='primary' type="primary" htmlType="submit">
+                    <AsnButton className='primary' type="primary" htmlType="submit">
                      Create Account
-                    </AnsButton>
+                    </AsnButton>
                 </Form.Item>
               </Form.Item>
             </Form>

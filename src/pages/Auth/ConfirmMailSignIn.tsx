@@ -4,8 +4,8 @@ import { Row, Col } from 'antd'
 import { Form } from '../../components/Forms/Form'
 import { VALIDATE_MESSAGES } from '../../helpers/constants'
 import ErrorBackend from '../../components/Errors/ErrorBackend'
-import AnsInput from '../../components/Forms/Input'
-import AnsButton from '../../components/Forms/Button'
+import AsnInput from '../../components/Forms/Input'
+import { AsnButton } from '../../components/Forms/Button'
 import { useNavigate } from 'react-router-dom'
 import { TitleAuth } from '../../components/Layout/TitleAuth'
 
@@ -41,12 +41,12 @@ const ConfirmEmail: React.FC = () => {
                 your email.
               </div>
               <Form.Item name="email address" label="Email Address" rules={[{ required: true }, { type: 'email' }, { max: 128 }]}>
-                <AnsInput placeholder="Email Address" />
+                <AsnInput placeholder="Email Address" />
               </Form.Item>
               <Form.Item>
-                <AnsButton className='primary' type="primary" htmlType="submit">
+                <AsnButton className='primary' type="primary" htmlType="submit">
                   Send Confirmation Email
-                </AnsButton>
+                </AsnButton>
               </Form.Item>
               <div style={{ fontSize: 'var(--base-font-size)', color: '#2A5578', cursor: 'pointer', textAlign: 'center' }} onClick={() => navigate('/sign-in')}>Back To Sign In </div>
             </Form>

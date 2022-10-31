@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { queryClient } from './Root'
 import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClient } from './utils/Providers'
 
 const AllTheProviders: any = ({ children }: any) => {
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
