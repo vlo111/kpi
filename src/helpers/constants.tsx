@@ -1,7 +1,7 @@
 import React from 'react'
-import { FirstStep } from '../components/Project/Steps/first'
-import { Second } from '../components/Project/Steps/second'
-import { Last } from '../components/Project/Steps/last'
+import { FirstStep } from '../components/Project/Steps/First'
+import { Second } from '../components/Project/Steps/Second'
+import { Last } from '../components/Project/Steps/Last'
 import { FormItemName, IManager, ManagerFieldType } from '../types/project'
 
 export const PATHS = {
@@ -73,6 +73,12 @@ export const VALIDATE_MESSAGES_PROJECT_INPUT = {
 
 export const PlaceHolderDescription =
   'Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills'
+
+export const PlaceHolderExpectedResult =
+    'individuals with improved technical and soft skills following participation in USG-assisted workforce development programs'
+
+export const PlaceHolderActivityMilestone =
+    'skill mapping study completed and study report, summarizing findings and recommendations developed.'
 
 export const StepList = [
   {

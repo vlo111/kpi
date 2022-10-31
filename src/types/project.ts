@@ -17,6 +17,8 @@ export type FormItemName = (name: string) => { name: string, label: string }
 
 export type Rules = (min: number, max: number) => { rules: [{ required: boolean, min: number, max: number }] }
 
+export type InitialFields = (resultArea: IResultArea[]) => Array<{ name: string[], value: string }>
+
 export interface AddManagers {
   setManagerModalOpen: (b: IManager | null) => void
   setAddManager: (b: any) => void
