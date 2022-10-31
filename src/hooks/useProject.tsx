@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
-import { IManager, IResultArea } from '../types/project'
-import { DefaultExpectedResult, ManagerList, ResultArea } from '../helpers/fakeData'
+import { Activity, IManager, IResultArea } from '../types/project'
+import { DefaultExpectedResult, DefaultMilestone, ManagerList, ResultArea } from '../helpers/fakeData'
 import { v4 as uuidv4 } from 'uuid'
+import _ from 'lodash'
 
 // @ts-expect-error
 const ProjectContext: any = createContext()
@@ -41,6 +42,26 @@ export const ProjectProvider: any = ({ children }: any) => {
     }
   }
 
+  const addNewMilestone: (resultId: string, activityId: string) => void = (resultId, activityId) => {
+    const newResultArea: IResultArea[] = resultArea.slice(0)
+
+    const newResults: IResultArea | undefined = newResultArea.find(i => i.id === resultId)
+
+    if (!_.isEmpty(newResults)) {
+      const activity: Activity | undefined = newResults.activity.find((a) => a.id === activityId)
+
+      if (activity) {
+        const milestone = Object.assign({}, DefaultMilestone)
+
+        milestone.id = uuidv4()
+
+        activity.milestones.push(milestone)
+
+        setResultArea(newResultArea)
+      }
+    }
+  }
+
   const value = useMemo(
     () => ({
       current,
@@ -49,7 +70,8 @@ export const ProjectProvider: any = ({ children }: any) => {
       prevCurrent,
       nextCurrent,
       addNewManager,
-      addNewResult
+      addNewResult,
+      addNewMilestone
     }),
     [current, managers, resultArea]
   )

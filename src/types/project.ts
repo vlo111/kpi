@@ -75,6 +75,7 @@ export interface Milestones {
 }
 
 export interface IResultArea {
+  newResults: Activity
   id: string
   name: string
   expectedResult: ExpectedResultType[]

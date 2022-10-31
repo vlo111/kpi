@@ -1,4 +1,4 @@
-import { ExpectedResultType, IResultArea } from '../types/project'
+import { ExpectedResultType, IResultArea, Milestones } from '../types/project'
 import { v4 as uuidv4 } from 'uuid'
 
 export const OrganizationList: Array<{ name: string, id: string }> = Array.from(
@@ -89,6 +89,14 @@ export const DefaultExpectedResult: ExpectedResultType = {
   id: '',
   code: '',
   result: '',
+  measure: '',
+  target: ''
+}
+
+export const DefaultMilestone: Milestones = {
+  id: '',
+  code: '',
+  milestone: '',
   measure: '',
   target: ''
 }
