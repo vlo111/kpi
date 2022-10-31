@@ -5,8 +5,9 @@ import { AnsCollapseStyle } from '../Forms/AnsCollapse'
 
 export const AnsCollapse: React.FC<{
   id: string
+  activeKey?: string
   children: React.ReactNode
-}> = ({ id, children }) => {
+}> = ({ id, activeKey, children }) => {
   const getPropsData: any = {
     defaultActiveKey: [id],
     expandIconPosition: 'end',

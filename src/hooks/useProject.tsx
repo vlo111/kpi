@@ -1,7 +1,13 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 import { Activity, IManager, IResultArea } from '../types/project'
-import { DefaultExpectedResult, DefaultMilestone, ManagerList, ResultArea } from '../helpers/fakeData'
-import { v4 as uuidv4 } from 'uuid'
+import {
+  DefaultActivity,
+  DefaultExpectedResult,
+  DefaultMilestone,
+  DefaultResultArea,
+  ManagerList,
+  ResultArea
+} from '../helpers/fakeData'
 import _ from 'lodash'
 
 // @ts-expect-error
@@ -32,11 +38,23 @@ export const ProjectProvider: any = ({ children }: any) => {
     const newResults: IResultArea | undefined = newResultArea.find(i => i.id === id)
 
     if (newResults) {
-      const expectedResult = Object.assign({}, DefaultExpectedResult)
-
-      expectedResult.id = uuidv4()
+      const expectedResult = Object.assign({}, DefaultExpectedResult())
 
       newResults.expectedResult.push(expectedResult)
+
+      setResultArea(newResultArea)
+    }
+  }
+
+  const addNewActivity: (id: string) => void = (id) => {
+    const newResultArea: IResultArea[] = resultArea.slice(0)
+
+    const newResults: IResultArea | undefined = newResultArea.find(i => i.id === id)
+
+    if (newResults) {
+      const activity = Object.assign({}, DefaultActivity())
+
+      newResults.activity.push(activity)
 
       setResultArea(newResultArea)
     }
@@ -48,18 +66,26 @@ export const ProjectProvider: any = ({ children }: any) => {
     const newResults: IResultArea | undefined = newResultArea.find(i => i.id === resultId)
 
     if (!_.isEmpty(newResults)) {
-      const activity: Activity | undefined = newResults.activity.find((a) => a.id === activityId)
+      const activity: Activity | undefined = Object.assign({}, newResults.activity.find((a) => a.id === activityId))
 
       if (activity) {
-        const milestone = Object.assign({}, DefaultMilestone)
-
-        milestone.id = uuidv4()
+        const milestone = Object.assign({}, DefaultMilestone())
 
         activity.milestones.push(milestone)
 
         setResultArea(newResultArea)
       }
     }
+  }
+
+  const addNewResultArea: () => void = () => {
+    const newResultArea: IResultArea[] = resultArea.slice(0)
+
+    const newResult = Object.assign({}, DefaultResultArea())
+
+    newResultArea.push(newResult)
+
+    setResultArea(newResultArea)
   }
 
   const value = useMemo(
@@ -71,7 +97,9 @@ export const ProjectProvider: any = ({ children }: any) => {
       nextCurrent,
       addNewManager,
       addNewResult,
-      addNewMilestone
+      addNewMilestone,
+      addNewActivity,
+      addNewResultArea
     }),
     [current, managers, resultArea]
   )

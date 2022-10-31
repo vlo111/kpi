@@ -12,7 +12,7 @@ const InputActivity: React.FC<{
   index: number
   activities: Activity[]
 }> = ({ id, index, activities }) => {
-  const { addNewMilestone } = useProject()
+  const { addNewMilestone, addNewActivity } = useProject()
 
   return (
     <>
@@ -44,7 +44,7 @@ const InputActivity: React.FC<{
                 <AsnButton
                     style={{ background: 'white', width: '100%', height: '44px' }}
                     value="Create"
-                    // onClick={() => addNewResult(id)}
+                    onClick={() => addNewActivity(id)}
                 >
                   +Add Activity
                 </AsnButton>

@@ -34,10 +34,6 @@ export const ProjectInputForm = styled(Form)`
     align-items: end;
   }
 
-  .ant-btn-default {
-    width: 100%;
-  }
-
   .form-item-collapse {
     display: flex;
     align-items: center;
@@ -49,5 +45,13 @@ export const ProjectInputForm = styled(Form)`
       margin-bottom: 0;
       width: 100%;
     }
+  }
+  
+  .footer {
+    display: flex;
+    gap: 6rem;
+    justify-content: end;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
   }
 `

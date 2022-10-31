@@ -9,8 +9,13 @@ const areaPanelBox: (color: string) => any = (color: string) => ({
 })
 
 export const InputResultArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
   .result-area {
     background-color: #f0f4fa;
+    border-radius: 20px;
 
     .main,
     .panel .ant-collapse-content {

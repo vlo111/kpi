@@ -9,7 +9,7 @@ import { ProjectInputForm } from '../../../Forms/ProjectInputForm'
 import { initFields } from '../../../../utils/ProjectUtils'
 
 export const Second: React.FC = () => {
-  const { nextCurrent, resultArea } = useProject()
+  const { nextCurrent, prevCurrent, resultArea, addNewResultArea } = useProject()
   const [form] = Form.useForm()
 
   const fields = initFields(resultArea)
@@ -35,13 +35,22 @@ export const Second: React.FC = () => {
             <InputResult resultArea={resultArea}/>
             <Row>
                 <AsnButton
-                    style={{ background: 'white', width: '100%', height: '44px' }}
-                    htmlType="submit"
+                    style={{ background: 'white', width: '100%', height: '3rem' }}
                     value="Create"
+                    onClick={() => addNewResultArea()}
                 >
                     +Add Result Area
                 </AsnButton>
             </Row>
+            <div className="footer">
+                <AsnButton onClick={() => {
+                  prevCurrent()
+                }}>Previous</AsnButton>
+                <AsnButton>Save as Draft</AsnButton>
+                <AsnButton type="primary" htmlType="submit">
+                    Next
+                </AsnButton>
+            </div>
         </ProjectInputForm>
   )
 }
