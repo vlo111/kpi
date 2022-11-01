@@ -40,8 +40,20 @@ export const InputResultArea = styled.div`
         }
       }
 
-      > div:nth-child(3) input {
+      > div:nth-child(3) > .ant-form-item {
         width: 148px;
+        
+        .ant-select-selector {
+          height: 100%;
+          border: 1px solid var(--dark-border-ultramarine);
+        }
+
+      .ant-select-selection-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+      }
       }
 
       > div:nth-child(4) input {
