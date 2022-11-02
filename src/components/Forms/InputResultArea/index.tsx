@@ -9,8 +9,13 @@ const areaPanelBox: (color: string) => any = (color: string) => ({
 })
 
 export const InputResultArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
   .result-area {
     background-color: #f0f4fa;
+    border-radius: 20px;
 
     .main,
     .panel .ant-collapse-content {
@@ -67,7 +72,6 @@ export const InputResultArea = styled.div`
 
       .panel {
         ${areaPanelBox('var(--secondary-light-amber)')}
-
         .activity-heder {
           display: flex;
           flex-direction: column;
@@ -76,38 +80,40 @@ export const InputResultArea = styled.div`
           .ans-title {
             font-size: 1rem;
           }
-
-          .activity-panel {
-            ${areaPanelBox('var(--secondary-green)')}
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            
-            .activity-list {
-              display: flex;
-              flex-direction: column;
-              gap: 1rem;
-            }
-          }
         }
       }
     }
   }
-  
+
   .activity-panel {
     border-top: 3px solid var(--light-border-gray);
     box-shadow: var(--input-result-are-box-shadow);
     border-radius: 20px;
-    
+    ${areaPanelBox('var(--secondary-green)')}
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
     .ant-collapse-content {
-      padding: 0 !important;
-      
+      padding: 0 21px 2rem 11px !important;
+
       &-box {
         gap: 0 !important;
         padding: 2rem !important;
         padding-bottom: 1rem !important;
         ${areaPanelBox('var(--dark-border-ultramarine)')}
       }
+    }
+
+    .ant-collapse-item {
+      box-shadow: var(--input-result-are-box-shadow);
+      border-radius: 20px;
     }
   }
 `

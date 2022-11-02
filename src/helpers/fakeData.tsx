@@ -1,4 +1,4 @@
-import { ExpectedResultType, IResultArea } from '../types/project'
+import { Activity, ExpectedResultType, IResultArea, Milestones } from '../types/project'
 import { v4 as uuidv4 } from 'uuid'
 
 export const OrganizationList: Array<{ name: string, id: string }> = Array.from(
@@ -16,7 +16,7 @@ export const SectorList: Array<{ name: string, id: string }> = Array.from(
   (v, i) => ({ id: `s${i}`, name: `Sector ${i}` })
 )
 
-export const ResultArea: IResultArea[] = Array.from({ length: 2 }, (v, i) => ({
+export const ResultArea: IResultArea[] = Array.from({ length: 7 }, (v, i) => ({
   id: uuidv4(),
   name: `${i}. Skill gap reduced`,
   expectedResult: [
@@ -85,13 +85,34 @@ export const ResultArea: IResultArea[] = Array.from({ length: 2 }, (v, i) => ({
   ]
 }))
 
-export const DefaultExpectedResult: ExpectedResultType = {
-  id: '',
+export const DefaultExpectedResult: () => ExpectedResultType = () => ({
+  id: uuidv4(),
   code: '',
   result: '',
   measure: '',
   target: ''
-}
+})
+
+export const DefaultMilestone: () => Milestones = () => ({
+  id: uuidv4(),
+  code: '',
+  milestone: '',
+  measure: '',
+  target: ''
+})
+
+export const DefaultActivity: () => Activity = () => ({
+  id: uuidv4(),
+  name: 'Set Input in there',
+  milestones: [DefaultMilestone()]
+})
+
+export const DefaultResultArea: () => IResultArea = () => ({
+  id: uuidv4(),
+  name: 'Set Input in there',
+  expectedResult: [DefaultExpectedResult()],
+  activity: [DefaultActivity()]
+})
 
 export const ManagerList = [{
   id: '1',
