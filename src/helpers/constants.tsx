@@ -15,7 +15,8 @@ export const PATHS = {
   TEST: 'test',
   ConfirmEmail: 'confirm-email',
   SIGNUP: 'sign-up',
-  ConfirmEmailSignUp: 'confirm-email/:email'
+  ConfirmEmailSignUp: 'confirm-email/:email',
+  Overview: 'overview'
 }
 
 export const HEADERS = {

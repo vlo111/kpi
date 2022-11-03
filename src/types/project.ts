@@ -80,3 +80,17 @@ export interface IResultArea {
   expectedResult: ExpectedResultType[]
   activity: Activity[]
 }
+
+export interface TabNames {
+  tabNumber: number
+  name: string
+  zIndex: number
+  active?: boolean
+  handleActiveTab: React.Dispatch<React.SetStateAction<{}>>
+  tabNames: object[]
+}
+export interface ActivityName {
+  name: string
+  active: number | undefined
+  names: string[]
+}

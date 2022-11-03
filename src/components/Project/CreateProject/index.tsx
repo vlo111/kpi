@@ -3,7 +3,6 @@ import { ReactComponent as CreateProjectSvg } from '../../../assets/icons/create
 import styled from 'styled-components'
 import { StepProps } from '../../../types/project'
 
-
 const Container = styled.div`
   display: flex;
   justify-content: center;
