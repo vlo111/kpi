@@ -66,7 +66,7 @@ export const ProjectProvider: any = ({ children }: any) => {
     const newResults: IResultArea | undefined = newResultArea.find(i => i.id === resultId)
 
     if (!_.isEmpty(newResults)) {
-      const activity: Activity | undefined = Object.assign({}, newResults.activity.find((a) => a.id === activityId))
+      const activity: Activity | undefined = Object.assign({}, newResults?.activity.find((a) => a.id === activityId))
 
       if (activity) {
         const milestone = Object.assign({}, DefaultMilestone())

@@ -12,7 +12,7 @@ export const InputResultArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  
+
   .result-area {
     background-color: #f0f4fa;
     border-radius: 20px;
@@ -42,18 +42,39 @@ export const InputResultArea = styled.div`
 
       > div:nth-child(3) > .ant-form-item {
         width: 148px;
+
+        .ant-select {
+          &-selector {
+            height: 100%;
+            border: 1px solid var(--dark-border-ultramarine);
+            box-shadow: var(--input-box-shadow);
+            border-radius: 5px;
+          }
+          &-selection-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+          }
+        }
         
-        .ant-select-selector {
-          height: 100%;
-          border: 1px solid var(--dark-border-ultramarine);
+        .ant-select-dropdown {
+          
         }
 
-      .ant-select-selection-item {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 16px;
-      }
+        //.ant-select-selector {
+        //  height: 100%;
+        //  border: 1px solid var(--dark-border-ultramarine);
+        //  box-shadow: var(--input-box-shadow);
+        //  border-radius: 5px;
+        //
+        //  .ant-select-selection-item {
+        //    display: flex;
+        //    justify-content: center;
+        //    align-items: center;
+        //    font-size: 16px;
+        //  }
+        //}
       }
 
       > div:nth-child(4) input {

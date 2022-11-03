@@ -8,6 +8,10 @@ const defaultStyle = css`
     &:focus {
       box-shadow: var(--error-box-shadow) !important;
     }
+
+    &:hover {
+      border-color: var(--error) !important;
+    }
   }
 
   .ant-form-item-explain-error {
