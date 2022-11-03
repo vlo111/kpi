@@ -1,13 +1,13 @@
 import React from 'react'
 import { Row } from 'antd'
-import AnsButton from '../../components/Forms/Button'
+import { AsnButton } from '../../components/Forms/Button'
 
 const Dashboard: React.FC = () => {
   return (
 
     <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
 
-      <AnsButton style={{ color: 'red', width: '250px' }} ></AnsButton>
+      <AsnButton style={{ color: 'red', width: '250px' }} ></AsnButton>
     </Row>
   )
 }

@@ -1,70 +1,54 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Steps } from 'antd'
-import Action from './Action'
-import { VALIDATE_MESSAGES, StepList } from '../../../helpers/constants'
-import { Form } from '../../Forms/Form'
-import { LayoutElement } from '../../../types/project'
-import { AnsSteps } from '../../Forms/Steps'
-import Step from './Step'
-import { OrganizationList, RegionList, SectorList } from '../../../helpers/fakeData'
+import { StepList } from '../../../helpers/constants'
+import { useProject } from '../../../hooks/useProject'
+import { AnsStepsHeader } from '../../Forms/Steps/Header'
+import styled from 'styled-components'
 
-const StepContainer: React.FC = () => {
-  const [current, setCurrent] = useState(2)
-  const [saveCurrent, setSaveCurrent] = useState(2)
+const { Step } = Steps
 
-  const [form] = Form.useForm()
+export const ProjectContainer = styled.div`
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
 
-  const onFinish: any = (values: any) => {
-    console.log(values, 'finish')
-    setSaveCurrent(current)
+  .project-header {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: clamp(19rem, 45vw, 50rem);
   }
-  const onFinishFailed: any = (values: any) => {
-    console.log(values, 'failed')
+  
+  .step_0 {
+    width: clamp(19rem, 45vw, 50rem);
   }
 
-  useEffect(() => {
-    const layout: LayoutElement = document.querySelector('.ant-layout')
+  .project-title {
+    display: flex;
+    justify-content: center;
+    font-size: var(--headline-font-size);
+    color: var(--dark-2);
+  }
+`
 
-    if (layout) {
-      layout.style.height = '100%'
-    }
-  }, [])
-
-  const fields = saveCurrent === 2
-    ? [
-        ...OrganizationList(10).map((o) => ({ name: [o.id], value: o.name })),
-        ...RegionList(10).map((o) => ({ name: [o.id], value: o.name })),
-        ...SectorList(10).map((o) => ({ name: [o.id], value: o.name }))
-      ]
-    : []
+export const ProjectSteps: React.FC = () => {
+  const { current }: { current: number } = useProject()
 
   return (
-        <AnsSteps current={saveCurrent}>
-      <span className="title">
-        To create a new project, please fill in the following information
-      </span>
-            <Steps current={saveCurrent}>
-                <Step current={saveCurrent}/>
-            </Steps>
-            <div className="steps-content">
-                <Form
-                    form={form}
-                    layout="vertical"
-                    validateMessages={VALIDATE_MESSAGES}
-                    fields={fields}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                >
-                    {StepList[saveCurrent].content}
-                    <Action
-                        current={saveCurrent}
-                        stepLength={StepList.length}
-                        onSubmit={setCurrent}
-                    />
-                </Form>
-            </div>
-        </AnsSteps>
+    <ProjectContainer>
+      <div className="project-header">
+        <span className="project-title">
+          To create a new project, please fill in the following information
+        </span>
+        <AnsStepsHeader current={current}>
+          {StepList.map((item) => (
+            <Step key={item.title} title={item.title} />
+          ))}
+        </AnsStepsHeader>
+      </div>
+      <div className={`step_${current}`}>{StepList[current].content}</div>
+    </ProjectContainer>
   )
 }
-
-export default StepContainer

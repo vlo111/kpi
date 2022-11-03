@@ -2,8 +2,8 @@ import React from 'react'
 import { Row, Col } from 'antd'
 import { VALIDATE_MESSAGES } from '../../helpers/constants'
 import AuthLayout from '../../components/Layout/AuthLayout'
-import AnsInput, { Password } from '../../components/Forms/Input'
-import AnsButton from '../../components/Forms/Button'
+import AsnInput, { Password } from '../../components/Forms/Input'
+import { AsnButton } from '../../components/Forms/Button'
 import { Form } from '../../components/Forms/Form'
 import { useNavigate } from 'react-router-dom'
 import { TitleAuth } from '../../components/Layout/TitleAuth'
@@ -14,6 +14,7 @@ const SignIn: React.FC = () => {
 
   const onFinish: any = (values: any) => {
     console.log(values, 'values')
+    navigate('/confirm-email')
   }
   const onFinishFailed: any = (values: any) => {
     console.log(values, 'values')
@@ -37,17 +38,17 @@ const SignIn: React.FC = () => {
             <TitleAuth>
               Sign In
             </TitleAuth>
-            <Form.Item name="email" label="Email Address" rules={[{ required: true }, { type: 'email' }]}>
-              <AnsInput placeholder="Email Address" />
+            <Form.Item name="email" label="Email Address" rules={[{ required: true }, { type: 'email' }, { max: 128 }]}>
+              <AsnInput placeholder="Email Address" />
             </Form.Item>
-            <Form.Item name="password" label="Password" rules={[{ required: true }]}>
+            <Form.Item name="password" label="Password" rules={[{ required: true }, { min: 8 }, { max: 64 }]}>
               <Password placeholder="Password" />
             </Form.Item>
             <div style={{ color: ' #A2A2A2', fontSize: 'var(--base-font-size)', cursor: 'pointer', marginBottom: '24px' }} onClick={() => navigate('/forgot-password')}>Forgot password?</div>
             <Form.Item>
-                <AnsButton type="primary" className='primary' htmlType="submit" >
+                <AsnButton type="primary" className='primary' htmlType="submit" >
                   Sign In
-                </AnsButton>
+                </AsnButton>
             </Form.Item>
           </Form>
         </Col>

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Modal } from 'antd'
 
-const AnsModal = styled(Modal)`
+const AsnModal = styled(Modal)`
   width: clamp(18rem, 42vw, 40rem) !important;
   
   .ant-modal-content {
@@ -30,4 +30,4 @@ const AnsModal = styled(Modal)`
   }
 `
 
-export default AnsModal
+export default AsnModal

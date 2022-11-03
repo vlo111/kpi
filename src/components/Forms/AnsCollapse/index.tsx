@@ -18,11 +18,6 @@ export const AnsCollapseStyle = styled(Collapse)`
     margin-top: -4px;
     width: calc(100% - -1px);
   }
-  
-  .ant-collapse-expand-icon {
-    position: absolute;
-    right: 0;
-  }
 
   .ant-collapse-content {
     border: none;
