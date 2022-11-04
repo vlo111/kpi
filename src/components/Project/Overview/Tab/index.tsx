@@ -78,22 +78,25 @@ const Tab: React.FC<TabNames> = ({ tabNumber, name, zIndex, active, handleActive
   const showNameActive = active && tabNames.length <= 6
   const showNameActiveStyle = { ...activeTab, zIndex }
   const notShowNameStyle = { width: '10vw', zIndex }
+
+  const tabStyle = notShowNameActive
+    ? notShowNameActiveStyle
+    : showNameActive
+      ? showNameActiveStyle
+      : notShowName
+        ? notShowNameStyle
+        : { zIndex }
+  const useTabRef = (el: any): void => {
+    if (active && el) {
+      el.style.setProperty('z-index', `${zIndex}`, 'important')
+    }
+  }
   return (
         <Tooltip title={name} color='#EDF0F4' overlayInnerStyle={{ color: '#2A5578', fontSize: '20px' }}>
             <TabContainer
                 onClick={() => handleActiveTab(tabNumber)}
-                style={ notShowNameActive
-                  ? notShowNameActiveStyle
-                  : showNameActive
-                    ? showNameActiveStyle
-                    : notShowName
-                      ? notShowNameStyle
-                      : { zIndex }}
-                ref={(el) => {
-                  if (active && el) {
-                    el.style.setProperty('z-index', `${zIndex}`, 'important')
-                  }
-                }}
+                style={tabStyle}
+                ref={useTabRef}
             >
                 <div className='tabInfoWrapper' style={active ? { ...activeTabInfo } : {}}>
                     <div className='tabNumber' style={active ? { ...activeTabNum } : {}}>{tabNumber}</div>
