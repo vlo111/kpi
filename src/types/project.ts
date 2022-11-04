@@ -1,5 +1,4 @@
 import { Moment } from 'moment'
-import { type } from 'os'
 import React from 'react'
 
 export type DisabledDate = (current: Moment, item: string) => boolean
