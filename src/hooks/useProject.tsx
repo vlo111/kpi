@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
-import { Activity, IManager, IResultArea } from '../types/project'
+import { Activity, Date, IManager, IResultArea } from '../types/project'
 import {
   DefaultActivity,
   DefaultExpectedResult,
@@ -9,14 +9,18 @@ import {
   ResultArea
 } from '../helpers/fakeData'
 import _ from 'lodash'
+import { IComponentChildren } from '../types/global'
 
 // @ts-expect-error
-const ProjectContext: any = createContext()
+const ProjectContext = createContext()
 
-export const ProjectProvider: any = ({ children }: any) => {
-  const [current, setCurrent] = useState<number>(1)
+export const ProjectProvider: React.FC<IComponentChildren> = ({ children }) => {
+  const [current, setCurrent] = useState<number>(0)
   const [managers, setAddManager] = useState<IManager[]>(ManagerList)
   const [resultArea, setResultArea] = useState<IResultArea[]>(ResultArea)
+
+  const [startDate, setStartDate] = useState<Date>(null)
+  const [endDate, setEndDate] = useState<Date>(null)
 
   const prevCurrent: any = () => {
     setCurrent(current - 1)
@@ -93,6 +97,10 @@ export const ProjectProvider: any = ({ children }: any) => {
       current,
       managers,
       resultArea,
+      startDate,
+      endDate,
+      setStartDate,
+      setEndDate,
       prevCurrent,
       nextCurrent,
       addNewManager,
@@ -101,7 +109,7 @@ export const ProjectProvider: any = ({ children }: any) => {
       addNewActivity,
       addNewResultArea
     }),
-    [current, managers, resultArea]
+    [current, managers, resultArea, startDate, endDate]
   )
 
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>

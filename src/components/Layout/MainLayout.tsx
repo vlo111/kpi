@@ -2,6 +2,7 @@ import React from 'react'
 import { Layout } from 'antd'
 import styled from 'styled-components'
 import { Menu } from '../Menu'
+import { IComponentChildren } from '../../types/global'
 
 const LayoutStyle = styled(Layout)`
   background-color: var(--background);
@@ -28,7 +29,7 @@ const Content = styled(LayoutStyle.Content)`
   overflow: auto;
 `
 
-const MainLayout: React.FC<{ children: React.ReactElement }> = ({ children }) => {
+const MainLayout: React.FC<IComponentChildren> = ({ children }) => {
   return (
     <LayoutStyle>
       <Sider>
