@@ -16,13 +16,17 @@ import { useGeneralInfo } from '../../../../hooks/project/useGeneralInfo'
 
 export const FirstStep: React.FC = () => {
   const { nextCurrent } = useProject()
-  const { title, description, setTitle, startDate, endDate, setDescription } =
-    useGeneralInfo()
+  const { title, description, startDate, endDate, setTitle, setDescription, setStartDate, setEndDate } = useGeneralInfo()
+
   const [form] = Form.useForm()
 
   const onFinish: any = (values: any) => {
     setTitle(values.Title)
     setDescription(values.Description)
+
+    setStartDate(values['Start Date'])
+    setEndDate(values['End Date'])
+
     nextCurrent()
   }
 
@@ -30,7 +34,7 @@ export const FirstStep: React.FC = () => {
     console.log(values, 'failed')
   }
 
-  const init = [
+  const initFields = [
     {
       name: ['Title'],
       value: title
@@ -44,7 +48,7 @@ export const FirstStep: React.FC = () => {
       value: startDate
     },
     {
-      name: ['Start Date'],
+      name: ['End Date'],
       value: endDate
     }
   ]
@@ -53,7 +57,7 @@ export const FirstStep: React.FC = () => {
     <GeneralInput>
       <Form
         form={form}
-        fields={init}
+        fields={initFields}
         layout="vertical"
         validateMessages={VALIDATE_MESSAGES}
         onFinish={onFinish}
@@ -66,7 +70,7 @@ export const FirstStep: React.FC = () => {
           <Form.Item {...Name('Description')} {...rules(1, 2048)}>
             <TextArea placeholder={PlaceHolderDescription} />
           </Form.Item>
-          <Pickers />
+          <Pickers form={form} />
           <Managers />
         </div>
         <div className="footer">

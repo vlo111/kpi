@@ -35,7 +35,7 @@ const AddManagerModal: React.FC<AddManagers> = ({ manager, setManagerModalOpen, 
                 <div key={'action'} className="footer-action">
                     <AsnButton key="back" onClick={handleCancel}>
                         Cancel
-                    </AsnButton>,
+                    </AsnButton>
                     <AsnButton form="managerForm" key="submit" type="primary" htmlType="submit">
                         Add
                     </AsnButton>
