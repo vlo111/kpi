@@ -1,4 +1,5 @@
 import { Moment } from 'moment'
+import { type } from 'os'
 import React from 'react'
 
 export type DisabledDate = (current: Moment, item: string) => boolean
@@ -94,3 +95,26 @@ export interface ActivityName {
   active: number | undefined
   names: string[]
 }
+
+export type activeTabName = {
+  number: null | number
+  default: boolean
+}
+
+export interface TabName {
+  name: string
+}
+export interface TabsNames {
+  tabNames: TabName[]
+  handleActiveTab: (tabNumber: any) => void
+  activeTab: {
+      number: number | null
+      default: boolean
+  }
+}
+export interface ActivityNamesProps {
+  names: string[]
+  activeName: number | undefined
+  setActiveName: React.Dispatch<React.SetStateAction<number | undefined>>
+}
+

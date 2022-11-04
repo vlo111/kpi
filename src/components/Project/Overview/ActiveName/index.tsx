@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ActivityName } from '../../../types/project'
+import { ActivityName } from '../../../../types/project'
 
 const ActivityNames = styled.div`
   padding: 16px 29px;

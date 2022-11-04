@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Tooltip } from 'antd'
-import { TabNames } from '../../../types/project'
+import { TabNames } from '../../../../types/project'
 
 const TabContainer = styled.div`
   height: 50px;
@@ -72,17 +72,19 @@ const activeTabName = {
 const width = window.innerWidth
 
 const Tab: React.FC<TabNames> = ({ tabNumber, name, zIndex, active, handleActiveTab, tabNames }) => {
+  const showName = tabNames.length <= 6
+  const notShowName = tabNames.length > 6
   return (
         <Tooltip title={name} color='#EDF0F4' overlayInnerStyle={{ color: '#2A5578', fontSize: '20px' }}>
             <TabContainer
                 onClick={() => handleActiveTab(tabNumber)}
-                style={active && tabNames.length > 6
+                style={active && notShowName
                   ? { ...activeTab, zIndex, width: '10vw' }
-                  : active && tabNames.length < 6
-                    ? { ...activeTab, zIndex: zIndex }
-                    : tabNames.length > 6
-                      ? { width: '10vw', zIndex: zIndex }
-                      : { zIndex: zIndex }}
+                  : active && showName
+                    ? { ...activeTab, zIndex }
+                    : notShowName
+                      ? { width: '10vw', zIndex }
+                      : { zIndex }}
                 ref={(el) => {
                   if (active && el) {
                     el.style.setProperty('z-index', `${zIndex}`, 'important')
