@@ -17,7 +17,9 @@ export type FormItemName = (name: string) => { name: string, label: string }
 
 export type Rules = (min: number, max: number) => { rules: [{ required: boolean, min: number, max: number }] }
 
-export type InitialFields = (resultArea: IResultArea[]) => Array<{ name: string[], value: string }>
+export type InitResultAreaFields = (resultArea: IResultArea[]) => Array<{ name: string[], value: string }>
+
+export type InitGeneralInfoFields = (generalInfo: IGeneralInfo[]) => Array<{ name: string[], value: string }>
 
 export interface AddManagers {
   setManagerModalOpen: (b: IManager | null) => void
@@ -27,12 +29,15 @@ export interface AddManagers {
 
 export interface IManager {
   id: string
+  color: string
   firstName: string
   lastName: string
   email: string
   position: string
   assigned: string
 }
+
+export interface IManagerState { managers: IManager[], addNewManager: (manager: IManager) => void }
 
 export type ManagerFieldType = (manager: (IManager | null)) => Array<{ name: string[], value: string | undefined }>
 
@@ -80,3 +85,13 @@ export interface IResultArea {
   expectedResult: ExpectedResultType[]
   activity: Activity[]
 }
+
+export interface IGeneralInfo {
+  title: string
+  description: string
+  startDate: Date
+  endDate: Date
+  managers: IManager[]
+}
+
+export interface IManagerIcon { letter: string, color: string }

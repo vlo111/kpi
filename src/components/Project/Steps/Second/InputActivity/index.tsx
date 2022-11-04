@@ -5,14 +5,14 @@ import { Activity } from '../../../../../types/project'
 import InputAreaBox from '../InputAreaBox'
 import { Row } from 'antd'
 import { AsnButton } from '../../../../Forms/Button'
-import { useProject } from '../../../../../hooks/useProject'
+import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
 
 const InputActivity: React.FC<{
   id: string
   index: number
   activities: Activity[]
 }> = ({ id, index, activities }) => {
-  const { addNewMilestone, addNewActivity } = useProject()
+  const { addNewMilestone, addNewActivity } = useProjectInput()
 
   return (
     <>

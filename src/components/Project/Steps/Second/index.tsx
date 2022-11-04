@@ -1,19 +1,21 @@
 import React from 'react'
 import InputResult from './InputResult'
-import { useProject } from '../../../../hooks/useProject'
 import { VALIDATE_MESSAGES_PROJECT_INPUT } from '../../../../helpers/constants'
 import { Row } from 'antd'
 import { AsnButton } from '../../../Forms/Button'
 import { Form } from '../../../Forms/Form'
 import { ProjectInputForm } from '../../../Forms/ProjectInputForm'
 import { initFields } from '../../../../utils/ProjectUtils'
+import { useProjectInput } from '../../../../hooks/project/useProjectInput'
+import { useProject } from '../../../../hooks/project/useProject'
 
 export const Second: React.FC = () => {
-  const { nextCurrent, prevCurrent, resultArea, addNewResultArea } = useProject()
+  const { nextCurrent, prevCurrent } = useProject()
+  const { resultArea, addNewResultArea } = useProjectInput()
   const [form] = Form.useForm()
 
   const fields = initFields(resultArea)
-
+  console.log(fields)
   const onFinish: any = (values: any) => {
     console.log(values, 'finish')
     nextCurrent()

@@ -1,40 +1,20 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
-import { Activity, Date, IManager, IResultArea } from '../types/project'
+import { Activity, IResultArea } from '../../types/project'
 import {
   DefaultActivity,
   DefaultExpectedResult,
   DefaultMilestone,
   DefaultResultArea,
-  ManagerList,
   ResultArea
-} from '../helpers/fakeData'
+} from '../../helpers/fakeData'
 import _ from 'lodash'
-import { IComponentChildren } from '../types/global'
+import { IComponentChildren } from '../../types/global'
 
 // @ts-expect-error
-const ProjectContext = createContext()
+const ProjectInputContext = createContext()
 
-export const ProjectProvider: React.FC<IComponentChildren> = ({ children }) => {
-  const [current, setCurrent] = useState<number>(0)
-  const [managers, setAddManager] = useState<IManager[]>(ManagerList)
+export const ProjectInputProvider: React.FC<IComponentChildren> = ({ children }) => {
   const [resultArea, setResultArea] = useState<IResultArea[]>(ResultArea)
-
-  const [startDate, setStartDate] = useState<Date>(null)
-  const [endDate, setEndDate] = useState<Date>(null)
-
-  const prevCurrent: any = () => {
-    setCurrent(current - 1)
-  }
-
-  const nextCurrent: () => void = () => {
-    setCurrent(current + 1)
-  }
-
-  const addNewManager: (manager: IManager) => void = (manager) => {
-    const newManagers: IManager[] = managers.slice(0)
-    newManagers.push(manager)
-    setAddManager(newManagers)
-  }
 
   const addNewResult: (id: string) => void = (id) => {
     const newResultArea: IResultArea[] = resultArea.slice(0)
@@ -70,7 +50,7 @@ export const ProjectProvider: React.FC<IComponentChildren> = ({ children }) => {
     const newResults: IResultArea | undefined = newResultArea.find(i => i.id === resultId)
 
     if (!_.isEmpty(newResults)) {
-      const activity: Activity | undefined = Object.assign({}, newResults?.activity.find((a) => a.id === activityId))
+      const activity: Activity | undefined = Object.assign({}, newResults?.activity.find((a: { id: string }) => a.id === activityId))
 
       if (activity) {
         const milestone = Object.assign({}, DefaultMilestone())
@@ -94,27 +74,18 @@ export const ProjectProvider: React.FC<IComponentChildren> = ({ children }) => {
 
   const value = useMemo(
     () => ({
-      current,
-      managers,
       resultArea,
-      startDate,
-      endDate,
-      setStartDate,
-      setEndDate,
-      prevCurrent,
-      nextCurrent,
-      addNewManager,
       addNewResult,
       addNewMilestone,
       addNewActivity,
       addNewResultArea
     }),
-    [current, managers, resultArea, startDate, endDate]
+    [resultArea]
   )
 
-  return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>
+  return <ProjectInputContext.Provider value={value}>{children}</ProjectInputContext.Provider>
 }
 
-export const useProject: any = () => {
-  return useContext(ProjectContext)
+export const useProjectInput: any = () => {
+  return useContext(ProjectInputContext)
 }

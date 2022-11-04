@@ -5,7 +5,7 @@ import AnsDatePicker from '../../../../Forms/DatePicker'
 import { Moment } from 'moment'
 import { DisabledDate, Date, OnChange } from '../../../../../types/project'
 import { Name } from '../../../../../helpers/constants'
-import { useProject } from '../../../../../hooks/useProject'
+import { useGeneralInfo } from '../../../../../hooks/project/useGeneralInfo'
 
 const Picker = styled.div`
   display: flex;
@@ -35,7 +35,7 @@ const rules = {
 }
 
 export const Pickers: React.FC = () => {
-  const { startDate, setStartDate, endDate, setEndDate } = useProject()
+  const { startDate, setStartDate, endDate, setEndDate } = useGeneralInfo()
 
   const disabledDate: DisabledDate = (current: Moment, item) => {
     if (item === 'start') {
@@ -60,7 +60,6 @@ export const Pickers: React.FC = () => {
                 {...rules}
             >
                 <AnsDatePicker
-                    defaultValue={startDate}
                     disabledDate={(current: Moment) => disabledDate(current, 'start')}
                     onChange={(date: Date) => onChange(date, 'start')}
                 />
@@ -70,7 +69,6 @@ export const Pickers: React.FC = () => {
                 {...rules}
             >
                 <AnsDatePicker
-                    defaultValue={endDate}
                     disabledDate={(current: Moment) => disabledDate(current, 'end')}
                     onChange={(date: Date) => onChange(date, 'end')}
                 />

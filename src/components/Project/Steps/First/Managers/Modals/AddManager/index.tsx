@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import AnsModal from '../../../../../Forms/Modal'
-import { AsnButton } from '../../../../../Forms/Button'
-import { AddManagers, HandleSubmit } from '../../../../../../types/project'
-import { Form } from '../../../../../Forms/Form'
-import AnsInput from '../../../../../Forms/Input'
-import { ManagerFields, VALIDATE_MESSAGES } from '../../../../../../helpers/constants'
+import AnsModal from '../../../../../../Forms/Modal'
+import { AsnButton } from '../../../../../../Forms/Button'
+import { AddManagers, HandleSubmit } from '../../../../../../../types/project'
+import { Form } from '../../../../../../Forms/Form'
+import AnsInput from '../../../../../../Forms/Input'
+import { ManagerFields, VALIDATE_MESSAGES } from '../../../../../../../helpers/constants'
 
 const AddManagerModal: React.FC<AddManagers> = ({ manager, setManagerModalOpen, setAddManager }) => {
   const [form] = Form.useForm()

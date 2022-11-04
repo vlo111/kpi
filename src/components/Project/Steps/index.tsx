@@ -1,7 +1,7 @@
 import React from 'react'
 import { Steps } from 'antd'
 import { StepList } from '../../../helpers/constants'
-import { useProject } from '../../../hooks/useProject'
+import { useProject } from '../../../hooks/project/useProject'
 import { AnsStepsHeader } from '../../Forms/Steps/Header'
 import styled from 'styled-components'
 

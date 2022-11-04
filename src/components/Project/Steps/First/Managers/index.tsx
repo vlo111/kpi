@@ -2,15 +2,15 @@ import React, { useState } from 'react'
 import { Form } from '../../../../Forms/Form'
 import {
   HandleSubmit,
-  IManager
+  IManager, IManagerState
 } from '../../../../../types/project'
-import AddManagerModal from './AddManagerModal'
+import AddManagerModal from './Modals/AddManager'
 import ManagerIcon from '../../../../ManagerIcon'
 import { InitManager } from '../../../../../helpers/fakeData'
 import styled from 'styled-components'
 import { Name } from '../../../../../helpers/constants'
 import { ReactComponent as AddManagerSvg } from '../../../../../assets/icons/add-manager.svg'
-import { useProject } from '../../../../../hooks/useProject'
+import { useGeneralInfo } from '../../../../../hooks/project/useGeneralInfo'
 
 const ManagerContainer = styled.div`
   
@@ -24,6 +24,12 @@ const ManagerContainer = styled.div`
   
   .ant-form-item-control-input-content {
     display: flex;
+    
+    .manager {
+       &:hover {
+         z-index: 2;
+       }
+    }
 
     .justify-left {
       margin-left: -22px;
@@ -33,7 +39,7 @@ const ManagerContainer = styled.div`
 
 const Managers: React.FC = () => {
   const [managerModalOpen, setManagerModalOpen] = useState<IManager | null>(null)
-  const { managers, addNewManager }: { managers: IManager[], addNewManager: (manager: IManager) => void } = useProject()
+  const { managers, addNewManager }: IManagerState = useGeneralInfo()
 
   const editManager: (id: string) => void = (id) => {
     setManagerModalOpen(managers.find((m) => m.id === id) ?? null)
@@ -48,8 +54,8 @@ const Managers: React.FC = () => {
         <ManagerContainer>
           <Form.Item {...Name('Project Manager')} >
             {managers.map((m, i) => (
-                <div key={m.id} className={i > 0 ? 'justify-left' : ''} onClick={() => editManager(m.id)}>
-                  <ManagerIcon letter={`${m.firstName[0]}${m.lastName[0]}`}/>
+                <div key={m.id} className={i > 0 ? 'justify-left manager' : 'manager'} onClick={() => editManager(m.id)}>
+                  <ManagerIcon letter={`${m.firstName[0]}${m.lastName[0]}`} color={m.color}/>
                 </div>
             ))}
               <div className="add-manager">
@@ -63,12 +69,12 @@ const Managers: React.FC = () => {
             setAddManager={(values) => {
               if (managers !== null) {
                 values.id = managers.length + 1
+                values.color = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 addNewManager(values)
               }
             }}
         />
       </>
-
   )
 }
 

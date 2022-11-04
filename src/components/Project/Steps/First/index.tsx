@@ -1,5 +1,5 @@
 import React from 'react'
-import { useProject } from '../../../../hooks/useProject'
+import { useProject } from '../../../../hooks/project/useProject'
 import { Form } from '../../../Forms/Form'
 import {
   Name,
@@ -12,13 +12,17 @@ import { AsnButton } from '../../../Forms/Button'
 import { GeneralInput } from './GeneralInfo'
 import Managers from './Managers'
 import { rules } from '../../../../utils/ProjectUtils'
+import { useGeneralInfo } from '../../../../hooks/project/useGeneralInfo'
 
 export const FirstStep: React.FC = () => {
   const { nextCurrent } = useProject()
+  const { title, description, setTitle, startDate, endDate, setDescription } =
+    useGeneralInfo()
   const [form] = Form.useForm()
 
   const onFinish: any = (values: any) => {
-    console.log(values, 'finish')
+    setTitle(values.Title)
+    setDescription(values.Description)
     nextCurrent()
   }
 
@@ -26,10 +30,30 @@ export const FirstStep: React.FC = () => {
     console.log(values, 'failed')
   }
 
+  const init = [
+    {
+      name: ['Title'],
+      value: title
+    },
+    {
+      name: ['Description'],
+      value: description
+    },
+    {
+      name: ['Start Date'],
+      value: startDate
+    },
+    {
+      name: ['Start Date'],
+      value: endDate
+    }
+  ]
+
   return (
     <GeneralInput>
       <Form
         form={form}
+        fields={init}
         layout="vertical"
         validateMessages={VALIDATE_MESSAGES}
         onFinish={onFinish}
