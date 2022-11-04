@@ -22,9 +22,9 @@ const Container = styled.div`
 
 export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
   return (
-        <Container onClick={() => setStep(true)}>
-            <CreateProjectSvg/>
-            <span className="create-project-text">Create your first project</span>
-        </Container>
+    <Container onClick={() => setStep(true)}>
+        <CreateProjectSvg/>
+        <span className="create-project-text">Create your first project</span>
+    </Container>
   )
 }

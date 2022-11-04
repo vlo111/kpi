@@ -15,7 +15,8 @@ export const PATHS = {
   TEST: 'test',
   ConfirmEmail: 'confirm-email',
   SIGNUP: 'sign-up',
-  ConfirmEmailSignUp: 'confirm-email/:email'
+  ConfirmEmailSignUp: 'confirm-email/:email',
+  Overview: 'overview'
 }
 
 export const HEADERS = {
@@ -92,5 +93,41 @@ export const StepList = [
   {
     title: 'Project details',
     content: <Last />
+  }
+]
+
+export const names = [
+  '1.1 Mapping the labor market', '1.2 Establishment of educational labs', '1.3 Courses and programs', '1.4 Establishment of educational labs', '1.5 Establishment of educational labs'
+]
+export const tabNames = [
+  {
+    name: 'Skill gap reduced'
+  },
+  {
+    name: 'Skill gap reduced'
+  },
+  {
+    name: 'Skill gap reduced'
+  },
+  {
+    name: 'Societal perceptions shifted'
+  },
+  {
+    name: 'Skill gap reduced smnfioewbF VCFUIEWQ'
+  },
+  {
+    name: 'Skill gap reduced'
+  },
+  {
+    name: 'Skill gap reduced'
+  },
+  {
+    name: 'Skill gap reduced'
+  },
+  {
+    name: 'Skill gap reduced'
+  },
+  {
+    name: 'Skill gap reduced'
   }
 ]
