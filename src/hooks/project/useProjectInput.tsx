@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
-import { IActivity, IResultArea } from '../../types/project'
+import { IActivity, IExpectedResult, IMilestones, IResultArea } from '../../types/project'
 import {
   DefaultActivity,
   DefaultExpectedResult,
@@ -16,6 +16,24 @@ const ProjectInputContext = createContext()
 export const ProjectInputProvider: React.FC<IComponentChildren> = ({ children }) => {
   const [resultArea, setResultArea] = useState<IResultArea[]>(ResultArea)
 
+  // ResultArea
+  const addNewResultArea: () => void = () => {
+    const newResultArea: IResultArea[] = resultArea.slice(0)
+
+    const newResult = Object.assign({}, DefaultResultArea())
+
+    newResultArea.push(newResult)
+
+    setResultArea(newResultArea)
+  }
+
+  const deleteResultArea: (id: string) => void = (id) => {
+    const newResultArea: IResultArea[] = resultArea.slice(0).filter((r) => r.id !== id)
+
+    setResultArea(newResultArea)
+  }
+  // ResultArea
+
   const addNewResult: (id: string) => void = (id) => {
     const newResultArea: IResultArea[] = resultArea.slice(0)
 
@@ -30,12 +48,19 @@ export const ProjectInputProvider: React.FC<IComponentChildren> = ({ children })
     }
   }
 
-  const deleteResult: (id: string) => void = (id) => {
-    const newResultArea: IResultArea[] = resultArea.slice(0).filter((r) => r.id !== id)
+  const deleteExpectedResult: (resultAreaId: string, id: string) => void = (resultAreaId, id) => {
+    const newResultArea: IResultArea[] = resultArea.slice(0)
 
-    setResultArea(newResultArea)
+    const newResults: IResultArea | undefined = newResultArea.find(i => i.id === resultAreaId)
+
+    if (!_.isEmpty(newResults)) {
+      newResults.expectedResult = newResults.expectedResult.filter((m: IExpectedResult) => m.id !== id)
+
+      setResultArea(newResultArea)
+    }
   }
 
+  // Activities
   const addNewActivity: (id: string) => void = (id) => {
     const newResultArea: IResultArea[] = resultArea.slice(0)
 
@@ -68,15 +93,19 @@ export const ProjectInputProvider: React.FC<IComponentChildren> = ({ children })
     }
   }
 
-  const addNewResultArea: () => void = () => {
+  const deleteMilestone: (resultAreaId: string, activityId: string, id: string) => void = (resultAreaId, activityId, id) => {
     const newResultArea: IResultArea[] = resultArea.slice(0)
 
-    const newResult = Object.assign({}, DefaultResultArea())
+    const newResults: IResultArea | undefined = newResultArea.find(i => i.id === resultAreaId)
 
-    newResultArea.push(newResult)
-
-    setResultArea(newResultArea)
+    if (!_.isEmpty(newResults)) {
+      for (let i = 0; i < newResults?.activity.length; i++) {
+        newResults.activity[i].milestones = newResults?.activity[i]?.milestones.filter((m: IMilestones) => m.id !== id)
+      }
+      setResultArea(newResultArea)
+    }
   }
+  // Activities
 
   const value = useMemo(
     () => ({
@@ -85,7 +114,9 @@ export const ProjectInputProvider: React.FC<IComponentChildren> = ({ children })
       addNewMilestone,
       addNewActivity,
       addNewResultArea,
-      deleteResult
+      deleteResultArea,
+      deleteMilestone,
+      deleteExpectedResult
     }),
     [resultArea]
   )

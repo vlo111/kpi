@@ -15,7 +15,7 @@ export const Second: React.FC = () => {
   const [form] = Form.useForm()
 
   const fields = initFields(resultArea)
-  console.log(fields)
+
   const onFinish: any = (values: any) => {
     console.log(values, 'finish')
     nextCurrent()

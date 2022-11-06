@@ -27,8 +27,8 @@ const InputActivity: React.FC<{
               {activities.map((activity) => (
                 <AnsCollapse key={activity.id} id={activity.id}>
                   <Panel key={activity.id} header={activity.name}>
-                    <InputAreaBox list={activity.milestones} />
-                    <Row>
+                    <InputAreaBox resultAreaId={id} activityId={activity.id} list={activity.milestones} />
+                    <Row style={{ width: 'calc(100% - 10px)' }}>
                       <AsnButton
                           style={{ background: 'white', width: '100%', height: '44px' }}
                           value="Create"

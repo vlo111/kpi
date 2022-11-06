@@ -1,4 +1,4 @@
-import { Col, Row, Select } from 'antd'
+import { Col, Select } from 'antd'
 import React from 'react'
 import { Form } from '../../../../../Forms/Form'
 import { rules } from '../../../../../../utils/ProjectUtils'
@@ -12,12 +12,7 @@ const { Option } = Select
 
 const Box: React.FC<{ id: string, index: number, placeHolders: string[] }> = ({ id, index, placeHolders }) => {
   return (
-        <Row
-            gutter={16}
-            justify="start"
-            align="top"
-            style={{ minWidth: '20vw' }}
-        >
+      <>
             <Col>
                 <Form.Item
                     name={`c${id}`}
@@ -59,7 +54,7 @@ const Box: React.FC<{ id: string, index: number, placeHolders: string[] }> = ({ 
                     <AsnInput placeholder={placeHolders[2]}/>
                 </Form.Item>
             </Col>
-        </Row>
+        </>
   )
 }
 

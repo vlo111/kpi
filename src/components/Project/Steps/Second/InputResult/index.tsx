@@ -14,10 +14,10 @@ const InputResult: React.FC<{ resultArea: IResultArea[] }> = ({
 }) => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState(false)
   const [selectDeleteId, setSelectDeleteId] = useState('')
-  const { deleteResult } = useProjectInput()
+  const { deleteResultArea } = useProjectInput()
 
   const deleteResultHandle: (id: string) => void = (id) => {
-    deleteResult(id)
+    deleteResultArea(id)
   }
 
   return (

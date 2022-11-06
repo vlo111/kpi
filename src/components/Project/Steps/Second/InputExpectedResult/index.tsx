@@ -14,8 +14,8 @@ const ExpectedResult: React.FC<{
   return (
     <>
       <div className="panel">
-        <InputAreaBox list={results} />
-        <Row>
+        <InputAreaBox resultAreaId={id} list={results} />
+        <Row style={{ width: 'calc(100% - 10px)' }}>
           <AsnButton
             style={{ background: 'white', width: '100%', height: '44px' }}
             value="Create"

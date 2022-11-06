@@ -37,7 +37,7 @@ export const InputResultArea = styled.div`
         }
 
         > div:nth-child(2) {
-          width: calc(100% - 78px - 148px - 58px - 48px);
+          width: calc(100% - 78px - 158px - 58px - 48px);
 
           .ant-col {
             width: 100%;
@@ -65,6 +65,11 @@ export const InputResultArea = styled.div`
 
         > div:nth-child(4) input {
           width: 58px;
+        }
+        
+        > .delete-result-box {
+          margin-top: 1.4rem;
+          cursor: pointer;
         }
       }
     }
@@ -108,6 +113,10 @@ export const InputResultArea = styled.div`
             font-size: 1rem;
           }
         }
+        
+        div:first-child .delete-result-box {
+          margin-top: 2.8rem;
+        }
       }
     }
   }
@@ -135,6 +144,14 @@ export const InputResultArea = styled.div`
         padding: 2rem !important;
         padding-bottom: 1rem !important;
         ${areaPanelBox('var(--dark-border-ultramarine)')}
+        
+        div:first-child .delete-result-box {
+          margin-top: 3rem !important;
+        }
+
+        .delete-result-box {
+          margin-top: 1.2rem !important;
+        }
       }
     }
 
