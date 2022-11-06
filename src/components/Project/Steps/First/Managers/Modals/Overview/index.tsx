@@ -115,7 +115,7 @@ const ManagerOverviewModal: React.FC<ManagerOverview> = ({
                 open={id !== null}
                 width={'360px'}
                 style={modalStyle}
-                onCancel={setOverview}
+                onCancel={() => setOverview(null)}
                 closable={false}
                 mask={false}
                 footer={false}
@@ -129,7 +129,7 @@ const ManagerOverviewModal: React.FC<ManagerOverview> = ({
                         </div>
                         <div className="overview-header-tools">
                             <div className="overview-header-tools-icons">
-                                <EditSvg/>
+                                <EditSvg onClick={() => setOverview(id)}/>
                                 <DeleteSvg onClick={() => setOpenDeleteModal(!openDeleteModal)}/>
                             </div>
                         </div>

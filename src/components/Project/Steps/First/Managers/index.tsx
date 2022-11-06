@@ -39,17 +39,15 @@ const ManagerContainer = styled.div`
 `
 
 const Managers: React.FC = () => {
-  const [managerModalOpen, setManagerModalOpen] = useState<IManager | null>(
-    null
-  )
+  const [managerModalOpen, setManagerModalOpen] = useState<IManager | null>(null)
 
   const [overview, setOverview] = useState<string | null>(null)
 
   const { managers, addNewManager }: IManagerState = useGeneralInfo()
 
-  // const editManager: (id: string) => void = (id) => {
-  //   setManagerModalOpen(managers.find((m) => m.id === id) ?? null)
-  // }
+  const editManager: (id: ((prevState: (string | null)) => (string | null)) | string) => void = (id) => {
+    setManagerModalOpen(managers.find((m) => m.id === id) ?? null)
+  }
 
   const addManager: HandleSubmit = () => {
     setManagerModalOpen(InitManager)
@@ -60,42 +58,48 @@ const Managers: React.FC = () => {
   }
 
   return (
-    <>
-      <ManagerContainer>
-        <Form.Item {...Name('Project Manager')}>
-          {managers.map((m: IManager, i) => (
-            <div
-              key={m.id}
-              className={i > 0 ? 'justify-left manager' : 'manager'}
-              // onClick={() => editManager(m.id)}
-              onClick={() => openOverview(m.id)}
-            >
-              <ManagerIcon
-                letter={`${m.firstName[0]}${m.lastName[0]}`}
-                color={m.color}
-              />
+      <>
+        <ManagerContainer>
+          <Form.Item {...Name('Project Manager')}>
+            {managers.map((m: IManager, i) => (
+                <div
+                    key={m.id}
+                    className={i > 0 ? 'justify-left manager' : 'manager'}
+                    // onClick={() => editManager(m.id)}
+                    onClick={() => openOverview(m.id)}
+                >
+                  <ManagerIcon
+                      letter={`${m.firstName[0]}${m.lastName[0]}`}
+                      color={m.color}
+                  />
+                </div>
+            ))}
+            <div className="add-manager">
+              <AddManagerSvg onClick={addManager} />
             </div>
-          ))}
-          <div className="add-manager">
-            <AddManagerSvg onClick={addManager} />
-          </div>
-        </Form.Item>
-      </ManagerContainer>
-      <AddManagerModal
-        manager={managerModalOpen}
-        setManagerModalOpen={setManagerModalOpen}
-        setAddManager={(values) => {
-          if (managers !== null) {
-            values.id = managers.length + 1
-            values.color = `#${((Math.random() * 0xffffff) << 0)
-              .toString(16)
-              .padStart(6, '0')}`
-            addNewManager(values)
+          </Form.Item>
+        </ManagerContainer>
+        <AddManagerModal
+            manager={managerModalOpen}
+            setManagerModalOpen={setManagerModalOpen}
+            setAddManager={(values) => {
+              if (managers !== null) {
+                values.id = managers.length + 1
+                values.color = `#${((Math.random() * 0xffffff) << 0)
+                    .toString(16)
+                    .padStart(6, '0')}`
+                addNewManager(values)
+              }
+            }}
+        />
+        <ManagerOverviewModal id={overview} setOverview={(item: React.SetStateAction<string | null>) => {
+          if (item !== null) {
+            editManager(item)
+          } else {
+            setOverview(null)
           }
-        }}
-      />
-        <ManagerOverviewModal id={overview} setOverview={() => setOverview(null)} />
-    </>
+        }} />
+      </>
   )
 }
 

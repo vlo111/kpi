@@ -23,6 +23,18 @@ export const GeneralInfoProvider: React.FC<IComponentChildren> = ({ children }) 
     setAddManager(newManagers)
   }
 
+  const editManager: (manager: IManager) => void = (manager) => {
+    const getManagers: IManager[] = managers.slice(0)
+
+    for (let i = 0; i < getManagers.length; i++) {
+      if (getManagers[i].id === manager.id) {
+        getManagers[i] = manager
+      }
+    }
+
+    setAddManager(getManagers)
+  }
+
   const getManagerById: (id: string | null) => IManager | undefined = (id) => {
     return id ? managers.find((m) => m.id === id) : undefined
   }
@@ -46,7 +58,8 @@ export const GeneralInfoProvider: React.FC<IComponentChildren> = ({ children }) 
       setEndDate,
       addNewManager,
       deleteManagerById,
-      getManagerById
+      getManagerById,
+      editManager
     }),
     [managers, startDate, endDate, title, description]
   )

@@ -1,16 +1,27 @@
 import React, { useEffect } from 'react'
 import AnsModal from '../../../../../../Forms/Modal'
 import { AsnButton } from '../../../../../../Forms/Button'
-import { AddManagers, HandleSubmit } from '../../../../../../../types/project'
+import { AddManagers, HandleSubmit, IManagerState } from '../../../../../../../types/project'
 import { Form } from '../../../../../../Forms/Form'
 import AnsInput from '../../../../../../Forms/Input'
 import { ManagerFields, VALIDATE_MESSAGES } from '../../../../../../../helpers/constants'
+import { useGeneralInfo } from '../../../../../../../hooks/project/useGeneralInfo'
 
 const AddManagerModal: React.FC<AddManagers> = ({ manager, setManagerModalOpen, setAddManager }) => {
   const [form] = Form.useForm()
 
+  const { editManager }: IManagerState = useGeneralInfo()
+
   const handleOk: any = (values: any) => {
-    setAddManager(values)
+    if (manager?.id) {
+      const newManager = Object.assign({}, values)
+      newManager.id = manager.id
+      newManager.color = manager.color
+      editManager(newManager)
+    } else {
+      setAddManager(values)
+    }
+
     form.resetFields()
     setManagerModalOpen(null)
   }
@@ -28,7 +39,7 @@ const AddManagerModal: React.FC<AddManagers> = ({ manager, setManagerModalOpen, 
   return (
         <AnsModal
             open={manager !== null}
-            title="Add Person"
+            title={`${manager?.id ? 'Edit' : 'Add'} Person`}
             cancelText="Cancel"
             onCancel={handleCancel}
             footer={[
@@ -37,7 +48,7 @@ const AddManagerModal: React.FC<AddManagers> = ({ manager, setManagerModalOpen, 
                         Cancel
                     </AsnButton>
                     <AsnButton form="managerForm" key="submit" type="primary" htmlType="submit">
-                        Add
+                        {manager?.id ? 'Edit' : 'Add'}
                     </AsnButton>
                 </div>
             ]}
