@@ -35,7 +35,7 @@ export const Second: React.FC = () => {
             onFinishFailed={onFinishFailed}
         >
             <InputResult resultArea={resultArea}/>
-            <Row>
+            <Row style={{ width: resultArea.length > 1 ? 'calc(100% - 2rem)' : '100%' }}>
                 <AsnButton
                     style={{ background: 'white', width: '100%', height: '3rem' }}
                     value="Create"
