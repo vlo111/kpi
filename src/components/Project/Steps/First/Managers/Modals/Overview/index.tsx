@@ -146,6 +146,7 @@ const ManagerOverviewModal: React.FC<IManagerOverview> = ({
                 </div>
             </ManagerModal>
             <ConfirmModal
+                styles={{ gap: '7.6rem' }}
                 open={openDeleteModal}
                 title="Are you sure you want to delete  the selected people from the account?"
                 onSubmit={deleteManager}

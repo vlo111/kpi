@@ -9,4 +9,5 @@ export interface ConfirmModalType {
   title: string
   onSubmit: () => void
   onCancel: () => void
+  styles?: any
 }

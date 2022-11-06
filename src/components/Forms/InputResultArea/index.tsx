@@ -12,77 +12,71 @@ export const InputResultArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  
+  .result-container {
+    display: flex;
+    
+    .result-area {
+      background-color: var(--dark-7);
+      border-radius: 20px;
+      width: 100%;
 
-  .result-area {
-    background-color: #f0f4fa;
-    border-radius: 20px;
-
-    .main,
-    .panel .ant-collapse-content {
-      padding: 0 21px 0 11px;
-    }
-
-    input,
-    textarea {
-      height: 58px !important;
-    }
-
-    .ant-row {
-      > div:nth-child(1) input {
-        width: 78px;
+      .main,
+      .panel .ant-collapse-content {
+        padding: 0 21px 0 11px;
       }
 
-      > div:nth-child(2) {
-        width: calc(100% - 78px - 148px - 58px - 48px);
+      input,
+      textarea {
+        height: 58px !important;
+      }
 
-        .ant-col {
-          width: 100%;
+      .ant-row {
+        > div:nth-child(1) input {
+          width: 78px;
         }
-      }
 
-      > div:nth-child(3) > .ant-form-item {
-        width: 148px;
+        > div:nth-child(2) {
+          width: calc(100% - 78px - 148px - 58px - 48px);
 
-        .ant-select {
-          &-selector {
-            height: 100%;
-            border: 1px solid var(--dark-border-ultramarine);
-            box-shadow: var(--input-box-shadow);
-            border-radius: 5px;
-          }
-          &-selection-item {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
+          .ant-col {
+            width: 100%;
           }
         }
-        
-        .ant-select-dropdown {
-          
+
+        > div:nth-child(3) > .ant-form-item {
+          width: 148px;
+
+          .ant-select {
+            &-selector {
+              height: 100%;
+              border: 1px solid var(--dark-border-ultramarine);
+              box-shadow: var(--input-box-shadow);
+              border-radius: 5px;
+            }
+            &-selection-item {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: 16px;
+            }
+          }
         }
 
-        //.ant-select-selector {
-        //  height: 100%;
-        //  border: 1px solid var(--dark-border-ultramarine);
-        //  box-shadow: var(--input-box-shadow);
-        //  border-radius: 5px;
-        //
-        //  .ant-select-selection-item {
-        //    display: flex;
-        //    justify-content: center;
-        //    align-items: center;
-        //    font-size: 16px;
-        //  }
-        //}
+        > div:nth-child(4) input {
+          width: 58px;
+        }
       }
-
-      > div:nth-child(4) input {
-        width: 58px;
-      }
+    }
+    
+    .delete-result {
+      margin-top: 1rem;
+      width: 2rem;
+      text-align: center;
+      cursor: pointer;
     }
   }
-
+  
   .ant-collapse {
     box-shadow: none;
     background: none;

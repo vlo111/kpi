@@ -30,6 +30,12 @@ export const ProjectInputProvider: React.FC<IComponentChildren> = ({ children })
     }
   }
 
+  const deleteResult: (id: string) => void = (id) => {
+    const newResultArea: IResultArea[] = resultArea.slice(0).filter((r) => r.id !== id)
+
+    setResultArea(newResultArea)
+  }
+
   const addNewActivity: (id: string) => void = (id) => {
     const newResultArea: IResultArea[] = resultArea.slice(0)
 
@@ -78,7 +84,8 @@ export const ProjectInputProvider: React.FC<IComponentChildren> = ({ children })
       addNewResult,
       addNewMilestone,
       addNewActivity,
-      addNewResultArea
+      addNewResultArea,
+      deleteResult
     }),
     [resultArea]
   )

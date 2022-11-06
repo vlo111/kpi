@@ -8,7 +8,6 @@ const ConfirmModal = styled(AnsModal)`
   .wrapper {
     display: flex;
     flex-direction: column;
-    gap: 7.6rem;
 
     .title {
       font-size: var(--headline-font-size);
@@ -27,7 +26,7 @@ const ConfirmModal = styled(AnsModal)`
   }
 `
 
-const ConfirmModalWrapper: React.FC<ConfirmModalType> = ({ open, title, onSubmit, onCancel }) => {
+const ConfirmModalWrapper: React.FC<ConfirmModalType> = ({ open, title, onSubmit, onCancel, styles }) => {
   return (
         <ConfirmModal
             open={open}
@@ -36,7 +35,7 @@ const ConfirmModalWrapper: React.FC<ConfirmModalType> = ({ open, title, onSubmit
             footer={false}
             centered
         >
-            <div className="wrapper">
+            <div className="wrapper" style={styles}>
                 <div className="title">
                     {title}
                 </div>
