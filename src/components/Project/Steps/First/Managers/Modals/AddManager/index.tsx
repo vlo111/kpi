@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import AnsModal from '../../../../../../Forms/Modal'
 import { AsnButton } from '../../../../../../Forms/Button'
-import { IAddManagers, HandleSubmit, IManagerState } from '../../../../../../../types/project'
+import { IAddManagers, HandleSubmit, IManagerState, IManager, AddManagerHandle } from '../../../../../../../types/project'
 import { Form } from '../../../../../../Forms/Form'
 import AnsInput from '../../../../../../Forms/Input'
 import { ManagerFields, VALIDATE_MESSAGES } from '../../../../../../../helpers/constants'
@@ -12,9 +12,9 @@ const AddManagerModal: React.FC<IAddManagers> = ({ manager, setManagerModalOpen,
 
   const { editManager }: IManagerState = useGeneralInfo()
 
-  const handleOk: any = (values: any) => {
+  const handleOk: AddManagerHandle = (values) => {
     if (manager?.id) {
-      const newManager = Object.assign({}, values)
+      const newManager = Object.assign({}, values as IManager)
       newManager.id = manager.id
       newManager.color = manager.color
       editManager(newManager)
@@ -54,7 +54,6 @@ const AddManagerModal: React.FC<IAddManagers> = ({ manager, setManagerModalOpen,
             ]}
         >
             <Form
-                id="manager-form"
                 form={form}
                 layout="vertical"
                 name="managerForm"

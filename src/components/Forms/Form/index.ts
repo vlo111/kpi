@@ -32,6 +32,7 @@ const defaultStyle = css`
     position: absolute;
     right: -12px;
     color: var(--dark-2) !important;
+    margin-top: -6px;
   }
 `
 

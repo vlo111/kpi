@@ -11,7 +11,7 @@ export interface StepProps {
   setStep: (b: boolean) => void
 }
 
-export type FormItemName = (name: string) => { id: string, label: string }
+export type FormItemName = (name: string) => { name: string, label: string }
 
 export type Rules = (
   min: number,
@@ -159,3 +159,5 @@ export interface ActivityNamesProps {
   activeName: number | undefined
   setActiveName: React.Dispatch<React.SetStateAction<number | undefined>>
 }
+
+export type AddManagerHandle = (values: unknown) => void

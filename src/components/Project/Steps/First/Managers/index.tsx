@@ -9,7 +9,6 @@ import AddManagerModal from './Modals/AddManager'
 import ManagerIcon from '../../../../ManagerIcon'
 import { InitManager } from '../../../../../helpers/fakeData'
 import styled from 'styled-components'
-import { Name } from '../../../../../helpers/constants'
 import { ReactComponent as AddManagerSvg } from '../../../../../assets/icons/add-manager.svg'
 import { useGeneralInfo } from '../../../../../hooks/project/useGeneralInfo'
 import ManagerOverviewModal from './Modals/Overview'
@@ -68,7 +67,7 @@ const Managers: React.FC = () => {
   return (
       <>
         <ManagerContainer>
-          <Form.Item {...Name('Project Manager')}>
+          <Form.Item label="Project Manager" required={true}>
             {managers.map((m: IManager, i) => (
                 <div
                     key={m.id}

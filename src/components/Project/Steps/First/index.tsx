@@ -77,11 +77,11 @@ export const FirstStep: React.FC = () => {
                     <Form.Item {...Name('Title')} {...rules(2, 256)}>
                         <AsnInput placeholder="Example: AWDA"/>
                     </Form.Item>
-                    <Form.Item {...Name('Description')} {...rules(1, 2048)}>
+                     <Form.Item {...Name('Description')} {...rules(1, 2048)}>
                         <TextArea placeholder={PlaceHolderDescription}/>
-                    </Form.Item>
-                    <Pickers form={form}/>
-                    <Managers/>
+                     </Form.Item>
+                     <Pickers form={form}/>
+                     <Managers/>
                 </div>
                 <div className="footer">
                     <AsnButton>Create</AsnButton>
