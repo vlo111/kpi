@@ -40,7 +40,7 @@ const BoxContainer: React.FC<{
         index={index}
         placeHolders={placeholders}
       />
-      {accessDelete && <div className="delete-result-box" onClick={() => onDelete(picked.result ? 'expected' : 'milestone', item.id)}>
+      {accessDelete && <div className="delete-result-box" onClick={() => onDelete(picked.result !== undefined ? 'expected' : 'milestone', item.id)}>
         <DeleteSvg/>
       </div>}
     </Row>
