@@ -52,7 +52,6 @@ const AddManagerModal: React.FC<IAddManagers> = ({ manager, setManagerModalOpen,
                     </AsnButton>
                 </div>
             ]}
-            getContainer={false}
         >
             <Form
                 id="manager-form"
