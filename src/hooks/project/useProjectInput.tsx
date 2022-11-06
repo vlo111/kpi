@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
-import { Activity, IResultArea } from '../../types/project'
+import { IActivity, IResultArea } from '../../types/project'
 import {
   DefaultActivity,
   DefaultExpectedResult,
@@ -50,7 +50,7 @@ export const ProjectInputProvider: React.FC<IComponentChildren> = ({ children })
     const newResults: IResultArea | undefined = newResultArea.find(i => i.id === resultId)
 
     if (!_.isEmpty(newResults)) {
-      const activity: Activity | undefined = Object.assign({}, newResults?.activity.find((a: { id: string }) => a.id === activityId))
+      const activity: IActivity | undefined = Object.assign({}, newResults?.activity.find((a: { id: string }) => a.id === activityId))
 
       if (activity) {
         const milestone = Object.assign({}, DefaultMilestone())

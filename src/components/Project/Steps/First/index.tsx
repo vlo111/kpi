@@ -16,7 +16,16 @@ import { useGeneralInfo } from '../../../../hooks/project/useGeneralInfo'
 
 export const FirstStep: React.FC = () => {
   const { nextCurrent } = useProject()
-  const { title, description, startDate, endDate, setTitle, setDescription, setStartDate, setEndDate } = useGeneralInfo()
+  const {
+    title,
+    description,
+    startDate,
+    endDate,
+    setTitle,
+    setDescription,
+    setStartDate,
+    setEndDate
+  } = useGeneralInfo()
 
   const [form] = Form.useForm()
 
@@ -54,32 +63,33 @@ export const FirstStep: React.FC = () => {
   ]
 
   return (
-    <GeneralInput>
-      <Form
-        form={form}
-        fields={initFields}
-        layout="vertical"
-        validateMessages={VALIDATE_MESSAGES}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
-        <div className="main">
-          <Form.Item {...Name('Title')} {...rules(2, 256)}>
-            <AsnInput placeholder="Example: AWDA" />
-          </Form.Item>
-          <Form.Item {...Name('Description')} {...rules(1, 2048)}>
-            <TextArea placeholder={PlaceHolderDescription} />
-          </Form.Item>
-          <Pickers form={form} />
-          <Managers />
-        </div>
-        <div className="footer">
-          <AsnButton>Create</AsnButton>
-          <AsnButton type="primary" htmlType="submit">
-            Next
-          </AsnButton>
-        </div>
-      </Form>
-    </GeneralInput>
+        <GeneralInput>
+            <Form
+                id="general-info-form"
+                form={form}
+                fields={initFields}
+                layout="vertical"
+                validateMessages={VALIDATE_MESSAGES}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+            >
+                <div className="main">
+                    <Form.Item {...Name('Title')} {...rules(2, 256)}>
+                        <AsnInput placeholder="Example: AWDA"/>
+                    </Form.Item>
+                    <Form.Item {...Name('Description')} {...rules(1, 2048)}>
+                        <TextArea placeholder={PlaceHolderDescription}/>
+                    </Form.Item>
+                    <Pickers form={form}/>
+                    <Managers/>
+                </div>
+                <div className="footer">
+                    <AsnButton>Create</AsnButton>
+                    <AsnButton type="primary" htmlType="submit">
+                        Next
+                    </AsnButton>
+                </div>
+            </Form>
+        </GeneralInput>
   )
 }

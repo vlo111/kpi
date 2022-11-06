@@ -3,19 +3,15 @@ import React from 'react'
 
 export type DisabledDate = (current: Moment, item: string) => boolean
 
-export type OnChange = (date: Moment | null, item: string) => void
-
 export type Date = Moment | null
 
 export type HandleSubmit = () => void
-
-export type LayoutElement = (Element & { style: React.CSSProperties }) | null
 
 export interface StepProps {
   setStep: (b: boolean) => void
 }
 
-export type FormItemName = (name: string) => { name: string, label: string }
+export type FormItemName = (name: string) => { id: string, label: string }
 
 export type Rules = (
   min: number,
@@ -30,7 +26,7 @@ export type InitGeneralInfoFields = (
   generalInfo: IGeneralInfo[]
 ) => Array<{ name: string[], value: string }>
 
-export interface AddManagers {
+export interface IAddManagers {
   setManagerModalOpen: (b: IManager | null) => void
   setAddManager: (b: any) => void
   manager: IManager | null
@@ -78,22 +74,7 @@ export interface IPanelIsActive {
   isActive: boolean
 }
 
-export interface IPanelPropData {
-  defaultActiveKey: string[]
-  expandIcon: (panelProps: any) => React.ReactNode
-}
-
-export interface IStepAction {
-  current: number
-  onSubmit: (current: number) => void
-  stepLength: number
-}
-
-export interface IStep {
-  current: number
-}
-
-export interface ExpectedResultType {
+export interface IExpectedResult {
   id: string
   code: string
   result: string
@@ -101,13 +82,13 @@ export interface ExpectedResultType {
   target: string
 }
 
-export interface Activity {
+export interface IActivity {
   id: string
   name: string
-  milestones: Milestones[]
+  milestones: IMilestones[]
 }
 
-export interface Milestones {
+export interface IMilestones {
   id: string
   code: string
   milestone: string
@@ -118,8 +99,8 @@ export interface Milestones {
 export interface IResultArea {
   id: string
   name: string
-  expectedResult: ExpectedResultType[]
-  activity: Activity[]
+  expectedResult: IExpectedResult[]
+  activity: IActivity[]
 }
 
 export interface IGeneralInfo {
@@ -135,7 +116,7 @@ export interface IManagerIcon {
   color: string
 }
 
-export interface ManagerOverview {
+export interface IManagerOverview {
   id: string | null
   setOverview: any
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ExpectedResultType } from '../../../../../types/project'
+import { IExpectedResult } from '../../../../../types/project'
 import { AsnButton } from '../../../../Forms/Button'
 import { Row } from 'antd'
 import InputAreaBox from '../InputAreaBox'
@@ -7,7 +7,7 @@ import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
 
 const ExpectedResult: React.FC<{
   id: string
-  results: ExpectedResultType[]
+  results: IExpectedResult[]
 }> = ({ id, results }) => {
   const { addNewResult } = useProjectInput()
 

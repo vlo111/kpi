@@ -1,9 +1,9 @@
 import React from 'react'
-import { ExpectedResultType, Milestones } from '../../../../../types/project'
+import { IExpectedResult, IMilestones } from '../../../../../types/project'
 import Box from './Box'
 import { PlaceHolderActivityMilestone, PlaceHolderExpectedResult } from '../../../../../helpers/constants'
 
-const InputAreaBox: React.FC<{ list: ExpectedResultType[] | Milestones[] }> = ({
+const InputAreaBox: React.FC<{ list: IExpectedResult[] | IMilestones[] }> = ({
   list
 }) => {
   return (
@@ -16,7 +16,7 @@ const InputAreaBox: React.FC<{ list: ExpectedResultType[] | Milestones[] }> = ({
             measure,
             target,
             result
-          }))(Object.assign({}, l) as ExpectedResultType)
+          }))(Object.assign({}, l) as IExpectedResult)
 
           // if (!picked.result) {
           //   picked.result = (l as Milestones).milestone

@@ -24,7 +24,7 @@ export const HEADERS = {
 }
 
 export const Name: FormItemName = (name: string) => ({
-  name: `${name}`,
+  id: `${name}`,
   label: `${name}`
 })
 

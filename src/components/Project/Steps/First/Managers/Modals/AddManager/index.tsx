@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import AnsModal from '../../../../../../Forms/Modal'
 import { AsnButton } from '../../../../../../Forms/Button'
-import { AddManagers, HandleSubmit, IManagerState } from '../../../../../../../types/project'
+import { IAddManagers, HandleSubmit, IManagerState } from '../../../../../../../types/project'
 import { Form } from '../../../../../../Forms/Form'
 import AnsInput from '../../../../../../Forms/Input'
 import { ManagerFields, VALIDATE_MESSAGES } from '../../../../../../../helpers/constants'
 import { useGeneralInfo } from '../../../../../../../hooks/project/useGeneralInfo'
 
-const AddManagerModal: React.FC<AddManagers> = ({ manager, setManagerModalOpen, setAddManager }) => {
+const AddManagerModal: React.FC<IAddManagers> = ({ manager, setManagerModalOpen, setAddManager }) => {
   const [form] = Form.useForm()
 
   const { editManager }: IManagerState = useGeneralInfo()
@@ -52,8 +52,10 @@ const AddManagerModal: React.FC<AddManagers> = ({ manager, setManagerModalOpen, 
                     </AsnButton>
                 </div>
             ]}
+            getContainer={false}
         >
             <Form
+                id="manager-form"
                 form={form}
                 layout="vertical"
                 name="managerForm"

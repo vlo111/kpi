@@ -1,4 +1,4 @@
-import { Activity, ExpectedResultType, IManager, IResultArea, Milestones } from '../types/project'
+import { IActivity, IExpectedResult, IManager, IResultArea, IMilestones } from '../types/project'
 import { v4 as uuidv4 } from 'uuid'
 
 export const OrganizationList: Array<{ name: string, id: string }> = Array.from(
@@ -85,7 +85,7 @@ export const ResultArea: IResultArea[] = Array.from({ length: 1 }, (v, i) => ({
   ]
 }))
 
-export const DefaultExpectedResult: () => ExpectedResultType = () => ({
+export const DefaultExpectedResult: () => IExpectedResult = () => ({
   id: uuidv4(),
   code: '',
   result: '',
@@ -93,7 +93,7 @@ export const DefaultExpectedResult: () => ExpectedResultType = () => ({
   target: ''
 })
 
-export const DefaultMilestone: () => Milestones = () => ({
+export const DefaultMilestone: () => IMilestones = () => ({
   id: uuidv4(),
   code: '',
   milestone: '',
@@ -101,7 +101,7 @@ export const DefaultMilestone: () => Milestones = () => ({
   target: ''
 })
 
-export const DefaultActivity: () => Activity = () => ({
+export const DefaultActivity: () => IActivity = () => ({
   id: uuidv4(),
   name: 'Set Input in there',
   milestones: [DefaultMilestone()]

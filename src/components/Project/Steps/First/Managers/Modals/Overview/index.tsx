@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import {
   IManager,
   IManagerState,
-  ManagerOverview
+  IManagerOverview
 } from '../../../../../../../types/project'
 import { useGeneralInfo } from '../../../../../../../hooks/project/useGeneralInfo'
 import ManagerIcon from '../../../../../../ManagerIcon'
@@ -84,7 +84,7 @@ const ManagerModal = styled(AnsModal)`
   }
 `
 
-const ManagerOverviewModal: React.FC<ManagerOverview> = ({
+const ManagerOverviewModal: React.FC<IManagerOverview> = ({
   id,
   setOverview
 }) => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { AnsCollapse } from '../../../../AnsCollapse'
 import { Panel } from '../../../../Forms/AnsCollapse'
-import { Activity } from '../../../../../types/project'
+import { IActivity } from '../../../../../types/project'
 import InputAreaBox from '../InputAreaBox'
 import { Row } from 'antd'
 import { AsnButton } from '../../../../Forms/Button'
@@ -10,7 +10,7 @@ import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
 const InputActivity: React.FC<{
   id: string
   index: number
-  activities: Activity[]
+  activities: IActivity[]
 }> = ({ id, index, activities }) => {
   const { addNewMilestone, addNewActivity } = useProjectInput()
 

@@ -57,6 +57,14 @@ const Managers: React.FC = () => {
     setOverview(id)
   }
 
+  const setOverviewData: (item: React.SetStateAction<string | null>) => void = (item) => {
+    if (item !== null) {
+      editManager(item)
+    } else {
+      setOverview(null)
+    }
+  }
+
   return (
       <>
         <ManagerContainer>
@@ -92,13 +100,7 @@ const Managers: React.FC = () => {
               }
             }}
         />
-        <ManagerOverviewModal id={overview} setOverview={(item: React.SetStateAction<string | null>) => {
-          if (item !== null) {
-            editManager(item)
-          } else {
-            setOverview(null)
-          }
-        }} />
+        <ManagerOverviewModal id={overview} setOverview={setOverviewData} />
       </>
   )
 }
