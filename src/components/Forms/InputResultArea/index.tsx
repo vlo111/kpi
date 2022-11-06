@@ -12,10 +12,10 @@ export const InputResultArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  
+
   .result-container {
     display: flex;
-    
+
     .result-area {
       background-color: var(--dark-7);
       border-radius: 20px;
@@ -66,14 +66,14 @@ export const InputResultArea = styled.div`
         > div:nth-child(4) input {
           width: 58px;
         }
-        
+
         > .delete-result-box {
           margin-top: 1.4rem;
           cursor: pointer;
         }
       }
     }
-    
+
     .delete-result {
       margin-top: 1rem;
       width: 2rem;
@@ -81,7 +81,7 @@ export const InputResultArea = styled.div`
       cursor: pointer;
     }
   }
-  
+
   .ant-collapse {
     box-shadow: none;
     background: none;
@@ -113,7 +113,7 @@ export const InputResultArea = styled.div`
             font-size: 1rem;
           }
         }
-        
+
         div:first-child .delete-result-box {
           margin-top: 2.8rem;
         }
@@ -126,6 +126,7 @@ export const InputResultArea = styled.div`
     box-shadow: var(--input-result-are-box-shadow);
     border-radius: 20px;
     ${areaPanelBox('var(--secondary-green)')}
+    padding-right: 1rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -134,6 +135,20 @@ export const InputResultArea = styled.div`
       display: flex;
       flex-direction: column;
       gap: 1rem;
+
+      .activity-block {
+        display: flex;
+        gap: 0.5rem;
+
+        .ant-collapse {
+          width: 100%;
+        }
+      }
+
+      .delete-activity {
+        margin-top: 1rem;
+        cursor: pointer;
+      }
     }
 
     .ant-collapse-content {
@@ -144,7 +159,7 @@ export const InputResultArea = styled.div`
         padding: 2rem !important;
         padding-bottom: 1rem !important;
         ${areaPanelBox('var(--dark-border-ultramarine)')}
-        
+
         div:first-child .delete-result-box {
           margin-top: 3rem !important;
         }

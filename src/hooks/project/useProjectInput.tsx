@@ -9,6 +9,7 @@ import {
 } from '../../helpers/fakeData'
 import _ from 'lodash'
 import { IComponentChildren } from '../../types/global'
+import { ActionHandle, AddMilestone, DeleteActivity } from '../../types/context'
 
 // @ts-expect-error
 const ProjectInputContext = createContext()
@@ -27,14 +28,14 @@ export const ProjectInputProvider: React.FC<IComponentChildren> = ({ children })
     setResultArea(newResultArea)
   }
 
-  const deleteResultArea: (id: string) => void = (id) => {
+  const deleteResultArea: ActionHandle = (id) => {
     const newResultArea: IResultArea[] = resultArea.slice(0).filter((r) => r.id !== id)
 
     setResultArea(newResultArea)
   }
   // ResultArea
 
-  const addNewResult: (id: string) => void = (id) => {
+  const addNewResult: ActionHandle = (id) => {
     const newResultArea: IResultArea[] = resultArea.slice(0)
 
     const newResults: IResultArea | undefined = newResultArea.find(i => i.id === id)
@@ -61,7 +62,7 @@ export const ProjectInputProvider: React.FC<IComponentChildren> = ({ children })
   }
 
   // Activities
-  const addNewActivity: (id: string) => void = (id) => {
+  const addNewActivity: ActionHandle = (id) => {
     const newResultArea: IResultArea[] = resultArea.slice(0)
 
     const newResults: IResultArea | undefined = newResultArea.find(i => i.id === id)
@@ -75,7 +76,19 @@ export const ProjectInputProvider: React.FC<IComponentChildren> = ({ children })
     }
   }
 
-  const addNewMilestone: (resultId: string, activityId: string) => void = (resultId, activityId) => {
+  const deleteActivity: DeleteActivity = (resultId, id) => {
+    const newResultArea: IResultArea[] = resultArea.slice(0)
+
+    const newResults: IResultArea | undefined = newResultArea.find(i => i.id === resultId)
+
+    if (!_.isEmpty(newResults)) {
+      newResults.activity = newResults?.activity.filter((a: { id: string }) => a.id !== id)
+
+      setResultArea(newResultArea)
+    }
+  }
+
+  const addNewMilestone: AddMilestone = (resultId, activityId) => {
     const newResultArea: IResultArea[] = resultArea.slice(0)
 
     const newResults: IResultArea | undefined = newResultArea.find(i => i.id === resultId)
@@ -116,7 +129,8 @@ export const ProjectInputProvider: React.FC<IComponentChildren> = ({ children })
       addNewResultArea,
       deleteResultArea,
       deleteMilestone,
-      deleteExpectedResult
+      deleteExpectedResult,
+      deleteActivity
     }),
     [resultArea]
   )

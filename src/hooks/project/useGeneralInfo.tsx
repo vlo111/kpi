@@ -4,6 +4,12 @@ import {
   ManagerList
 } from '../../helpers/fakeData'
 import { IComponentChildren } from '../../types/global'
+import {
+  AddManager,
+  DeleteManagerById,
+  EditManager,
+  GetManager
+} from '../../types/context'
 
 // @ts-expect-error
 const GeneralInfoContext = createContext()
@@ -17,13 +23,13 @@ export const GeneralInfoProvider: React.FC<IComponentChildren> = ({ children }) 
   const [startDate, setStartDate] = useState<Date>(null)
   const [endDate, setEndDate] = useState<Date>(null)
 
-  const addNewManager: (manager: IManager) => void = (manager) => {
+  const addNewManager: AddManager = (manager) => {
     const newManagers: IManager[] = managers.slice(0)
     newManagers.push(manager)
     setAddManager(newManagers)
   }
 
-  const editManager: (manager: IManager) => void = (manager) => {
+  const editManager: EditManager = (manager) => {
     const getManagers: IManager[] = managers.slice(0)
 
     for (let i = 0; i < getManagers.length; i++) {
@@ -35,11 +41,11 @@ export const GeneralInfoProvider: React.FC<IComponentChildren> = ({ children }) 
     setAddManager(getManagers)
   }
 
-  const getManagerById: (id: string | null) => IManager | undefined = (id) => {
-    return id ? managers.find((m) => m.id === id) : undefined
+  const getManagerById: GetManager = (id) => {
+    return (id != null) ? managers.find((m) => m.id === id) : undefined
   }
 
-  const deleteManagerById: (id: string | null) => void = (id) => {
+  const deleteManagerById: DeleteManagerById = (id) => {
     const newManagers: IManager[] = managers.slice(0).filter((m) => m.id !== id)
 
     setAddManager(newManagers)

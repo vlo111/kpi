@@ -8,6 +8,7 @@ import InputActivity from '../InputActivity'
 import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.svg'
 import ConfirmModal from '../../../../Forms/Modal/ConfirmModal'
 import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
+import { ActionHandle } from '../../../../../types/context'
 
 const InputResult: React.FC<{ resultArea: IResultArea[] }> = ({
   resultArea
@@ -16,7 +17,7 @@ const InputResult: React.FC<{ resultArea: IResultArea[] }> = ({
   const [selectDeleteId, setSelectDeleteId] = useState('')
   const { deleteResultArea } = useProjectInput()
 
-  const deleteResultHandle: (id: string) => void = (id) => {
+  const deleteResultHandle: ActionHandle = (id) => {
     deleteResultArea(id)
   }
 

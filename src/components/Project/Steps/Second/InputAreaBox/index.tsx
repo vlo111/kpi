@@ -3,6 +3,7 @@ import { IExpectedResult, IMilestones } from '../../../../../types/project'
 import BoxContainer from './BoxContainer'
 import ConfirmModal from '../../../../Forms/Modal/ConfirmModal'
 import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
+import { ActionHandle } from '../../../../../types/context'
 
 const InputAreaBox: React.FC<{ list: IExpectedResult[] | IMilestones[], resultAreaId: string, activityId?: string }> = ({
   list,
@@ -13,7 +14,7 @@ const InputAreaBox: React.FC<{ list: IExpectedResult[] | IMilestones[], resultAr
   const [selectDeleteId, setSelectDeleteId] = useState({ item: '', id: '' })
   const { deleteMilestone, deleteExpectedResult } = useProjectInput()
 
-  const deleteResultHandle: (id: string) => void = (id) => {
+  const deleteResultHandle: ActionHandle = (id) => {
     if (selectDeleteId.item === 'expected') {
       deleteExpectedResult(resultAreaId, id)
     } else {

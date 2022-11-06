@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AnsCollapse } from '../../../../AnsCollapse'
 import { Panel } from '../../../../Forms/AnsCollapse'
 import { IActivity } from '../../../../../types/project'
@@ -6,14 +6,29 @@ import InputAreaBox from '../InputAreaBox'
 import { Row } from 'antd'
 import { AsnButton } from '../../../../Forms/Button'
 import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
+import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.svg'
+import ConfirmModal from '../../../../Forms/Modal/ConfirmModal'
 
 const InputActivity: React.FC<{
   id: string
   index: number
   activities: IActivity[]
 }> = ({ id, index, activities }) => {
-  const { addNewMilestone, addNewActivity } = useProjectInput()
+  const { addNewMilestone, addNewActivity, deleteActivity } = useProjectInput()
+  const [openDeleteResultModal, setOpenDeleteResultModal] = useState(false)
+  const [selectDeleteId, setSelectDeleteId] = useState('')
 
+  const FooterRow: (width: string) => any = (width) => (
+    <Row style={{ width }}>
+      <AsnButton
+        style={{ background: 'white', width: '100%', height: '44px' }}
+        value="Create"
+        onClick={() => addNewActivity(id)}
+      >
+        +Add Activity
+      </AsnButton>
+    </Row>
+  )
   return (
     <>
       <div className="panel">
@@ -25,34 +40,59 @@ const InputActivity: React.FC<{
             <span className="activity-title">Input Activity* </span>
             <div className="activity-list">
               {activities.map((activity) => (
-                <AnsCollapse key={activity.id} id={activity.id}>
-                  <Panel key={activity.id} header={activity.name}>
-                    <InputAreaBox resultAreaId={id} activityId={activity.id} list={activity.milestones} />
-                    <Row style={{ width: 'calc(100% - 10px)' }}>
-                      <AsnButton
-                          style={{ background: 'white', width: '100%', height: '44px' }}
+                <div key={activity.id} className="activity-block">
+                  <AnsCollapse id={activity.id}>
+                    <Panel key={activity.id} header={activity.name}>
+                      <InputAreaBox
+                        resultAreaId={id}
+                        activityId={activity.id}
+                        list={activity.milestones}
+                      />
+                      <Row style={{ width: 'calc(100% - 10px)' }}>
+                        <AsnButton
+                          style={{
+                            background: 'white',
+                            width: '100%',
+                            height: '44px'
+                          }}
                           value="Create"
                           onClick={() => addNewMilestone(id, activity.id)}
-                      >
-                        +Add Milestone
-                      </AsnButton>
-                    </Row>
-                  </Panel>
-                </AnsCollapse>
+                        >
+                          +Add Milestone
+                        </AsnButton>
+                      </Row>
+                    </Panel>
+                  </AnsCollapse>
+                  {activities.length > 1 && (
+                    <div
+                      className="delete-activity"
+                      onClick={() => {
+                        setOpenDeleteResultModal(!openDeleteResultModal)
+                        setSelectDeleteId(activity.id)
+                      }}
+                    >
+                      <DeleteSvg />
+                    </div>
+                  )}
+                </div>
               ))}
-              <Row>
-                <AsnButton
-                    style={{ background: 'white', width: '100%', height: '44px' }}
-                    value="Create"
-                    onClick={() => addNewActivity(id)}
-                >
-                  +Add Activity
-                </AsnButton>
-              </Row>
+              {activities.length > 1
+                ? FooterRow('calc(100% - 18px)')
+                : FooterRow('100%')}
             </div>
           </div>
         </div>
       </div>
+      <ConfirmModal
+        styles={{ gap: '6rem' }}
+        open={openDeleteResultModal}
+        title="Are you sure you want to delete  the field?"
+        onSubmit={() => {
+          deleteActivity(id, selectDeleteId)
+          setOpenDeleteResultModal(!openDeleteResultModal)
+        }}
+        onCancel={() => setOpenDeleteResultModal(!openDeleteResultModal)}
+      />
     </>
   )
 }
