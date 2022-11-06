@@ -89,7 +89,7 @@ export const DefaultExpectedResult: () => IExpectedResult = () => ({
   id: uuidv4(),
   code: '',
   result: '',
-  measure: '',
+  measure: 'Number',
   target: ''
 })
 
@@ -97,7 +97,7 @@ export const DefaultMilestone: () => IMilestones = () => ({
   id: uuidv4(),
   code: '',
   milestone: '',
-  measure: '',
+  measure: 'Number',
   target: ''
 })
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import AnsModal from '../../../../../../Forms/Modal'
 import { AsnButton } from '../../../../../../Forms/Button'
 import { IAddManagers, HandleSubmit, IManagerState, IManager, AddManagerHandle } from '../../../../../../../types/project'
@@ -6,6 +6,15 @@ import { Form } from '../../../../../../Forms/Form'
 import AnsInput from '../../../../../../Forms/Input'
 import { ManagerFields, VALIDATE_MESSAGES } from '../../../../../../../helpers/constants'
 import { useGeneralInfo } from '../../../../../../../hooks/project/useGeneralInfo'
+import styled from 'styled-components'
+
+const AddManagerModalWrapper = styled(AnsModal)`
+    width: 604px !important;
+  
+  .ant-modal-title {
+    font-size: var(--headline-font-size);
+  }
+`
 
 const AddManagerModal: React.FC<IAddManagers> = ({ manager, setManagerModalOpen, setAddManager }) => {
   const [form] = Form.useForm()
@@ -34,7 +43,7 @@ const AddManagerModal: React.FC<IAddManagers> = ({ manager, setManagerModalOpen,
   const fields = ManagerFields(manager)
 
   return (
-        <AnsModal
+        <AddManagerModalWrapper
             open={manager !== null}
             title={`${manager?.id ? 'Edit' : 'Add'} Person`}
             cancelText="Cancel"
@@ -88,7 +97,7 @@ const AddManagerModal: React.FC<IAddManagers> = ({ manager, setManagerModalOpen,
                     <AnsInput disabled placeholder="Project"/>
                 </Form.Item>
             </Form>
-        </AnsModal>
+        </AddManagerModalWrapper>
   )
 }
 

@@ -95,6 +95,40 @@ const GlobalStyle = createGlobalStyle`
   .ant-modal-wrap {
     overflow: hidden;
   }
+
+  .ant-select-dropdown {
+    padding: 0;
+    border: 1px solid var(--dark-5);
+    border-radius: 6px;
+    
+    .ant-select-item-option {
+      height: 58px;
+      padding: 19px 8px;
+      border-top: 1px solid var(--dark-border-ultramarine);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--dark-2);
+      font-size: var(--base-font-size);
+
+      &-active:not(.ant-select-item-option-disabled) {
+        background-color: var(--primary-light-2);
+      }
+
+      &-selected:not(.ant-select-item-option-disabled) {
+        font-weight: var(--font-semibold);
+        background-color: var(--primary-light-3);
+      }
+      
+      &:hover {
+        background: var(--primary-light-1);
+      }
+    }
+
+    .ant-select-item-option:last-child {
+      border-bottom: 1px solid var(--dark-border-ultramarine);
+    }
+  }
 `
 
 export default GlobalStyle
