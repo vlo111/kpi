@@ -120,7 +120,7 @@ const ManagerOverviewModal: React.FC<ManagerOverview> = ({
                 mask={false}
                 footer={false}
             >
-                <div className="overview">W
+                <div className="overview">
                     <div className="overview-header">
                         <ManagerIcon letter={letterIcon} color={manager?.color ?? ''}/>
                         <div className="overview-header-manager_name">
