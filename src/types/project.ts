@@ -102,3 +102,40 @@ export interface IGeneralInfo {
 export interface IManagerIcon { letter: string, color: string }
 
 export interface ManagerOverview { id: string | null, setOverview: any }
+
+export interface TabNames {
+  tabNumber: number
+  name: string
+  zIndex: number
+  active?: boolean
+  handleActiveTab: React.Dispatch<React.SetStateAction<{}>>
+  tabNames: object[]
+}
+export interface ActivityName {
+  name: string
+  active: number | undefined
+  names: string[]
+}
+
+export type activeTabName = {
+  number: null | number
+  default: boolean
+}
+
+export interface TabName {
+  name: string
+}
+export interface TabsNames {
+  tabNames: TabName[]
+  handleActiveTab: (tabNumber: any) => void
+  activeTab: {
+      number: number | null
+      default: boolean
+  }
+}
+export interface ActivityNamesProps {
+  names: string[]
+  activeName: number | undefined
+  setActiveName: React.Dispatch<React.SetStateAction<number | undefined>>
+}
+

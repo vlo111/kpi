@@ -8,6 +8,7 @@ import RecoverPassword from './pages/Auth/ResetPassword'
 import ConfirmEmail from './pages/Auth/ConfirmMailSignIn'
 import SignUp from './pages/Auth/SignUp'
 import ConfirmMailSignUp from './pages/Auth/ConfirmMailSignUp'
+import { Overview } from './components/Project/Overview'
 import { PATHS } from './helpers/constants'
 import { PublicRoutes } from './utils/PublicRoutes'
 import Root from './pages/Root'
@@ -26,6 +27,7 @@ export const router = createBrowserRouter(
       <Route path={PATHS.ConfirmEmail} element={<ConfirmEmail />} />
       <Route path={PATHS.SIGNUP} element={<SignUp />} />
       <Route path={PATHS.ConfirmEmailSignUp} element={<ConfirmMailSignUp />} />
+      <Route path={PATHS.Overview} element={<Overview />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
     </>
   )
