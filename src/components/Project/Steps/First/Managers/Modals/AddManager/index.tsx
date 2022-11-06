@@ -27,14 +27,11 @@ const AddManagerModal: React.FC<IAddManagers> = ({ manager, setManagerModalOpen,
   }
 
   const handleCancel: HandleSubmit = () => {
+    form.resetFields()
     setManagerModalOpen(null)
   }
 
   const fields = ManagerFields(manager)
-
-  useEffect(() => {
-    form.resetFields()
-  }, [])
 
   return (
         <AnsModal
@@ -88,7 +85,7 @@ const AddManagerModal: React.FC<IAddManagers> = ({ manager, setManagerModalOpen,
                 <Form.Item name="assigned" label="Assign to" rules={[{
                   required: true
                 }]}>
-                    <AnsInput disabled placeholder="Project" />
+                    <AnsInput disabled placeholder="Project"/>
                 </Form.Item>
             </Form>
         </AnsModal>
