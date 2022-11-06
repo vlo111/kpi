@@ -43,13 +43,13 @@ const Managers: React.FC = () => {
     null
   )
 
-  const [overview, setOverview] = useState<string>()
+  const [overview, setOverview] = useState<string | null>(null)
 
   const { managers, addNewManager }: IManagerState = useGeneralInfo()
 
-  const editManager: (id: string) => void = (id) => {
-    setManagerModalOpen(managers.find((m) => m.id === id) ?? null)
-  }
+  // const editManager: (id: string) => void = (id) => {
+  //   setManagerModalOpen(managers.find((m) => m.id === id) ?? null)
+  // }
 
   const addManager: HandleSubmit = () => {
     setManagerModalOpen(InitManager)
@@ -63,7 +63,7 @@ const Managers: React.FC = () => {
     <>
       <ManagerContainer>
         <Form.Item {...Name('Project Manager')}>
-          {managers.map((m, i) => (
+          {managers.map((m: IManager, i) => (
             <div
               key={m.id}
               className={i > 0 ? 'justify-left manager' : 'manager'}
@@ -94,7 +94,7 @@ const Managers: React.FC = () => {
           }
         }}
       />
-        <ManagerOverviewModal id={overview} />
+        <ManagerOverviewModal id={overview} setOverview={() => setOverview(null)} />
     </>
   )
 }

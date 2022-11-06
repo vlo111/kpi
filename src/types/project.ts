@@ -37,7 +37,12 @@ export interface IManager {
   assigned: string
 }
 
-export interface IManagerState { managers: IManager[], addNewManager: (manager: IManager) => void }
+export interface IManagerState {
+  managers: IManager[]
+  addNewManager: (manager: IManager) => void
+  getManagerById: (id: string | null) => IManager | undefined
+  deleteManagerById: (id: string | null) => void
+}
 
 export type ManagerFieldType = (manager: (IManager | null)) => Array<{ name: string[], value: string | undefined }>
 
@@ -95,3 +100,5 @@ export interface IGeneralInfo {
 }
 
 export interface IManagerIcon { letter: string, color: string }
+
+export interface ManagerOverview { id: string | null, setOverview: any }

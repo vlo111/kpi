@@ -90,7 +90,10 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 3.5px;    
     padding: 5px;
     width: 12px;
-
+  }
+  
+  .ant-modal-wrap {
+    overflow: hidden;
   }
 `
 

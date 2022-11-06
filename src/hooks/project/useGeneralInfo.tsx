@@ -23,6 +23,16 @@ export const GeneralInfoProvider: React.FC<IComponentChildren> = ({ children }) 
     setAddManager(newManagers)
   }
 
+  const getManagerById: (id: string | null) => IManager | undefined = (id) => {
+    return id ? managers.find((m) => m.id === id) : undefined
+  }
+
+  const deleteManagerById: (id: string | null) => void = (id) => {
+    const newManagers: IManager[] = managers.slice(0).filter((m) => m.id !== id)
+
+    setAddManager(newManagers)
+  }
+
   const value = useMemo(
     () => ({
       title,
@@ -34,7 +44,9 @@ export const GeneralInfoProvider: React.FC<IComponentChildren> = ({ children }) 
       setDescription,
       setStartDate,
       setEndDate,
-      addNewManager
+      addNewManager,
+      deleteManagerById,
+      getManagerById
     }),
     [managers, startDate, endDate, title, description]
   )

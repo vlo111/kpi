@@ -20,7 +20,7 @@ const IconContainer = styled.div`
 
 const ManagerIcon: React.FC<IManagerIcon> = ({ letter, color }) => {
   return (
-        <IconContainer style={{ background: color }}>
+        <IconContainer className="manager-icon" style={{ background: color }}>
             <span>{letter}</span>
         </IconContainer>
   )
