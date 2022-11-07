@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AsnCollapse } from '../../../../AnsCollapse'
-import { Panel } from '../../../../Forms/AnsCollapse'
+import { Panel } from '../../../../Forms/AsnCollapse'
 import { IActivity } from '../../../../../types/project'
 import InputAreaBox from '../InputAreaBox'
 import { Row } from 'antd'
