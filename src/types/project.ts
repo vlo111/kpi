@@ -166,11 +166,16 @@ export interface IDetail { name: string, id: string }
 
 export type Details = IDetail[]
 
-export interface OrganisationState {
+export interface IDetailsState {
   organizations: Details
   setOrganizations: (organization: IDetail) => void
   regions: Details
   setRegions: (region: IDetail) => void
   sectors: Details
   setSectors: (region: IDetail) => void
+}
+
+export interface ICreateTemplate {
+  isOpenCreateActivityModal: boolean
+  setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
 }

@@ -18,6 +18,8 @@ export const AsnModal = styled(Modal)`
     font-size: var(--headline-font-size);
     color: var(--dark-3);
     border-bottom: none;
+    padding: 0;
+    padding-bottom: 2rem;
   }
   
   .ant-modal-footer {
@@ -27,5 +29,11 @@ export const AsnModal = styled(Modal)`
       display: flex;
       justify-content: space-evenly;
     }
+  }
+
+  .ant-modal-title {
+    color: var(--dark-3);
+    font-weight: var(--font-semibold);
+    font-size: var(--headline-font-size);
   }
 `
