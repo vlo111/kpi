@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AnsCollapse } from '../../../../AnsCollapse'
+import { AsnCollapse } from '../../../../AnsCollapse'
 import { Panel } from '../../../../Forms/AnsCollapse'
 import { IActivity } from '../../../../../types/project'
 import InputAreaBox from '../InputAreaBox'
@@ -41,7 +41,7 @@ const InputActivity: React.FC<{
             <div className="activity-list">
               {activities.map((activity) => (
                 <div key={activity.id} className="activity-block">
-                  <AnsCollapse id={activity.id}>
+                  <AsnCollapse id={activity.id}>
                     <Panel key={activity.id} header={activity.name}>
                       <InputAreaBox
                         resultAreaId={id}
@@ -62,7 +62,7 @@ const InputActivity: React.FC<{
                         </AsnButton>
                       </Row>
                     </Panel>
-                  </AnsCollapse>
+                  </AsnCollapse>
                   {activities.length > 1 && (
                     <div
                       className="delete-activity"

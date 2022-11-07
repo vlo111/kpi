@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Collapse } from 'antd'
 
-export const AnsCollapseStyle = styled(Collapse)`
+export const AsnCollapseStyle = styled(Collapse)`
   border: none;
   background: var(--dark-7);
   box-shadow: var(--base-box-shadow);
@@ -37,4 +37,4 @@ export const AnsCollapseStyle = styled(Collapse)`
   }
 `
 
-export const { Panel } = AnsCollapseStyle
+export const { Panel } = AsnCollapseStyle

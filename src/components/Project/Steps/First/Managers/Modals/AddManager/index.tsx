@@ -1,14 +1,14 @@
 import React from 'react'
-import AnsModal from '../../../../../../Forms/Modal'
+import { AsnModal } from '../../../../../../Forms/Modal'
 import { AsnButton } from '../../../../../../Forms/Button'
 import { IAddManagers, HandleSubmit, IManagerState, IManager, AddManagerHandle } from '../../../../../../../types/project'
 import { Form } from '../../../../../../Forms/Form'
-import AnsInput from '../../../../../../Forms/Input'
+import AsnInput from '../../../../../../Forms/Input'
 import { ManagerFields, VALIDATE_MESSAGES } from '../../../../../../../helpers/constants'
 import { useGeneralInfo } from '../../../../../../../hooks/project/useGeneralInfo'
 import styled from 'styled-components'
 
-const AddManagerModalWrapper = styled(AnsModal)`
+const AddManagerModalWrapper = styled(AsnModal)`
     width: 604px !important;
   
   .ant-modal-title {
@@ -72,29 +72,29 @@ const AddManagerModal: React.FC<IAddManagers> = ({ manager, setManagerModalOpen,
                   min: 2,
                   max: 256
                 }]}>
-                    <AnsInput placeholder="Anna"/>
+                    <AsnInput placeholder="Anna"/>
                 </Form.Item>
                 <Form.Item name="lastName" label="Last Name" rules={[{
                   required: true,
                   min: 2,
                   max: 256
                 }]}>
-                    <AnsInput placeholder="Hakobyan"/>
+                    <AsnInput placeholder="Hakobyan"/>
                 </Form.Item>
                 <Form.Item name="email" label="Email Address" rules={[{ required: true }, { type: 'email' }]}>
-                    <AnsInput placeholder="annahakobyan@name.com"/>
+                    <AsnInput placeholder="annahakobyan@name.com"/>
                 </Form.Item>
                 <Form.Item name="position" label="Position" rules={[{
                   required: true,
                   min: 2,
                   max: 256
                 }]}>
-                    <AnsInput placeholder="Project Manager"/>
+                    <AsnInput placeholder="Project Manager"/>
                 </Form.Item>
                 <Form.Item name="assigned" label="Assign to" rules={[{
                   required: true
                 }]}>
-                    <AnsInput disabled placeholder="Project"/>
+                    <AsnInput disabled placeholder="Project"/>
                 </Form.Item>
             </Form>
         </AddManagerModalWrapper>

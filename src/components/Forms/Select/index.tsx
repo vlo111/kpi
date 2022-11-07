@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Select } from 'antd'
 
-export const AnsSelect = styled(Select)`
+export const AsnSelect = styled(Select)`
   &.ant-select-focused {
 
     .ant-select-selector {
