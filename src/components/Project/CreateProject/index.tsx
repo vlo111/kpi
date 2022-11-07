@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { StepProps } from '../../../types/project'
 import { ReactComponent as ArrowLeftSvg } from '../../../assets/icons/arrowLeft.svg'
 import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg'
-import { Descriptions } from 'antd'
-// import { ReactComponent as DateSvg } from '../../../assets/icons/date.svg'
+import { ReactComponent as DateSvg } from '../../../assets/icons/date.svg'
+
 // const Container = styled.div`
 //   display: flex;
 //   justify-content: center;
@@ -37,12 +37,14 @@ const Title = styled.div`
   font-weight: 700;
   font-size: 48px;
   text-align: center;
+  margin-bottom: 32px;
 `
 const GeneralInfo = styled.div`
   background: var(--white);
   border-radius: 20px;
   border-top: 3px solid #F3C262;
   box-shadow: var(--base-box-shadow);
+  margin-bottom: 16px;
 `
 const InfoNameWrapper = styled.div`
   display: flex;
@@ -55,6 +57,51 @@ const InfoNameWrapper = styled.div`
     color: var(--dark-border-ultramarine);
     margin: 0;
   }
+`
+const FlexWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 34px;
+`
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+  width: 50%;
+  .grid1 { grid-area: 1 / 1 / 2 / 2; }
+  .grid2 { grid-area: 1 / 2 / 2 / 3; }
+  .grid3 { grid-area: 2 / 1 / 3 / 2; }
+  .grid4 { grid-area: 2 / 2 / 3 / 3; }
+  .grid5 { grid-area: 3 / 1 / 4 / 2; }
+  .grid6 { grid-area: 3 / 2 / 4 / 3; }
+  .grid7 { grid-area: 4 / 1 / 5 / 2; }
+  .grid8 { grid-area: 4 / 2 / 5 / 3; }
+`
+
+const DateWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 11px;
+`
+const ResultAndActivity = styled.div`
+  background: var(--white);
+  border-radius: 20px;
+  border-top: 3px solid #68A395;
+  box-shadow: var(--base-box-shadow);
+`
+const GridResult = styled.div`
+  display: grid;
+grid-template-columns:40px 90% 30px;
+grid-column-gap: 16px;
+grid-row-gap: 0px;
+width: 65%;
+.div1 { grid-area: 1 / 1 / 2 / 2; }
+.div2 { grid-area: 1 / 2 / 2 / 3; }
+.div3 { grid-area: 1 / 3 / 2 / 4; }
 `
 export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
   return (
@@ -74,7 +121,80 @@ export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
           <h3>General Info</h3>
           <EditSvg />
         </InfoNameWrapper>
+        <FlexWrap>
+          <Grid>
+            <div className="grid1">Title</div>
+            <div className="grid2">AWDA</div>
+            <div className="grid3">Description</div>
+            <div className="grid4">Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills
+              Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills</div>
+            <div className="grid5">Start Date</div>
+            <div className="grid6">
+              <DateWrapper>
+                <DateSvg />
+                <div>10/22/21</div>
+              </DateWrapper>
+            </div>
+            <div className="grid7">End Date</div>
+            <div className="grid8">
+              <DateWrapper>
+                <DateSvg />
+                <div>10/22/26</div>
+              </DateWrapper>
+            </div>
+          </Grid>
+        </FlexWrap>
       </GeneralInfo>
+      <ResultAndActivity>
+        <InfoNameWrapper>
+          <h3>Result areas and Activities</h3>
+          <EditSvg />
+        </InfoNameWrapper>
+        <div style={{ paddingLeft: '16px', paddingRight: '65px' }}>
+          <div style={{ marginBottom: '16px' }}>1.Skill gap reduced</div>
+          <div style={{ display: 'flex', alignItems: 'center', borderLeft: '1px solid black', marginLeft: '50px', flexDirection: 'column', gap: '16px' }}>
+            <GridResult>
+              <div className='div1'>OP1.1</div>
+              <div className='div2'>individuals with improved technical and soft skills following participation in USG-assisted workforce development programs</div>
+              <div className='div3'>1000</div>
+            </GridResult>
+            <GridResult>
+              <div className='div1'>OP1.2</div>
+              <div className='div2'>vulnerable persons including persons with disabilities (PWD) benefiting from U.S. Government supported work-based training and dual education programs</div>
+              <div className='div3'>50</div>
+            </GridResult>
+            <GridResult>
+              <div className='div1'>OP1.3</div>
+              <div className='div2'>female participants in USG-assisted programs </div>
+              <div className='div3'>50%</div>
+            </GridResult>
+            <GridResult >
+              <div className='div1'>OP1.4</div>
+              <div className='div2'>service providers trained who serve vulnerable personss</div>
+              <div className='div3'>20</div>
+            </GridResult>
+            <GridResult >
+              <div className='div1'>OP1.5</div>
+              <div className='div2'>vulnerable persons including persons with disabilities (PWD) benefiting from U.S. Government supported work-based training and dual education programs</div>
+              <div className='div3'>20</div>
+            </GridResult>
+          </div>
+          <div style={ { borderLeft: '1px solid #000000', marginLeft: '50px' } }>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
+              <div style={{ border: '1px solid #000000', width: '28px' }}></div>
+              <div> 1.1 Mapping the labor market</div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>skill mapping study completed and study report, summarizing findings and recommendations developed. </div>
+          </div>
+          <div style={ { borderLeft: '1px solid #000000', marginLeft: '50px' } }>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
+              <div style={{ border: '1px solid #000000', width: '28px' }}></div>
+              <div> 1.1 Mapping the labor market</div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>skill mapping study completed and study report, summarizing findings and recommendations developed. </div>
+          </div>
+        </div>
+      </ResultAndActivity>
     </>
   )
 }
