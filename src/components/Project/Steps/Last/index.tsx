@@ -27,9 +27,9 @@ const Collapses = styled.div`
 `
 
 export const Last: React.FC = () => {
-  const [organization, setOrganization] = useState(OrganizationList)
-  const [regions, setRegions] = useState(RegionList)
-  const [sectors, setSectors] = useState(SectorList)
+  const [organization] = useState(OrganizationList)
+  const [regions] = useState(RegionList)
+  const [sectors] = useState(SectorList)
 
   return (
         <Collapses>
