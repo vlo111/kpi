@@ -117,3 +117,8 @@ export interface ActivityNamesProps {
   setActiveName: React.Dispatch<React.SetStateAction<number | undefined>>
 }
 
+export interface SubActivityProps {
+  multiple: boolean
+  activity: string
+  subActivities: string[]
+}

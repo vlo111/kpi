@@ -1,7 +1,7 @@
 import React from 'react'
 // import { ReactComponent as CreateProjectSvg } from '../../../assets/icons/create-project.svg'
 import styled from 'styled-components'
-import { StepProps } from '../../../types/project'
+import { StepProps, SubActivityProps } from '../../../types/project'
 import { ReactComponent as ArrowLeftSvg } from '../../../assets/icons/arrowLeft.svg'
 import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg'
 import { ReactComponent as DateSvg } from '../../../assets/icons/date.svg'
@@ -103,6 +103,31 @@ width: 65%;
 .div2 { grid-area: 1 / 2 / 2 / 3; }
 .div3 { grid-area: 1 / 3 / 2 / 4; }
 `
+const actvities = [
+  {
+    actvity: '1.1 Mapping the labor market',
+    subActivities: ['skill mapping study completed and study report, summarizing findings and recommendations developed.']
+  },
+  {
+    actvity: '1.2 Mapping the labor market',
+    subActivities: ['multimedia lab established in Gyumri', 'computer labs established in Vanadzor']
+  }
+]
+const SubActivity: React.FC<SubActivityProps> = ({ multiple, activity, subActivities }) => {
+  return (
+    <div style={ { marginLeft: '50px' } }>
+    <div className={ multiple ? '' : 'mybox' } style={ multiple ? { display: 'flex', alignItems: 'center', gap: '30px', borderLeft: '1px solid black' } : { display: 'flex', alignItems: 'center', gap: '30px' } }>
+      <div style={{ border: '1px solid #000000', width: '28px' }}></div>
+      <div>{activity}</div>
+    </div>
+      {subActivities.map((item, i) => (
+       <div key={i} style={ multiple ? { display: 'flex', justifyContent: 'start', paddingLeft: '20%', borderLeft: '1px solid black' } : { display: 'flex', justifyContent: 'start', paddingLeft: '20%' } }>
+       {item}
+       </div>
+      ))}
+  </div>
+  )
+}
 export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
   return (
     // <Container onClick={() => setStep(true)}>
@@ -150,7 +175,7 @@ export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
           <h3>Result areas and Activities</h3>
           <EditSvg />
         </InfoNameWrapper>
-        <div style={{ paddingLeft: '16px', paddingRight: '65px' }}>
+        <div style={{ paddingLeft: '16px', paddingRight: '65px', paddingBottom: '37px' }}>
           <div style={{ marginBottom: '16px' }}>1.Skill gap reduced</div>
           <div style={{ display: 'flex', alignItems: 'center', borderLeft: '1px solid black', marginLeft: '50px', flexDirection: 'column', gap: '16px' }}>
             <GridResult>
@@ -179,20 +204,16 @@ export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
               <div className='div3'>20</div>
             </GridResult>
           </div>
-          <div style={ { borderLeft: '1px solid #000000', marginLeft: '50px' } }>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
+          {actvities.map((item, i) => (
+            <SubActivity key={i} multiple={ actvities.length - 1 !== i } activity={item.actvity} subActivities={item.subActivities} />
+          ))}
+          {/* <div style={ { borderLeft: '1px solid #000000', marginLeft: '50px' } }>
+            <div style={{ display: 'flex', alignItems: - 'center', gap: '30px' }}>
               <div style={{ border: '1px solid #000000', width: '28px' }}></div>
               <div> 1.1 Mapping the labor market</div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center' }}>skill mapping study completed and study report, summarizing findings and recommendations developed. </div>
-          </div>
-          <div style={ { borderLeft: '1px solid #000000', marginLeft: '50px' } }>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
-              <div style={{ border: '1px solid #000000', width: '28px' }}></div>
-              <div> 1.1 Mapping the labor market</div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>skill mapping study completed and study report, summarizing findings and recommendations developed. </div>
-          </div>
+          </div> */}
         </div>
       </ResultAndActivity>
     </>
