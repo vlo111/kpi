@@ -1,10 +1,10 @@
-import { InitialFields, IResultArea, Rules } from '../types/project'
+import { IGeneralInfo, InitGeneralInfoFields, InitResultAreaFields, IResultArea, Rules } from '../types/project'
 
 export const rules: Rules = (min, max) => ({
   rules: [{ required: true, min, max }]
 })
 
-export const initFields: InitialFields = (resultArea) => [
+export const initFields: InitResultAreaFields = (resultArea) => [
   ...resultArea.map((o: IResultArea) => ({
     name: [o.expectedResult[0].id],
     value: o.expectedResult[0].code
@@ -34,4 +34,11 @@ export const initFields: InitialFields = (resultArea) => [
     .flat()
     .flat()
     .flat()
+]
+
+export const initGeneralInfoFields: InitGeneralInfoFields = (generalInfo) => [
+  ...generalInfo.map((o: IGeneralInfo) => ({
+    name: [o.title],
+    value: o.title
+  }))
 ]

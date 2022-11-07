@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Form } from '../../../../Forms/Form'
 import AnsDatePicker from '../../../../Forms/DatePicker'
 import { Moment } from 'moment'
-import { DisabledDate, Date, OnChange } from '../../../../../types/project'
+import { DisabledDate } from '../../../../../types/project'
 import { Name } from '../../../../../helpers/constants'
 
 const Picker = styled.div`
@@ -33,47 +33,36 @@ const rules = {
   ]
 }
 
-export const Pickers: React.FC = () => {
-  const [startData, setStartData] = useState<Date>(null)
-
-  const [endData, setEndDate] = useState<Date>(null)
-
+export const Pickers: React.FC<{ form: any }> = ({ form }) => {
   const disabledDate: DisabledDate = (current: Moment, item) => {
-    if (item === 'start') {
-      return current && current > (endData ?? current)
-    } else {
-      return current && current < (startData ?? current)
-    }
-  }
+    const startDate = form.getFieldsValue()['Start Date']
+    const endDate = form.getFieldsValue()['End Date']
 
-  const onChange: OnChange = (date: Date, item: string) => {
     if (item === 'start') {
-      setStartData(date)
+      return current && current > (endDate ?? current)
     } else {
-      setEndDate(date)
+      return current && current < (startDate ?? current)
     }
   }
 
   return (
-    <Picker>
-      <Form.Item
-        {...Name('Start Date')}
-        {...rules}
-      >
-        <AnsDatePicker
-          disabledDate={(current: Moment) => disabledDate(current, 'start')}
-          onChange={(date: Date) => onChange(date, 'start')}
-        />
-      </Form.Item>
-      <Form.Item
-        {...Name('End Date')}
-        {...rules}
-      >
-        <AnsDatePicker
-          disabledDate={(current: Moment) => disabledDate(current, 'end')}
-          onChange={(date: Date) => onChange(date, 'end')}
-        />
-      </Form.Item>
-    </Picker>
+        <Picker>
+            <Form.Item
+                {...Name('Start Date')}
+                {...rules}
+            >
+                <AnsDatePicker
+                    disabledDate={(current: Moment) => disabledDate(current, 'start')}
+                />
+            </Form.Item>
+            <Form.Item
+                {...Name('End Date')}
+                {...rules}
+            >
+                <AnsDatePicker
+                    disabledDate={(current: Moment) => disabledDate(current, 'end')}
+                />
+            </Form.Item>
+        </Picker>
   )
 }

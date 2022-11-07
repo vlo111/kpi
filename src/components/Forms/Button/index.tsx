@@ -35,7 +35,7 @@ export const AsnButton = styled(Button)`
     font-weight: var(--font-bold);
     padding: 5px 30px;
     font-size: var(--base-font-size);
-    height: auto;
+    height: 44px;
     border-radius: 5px;
 
     &:hover {

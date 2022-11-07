@@ -1,4 +1,4 @@
-import { Activity, ExpectedResultType, IResultArea, Milestones } from '../types/project'
+import { IActivity, IExpectedResult, IManager, IResultArea, IMilestones } from '../types/project'
 import { v4 as uuidv4 } from 'uuid'
 
 export const OrganizationList: Array<{ name: string, id: string }> = Array.from(
@@ -16,7 +16,7 @@ export const SectorList: Array<{ name: string, id: string }> = Array.from(
   (v, i) => ({ id: `s${i}`, name: `Sector ${i}` })
 )
 
-export const ResultArea: IResultArea[] = Array.from({ length: 7 }, (v, i) => ({
+export const ResultArea: IResultArea[] = Array.from({ length: 1 }, (v, i) => ({
   id: uuidv4(),
   name: `${i}. Skill gap reduced`,
   expectedResult: [
@@ -85,23 +85,23 @@ export const ResultArea: IResultArea[] = Array.from({ length: 7 }, (v, i) => ({
   ]
 }))
 
-export const DefaultExpectedResult: () => ExpectedResultType = () => ({
+export const DefaultExpectedResult: () => IExpectedResult = () => ({
   id: uuidv4(),
   code: '',
   result: '',
-  measure: '',
+  measure: 'Number',
   target: ''
 })
 
-export const DefaultMilestone: () => Milestones = () => ({
+export const DefaultMilestone: () => IMilestones = () => ({
   id: uuidv4(),
   code: '',
   milestone: '',
-  measure: '',
+  measure: 'Number',
   target: ''
 })
 
-export const DefaultActivity: () => Activity = () => ({
+export const DefaultActivity: () => IActivity = () => ({
   id: uuidv4(),
   name: 'Set Input in there',
   milestones: [DefaultMilestone()]
@@ -114,9 +114,10 @@ export const DefaultResultArea: () => IResultArea = () => ({
   activity: [DefaultActivity()]
 })
 
-export const ManagerList = [{
+export const ManagerList: () => IManager[] = () => [{
   id: '1',
   firstName: 'Volodya',
+  color: `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`,
   lastName: 'Vardanyan',
   email: 'vv@vv.vv',
   position: 'manager',
@@ -124,6 +125,7 @@ export const ManagerList = [{
 }, {
   id: '2',
   firstName: 'Leo',
+  color: `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`,
   lastName: 'Messi',
   email: 'aa@aa.bb',
   position: 'manager',
@@ -133,6 +135,7 @@ export const ManagerList = [{
 export const InitManager = {
   assigned: '',
   email: '',
+  color: `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`,
   firstName: '',
   id: '',
   lastName: '',

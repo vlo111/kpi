@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Modal } from 'antd'
 
 const AsnModal = styled(Modal)`
-  width: clamp(18rem, 42vw, 40rem) !important;
+  width: clamp(18rem, 42vw, 40rem);
   
   .ant-modal-content {
     padding: 32px 72px 52px;

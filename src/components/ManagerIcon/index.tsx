@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { IManagerIcon } from '../../types/project'
 
 const IconContainer = styled.div`
   width: 40px;
@@ -17,9 +18,9 @@ const IconContainer = styled.div`
   cursor: pointer;
 `
 
-const ManagerIcon: React.FC<{ letter: string }> = ({ letter }) => {
+const ManagerIcon: React.FC<IManagerIcon> = ({ letter, color }) => {
   return (
-        <IconContainer>
+        <IconContainer className="manager-icon" style={{ background: color }}>
             <span>{letter}</span>
         </IconContainer>
   )
