@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Form } from '../../../../Forms/Form'
-import AnsDatePicker from '../../../../Forms/DatePicker'
+import { AsnDatePicker } from '../../../../Forms/DatePicker'
 import { Moment } from 'moment'
 import { DisabledDate } from '../../../../../types/project'
 import { Name } from '../../../../../helpers/constants'
@@ -51,7 +51,7 @@ export const Pickers: React.FC<{ form: any }> = ({ form }) => {
                 {...Name('Start Date')}
                 {...rules}
             >
-                <AnsDatePicker
+                <AsnDatePicker
                     disabledDate={(current: Moment) => disabledDate(current, 'start')}
                 />
             </Form.Item>
@@ -59,7 +59,7 @@ export const Pickers: React.FC<{ form: any }> = ({ form }) => {
                 {...Name('End Date')}
                 {...rules}
             >
-                <AnsDatePicker
+                <AsnDatePicker
                     disabledDate={(current: Moment) => disabledDate(current, 'end')}
                 />
             </Form.Item>

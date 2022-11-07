@@ -3,7 +3,7 @@ import React from 'react'
 import { Form } from '../../../../../Forms/Form'
 import { rules } from '../../../../../../utils/ProjectUtils'
 import AsnInput, { TextArea } from '../../../../../Forms/Input'
-import { AnsSelect } from '../../../../../Forms/Select'
+import { AsnSelect } from '../../../../../Forms/Select'
 
 const firstLabel: (text: string, i: number) => string = (text, i) =>
   i === 0 ? text : ''
@@ -38,11 +38,11 @@ const Box: React.FC<{ id: string, index: number, placeHolders: string[] }> = ({ 
                     label={firstLabel('Measure', index)}
                     {...rules(2, 256)}
                 >
-                    <AnsSelect style={{ width: '148px', height: '58px' }}>
+                    <AsnSelect style={{ width: '148px', height: '58px' }}>
                         <Option value="number">Number</Option>
                         <Option value="attachment">Attachment</Option>
                         <Option value="percentage">Percentage</Option>
-                    </AnsSelect>
+                    </AsnSelect>
                 </Form.Item>
             </Col>
             <Col>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AnsModal from '../../../../../../Forms/Modal'
+import { AsnModal } from '../../../../../../Forms/Modal'
 import styled from 'styled-components'
 import {
   IManager,
@@ -12,7 +12,7 @@ import { ReactComponent as EditSvg } from '../../../../../../../assets/icons/edi
 import { ReactComponent as DeleteSvg } from '../../../../../../../assets/icons/delete.svg'
 import ConfirmModal from '../../../../../../Forms/Modal/ConfirmModal'
 
-const ManagerModal = styled(AnsModal)`
+const ManagerModal = styled(AsnModal)`
   border-top: 3px solid var(--secondary-green);
   border-radius: 20px;
 

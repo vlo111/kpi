@@ -1,9 +1,9 @@
 import React from 'react'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { IPanelIsActive } from '../../types/project'
-import { AnsCollapseStyle } from '../Forms/AnsCollapse'
+import { AsnCollapseStyle } from '../Forms/AnsCollapse'
 
-export const AnsCollapse: React.FC<{
+export const AsnCollapse: React.FC<{
   id: string
   activeKey?: string
   children: React.ReactNode
@@ -17,8 +17,8 @@ export const AnsCollapse: React.FC<{
   }
 
   return (
-        <AnsCollapseStyle key={id} {...getPropsData}>
+        <AsnCollapseStyle key={id} {...getPropsData}>
             {children}
-        </AnsCollapseStyle>
+        </AsnCollapseStyle>
   )
 }

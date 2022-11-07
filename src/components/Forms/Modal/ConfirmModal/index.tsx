@@ -1,10 +1,10 @@
 import React from 'react'
-import AnsModal from '../../../Forms/Modal'
+import { AsnModal } from '../../../Forms/Modal'
 import styled from 'styled-components'
 import { ConfirmModalType } from '../../../../types/global'
 import { AsnButton } from '../../Button'
 
-const ConfirmModal = styled(AnsModal)`
+const ConfirmModal = styled(AsnModal)`
   .wrapper {
     display: flex;
     flex-direction: column;

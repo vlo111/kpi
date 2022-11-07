@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Steps } from 'antd'
 
-export const AnsStepsHeader = styled(Steps)`
+export const AsnStepsHeader = styled(Steps)`
   
   .ant-steps-item-process > .ant-steps-item-container {
     > .ant-steps-item-content > .ant-steps-item-title {
