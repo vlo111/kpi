@@ -12,6 +12,7 @@ import { Overview } from './components/Project/Overview'
 import { PATHS } from './helpers/constants'
 import { PublicRoutes } from './utils/PublicRoutes'
 import Root from './pages/Root'
+import Applicants from './components/Team/ApplicantsList'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +21,7 @@ export const router = createBrowserRouter(
         <Route path={PATHS.SIGNIN} element={<SignIn />} />
       </Route>
       <Route path={PATHS.ROOT} element={<Root />} />
+      <Route path={PATHS.TEAMS} element={<Applicants />} />
       <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
       <Route path={PATHS.ERROR_403} element={<Error403 />} />
       <Route path={PATHS.FORGOTPASSWORD} element={<ForgotPassword />} />

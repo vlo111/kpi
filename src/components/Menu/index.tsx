@@ -7,6 +7,7 @@ import { ReactComponent as ApplicantsSvg } from '../../assets/icons/aplicants.sv
 import { ReactComponent as ProductGuideSvg } from '../../assets/icons/product-guide.svg'
 import { ReactComponent as ShortcutsSvg } from '../../assets/icons/shortcuts.svg'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
 const MenuLayout = styled(Layout)`
   height: 100%;
@@ -65,13 +66,14 @@ const Footer = styled(MenuLayout.Footer)`
 `
 
 export const Menu: React.FC = () => {
+  const navigate = useNavigate()
   return (
     <MenuLayout>
       <Header>Meetk</Header>
       <Content>
         <div><DashboardSvg/> <span>Dashboard</span></div>
         <div><ProjectSvg/> <span>Project</span></div>
-        <div><TeamSvg/> <span>Team</span></div>
+        <div onClick={() => navigate('/teams')}><TeamSvg/> <span>Team</span></div>
         <div><ApplicantsSvg/> <span>Applicants</span></div>
       </Content>
       <Footer className="menu-footer">
