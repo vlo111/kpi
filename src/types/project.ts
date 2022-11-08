@@ -168,9 +168,9 @@ export type Details = IDetail[]
 
 export interface OrganisationState {
   organizations: Details
-  setOrganizations: (organization: IDetail) => void
+  setOrganizations: (organization: IDetail[]) => void
   regions: Details
-  setRegions: (region: IDetail) => void
+  setRegions: (region: IDetail[]) => void
   sectors: Details
-  setSectors: (region: IDetail) => void
+  setSectors: (region: IDetail[]) => void
 }

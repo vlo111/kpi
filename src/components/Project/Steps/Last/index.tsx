@@ -7,6 +7,7 @@ import AsnInput from '../../../Forms/Input'
 import { AsnButton } from '../../../Forms/Button'
 import { useProjectDetails } from '../../../../hooks/project/useProjectDetails'
 import { IDetail, OrganisationState } from '../../../../types/project'
+import { useProject } from '../../../../hooks/project/useProject'
 const Collapses = styled.div`
   display: flex;
   flex-direction: column;
@@ -29,13 +30,10 @@ const Collapses = styled.div`
     button {
       width: 133px;
       height: 44px !important;
-      border-radius: 10px !important;
+      box-shadow: 0 4px 4px rgba(42, 85, 120, 0.05);
+      border-radius: 6px;
     }
   }
-
-  //button {
-  //  background-color: var(--white) !important;
-  //}
 `
 
 export const Last: React.FC = () => {
@@ -48,6 +46,49 @@ export const Last: React.FC = () => {
     setOrganizations
   }: OrganisationState = useProjectDetails()
 
+  const { prevCurrent } = useProject()
+
+  console.log(organizations)
+
+  const addOrganisation: () => void = () => {
+    const org = {
+      id: `o${organizations.length}`,
+      name: `Organization ${organizations.length}`
+    }
+
+    const orgs: IDetail[] = organizations.slice(0)
+
+    orgs.push(org)
+
+    setOrganizations(orgs)
+  }
+
+  const addRegions: () => void = () => {
+    const reg = {
+      id: `r${regions.length}`,
+      name: `Sectors ${regions.length}`
+    }
+
+    const regs: IDetail[] = regions.slice(0)
+
+    regs.push(reg)
+
+    setRegions(regs)
+  }
+
+  const addSectors: () => void = () => {
+    const sec = {
+      id: `s${regions.length}`,
+      name: `Sectors ${regions.length}`
+    }
+
+    const sects: IDetail[] = sectors.slice(0)
+
+    sects.push(sec)
+
+    setSectors(sects)
+  }
+
   return (
     <Collapses>
       <AsnCollapse key={'org'} id="org">
@@ -58,12 +99,7 @@ export const Last: React.FC = () => {
             </Row>
           ))}
           <AsnButton
-            onClick={() => {
-              setOrganizations({
-                id: `o${organizations.length}`,
-                name: `Organization ${organizations.length}`
-              })
-            }}
+            onClick={addOrganisation}
           >
             +Add Organizations
           </AsnButton>
@@ -75,16 +111,10 @@ export const Last: React.FC = () => {
             <Row key={r.id}>
               <AsnInput
                 placeholder="Example: Ararat Marz*"
-                onClick={() => {
-                  setRegions({
-                    id: `o${regions.length}`,
-                    name: `Organization ${regions.length}`
-                  })
-                }}
               />
             </Row>
           ))}
-          <AsnButton>+Add Regions</AsnButton>
+          <AsnButton onClick={addRegions}>+Add Regions</AsnButton>
         </Panel>
       </AsnCollapse>
       <AsnCollapse key={'sec'} id="sec">
@@ -93,20 +123,16 @@ export const Last: React.FC = () => {
             <Row key={r.id}>
               <AsnInput
                 placeholder="Example: IT*"
-                onClick={() => {
-                  setSectors({
-                    id: `o${sectors.length}`,
-                    name: `Organization ${sectors.length}`
-                  })
-                }}
               />
             </Row>
           ))}
-          <AsnButton>+Add Sectors</AsnButton>
+          <AsnButton onClick={addSectors}>+Add Sectors</AsnButton>
         </Panel>
       </AsnCollapse>
       <div className="footer">
-        <AsnButton onClick={() => {}}>Previous</AsnButton>
+        <AsnButton onClick={() => {
+          prevCurrent()
+        }}>Previous</AsnButton>
         <AsnButton>Save as Draft</AsnButton>
         <AsnButton type="primary" htmlType="submit">
           Publish
