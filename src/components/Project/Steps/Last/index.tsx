@@ -6,7 +6,7 @@ import { Row } from 'antd'
 import AsnInput from '../../../Forms/Input'
 import { AsnButton } from '../../../Forms/Button'
 import { useProjectDetails } from '../../../../hooks/project/useProjectDetails'
-import { IDetail, OrganisationState } from '../../../../types/project'
+import { IDetail, IDetailsState } from '../../../../types/project'
 import { useProject } from '../../../../hooks/project/useProject'
 const Collapses = styled.div`
   display: flex;
@@ -44,7 +44,7 @@ export const Last: React.FC = () => {
     setRegions,
     setSectors,
     setOrganizations
-  }: OrganisationState = useProjectDetails()
+  }: IDetailsState = useProjectDetails()
 
   const { prevCurrent } = useProject()
 
