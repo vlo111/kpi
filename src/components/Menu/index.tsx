@@ -10,7 +10,9 @@ import styled from 'styled-components'
 
 const MenuLayout = styled(Layout)`
   height: 100%;
+  width: 240px;
   background: var(--white);
+  box-shadow: var(--manu-box-shadow);
 `
 
 const Header = styled(MenuLayout.Header)`
@@ -43,6 +45,11 @@ const Content = styled(MenuLayout.Content)`
       background: var(--primary-light-1);
       border-right: 2px solid var(--dark-border-ultramarine);
     }
+
+    span {
+      color: var(--dark-border-ultramarine);
+      font-size: var(--headline-font-size);
+    }
   }
 `
 
@@ -60,6 +67,11 @@ const Footer = styled(MenuLayout.Footer)`
 
     > svg {
       margin-right: 10px;
+    }
+
+    span {
+      color: var(--dark-border-ultramarine);
+      font-size: var(--font-size-semismall);
     }
   }
 `

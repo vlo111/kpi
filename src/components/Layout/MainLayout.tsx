@@ -11,8 +11,10 @@ const LayoutStyle = styled(Layout)`
 `
 
 const Sider = styled(LayoutStyle.Sider)`
-  background: var(--white);
-  box-shadow: var(--manu-box-shadow);
+  width: 240px !important;
+  min-width: 240px !important;
+  max-width: 240px !important;
+  flex: 0 0 240px !important;
   z-index: 2;
 `
 
