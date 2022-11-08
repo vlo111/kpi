@@ -6,6 +6,7 @@ import { TemUsersType } from '../../../types/teams'
 import { TeamList } from '../../../helpers/fakeData'
 import { AsnModal } from '../../../components/Forms/Modal/index'
 import { AsnButton } from '../../Forms/Button'
+import { useNavigate } from 'react-router-dom'
 
 const ApplicantListSmall = styled(AsnModal)`
     .ant-modal-content{
@@ -13,10 +14,10 @@ const ApplicantListSmall = styled(AsnModal)`
         background: var(--background);
         border: 1px solid #263238;
         border-radius: 10px;
-        padding: 44px 16px 15px 16px;
+        padding: 42px 14px 16px 16px;
     }
     .ant-table-tbody>tr>td{
-        border-bottom: 0.5px solid #EDF0F4;
+        border-bottom: 0.5px solid #2A5578;
 
         .user_icon{
             display: flex;
@@ -52,7 +53,7 @@ const ApplicantListSmall = styled(AsnModal)`
       display: none;
     }
     .ant-table-tbody>tr>td{
-      padding: 2px 8px !important;
+      padding: 7px 8px !important;
     }
     .ant-modal-close-x {
       position: relative;
@@ -67,6 +68,7 @@ const ApplicantListSmall = styled(AsnModal)`
         max-height: 216px;
         overflow-y: scroll;
         overflow-x: hidden;
+        padding-right: 3px;
     }
     .managed_users{
         display: flex;
@@ -97,10 +99,11 @@ const columns: ColumnsType<TemUsersType> = [
 ]
 
 const ApplicantsListSmall: React.FC<{ showModal: boolean, setShowModal: any }> = ({ showModal, setShowModal }) => {
+  const navigate = useNavigate()
   return (
         <ApplicantListSmall
          open={showModal}
-         width={'360px'}
+         width={'396px'}
          onCancel={() => setShowModal(false)}
          mask={false}
          footer={false}
@@ -112,7 +115,11 @@ const ApplicantsListSmall: React.FC<{ showModal: boolean, setShowModal: any }> =
               pagination={false}
             />
             <div className='managed_users'>
-            <AsnButton type="primary" htmlType="submit">
+            <AsnButton
+              type="primary"
+              htmlType="submit"
+              onClick={() => navigate('/teams')}
+             >
                Manage users
             </AsnButton>
             </div>
