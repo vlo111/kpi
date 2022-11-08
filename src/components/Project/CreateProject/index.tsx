@@ -92,6 +92,7 @@ const ResultAndActivity = styled.div`
   border-radius: 20px;
   border-top: 3px solid #68A395;
   box-shadow: var(--base-box-shadow);
+  margin-bottom: 16px;
 `
 const GridResult = styled.div`
   display: grid;
@@ -102,6 +103,13 @@ width: 65%;
 .div1 { grid-area: 1 / 1 / 2 / 2; }
 .div2 { grid-area: 1 / 2 / 2 / 3; }
 .div3 { grid-area: 1 / 3 / 2 / 4; }
+`
+const ProjectDetails = styled.div`
+  background: var(--white);
+  border-radius: 20px;
+  border-top: 3px solid #F6976D;
+  box-shadow: var(--base-box-shadow);
+  margin-bottom: 12px;
 `
 const actvities = [
   {
@@ -175,7 +183,7 @@ export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
           <h3>Result areas and Activities</h3>
           <EditSvg />
         </InfoNameWrapper>
-        <div style={{ paddingLeft: '16px', paddingRight: '65px', paddingBottom: '37px' }}>
+        <div style={{ paddingLeft: '16px', paddingBottom: '37px' }}>
           <div style={{ marginBottom: '16px' }}>1.Skill gap reduced</div>
           <div style={{ display: 'flex', alignItems: 'center', borderLeft: '1px solid black', marginLeft: '50px', flexDirection: 'column', gap: '16px' }}>
             <GridResult>
@@ -207,15 +215,14 @@ export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
           {actvities.map((item, i) => (
             <SubActivity key={i} multiple={ actvities.length - 1 !== i } activity={item.actvity} subActivities={item.subActivities} />
           ))}
-          {/* <div style={ { borderLeft: '1px solid #000000', marginLeft: '50px' } }>
-            <div style={{ display: 'flex', alignItems: - 'center', gap: '30px' }}>
-              <div style={{ border: '1px solid #000000', width: '28px' }}></div>
-              <div> 1.1 Mapping the labor market</div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>skill mapping study completed and study report, summarizing findings and recommendations developed. </div>
-          </div> */}
         </div>
       </ResultAndActivity>
+      <ProjectDetails>
+      <InfoNameWrapper>
+          <h3>Project details</h3>
+          <EditSvg />
+        </InfoNameWrapper>
+      </ProjectDetails>
     </>
   )
 }
