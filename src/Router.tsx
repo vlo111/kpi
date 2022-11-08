@@ -13,6 +13,7 @@ import { PATHS } from './helpers/constants'
 import { PublicRoutes } from './utils/PublicRoutes'
 import { CreateProject } from './pages/CreateProject'
 import { Project } from './components/Project'
+import UserProfile from './components/Header/UserProfile'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,6 +31,7 @@ export const router = createBrowserRouter(
       <Route path={PATHS.SIGNUP} element={<SignUp />} />
       <Route path={PATHS.ConfirmEmailSignUp} element={<ConfirmMailSignUp />} />
       <Route path={PATHS.Overview} element={<Overview />} />
+      <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
     </>
   )
