@@ -18,6 +18,15 @@ export type Rules = (
   max: number
 ) => { rules: [{ required: boolean, min: number, max: number }] }
 
+export type RulesPassword = (
+  min: number,
+  max: number,
+  pattern: {
+    pattern: RegExp
+    message: string
+  }
+) => { rules: [{ required: boolean, min: number, max: number }] }
+
 export type InitResultAreaFields = (
   resultArea: IResultArea[]
 ) => Array<{ name: string[], value: string }>
