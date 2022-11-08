@@ -11,7 +11,7 @@ export interface StepProps {
   setStep: (b: boolean) => void
 }
 
-export type FormItemName = (name: string) => { name: string, label: string }
+export type FormItemName = (name: string, label: string) => { name: string, label: string }
 
 export type Rules = (
   min: number,

@@ -74,10 +74,10 @@ export const FirstStep: React.FC = () => {
                 onFinishFailed={onFinishFailed}
             >
                 <div className="main">
-                    <Form.Item {...Name('Title')} {...rules(2, 256)}>
+                    <Form.Item {...Name('title', 'Title')} {...rules(2, 256)}>
                         <AsnInput placeholder="Example: AWDA"/>
                     </Form.Item>
-                     <Form.Item {...Name('Description')} {...rules(1, 2048)}>
+                     <Form.Item {...Name('description', 'Description')} {...rules(1, 2048)}>
                         <TextArea placeholder={PlaceHolderDescription}/>
                      </Form.Item>
                      <Pickers form={form}/>

@@ -48,7 +48,7 @@ const ActivityNames: React.FC<ActivityNamesProps> = ({ names, activeName, setAct
       </div>
       <EditPublish>
         <EditSvg />
-        <AsnButton style={{ maxWidth: '300px' }} className='primary' type='primary' onClick={onEditedPublishProject
+        <AsnButton style={{ maxWidth: '300px', fontSize: 'var(--base-font-size)' }} className='primary' type='primary' onClick={onEditedPublishProject
         }>Edit and Publish the project</AsnButton>
       </EditPublish>
       <CreateTemplate isOpenCreateActivityModal={isOpenCreateActivityModal} setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}/>

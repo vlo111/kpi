@@ -23,9 +23,9 @@ export const HEADERS = {
   X_API_VERSION: '1.0'
 }
 
-export const Name: FormItemName = (name: string) => ({
+export const Name: FormItemName = (name: string, label: string) => ({
   name: `${name}`,
-  label: `${name}`
+  label: `${label}`
 })
 
 export const ManagerFields: ManagerFieldType = (manager: IManager | null) => ([
@@ -53,11 +53,13 @@ export const ManagerFields: ManagerFieldType = (manager: IManager | null) => ([
 
 export const VALIDATE_MESSAGES = {
   // eslint-disable-next-line no-template-curly-in-string
-  required: 'Please enter a valid ${name}',
+  required: 'Please enter a valid ${label}',
   types: {
     // eslint-disable-next-line no-template-curly-in-string
-    email: 'Please enter your ${name} in format: yourname@domain.com'
-  }
+    email: 'Please enter your ${label} in format: yourname@domain.com'
+  },
+  // eslint-disable-next-line no-template-curly-in-string
+  string: { range: '${label} must be between ${min} and ${max} characters' }
 }
 
 export const VALIDATE_MESSAGES_PROJECT_INPUT = {
