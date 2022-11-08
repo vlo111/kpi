@@ -11,7 +11,8 @@ import ConfirmMailSignUp from './pages/Auth/ConfirmMailSignUp'
 import { Overview } from './components/Project/Overview'
 import { PATHS } from './helpers/constants'
 import { PublicRoutes } from './utils/PublicRoutes'
-import Root from './pages/Root'
+import { CreateProject } from './pages/CreateProject'
+import { Project } from './components/Project'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,7 +20,8 @@ export const router = createBrowserRouter(
       <Route element={<PublicRoutes />}>
         <Route path={PATHS.SIGNIN} element={<SignIn />} />
       </Route>
-      <Route path={PATHS.ROOT} element={<Root />} />
+      <Route path={PATHS.ROOT} element={<Project />} />
+      <Route path={PATHS.CreateProject} element={<CreateProject />} />
       <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
       <Route path={PATHS.ERROR_403} element={<Error403 />} />
       <Route path={PATHS.FORGOTPASSWORD} element={<ForgotPassword />} />

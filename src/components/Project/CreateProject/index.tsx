@@ -1,7 +1,7 @@
 import React from 'react'
 import { ReactComponent as CreateProjectSvg } from '../../../assets/icons/create-project.svg'
 import styled from 'styled-components'
-import { StepProps } from '../../../types/project'
+import { useNavigate } from 'react-router-dom'
 
 const Container = styled.div`
   display: flex;
@@ -20,9 +20,11 @@ const Container = styled.div`
   }
 `
 
-export const CreateProject: React.FC<StepProps> = ({ setStep }) => {
+export const CreateProject: React.FC = () => {
+  const navigate = useNavigate()
+
   return (
-    <Container onClick={() => setStep(true)}>
+    <Container onClick={() => navigate('/create-project')}>
         <CreateProjectSvg/>
         <span className="create-project-text">Create your first project</span>
     </Container>
