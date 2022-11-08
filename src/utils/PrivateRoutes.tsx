@@ -1,12 +1,12 @@
-import { Outlet, Navigate, useOutlet } from 'react-router-dom'
-import { PATHS } from '../helpers/constants';
+import React from 'react'
+import { Outlet, Navigate } from 'react-router-dom'
+import MainLayout from '../components/Layout/MainLayout'
+import { PATHS } from '../helpers/constants'
 
-const PrivateRoutes = () => {
-    const token = localStorage.getItem('token');
+export const PrivateRoutes: React.FC = () => {
+  const token = localStorage.getItem('token')
 
-    return (
-        token ? <Outlet /> : <Navigate to={`/${PATHS.SIGNIN}`} />
-    )
+  return (
+    token ? <MainLayout><Outlet/></MainLayout> : <Navigate to={PATHS.SIGNIN}/>
+  )
 }
-
-export default PrivateRoutes
