@@ -1,5 +1,4 @@
 import React from 'react'
-import { FirstStep } from '../components/Project/Steps/First'
 import { Second } from '../components/Project/Steps/Second'
 import { Last } from '../components/Project/Steps/Last'
 import { FormItemName, IManager, ManagerFieldType } from '../types/project'
@@ -8,6 +7,7 @@ export const PATHS = {
   ROOT: '/',
   TEAMS: '/teams',
   ERROR_403: 'no-access',
+  CreateProject: 'create-project',
   SIGNIN: 'sign-in',
   CHANGEPASSWORD: 'change-password',
   FORGOTPASSWORD: 'forgot-password',
@@ -24,9 +24,9 @@ export const HEADERS = {
   X_API_VERSION: '1.0'
 }
 
-export const Name: FormItemName = (name: string) => ({
+export const Name: FormItemName = (name: string, label: string) => ({
   name: `${name}`,
-  label: `${name}`
+  label: `${label}`
 })
 
 export const ManagerFields: ManagerFieldType = (manager: IManager | null) => ([
@@ -54,11 +54,13 @@ export const ManagerFields: ManagerFieldType = (manager: IManager | null) => ([
 
 export const VALIDATE_MESSAGES = {
   // eslint-disable-next-line no-template-curly-in-string
-  required: 'Please enter a valid ${name}',
+  required: 'Please enter a valid ${label}',
   types: {
     // eslint-disable-next-line no-template-curly-in-string
-    email: 'Please enter your ${name} in format: yourname@domain.com'
-  }
+    email: 'Please enter your ${label} in format: yourname@domain.com'
+  },
+  // eslint-disable-next-line no-template-curly-in-string
+  string: { range: '${label} must be between ${min} and ${max} characters' }
 }
 
 export const VALIDATE_MESSAGES_PROJECT_INPUT = {
@@ -83,10 +85,6 @@ export const PlaceHolderActivityMilestone =
     'skill mapping study completed and study report, summarizing findings and recommendations developed.'
 
 export const StepList = [
-  {
-    title: 'General Info',
-    content: <FirstStep />
-  },
   {
     title: 'Project Input',
     content: <Second />

@@ -11,7 +11,7 @@ export interface StepProps {
   setStep: (b: boolean) => void
 }
 
-export type FormItemName = (name: string) => { name: string, label: string }
+export type FormItemName = (name: string, label: string) => { name: string, label: string }
 
 export type Rules = (
   min: number,
@@ -161,3 +161,21 @@ export interface ActivityNamesProps {
 }
 
 export type AddManagerHandle = (values: unknown) => void
+
+export interface IDetail { name: string, id: string }
+
+export type Details = IDetail[]
+
+export interface IDetailsState {
+  organizations: Details
+  setOrganizations: (organization: IDetail[]) => void
+  regions: Details
+  setRegions: (region: IDetail[]) => void
+  sectors: Details
+  setSectors: (region: IDetail[]) => void
+}
+
+export interface ICreateTemplate {
+  isOpenCreateActivityModal: boolean
+  setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+}

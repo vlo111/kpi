@@ -11,9 +11,9 @@ const root: ReactDOM.Root = ReactDOM.createRoot(
 
 root.render(
     <>
-        <GlobalStyle/>
+        <GlobalStyle />
         <Providers>
-            <Root/>
+            <Root />
         </Providers>
     </>
 )

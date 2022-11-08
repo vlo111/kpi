@@ -35,8 +35,8 @@ const rules = {
 
 export const Pickers: React.FC<{ form: any }> = ({ form }) => {
   const disabledDate: DisabledDate = (current: Moment, item) => {
-    const startDate = form.getFieldsValue()['Start Date']
-    const endDate = form.getFieldsValue()['End Date']
+    const startDate = form.getFieldsValue().startDate
+    const endDate = form.getFieldsValue().endDate
 
     if (item === 'start') {
       return current && current > (endDate ?? current)
@@ -48,7 +48,7 @@ export const Pickers: React.FC<{ form: any }> = ({ form }) => {
   return (
         <Picker>
             <Form.Item
-                {...Name('Start Date')}
+                {...Name('startDate', 'Start Date')}
                 {...rules}
             >
                 <AsnDatePicker
@@ -56,7 +56,7 @@ export const Pickers: React.FC<{ form: any }> = ({ form }) => {
                 />
             </Form.Item>
             <Form.Item
-                {...Name('End Date')}
+                {...Name('endDate', 'End Date')}
                 {...rules}
             >
                 <AsnDatePicker

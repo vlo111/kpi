@@ -1,7 +1,7 @@
 import React from 'react'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { IPanelIsActive } from '../../types/project'
-import { AsnCollapseStyle } from '../Forms/AnsCollapse'
+import { AsnCollapseStyle } from '../Forms/AsnCollapse'
 
 export const AsnCollapse: React.FC<{
   id: string

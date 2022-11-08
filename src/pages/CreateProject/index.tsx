@@ -1,21 +1,18 @@
 import React from 'react'
-import { useProject } from '../../../../hooks/project/useProject'
-import { Form } from '../../../Forms/Form'
+import { Form } from '../../components/Forms/Form'
 import {
   Name,
   PlaceHolderDescription,
   VALIDATE_MESSAGES
-} from '../../../../helpers/constants'
-import AsnInput, { TextArea } from '../../../Forms/Input'
-import { Pickers } from './Pickers'
-import { AsnButton } from '../../../Forms/Button'
-import { GeneralInput } from './GeneralInfo'
-import Managers from './Managers'
-import { rules } from '../../../../utils/ProjectUtils'
-import { useGeneralInfo } from '../../../../hooks/project/useGeneralInfo'
+} from '../../helpers/constants'
+import AsnInput, { TextArea } from '../../components/Forms/Input'
+import { Pickers } from '../../components/Project/Steps/First/Pickers'
+import { AsnButton } from '../../components/Forms/Button'
+import { GeneralInput } from '../../components/Project/Steps/First/GeneralInfo'
+import { rules } from '../../utils/ProjectUtils'
+import { useGeneralInfo } from '../../hooks/project/useGeneralInfo'
 
-export const FirstStep: React.FC = () => {
-  const { nextCurrent } = useProject()
+export const CreateProject: React.FC = () => {
   const {
     title,
     description,
@@ -35,8 +32,6 @@ export const FirstStep: React.FC = () => {
 
     setStartDate(values['Start Date'])
     setEndDate(values['End Date'])
-
-    nextCurrent()
   }
 
   const onFinishFailed: any = (values: any) => {
@@ -77,11 +72,10 @@ export const FirstStep: React.FC = () => {
                     <Form.Item {...Name('title', 'Title')} {...rules(2, 256)}>
                         <AsnInput placeholder="Example: AWDA"/>
                     </Form.Item>
-                     <Form.Item {...Name('description', 'Description')} {...rules(1, 2048)}>
+                    <Form.Item {...Name('description', 'Description')} {...rules(1, 2048)}>
                         <TextArea placeholder={PlaceHolderDescription}/>
-                     </Form.Item>
-                     <Pickers form={form}/>
-                     <Managers/>
+                    </Form.Item>
+                    <Pickers form={form}/>
                 </div>
                 <div className="footer">
                     <AsnButton>Create</AsnButton>
