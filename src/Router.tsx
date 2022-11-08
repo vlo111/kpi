@@ -16,7 +16,7 @@ import ConfirmMailSignUp from './pages/Auth/ConfirmMailSignUp'
 import { Overview } from './components/Project/Overview'
 import { PATHS } from './helpers/constants'
 import { PublicRoutes } from './utils/PublicRoutes'
-import { CreateProject } from './pages/CreateProject'
+import { CreateProject } from './pages/Project/CreatePages'
 import { Project } from './components/Project'
 import { PrivateRoutes } from './utils/PrivateRoutes'
 

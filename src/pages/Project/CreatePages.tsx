@@ -8,9 +8,47 @@ import {
 import AsnInput, { TextArea } from '../../components/Forms/Input'
 import { Pickers } from '../../components/Project/Steps/First/Pickers'
 import { AsnButton } from '../../components/Forms/Button'
-import { GeneralInput } from '../../components/Project/Steps/First/GeneralInfo'
 import { rules } from '../../utils/ProjectUtils'
 import { useGeneralInfo } from '../../hooks/project/useGeneralInfo'
+import styled from 'styled-components'
+
+export const GeneralInfo = styled.div`
+  box-shadow: var(--base-box-shadow);
+  justify-content: space-between;
+  background: var(--white);
+  flex-direction: column;
+  border-radius: 20px;
+  padding: 32px;
+  display: flex;
+  width: clamp(16rem, 41.7vw, 60rem);
+  margin: 0 auto;
+
+  .title {
+    margin: 0 auto;
+  }
+
+  .main {
+    margin-bottom: 19px;
+    .ant-form-item {
+      margin-bottom: 1rem;
+    }
+
+    .ant-form-item-label {
+      padding: 0;
+    }
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-evenly;
+
+    button {
+      width: 133px;
+      height: 44px !important;
+      border-radius: 10px !important;
+    }
+  }
+`
 
 export const CreateProject: React.FC = () => {
   const {
@@ -58,7 +96,7 @@ export const CreateProject: React.FC = () => {
   ]
 
   return (
-        <GeneralInput>
+        <GeneralInfo>
             <Form
                 id="general-info-form"
                 form={form}
@@ -69,6 +107,9 @@ export const CreateProject: React.FC = () => {
                 onFinishFailed={onFinishFailed}
             >
                 <div className="main">
+                    <div className="title">
+                        To create a new project, please fill in the following information
+                    </div>
                     <Form.Item {...Name('title', 'Title')} {...rules(2, 256)}>
                         <AsnInput placeholder="Example: AWDA"/>
                     </Form.Item>
@@ -84,6 +125,6 @@ export const CreateProject: React.FC = () => {
                     </AsnButton>
                 </div>
             </Form>
-        </GeneralInput>
+        </GeneralInfo>
   )
 }
