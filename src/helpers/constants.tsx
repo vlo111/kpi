@@ -1,5 +1,4 @@
 import React from 'react'
-import { FirstStep } from '../components/Project/Steps/First'
 import { Second } from '../components/Project/Steps/Second'
 import { Last } from '../components/Project/Steps/Last'
 import { FormItemName, IManager, ManagerFieldType } from '../types/project'
@@ -7,6 +6,7 @@ import { FormItemName, IManager, ManagerFieldType } from '../types/project'
 export const PATHS = {
   ROOT: '/',
   ERROR_403: 'no-access',
+  CreateProject: 'create-project',
   SIGNIN: 'sign-in',
   CHANGEPASSWORD: 'change-password',
   FORGOTPASSWORD: 'forgot-password',
@@ -82,10 +82,6 @@ export const PlaceHolderActivityMilestone =
     'skill mapping study completed and study report, summarizing findings and recommendations developed.'
 
 export const StepList = [
-  {
-    title: 'General Info',
-    content: <FirstStep />
-  },
   {
     title: 'Project Input',
     content: <Second />
