@@ -12,6 +12,7 @@ import ForgotPassword from './pages/Auth/ForgotPassword'
 import RecoverPassword from './pages/Auth/ResetPassword'
 import ConfirmEmail from './pages/Auth/ConfirmMailSignIn'
 import SignUp from './pages/Auth/SignUp'
+import Applicants from './components/Team/ApplicantsList'
 import ConfirmMailSignUp from './pages/Auth/ConfirmMailSignUp'
 import { Overview } from './components/Project/Overview'
 import { PATHS } from './helpers/constants'
@@ -37,6 +38,7 @@ export const router = createBrowserRouter(
         <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
       </Route>
       <Route element={<PrivateRoutes />}>
+        <Route path={PATHS.TEAMS} element={<Applicants />} />
         <Route path={PATHS.ROOT} element={<Project />} />
         <Route path={PATHS.CreateProject} element={<CreateProject />} />
         <Route path={PATHS.Overview} element={<Overview />} />

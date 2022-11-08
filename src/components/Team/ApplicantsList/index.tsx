@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import MainLayout from '../../Layout/MainLayout'
-import ApplicantsList from './Applicants'
+import ApplicantsList from './ApplicantsLarge'
 import SearchApplicants from './Search'
 
 const ApplicantWrapper = styled.div`
@@ -15,12 +14,10 @@ const ApplicantWrapper = styled.div`
 
 const Applicants: React.FC<{}> = () => {
   return (
-    <MainLayout>
-        <ApplicantWrapper>
-            <SearchApplicants />
-            <ApplicantsList />
-        </ApplicantWrapper>
-    </MainLayout>
+    <ApplicantWrapper>
+        <SearchApplicants />
+        <ApplicantsList />
+    </ApplicantWrapper>
   )
 }
 

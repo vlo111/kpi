@@ -1,21 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Table } from 'antd'
 import styled from 'styled-components'
 import type { ColumnsType } from 'antd/es/table'
-import { ReactComponent as Eyeview } from '../../../assets/icons/eye.svg'
+import { ReactComponent as Preview } from '../../../assets/icons/eye.svg'
 import { ReactComponent as TrashSvg } from '../../../assets/icons/trash.svg'
 import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg'
+import { TemUsersType } from '../../../types/teams'
+import { TeamList } from '../../../helpers/fakeData'
 
 const ApplicantList = styled.div`
     margin-top: 8px;
+    height: calc(100% - 75px);
+
     .ant-table-tbody>tr>td{
+       padding: 9px 8px !important;
+       border-bottom: 0.5px solid #EDF0F4;
+       
         &:last-child{
             border-right: 0.5px solid #EDF0F4;
         }
         &:first-child {
             border-left: 0.5px solid #EDF0F4;
         }
-        border-bottom: 0.5px solid #EDF0F4;
 
         .user_icon{
             display: flex;
@@ -93,6 +99,7 @@ const ApplicantList = styled.div`
       background: var(--background) !important;
       color: var(--dark-4);
       border-top: 0.5px solid #EBEBEB;
+      padding: 14px 8px !important;
 
       &::before{
         content: none !important;
@@ -104,18 +111,55 @@ const ApplicantList = styled.div`
         border-left: 0.5px solid #EBEBEB;
       }
     }
+    .ant-table-pagination-right {
+      justify-content: center;
+    }
+    
+    .ant-spin-container {
+     position: relative;
+     transition: opacity .3s;
+     height: 100%;
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+    }
+    .ant-table-wrapper,
+    .ant-spin-nested-loading{
+      height: 100%;
+    }
+    .ant-pagination.ant-pagination-mini .ant-pagination-item {
+     min-width: 32px;
+     height: 32px;
+     margin: 0;
+     line-height: 22px;
+     align-items: center;
+     display: flex;
+     justify-content: center;
+      a{
+        color: rgba(0, 0, 0, 0.87);
+      }
+    }
+    .ant-pagination-item-active {
+     font-weight: 500;
+     background: #fff;
+     border-radius: 50%;
+     border: none;
+     background: rgba(0, 0, 0, 0.09);
+    }
+    .ant-pagination-next,
+    .ant-pagination-prev{
+      &:hover{
+        svg> path{
+          fill: black !important;
+        }
+      }
+    }
+    .ant-table-pagination.ant-pagination {
+     margin: 3px 0;
+    }
 `
 
-interface DataType {
-  status: string
-  name: string
-  email: string
-  picture: string
-  viewLevel: string
-  key: string
-}
-
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<TemUsersType> = [
   {
     title: 'Name Surname',
     render: item => {
@@ -140,7 +184,7 @@ const columns: ColumnsType<DataType> = [
     render: item => {
       return (
       <div className='user_role'>
-       <Eyeview />
+       <Preview />
        <h3>{item}</h3>
       </div>
       )
@@ -167,53 +211,23 @@ const columns: ColumnsType<DataType> = [
   }
 ]
 
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    status: 'Pending',
-    viewLevel: 'Project',
-    email: 'tetst@email.ru',
-    picture: 'https://joeschmoe.io/api/v1/random'
-  },
-  {
-    key: '2',
-    name: 'John Brown2',
-    status: 'Pending',
-    viewLevel: 'Template',
-    email: 'tetstnewformat@email.ru',
-    picture: 'https://joeschmoe.io/api/v1/random'
-  },
-  {
-    key: '3',
-    name: 'John Brown3',
-    status: 'Registered',
-    viewLevel: 'Activity',
-    email: 'mailname@email.ru',
-    picture: 'https://joeschmoe.io/api/v1/random'
-  },
-  {
-    key: '4',
-    name: 'John Brown4',
-    status: 'Pending',
-    viewLevel: 'Sub-activity',
-    email: 'analysed@email.ru',
-    picture: 'https://joeschmoe.io/api/v1/random'
-  },
-  {
-    key: '5',
-    name: 'John Brown5',
-    status: 'Registered',
-    viewLevel: 'Project',
-    email: 'meetk@email.ru',
-    picture: 'https://joeschmoe.io/api/v1/random'
-  }
-]
-
 const ApplicantsList: React.FC<{}> = () => {
+  const [currentPage, setCurrentPage] = useState(1)
   return (
         <ApplicantList>
-           <Table columns={columns} dataSource={data} size="middle" />
+           <Table
+             columns={columns}
+             dataSource={TeamList()}
+             size="middle"
+             pagination={{
+               defaultPageSize: 3,
+               onChange: pageNum => {
+                 setCurrentPage(pageNum)
+               },
+               current: currentPage
+             }
+             }
+            />
         </ApplicantList>
   )
 }
