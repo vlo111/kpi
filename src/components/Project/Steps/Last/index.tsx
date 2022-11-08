@@ -7,6 +7,7 @@ import AsnInput from '../../../Forms/Input'
 import { AsnButton } from '../../../Forms/Button'
 import { useProjectDetails } from '../../../../hooks/project/useProjectDetails'
 import { IDetail, IDetailsState } from '../../../../types/project'
+import { useProject } from '../../../../hooks/project/useProject'
 const Collapses = styled.div`
   display: flex;
   flex-direction: column;
