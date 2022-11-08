@@ -161,3 +161,16 @@ export interface ActivityNamesProps {
 }
 
 export type AddManagerHandle = (values: unknown) => void
+
+export interface IDetail { name: string, id: string }
+
+export type Details = IDetail[]
+
+export interface OrganisationState {
+  organizations: Details
+  setOrganizations: (organization: IDetail[]) => void
+  regions: Details
+  setRegions: (region: IDetail[]) => void
+  sectors: Details
+  setSectors: (region: IDetail[]) => void
+}

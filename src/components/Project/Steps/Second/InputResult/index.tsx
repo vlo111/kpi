@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { IResultArea } from '../../../../../types/project'
 import { AsnCollapse } from '../../../../AnsCollapse'
-import { Panel } from '../../../../Forms/AnsCollapse'
+import { Panel } from '../../../../Forms/AsnCollapse'
 import { InputResultArea } from '../../../../Forms/InputResultArea'
 import InputExpectedResult from '../InputExpectedResult'
 import InputActivity from '../InputActivity'

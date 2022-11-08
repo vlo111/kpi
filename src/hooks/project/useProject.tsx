@@ -5,7 +5,7 @@ import { IComponentChildren } from '../../types/global'
 const ProjectContext = createContext()
 
 export const ProjectProvider: React.FC<IComponentChildren> = ({ children }) => {
-  const [current, setCurrent] = useState<number>(0)
+  const [current, setCurrent] = useState<number>(1)
 
   const prevCurrent: any = () => {
     setCurrent(current - 1)

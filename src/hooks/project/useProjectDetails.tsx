@@ -1,27 +1,26 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 import { IComponentChildren } from '../../types/global'
+import { OrganizationList, RegionList, SectorList } from '../../helpers/fakeData'
+import { Details } from '../../types/project'
 
 // @ts-expect-error
 const ProjectDetailsContext = createContext()
 
 export const ProjectDetailsProvider: React.FC<IComponentChildren> = ({ children }) => {
-  const [current, setCurrent] = useState<number>(0)
-
-  const prevCurrent: any = () => {
-    setCurrent(current - 1)
-  }
-
-  const nextCurrent: () => void = () => {
-    setCurrent(current + 1)
-  }
+  const [organizations, setOrganizations] = useState<Details>(OrganizationList)
+  const [regions, setRegions] = useState(RegionList)
+  const [sectors, setSectors] = useState(SectorList)
 
   const value = useMemo(
     () => ({
-      current,
-      prevCurrent,
-      nextCurrent
+      organizations,
+      regions,
+      sectors,
+      setOrganizations,
+      setRegions,
+      setSectors
     }),
-    [current]
+    [organizations, regions, sectors]
   )
 
   return <ProjectDetailsContext.Provider value={value}>{children}</ProjectDetailsContext.Provider>

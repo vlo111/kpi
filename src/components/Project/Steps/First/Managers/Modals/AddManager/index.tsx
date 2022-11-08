@@ -84,11 +84,7 @@ const AddManagerModal: React.FC<IAddManagers> = ({ manager, setManagerModalOpen,
                 <Form.Item name="email" label="Email Address" rules={[{ required: true }, { type: 'email' }]}>
                     <AsnInput placeholder="annahakobyan@name.com"/>
                 </Form.Item>
-                <Form.Item name="position" label="Position" rules={[{
-                  required: true,
-                  min: 2,
-                  max: 256
-                }]}>
+                <Form.Item name="position" label="Position">
                     <AsnInput placeholder="Project Manager"/>
                 </Form.Item>
                 <Form.Item name="assigned" label="Assign to" rules={[{
