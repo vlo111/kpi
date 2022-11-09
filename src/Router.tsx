@@ -20,6 +20,8 @@ import { PublicRoutes } from './utils/PublicRoutes'
 import { CreateProject } from './pages/Project/CreatePages'
 import { Project } from './components/Project'
 import { PrivateRoutes } from './utils/PrivateRoutes'
+import UserProfile from './components/Header/UserProfile'
+import ChangePassword from './components/Header/ChangePassword'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,9 +42,12 @@ export const router = createBrowserRouter(
         <Route path={PATHS.CreateProject} element={<CreateProject />} />
         <Route path={PATHS.Overview} element={<Overview />} />
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
+        <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
+        <Route path={PATHS.CHANGEPASSWORDPROFILE} element={<ChangePassword />} />
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
+
     </>
   )
 )
