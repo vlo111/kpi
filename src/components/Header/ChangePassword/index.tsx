@@ -1,4 +1,3 @@
-import MainLayout from '../../Layout/MainLayout'
 import styled from 'styled-components'
 import { Row, Col } from 'antd'
 import React from 'react'
@@ -42,7 +41,6 @@ const ChangePassword: React.FC = () => {
   `
   const navigate = useNavigate()
   return (
-    <MainLayout>
       <CreateTemplateContainer>
         <p>Change Password</p>
         <Row justify="center" align="middle" style={{ minHeight: '60vh', minWidth: '530px' }}>
@@ -93,7 +91,6 @@ const ChangePassword: React.FC = () => {
           </Col>
         </Row>
       </CreateTemplateContainer>
-    </MainLayout>
   )
 }
 

@@ -1,4 +1,4 @@
-import MainLayout from '../../Layout/MainLayout'
+// import MainLayout from '../../Layout/MainLayout'
 import styled from 'styled-components'
 import { Layout } from 'antd'
 import { AsnButton } from '../../Forms/Button'
@@ -69,7 +69,6 @@ const UserProfile: React.FC = () => {
   }
   const navigate = useNavigate()
   return (
-    <MainLayout>
       <Content>
         <div className='infoAll'>
           <div className="userInfo">
@@ -102,7 +101,6 @@ const UserProfile: React.FC = () => {
           </div>
         </div>
       </Content>
-    </MainLayout>
   )
 }
 
