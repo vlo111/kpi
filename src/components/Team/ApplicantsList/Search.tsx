@@ -3,10 +3,16 @@ import styled from 'styled-components'
 import { ReactComponent as TeamsMembers } from '../../../assets/icons/team-members.svg'
 import { ReactComponent as DownloadInfo } from '../../../assets/icons/download.svg'
 import AsnInput from '../../Forms/Input'
+import { AsnButton } from '../../Forms/Button'
+import AddApplicantModal from './CreateApplicantsModal'
 
 export const ApplicantSearch = styled.div`
     .left_section{
         display: flex;
+
+        div:last-of-type{
+            margin-left: auto;
+        }
 
         &_box{
             display: flex;
@@ -25,7 +31,12 @@ export const ApplicantSearch = styled.div`
                 margin-left: 8px;
             }
         }
-        input {
+        &_input {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            input {
             height: 32px;
             border: none;
             font-weight: 400;
@@ -40,9 +51,10 @@ export const ApplicantSearch = styled.div`
                 border: none !important;
             }
         }
+        }
     }
     .applicants_count {
-        margin-top: 7px;
+        margin-top: 16px;
         display: flex;
         width: 100%;
         justify-content: end;
@@ -53,7 +65,7 @@ export const ApplicantSearch = styled.div`
         &_text{
          border: 0.5px solid #D9D9D9;
          border-radius: 6px;
-         padding: 6px 17px;
+         padding: 8px;
         }
     }
     
@@ -68,13 +80,17 @@ const SearchApplicants: React.FC<{}> = () => {
                       <TeamsMembers />
                       <DownloadInfo />
                     </div>
-                    <div>
+                    <div className='left_section_input'>
                      <AsnInput placeholder="Search" />
+                    </div>
+                    <div>
+                        <AsnButton type="primary" htmlType="submit">Add user</AsnButton>
                     </div>
                 </div>
                 <div className='applicants_count'>
                     <div className='applicants_count_text'>Total members: 14</div>
                 </div>
+                <AddApplicantModal />
             </ApplicantSearch>
   )
 }
