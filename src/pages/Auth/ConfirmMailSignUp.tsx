@@ -37,7 +37,7 @@ const ConfirmMailSignUp: React.FC = () => {
               </Space>
             </Row>
             <Row>
-              <AsnButton style={{ marginTop: '16px' }} className='primary' type="primary" htmlType="submit">
+              <AsnButton style={{ marginTop: '41px' }} className='primary' type="primary" htmlType="submit">
                 Re-Send Confirmation Email
               </AsnButton>
             </Row>

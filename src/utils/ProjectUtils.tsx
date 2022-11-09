@@ -5,7 +5,7 @@ export const rules: Rules = (min, max) => ({
 })
 
 export const rulesPassword: RulesPassword = (min, max, pattern) => ({
-  rules: [{ required: true, min, max, ...pattern }]
+  rules: [{ required: true }, min, max, pattern]
 })
 
 export const initFields: InitResultAreaFields = (resultArea) => [

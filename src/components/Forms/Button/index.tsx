@@ -18,7 +18,6 @@ export const AsnButton = styled(Button)`
      height: 44px;
      width: 100%;
      font-size: var(--headline-font-size);
-     margin-top: 8px;
      max-width: 460px;
   }
     

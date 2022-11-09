@@ -19,13 +19,16 @@ export type Rules = (
 ) => { rules: [{ required: boolean, min: number, max: number }] }
 
 export type RulesPassword = (
-  min: number,
-  max: number,
+  min: { min: number, message: string },
+  max: { max: number, message: string },
   pattern: {
     pattern: RegExp
     message: string
-  }
-) => { rules: [{ required: boolean, min: number, max: number }] }
+  },
+) => { rules: [{ required: true }, { min: number, message: string }, { max: number, message: string }, {
+  pattern: RegExp
+  message: string
+}] }
 
 export type InitResultAreaFields = (
   resultArea: IResultArea[]

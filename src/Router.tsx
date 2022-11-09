@@ -6,9 +6,8 @@ import {
   Navigate
 } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
-import Error403 from './pages/error-pages/Error403';
-import Error404 from './pages/error-pages/Error404';
-import ErrorBoundary from './pages/error-pages/ErrorBoundary';
+import Error404 from './pages/error-pages/Error404'
+import ErrorBoundary from './pages/error-pages/ErrorBoundary'
 import SignIn from './pages/Auth/SignIn'
 import ForgotPassword from './pages/Auth/ForgotPassword'
 import RecoverPassword from './pages/Auth/ResetPassword'
