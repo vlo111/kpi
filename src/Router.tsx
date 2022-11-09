@@ -19,8 +19,9 @@ import { PATHS } from './helpers/constants'
 import { PublicRoutes } from './utils/PublicRoutes'
 import { CreateProject } from './pages/Project/CreatePages'
 import { Project } from './components/Project'
-import UserProfile from './components/Header/UserProfile'
 import { PrivateRoutes } from './utils/PrivateRoutes'
+import UserProfile from './components/Header/UserProfile'
+import ChangePassword from './components/Header/ChangePassword'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,18 +43,10 @@ export const router = createBrowserRouter(
         <Route path={PATHS.Overview} element={<Overview />} />
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
       </Route>
-      <Route path={PATHS.ROOT} element={<Project />} />
-      <Route path={PATHS.CreateProject} element={<CreateProject />} />
-      <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
-      <Route path={PATHS.ERROR_403} element={<Error403 />} />
-      <Route path={PATHS.FORGOTPASSWORD} element={<ForgotPassword />} />
-      <Route path={PATHS.RECOVERPASSWORD} element={<RecoverPassword />} />
-      <Route path={PATHS.ConfirmEmail} element={<ConfirmEmail />} />
-      <Route path={PATHS.SIGNUP} element={<SignUp />} />
-      <Route path={PATHS.ConfirmEmailSignUp} element={<ConfirmMailSignUp />} />
-      <Route path={PATHS.Overview} element={<Overview />} />
-      <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
+      <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
+      <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
+<Route path={PATHS.CHANGEPASSWORDPROFILE} element={<ChangePassword />} />
     </>
   )
 )

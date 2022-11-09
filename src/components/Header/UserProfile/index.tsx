@@ -6,6 +6,7 @@ import ManagerIcon from '../../ManagerIcon'
 import React, { useState } from 'react'
 import EditProfile from '../EditUserProfile'
 import { AddManagerHandle } from '../../../types/project'
+import { useNavigate } from 'react-router-dom'
 
 const Content = styled(Layout)`
   background: #ffffff;
@@ -66,13 +67,14 @@ const UserProfile: React.FC = () => {
   const onEditedPublishProject: AddManagerHandle = () => {
     setIsOpenCreateActivityModal(true)
   }
+  const navigate = useNavigate()
   return (
     <MainLayout>
       <Content>
         <form>
           <div className="userInfo">
-            <ManagerIcon letter="HD" color="#F3C262" />
-            <AsnButton type="primary">Change Password</AsnButton>
+            <ManagerIcon letter="AA" color="#F3C262" />
+            <AsnButton type="primary" onClick={() => navigate('/change-password-profile')}>Change Password</AsnButton>
           </div>
           <div>
             <div className='userInfoEdit'>

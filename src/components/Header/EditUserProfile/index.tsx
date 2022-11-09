@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-
 import { AddManagerHandle, ICreateTemplate } from '../../../types/project'
 import { AsnModal } from '../../Forms/Modal'
 import { AsnButton } from '../../Forms/Button'
@@ -24,6 +23,8 @@ const EditProfile: React.FC<ICreateTemplate> = ({
     display: flex;
     justify-content: space-around;
     width: 100%;
+    position: relative;
+    top: 20px;
   }
 `
 
@@ -33,6 +34,7 @@ const EditProfile: React.FC<ICreateTemplate> = ({
       open={isOpenCreateActivityModal}
       title="User Profile"
       onCancel={handleCancel}
+      style={{ minHeight: '671px', minWidth: '614px', padding: '32px 0px 32px' }}
     >
            <CreateTemplateContainer>
         <Form
@@ -40,7 +42,7 @@ const EditProfile: React.FC<ICreateTemplate> = ({
           form={form}
           layout="vertical"
         >
-          <Form.Item {...Name('First Name*', ' First Name*')}>
+          <Form.Item {...Name('First Name*', ' First Name*')} >
             <AsnInput placeholder="First Name" />
           </Form.Item>
           <Form.Item {...Name('Last Name*', ' Last Name*')}>
