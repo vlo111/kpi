@@ -15,7 +15,7 @@ const Content = styled(Layout)`
     4px 4px 4px rgba(42, 85, 120, 0.05);
   border-radius: 20px;
   height: calc(100% - 150px);
-  form {
+  .infoAll {
     display: grid;
     grid-gap: 49px;
     grid-template-columns: 30% 66%;
@@ -71,7 +71,7 @@ const UserProfile: React.FC = () => {
   return (
     <MainLayout>
       <Content>
-        <form>
+        <div className='infoAll'>
           <div className="userInfo">
             <ManagerIcon letter="AA" color="#F3C262" />
             <AsnButton type="primary" onClick={() => navigate('/change-password-profile')}>Change Password</AsnButton>
@@ -100,7 +100,7 @@ const UserProfile: React.FC = () => {
                   </div>
             </div>
           </div>
-        </form>
+        </div>
       </Content>
     </MainLayout>
   )

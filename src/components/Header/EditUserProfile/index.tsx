@@ -42,10 +42,10 @@ const EditProfile: React.FC<ICreateTemplate> = ({
           form={form}
           layout="vertical"
         >
-          <Form.Item {...Name('First Name*', ' First Name*')} >
+          <Form.Item {...Name('First Name', ' First Name')} >
             <AsnInput placeholder="First Name" />
           </Form.Item>
-          <Form.Item {...Name('Last Name*', ' Last Name*')}>
+          <Form.Item {...Name('Last Name', ' Last Name')}>
             <AsnInput placeholder="Last Name" />
           </Form.Item>
           <Form.Item {...Name('Phone', ' Phone')}>

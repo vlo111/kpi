@@ -42,11 +42,12 @@ export const router = createBrowserRouter(
         <Route path={PATHS.CreateProject} element={<CreateProject />} />
         <Route path={PATHS.Overview} element={<Overview />} />
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
+        <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
+        <Route path={PATHS.CHANGEPASSWORDPROFILE} element={<ChangePassword />} />
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
-      <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
-<Route path={PATHS.CHANGEPASSWORDPROFILE} element={<ChangePassword />} />
+
     </>
   )
 )
