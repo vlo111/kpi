@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form } from '../../components/Forms/Form'
 import {
+  Name,
   PlaceHolderDescription,
   VALIDATE_MESSAGES
 } from '../../helpers/constants'
@@ -68,10 +69,10 @@ export const CreateProject: React.FC = () => {
                 onFinishFailed={onFinishFailed}
             >
                 <div className="main">
-                    <Form.Item {...rules(2, 256)}>
+                    <Form.Item {...Name('title', 'Title')} {...rules(2, 256)}>
                         <AsnInput placeholder="Example: AWDA"/>
                     </Form.Item>
-                    <Form.Item {...rules(1, 2048)}>
+                    <Form.Item {...Name('description', 'Description')} {...rules(1, 2048)}>
                         <TextArea placeholder={PlaceHolderDescription}/>
                     </Form.Item>
                     <Pickers form={form}/>

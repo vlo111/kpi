@@ -4,7 +4,6 @@ import reportWebVitals from './reportWebVitals'
 import GlobalStyle from './assets/styles/style'
 import Root from './Root'
 import { Providers } from './utils/Providers'
-import MainLayout from './components/Layout/MainLayout'
 
 const root: ReactDOM.Root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,11 +12,9 @@ const root: ReactDOM.Root = ReactDOM.createRoot(
 root.render(
     <>
         <GlobalStyle />
-        <MainLayout>
-            <Providers>
-                <Root />
-            </Providers>
-        </MainLayout>
+        <Providers>
+            <Root />
+        </Providers>
     </>
 )
 
