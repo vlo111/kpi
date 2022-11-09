@@ -1,9 +1,11 @@
-import React from 'react'
 import MainLayout from '../../Layout/MainLayout'
 import styled from 'styled-components'
 import { Layout } from 'antd'
 import { AsnButton } from '../../Forms/Button'
 import ManagerIcon from '../../ManagerIcon'
+import React, { useState } from 'react'
+import EditProfile from '../EditUserProfile'
+import { AddManagerHandle } from '../../../types/project'
 
 const Content = styled(Layout)`
   background: #ffffff;
@@ -17,17 +19,18 @@ const Content = styled(Layout)`
     grid-gap: 49px;
     grid-template-columns: 30% 66%;
   }
-  .cmGgXD {
-    width: 255px;
-    height: 255px;
-    font-size: 100px;
-  }
+  
   .userInfo {
     display: grid;
     justify-content: center;
     grid-gap: 80px;
     align-items: center;
     padding: 32px 0px;
+    .manager-icon{
+      width: 255px;
+      height: 255px;
+      font-size: 100px;
+    }
   }
   .userMiddleName{
       font-weight: 400;
@@ -58,6 +61,11 @@ const Content = styled(Layout)`
   }
 `
 const UserProfile: React.FC = () => {
+  const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState<boolean>(false)
+
+  const onEditedPublishProject: AddManagerHandle = () => {
+    setIsOpenCreateActivityModal(true)
+  }
   return (
     <MainLayout>
       <Content>
@@ -69,7 +77,9 @@ const UserProfile: React.FC = () => {
           <div>
             <div className='userInfoEdit'>
               <span className="userMiddleName">Anun Azganun</span>
-              <a>Edit</a>
+              <a onClick={onEditedPublishProject
+        }>Edit</a>
+         <EditProfile isOpenCreateActivityModal={isOpenCreateActivityModal} setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}/>
             </div>
             <div className='userInfoAll'>
                   <div className='userInfoAllTitle'>

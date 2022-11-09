@@ -19,6 +19,7 @@ import { PublicRoutes } from './utils/PublicRoutes'
 import { CreateProject } from './pages/CreateProject'
 import { Project } from './components/Project'
 import UserProfile from './components/Header/UserProfile'
+import { PrivateRoutes } from './utils/PrivateRoutes'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
