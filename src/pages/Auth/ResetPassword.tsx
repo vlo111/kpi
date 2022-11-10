@@ -7,6 +7,13 @@ import { Password } from '../../components/Forms/Input'
 import { AsnButton } from '../../components/Forms/Button'
 import { TitleAuth } from '../../components/Layout/TitleAuth'
 import { rulesPassword } from '../../utils/ProjectUtils'
+import styled from 'styled-components'
+
+const Description = styled.div`
+  font-size: var(--headline-font-size); 
+  width: 100%; 
+  margin-bottom: 32px;
+`
 
 const RecoverPassword: React.FC = () => {
   const [form] = Form.useForm()
@@ -18,6 +25,22 @@ const RecoverPassword: React.FC = () => {
   const onFinishFailed: any = (values: any) => {
     console.log(values, 'failed')
   }
+  const rulesConfirmPassword = [
+    {
+      required: true
+    },
+    { min: 8, message: passwordMinMaxError },
+    { max: 64, message: passwordErrorMessage },
+    { pattern: passwordRegExp, message: passwordErrorMessage },
+    ({ getFieldValue }: { getFieldValue: (name: string) => string }) => ({
+      async validator (_: object, value: string) {
+        if (!value || getFieldValue('password') === value) {
+          return await Promise.resolve()
+        }
+        return await Promise.reject(new Error('The two passwords that you entered do not match!'))
+      }
+    })
+  ]
   return (
     <AuthLayout>
       <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
@@ -33,7 +56,7 @@ const RecoverPassword: React.FC = () => {
             <TitleAuth>
               Reset Password
             </TitleAuth>
-            <div style={{ fontSize: 'var(--headline-font-size)', width: '100%', marginBottom: '32px' }}>The password should have at least 8 characters</div>
+            <Description>The password should have at least 8 characters</Description>
             <Form.Item
             name="password"
             label="New Password"
@@ -46,22 +69,7 @@ const RecoverPassword: React.FC = () => {
             name="confirmPassword"
             label="Confirm Password"
             dependencies={['password']}
-            rules={[
-              {
-                required: true
-              },
-              { min: 8, message: passwordMinMaxError },
-              { max: 64, message: passwordErrorMessage },
-              { pattern: passwordRegExp, message: passwordErrorMessage },
-              ({ getFieldValue }) => ({
-                async validator (_, value) {
-                  if (!value || getFieldValue('password') === value) {
-                    return await Promise.resolve()
-                  }
-                  return await Promise.reject(new Error('The two passwords that you entered do not match!'))
-                }
-              })
-            ]}
+            rules={rulesConfirmPassword}
             style={ { marginBottom: '32px' } }
              >
               <Password placeholder="Confirm Password" />

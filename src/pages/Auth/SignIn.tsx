@@ -8,6 +8,14 @@ import { Form } from '../../components/Forms/Form'
 import { useNavigate } from 'react-router-dom'
 import { TitleAuth } from '../../components/Layout/TitleAuth'
 import { rulesPassword } from '../../utils/ProjectUtils'
+import styled from 'styled-components'
+
+const ForgotPassword = styled.div`
+  color: #A2A2A2; 
+  font-size: var(--base-font-size);
+  cursor: pointer;
+  margin-bottom: 32px;
+`
 
 const SignIn: React.FC = () => {
   const [form] = Form.useForm()
@@ -53,7 +61,7 @@ const SignIn: React.FC = () => {
             >
               <Password placeholder="Password" />
             </Form.Item>
-            <div style={{ color: ' #A2A2A2', fontSize: 'var(--base-font-size)', cursor: 'pointer', marginBottom: '32px' }} onClick={() => navigate('/forgot-password')}>Forgot password?</div>
+            <ForgotPassword onClick={() => navigate('/forgot-password')}>Forgot password?</ForgotPassword>
             <Form.Item>
               <AsnButton type="primary" className='primary' htmlType="submit" >
                 Sign In

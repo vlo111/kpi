@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Row, Col } from 'antd'
 import AuthLayout from '../../components/Layout/AuthLayout'
 import { VALIDATE_MESSAGES } from '../../helpers/constants'
-import { ReactComponent as Key } from '../../assets/icons/forgot.svg'
+import { ReactComponent as KeySvg } from '../../assets/icons/forgot.svg'
 import { Form } from '../../components/Forms/Form'
 import AsnInput from '../../components/Forms/Input'
 import { AsnButton } from '../../components/Forms/Button'
@@ -23,10 +23,10 @@ const ForgotPassword: React.FC = () => {
   }
   const BackSignIn = styled.div`
     font-size: var(--base-font-size);
-    color:#2A5578; 
+    color: var(--dark-border-ultramarine); 
     cursor: pointer; 
     text-align: center;
-    font-weight: 300;
+    font-weight: var(--font-regular);
   `
   const Description = styled.div`
     font-size: var(--headline-font-size); 
@@ -46,7 +46,7 @@ const ForgotPassword: React.FC = () => {
             validateMessages={VALIDATE_MESSAGES}
             layout="vertical"
           >
-            <Key style={{ width: '100%', marginBottom: '26px' }} />
+            <KeySvg style={{ width: '100%', marginBottom: '26px' }} />
             <TitleAuth>Forget Password</TitleAuth>
             <Description>Please enter the email you use to sign in to Meetk.</Description>
             <Form.Item

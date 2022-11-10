@@ -28,6 +28,22 @@ const SignUp: React.FC = () => {
   const onFinishFailed: any = (values: any) => {
     console.log(values, 'failed')
   }
+  const rulesConfirmPassword = [
+    {
+      required: true
+    },
+    { min: 8, message: passwordMinMaxError },
+    { max: 64, message: passwordErrorMessage },
+    { pattern: passwordRegExp, message: passwordErrorMessage },
+    ({ getFieldValue }: { getFieldValue: (name: string) => string }) => ({
+      async validator (_: object, value: string) {
+        if (!value || getFieldValue('password') === value) {
+          return await Promise.resolve()
+        }
+        return await Promise.reject(new Error('The two passwords that you entered do not match!'))
+      }
+    })
+  ]
   return (
     <AuthLayout location='sign-up'>
         <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
@@ -89,22 +105,7 @@ const SignUp: React.FC = () => {
               name="confirmPassword"
               label="Confirm Password"
               dependencies={['password']}
-              rules={[
-                {
-                  required: true
-                },
-                { min: 8, message: passwordMinMaxError },
-                { max: 64, message: passwordErrorMessage },
-                { pattern: passwordRegExp, message: passwordErrorMessage },
-                ({ getFieldValue }) => ({
-                  async validator (_, value) {
-                    if (!value || getFieldValue('password') === value) {
-                      return await Promise.resolve()
-                    }
-                    return await Promise.reject(new Error('The two passwords that you entered do not match!'))
-                  }
-                })
-              ]}
+              rules={rulesConfirmPassword}
               style={ { marginBottom: '32px' } }
               >
                 <Password placeholder="Confirm Password" />
