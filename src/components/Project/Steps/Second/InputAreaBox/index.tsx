@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { IExpectedResult, IMilestones } from '../../../../../types/project'
 import BoxContainer from './BoxContainer'
-import ConfirmModal from '../../../../Forms/Modal/ConfirmModal'
+import { ConfirmModal } from '../../../../Forms/Modal/ConfirmModal'
 import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
 import { ActionHandle } from '../../../../../types/context'
 
@@ -38,6 +38,8 @@ const InputAreaBox: React.FC<{ list: IExpectedResult[] | IMilestones[], resultAr
       ))}
       <ConfirmModal
         styles={{ gap: '6rem' }}
+        yes="Delete"
+        no="Cancel"
         open={openDeleteResultModal}
         title="Are you sure you want to delete  the field?"
         onSubmit={() => {

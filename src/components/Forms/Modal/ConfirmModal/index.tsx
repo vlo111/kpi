@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { ConfirmModalType } from '../../../../types/global'
 import { AsnButton } from '../../Button'
 
-const ConfirmModal = styled(AsnModal)`
+const ConfirmModalWrapper = styled(AsnModal)`
   .wrapper {
     display: flex;
     flex-direction: column;
@@ -26,9 +26,9 @@ const ConfirmModal = styled(AsnModal)`
   }
 `
 
-const ConfirmModalWrapper: React.FC<ConfirmModalType> = ({ open, title, onSubmit, onCancel, styles }) => {
+export const ConfirmModal: React.FC<ConfirmModalType> = ({ open, title, onSubmit, onCancel, yes, no, styles }) => {
   return (
-        <ConfirmModal
+        <ConfirmModalWrapper
             open={open}
             width={'600px'}
             onCancel={onCancel}
@@ -40,12 +40,10 @@ const ConfirmModalWrapper: React.FC<ConfirmModalType> = ({ open, title, onSubmit
                     {title}
                 </div>
                 <div className="buttons">
-                    <AsnButton type="primary" onClick={onSubmit}>Delete</AsnButton>
-                    <AsnButton onClick={onCancel}>Cancel</AsnButton>
+                    <AsnButton onClick={onCancel}>{no}</AsnButton>
+                    <AsnButton type="primary" onClick={onSubmit}>{yes}</AsnButton>
                 </div>
             </div>
-        </ConfirmModal>
+        </ConfirmModalWrapper>
   )
 }
-
-export default ConfirmModalWrapper
