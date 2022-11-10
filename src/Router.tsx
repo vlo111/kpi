@@ -20,6 +20,7 @@ import { PublicRoutes } from './utils/PublicRoutes'
 import { CreateProject } from './pages/Project/CreatePages'
 import { Project } from './components/Project'
 import { PrivateRoutes } from './utils/PrivateRoutes'
+import { ProjectSteps } from './pages/Steps'
 import UserProfile from './components/Header/UserProfile'
 import ChangePassword from './components/Header/ChangePassword'
 
@@ -30,24 +31,24 @@ export const router = createBrowserRouter(
         <Route path={PATHS.SIGNIN} element={<SignIn />} />
         <Route path={PATHS.FORGOTPASSWORD} element={<ForgotPassword />} />
         <Route path={PATHS.RECOVERPASSWORD} element={<RecoverPassword />} />
-        <Route path={PATHS.ConfirmEmail} element={<ConfirmEmail />} />
+        <Route path={PATHS.CONFIRMEMAIL} element={<ConfirmEmail />} />
         <Route path={PATHS.SIGNUP} element={<SignUp />} />
         <Route
-          path={PATHS.ConfirmEmailSignUp}
+          path={PATHS.CONFIRMEMAILSIGNUP}
           element={<ConfirmMailSignUp />}
         />
       </Route>
       <Route element={<PrivateRoutes />} errorElement={<ErrorBoundary />}>
         <Route path={PATHS.ROOT} element={<Project />} />
-        <Route path={PATHS.CreateProject} element={<CreateProject />} />
-        <Route path={PATHS.Overview} element={<Overview />} />
+        <Route path={PATHS.CREATEPROJECT} element={<CreateProject />} />
+        <Route path={PATHS.OVERVIEW} element={<Overview />} />
+        <Route path={PATHS.PROJECTAREA} element={<ProjectSteps />} />
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
         <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
         <Route path={PATHS.CHANGEPASSWORDPROFILE} element={<ChangePassword />} />
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
-
     </>
   )
 )

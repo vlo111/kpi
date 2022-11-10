@@ -5,7 +5,7 @@ export const AsnModal = styled(Modal)`
   width: clamp(18rem, 42vw, 40rem);
   
   .ant-modal-content {
-    padding: 32px 72px 52px;
+    padding: 5rem 4rem 5rem;
     border-radius: 20px;
   }
   

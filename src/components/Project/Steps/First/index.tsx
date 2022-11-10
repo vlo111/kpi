@@ -7,7 +7,7 @@ import {
   VALIDATE_MESSAGES
 } from '../../../../helpers/constants'
 import AsnInput, { TextArea } from '../../../Forms/Input'
-import { Pickers } from './Pickers'
+// import { Pickers } from './Pickers'
 import { AsnButton } from '../../../Forms/Button'
 import { GeneralInput } from './GeneralInfo'
 import Managers from './Managers'
@@ -80,7 +80,7 @@ export const FirstStep: React.FC = () => {
                      <Form.Item {...Name('description', 'Description')} {...rules(1, 2048)}>
                         <TextArea placeholder={PlaceHolderDescription}/>
                      </Form.Item>
-                     <Pickers form={form}/>
+                     {/* <Pickers form={form}/> */}
                      <Managers/>
                 </div>
                 <div className="footer">

@@ -6,7 +6,7 @@ import { ReactComponent as WarningSvg } from '../../../../assets/icons/projectWa
 const FlexWrap = styled.div`
    display: flex;
    gap: 9vw;
-   margin-bottom: 50px;
+   height: 8rem;
 `
 const ProjectName = styled.div`
    font-size: var(--headline-font-size);
@@ -21,7 +21,7 @@ const ProjectDescription = styled.div`
 const ProjectInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1.2rem;
 `
 const ProjectInformation = styled.div`
    display: flex;
@@ -48,6 +48,7 @@ const Date = styled.div`
 `
 const PeopleCount = styled.div`
   font-size: var( --base-font-size);
+  text-decoration: underline;
 `
 
 const ProjectInfo: React.FC = () => {
