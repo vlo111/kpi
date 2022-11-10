@@ -8,6 +8,8 @@ export interface IComponentChildren {
 export interface ConfirmModalType {
   open: boolean
   title: string
+  yes: string
+  no: string
   onSubmit: () => void
   onCancel: () => void
   styles?: any

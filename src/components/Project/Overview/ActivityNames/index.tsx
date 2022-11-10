@@ -13,8 +13,8 @@ const Activities = styled.div`
   width: 20vw;
 `
 const ActivitiesNames = styled.div`
-  background: #FFFFFF;
-  height: 65vh;
+  background: var(--white);;
+  height: 66vh;
   padding: 47px 0px 0px 24px;
   display: flex;
   gap: 16px; 
@@ -26,6 +26,9 @@ const EditPublish = styled.div`
   align-items: center; 
   flex-direction: column; 
   box-shadow: -4px -4px 8px rgba(17, 27, 35, 0.05), 4px 4px 8px rgba(17, 27, 35, 0.25);
+  svg{
+    margin-top: 25px;
+  }
 `
 
 const ActivityNames: React.FC<ActivityNamesProps> = ({ names, activeName, setActiveName }) => {

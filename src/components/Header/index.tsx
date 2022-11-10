@@ -23,16 +23,12 @@ const HeaderLayout = styled(Layout)`
   .headerUserInfo {
     display: grid;
     .userMiddleName {
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 20px;
-      color: #2a5578;
+      font-size: var(--base-font-size);
+      color: var(--dark-border-ultramarine);
     }
     .userEmail {
-      font-weight: 400;
-      font-size: 12px;
-      line-height: 15px;
-      color: #f6976d;
+      font-size: var(--font-size-small);
+      color: var(--secondary-light-orage);
     }
   }
 `
@@ -44,8 +40,8 @@ const HeaderMenu = styled(Layout)`
   align-items: center;
   grid-gap: 16px;
   padding: 0 56px;
-  background: #ffffff;
-  box-shadow: 0px 4px 4px rgba(42, 85, 120, 0.1);
+  background: var(--white);
+  box-shadow: var(--header-box-shadow);
 `
 
 export const Header: React.FC = () => {
