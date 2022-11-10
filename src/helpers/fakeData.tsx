@@ -22,19 +22,10 @@ export const ResultArea: IResultArea[] = Array.from({ length: 1 }, (v, i) => ({
   expectedResult: [
     {
       id: uuidv4(),
-      code: `OC1.${i}`,
-      result:
-        'Individuals with improved technical and soft skills following participation in USG-assisted workforce development programs ',
+      code: '',
+      result: '',
       measure: 'Number',
-      target: '100'
-    },
-    {
-      id: uuidv4(),
-      code: `OC2.${i}`,
-      result:
-        'Individuals with improved technical and soft skills following participation in USG-assisted workforce development programs ',
-      measure: 'Number',
-      target: '100'
+      target: ''
     }
   ],
   activity: [
@@ -44,41 +35,10 @@ export const ResultArea: IResultArea[] = Array.from({ length: 1 }, (v, i) => ({
       milestones: [
         {
           id: uuidv4(),
-          code: `AW4.${i}`,
-          milestone:
-              'skill mapping study completed and study report, summarizing findings.',
+          code: '',
+          milestone: '',
           measure: 'Attachment',
-          target: '65'
-        },
-        {
-          id: uuidv4(),
-          code: `AW5.${i}`,
-          milestone:
-              'skill mapping study completed and study report, summarizing findings.',
-          measure: 'Attachment',
-          target: '65'
-        }
-      ]
-    },
-    {
-      id: uuidv4(),
-      name: '1.2 Example: Mapping the labor market mismatch and the skill gaps',
-      milestones: [
-        {
-          id: uuidv4(),
-          code: `AW6.${i}`,
-          milestone:
-              'skill mapping study completed and study report, summarizing findings.',
-          measure: 'Attachment',
-          target: '65'
-        },
-        {
-          id: uuidv4(),
-          code: `AW7.${i}`,
-          milestone:
-              'skill mapping study completed and study report, summarizing findings.',
-          measure: 'Attachment',
-          target: '65'
+          target: ''
         }
       ]
     }

@@ -13,16 +13,22 @@ export const ProjectContainer = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 2rem;
-
+  padding: 48px 75px;
+  
   .project-header {
     display: flex;
     flex-direction: column;
     gap: 2rem;
     width: clamp(19rem, 45vw, 50rem);
+
+    .ant-steps {
+      align-self: center !important;
+      width: 60% !important;
+    }
   }
-  
+
   .step_0 {
-    width: clamp(19rem, 45vw, 50rem);
+    width: clamp(19rem, 73vw, 90rem);
   }
 
   .step_2 {
@@ -41,18 +47,18 @@ export const ProjectSteps: React.FC = () => {
   const { current }: { current: number } = useProject()
 
   return (
-        <ProjectContainer>
-            <div className="project-header">
+    <ProjectContainer>
+      <div className="project-header">
         <span className="project-title">
           To create a new project, please fill in the following information
         </span>
-                <AsnStepsHeader current={current}>
-                    {StepList.map((item) => (
-                        <Step key={item.title} title={item.title} />
-                    ))}
-                </AsnStepsHeader>
-            </div>
-            <div className={`step_${current}`}>{StepList[current].content}</div>
-        </ProjectContainer>
+        <AsnStepsHeader current={current}>
+          {StepList.map((item) => (
+            <Step key={item.title} title={item.title} />
+          ))}
+        </AsnStepsHeader>
+      </div>
+      <div className={`step_${current}`}>{StepList[current].content}</div>
+    </ProjectContainer>
   )
 }

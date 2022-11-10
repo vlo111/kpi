@@ -39,7 +39,7 @@ const Content = styled(MenuLayout.Content)`
     align-items: center;
     padding-left: 50px;
     cursor: pointer;
-    gap: 10px;
+    gap: 14px;
 
     &:hover {
       background: var(--primary-light-1);

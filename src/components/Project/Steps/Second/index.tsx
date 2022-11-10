@@ -34,7 +34,7 @@ export const Second: React.FC = () => {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
         >
-            <InputResult resultArea={resultArea}/>
+            <InputResult form={form} resultArea={resultArea}/>
 
             <Row style={{ width: resultArea.length > 1 ? 'calc(100% - 2rem)' : '100%' }}>
                 <AsnButton
