@@ -10,7 +10,7 @@ import { useGeneralInfo } from '../../../../../../../hooks/project/useGeneralInf
 import ManagerIcon from '../../../../../../ManagerIcon'
 import { ReactComponent as EditSvg } from '../../../../../../../assets/icons/edit.svg'
 import { ReactComponent as DeleteSvg } from '../../../../../../../assets/icons/delete.svg'
-import ConfirmModal from '../../../../../../Forms/Modal/ConfirmModal'
+import { ConfirmModal } from '../../../../../../Forms/Modal/ConfirmModal'
 
 const ManagerModal = styled(AsnModal)`
   border-top: 3px solid var(--secondary-green);
@@ -147,6 +147,8 @@ const ManagerOverviewModal: React.FC<IManagerOverview> = ({
             </ManagerModal>
             <ConfirmModal
                 styles={{ gap: '7.6rem' }}
+                yes="Delete"
+                no="Cancel"
                 open={openDeleteModal}
                 title="Are you sure you want to delete  the selected people from the account?"
                 onSubmit={deleteManager}
