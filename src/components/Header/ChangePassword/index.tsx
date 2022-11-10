@@ -9,42 +9,39 @@ import { useNavigate } from 'react-router-dom'
 const ChangePassword: React.FC = () => {
   const [form] = Form.useForm()
   const CreateTemplateContainer = styled.div`
-    background: #ffffff;
-    border-top: 3px solid #2a5578;
-    box-shadow: -4px -4px 4px rgba(42, 85, 120, 0.05),
-    4px 4px 4px rgba(42, 85, 120, 0.05);
+    background:var(--white);
+    border-top: 3px solid var(--dark-border-ultramarine);
+    box-shadow: var(--base-box-shadow);
     border-radius: 20px;
-    height: calc(100% - 150px);
+
     .buttonContainer {
       display: flex;
       justify-content: space-around;
       width: 100%;
-      position: relative;
-      top: 36px;
+      grid-gap: 10px;
     }
     p{
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 25px;
-        color: #111B23;
+        font-weight: var(--font-bold);
+        font-size: var(--headline-font-size);
+        color: var(--dark-1);
         position: relative;
         top: 32px;
         left: 32px;
         width: 37%;
     }
     .text{
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 20px;
-        color: #263238;
+        font-size: var(--base-font-size);
+        color: var(--dark-2);
+    }
+    form{
     }
   `
   const navigate = useNavigate()
   return (
       <CreateTemplateContainer>
         <p>Change Password</p>
-        <Row justify="center" align="middle" style={{ minHeight: '60vh', minWidth: '530px' }}>
-          <Col span={8} style={{ maxWidth: '460px' }}>
+        <Row justify="center" align="middle" >
+          <Col className='block' span={8}>
             <Form
               name="signin"
               form={form}
@@ -53,9 +50,8 @@ const ChangePassword: React.FC = () => {
               }}
               autoComplete="off"
               layout="vertical"
-              style={{ width: '460px' }}
             >
-                 <Form.Item
+              <Form.Item
                 name="Old Password"
                 label="Old Password"
                 rules={[{ required: true }, { min: 8 }, { max: 64 }]}
