@@ -12,7 +12,7 @@ const Picker = styled.div`
 
   > div {
     width: 48%;
-    font-size: 20px;
+    font-size: var(--headline-font-size);
   }
 
   .ant-picker {
