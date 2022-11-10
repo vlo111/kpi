@@ -9,7 +9,7 @@ const FlexWrap = styled.div`
    margin-bottom: 50px;
 `
 const ProjectName = styled.div`
-   font-size: 20px;
+   font-size: var(--headline-font-size);
    color: var(--dark-border-ultramarine); 
    padding: 9px 0 0 0; 
    padding-left: 6.5vw;
@@ -33,7 +33,7 @@ const Circle = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 100%;
-  background: #68A395;
+  background: var(--secondary-green);
 `
 const VerticalLine = styled.div`
   width: 2px;
