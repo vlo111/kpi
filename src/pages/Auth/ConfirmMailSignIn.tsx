@@ -23,10 +23,10 @@ const ConfirmEmail: React.FC = () => {
   }
   const BackSignIn = styled.div`
     font-size: var(--base-font-size);
-    color:#2A5578; 
+    color: var(--dark-border-ultramarine); 
     cursor: pointer; 
     text-align: center;
-    font-weight: 300;
+    font-weight: var(--font-regular);
   `
   const Description = styled.div`
     font-size: var(--headline-font-size); 
@@ -34,9 +34,16 @@ const ConfirmEmail: React.FC = () => {
     margin-bottom: 16px; 
     line-height: 25px;
   `
+  const ConfirmLayout = styled.div`
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  `
   return (
     <AuthLayout>
-      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <ConfirmLayout>
         <TitleAuth style={{ maxWidth: '50vw' }}>Send Confirmation Email</TitleAuth>
         <Row justify="center" align="middle" style={ { width: '100%' } }>
           <Col span={8} style={{ maxWidth: '460px' }} >
@@ -71,7 +78,7 @@ const ConfirmEmail: React.FC = () => {
             </Form>
           </Col>
         </Row>
-      </div>
+      </ConfirmLayout>
     </AuthLayout>
   )
 }

@@ -4,7 +4,15 @@ import AuthLayout from '../../components/Layout/AuthLayout'
 import { Row, Col, Space } from 'antd'
 import { TitleAuth } from '../../components/Layout/TitleAuth'
 import { AsnButton } from '../../components/Forms/Button'
-import { ReactComponent as Checked } from '../../assets/icons/checked.svg'
+import { ReactComponent as CheckedSvg } from '../../assets/icons/checked.svg'
+import styled from 'styled-components'
+
+const Checked = styled.div`
+font-size: var(--headline-font-size);
+span{
+  color: var(--dark-border-ultramarine);
+}
+`
 
 const ConfirmMailSignUp: React.FC = () => {
   const { email } = useParams()
@@ -16,24 +24,24 @@ const ConfirmMailSignUp: React.FC = () => {
             <Row justify='start'>
               <TitleAuth style={{ minWidth: '50vw', marginBottom: '0', textAlign: 'left' }}>We&apos;ve Sent An Email To</TitleAuth>
             </Row>
-            <Row justify='start' style={{ fontSize: '24px', color: '#68A395' }}>{email}</Row>
+            <Row justify='start' style={{ fontSize: 'var(--font-size-semilarge)', color: 'var(--secondary-green)' }}>{email}</Row>
             <Row justify='start' style={{ fontSize: 'var(--headline-font-size)' }}>Please make sure</Row>
             <Row>
               <Space direction='horizontal' size={7}>
-                <Checked />
-                <div style={{ fontSize: 'var(--headline-font-size)' }}>You&apos;ve entered it<span style={{ color: 'var(--dark-border-ultramarine)' }}> correctly</span></div>
+                <CheckedSvg />
+                <Checked>You&apos;ve entered it<span> correctly</span></Checked>
               </Space>
             </Row>
             <Row>
               <Space direction='horizontal' size={7}>
-                <Checked />
-                <div style={{ fontSize: 'var(--headline-font-size)' }}>This email is <span style={{ color: 'var(--dark-border-ultramarine)' }}>linked to your profile</span></div>
+                <CheckedSvg />
+                <Checked>This email is <span>linked to your profile</span></Checked>
               </Space>
             </Row>
             <Row>
               <Space direction='horizontal' size={7} align='baseline'>
-                <Checked />
-                <div style={{ fontSize: 'var(--headline-font-size)' }}>Check your <span style={{ color: 'var(--dark-border-ultramarine)' }}>spam and notifications folders<br></br>in your inbox</span></div>
+                <CheckedSvg />
+                <Checked>Check your <span>spam and notifications folders<br></br>in your inbox</span></Checked>
               </Space>
             </Row>
             <Row>
