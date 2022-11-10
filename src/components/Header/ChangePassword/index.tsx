@@ -33,15 +33,13 @@ const ChangePassword: React.FC = () => {
         font-size: var(--base-font-size);
         color: var(--dark-2);
     }
-    form{
-    }
   `
   const navigate = useNavigate()
   return (
       <CreateTemplateContainer>
         <p>Change Password</p>
         <Row justify="center" align="middle" >
-          <Col className='block' span={8}>
+          <Col span={8}>
             <Form
               name="signin"
               form={form}
