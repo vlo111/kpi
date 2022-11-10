@@ -3,6 +3,7 @@ import { Layout } from 'antd'
 import styled from 'styled-components'
 import { Menu } from '../Menu'
 import { IComponentChildren } from '../../types/global'
+import { Header } from '../Header'
 
 const LayoutStyle = styled(Layout)`
   background-color: var(--background);
@@ -11,16 +12,11 @@ const LayoutStyle = styled(Layout)`
 `
 
 const Sider = styled(LayoutStyle.Sider)`
-  background: var(--white);
-  box-shadow: var(--manu-box-shadow);
+  width: 240px !important;
+  min-width: 240px !important;
+  max-width: 240px !important;
+  flex: 0 0 240px !important;
   z-index: 2;
-`
-
-const Header = styled(LayoutStyle.Header)`
-  background: var(--white);
-  box-shadow: var(--header-box-shadow);
-  z-index: 1;
-  height: 60px;
 `
 
 const Content = styled(LayoutStyle.Content)`
@@ -36,7 +32,7 @@ const MainLayout: React.FC<IComponentChildren> = ({ children }) => {
         <Menu/>
       </Sider>
       <Layout>
-        <Header>Header</Header>
+        <Header/>
         <Content>
           {children}
         </Content>

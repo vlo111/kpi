@@ -88,7 +88,6 @@ export const Last: React.FC = () => {
 
     setSectors(sects)
   }
-
   return (
     <Collapses>
       <AsnCollapse key={'org'} id="org">
@@ -98,20 +97,14 @@ export const Last: React.FC = () => {
               <AsnInput placeholder="Organisation name" />
             </Row>
           ))}
-          <AsnButton
-            onClick={addOrganisation}
-          >
-            +Add Organizations
-          </AsnButton>
+          <AsnButton onClick={addOrganisation}>+Add Organizations</AsnButton>
         </Panel>
       </AsnCollapse>
       <AsnCollapse key={'reg'} id="reg">
         <Panel key={'reg'} className="input-rows" header="Regions">
           {regions.map((r: IDetail, i: number) => (
             <Row key={r.id}>
-              <AsnInput
-                placeholder="Example: Ararat Marz*"
-              />
+              <AsnInput placeholder="Example: Ararat Marz*" />
             </Row>
           ))}
           <AsnButton onClick={addRegions}>+Add Regions</AsnButton>
@@ -121,18 +114,20 @@ export const Last: React.FC = () => {
         <Panel key={'sec'} className="input-rows" header="Sections">
           {sectors.map((r: IDetail, i: number) => (
             <Row key={r.id}>
-              <AsnInput
-                placeholder="Example: IT*"
-              />
+              <AsnInput placeholder="Example: IT*" />
             </Row>
           ))}
           <AsnButton onClick={addSectors}>+Add Sectors</AsnButton>
         </Panel>
       </AsnCollapse>
       <div className="footer">
-        <AsnButton onClick={() => {
-          prevCurrent()
-        }}>Previous</AsnButton>
+        <AsnButton
+          onClick={() => {
+            prevCurrent()
+          }}
+        >
+          Previous
+        </AsnButton>
         <AsnButton>Save as Draft</AsnButton>
         <AsnButton type="primary" htmlType="submit">
           Publish

@@ -16,7 +16,9 @@ export const PATHS = {
   ConfirmEmail: 'confirm-email',
   SIGNUP: 'sign-up',
   ConfirmEmailSignUp: 'confirm-email/:email',
-  Overview: 'overview'
+  Overview: 'overview',
+  USERPROFILE: 'user-profile',
+  CHANGEPASSWORDPROFILE: 'change-password-profile'
 }
 
 export const HEADERS = {
