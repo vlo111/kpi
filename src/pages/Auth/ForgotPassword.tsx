@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Row, Col } from 'antd'
 import AuthLayout from '../../components/Layout/AuthLayout'
 import { VALIDATE_MESSAGES } from '../../helpers/constants'
@@ -11,7 +12,7 @@ import { TitleAuth } from '../../components/Layout/TitleAuth'
 
 const ForgotPassword: React.FC = () => {
   const [form] = Form.useForm()
-
+  const navigate = useNavigate()
   const onFinish: any = (values: any) => {
     console.log(values, 'success')
     navigate('/reset-password')
@@ -20,7 +21,19 @@ const ForgotPassword: React.FC = () => {
   const onFinishFailed: any = (values: any) => {
     console.log(values, 'failed')
   }
-  const navigate = useNavigate()
+  const BackSignIn = styled.div`
+    font-size: var(--base-font-size);
+    color:#2A5578; 
+    cursor: pointer; 
+    text-align: center;
+    font-weight: 300;
+  `
+  const Description = styled.div`
+    font-size: var(--headline-font-size); 
+    width: 100%; 
+    margin-bottom: 32px; 
+    line-height: 25px;
+  `
   return (
     <AuthLayout>
       <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
@@ -33,18 +46,23 @@ const ForgotPassword: React.FC = () => {
             validateMessages={VALIDATE_MESSAGES}
             layout="vertical"
           >
-            <Key style={{ width: '100%', marginBottom: '24px' }} />
+            <Key style={{ width: '100%', marginBottom: '26px' }} />
             <TitleAuth>Forget Password</TitleAuth>
-            <div style={{ fontSize: 'var(--headline-font-size)', width: '100%', marginBottom: '24px' }}>Please enter the email you use to sign in to Meetk.</div>
-            <Form.Item name="email address" label="Email Address" rules={[{ required: true }, { type: 'email' }, { max: 128 }]}>
+            <Description>Please enter the email you use to sign in to Meetk.</Description>
+            <Form.Item
+            name="email address"
+            label="Email Address"
+             rules={[{ required: true }, { type: 'email' }, { max: 128 }]}
+             style={ { marginBottom: '32px' } }
+             >
               <AsnInput placeholder="Email Address" />
             </Form.Item>
-            <Form.Item>
+            <Form.Item style={ { marginBottom: '9px' } }>
               <AsnButton className='primary' type="primary" htmlType="submit">
                 Reset Password
               </AsnButton>
             </Form.Item>
-            <div style={{ fontSize: 'var(--base-font-size)', color: '#2A5578', cursor: 'pointer', textAlign: 'center' }} onClick={() => navigate('/sign-in')}>Back To Sign In </div>
+            <BackSignIn onClick={() => navigate('/sign-in')}>Back To Sign In </BackSignIn>
           </Form>
         </Col>
       </Row>

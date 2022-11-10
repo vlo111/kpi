@@ -107,9 +107,6 @@ export const CreateProject: React.FC = () => {
                 onFinishFailed={onFinishFailed}
             >
                 <div className="main">
-                    <div className="title">
-                        To create a new project, please fill in the following information
-                    </div>
                     <Form.Item {...Name('title', 'Title')} {...rules(2, 256)}>
                         <AsnInput placeholder="Example: AWDA"/>
                     </Form.Item>
