@@ -15,6 +15,8 @@ export const PATHS = {
   TEST: 'test',
   CONFIRMEMAIL: 'confirm-email',
   SIGNUP: 'sign-up',
+  USERPROFILE: 'user-profile',
+  CHANGEPASSWORDPROFILE: 'change-password-profile',
   CONFIRMEMAILSIGNUP: 'confirm-email/:email',
   OVERVIEW: 'project/overview/:id',
   PROJECTAREA: 'project/steps/:id'
