@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { IResultArea } from '../../../../../types/project'
-import { AsnCollapse } from '../../../../AnsCollapse'
+import { AsnCollapse } from '../../../../AsnCollapse'
 import { Panel } from '../../../../Forms/AsnCollapse'
 import { InputResultArea } from '../../../../Forms/InputResultArea'
 import InputExpectedResult from '../InputExpectedResult'
 import InputActivity from '../InputActivity'
 import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.svg'
-import ConfirmModal from '../../../../Forms/Modal/ConfirmModal'
+import { ConfirmModal } from '../../../../Forms/Modal/ConfirmModal'
 import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
 import { ActionHandle } from '../../../../../types/context'
 
@@ -48,6 +48,8 @@ const InputResult: React.FC<{ resultArea: IResultArea[] }> = ({
             ))}
             <ConfirmModal
                 styles={{ gap: '6rem' }}
+                yes="Delete"
+                no="Cancel"
                 open={openDeleteResultModal}
                 title="Are you sure you want to delete  the field?"
                 onSubmit={() => {

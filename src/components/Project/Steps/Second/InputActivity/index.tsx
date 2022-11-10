@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AsnCollapse } from '../../../../AnsCollapse'
+import { AsnCollapse } from '../../../../AsnCollapse'
 import { Panel } from '../../../../Forms/AsnCollapse'
 import { IActivity } from '../../../../../types/project'
 import InputAreaBox from '../InputAreaBox'
@@ -7,7 +7,7 @@ import { Row } from 'antd'
 import { AsnButton } from '../../../../Forms/Button'
 import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
 import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.svg'
-import ConfirmModal from '../../../../Forms/Modal/ConfirmModal'
+import { ConfirmModal } from '../../../../Forms/Modal/ConfirmModal'
 
 const InputActivity: React.FC<{
   id: string
@@ -85,6 +85,8 @@ const InputActivity: React.FC<{
       </div>
       <ConfirmModal
         styles={{ gap: '6rem' }}
+        yes="Delete"
+        no="Cancel"
         open={openDeleteResultModal}
         title="Are you sure you want to delete  the field?"
         onSubmit={() => {
