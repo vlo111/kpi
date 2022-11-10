@@ -44,6 +44,7 @@ const SignUp: React.FC = () => {
       }
     })
   ]
+  const marginInput = { marginBottom: '32px' }
   return (
     <AuthLayout location='sign-up'>
         <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
@@ -65,7 +66,7 @@ const SignUp: React.FC = () => {
               name="First Name"
               label="First Name"
               {...rules(3, 128)}
-              style={ { marginBottom: '32px' } }
+              style={ { ...marginInput } }
               >
                 <AsnInput placeholder="First Name" />
               </Form.Item>
@@ -73,7 +74,7 @@ const SignUp: React.FC = () => {
               name="Last Name"
                label="Last Name"
                 {...rules(3, 128)}
-                style={ { marginBottom: '32px' } }
+                style={ { ...marginInput } }
                 >
                 <AsnInput placeholder="Last Name" />
               </Form.Item>
@@ -81,7 +82,7 @@ const SignUp: React.FC = () => {
                name="email"
                 label="Email Address"
                  rules={[{ required: true }, { type: 'email' }, { max: 128 }]}
-                 style={ { marginBottom: '32px' } }
+                 style={ { ...marginInput } }
                  >
                 <AsnInput placeholder="Email Address" />
               </Form.Item>
@@ -89,7 +90,7 @@ const SignUp: React.FC = () => {
                name="Organisation Name"
                 label="Organisation"
                  {...rules(2, 128)}
-                 style={ { marginBottom: '32px' } }
+                 style={ { ...marginInput } }
                  >
                 <AsnInput placeholder="Organisation" />
               </Form.Item>
@@ -97,7 +98,7 @@ const SignUp: React.FC = () => {
                name="password"
                label="Password"
                {...rulesPassword({ min: 8, message: passwordMinMaxError }, { max: 64, message: passwordMinMaxError }, { pattern: passwordRegExp, message: passwordErrorMessage })}
-               style={ { marginBottom: '32px' } }
+               style={ { ...marginInput } }
                >
                 <Password placeholder="Password" />
               </Form.Item>
@@ -106,7 +107,7 @@ const SignUp: React.FC = () => {
               label="Confirm Password"
               dependencies={['password']}
               rules={rulesConfirmPassword}
-              style={ { marginBottom: '32px' } }
+              style={ { ...marginInput } }
               >
                 <Password placeholder="Confirm Password" />
               </Form.Item>

@@ -11,7 +11,7 @@ import { rulesPassword } from '../../utils/ProjectUtils'
 import styled from 'styled-components'
 
 const ForgotPassword = styled.div`
-  color: #A2A2A2; 
+  color: var(--forget-password-gray); 
   font-size: var(--base-font-size);
   cursor: pointer;
   margin-bottom: 32px;
