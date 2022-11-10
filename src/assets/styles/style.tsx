@@ -37,7 +37,7 @@ const GlobalStyle = createGlobalStyle`
     --light-border-ultramarine: #0D99FF;
      
     /*Typography*/
-    --font: 'Lexend', sans-serif;
+    --font: 'Lexend';
 
     --large-hedline-font-size: 48px;
     --large-font-size: 38px;
