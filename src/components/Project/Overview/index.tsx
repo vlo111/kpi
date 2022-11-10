@@ -7,9 +7,12 @@ import { activeTabName } from '../../../types/project'
 import { tabNames, names } from '../../../helpers/constants'
 
 const Wrapper = styled.div`
-  height: '100%';
-  padding: 10px 0 0 30px;
+  height: 100%;
+  padding: 40px 0 0 40px;
   background: var(--background);
+  display: flex;
+  justify-content: end;
+  flex-direction: column;
 `
 
 export const Overview: React.FC = () => {
@@ -25,8 +28,10 @@ export const Overview: React.FC = () => {
   return (
     <Wrapper>
       <ProjectInfo />
-      <Tabs tabNames={tabNames} handleActiveTab={handleActiveTab} activeTab={activeTab} />
-      <ActivityNames names={names} setActiveName={setActiveName} activeName={activeName} />
+      <div>
+        <Tabs tabNames={tabNames} handleActiveTab={handleActiveTab} activeTab={activeTab} />
+        <ActivityNames names={names} setActiveName={setActiveName} activeName={activeName} />
+      </div>
     </Wrapper>
   )
 }
