@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { AsnCollapse } from '../../../AnsCollapse'
+import { AsnCollapse } from '../../../AsnCollapse'
 import { Panel } from '../../../Forms/AsnCollapse'
 import { Row } from 'antd'
 import AsnInput from '../../../Forms/Input'
