@@ -7,6 +7,12 @@ import { Form } from '../../Forms/Form'
 import AsnInput from '../../Forms/Input'
 import { Name } from '../../../helpers/constants'
 
+const UserModal = styled(AsnModal)`
+ min-height: '671px';
+ min-width: '614px';
+ padding: '32px 0px 32px';
+`
+
 const EditProfile: React.FC<ICreateTemplate> = ({
   isOpenCreateActivityModal,
   setIsOpenCreateActivityModal
@@ -29,14 +35,13 @@ const EditProfile: React.FC<ICreateTemplate> = ({
 `
 
   return (
-    <AsnModal
+    <UserModal
       footer={false}
       open={isOpenCreateActivityModal}
       title="User Profile"
       onCancel={handleCancel}
-      style={{ minHeight: '671px', minWidth: '614px', padding: '32px 0px 32px' }}
     >
-           <CreateTemplateContainer>
+      <CreateTemplateContainer>
         <Form
           id="create-template-form"
           form={form}
@@ -65,7 +70,7 @@ const EditProfile: React.FC<ICreateTemplate> = ({
         </div>
       </Form>
     </CreateTemplateContainer>
-    </AsnModal>
+    </UserModal>
   )
 }
 
