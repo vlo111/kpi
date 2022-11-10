@@ -6,19 +6,20 @@ import { FormItemName, IManager, ManagerFieldType } from '../types/project'
 export const PATHS = {
   ROOT: '/',
   ERROR_403: 'no-access',
-  CreateProject: 'create-project',
+  CREATEPROJECT: 'create-project',
   SIGNIN: 'sign-in',
   CHANGEPASSWORD: 'change-password',
   FORGOTPASSWORD: 'forgot-password',
   RECOVERPASSWORD: 'reset-password',
   DASHBOARD: 'dashboard',
   TEST: 'test',
-  ConfirmEmail: 'confirm-email',
+  CONFIRMEMAIL: 'confirm-email',
   SIGNUP: 'sign-up',
-  ConfirmEmailSignUp: 'confirm-email/:email',
-  Overview: 'overview',
   USERPROFILE: 'user-profile',
-  CHANGEPASSWORDPROFILE: 'change-password-profile'
+  CHANGEPASSWORDPROFILE: 'change-password-profile',
+  CONFIRMEMAILSIGNUP: 'confirm-email/:email',
+  OVERVIEW: 'project/overview/:id',
+  PROJECTAREA: 'project/steps/:id'
 }
 
 export const HEADERS = {
@@ -111,24 +112,6 @@ export const tabNames = [
   },
   {
     name: 'Societal perceptions shifted'
-  },
-  {
-    name: 'Skill gap reduced smnfioewbF VCFUIEWQ'
-  },
-  {
-    name: 'Skill gap reduced'
-  },
-  {
-    name: 'Skill gap reduced'
-  },
-  {
-    name: 'Skill gap reduced'
-  },
-  {
-    name: 'Skill gap reduced'
-  },
-  {
-    name: 'Skill gap reduced'
   }
 ]
 

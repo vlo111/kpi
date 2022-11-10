@@ -21,7 +21,6 @@ const Sider = styled(LayoutStyle.Sider)`
 
 const Content = styled(LayoutStyle.Content)`
   background: var(--background);
-  padding: 30px;
   overflow: auto;
 `
 

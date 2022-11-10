@@ -41,14 +41,14 @@ const TabContainer = styled.div`
     align-items: center;
     justify-content: center;
     font-size: var(--font-size-semismall);
-    color: #2A5578;
+    color: var(--dark-border-ultramarine);
   }
   `
 const activeTab = {
   clipPath: 'polygon(0 0, 0 100%, 100% 100%, 100% 100%, 89% 0)',
   translate: '0px -22px',
   height: '72px',
-  borderRadius: '40px 40px 0px 0px',
+  borderRadius: '20px 40px 0px 0px',
   display: 'flex'
 }
 const activeTabNum = {
@@ -58,10 +58,10 @@ const activeTabNum = {
 }
 const activeTabInfo = {
   borderRadius: '40px 40px 0px 0px',
-  background: '#FFFFFF'
+  background: 'var(--white)'
 }
 const activeTabName = {
-  color: '#2A5578',
+  color: 'var(--dark-border-ultramarine)',
   fontSize: 'var(--base-font-size)',
   paddingLeft: '4px',
   overflow: 'hidden',
@@ -72,12 +72,12 @@ const activeTabName = {
 const width = window.innerWidth
 
 const Tab: React.FC<TabNames> = ({ tabNumber, name, zIndex, active, handleActiveTab, tabNames }) => {
-  const notShowNameActive = active && tabNames.length > 6
-  const notShowName = tabNames.length > 6
-  const notShowNameActiveStyle = { ...activeTab, zIndex, width: '10vw' }
-  const showNameActive = active && tabNames.length <= 6
-  const showNameActiveStyle = { ...activeTab, zIndex }
-  const notShowNameStyle = { width: '10vw', zIndex }
+  const notShowNameActive = active && tabNames.length >= 5
+  const notShowName = tabNames.length >= 5
+  const notShowNameActiveStyle = { ...activeTab, zIndex: 11, width: '10vw' }
+  const showNameActive = active && tabNames.length <= 5
+  const showNameActiveStyle = { ...activeTab, zIndex: 11 }
+  const notShowNameStyle = { width: '8vw', zIndex }
 
   const tabStyle = notShowNameActive
     ? notShowNameActiveStyle
@@ -86,21 +86,15 @@ const Tab: React.FC<TabNames> = ({ tabNumber, name, zIndex, active, handleActive
       : notShowName
         ? notShowNameStyle
         : { zIndex }
-  const useTabRef = (el: any): void => {
-    if (active && el) {
-      el.style.setProperty('z-index', `${zIndex}`, 'important')
-    }
-  }
   return (
-        <Tooltip title={name} color='#EDF0F4' overlayInnerStyle={{ color: '#2A5578', fontSize: '20px' }}>
+        <Tooltip title={name} color='var(--dark-6)' overlayInnerStyle={{ color: 'var(--dark-border-ultramarine)', fontSize: 'var(--headline-font-size)' }}>
             <TabContainer
                 onClick={() => handleActiveTab(tabNumber)}
                 style={tabStyle}
-                ref={useTabRef}
             >
                 <div className='tabInfoWrapper' style={active ? { ...activeTabInfo } : {}}>
                     <div className='tabNumber' style={active ? { ...activeTabNum } : {}}>{tabNumber}</div>
-                    {tabNames.length > 6 ? <></> : width < 1024 ? <></> : <div id="tabName" className='tabName' style={active ? { ...activeTabName } : {}}>{name}</div>}
+                    {tabNames.length > 4 ? <></> : width < 1024 ? <></> : <div id="tabName" className='tabName' style={active ? { ...activeTabName } : {}}>{name}</div>}
                 </div>
             </TabContainer >
         </Tooltip>
