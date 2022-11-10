@@ -112,23 +112,5 @@ export const tabNames = [
   },
   {
     name: 'Societal perceptions shifted'
-  },
-  {
-    name: 'Skill gap reduced smnfioewbF VCFUIEWQ'
-  },
-  {
-    name: 'Skill gap reduced'
-  },
-  {
-    name: 'Skill gap reduced'
-  },
-  {
-    name: 'Skill gap reduced'
-  },
-  {
-    name: 'Skill gap reduced'
-  },
-  {
-    name: 'Skill gap reduced'
   }
 ]
