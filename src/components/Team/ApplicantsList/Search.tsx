@@ -35,6 +35,7 @@ export const ApplicantSearch = styled.div`
             display: flex;
             justify-content: center;
             align-items: center;
+            width: clamp(200px, 50vh, 300px);
 
             input {
             height: 32px;
@@ -44,7 +45,7 @@ export const ApplicantSearch = styled.div`
             border-radius: 10px;
             box-shadow: var(--input-box-shadow);
             color: var(--dark-4);
-            width: clamp(200px, 50vh, 300px);
+            width: 100%;
             margin-left: 34px;
 
             &:hover{
@@ -83,12 +84,12 @@ const SearchApplicants: React.FC<{ showModal: any, setShowModal: any }> = ({ sho
                     <div className='left_section_input'>
                      <AsnInput placeholder="Search" />
                     </div>
-                    <div>
+                    <div className='left_section_craete_button'>
                         <AsnButton type="primary" htmlType="submit" onClick={() => setShowModal('create')}>Add user</AsnButton>
                     </div>
                 </div>
                 <div className='applicants_count'>
-                    <div className='applicants_count_text'>Total members: 14</div>
+                    <div className='applicants_count_text'>Total members: 12</div>
                 </div>
                 <AddApplicantModal showModal={showModal} setShowModal={setShowModal}/>
             </ApplicantSearch>

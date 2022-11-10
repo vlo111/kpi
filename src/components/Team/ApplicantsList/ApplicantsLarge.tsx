@@ -8,6 +8,7 @@ import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg'
 import { TemUsersType } from '../../../types/teams'
 import { TeamList } from '../../../helpers/fakeData'
 import AddApplicantModal from './CreateApplicantsModal'
+import { ConfirmModal } from '../../Forms/Modal/ConfirmModal'
 
 const ApplicantList = styled.div`
     margin-top: 8px;
@@ -87,6 +88,10 @@ const ApplicantList = styled.div`
           justify-content: center;
           align-items:center;
 
+          &:hover{
+            cursor: pointer;
+          }
+
           svg {
             &:last-child{
               margin-left: 13px;
@@ -161,6 +166,7 @@ const ApplicantList = styled.div`
 `
 
 const ApplicantsList: React.FC<{ showModal: any, setShowModal: any }> = ({ showModal, setShowModal }) => {
+  const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState(false)
   const columns: ColumnsType<TemUsersType> = [
     {
       title: 'Name Surname',
@@ -206,7 +212,7 @@ const ApplicantsList: React.FC<{ showModal: any, setShowModal: any }> = ({ showM
         return (
           <div className='users_edit_icons'>
             <EditSvg onClick={() => setShowModal('create')}/>
-            <TrashSvg />
+            <TrashSvg onClick={() => setOpenApplicantDeleteModal(true)}/>
           </div>
         )
       }
@@ -220,7 +226,7 @@ const ApplicantsList: React.FC<{ showModal: any, setShowModal: any }> = ({ showM
              dataSource={TeamList()}
              size="middle"
              pagination={{
-               defaultPageSize: 3,
+               defaultPageSize: 5,
                onChange: pageNum => {
                  setCurrentPage(pageNum)
                },
@@ -229,6 +235,16 @@ const ApplicantsList: React.FC<{ showModal: any, setShowModal: any }> = ({ showM
              }
             />
             <AddApplicantModal showModal={showModal} setShowModal={setShowModal}/>
+            <ConfirmModal
+              styles={{ gap: '6rem' }}
+              yes="Delete"
+              no="Cancel"
+              open={openApplicantDeleteModal}
+              title="Are you sure you want to delete this field?"
+              onCancel={() => setOpenApplicantDeleteModal(!openApplicantDeleteModal)}
+              onSubmit={function (): void {
+                throw new Error('Function not implemented.')
+              } } />
         </ApplicantList>
   )
 }

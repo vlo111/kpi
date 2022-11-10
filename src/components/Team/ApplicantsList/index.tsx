@@ -12,14 +12,21 @@ const ApplicantWrapper = styled.div`
     padding: 30px 16px 50px 16px;
 `
 
+const ApplicantContent = styled.div`
+  padding: 32px 64px 50px 64px;
+  height: 100%;
+`
+
 const Applicants: React.FC<{}> = () => {
   const [showModal, setShowModal] = useState(undefined)
 
   return (
-    <ApplicantWrapper>
-        <SearchApplicants showModal={showModal} setShowModal={setShowModal}/>
-        <ApplicantsList showModal={showModal} setShowModal={setShowModal}/>
-    </ApplicantWrapper>
+    <ApplicantContent>
+      <ApplicantWrapper>
+          <SearchApplicants showModal={showModal} setShowModal={setShowModal}/>
+          <ApplicantsList showModal={showModal} setShowModal={setShowModal}/>
+      </ApplicantWrapper>
+    </ApplicantContent>
   )
 }
 

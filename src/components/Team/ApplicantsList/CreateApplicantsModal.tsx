@@ -137,6 +137,7 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
     @media (min-width: 480px) and (min-height: 720px){
       top: 50px !important;
       padding-bottom: 12px !important;
+      padding-right: 12px !important;
       .ant-modal-header{
         padding-bottom: 15px;
       }
@@ -148,6 +149,9 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
       }
       .ant-form-item{
         margin-bottom: 5px !important;
+      }
+      .ant-modal-close{
+        right: -15px;
       }
     }
     @media (min-width: 480px) and (min-height: 1080px){
@@ -163,6 +167,9 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
       }
       .ant-radio-group{
         flex-direction: row;
+      }
+      .ant-modal-close{
+        right: -34px;
       }
     }
     @media (min-width: 1640px) and (min-height: 360px){
