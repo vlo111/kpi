@@ -1,12 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import { AsnModal } from '../../Forms/Modal'
-// import { AsnButton } from '../../Forms/Button'
-// import { IAddManagers, HandleSubmit, IManagerState, IManager, AddManagerHandle } from '../../../../../../../types/project'
 import { Form } from '../../Forms/Form'
 import AsnInput from '../../Forms/Input'
 import { VALIDATE_MESSAGES } from '../../../helpers/constants'
-// import { useGeneralInfo } from '../../../../../../../hooks/project/useGeneralInfo'
 import styled from 'styled-components'
 import { AsnButton } from '../../Forms/Button'
 import { Cascader, Radio, RadioChangeEvent } from 'antd'
@@ -138,7 +135,7 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
       }
     }
     @media (min-width: 480px) and (min-height: 720px){
-      top: 25px !important;
+      top: 50px !important;
       padding-bottom: 12px !important;
       .ant-modal-header{
         padding-bottom: 15px;
@@ -171,7 +168,7 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
     @media (min-width: 1640px) and (min-height: 360px){
       top: 44px !important;
       padding-bottom: 44px !important;
-      padding-right: 32px;
+      padding-right: 32px !important;
       .ant-modal-header{
         padding-bottom: 2rem;
       }
@@ -223,7 +220,7 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
     }
 `
 
-const AddApplicantModal: React.FC<{}> = () => {
+const AddApplicantModal: React.FC<{ showModal: any, setShowModal: any }> = ({ showModal, setShowModal }) => {
   const [form] = Form.useForm()
   const [value, setValue] = useState(1)
 
@@ -263,20 +260,21 @@ const AddApplicantModal: React.FC<{}> = () => {
     setValue(e.target.value)
   }
 
-  // const handleCancel = () => {
-  //   form.resetFields()
-  //   setManagerModalOpen(null)
-  // }
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleCancel = () => {
+    form.resetFields()
+    setShowModal(undefined)
+  }
 
   return (
         <AddApplicantsModalWrapper
-            open={true}
+            open={showModal === 'create'}
             title={'Add Person'}
             cancelText="Cancel"
-            // onCancel={handleCancel}
+            onCancel={handleCancel}
             footer={[
                 <div key={'action'} className="footer-action">
-                    <AsnButton key="back">
+                    <AsnButton key="back" onClick={handleCancel}>
                         Cancel
                     </AsnButton>
                     <AsnButton form="managerForm" key="submit" type="primary" htmlType="submit">

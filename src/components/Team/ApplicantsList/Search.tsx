@@ -71,7 +71,7 @@ export const ApplicantSearch = styled.div`
     
 `
 
-const SearchApplicants: React.FC<{}> = () => {
+const SearchApplicants: React.FC<{ showModal: any, setShowModal: any }> = ({ showModal, setShowModal }) => {
   return (
             <ApplicantSearch>
                 <div className='left_section'>
@@ -84,13 +84,13 @@ const SearchApplicants: React.FC<{}> = () => {
                      <AsnInput placeholder="Search" />
                     </div>
                     <div>
-                        <AsnButton type="primary" htmlType="submit">Add user</AsnButton>
+                        <AsnButton type="primary" htmlType="submit" onClick={() => setShowModal('create')}>Add user</AsnButton>
                     </div>
                 </div>
                 <div className='applicants_count'>
                     <div className='applicants_count_text'>Total members: 14</div>
                 </div>
-                <AddApplicantModal />
+                <AddApplicantModal showModal={showModal} setShowModal={setShowModal}/>
             </ApplicantSearch>
   )
 }

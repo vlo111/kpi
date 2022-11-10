@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import ApplicantsList from './ApplicantsLarge'
 import SearchApplicants from './Search'
@@ -13,10 +13,12 @@ const ApplicantWrapper = styled.div`
 `
 
 const Applicants: React.FC<{}> = () => {
+  const [showModal, setShowModal] = useState(undefined)
+
   return (
     <ApplicantWrapper>
-        <SearchApplicants />
-        <ApplicantsList />
+        <SearchApplicants showModal={showModal} setShowModal={setShowModal}/>
+        <ApplicantsList showModal={showModal} setShowModal={setShowModal}/>
     </ApplicantWrapper>
   )
 }

@@ -7,6 +7,7 @@ import { ReactComponent as TrashSvg } from '../../../assets/icons/trash.svg'
 import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg'
 import { TemUsersType } from '../../../types/teams'
 import { TeamList } from '../../../helpers/fakeData'
+import AddApplicantModal from './CreateApplicantsModal'
 
 const ApplicantList = styled.div`
     margin-top: 8px;
@@ -159,59 +160,58 @@ const ApplicantList = styled.div`
     }
 `
 
-const columns: ColumnsType<TemUsersType> = [
-  {
-    title: 'Name Surname',
-    render: item => {
-      return (
-        <div className='user_icon'>
-          <img src={item.picture} />
-          <p>{item.name}</p>
+const ApplicantsList: React.FC<{ showModal: any, setShowModal: any }> = ({ showModal, setShowModal }) => {
+  const columns: ColumnsType<TemUsersType> = [
+    {
+      title: 'Name Surname',
+      render: item => {
+        return (
+          <div className='user_icon'>
+            <img src={item.picture} />
+            <p>{item.name}</p>
+          </div>
+        )
+      }
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      render: item => {
+        return <h2>{item}</h2>
+      }
+    },
+    {
+      title: 'Access level',
+      dataIndex: 'viewLevel',
+      render: item => {
+        return (
+        <div className='user_role'>
+         <Preview />
+         <h3>{item}</h3>
         </div>
-      )
+        )
+      }
+    },
+    {
+      title: 'User status',
+      dataIndex: 'status',
+      render: item => {
+        return (
+          <p className={`${item === 'Pending' ? 'user_status_pending' : 'user_status_resolved'}`}>{item}</p>
+        )
+      }
+    },
+    {
+      render: () => {
+        return (
+          <div className='users_edit_icons'>
+            <EditSvg onClick={() => setShowModal('create')}/>
+            <TrashSvg />
+          </div>
+        )
+      }
     }
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-    render: item => {
-      return <h2>{item}</h2>
-    }
-  },
-  {
-    title: 'Access level',
-    dataIndex: 'viewLevel',
-    render: item => {
-      return (
-      <div className='user_role'>
-       <Preview />
-       <h3>{item}</h3>
-      </div>
-      )
-    }
-  },
-  {
-    title: 'User status',
-    dataIndex: 'status',
-    render: item => {
-      return (
-        <p className={`${item === 'Pending' ? 'user_status_pending' : 'user_status_resolved'}`}>{item}</p>
-      )
-    }
-  },
-  {
-    render: () => {
-      return (
-        <div className='users_edit_icons'>
-          <EditSvg />
-          <TrashSvg />
-        </div>
-      )
-    }
-  }
-]
-
-const ApplicantsList: React.FC<{}> = () => {
+  ]
   const [currentPage, setCurrentPage] = useState(1)
   return (
         <ApplicantList>
@@ -228,6 +228,7 @@ const ApplicantsList: React.FC<{}> = () => {
              }
              }
             />
+            <AddApplicantModal showModal={showModal} setShowModal={setShowModal}/>
         </ApplicantList>
   )
 }
