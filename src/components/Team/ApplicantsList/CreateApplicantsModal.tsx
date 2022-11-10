@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import { AsnModal } from '../../Forms/Modal'
 // import { AsnButton } from '../../Forms/Button'
@@ -8,25 +9,29 @@ import { VALIDATE_MESSAGES } from '../../../helpers/constants'
 // import { useGeneralInfo } from '../../../../../../../hooks/project/useGeneralInfo'
 import styled from 'styled-components'
 import { AsnButton } from '../../Forms/Button'
-import { Cascader } from 'antd'
+import { Cascader, Radio, RadioChangeEvent } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
+import { UsersPermissionsRule } from '../../../helpers/fakeData'
 
 const AddApplicantsModalWrapper = styled(AsnModal)`
     width: 600px !important;
-    padding: 32px !important;
-    background: white;
+    padding: 32px 32px 44px 32px !important;
+    background: var(--white);
     border-radius: 20px;
+    top: 40px !important;
 
+    .ant-modal-close{
+      top: -33px;
+      right: -34px;
+    }
     .ant-modal-content{
       box-shadow: none !important;
       position: inherit !important;
       padding: 0;
     }
-  
     .ant-modal-title {
       font-size: var(--headline-font-size);
     }
-
     .cascade_items {
         display: flex;
         justify-content: space-between;
@@ -35,7 +40,7 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
         width: 100%;
 
         .ant-select, .ant-cascader{
-            width: 98%;
+            width: 100%;
             height: 44px;
             font-size: 16px;
             background: var(--white);
@@ -58,15 +63,169 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
                 display: none !important;
             }
         }
-    }
+        .anticon[tabindex]{
+          position: absolute;
+          right: -17px;
+        }
 
+        &_input_wrapper{
+          width:100%;
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+    }
+    .ant-row {
+      width: 100%;
+    }
+    .ant-form-item{
+      margin-bottom: 16px !important;
+    }
+    .ant-form-item-control-input-content{
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
     .new_permission{
         width: 100%;
+        margin-bottom:28px;
+    }
+    .ant-radio-checked .ant-radio-inner{
+      border-color: var(--dark-border-ultramarine);
+    }
+    .ant-radio-inner{
+      width: 20px;
+      height: 20px;
+
+      ::after{
+        transform: scale(0.7);
+        background-color: var(--dark-border-ultramarine);
+      }
+    }
+    .ant-radio-group{
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    /* @media (min-width: 480px) and (min-height: 360px){}
+    @media (min-width: 480px) and (min-height: 720px){}
+    @media (min-width: 480px) and (min-height: 1080px){}
+    @media (min-width: 960px) and (min-height: 360px){}
+    @media (min-width: 960px) and (min-height: 720px){}
+    @media (min-width: 960px) and (min-height: 1080px){} */
+    @media (min-width: 480px) and (min-height: 360px){
+      top: 15px !important;
+      padding-bottom: 8px !important;
+      padding-right: 12px;
+
+      .ant-modal-header{
+        padding-bottom: 5px;
+      }
+      .ant-modal-body{
+        max-height: 540px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding-right: 20px;
+      }
+      .ant-radio-group{
+        flex-direction: row;
+      }
+      .new_permission{
+        margin-bottom: 3px !important;
+      }
+      .ant-form-item{
+        margin-bottom: 4px !important;
+      }
+    }
+    @media (min-width: 480px) and (min-height: 720px){
+      top: 25px !important;
+      padding-bottom: 12px !important;
+      .ant-modal-header{
+        padding-bottom: 15px;
+      }
+      .ant-radio-group{
+        flex-direction: row;
+      }
+      .new_permission{
+        margin-bottom: 8px !important;
+      }
+      .ant-form-item{
+        margin-bottom: 5px !important;
+      }
+    }
+    @media (min-width: 480px) and (min-height: 1080px){
+      top: 44px !important;
+      .new_permission{
+        margin-bottom: 15px !important;
+      }
+      .ant-form-item{
+        margin-bottom: 10px !important;
+      }
+      .ant-modal-header{
+        padding-bottom: 20px;
+      }
+      .ant-radio-group{
+        flex-direction: row;
+      }
+    }
+    @media (min-width: 1640px) and (min-height: 360px){
+      top: 44px !important;
+      padding-bottom: 44px !important;
+      padding-right: 32px;
+      .ant-modal-header{
+        padding-bottom: 2rem;
+      }
+      .ant-modal-body{
+        max-height: none;
+        overflow:hidden;
+        padding-right: 0;
+      }
+      .new_permission{
+        margin-bottom: 28px !important;
+      }
+      .ant-form-item{
+        margin-bottom: 16px !important;
+      }
+      .ant-radio-group{
+        flex-direction: column;
+      }
+    }
+    @media (min-width: 1640px) and (min-height: 720px){
+      top: 44px !important;
+      padding-bottom: 44px !important;
+      .ant-modal-header{
+        padding-bottom: 2rem;
+      }
+      .new_permission{
+        margin-bottom: 28px !important;
+      }
+      .ant-form-item{
+        margin-bottom: 16px !important;
+      }
+      .ant-radio-group{
+        flex-direction: column;
+      }
+    }
+    @media (min-width: 1640px) and (min-height: 1080px){
+      top: 44px !important;
+      .new_permission{
+        margin-bottom: 28px !important;
+      }
+      .ant-form-item{
+        margin-bottom: 16px !important;
+      }
+      .ant-modal-header{
+        padding-bottom: 2rem;
+      }
+      .ant-radio-group{
+        flex-direction: column;
+      }
     }
 `
 
 const AddApplicantModal: React.FC<{}> = () => {
   const [form] = Form.useForm()
+  const [value, setValue] = useState(1)
 
   //   const { editManager }: IManagerState = useGeneralInfo()
 
@@ -91,102 +250,23 @@ const AddApplicantModal: React.FC<{}> = () => {
 
   //   const fields = ManagerFields(manager)
 
-  interface Option {
-    value: string
-    label: string
-    children?: Option[]
-  }
+  const [defaultVal, setDefaultVal] = useState(UsersPermissionsRule)
 
-  const options: Option[] = [
-    {
-      value: 'project',
-      label: 'Project'
-    },
-    {
-      value: 'result_area',
-      label: 'Result Area',
-      children: [
-        {
-          value: 'result_area',
-          label: 'Result Area',
-          children: [
-            {
-              value: 'result_area_1',
-              label: 'Result Area 1'
-            },
-            {
-              value: 'result_area_2',
-              label: 'Result Area 2'
-            },
-            {
-              value: 'result_area_3',
-              label: 'Result Area 3'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      value: 'activity',
-      label: 'Activity',
-      children: [
-        {
-          value: 'result_area',
-          label: 'Result Area',
-          children: [
-            {
-              value: 'activity_1',
-              label: 'Activity 1',
-              children: [
-                {
-                  value: 'activty_1.1 ',
-                  label: 'Activty 1.1 '
-                },
-                {
-                  value: 'activty_1.2 ',
-                  label: 'Activty 1.2 '
-                },
-                {
-                  value: 'activty_1.3 ',
-                  label: 'Activty 1.3 '
-                }
-              ]
-            },
-            {
-              value: 'activity_2',
-              label: 'Activity 2'
-            },
-            {
-              value: 'activity_3',
-              label: 'Activity 3'
-            }
-          ]
-        },
-        {
-          value: 'result_area_2',
-          label: 'Result Area 2'
-        },
-        {
-          value: 'result_area_3',
-          label: 'Result Area 3'
-        }
-      ]
-    },
-    {
-      value: 'template',
-      label: 'Template'
-    },
-    {
-      value: 'sub_activity',
-      label: 'Sub-Activity'
-    }
-  ]
-
-  const [defaultVal, setDefaultVal] = useState(options)
-
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const onChange = (value: any, selectedOptions: any) => {
-    console.log(defaultVal, 'value', value)
+    console.log(value)
   }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const onChangePermission = (e: RadioChangeEvent) => {
+    console.log('radio checked', e.target.value)
+    setValue(e.target.value)
+  }
+
+  // const handleCancel = () => {
+  //   form.resetFields()
+  //   setManagerModalOpen(null)
+  // }
 
   return (
         <AddApplicantsModalWrapper
@@ -218,7 +298,7 @@ const AddApplicantModal: React.FC<{}> = () => {
                   required: true,
                   min: 2,
                   max: 256
-                }]}>
+                }]} >
                     <AsnInput placeholder="Anna"/>
                 </Form.Item>
                 <Form.Item name="lastName" label="Last Name" rules={[{
@@ -234,30 +314,39 @@ const AddApplicantModal: React.FC<{}> = () => {
                 <Form.Item name="position" label="Position">
                     <AsnInput placeholder="Project Manager"/>
                 </Form.Item>
-
-                {/* <Form.Item name="assigned" label="Assign to" rules={[{
-                  required: true
-                }]}>
-                    <AsnInput disabled placeholder="Project"/>
-                </Form.Item> */}
-                {/* <AsnButton key="submit" type="primary" className='new_permission'>
-                    +
-                </AsnButton> */}
-                <Form.List name="users">
+                <Form.List name="users" initialValue={[{}]}>
                   {(fields, { add, remove }) => (
                     <>
-                      {fields.map(({ key, name, ...restField }) => (
-                          <div className='cascade_items' key={key}>
-                           <Cascader
-                             {...restField}
-                             options={defaultVal}
-                             onChange={onChange}
-                             displayRender={label => label.join(' >  ')}
-                             multiple
-                             maxTagCount="responsive"
-                            />
-                           <DeleteOutlined onClick={() => remove(name)} />
-                          </div>
+                      {fields.map(({ key, name, ...restField }, index) => (
+                           <Form.Item key={key} className='cascade_items' name="assigned" label="Assign to" rules={[{
+                             required: true
+                           }]}>
+                            <div className='cascade_items_input_wrapper'>
+                             <Cascader
+                               {...restField}
+                               options={defaultVal}
+                               onChange={onChange}
+                               displayRender={label => label.join(' >  ')}
+                              />
+                                {fields.length > 1 && index !== 0
+                                  ? (
+                                 <DeleteOutlined onClick={() => remove(name)} />
+                                    )
+                                  : null}
+                            </div>
+                            {fields.length > 1 && index !== 0
+                              ? (
+                            <Radio.Group value={value} key={key}>
+                              <Radio value={1} onChange={onChangePermission}>
+                                 <div className="titleItems">View</div>
+                              </Radio>
+                              <Radio value={2} onChange={onChangePermission}>
+                                <div className="titleItems">Edit</div>
+                              </Radio>
+                            </Radio.Group>
+                                )
+                              : null}
+                           </Form.Item>
                       ))}
                       <Form.Item>
                           <AsnButton key="submit" type="primary" className='new_permission' onClick={() => add()}>
