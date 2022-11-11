@@ -41,8 +41,8 @@ const ApplicantList = styled.div`
                 padding: 0;
                 margin: 0;
                 margin-left: 7px;
-                font-weight: 400;
-                font-size: 16px;
+                font-weight: var(--font-normal);
+                font-size: var(--base-font-size);
                 color: var(--dark-border-ultramarine);
             }
         }
@@ -60,21 +60,21 @@ const ApplicantList = styled.div`
           }
         }
         h3 {
-          font-weight: 700;
-          font-size: 14px;
+          font-weight: var(--font-bold);
+          font-size: var(--font-size-semismall);
           color: var(--dark-border-ultramarine);
           margin: 0;
         }
         h2 {
           color: var(--dark-2);
-          font-size: 16px;
+          font-size: var(--base-font-size);
           margin: 0;
         }
         .user_status_pending,
         .user_status_resolved {
           padding: 4px 4px;
-          font-weight: 700;
-          font-size: 14px;
+          font-weight: var(--font-bold);
+          font-size: var(--font-size-semismall);
           background: rgba(104, 163, 149, 0.2);
           border-radius: 6px;
           display: flex;
@@ -108,8 +108,8 @@ const ApplicantList = styled.div`
         }
     }
     .ant-table-thead>tr>th{
-      font-weight: 400 !important;
-      font-size: 12px !important;
+      font-weight: var(--font-normal) !important;
+      font-size: var(--font-size-small) !important;
       background: var(--background) !important;
       color: var(--dark-4);
       border-top: 0.5px solid #EBEBEB;
@@ -154,7 +154,7 @@ const ApplicantList = styled.div`
       }
     }
     .ant-pagination-item-active {
-     font-weight: 500;
+     font-weight: var(--font-semibold);
      background: var(--white);
      border-radius: 50%;
      border: none;

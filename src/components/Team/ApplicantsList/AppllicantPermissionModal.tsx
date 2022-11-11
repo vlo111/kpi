@@ -18,8 +18,8 @@ const PermissionInfoModal = styled(AsnModal)`
         padding: 0;
         margin: 0;
         color: var(--dark-2);
-        font-weight: 400;
-        font-size: 16px;
+        font-weight: var(--font-normal);
+        font-size: var(--base-font-size);
     }
   }
   .ant-modal-close-x{

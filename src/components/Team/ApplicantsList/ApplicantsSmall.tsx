@@ -34,14 +34,14 @@ const ApplicantListSmall = styled(AsnModal)`
                 padding: 0;
                 margin: 0;
                 margin-left: 7px;
-                font-weight: 400;
-                font-size: 16px;
+                font-weight: var(--font-normal);
+                font-size: var(--base-font-size);
                 color: var(--dark-2);
             }
         }
         p {
-            font-weight: 400;
-            font-size: 12px;
+            font-weight: var(--font-normal);
+            font-size: var(--font-size-small);
             color: var(--dark-4);
             padding: 0;
             margin: 0;

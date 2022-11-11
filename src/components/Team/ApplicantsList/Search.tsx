@@ -22,8 +22,8 @@ export const ApplicantSearch = styled.div`
 
             p {
                 color: var(--dark-border-ultramarine);
-                font-weight: 400;
-                font-size: 20px;
+                font-weight: var(--font-normal);
+                font-size: var(--headline-font-size);
                 padding: 0;
                 margin: 0;
             }
@@ -44,8 +44,8 @@ export const ApplicantSearch = styled.div`
             input {
             height: 32px;
             border: none;
-            font-weight: 400;
-            font-size: 12px;
+            font-weight: var(--font-normal);
+            font-size: var(--font-size-small);
             border-radius: 10px;
             box-shadow: var(--search-box-shadow);
             color: var(--dark-4);
@@ -63,8 +63,8 @@ export const ApplicantSearch = styled.div`
         width: 100%;
         justify-content: end;
         color: var(--dark-2);
-        font-weight: 400;
-        font-size: 14px;
+        font-weight: var(--font-normal);
+        font-size: var(--font-size-semismall);
 
         &_text{
          border: 0.5px solid var(--dark-5);

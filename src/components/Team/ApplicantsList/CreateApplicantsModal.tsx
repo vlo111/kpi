@@ -39,7 +39,7 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
         .ant-select, .ant-cascader{
             width: 100%;
             height: 44px;
-            font-size: 16px;
+            font-size: var(--base-font-size);
             background: var(--white);
             border: 1px solid var(--dark-border-ultramarine);
             border-radius: 5px;
