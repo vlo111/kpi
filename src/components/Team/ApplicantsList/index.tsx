@@ -24,7 +24,7 @@ const Applicants: React.FC<{}> = () => {
     <ApplicantContent>
       <ApplicantWrapper>
           <SearchApplicants showModal={showModal} setShowModal={setShowModal}/>
-          <ApplicantsList showModal={showModal} setShowModal={setShowModal}/>
+          <ApplicantsList />
       </ApplicantWrapper>
     </ApplicantContent>
   )

@@ -9,6 +9,7 @@ import { TemUsersType } from '../../../types/teams'
 import { TeamList } from '../../../helpers/fakeData'
 import AddApplicantModal from './CreateApplicantsModal'
 import { ConfirmModal } from '../../Forms/Modal/ConfirmModal'
+import ApplicantPermissionInfoModal from './AppllicantPermissionModal'
 
 const ApplicantList = styled.div`
     margin-top: 8px;
@@ -16,13 +17,13 @@ const ApplicantList = styled.div`
 
     .ant-table-tbody>tr>td{
        padding: 9px 8px !important;
-       border-bottom: 0.5px solid #EDF0F4;
+       border-bottom: 0.5px solid var(--light-border);
        
         &:last-child{
-            border-right: 0.5px solid #EDF0F4;
+            border-right: 0.5px solid var(--light-border);
         }
         &:first-child {
-            border-left: 0.5px solid #EDF0F4;
+            border-left: 0.5px solid var(--light-border);
         }
 
         .user_icon{
@@ -42,13 +43,17 @@ const ApplicantList = styled.div`
                 margin-left: 7px;
                 font-weight: 400;
                 font-size: 16px;
-                color: #2A5578;
+                color: var(--dark-border-ultramarine);
             }
         }
         .user_role{
           display: flex;
           align-items:center;
           text-align: center;
+
+          &:hover{
+            cursor: pointer;
+          }
 
           svg {
             margin-right: 8px;
@@ -57,11 +62,11 @@ const ApplicantList = styled.div`
         h3 {
           font-weight: 700;
           font-size: 14px;
-          color: #2A5578;
+          color: var(--dark-border-ultramarine);
           margin: 0;
         }
         h2 {
-          color: #263238;
+          color: var(--dark-2);
           font-size: 16px;
           margin: 0;
         }
@@ -81,7 +86,10 @@ const ApplicantList = styled.div`
         }
         .user_status_pending {
           background: rgba(246, 151, 109, 0.2) !important;
-          color: #F6976D;
+          color: var(--secondary-light-orage);
+        }
+        .user_status_resolved{
+          color: var(--secondary-green);
         }
         .users_edit_icons{
           display: flex;
@@ -147,7 +155,7 @@ const ApplicantList = styled.div`
     }
     .ant-pagination-item-active {
      font-weight: 500;
-     background: #fff;
+     background: var(--white);
      border-radius: 50%;
      border: none;
      background: rgba(0, 0, 0, 0.09);
@@ -156,7 +164,7 @@ const ApplicantList = styled.div`
     .ant-pagination-prev{
       &:hover{
         svg> path{
-          fill: black !important;
+          fill: var(--dark-1) !important;
         }
       }
     }
@@ -165,8 +173,10 @@ const ApplicantList = styled.div`
     }
 `
 
-const ApplicantsList: React.FC<{ showModal: any, setShowModal: any }> = ({ showModal, setShowModal }) => {
+const ApplicantsList: React.FC<{ }> = () => {
   const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState(false)
+  const [showModal, setShowModal] = useState('')
+  const [openApplicantPermissionModal, setOpenApplicantPermissionModal] = useState(false)
   const columns: ColumnsType<TemUsersType> = [
     {
       title: 'Name Surname',
@@ -192,7 +202,7 @@ const ApplicantsList: React.FC<{ showModal: any, setShowModal: any }> = ({ showM
       render: item => {
         return (
         <div className='user_role'>
-         <Preview />
+         <Preview onClick={() => setOpenApplicantPermissionModal(true)}/>
          <h3>{item}</h3>
         </div>
         )
@@ -211,7 +221,7 @@ const ApplicantsList: React.FC<{ showModal: any, setShowModal: any }> = ({ showM
       render: () => {
         return (
           <div className='users_edit_icons'>
-            <EditSvg onClick={() => setShowModal('create')}/>
+            <EditSvg onClick={() => setShowModal('update')}/>
             <TrashSvg onClick={() => setOpenApplicantDeleteModal(true)}/>
           </div>
         )
@@ -236,15 +246,19 @@ const ApplicantsList: React.FC<{ showModal: any, setShowModal: any }> = ({ showM
             />
             <AddApplicantModal showModal={showModal} setShowModal={setShowModal}/>
             <ConfirmModal
-              styles={{ gap: '6rem' }}
+              styles={{ gap: '80px' }}
               yes="Delete"
               no="Cancel"
               open={openApplicantDeleteModal}
-              title="Are you sure you want to delete this field?"
+              title="Are you sure you want to delete this user?"
               onCancel={() => setOpenApplicantDeleteModal(!openApplicantDeleteModal)}
               onSubmit={function (): void {
                 throw new Error('Function not implemented.')
               } } />
+              <ApplicantPermissionInfoModal
+                showPermissionModal={openApplicantPermissionModal}
+                setShowPermissionModal={setOpenApplicantPermissionModal}
+              />
         </ApplicantList>
   )
 }

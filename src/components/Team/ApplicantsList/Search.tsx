@@ -21,21 +21,25 @@ export const ApplicantSearch = styled.div`
             text-align: center;
 
             p {
-                color: #2A5578;
+                color: var(--dark-border-ultramarine);
                 font-weight: 400;
                 font-size: 20px;
                 padding: 0;
                 margin: 0;
             }
             svg {
-                margin-left: 8px;
+                margin-left: 11px;
+                &:hover{
+                    cursor: pointer;
+                }
             }
         }
         &_input {
             display: flex;
             justify-content: center;
             align-items: center;
-            width: clamp(200px, 50vh, 300px);
+            width: clamp(200px,50vh,334px);
+            padding-left: 34px;
 
             input {
             height: 32px;
@@ -43,10 +47,9 @@ export const ApplicantSearch = styled.div`
             font-weight: 400;
             font-size: 12px;
             border-radius: 10px;
-            box-shadow: var(--input-box-shadow);
+            box-shadow: var(--search-box-shadow);
             color: var(--dark-4);
             width: 100%;
-            margin-left: 34px;
 
             &:hover{
                 border: none !important;
@@ -64,7 +67,7 @@ export const ApplicantSearch = styled.div`
         font-size: 14px;
 
         &_text{
-         border: 0.5px solid #D9D9D9;
+         border: 0.5px solid var(--dark-5);
          border-radius: 6px;
          padding: 8px;
         }
@@ -78,13 +81,13 @@ const SearchApplicants: React.FC<{ showModal: any, setShowModal: any }> = ({ sho
                 <div className='left_section'>
                     <div className='left_section_box'>
                       <p>Applicants</p>
-                      <TeamsMembers />
+                      <TeamsMembers onClick={() => setShowModal('create')}/>
                       <DownloadInfo />
                     </div>
                     <div className='left_section_input'>
                      <AsnInput placeholder="Search" />
                     </div>
-                    <div className='left_section_craete_button'>
+                    <div className='left_section_create_button'>
                         <AsnButton type="primary" htmlType="submit" onClick={() => setShowModal('create')}>Add user</AsnButton>
                     </div>
                 </div>

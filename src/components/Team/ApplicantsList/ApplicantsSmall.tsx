@@ -12,12 +12,12 @@ const ApplicantListSmall = styled(AsnModal)`
     .ant-modal-content{
         padding: 0;
         background: var(--background);
-        border: 1px solid #263238;
+        border: 1px solid var(--dark-2);
         border-radius: 10px;
         padding: 42px 14px 16px 16px;
     }
     .ant-table-tbody>tr>td{
-        border-bottom: 0.5px solid #2A5578;
+        border-bottom: 0.5px solid var(--dark-border-ultramarine);
 
         .user_icon{
             display: flex;

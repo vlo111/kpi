@@ -104,12 +104,6 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
       flex-direction: column;
       width: 100%;
     }
-    /* @media (min-width: 480px) and (min-height: 360px){}
-    @media (min-width: 480px) and (min-height: 720px){}
-    @media (min-width: 480px) and (min-height: 1080px){}
-    @media (min-width: 960px) and (min-height: 360px){}
-    @media (min-width: 960px) and (min-height: 720px){}
-    @media (min-width: 960px) and (min-height: 1080px){} */
     @media (min-width: 480px) and (min-height: 360px){
       top: 15px !important;
       padding-bottom: 8px !important;
@@ -179,11 +173,6 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
       .ant-modal-header{
         padding-bottom: 2rem;
       }
-      .ant-modal-body{
-        max-height: none;
-        overflow:hidden;
-        padding-right: 0;
-      }
       .new_permission{
         margin-bottom: 28px !important;
       }
@@ -227,32 +216,9 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
     }
 `
 
-const AddApplicantModal: React.FC<{ showModal: any, setShowModal: any }> = ({ showModal, setShowModal }) => {
+const AddApplicantModal: React.FC<{ showModal: string, setShowModal: any }> = ({ showModal, setShowModal }) => {
   const [form] = Form.useForm()
   const [value, setValue] = useState(1)
-
-  //   const { editManager }: IManagerState = useGeneralInfo()
-
-  //   const handleOk: AddManagerHandle = (values) => {
-  //     if (manager?.id) {
-  //       const newManager = Object.assign({}, values as IManager)
-  //       newManager.id = manager.id
-  //       newManager.color = manager.color
-  //       editManager(newManager)
-  //     } else {
-  //       setAddManager(values)
-  //     }
-
-  //     form.resetFields()
-  //     setManagerModalOpen(null)
-  //   }
-
-  //   const handleCancel: HandleSubmit = () => {
-  //     form.resetFields()
-  //     setManagerModalOpen(null)
-  //   }
-
-  //   const fields = ManagerFields(manager)
 
   const [defaultVal, setDefaultVal] = useState(UsersPermissionsRule)
 
@@ -299,6 +265,9 @@ const AddApplicantModal: React.FC<{ showModal: any, setShowModal: any }> = ({ sh
                 // onFinish={handleOk}
                 // fields={fields}
             >
+                <Form.Item name="email" label="Email Address" rules={[{ required: true }, { type: 'email' }]}>
+                    <AsnInput placeholder="annahakobyan@name.com"/>
+                </Form.Item>
                 <Form.Item name="firstName" label="First Name" rules={[{
                   required: true,
                   min: 2,
@@ -312,9 +281,6 @@ const AddApplicantModal: React.FC<{ showModal: any, setShowModal: any }> = ({ sh
                   max: 256
                 }]}>
                     <AsnInput placeholder="Hakobyan"/>
-                </Form.Item>
-                <Form.Item name="email" label="Email Address" rules={[{ required: true }, { type: 'email' }]}>
-                    <AsnInput placeholder="annahakobyan@name.com"/>
                 </Form.Item>
                 <Form.Item name="position" label="Position">
                     <AsnInput placeholder="Project Manager"/>
