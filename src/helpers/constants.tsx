@@ -114,3 +114,9 @@ export const tabNames = [
     name: 'Societal perceptions shifted'
   }
 ]
+
+export const passwordRegExp = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,64}$/
+
+export const passwordErrorMessage = 'password must contain at least one digit and at least one character'
+
+export const passwordMinMaxError = 'password must be between 8 and 64 characters'
