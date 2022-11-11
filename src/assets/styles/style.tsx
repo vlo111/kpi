@@ -26,6 +26,8 @@ const GlobalStyle = createGlobalStyle`
     --white: #FFFFFF;
     --background: #F9FCFF;
     
+    --tooltip-color: #2C5477;
+    
     --scroll-bar-background: #F9F9F9;
     
     --forget-password-gray: #A2A2A2;
@@ -128,6 +130,20 @@ const GlobalStyle = createGlobalStyle`
 
     .ant-select-item-option:last-child {
       border-bottom: 1px solid var(--dark-border-ultramarine);
+    }
+  }
+
+  .result-area-tooltip {
+    
+    .ant-tooltip-inner {
+      background-color: var(--tooltip-color);
+      border-radius: 40px;
+      padding: 2rem;
+      width: 39rem;
+    }
+    
+    .ant-tooltip-arrow-content:before {
+      background: var(--tooltip-color);
     }
   }
 `
