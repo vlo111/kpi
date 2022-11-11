@@ -14,7 +14,7 @@ export const Second: React.FC = () => {
   const { resultArea, addNewResultArea } = useProjectInput()
   const [form] = Form.useForm()
 
-  const fields = initFields(resultArea)
+  const fields = initFields(form.getFieldsValue(), resultArea)
 
   const onFinish: any = (values: any) => {
     console.log(values, 'finish')
@@ -48,7 +48,7 @@ export const Second: React.FC = () => {
             <div className="footer">
                 <AsnButton onClick={() => {
                   prevCurrent()
-                }}>Previous</AsnButton>
+                }}>Close</AsnButton>
                 <AsnButton>Save as Draft</AsnButton>
                 <AsnButton type="primary" htmlType="submit">
                     Next
