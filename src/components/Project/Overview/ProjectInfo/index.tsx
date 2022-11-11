@@ -9,9 +9,10 @@ const FlexWrap = styled.div`
    height: 8rem;
 `
 const ProjectName = styled.div`
-  font-size: 20px;
-  color: var(--dark-border-ultramarine);
-  padding: 9px 0 0 6.5vw;
+   font-size: var(--headline-font-size);
+   color: var(--dark-border-ultramarine); 
+   padding: 9px 0 0 0; 
+   padding-left: 6.5vw;
 `
 const ProjectDescription = styled.div`
   max-width: 44vw;
@@ -32,7 +33,7 @@ const Circle = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 100%;
-  background: #68A395;
+  background: var(--secondary-green);
 `
 const VerticalLine = styled.div`
   width: 2px;

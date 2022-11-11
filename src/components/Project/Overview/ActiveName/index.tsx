@@ -4,7 +4,7 @@ import { ActivityName } from '../../../../types/project'
 
 const ActivityNames = styled.div`
   padding: 16px 29px;
-  font-size: var( --base-font-size);
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
   background: var(--dark-6);
   border-radius: 10px;
   cursor: pointer;

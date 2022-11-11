@@ -4,7 +4,8 @@ import {
   InitGeneralInfoFields,
   InitResultAreaFields,
   IResultArea,
-  Rules
+  Rules,
+  RulesPassword
 } from '../types/project'
 import _ from 'lodash'
 import React from 'react'
@@ -13,10 +14,9 @@ export const rules: Rules = (min, max) => ({
   rules: [{ required: true, min, max }]
 })
 
-/*
-    name: Object.keys(data[o.expectedResult[0].id])[0],
-    value: data[o.expectedResult[0].id],
- */
+export const rulesPassword: RulesPassword = (min, max, pattern) => ({
+  rules: [{ required: true }, min, max, pattern]
+})
 
 export const initFields: InitResultAreaFields = (data, resultArea) => [
   ...resultArea.map((o: IResultArea) => ({
