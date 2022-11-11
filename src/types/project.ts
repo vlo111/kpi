@@ -179,3 +179,7 @@ export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
 }
+
+export interface ICreateFieldsProps {
+  setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
+}

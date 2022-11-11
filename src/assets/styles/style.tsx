@@ -129,6 +129,26 @@ const GlobalStyle = createGlobalStyle`
       border-bottom: 1px solid var(--dark-border-ultramarine);
     }
   }
+
+  .customSelectOption{
+    border-top: 0px !important;
+    height: 38px !important;
+    border-radius: 6px !important;
+  }
+
+  .tooltipHelper{
+    .ant-tooltip-inner{
+      border-radius: 10px;
+      background-color: white;
+      border: 1px solid var(--dark-2);
+      color: var(--dark-2);
+      font-size: var( --font-size-small);
+      padding: 8px 16px 
+    }
+    .ant-tooltip-arrow{
+      display: none;
+    }
+  }
 `
 
 export default GlobalStyle

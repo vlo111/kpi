@@ -101,3 +101,69 @@ export const InitManager = {
   lastName: '',
   position: ''
 }
+
+export const courseTemplateData = [
+  {
+    id: uuidv4(),
+    title: 'Title',
+    subTitle: '',
+    status: true,
+    disabled: true
+  },
+  {
+    id: uuidv4(),
+    title: 'Organization',
+    subTitle: 'EIF, Analysed,',
+    status: true,
+    disabled: true
+  },
+  {
+    id: uuidv4(),
+    title: 'Activity Manager',
+    subTitle: '',
+    status: true,
+    disabled: true
+  },
+  {
+    id: uuidv4(),
+    title: 'Sector',
+    subTitle: 'IT, Tourism, Hospitality',
+    status: true,
+    disabled: true
+  },
+  {
+    id: uuidv4(),
+    title: 'Region',
+    subTitle: 'Ararat marz, Gegharkunik, Syunik',
+    status: true,
+    disabled: true
+  },
+  {
+    id: uuidv4(),
+    title: 'Start Date',
+    subTitle: '',
+    status: true,
+    disabled: true
+  },
+  {
+    id: uuidv4(),
+    title: 'End Date',
+    subTitle: '',
+    status: true,
+    disabled: true
+  },
+  {
+    id: uuidv4(),
+    title: 'Course hours',
+    subTitle: '',
+    status: false,
+    disabled: false
+  },
+  {
+    id: uuidv4(),
+    title: 'Partner organization',
+    subTitle: '',
+    status: false,
+    disabled: false
+  }
+]
