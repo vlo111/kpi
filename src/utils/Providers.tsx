@@ -5,7 +5,6 @@ import { combineComponents } from './CombineComponents'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { router } from '../Router'
 import { RouterProvider } from 'react-router-dom'
-import { GeneralInfoProvider } from '../hooks/project/useGeneralInfo'
 import { ProjectInputProvider } from '../hooks/project/useProjectInput'
 import { ProjectDetailsProvider } from '../hooks/project/useProjectDetails'
 
@@ -21,7 +20,6 @@ const providers = [
   ProjectProvider,
   ProjectDetailsProvider,
   ProjectInputProvider,
-  GeneralInfoProvider,
   AuthProvider,
   () => <RouterProvider router={router} />,
   () => <QueryClientProvider client={queryClient} />

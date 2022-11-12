@@ -7,6 +7,7 @@ import { ReactComponent as ApplicantsSvg } from '../../assets/icons/aplicants.sv
 import { ReactComponent as ProductGuideSvg } from '../../assets/icons/product-guide.svg'
 import { ReactComponent as ShortcutsSvg } from '../../assets/icons/shortcuts.svg'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
 export const MenuItems = [
   'Dashboard',
@@ -95,11 +96,35 @@ const Header = styled(MenuLayout.Header)`
 `
 
 export const Menu: React.FC = () => {
+  const navigate = useNavigate()
+
+  const onNavigateHandle: (ev: any) => void = (ev: any) => {
+    switch (ev.key) {
+      case '1': {
+        navigate('/dashboard')
+        break
+      }
+      case '2': {
+        navigate('/')
+        break
+      }
+      case '3': {
+        navigate('/teams')
+        break
+      }
+      case '4': {
+        navigate('/applicants')
+        break
+      }
+    }
+  }
+
   return (
     <MenuLayout>
       <Header>Meetk</Header>
         <AntMenu
             mode="inline"
+            onClick={onNavigateHandle}
             defaultSelectedKeys={['2']}
             style={{ fontSize: '18px', lineHeight: '64px', float: 'right' }}
             items={[DashboardSvg, ProjectSvg, TeamSvg, ApplicantsSvg, ProductGuideSvg, ShortcutsSvg].map(
