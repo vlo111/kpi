@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout } from 'antd'
+import { Layout, Menu as AntMenu } from 'antd'
 import { ReactComponent as DashboardSvg } from '../../assets/icons/dashboard.svg'
 import { ReactComponent as ProjectSvg } from '../../assets/icons/project.svg'
 import { ReactComponent as TeamSvg } from '../../assets/icons/team.svg'
@@ -8,11 +8,80 @@ import { ReactComponent as ProductGuideSvg } from '../../assets/icons/product-gu
 import { ReactComponent as ShortcutsSvg } from '../../assets/icons/shortcuts.svg'
 import styled from 'styled-components'
 
+export const MenuItems = [
+  'Dashboard',
+  'Project',
+  'Team',
+  'Applicants',
+  'Product Guide',
+  'Keyboard Shortcuts'
+]
+
 const MenuLayout = styled(Layout)`
-  height: 100%;
-  width: 240px;
-  background: var(--white);
-  box-shadow: var(--manu-box-shadow);
+     height: 100%;
+     background: var(--white);
+     box-shadow: var(--manu-box-shadow);
+     max-width: 250px;
+
+     .ant-menu {
+       border-right: 1px solid var(--white) !important;
+       display: flex;
+       flex-direction: column;
+       margin-top: 2.3rem;
+       height: 100%;
+       
+       &-item {
+         margin-bottom: 0 !important;
+         
+         &:active {
+           background: none;
+         }
+       }
+
+       &-item:not(:last-child):not(:nth-last-child(2)) {
+         height: 70px;
+         display: flex;
+         align-items: center;
+         cursor: pointer;
+         gap: 14px;
+         color: var(--dark-border-ultramarine);
+
+         &:hover {
+           background: var(--primary-light-3);
+         }
+       }
+       
+       &-item-selected:not(:last-child):not(:nth-last-child(2)){
+         background: var(--primary-light-1) !important;
+
+         &:after {
+           border-right: 3px solid var(--dark-border-ultramarine);
+         }
+       }
+
+       &-item:nth-last-child(1), &-item:nth-last-child(2) {
+         &:after {
+           border: none;
+         }
+         
+         > svg {
+           margin-right: 10px;
+         }
+
+         span {
+           color: var(--dark-border-ultramarine);
+           font-size: var(--font-size-semismall);
+         }
+       }
+
+       &-item:nth-last-child(1) {
+         margin-bottom: 2rem !important;
+       }   
+       
+       &-item:nth-last-child(2) {
+         margin-top: auto;
+       }
+     }
 `
 
 const Header = styled(MenuLayout.Header)`
@@ -25,71 +94,22 @@ const Header = styled(MenuLayout.Header)`
   padding: 0;
 `
 
-const Content = styled(MenuLayout.Content)`
-  background: var(--white);
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  gap: 0.2%;
-  padding-top: 40px;
-
-  > div {
-    height: 70px;
-    display: flex;
-    align-items: center;
-    padding-left: 50px;
-    cursor: pointer;
-    gap: 14px;
-
-    &:hover {
-      background: var(--primary-light-1);
-      border-right: 2px solid var(--dark-border-ultramarine);
-    }
-
-    span {
-      color: var(--dark-border-ultramarine);
-      font-size: var(--headline-font-size);
-    }
-  }
-`
-
-const Footer = styled(MenuLayout.Footer)`
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  height: 90px;
-  margin: 0 auto;
-  padding: 0;
-  background: var(--white);
-  
-  > div {
-    cursor: pointer;
-
-    > svg {
-      margin-right: 10px;
-    }
-
-    span {
-      color: var(--dark-border-ultramarine);
-      font-size: var(--font-size-semismall);
-    }
-  }
-`
-
 export const Menu: React.FC = () => {
   return (
     <MenuLayout>
       <Header>Meetk</Header>
-      <Content>
-        <div><DashboardSvg/> <span>Dashboard</span></div>
-        <div><ProjectSvg/> <span>Project</span></div>
-        <div><TeamSvg/> <span>Team</span></div>
-        <div><ApplicantsSvg/> <span>Applicants</span></div>
-      </Content>
-      <Footer className="menu-footer">
-        <div><ProductGuideSvg/> <span>Product Guide</span></div>
-        <div><ShortcutsSvg/> <span>Keyboard Shortcuts</span></div>
-      </Footer>
+        <AntMenu
+            mode="inline"
+            defaultSelectedKeys={['2']}
+            style={{ fontSize: '18px', lineHeight: '64px', float: 'right' }}
+            items={[DashboardSvg, ProjectSvg, TeamSvg, ApplicantsSvg, ProductGuideSvg, ShortcutsSvg].map(
+              (icon, index) => ({
+                key: String(index + 1),
+                icon: React.createElement(icon),
+                label: MenuItems[index]
+              })
+            )}
+        />
     </MenuLayout>
   )
 }
