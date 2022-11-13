@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { AsnCollapse } from '../../../AsnCollapse'
 import { Panel } from '../../../Forms/AsnCollapse'
 import { Row } from 'antd'
 import AsnInput from '../../../Forms/Input'
 import { AsnButton } from '../../../Forms/Button'
-import { useProjectDetails } from '../../../../hooks/project/useProjectDetails'
-import { IDetail, IDetailsState } from '../../../../types/project'
+import { Details, IDetail } from '../../../../types/project'
 import { useProject } from '../../../../hooks/project/useProject'
+import { OrganizationList, RegionList, SectorList } from '../../../../helpers/fakeData'
 const Collapses = styled.div`
   display: flex;
   flex-direction: column;
@@ -37,18 +37,11 @@ const Collapses = styled.div`
 `
 
 export const Last: React.FC = () => {
-  const {
-    organizations,
-    regions,
-    sectors,
-    setRegions,
-    setSectors,
-    setOrganizations
-  }: IDetailsState = useProjectDetails()
+  const [organizations, setOrganizations] = useState<Details>(OrganizationList)
+  const [regions, setRegions] = useState(RegionList)
+  const [sectors, setSectors] = useState(SectorList)
 
   const { prevCurrent } = useProject()
-
-  console.log(organizations)
 
   const addOrganisation: () => void = () => {
     const org = {

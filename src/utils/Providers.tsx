@@ -6,7 +6,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { router } from '../Router'
 import { RouterProvider } from 'react-router-dom'
 import { ProjectInputProvider } from '../hooks/project/useProjectInput'
-import { ProjectDetailsProvider } from '../hooks/project/useProjectDetails'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,7 +17,6 @@ export const queryClient = new QueryClient({
 
 const providers = [
   ProjectProvider,
-  ProjectDetailsProvider,
   ProjectInputProvider,
   AuthProvider,
   () => <RouterProvider router={router} />,

@@ -2,17 +2,17 @@ import { IActivity, IExpectedResult, IManager, IResultArea, IMilestones } from '
 import { v4 as uuidv4 } from 'uuid'
 
 export const OrganizationList: Array<{ name: string, id: string }> = Array.from(
-  { length: 10 },
+  { length: 1 },
   (v, i) => ({ id: `o${i}`, name: `Organization ${i}` })
 )
 
 export const RegionList: Array<{ name: string, id: string }> = Array.from(
-  { length: 10 },
+  { length: 1 },
   (v, i) => ({ id: `r${i}`, name: `regions ${i}` })
 )
 
 export const SectorList: Array<{ name: string, id: string }> = Array.from(
-  { length: 10 },
+  { length: 1 },
   (v, i) => ({ id: `s${i}`, name: `Sector ${i}` })
 )
 

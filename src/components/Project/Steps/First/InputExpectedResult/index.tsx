@@ -4,17 +4,19 @@ import { AsnButton } from '../../../../Forms/Button'
 import { Row } from 'antd'
 import InputAreaBox from '../InputAreaBox'
 import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
+import { FormInstance } from 'antd/lib/form/hooks/useForm'
 
 const ExpectedResult: React.FC<{
   id: string
   results: IExpectedResult[]
-}> = ({ id, results }) => {
+  form: FormInstance
+}> = ({ id, results, form }) => {
   const { addNewResult } = useProjectInput()
 
   return (
     <>
       <div className="panel">
-        <InputAreaBox resultAreaId={id} list={results} />
+        <InputAreaBox form={form} resultAreaId={id} list={results} />
         <Row style={{ width: 'calc(100% - 10px)' }}>
           <AsnButton
             style={{ background: 'white', width: '100%', height: '44px' }}
