@@ -3,17 +3,17 @@ import { v4 as uuidv4 } from 'uuid'
 
 export const OrganizationList: Array<{ name: string, id: string }> = Array.from(
   { length: 1 },
-  (v, i) => ({ id: `o${i}`, name: `Organization ${i}` })
+  (v, i) => ({ id: uuidv4(), name: '' })
 )
 
 export const RegionList: Array<{ name: string, id: string }> = Array.from(
   { length: 1 },
-  (v, i) => ({ id: `r${i}`, name: `regions ${i}` })
+  (v, i) => ({ id: uuidv4(), name: '' })
 )
 
 export const SectorList: Array<{ name: string, id: string }> = Array.from(
   { length: 1 },
-  (v, i) => ({ id: `s${i}`, name: `Sector ${i}` })
+  (v, i) => ({ id: uuidv4(), name: '' })
 )
 
 export const ResultArea: IResultArea[] = Array.from({ length: 1 }, (v, i) => ({
