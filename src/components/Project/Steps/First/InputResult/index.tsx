@@ -14,9 +14,10 @@ import { FormInstance } from 'antd/lib/form/hooks/useForm'
 import { Tooltip } from 'antd'
 import { TollTipText } from '../../../../../utils/ProjectUtils'
 
-const InputResult: React.FC<{ resultArea: IResultArea[], form: FormInstance }> = ({
-  resultArea
-}) => {
+const InputResult: React.FC<{
+  resultArea: IResultArea[]
+  form: FormInstance
+}> = ({ resultArea, form }) => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState(false)
   const [selectDeleteId, setSelectDeleteId] = useState('')
   const { deleteResultArea } = useProjectInput()
@@ -31,23 +32,32 @@ const InputResult: React.FC<{ resultArea: IResultArea[], form: FormInstance }> =
         <InputResultArea key={r.id}>
           <span className="ans-title">
             <span>Input Result Area {i + 1} *</span>
-              <Tooltip overlayClassName="result-area-tooltip" placement="right" style={{ width: '600px' }} title={
-                  TollTipText('Must include at least one result area and at least one expected result measurement.',
-                    'Code is optional; can contain: A-Z letters, 0-9 digits, symbol (.).',
-                    'Expected result statement is required; can contain: A-Z letters, 0-9 digits; maximum of 256 characters.',
-                    'Target for Percentage: Range 1-100.',
-                    'Target for Number: Range 1-999999.'
-                  )
-              }>
-                  <InfoSvg />
-              </Tooltip>
+            <Tooltip
+              overlayClassName="result-area-tooltip"
+              placement="right"
+              style={{ width: '600px' }}
+              title={TollTipText(
+                'Must include at least one result area and at least one expected result measurement.',
+                'Code is optional; can contain: A-Z letters, 0-9 digits, symbol (.).',
+                'Expected result statement is required; can contain: A-Z letters, 0-9 digits; maximum of 256 characters.',
+                'Target for Percentage: Range 1-100.',
+                'Target for Number: Range 1-999999.'
+              )}
+            >
+              <InfoSvg />
+            </Tooltip>
           </span>
           <div className="result-container">
             <div className="result-area">
               <AsnCollapse key={r.id} id={r.id}>
                 <Panel key={r.id} header={r.name}>
-                  <InputExpectedResult id={r.id} results={r.expectedResult} />
+                  <InputExpectedResult
+                    form={form}
+                    id={r.id}
+                    results={r.expectedResult}
+                  />
                   <InputActivity
+                    form={form}
                     id={r.id}
                     index={i + 1}
                     activities={r.activity}
