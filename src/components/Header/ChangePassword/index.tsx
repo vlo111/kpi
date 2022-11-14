@@ -13,21 +13,26 @@ const ChangePassword: React.FC = () => {
     border-top: 3px solid var(--dark-border-ultramarine);
     box-shadow: var(--base-box-shadow);
     border-radius: 20px;
-
+    margin: 4vw 4vw 0px 4vw;
+    
+    
+  
     .buttonContainer {
       display: flex;
       justify-content: space-around;
       width: 100%;
       grid-gap: 10px;
+      margin-bottom: 8vh;
     }
     p{
         font-weight: var(--font-bold);
         font-size: var(--headline-font-size);
         color: var(--dark-1);
         position: relative;
-        top: 32px;
-        left: 32px;
+        top: 3vh;
+        left: 3vw;
         width: 37%;
+        margin-bottom: 7.2vh;
     }
     .text{
         font-size: var(--base-font-size);
@@ -48,7 +53,7 @@ const ChangePassword: React.FC = () => {
               }}
               autoComplete="off"
               layout="vertical"
-            >
+            ><div style={{ marginBottom: '6vh' }}>
               <Form.Item
                 name="Old Password"
                 label="Old Password"
@@ -73,10 +78,11 @@ const ChangePassword: React.FC = () => {
               >
                 <Password placeholder="Confirm New Password" />
               </Form.Item>
+              </div>
               <Form.Item>
                 <div className="buttonContainer">
                   <AsnButton onClick={() => navigate('/user-profile')}>Cancel</AsnButton>
-                  <AsnButton type="primary" htmlType="submit">
+                  <AsnButton type="primary" htmlType="submit" style={{ width: 'clamp(14rem,17vw,24rem)' }}>
                     Save changes
                   </AsnButton>
                 </div>

@@ -26,6 +26,8 @@ const GlobalStyle = createGlobalStyle`
     --white: #FFFFFF;
     --background: #F9FCFF;
     
+    --tooltip-color: #2C5477;
+    
     --scroll-bar-background: #F9F9F9;
     
     --forget-password-gray: #A2A2A2;
@@ -41,6 +43,7 @@ const GlobalStyle = createGlobalStyle`
 
     --large-hedline-font-size: 48px;
     --large-font-size: 38px;
+    --font-size-semilarge: 24px;
     --headline-font-size: 20px;
     --base-font-size: 16px;
     --font-size-semismall: 14px;
@@ -130,24 +133,30 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  .customSelectOption{
-    border-top: 0px !important;
-    height: 38px !important;
-    border-radius: 6px !important;
+  .result-area-tooltip {
+    
+    .ant-tooltip-inner {
+      background-color: var(--tooltip-color);
+      border-radius: 40px;
+      padding: 2rem;
+      width: 39rem;
+    }
+    
+    .ant-tooltip-arrow-content:before {
+      background: var(--tooltip-color);
+    }
   }
 
-  .tooltipHelper{
-    .ant-tooltip-inner{
-      border-radius: 10px;
-      background-color: white;
-      border: 1px solid var(--dark-2);
-      color: var(--dark-2);
-      font-size: var( --font-size-small);
-      padding: 8px 16px 
-    }
-    .ant-tooltip-arrow{
-      display: none;
-    }
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
   }
 `
 

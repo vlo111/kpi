@@ -12,10 +12,14 @@ const Container = styled.div`
   margin-top: -45px;
   height: 100%;
   cursor: pointer;
+  
+  svg {
+    width: clamp(15rem, 35vw, 22rem);
+  }
 
   .create-project-text {
     font-weight: var(--font-bold);
-    font-size: var(--large-font-size);
+    font-size: clamp(1rem, 2vw, 3rem);
     color: var(--dark-border-ultramarine);
   }
 `

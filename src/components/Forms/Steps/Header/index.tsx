@@ -15,12 +15,13 @@ export const AsnStepsHeader = styled(Steps)`
   }
 
   .ant-steps-finish-icon svg {
-    fill: var(--dark-border-ultramarine);
+    fill: var(--white);
   }
 
   .ant-steps-item-finish {
     .ant-steps-item-icon {
-      border-color: var(--dark-border-ultramarine);
+      background: var(--secondary-green);
+      border: none;
     }
 
     > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {

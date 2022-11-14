@@ -27,12 +27,8 @@ export const ProjectContainer = styled.div`
     }
   }
 
-  .step_0 {
+  .step_0, .step_1 {
     width: clamp(19rem, 73vw, 90rem);
-  }
-
-  .step_2 {
-    width: 85%;
   }
 
   .project-title {

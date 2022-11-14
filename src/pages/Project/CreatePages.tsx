@@ -14,14 +14,15 @@ import { AsnPickers } from '../../components/AsnDataPickers'
 import { useNavigate } from 'react-router-dom'
 import { Date } from '../../types/project'
 import { v4 as uuidv4 } from 'uuid'
+import { Col, Row } from 'antd'
 
 export const GeneralInfo = styled.div`
   width: clamp(16rem, 41.7vw, 60rem);
-  margin: 4.5rem auto 0;
+  margin: 4vw auto 0;
   justify-content: space-between;
   flex-direction: column;
   display: flex;
-  gap: 3rem;
+  gap: 2vw;
 
   form {
     box-shadow: var(--base-box-shadow);
@@ -36,7 +37,7 @@ export const GeneralInfo = styled.div`
   }
 
   .main {
-    margin-bottom: 4rem;
+    margin-bottom: 7%;
 
     .ant-form-item {
       margin-bottom: 1rem;
@@ -129,15 +130,21 @@ export const CreateProject: React.FC = () => {
           onFinishFailed={onFinishFailed}
         >
           <div className="main">
-            <Form.Item {...Name('title', 'Title')} {...rules(2, 256)}>
-              <AsnInput placeholder="Example: AWDA" />
-            </Form.Item>
-            <Form.Item
-              {...Name('description', 'Description')}
-              {...rules(1, 2048)}
-            >
-              <TextArea placeholder={PlaceHolderDescription} />
-            </Form.Item>
+            <Row style={{ width: '100%' }} >
+              <Col style={{ width: '100%' }}>
+                <Form.Item {...Name('title', 'Title')} {...rules(2, 256)}>
+                  <AsnInput placeholder="Example: AWDA" />
+                </Form.Item>
+              </Col>
+              <Col style={{ width: '100%' }}>
+                <Form.Item
+                    {...Name('description', 'Description')}
+                    {...rules(1, 2048)}
+                >
+                  <TextArea placeholder={PlaceHolderDescription} />
+                </Form.Item>
+              </Col>
+            </Row>
             <AsnPickers form={form} />
           </div>
           <div className="footer">

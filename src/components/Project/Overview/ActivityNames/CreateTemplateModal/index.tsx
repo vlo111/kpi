@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Name, VALIDATE_MESSAGES } from '../../../../../helpers/constants'
-import { useGeneralInfo } from '../../../../../hooks/project/useGeneralInfo'
 import {
   AddManagerHandle,
   ICreateTemplate
@@ -25,7 +24,6 @@ const CreateTemplate: React.FC<ICreateTemplate> = ({
   setIsOpenCreateActivityModal
 }) => {
   const [form] = Form.useForm()
-  const { templateName, description } = useGeneralInfo()
 
   const onCancelClick: AddManagerHandle = () => {
     setIsOpenCreateActivityModal(false)
@@ -50,11 +48,11 @@ const CreateTemplate: React.FC<ICreateTemplate> = ({
     },
     {
       name: ['templateName'],
-      value: templateName
+      value: 'templateName'
     },
     {
       name: ['description'],
-      value: description
+      value: 'description'
     }
   ]
 

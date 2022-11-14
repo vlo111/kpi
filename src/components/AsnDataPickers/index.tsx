@@ -46,27 +46,22 @@ export const AsnPickers: React.FC<{ form: any }> = ({ form }) => {
   }
 
   return (
-        <Picker>
-            <Form.Item
-                {...Name('startDate', 'Start Date')}
-                {...rules}
-            >
-                <AsnDatePicker
-                    format="DD/MM/YYYY"
-                    placeholder="10/22/21"
-                    disabledDate={(current: Moment) => disabledDate(current, 'start')}
-                />
-            </Form.Item>
-            <Form.Item
-                {...Name('endDate', 'End Date')}
-                {...rules}
-            >
-                <AsnDatePicker
-                    format="DD/MM/YYYY"
-                    placeholder="10/22/26"
-                    disabledDate={(current: Moment) => disabledDate(current, 'end')}
-                />
-            </Form.Item>
-        </Picker>
+    <Picker>
+      <Form.Item {...Name('startDate', 'Start Date')} {...rules}>
+        <AsnDatePicker
+          format="DD/MM/YYYY"
+          placeholder="10/22/21"
+          disabledDate={(current: Moment) => disabledDate(current, 'start')}
+        />
+      </Form.Item>
+
+      <Form.Item {...Name('endDate', 'End Date')} {...rules}>
+        <AsnDatePicker
+          format="DD/MM/YYYY"
+          placeholder="10/22/26"
+          disabledDate={(current: Moment) => disabledDate(current, 'end')}
+        />
+      </Form.Item>
+    </Picker>
   )
 }
