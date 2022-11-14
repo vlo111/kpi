@@ -18,11 +18,11 @@ import { Col, Row } from 'antd'
 
 export const GeneralInfo = styled.div`
   width: clamp(16rem, 41.7vw, 60rem);
-  margin: 4.5rem auto 0;
+  margin: 4vw auto 0;
   justify-content: space-between;
   flex-direction: column;
   display: flex;
-  gap: 3rem;
+  gap: 2vw;
 
   form {
     box-shadow: var(--base-box-shadow);
@@ -37,7 +37,7 @@ export const GeneralInfo = styled.div`
   }
 
   .main {
-    margin-bottom: 4rem;
+    margin-bottom: 7%;
 
     .ant-form-item {
       margin-bottom: 1rem;
@@ -130,7 +130,7 @@ export const CreateProject: React.FC = () => {
           onFinishFailed={onFinishFailed}
         >
           <div className="main">
-            <Row style={{ width: '100%' }}>
+            <Row style={{ width: '100%' }} >
               <Col style={{ width: '100%' }}>
                 <Form.Item {...Name('title', 'Title')} {...rules(2, 256)}>
                   <AsnInput placeholder="Example: AWDA" />

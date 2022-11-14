@@ -1,5 +1,5 @@
 import React from 'react'
-import { Second } from '../components/Project/Steps/Second'
+import { First } from '../components/Project/Steps/First'
 import { Last } from '../components/Project/Steps/Last'
 import { FormItemName, IManager, ManagerFieldType } from '../types/project'
 
@@ -90,7 +90,7 @@ export const PlaceHolderActivityMilestone =
 export const StepList = [
   {
     title: 'Project Input',
-    content: <Second />
+    content: <First />
   },
   {
     title: 'Project details',

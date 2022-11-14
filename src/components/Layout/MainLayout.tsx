@@ -12,10 +12,6 @@ const LayoutStyle = styled(Layout)`
 `
 
 const Sider = styled(LayoutStyle.Sider)`
-  width: 240px !important;
-  min-width: 240px !important;
-  max-width: 240px !important;
-  flex: 0 0 240px !important;
   z-index: 2;
 `
 
@@ -24,10 +20,19 @@ const Content = styled(LayoutStyle.Content)`
   overflow: auto;
 `
 
-const MainLayout: React.FC<IComponentChildren> = ({ children }) => {
+export const MainLayout: React.FC<IComponentChildren> = ({ children }) => {
   return (
     <LayoutStyle>
-      <Sider>
+      <Sider
+          breakpoint="lg"
+          collapsedWidth="100px"
+          width={'240px'}
+          onBreakpoint={broken => {
+            console.log(broken)
+          }}
+          onCollapse={(collapsed, type) => {
+            console.log(collapsed, type)
+          }}>
         <Menu/>
       </Sider>
       <Layout>
@@ -39,5 +44,3 @@ const MainLayout: React.FC<IComponentChildren> = ({ children }) => {
     </LayoutStyle>
   )
 }
-
-export default MainLayout

@@ -4,11 +4,18 @@ import BoxContainer from './BoxContainer'
 import { ConfirmModal } from '../../../../Forms/Modal/ConfirmModal'
 import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
 import { ActionHandle } from '../../../../../types/context'
+import { FormInstance } from 'antd/lib/form/hooks/useForm'
 
-const InputAreaBox: React.FC<{ list: IExpectedResult[] | IMilestones[], resultAreaId: string, activityId?: string }> = ({
+const InputAreaBox: React.FC<{
+  list: IExpectedResult[] | IMilestones[]
+  resultAreaId: string
+  activityId?: string
+  form: FormInstance
+}> = ({
   list,
   resultAreaId,
-  activityId
+  activityId,
+  form
 }) => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState(false)
   const [selectDeleteId, setSelectDeleteId] = useState({ item: '', id: '' })
@@ -26,6 +33,7 @@ const InputAreaBox: React.FC<{ list: IExpectedResult[] | IMilestones[], resultAr
     <>
       {list.map((l, i) => (
         <BoxContainer
+            form={form}
           key={l.id}
           item={l}
           index={i}
