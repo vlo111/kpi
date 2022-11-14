@@ -6,7 +6,7 @@ import AsnInput from '../../Forms/Input'
 import { VALIDATE_MESSAGES } from '../../../helpers/constants'
 import styled from 'styled-components'
 import { AsnButton } from '../../Forms/Button'
-import { Cascader, Radio, RadioChangeEvent } from 'antd'
+import { Cascader, Col, Radio, RadioChangeEvent, Row } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
 import { UsersPermissionsRule } from '../../../helpers/fakeData'
 
@@ -23,12 +23,10 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
       overflow-x: hidden;
       padding-right: 1.8vw;
     }
-
     .ant-modal-close{
       top: -25px;
       right: -14px;
     }
-
     .ant-modal-content{
       box-shadow: none !important;
       position: inherit !important;
@@ -37,14 +35,7 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
     .ant-modal-title {
       font-size: var(--headline-font-size);
     }
-    .cascade_items {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1.03vh;
-        width: 100%;
-
-        .ant-select, .ant-cascader{
+    .ant-select, .ant-cascader{
             width: 100%;
             height: 44px;
             font-size: var(--base-font-size);
@@ -67,18 +58,10 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
             .ant-select-arrow{
                 display: none !important;
             }
-        }
-        .anticon[tabindex]{
+    }
+    .anticon[tabindex]{
           position: absolute;
           right: -17px;
-        }
-
-        &_input_wrapper{
-          width:100%;
-          display: flex;
-          align-items: center;
-          margin-bottom: 1.03vh;
-        }
     }
     .ant-row {
       width: 100%;
@@ -93,10 +76,6 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
       display: flex;
       align-items: center;
       flex-direction: column;
-    }
-    .new_permission{
-        width: 100%;
-        margin-bottom: 2.88vh;
     }
     .ant-radio-checked .ant-radio-inner{
       border-color: var(--dark-border-ultramarine);
@@ -147,15 +126,23 @@ const AddApplicantModal: React.FC<{ showModal: string, setShowModal: any }> = ({
             cancelText="Cancel"
             onCancel={handleCancel}
             footer={[
-                <div key={'action'} className="footer-action">
-                    <AsnButton key="back" onClick={handleCancel}>
+              <Row key={'action'} gutter={14} justify='center'>
+                <Col span={7}>
+                  <Row justify='start'>
+                   <AsnButton key="back" onClick={handleCancel}>
                         Cancel
-                    </AsnButton>
+                   </AsnButton>
+                   </Row>
+                </Col>
+                <Col span={7}>
+                  <Row justify='end'>
                     <AsnButton form="managerForm" key="submit" type="primary" htmlType="submit">
                         {/* { false ? 'Edit' : 'Add'} */}
                         Add
                     </AsnButton>
-                </div>
+                  </Row>
+                </Col>
+              </Row>
             ]}
         >
             <Form
@@ -190,10 +177,11 @@ const AddApplicantModal: React.FC<{ showModal: string, setShowModal: any }> = ({
                   {(fields, { add, remove }) => (
                     <>
                       {fields.map(({ key, name, ...restField }, index) => (
-                           <Form.Item key={key} className='cascade_items' name="assigned" label="Assign to" rules={[{
-                             required: true
-                           }]}>
-                            <div className='cascade_items_input_wrapper'>
+                           <Row key={key} justify='space-between' align='middle' style={{ marginBottom: '1.03vh', width: '100%' }}>
+                            <Form.Item style={{ width: '100%' }} name="assigned" label="Assign to" rules={[{
+                              required: true
+                            }]}>
+                            <Row justify='center' align='middle'>
                              <Cascader
                                {...restField}
                                options={defaultVal}
@@ -205,23 +193,28 @@ const AddApplicantModal: React.FC<{ showModal: string, setShowModal: any }> = ({
                                  <DeleteOutlined onClick={() => remove(name)} />
                                     )
                                   : null}
-                            </div>
+                            </Row>
                             {fields.length > 1 && index !== 0
                               ? (
                             <Radio.Group value={value} key={key}>
                               <Radio value={1} onChange={onChangePermission}>
-                                 <div className="titleItems">View</div>
+                                 View
                               </Radio>
                               <Radio value={2} onChange={onChangePermission}>
-                                <div className="titleItems">Edit</div>
+                                 Edit
                               </Radio>
                             </Radio.Group>
                                 )
                               : null}
-                           </Form.Item>
+                            </Form.Item>
+                           </Row>
                       ))}
                       <Form.Item>
-                          <AsnButton key="submit" type="primary" className='new_permission' onClick={() => add()}>
+                          <AsnButton
+                           key="submit"
+                           type="primary"
+                           style={{ width: '100%', marginBottom: '2.88vh' }}
+                           onClick={() => add()}>
                               +
                           </AsnButton>
                       </Form.Item>
