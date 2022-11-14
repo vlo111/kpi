@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table } from 'antd'
+import { Space, Table } from 'antd'
 import styled from 'styled-components'
 import type { ColumnsType } from 'antd/es/table'
 import { ReactComponent as Preview } from '../../../assets/icons/eye.svg'
@@ -25,40 +25,6 @@ const ApplicantList = styled.div`
         &:first-child {
             border-left: 0.5px solid var(--light-border);
         }
-
-        .user_icon{
-            display: flex;
-            text-align: center;
-            align-items: center;
-
-            img{
-                width: 30px;
-                height: 30px;
-                justify-content: center;
-                border-radius: 50%;
-            }
-            p{
-                padding: 0;
-                margin: 0;
-                margin-left: 7px;
-                font-weight: var(--font-normal);
-                font-size: var(--base-font-size);
-                color: var(--dark-border-ultramarine);
-            }
-        }
-        .user_role{
-          display: flex;
-          align-items:center;
-          text-align: center;
-
-          &:hover{
-            cursor: pointer;
-          }
-
-          svg {
-            margin-right: 8px;
-          }
-        }
         h3 {
           font-weight: var(--font-bold);
           font-size: var(--font-size-semismall);
@@ -77,11 +43,6 @@ const ApplicantList = styled.div`
           font-size: var(--font-size-semismall);
           background: rgba(104, 163, 149, 0.2);
           border-radius: 6px;
-          display: flex;
-          justify-content: center;
-          align-items:  center;
-          text-align: center;
-          margin: 0;
           max-width: 107px;
         }
         .user_status_pending {
@@ -91,7 +52,7 @@ const ApplicantList = styled.div`
         .user_status_resolved{
           color: var(--secondary-green);
         }
-        .users_edit_icons{
+        /* .users_edit_icons{
           display: flex;
           justify-content: center;
           align-items:center;
@@ -105,37 +66,36 @@ const ApplicantList = styled.div`
               margin-left: 13px;
             }
           }
-        }
+        } */
     }
     .ant-table-thead>tr>th{
       font-weight: var(--font-normal) !important;
       font-size: var(--font-size-small) !important;
       background: var(--background) !important;
       color: var(--dark-4);
-      border-top: 0.5px solid #EBEBEB;
+      border-top: 0.5px solid var(--light-border);
       padding: 14px 8px !important;
 
       &::before{
         content: none !important;
       }
       &:last-child{
-        border-right: 0.5px solid #EBEBEB;
+        border-right: 0.5px solid var(--light-border);
       }
       &:first-child{
-        border-left: 0.5px solid #EBEBEB;
+        border-left: 0.5px solid var(--light-border);
       }
     }
     .ant-table-pagination-right {
       justify-content: center;
     }
-    
     .ant-spin-container {
-     position: relative;
-     transition: opacity .3s;
-     height: 100%;
-     display: flex;
-     flex-direction: column;
-     justify-content: space-between;
+      position: relative;
+      transition: opacity .3s;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     .ant-table-wrapper,
     .ant-spin-nested-loading{
@@ -171,6 +131,9 @@ const ApplicantList = styled.div`
     .ant-table-pagination.ant-pagination {
      margin: 3px 0;
     }
+    .ant-table-tbody > .ant-table-measure-row > td {
+      padding: 0 !important;
+    }
 `
 
 const ApplicantsList: React.FC<{ }> = () => {
@@ -182,10 +145,14 @@ const ApplicantsList: React.FC<{ }> = () => {
       title: 'Name Surname',
       render: item => {
         return (
-          <div className='user_icon'>
-            <img src={item.picture} />
-            <p>{item.name}</p>
-          </div>
+          <Space direction='horizontal'>
+            <Space align='start'>
+              <img style={{ borderRadius: '50%' }} src={item.picture} width={30} height={30} />
+            </Space>
+            <Space align='end' style={{ color: 'var(--dark-border-ultramarine)' }}>
+               {item.name}
+            </Space>
+          </Space>
         )
       }
     },
@@ -201,10 +168,14 @@ const ApplicantsList: React.FC<{ }> = () => {
       dataIndex: 'viewLevel',
       render: item => {
         return (
-        <div className='user_role'>
-         <Preview onClick={() => setOpenApplicantPermissionModal(true)}/>
-         <h3>{item}</h3>
-        </div>
+        <Space direction='horizontal'>
+          <Space align='start'>
+            <Preview onClick={() => setOpenApplicantPermissionModal(true)}/>
+          </Space>
+          <Space align='end'>
+             <h3>{item}</h3>
+          </Space>
+        </Space>
         )
       }
     },
@@ -213,17 +184,27 @@ const ApplicantsList: React.FC<{ }> = () => {
       dataIndex: 'status',
       render: item => {
         return (
-          <p className={`${item === 'Pending' ? 'user_status_pending' : 'user_status_resolved'}`}>{item}</p>
+          <Space
+            className={`${item === 'Pending' ? 'user_status_pending' : 'user_status_resolved'}`}
+            style={{ width: '100%', justifyContent: 'center' }}
+            direction='horizontal'
+            >
+            <Space align='center'>{item}</Space>
+          </Space>
         )
       }
     },
     {
       render: () => {
         return (
-          <div className='users_edit_icons'>
-            <EditSvg onClick={() => setShowModal('update')}/>
-            <TrashSvg onClick={() => setOpenApplicantDeleteModal(true)}/>
-          </div>
+          <Space direction='horizontal'>
+            <Space align='start' style={{ cursor: 'pointer' }}>
+              <EditSvg onClick={() => setShowModal('update')}/>
+            </Space>
+            <Space align='end' style={{ cursor: 'pointer' }}>
+              <TrashSvg onClick={() => setOpenApplicantDeleteModal(true)} />
+            </Space>
+          </Space>
         )
       }
     }
@@ -235,6 +216,7 @@ const ApplicantsList: React.FC<{ }> = () => {
              columns={columns}
              dataSource={TeamList()}
              size="middle"
+            //  scroll={{ y: 'calc(100vh - 30em)' }}
              pagination={{
                defaultPageSize: 5,
                onChange: pageNum => {

@@ -12,15 +12,23 @@ import { UsersPermissionsRule } from '../../../helpers/fakeData'
 
 const AddApplicantsModalWrapper = styled(AsnModal)`
     width: 600px !important;
-    padding: 32px 32px 44px 32px !important;
+    padding: 4.3vh 1.3vw 4.5vh 4.3vh !important;
     background: var(--white);
     border-radius: 20px;
     top: 40px !important;
 
-    .ant-modal-close{
-      top: -33px;
-      right: -34px;
+    .ant-modal-body{
+      max-height: 62.5vh;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      padding-right: 1.8vw;
     }
+
+    .ant-modal-close{
+      top: -25px;
+      right: -14px;
+    }
+
     .ant-modal-content{
       box-shadow: none !important;
       position: inherit !important;
@@ -33,7 +41,7 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 10px;
+        margin-bottom: 1.03vh;
         width: 100%;
 
         .ant-select, .ant-cascader{
@@ -69,14 +77,17 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
           width:100%;
           display: flex;
           align-items: center;
-          margin-bottom: 10px;
+          margin-bottom: 1.03vh;
         }
     }
     .ant-row {
       width: 100%;
     }
     .ant-form-item{
-      margin-bottom: 16px !important;
+      margin-bottom: 1.6vh !important;
+    }
+    .ant-modal-header{
+      padding-bottom: 3vh;
     }
     .ant-form-item-control-input-content{
       display: flex;
@@ -85,7 +96,7 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
     }
     .new_permission{
         width: 100%;
-        margin-bottom:28px;
+        margin-bottom: 2.88vh;
     }
     .ant-radio-checked .ant-radio-inner{
       border-color: var(--dark-border-ultramarine);
@@ -103,116 +114,6 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
       display: flex;
       flex-direction: column;
       width: 100%;
-    }
-    @media (min-width: 480px) and (min-height: 360px){
-      top: 15px !important;
-      padding-bottom: 8px !important;
-      padding-right: 12px;
-
-      .ant-modal-header{
-        padding-bottom: 5px;
-      }
-      .ant-modal-body{
-        max-height: 540px;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        padding-right: 20px;
-      }
-      .ant-radio-group{
-        flex-direction: row;
-      }
-      .new_permission{
-        margin-bottom: 3px !important;
-      }
-      .ant-form-item{
-        margin-bottom: 4px !important;
-      }
-    }
-    @media (min-width: 480px) and (min-height: 720px){
-      top: 50px !important;
-      padding-bottom: 12px !important;
-      padding-right: 12px !important;
-      .ant-modal-header{
-        padding-bottom: 15px;
-      }
-      .ant-radio-group{
-        flex-direction: row;
-      }
-      .new_permission{
-        margin-bottom: 8px !important;
-      }
-      .ant-form-item{
-        margin-bottom: 5px !important;
-      }
-      .ant-modal-close{
-        right: -15px;
-      }
-    }
-    @media (min-width: 480px) and (min-height: 1080px){
-      top: 44px !important;
-      .new_permission{
-        margin-bottom: 15px !important;
-      }
-      .ant-form-item{
-        margin-bottom: 10px !important;
-      }
-      .ant-modal-header{
-        padding-bottom: 20px;
-      }
-      .ant-radio-group{
-        flex-direction: row;
-      }
-      .ant-modal-close{
-        right: -34px;
-      }
-    }
-    @media (min-width: 1640px) and (min-height: 360px){
-      top: 44px !important;
-      padding-bottom: 44px !important;
-      padding-right: 32px !important;
-      .ant-modal-header{
-        padding-bottom: 2rem;
-      }
-      .new_permission{
-        margin-bottom: 28px !important;
-      }
-      .ant-form-item{
-        margin-bottom: 16px !important;
-      }
-      .ant-radio-group{
-        flex-direction: column;
-      }
-    }
-    @media (min-width: 1640px) and (min-height: 720px){
-      top: 44px !important;
-      padding-bottom: 44px !important;
-      .ant-modal-header{
-        padding-bottom: 2rem;
-      }
-      .new_permission{
-        margin-bottom: 28px !important;
-      }
-      .ant-form-item{
-        margin-bottom: 16px !important;
-      }
-      .ant-radio-group{
-        flex-direction: column;
-      }
-    }
-    @media (min-width: 1640px) and (min-height: 1080px){
-      top: 44px !important;
-      .new_permission{
-        margin-bottom: 28px !important;
-      }
-      .ant-form-item{
-        margin-bottom: 16px !important;
-      }
-      .ant-modal-header{
-        padding-bottom: 2rem;
-      }
-      .ant-radio-group{
-        flex-direction: column;
-      }
     }
 `
 
