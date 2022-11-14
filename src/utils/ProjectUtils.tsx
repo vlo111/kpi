@@ -2,13 +2,15 @@ import {
   IGeneralInfo,
   IMilestones,
   InitGeneralInfoFields,
-  InitResultAreaFields,
+  InitResultAreaFields, InputResultTitle,
   IResultArea,
   Rules,
   RulesPassword
 } from '../types/project'
 import _ from 'lodash'
 import React from 'react'
+import { Form } from '../components/Forms/Form'
+import AsnInput from '../components/Forms/Input'
 
 export const rules: Rules = (min, max) => ({
   rules: [{ required: true, min, max }]
@@ -68,3 +70,10 @@ export const TollTipText: (title: string, ...items: string[]) => React.ReactNode
         {items.map((s, i) => <li key={i}>{s}</li>)}
     </ul>
 </div>)
+
+export const title: InputResultTitle = (id, prefix) => (<Form.Item
+    name={id}
+    rules={[{ required: true, min: 1, max: 12 }]}
+>
+    <AsnInput prefix={prefix} placeholder={'Example: Skill gap reduced'}/>
+</Form.Item>)
