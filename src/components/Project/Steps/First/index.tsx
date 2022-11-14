@@ -35,7 +35,6 @@ export const First: React.FC = () => {
             onFinishFailed={onFinishFailed}
         >
             <InputResult form={form} resultArea={resultArea}/>
-
             <Row style={{ width: resultArea.length > 1 ? 'calc(100% - 2rem)' : '100%' }}>
                 <AsnButton
                     style={{ background: 'white', width: '100%', height: '3rem' }}
@@ -48,7 +47,7 @@ export const First: React.FC = () => {
             <div className="footer">
                 <AsnButton onClick={() => {
                   prevCurrent()
-                }}>Close</AsnButton>
+                }}>Cancel</AsnButton>
                 <AsnButton>Save as Draft</AsnButton>
                 <AsnButton type="primary" htmlType="submit">
                     Next
