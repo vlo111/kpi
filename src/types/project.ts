@@ -11,7 +11,10 @@ export interface StepProps {
   setStep: (b: boolean) => void
 }
 
-export type FormItemName = (name: string, label: string) => { name: string, label: string }
+export type FormItemName = (
+  name: string,
+  label: string
+) => { name: string, label: string }
 
 export type Rules = (
   min: number,
@@ -31,6 +34,7 @@ export type RulesPassword = (
 }] }
 
 export type InitResultAreaFields = (
+  data: any,
   resultArea: IResultArea[]
 ) => Array<{ name: string[], value: string }>
 
@@ -174,7 +178,10 @@ export interface ActivityNamesProps {
 
 export type AddManagerHandle = (values: unknown) => void
 
-export interface IDetail { name: string, id: string }
+export interface IDetail {
+  name: string
+  id: string
+}
 
 export type Details = IDetail[]
 

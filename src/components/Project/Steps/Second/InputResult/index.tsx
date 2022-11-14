@@ -11,6 +11,8 @@ import { ConfirmModal } from '../../../../Forms/Modal/ConfirmModal'
 import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
 import { ActionHandle } from '../../../../../types/context'
 import { FormInstance } from 'antd/lib/form/hooks/useForm'
+import { Tooltip } from 'antd'
+import { TollTipText } from '../../../../../utils/ProjectUtils'
 
 const InputResult: React.FC<{ resultArea: IResultArea[], form: FormInstance }> = ({
   resultArea
@@ -29,7 +31,16 @@ const InputResult: React.FC<{ resultArea: IResultArea[], form: FormInstance }> =
         <InputResultArea key={r.id}>
           <span className="ans-title">
             <span>Input Result Area {i + 1} *</span>
-            <InfoSvg />
+              <Tooltip overlayClassName="result-area-tooltip" placement="right" style={{ width: '600px' }} title={
+                  TollTipText('Must include at least one result area and at least one expected result measurement.',
+                    'Code is optional; can contain: A-Z letters, 0-9 digits, symbol (.).',
+                    'Expected result statement is required; can contain: A-Z letters, 0-9 digits; maximum of 256 characters.',
+                    'Target for Percentage: Range 1-100.',
+                    'Target for Number: Range 1-999999.'
+                  )
+              }>
+                  <InfoSvg />
+              </Tooltip>
           </span>
           <div className="result-container">
             <div className="result-area">

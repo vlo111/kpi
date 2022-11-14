@@ -3,11 +3,13 @@ import { AsnCollapse } from '../../../../AsnCollapse'
 import { Panel } from '../../../../Forms/AsnCollapse'
 import { IActivity } from '../../../../../types/project'
 import InputAreaBox from '../InputAreaBox'
-import { Row } from 'antd'
+import { Row, Tooltip } from 'antd'
 import { AsnButton } from '../../../../Forms/Button'
 import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
 import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.svg'
 import { ConfirmModal } from '../../../../Forms/Modal/ConfirmModal'
+import { TollTipText } from '../../../../../utils/ProjectUtils'
+import { ReactComponent as InfoSvg } from '../../../../../assets/icons/info.svg'
 
 const InputActivity: React.FC<{
   id: string
@@ -33,8 +35,19 @@ const InputActivity: React.FC<{
     <>
       <div className="panel">
         <div className="activity-heder">
-          <span className="ans-title">
-            Please input at least one activity for the Result area {index} *
+            <span className="ans-title">
+            <span> Please input at least one activity for the Resultasd  area {index} *</span>
+              <Tooltip overlayClassName="result-area-tooltip" placement="right" style={{ width: '600px' }} title={
+                  TollTipText('Must include at least one activity and at least one milestone statement.',
+                    'Code is optional; can contain: A-Z letters, 0-9 digits, symbol (.).',
+                    'Milestone statement is required; can contain: A-Z letters, 0-9 digits; maximum of 256 characters.',
+                    'Target for Percentage: Range 1-100.',
+                    'Target for Number: Range 1-999999.',
+                    'Target for Attachment: Range 1-100.'
+                  )
+              }>
+                  <InfoSvg />
+              </Tooltip>
           </span>
           <div className="activity-panel">
             <span className="activity-title">Input Activity* </span>
