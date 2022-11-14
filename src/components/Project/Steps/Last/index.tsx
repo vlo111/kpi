@@ -45,7 +45,6 @@ const Collapses = styled.div`
     gap: 5rem;
 
     button {
-      width: 133px;
       height: 44px !important;
       box-shadow: 0 4px 4px rgba(42, 85, 120, 0.05);
       border-radius: 6px;
