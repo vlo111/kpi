@@ -6,11 +6,9 @@ import { AsnButton } from '../../Forms/Button'
 import { Form } from '../../Forms/Form'
 import AsnInput from '../../Forms/Input'
 import { Name } from '../../../helpers/constants'
+import { Space } from 'antd'
 
 const UserModal = styled(AsnModal)`
- min-height: '671px';
- min-width: '614px';
- padding: '32px 0px 32px';
 `
 
 const EditProfile: React.FC<ICreateTemplate> = ({
@@ -24,15 +22,6 @@ const EditProfile: React.FC<ICreateTemplate> = ({
     setIsOpenCreateActivityModal(false)
   }
   const [form] = Form.useForm()
-  const CreateTemplateContainer = styled.div`
-  .buttonContainer {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    position: relative;
-    top: 20px;
-  }
-`
 
   return (
     <UserModal
@@ -40,8 +29,8 @@ const EditProfile: React.FC<ICreateTemplate> = ({
       open={isOpenCreateActivityModal}
       title="User Profile"
       onCancel={handleCancel}
+      style={{ width: '100%', maxHeight: '90vh', overflowY: 'auto' }}
     >
-      <CreateTemplateContainer>
         <Form
           id="create-template-form"
           form={form}
@@ -62,14 +51,13 @@ const EditProfile: React.FC<ICreateTemplate> = ({
           <Form.Item {...Name('Position ', ' Position ')}>
             <AsnInput placeholder="Position " />
           </Form.Item>
-        <div className="buttonContainer">
+        <Space style={{ width: '100%', justifyContent: 'space-evenly' }}>
           <AsnButton onClick={onCancelClick}>Cancel</AsnButton>
           <AsnButton type="primary" htmlType="submit">
           Save changes
           </AsnButton>
-        </div>
+        </Space>
       </Form>
-    </CreateTemplateContainer>
     </UserModal>
   )
 }
