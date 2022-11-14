@@ -153,6 +153,18 @@ export const InputResultArea = styled.div`
         div:first-child .delete-result-box {
           margin-top: 2.8rem;
         }
+        
+        //&:not(.ant-form-item-has-error) {
+        //  input, textarea, .ant-select-selector {
+        //    border: 1px solid var(--dark-5) !important;
+        //
+        //    &:hover,
+        //    &:focus {
+        //      border: 1px solid var(--dark-5) !important;
+        //      box-shadow: none !important;
+        //    }
+        //  }
+        //}
       }
     }
   }
@@ -210,6 +222,20 @@ export const InputResultArea = styled.div`
 
         .delete-result-box {
           margin-top: 1.2rem !important;
+        }
+      }
+
+      .ant-select-selector {
+        box-shadow: none !important;
+      }
+
+      input:not(.ant-input-status-error), textarea:not(.ant-input-status-error), .ant-select-selector {
+        border: 1px solid var(--dark-5) !important;
+
+        &:hover,
+        &:focus {
+          border: 1px solid var(--dark-5) !important;
+          box-shadow: none !important;
         }
       }
     }
