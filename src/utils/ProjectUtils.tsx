@@ -38,10 +38,10 @@ export const initFields: InitResultAreaFields = (data, resultArea) => [
     .map((o: IResultArea) =>
       o.activity.map((l) =>
         l.milestones.map((m: IMilestones) => [
-          { name: [`c${m.id}`], value: !_.isEmpty(data) ? data[`c${l.id}`] : m.code },
-          { name: [`r${m.id}`], value: !_.isEmpty(data) ? data[`r${l.id}`] : m.milestone },
-          { name: [`m${m.id}`], value: !_.isEmpty(data) ? data[`m${l.id}`] ?? m.measure : m.measure },
-          { name: [`t${m.id}`], value: !_.isEmpty(data) ? data[`t${l.id}`] : m.target }
+          { name: [`c${m.id}`], value: !_.isEmpty(data) ? data[`c${m.id}`] : m.code },
+          { name: [`r${m.id}`], value: !_.isEmpty(data) ? data[`r${m.id}`] : m.milestone },
+          { name: [`m${m.id}`], value: !_.isEmpty(data) ? data[`m${m.id}`] ?? m.measure : m.measure },
+          { name: [`t${m.id}`], value: !_.isEmpty(data) ? data[`t${m.id}`] : m.target }
         ])
       )
     )

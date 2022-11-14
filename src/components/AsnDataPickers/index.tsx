@@ -5,14 +5,13 @@ import { AsnDatePicker } from '../Forms/DatePicker'
 import { Moment } from 'moment'
 import { DisabledDate } from '../../types/project'
 import { Name } from '../../helpers/constants'
-import { Col, Row } from 'antd'
 
 const Picker = styled.div`
   display: flex;
   justify-content: space-between;
 
   > div {
-    //width: 48%;
+    width: 48%;
     font-size: var(--headline-font-size);
   }
 
@@ -47,33 +46,22 @@ export const AsnPickers: React.FC<{ form: any }> = ({ form }) => {
   }
 
   return (
-        <Picker>
-            <Row gutter={15} style={{ width: '100%' }}>
-                <Col>
-                    <Form.Item
-                        {...Name('startDate', 'Start Date')}
-                        {...rules}
-                    >
-                        <AsnDatePicker
-                            format="DD/MM/YYYY"
-                            placeholder="10/22/21"
-                            disabledDate={(current: Moment) => disabledDate(current, 'start')}
-                        />
-                    </Form.Item>
-                </Col>
-                <Col>
-                    <Form.Item
-                        {...Name('endDate', 'End Date')}
-                        {...rules}
-                    >
-                        <AsnDatePicker
-                            format="DD/MM/YYYY"
-                            placeholder="10/22/26"
-                            disabledDate={(current: Moment) => disabledDate(current, 'end')}
-                        />
-                    </Form.Item>
-                </Col>
-            </Row>
-        </Picker>
+    <Picker>
+      <Form.Item {...Name('startDate', 'Start Date')} {...rules}>
+        <AsnDatePicker
+          format="DD/MM/YYYY"
+          placeholder="10/22/21"
+          disabledDate={(current: Moment) => disabledDate(current, 'start')}
+        />
+      </Form.Item>
+
+      <Form.Item {...Name('endDate', 'End Date')} {...rules}>
+        <AsnDatePicker
+          format="DD/MM/YYYY"
+          placeholder="10/22/26"
+          disabledDate={(current: Moment) => disabledDate(current, 'end')}
+        />
+      </Form.Item>
+    </Picker>
   )
 }

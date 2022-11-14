@@ -10,12 +10,14 @@ import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.
 import { ConfirmModal } from '../../../../Forms/Modal/ConfirmModal'
 import { TollTipText } from '../../../../../utils/ProjectUtils'
 import { ReactComponent as InfoSvg } from '../../../../../assets/icons/info.svg'
+import { FormInstance } from 'antd/lib/form/hooks/useForm'
 
 const InputActivity: React.FC<{
   id: string
   index: number
   activities: IActivity[]
-}> = ({ id, index, activities }) => {
+  form: FormInstance
+}> = ({ id, index, activities, form }) => {
   const { addNewMilestone, addNewActivity, deleteActivity } = useProjectInput()
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState(false)
   const [selectDeleteId, setSelectDeleteId] = useState('')
@@ -57,6 +59,7 @@ const InputActivity: React.FC<{
                   <AsnCollapse id={activity.id}>
                     <Panel key={activity.id} header={activity.name}>
                       <InputAreaBox
+                          form={form}
                         resultAreaId={id}
                         activityId={activity.id}
                         list={activity.milestones}
