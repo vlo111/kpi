@@ -14,14 +14,14 @@ const Content = styled(Layout)`
   border-top: 3px solid var(--dark-border-ultramarine);
   box-shadow: var(--base-box-shadow);
   border-radius: 20px;
-  margin: 80px 80px 0px 80px;
+  margin: 4vw 4vw 0px 4vw;
   
   .userInfo {
     .manager-icon{
-      font-size: 100px;
+      font-size: clamp(6rem,3vw,21rem);
       height: clamp(14rem, 17vw, 24rem);
       width: clamp(14rem, 17vw, 24rem);
-      margin-bottom: 80px;
+       margin-bottom: 8vh;;
     }
   }
   .userMiddleName{
@@ -43,8 +43,8 @@ const UserProfile: React.FC = () => {
   const navigate = useNavigate()
   return (
       <Content>
-          <Col style={{ top: '36px', marginLeft: 'auto', padding: '0 36px' }}> <a onClick={onEditedPublishProject}><Edit className='editSvg'/></a></Col>
-        <Row style={{ marginTop: '90px', paddingLeft: ' 60px', justifyContent: 'space-between' }}>
+          <Col style={{ top: '4vh', marginLeft: 'auto', padding: '0 4vh' }}> <a onClick={onEditedPublishProject}><Edit className='editSvg'/></a></Col>
+        <Row style={{ marginTop: '9vh', paddingLeft: '3.3vw', justifyContent: 'space-between' }}>
           <Col className="userInfo">
             <Col>
             <ManagerIcon letter="AA" color="#F3C262" /></Col>
@@ -53,10 +53,10 @@ const UserProfile: React.FC = () => {
           </Col>
           <Col style={{ width: '66%' }}>
             <div >
-              <Title level={5} style={{ fontSize: 'var(--large-hedline-font-size)', color: 'var(--dark-border-ultramarine)', fontWeight: 'var(--font-normal)' }} >Anun Azganun</Title>
+              <Title level={5} style={{ fontSize: 'clamp(1rem, 5vw, 3rem)', color: 'var(--dark-border-ultramarine)', fontWeight: 'var(--font-normal)' }} >Anun Azganun</Title>
          <EditProfile isOpenCreateActivityModal={isOpenCreateActivityModal} setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}/>
             </div>
-            <Row gutter={[60, 11]} style={{ color: 'var(--dark-2)', fontSize: 'var(--font-size-semilarge)' }}>
+            <Row gutter={[60, 11]} style={{ color: 'var(--dark-2)', fontSize: ' clamp(1rem, 1.8vw, 3rem)' }}>
                   <div>
                         <Col>E-mail:</Col>
                         <Col>Phone:</Col>
