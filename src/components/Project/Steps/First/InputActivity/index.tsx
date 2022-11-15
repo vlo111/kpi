@@ -8,7 +8,7 @@ import { AsnButton } from '../../../../Forms/Button'
 import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
 import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.svg'
 import { ConfirmModal } from '../../../../Forms/Modal/ConfirmModal'
-import { TollTipText } from '../../../../../utils/ProjectUtils'
+import { title, TollTipText } from '../../../../../utils/ProjectUtils'
 import { ReactComponent as InfoSvg } from '../../../../../assets/icons/info.svg'
 import { FormInstance } from 'antd/lib/form/hooks/useForm'
 
@@ -33,31 +33,34 @@ const InputActivity: React.FC<{
       </AsnButton>
     </Row>
   )
+
   return (
     <>
       <div className="panel">
         <div className="activity-heder">
             <span className="ans-title">
             <span> Please input at least one activity for the Resultasd  area {index} *</span>
-              <Tooltip overlayClassName="result-area-tooltip" placement="right" style={{ width: '600px' }} title={
-                  TollTipText('Must include at least one activity and at least one milestone statement.',
-                    'Code is optional; can contain: A-Z letters, 0-9 digits, symbol (.).',
-                    'Milestone statement is required; can contain: A-Z letters, 0-9 digits; maximum of 256 characters.',
-                    'Target for Percentage: Range 1-100.',
-                    'Target for Number: Range 1-999999.',
-                    'Target for Attachment: Range 1-100.'
-                  )
-              }>
-                  <InfoSvg />
-              </Tooltip>
           </span>
           <div className="activity-panel">
-            <span className="activity-title">Input Activity* </span>
+              <div>
+                  <span className="activity-title">Input Activity* </span>
+                  <Tooltip overlayClassName="result-area-tooltip" placement="right" style={{ width: '600px' }} title={
+                      TollTipText('Must include at least one activity and at least one milestone statement.',
+                        'Code is optional; can contain: A-Z letters, 0-9 digits, symbol (.).',
+                        'Milestone statement is required; can contain: A-Z letters, 0-9 digits; maximum of 256 characters.',
+                        'Target for Percentage: Range 1-100.',
+                        'Target for Number: Range 1-999999.',
+                        'Target for Attachment: Range 1-100.'
+                      )
+                  }>
+                      <InfoSvg />
+                  </Tooltip>
+              </div>
             <div className="activity-list">
-              {activities.map((activity) => (
+              {activities.map((activity, i) => (
                 <div key={activity.id} className="activity-block">
                   <AsnCollapse id={activity.id}>
-                    <Panel key={activity.id} header={activity.name}>
+                    <Panel key={activity.id} header={title(activity.id, `${index}.${i + 1}`)}>
                       <InputAreaBox
                           form={form}
                         resultAreaId={id}
