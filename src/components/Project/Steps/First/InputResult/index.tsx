@@ -50,7 +50,7 @@ const InputResult: React.FC<{
           <div className="result-container">
             <div className="result-area">
               <AsnCollapse key={r.id} id={r.id}>
-                <Panel key={r.id} header={title(r.id, `${i + 1}.`)}>
+                <Panel key={r.id} header={title(r.id, `${i + 1}.`, 'Example: Skill gap reduced')}>
                   <InputExpectedResult
                     form={form}
                     id={r.id}
