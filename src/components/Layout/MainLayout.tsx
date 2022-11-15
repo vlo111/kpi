@@ -24,22 +24,21 @@ export const MainLayout: React.FC<IComponentChildren> = ({ children }) => {
   return (
     <LayoutStyle>
       <Sider
-          breakpoint="lg"
-          collapsedWidth="100px"
-          width={'240px'}
-          onBreakpoint={broken => {
-            console.log(broken)
-          }}
-          onCollapse={(collapsed, type) => {
-            console.log(collapsed, type)
-          }}>
-        <Menu/>
+        breakpoint="lg"
+        collapsedWidth="100px"
+        width={'240px'}
+        onBreakpoint={(broken) => {
+          console.log(broken)
+        }}
+        onCollapse={(collapsed, type) => {
+          console.log(collapsed, type)
+        }}
+      >
+        <Menu />
       </Sider>
       <Layout>
-        <Header/>
-        <Content>
-          {children}
-        </Content>
+        <Header />
+        <Content>{children}</Content>
       </Layout>
     </LayoutStyle>
   )
