@@ -1,11 +1,12 @@
 import React from 'react'
-import { Layout } from 'antd'
+import { Col, Layout, Row, Typography } from 'antd'
 import { ReactComponent as Notification } from '../../assets/icons/notification.svg'
 import { ReactComponent as Setting } from '../../assets/icons/setting.svg'
 import { useNavigate } from 'react-router-dom'
 import ManagerIcon from '../ManagerIcon'
 
 import styled from 'styled-components'
+const { Title } = Typography
 
 const HeaderLayout = styled(Layout)`
   background: var(--white);
@@ -13,24 +14,6 @@ const HeaderLayout = styled(Layout)`
   z-index: 1;
   max-height: 60px;
   min-height: 60px;
-
-  .headerUser {
-    display: flex;
-    align-items: center;
-    grid-gap: 16px;
-    cursor: pointer;
-  }
-  .headerUserInfo {
-    display: grid;
-    .userMiddleName {
-      font-size: var(--base-font-size);
-      color: var(--dark-border-ultramarine);
-    }
-    .userEmail {
-      font-size: var(--font-size-small);
-      color: var(--secondary-light-orage);
-    }
-  }
 `
 
 const HeaderMenu = styled(Layout)`
@@ -51,13 +34,14 @@ export const Header: React.FC = () => {
       <HeaderMenu>
         <Notification />
         <Setting />
-        <div className="headerUser" onClick={() => navigate('/user-profile')}>
+        <Row align="middle" style={{ gridGap: '16px', cursor: 'pointer' }} onClick={() => navigate('/user-profile')}>
           <ManagerIcon letter="HD" color="#F3C262" />
-          <div className="headerUserInfo">
-            <span className="userMiddleName">Anun Azganun</span>
-            <span className="userEmail">yaho@yaho.yaho</span>
-          </div>
-        </div>
+          <Row >
+            <Col span={80}>
+          <Title level={5} style={{ color: 'var(--dark-border-ultramarine)', margin: 0 }}>Anun Azganun</Title>
+          <Title level={5} style={{ fontSize: 'var(--font-size-small)', color: 'var(--secondary-light-orage)', marginTop: 0 }}>Ayaho@yaho.yaho</Title></Col>
+          </Row>
+        </Row>
       </HeaderMenu>
     </HeaderLayout>
   )
