@@ -7,6 +7,7 @@ import { TeamList } from '../../../helpers/fakeData'
 import { AsnModal } from '../../../components/Forms/Modal/index'
 import { AsnButton } from '../../Forms/Button'
 import { useNavigate } from 'react-router-dom'
+import { PATHS } from '../../../helpers/constants'
 
 const ApplicantListSmall = styled(AsnModal)`
     .ant-modal-content{
@@ -77,11 +78,11 @@ const columns: ColumnsType<TemUsersType> = [
   }
 ]
 
-const ApplicantsListSmall: React.FC<{ showModal: boolean, setShowModal: any }> = ({ showModal, setShowModal }) => {
+const ApplicantsListSmall: React.FC<{ setShowModal: any }> = ({ setShowModal }) => {
   const navigate = useNavigate()
   return (
         <ApplicantListSmall
-         open={showModal}
+         open={true}
          width={'396px'}
          onCancel={() => setShowModal(false)}
          mask={false}
@@ -97,7 +98,7 @@ const ApplicantsListSmall: React.FC<{ showModal: boolean, setShowModal: any }> =
                <AsnButton
                  type="primary"
                  htmlType="submit"
-                 onClick={() => navigate('/teams')}
+                 onClick={() => navigate(PATHS.TEAMS)}
                 >
                   Manage users
                </AsnButton>

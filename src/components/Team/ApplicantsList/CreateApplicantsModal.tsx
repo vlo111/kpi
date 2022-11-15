@@ -96,7 +96,7 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
     }
 `
 
-const AddApplicantModal: React.FC<{ showModal: string, setShowModal: any }> = ({ showModal, setShowModal }) => {
+const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) => {
   const [form] = Form.useForm()
   const [value, setValue] = useState(1)
 
@@ -121,7 +121,7 @@ const AddApplicantModal: React.FC<{ showModal: string, setShowModal: any }> = ({
 
   return (
         <AddApplicantsModalWrapper
-            open={showModal === 'create'}
+            open={true}
             title={'Add Person'}
             cancelText="Cancel"
             onCancel={handleCancel}

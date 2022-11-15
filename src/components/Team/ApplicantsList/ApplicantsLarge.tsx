@@ -107,7 +107,7 @@ const ApplicantsList: React.FC<{ }> = () => {
              }
              }
              />
-            <AddApplicantModal showModal={showModal} setShowModal={setShowModal}/>
+            {showModal === 'del' && <AddApplicantModal setShowModal={setShowModal}/>}
             <ConfirmModal
               styles={{ gap: '80px' }}
               yes="Delete"

@@ -82,7 +82,7 @@ const SearchApplicants: React.FC<{ showModal: any, setShowModal: any }> = ({
           </Col>
         </Row>
       </Col>
-      <AddApplicantModal showModal={showModal} setShowModal={setShowModal} />
+      {showModal === 'create' && <AddApplicantModal setShowModal={setShowModal} />}
     </Row>
   )
 }

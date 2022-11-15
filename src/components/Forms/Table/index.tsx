@@ -4,7 +4,7 @@ import { TableProps } from 'antd/es/table'
 
 export const AsnTable: React.FC<TableProps<any>> = styled(Table)`
     height: 100%;
-   .ant-table-tbody>tr>td{
+    td{
        padding: 9px 8px !important;
        border-bottom: 0.5px solid var(--light-border);
        
@@ -42,7 +42,7 @@ export const AsnTable: React.FC<TableProps<any>> = styled(Table)`
           color: var(--secondary-green);
         }
     }
-    .ant-table-thead>tr>th{
+    th{
       font-weight: var(--font-normal) !important;
       font-size: var(--font-size-small) !important;
       background: var(--background) !important;
@@ -102,11 +102,13 @@ export const AsnTable: React.FC<TableProps<any>> = styled(Table)`
         }
       }
     }
-    .ant-space-item> svg{
+    .ant-space-item{
+     svg{
         &:hover{
             cursor: pointer;
         }
-    }
+      }
+     }
     .ant-table-pagination.ant-pagination {
      margin: 3px 0;
     }
