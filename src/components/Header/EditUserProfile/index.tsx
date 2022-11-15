@@ -9,6 +9,28 @@ import { Name } from '../../../helpers/constants'
 import { Space } from 'antd'
 
 const UserModal = styled(AsnModal)`
+    padding: 4.3vh 1.3vw 4.5vh 4.3vh !important;
+    background: var(--white);
+    border-radius: 20px;
+
+    .ant-modal-body{
+      max-height: 62.5vh;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      padding-right: 1.8vw;
+    }
+    .ant-modal-close{
+      top: -25px;
+      right: -14px;
+    }
+    .ant-modal-content{
+      box-shadow: none !important;
+      position: inherit !important;
+      padding: 0;
+    }
+    .ant-modal-title {
+      font-size: var(--headline-font-size);
+    }
 `
 
 const EditProfile: React.FC<ICreateTemplate> = ({
