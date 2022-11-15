@@ -107,8 +107,8 @@ export interface TabsNames {
   tabNames: TabName[]
   handleActiveTab: (tabNumber: any) => void
   activeTab: {
-      number: number | null
-      default: boolean
+    number: number | null
+    default: boolean
   }
 }
 export interface ActivityNamesProps {
@@ -121,4 +121,13 @@ export interface SubActivityProps {
   multiple: boolean
   activity: string
   subActivities: string[]
+}
+export interface GeneralInfoProps {
+  title: string
+  description: string
+}
+export interface ResultAndActivitiesProps {
+  option: string
+  description: string
+  count: string
 }
