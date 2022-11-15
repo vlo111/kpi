@@ -5,6 +5,9 @@ import { ConfirmModalType } from '../../../../types/global'
 import { AsnButton } from '../../Button'
 
 const ConfirmModalWrapper = styled(AsnModal)`
+   .ant-modal-content{
+    padding: 70px 96px 60px 96px !important;
+    }
   .wrapper {
     display: flex;
     flex-direction: column;
