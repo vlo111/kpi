@@ -12,7 +12,7 @@ import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
 import { ActionHandle } from '../../../../../types/context'
 import { FormInstance } from 'antd/lib/form/hooks/useForm'
 import { Tooltip } from 'antd'
-import { TollTipText } from '../../../../../utils/ProjectUtils'
+import { title, TollTipText } from '../../../../../utils/ProjectUtils'
 
 const InputResult: React.FC<{
   resultArea: IResultArea[]
@@ -50,7 +50,7 @@ const InputResult: React.FC<{
           <div className="result-container">
             <div className="result-area">
               <AsnCollapse key={r.id} id={r.id}>
-                <Panel key={r.id} header={r.name}>
+                <Panel key={r.id} header={title(r.id, `${i + 1}.`)}>
                   <InputExpectedResult
                     form={form}
                     id={r.id}
