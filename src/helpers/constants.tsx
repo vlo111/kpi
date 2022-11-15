@@ -179,3 +179,19 @@ export const resultAndActivities = [
     description: 'U.S. Government‐assisted organization and/or service delivery system that serves vulnerable persons strengthened'
   }
 ]
+
+export const organisations =
+  {
+    title: 'Organisations',
+    descriptions: ['Analysed', 'EIF', 'Synergy']
+  }
+export const regionas =
+  {
+    title: 'Regionas/Marzes',
+    descriptions: ['Ararat marz', 'Syunik marz', 'Gegharkunik marz']
+  }
+export const sectors =
+  {
+    title: 'Sectors',
+    descriptions: ['IT', 'Tourism', 'Hospitality']
+  }

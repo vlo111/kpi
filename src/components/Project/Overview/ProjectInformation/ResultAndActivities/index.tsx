@@ -12,13 +12,13 @@ const DividerAnt = styled(Divider)`
     top: 0;
 `
 
-const ResultAndActivities: React.FC<ResultAndActivitiesProps> = ({ option, description, count }) => {
+const ResultAndActivities: React.FC<ResultAndActivitiesProps> = ({ option, description, count, divider }) => {
   return (
         <Row gutter={[16, 0]}>
-            <Col style={{ padding: '0' }} offset={1}><DividerAnt type='vertical' /></Col>
-            <Col span={2} offset={4} lg={3} xl={2} xs={4}>{option}</Col>
-            <Col span={12} style={{ paddingBottom: '16px' }} >{description}</Col>
-            <Col span={2}>{count}</Col>
+            {divider && <Col style={{ padding: '0' }} offset={1}><DividerAnt type='vertical' /></Col>}
+            <Col span={2} offset={4} lg={3} xl={2} xs={4} style={ { fontSize: '16px' } }>{option}</Col>
+            <Col span={12} style={{ paddingBottom: '16px', fontSize: '16px' }} >{description}</Col>
+            <Col span={2} style={ { fontSize: '16px' } }>{count}</Col>
         </Row>
   )
 }

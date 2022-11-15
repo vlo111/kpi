@@ -4,8 +4,10 @@ import { Typography, Card, Space } from 'antd'
 import CardTitle from './CardTitle'
 import GeneralInfo from './GeneralInfo'
 import ResultAndActivities from './ResultAndActivities'
+import ProjectDetails from './ProjectDetails'
 import ActivityName from './ActivityName'
-import { generalInfo, resultAndActivities } from '../../../../helpers/constants'
+import { generalInfo, resultAndActivities, organisations, regionas, sectors } from '../../../../helpers/constants'
+import { AsnButton } from '../../../Forms/Button'
 
 const { Title } = Typography
 
@@ -54,10 +56,31 @@ const ProjectInformation: React.FC = () => {
                         option={info.option}
                         description={info.description}
                         count={info.count}
+                        divider={true}
                     />
                 ))}
-               <ActivityName activityName='1.1 Mapping the labor market' />
+               <ActivityName activityName='1.1 Mapping the labor market' divider={true} />
+               <ResultAndActivities
+                        option={'OC1.3'}
+                        description={'skill mapping study completed and study report, summarizing findings and recommendations developed. '}
+                        count={'20'}
+                        divider={true}
+                    />
+                     <ActivityName activityName='1.2 Establishment of educational labs' divider={false} />
+                     <ResultAndActivities
+                        option={''}
+                        description={'multimedia lab established in Gyumri '}
+                        count={'1'}
+                        divider={false}
+                    />
             </CardWrapper>
+            <CardWrapper style={{ borderTop: '3px solid var(--secondary-light-orage)' }}>
+            <CardTitle title={'Project details'} />
+            <ProjectDetails info={organisations} />
+            <ProjectDetails info={regionas} />
+            <ProjectDetails info={sectors} />
+                </CardWrapper>
+                <AsnButton>Back</AsnButton>
         </ProjectInfoContainer>
   )
 }

@@ -95,7 +95,7 @@ export interface ActivityName {
   names: string[]
 }
 
-export type activeTabName = {
+export interface activeTabName {
   number: null | number
   default: boolean
 }
@@ -130,4 +130,16 @@ export interface ResultAndActivitiesProps {
   option: string
   description: string
   count: string
+  divider: boolean
+}
+
+export interface ActivityNameProps {
+  activityName: string
+  divider: boolean
+}
+export interface ProjectsDetailProps {
+  info: {
+    title: string
+    descriptions: string[]
+  }
 }

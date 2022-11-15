@@ -1,6 +1,7 @@
 import React from 'react'
 import { Row, Col, Divider } from 'antd'
 import styled from 'styled-components'
+import { ActivityNameProps } from '../../../../../types/project'
 
 const DividerAnt = styled(Divider)`
     border-left: 1px solid var(--dark-1);
@@ -9,15 +10,24 @@ const DividerAnt = styled(Divider)`
     width: 24px;
     margin: 0;
     padding: 0;
+    top: 0;
 `
-
-const ActivityName: React.FC<{ activityName: string }> = ({ activityName }) => {
+const isDivider = {
+  marginBottom: '16px',
+  fontSize: '16px'
+}
+const noDivider = {
+  marginBottom: '16px',
+  paddingLeft: '32px',
+  fontSize: '16px'
+}
+const ActivityName: React.FC<ActivityNameProps> = ({ activityName, divider }) => {
   return (
-        <Row>
-            <Col offset={1}>
-                <DividerAnt type='vertical' />
-            </Col>
-            <Col style={{ paddingBottom: '16px' }} offset={4}>{activityName}</Col>
+            <Row gutter={[16, 0]}>
+          <Col style={{ padding: '0' }} offset={1}>{ divider && <DividerAnt type='vertical' />}</Col>
+            <Col offset={1} style={ !divider ? { ...noDivider } : { ...isDivider } }>
+                {activityName}
+                </Col>
         </Row>
   )
 }
