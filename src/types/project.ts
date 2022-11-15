@@ -130,6 +130,10 @@ export interface IGeneralInfo {
 export interface IManagerIcon {
   letter: string
   color: string
+  width?: string
+  height?: string
+  marginBottom?: string
+  fontSize?: string
 }
 
 export interface IManagerOverview {
