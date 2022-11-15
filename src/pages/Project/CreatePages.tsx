@@ -48,15 +48,8 @@ export const GeneralInfo = styled.div`
     }
   }
 
-  .footer {
-    display: flex;
-    justify-content: space-evenly;
-
-    button {
-      width: 133px;
-      height: 44px !important;
-      border-radius: 10px !important;
-    }
+  button {
+    border-radius: 10px !important;
   }
 `
 
@@ -130,29 +123,33 @@ export const CreateProject: React.FC = () => {
           onFinishFailed={onFinishFailed}
         >
           <div className="main">
-            <Row style={{ width: '100%' }} >
-              <Col style={{ width: '100%' }}>
+            <Row>
+              <Col span={24}>
                 <Form.Item {...Name('title', 'Title')} {...rules(2, 256)}>
                   <AsnInput placeholder="Example: AWDA" />
                 </Form.Item>
               </Col>
-              <Col style={{ width: '100%' }}>
+              <Col span={24}>
                 <Form.Item
-                    {...Name('description', 'Description')}
-                    {...rules(1, 2048)}
+                  {...Name('description', 'Description')}
+                  {...rules(1, 2048)}
                 >
                   <TextArea placeholder={PlaceHolderDescription} />
                 </Form.Item>
               </Col>
+              <AsnPickers form={form} />
             </Row>
-            <AsnPickers form={form} />
           </div>
-          <div className="footer">
-            <AsnButton>Cancel</AsnButton>
-            <AsnButton type="primary" htmlType="submit">
-              Create
-            </AsnButton>
-          </div>
+          <Row justify={'space-evenly'} gutter={[0, 12]}>
+            <Col>
+              <AsnButton>Cancel</AsnButton>
+            </Col>
+            <Col>
+              <AsnButton type="primary" htmlType="submit">
+                Create
+              </AsnButton>
+            </Col>
+          </Row>
         </Form>
       </GeneralInfo>
       <ConfirmModal
