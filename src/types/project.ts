@@ -202,3 +202,5 @@ export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
 }
+
+export type InputResultTitle = (id: string, prefix: string) => JSX.Element
