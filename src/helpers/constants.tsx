@@ -5,6 +5,7 @@ import { FormItemName, IManager, ManagerFieldType } from '../types/project'
 
 export const PATHS = {
   ROOT: '/',
+  TEAMS: '/teams',
   ERROR_403: 'no-access',
   CREATEPROJECT: 'create-project',
   SIGNIN: 'sign-in',
