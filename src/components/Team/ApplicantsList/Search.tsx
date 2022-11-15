@@ -41,6 +41,7 @@ const SearchApplicants: React.FC<{ showModal: any, setShowModal: any }> = ({
               <Col md={{ span: 24 }} lg={{ span: 24 }} xl={{ span: 24 }}>
                <AsnInput
                  placeholder="Search"
+                 className='search_users'
                  style={{
                    height: '32px',
                    border: 'none',

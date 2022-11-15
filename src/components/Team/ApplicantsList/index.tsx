@@ -10,6 +10,12 @@ const ApplicantWrapper = styled.div`
     height: 100%;
     background-color: var(--white);
     padding: 30px 16px 50px 16px;
+
+    .search_users{
+      &:hover{
+        border: none !important;
+      }
+    }
 `
 
 const ApplicantContent = styled.div`

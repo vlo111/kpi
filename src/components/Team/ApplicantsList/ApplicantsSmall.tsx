@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table } from 'antd'
+import { Row, Space, Table } from 'antd'
 import styled from 'styled-components'
 import type { ColumnsType } from 'antd/es/table'
 import { TemUsersType } from '../../../types/teams'
@@ -18,36 +18,6 @@ const ApplicantListSmall = styled(AsnModal)`
     }
     .ant-table-tbody>tr>td{
         border-bottom: 0.5px solid var(--dark-border-ultramarine);
-
-        .user_icon{
-            display: flex;
-            text-align: center;
-            align-items: center;
-
-            img{
-                width: 26px;
-                height: 26px;
-                justify-content: center;
-                border-radius: 50%;
-            }
-            p{
-                padding: 0;
-                margin: 0;
-                margin-left: 7px;
-                font-weight: var(--font-normal);
-                font-size: var(--base-font-size);
-                color: var(--dark-2);
-            }
-        }
-        p {
-            font-weight: var(--font-normal);
-            font-size: var(--font-size-small);
-            color: var(--dark-4);
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: flex-end;
-        }
     }
     .ant-table-thead>tr>th{
       display: none;
@@ -70,21 +40,20 @@ const ApplicantListSmall = styled(AsnModal)`
         overflow-x: hidden;
         padding-right: 3px;
     }
-    .managed_users{
-        display: flex;
-        justify-content: center;
-        margin-top: 16px;
-    }
 `
 
 const columns: ColumnsType<TemUsersType> = [
   {
     render: item => {
       return (
-        <div className='user_icon'>
-          <img src={item.picture} />
-          <p>{item.name}</p>
-        </div>
+         <Space direction='horizontal'>
+            <Space align='start'>
+              <img style={{ borderRadius: '50%' }} src={item.picture} width={26} height={26} />
+            </Space>
+            <Space align='end' style={{ color: 'var(--dark-border-ultramarine)' }}>
+               {item.name}
+            </Space>
+          </Space>
       )
     }
   },
@@ -92,7 +61,17 @@ const columns: ColumnsType<TemUsersType> = [
     dataIndex: 'status',
     render: item => {
       return (
-        <p>{item}</p>
+        <Row
+         justify='end'
+         align='middle'
+         style={{
+           color: 'var(--dark-4)',
+           fontSize: 'var(--font-size-small)'
+         }
+         }
+         >
+          {item}
+        </Row>
       )
     }
   }
@@ -114,15 +93,15 @@ const ApplicantsListSmall: React.FC<{ showModal: boolean, setShowModal: any }> =
               size="middle"
               pagination={false}
             />
-            <div className='managed_users'>
-            <AsnButton
-              type="primary"
-              htmlType="submit"
-              onClick={() => navigate('/teams')}
-             >
-               Manage users
-            </AsnButton>
-            </div>
+            <Row justify='center' align='middle' style={{ marginTop: '16px' }}>
+               <AsnButton
+                 type="primary"
+                 htmlType="submit"
+                 onClick={() => navigate('/teams')}
+                >
+                  Manage users
+               </AsnButton>
+             </Row>
         </ApplicantListSmall>
   )
 }

@@ -1,3 +1,4 @@
+import { Col, Row } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 import { AsnModal } from '../../Forms/Modal'
@@ -8,19 +9,6 @@ const PermissionInfoModal = styled(AsnModal)`
 
   .ant-modal-content{
     padding: 32px !important;
-  }
-
-  .permission_info_content{
-    display: grid;
-    gap: 24px;
-
-    p{
-        padding: 0;
-        margin: 0;
-        color: var(--dark-2);
-        font-weight: var(--font-normal);
-        font-size: var(--base-font-size);
-    }
   }
   .ant-modal-close-x{
     font-size: 12px;
@@ -41,10 +29,10 @@ const ApplicantPermissionInfoModal: React.FC<{ showPermissionModal: boolean, set
             mask={false}
             onCancel={() => setShowPermissionModal(false)}
         >
-            <div className='permission_info_content'>
-              <p>Result Area {' > '} Result area 1 </p>
-              <p>Template {' > '} Result area 1 {' > '} Activty 1.2  {' > '} One section course template</p>
-            </div>
+            <Row gutter={24} style={{ color: 'var(--dark-2)', fontSize: 'var(--base-font-size)' }}>
+              <Col span={24} style={{ marginBottom: '24px' }}>Result Area {' > '} Result area 1</Col>
+              <Col span={24}>Template {' > '} Result area 1 {' > '} Activity 1.2  {' > '} One section course template</Col>
+            </Row>
 
         </PermissionInfoModal>
   )
