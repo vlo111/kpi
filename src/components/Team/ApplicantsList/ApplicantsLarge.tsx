@@ -1,37 +1,45 @@
-import React, { useState } from 'react'
-import { Space } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Space, TablePaginationConfig } from 'antd'
 import styled from 'styled-components'
-import type { ColumnsType } from 'antd/es/table'
 import { ReactComponent as Preview } from '../../../assets/icons/eye.svg'
 import { ReactComponent as TrashSvg } from '../../../assets/icons/trash.svg'
 import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg'
-import { TemUsersType } from '../../../types/teams'
-import { TeamList } from '../../../helpers/fakeData'
 import AddApplicantModal from './CreateApplicantsModal'
 import { ConfirmModal } from '../../Forms/Modal/ConfirmModal'
 import ApplicantPermissionInfoModal from './AppllicantPermissionModal'
 import { AsnTable } from '../../Forms/Table'
+import qs from 'qs'
 
 const ApplicantList = styled.div`
     margin-top: 8px;
     height: calc(100% - 75px);
 `
+interface TableParams {
+  pagination?: TablePaginationConfig
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const getRandomuserParams = (params: TableParams) => ({
+  results: params.pagination?.pageSize,
+  page: params.pagination?.current,
+  ...params
+})
 
 const ApplicantsList: React.FC<{ }> = () => {
   const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState(false)
   const [showModal, setShowModal] = useState('')
   const [openApplicantPermissionModal, setOpenApplicantPermissionModal] = useState(false)
-  const columns: ColumnsType<TemUsersType> = [
+  const columns: any = [
     {
       title: 'Name Surname',
-      render: item => {
+      render: (item: { picture: { large: string | undefined }, name: { first: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined, last: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined } }) => {
         return (
           <Space direction='horizontal'>
             <Space align='start'>
-              <img style={{ borderRadius: '50%' }} src={item.picture} width={30} height={30} />
+              <img style={{ borderRadius: '50%' }} src={item?.picture?.large} width={30} height={30} />
             </Space>
-            <Space align='end' style={{ color: 'var(--dark-border-ultramarine)' }}>
-               {item.name}
+            <Space align='end' style={{ color: 'var(--dark-border-ultramarine)', fontSize: 'var(--base-font-size)' }}>
+               {item?.name?.first}{item?.name?.last}
             </Space>
           </Space>
         )
@@ -40,21 +48,21 @@ const ApplicantsList: React.FC<{ }> = () => {
     {
       title: 'Email',
       dataIndex: 'email',
-      render: item => {
+      render: (item: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined) => {
         return <h2>{item}</h2>
       }
     },
     {
       title: 'Access level',
-      dataIndex: 'viewLevel',
-      render: item => {
+      dataIndex: 'gender',
+      render: (item: string | number | boolean | React.ReactFragment | React.ReactPortal | React.ReactElement<any, string | React.JSXElementConstructor<any>> | null | undefined) => {
         return (
         <Space direction='horizontal'>
           <Space align='start'>
             <Preview onClick={() => setOpenApplicantPermissionModal(true)}/>
           </Space>
           <Space align='end'>
-             <h3>{item}</h3>
+             <h3>{item === 'male' ? 'Sub-activity' : 'Project'}</h3>
           </Space>
         </Space>
         )
@@ -62,18 +70,19 @@ const ApplicantsList: React.FC<{ }> = () => {
     },
     {
       title: 'User status',
-      dataIndex: 'status',
-      render: item => {
+      dataIndex: 'gender',
+      render: (item: string | number | boolean | React.ReactFragment | React.ReactElement<any, string | React.JSXElementConstructor<any>> | null | undefined) => {
         return (
           <Space
-            className={`${item === 'Pending' ? 'user_status_pending' : 'user_status_resolved'}`}
+            className={`${item === 'male' ? 'user_status_pending' : 'user_status_resolved'}`}
             style={{ width: '100%', justifyContent: 'center' }}
             direction='horizontal'
             >
-            <Space align='center'>{item}</Space>
+            <Space align='center'>{item === 'male' ? 'Pending' : 'Resolved'}</Space>
           </Space>
         )
-      }
+      },
+      width: 150
     },
     {
       render: () => {
@@ -87,25 +96,63 @@ const ApplicantsList: React.FC<{ }> = () => {
             </Space>
           </Space>
         )
-      }
+      },
+      width: 55
     }
   ]
-  const [currentPage, setCurrentPage] = useState(1)
+  const [data, setData] = useState()
+
+  const [loading, setLoading] = useState(false)
+  const [tableParams, setTableParams] = useState<TableParams>({
+    pagination: {
+      current: 1,
+      pageSize: 11,
+      showSizeChanger: false
+    }
+  })
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const fetchData = () => {
+    setLoading(true)
+    void fetch(`https://randomuser.me/api?${qs.stringify(getRandomuserParams(tableParams))}`)
+      .then(async res => await res.json())
+      .then(({ results }) => {
+        setData(results)
+        setLoading(false)
+        setTableParams({
+          ...tableParams,
+          pagination: {
+            ...tableParams.pagination,
+            total: 100
+          }
+        })
+      })
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [JSON.stringify(tableParams)])
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleTableChange = (
+    pagination: TablePaginationConfig
+  ) => {
+    setTableParams({
+      pagination
+    })
+  }
+
   return (
         <ApplicantList>
             <AsnTable
-             columns={columns}
-             dataSource={TeamList()}
              size="middle"
-            //  scroll={{ y: 'calc(100vh - 30em)' }}
-             pagination={{
-               defaultPageSize: 5,
-               onChange: pageNum => {
-                 setCurrentPage(pageNum)
-               },
-               current: currentPage
-             }
-             }
+             scroll={{ y: 'calc(100vh - 30em)' }}
+             columns={columns}
+             rowKey={record => record.login.uuid}
+             dataSource={data}
+             pagination={tableParams.pagination}
+             loading={loading}
+             onChange={handleTableChange}
              />
             {showModal === 'del' && <AddApplicantModal setShowModal={setShowModal}/>}
             <ConfirmModal
