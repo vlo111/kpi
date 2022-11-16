@@ -5,17 +5,16 @@ import { AsnDatePicker } from '../Forms/DatePicker'
 import { Moment } from 'moment'
 import { DisabledDate } from '../../types/project'
 import { Name } from '../../helpers/constants'
+import { Col, Space } from 'antd'
 
-const Picker = styled.div`
-  display: flex;
-  justify-content: space-between;
-
+const PickerSpace = styled(Space)`
+  width: 100%;
+  
   > div {
-    width: 48%;
     font-size: var(--headline-font-size);
   }
 
-  .ant-picker {
+  .ant-picker, .ant-space-item {
     width: 100%;
   }
 
@@ -46,22 +45,25 @@ export const AsnPickers: React.FC<{ form: any }> = ({ form }) => {
   }
 
   return (
-    <Picker>
-      <Form.Item {...Name('startDate', 'Start Date')} {...rules}>
-        <AsnDatePicker
-          format="DD/MM/YYYY"
-          placeholder="10/22/21"
-          disabledDate={(current: Moment) => disabledDate(current, 'start')}
-        />
-      </Form.Item>
-
-      <Form.Item {...Name('endDate', 'End Date')} {...rules}>
-        <AsnDatePicker
-          format="DD/MM/YYYY"
-          placeholder="10/22/26"
-          disabledDate={(current: Moment) => disabledDate(current, 'end')}
-        />
-      </Form.Item>
-    </Picker>
+    <PickerSpace size={24} >
+      <Col span={24}>
+        <Form.Item {...Name('startDate', 'Start Date')} {...rules}>
+          <AsnDatePicker
+              format="DD/MM/YYYY"
+              placeholder="10/22/21"
+              disabledDate={(current: Moment) => disabledDate(current, 'start')}
+          />
+        </Form.Item>
+      </Col>
+      <Col span={24}>
+        <Form.Item {...Name('endDate', 'End Date')} {...rules}>
+          <AsnDatePicker
+              format="DD/MM/YYYY"
+              placeholder="10/22/26"
+              disabledDate={(current: Moment) => disabledDate(current, 'end')}
+          />
+        </Form.Item>
+      </Col>
+    </PickerSpace>
   )
 }

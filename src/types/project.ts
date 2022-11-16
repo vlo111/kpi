@@ -220,4 +220,5 @@ export interface ICreateFieldsProps {
   questionType: string
   setQuestionType: React.Dispatch<React.SetStateAction<string>>
 }
-export type InputResultTitle = (id: string, prefix: string) => JSX.Element
+
+export type InputResultTitle = (id: string, prefix: string, placeholder: string) => JSX.Element

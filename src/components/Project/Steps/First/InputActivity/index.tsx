@@ -60,7 +60,7 @@ const InputActivity: React.FC<{
               {activities.map((activity, i) => (
                 <div key={activity.id} className="activity-block">
                   <AsnCollapse id={activity.id}>
-                    <Panel key={activity.id} header={title(activity.id, `${index}.${i + 1}`)}>
+                    <Panel key={activity.id} header={title(activity.id, `${index}.${i + 1}`, 'Individuals with improved soft skills')}>
                       <InputAreaBox
                           form={form}
                         resultAreaId={id}
