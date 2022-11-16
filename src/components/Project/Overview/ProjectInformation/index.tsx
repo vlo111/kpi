@@ -1,13 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Typography, Card, Space } from 'antd'
+import { Typography, Card, Space, Row, Col } from 'antd'
+import { useNavigate } from 'react-router-dom'
 import CardTitle from './CardTitle'
 import GeneralInfo from './GeneralInfo'
 import ResultAndActivities from './ResultAndActivities'
 import ProjectDetails from './ProjectDetails'
 import ActivityName from './ActivityName'
+import MainLayout from '../../../Layout/MainLayout'
 import { generalInfo, resultAndActivities, organisations, regionas, sectors } from '../../../../helpers/constants'
 import { AsnButton } from '../../../Forms/Button'
+import { ReactComponent as ArrowLeftSvg } from '../../../../assets/icons/arrowLeft.svg'
 
 const { Title } = Typography
 
@@ -34,10 +37,28 @@ const ResultAreaName = styled.div`
     margin-bottom: 16px;
     font-size: 16px;
 `
+const backButton = {
+  borderRaduis: '10px',
+  height: '44px',
+  background: 'var(--dark-border-ultramarine)',
+  color: 'var( --white)',
+  marginTop: '44px'
+}
+const headerPaginationCss = {
+  cursor: 'pointer',
+  fontSize: 'var(--base-font-size)'
+}
 
 const ProjectInformation: React.FC = () => {
+  const navigate = useNavigate()
   return (
+    <MainLayout>
         <ProjectInfoContainer>
+            <Row gutter={[11, 0]} align='middle'>
+           <Col style={{ cursor: 'pointer' }} onClick={() => navigate('/overview')}><ArrowLeftSvg /></Col>
+            <Col style={ { ...headerPaginationCss, color: 'var(--dark-3)' } } onClick={() => navigate('/overview')}>Project Overview {'>'}</Col>
+            <Col style={ { ...headerPaginationCss } }>Project information</Col>
+            </Row>
             <MainTitle>Project Information</MainTitle>
             <CardWrapper>
                 <Space direction={'vertical'} size={[0, 16]} style={{ width: '100%' }}>
@@ -80,8 +101,11 @@ const ProjectInformation: React.FC = () => {
             <ProjectDetails info={regionas} />
             <ProjectDetails info={sectors} />
                 </CardWrapper>
-                <AsnButton>Back</AsnButton>
+                <Row justify='end'>
+                <AsnButton style={ { ...backButton } } onClick={() => navigate('/overview')}>Back</AsnButton>
+                </Row>
         </ProjectInfoContainer>
+        </MainLayout>
   )
 }
 
