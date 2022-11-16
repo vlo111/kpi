@@ -71,9 +71,9 @@ export const TollTipText: (title: string, ...items: string[]) => React.ReactNode
     </ul>
 </div>)
 
-export const title: InputResultTitle = (id, prefix) => (<Form.Item
+export const title: InputResultTitle = (id, prefix, placeholder) => (<Form.Item
     name={id}
-    rules={[{ required: true, min: 1, max: 12 }]}
+    rules={[{ required: true, min: 5, max: 256 }]}
 >
-    <AsnInput prefix={prefix} placeholder={'Example: Skill gap reduced'}/>
+    <AsnInput prefix={prefix} placeholder={placeholder}/>
 </Form.Item>)
