@@ -159,27 +159,10 @@ const GlobalStyle = createGlobalStyle`
   input[type=number] {
     -moz-appearance: textfield;
   }
-  .ant-tree-switcher{
-    display: none
+  .ant-dropdown-menu{
+    border-radius: 10px;
+    padding: 15px 0;
   }
-  .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
-    background: #FFFFFF
-  }
-  .ant-tree .ant-tree-node-content-wrapper:hover {
-    background: #FFFFFF;
-}
-.mybox {
-  position: relative;
-}
-
-.mybox:after {
-  content: '';
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  height: 50%;
-  border-left: 1px solid black;
-}
 `
 
 export default GlobalStyle
