@@ -190,6 +190,10 @@ const GlobalStyle = createGlobalStyle`
   input[type=number] {
     -moz-appearance: textfield;
   }
+  .ant-dropdown-menu{
+    border-radius: 10px;
+    padding: 15px 0;
+  }
 `
 
 export default GlobalStyle
