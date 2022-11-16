@@ -20,7 +20,8 @@ export const PATHS = {
   CHANGEPASSWORDPROFILE: 'change-password-profile',
   CONFIRMEMAILSIGNUP: 'confirm-email/:email',
   OVERVIEW: 'project/overview/:id',
-  PROJECTAREA: 'project/steps/:id'
+  PROJECTAREA: 'project/steps/:id',
+  PROJECTINFORMATION: 'project-information'
 }
 
 export const HEADERS = {

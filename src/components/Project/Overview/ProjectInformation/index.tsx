@@ -7,7 +7,6 @@ import GeneralInfo from './GeneralInfo'
 import ResultAndActivities from './ResultAndActivities'
 import ProjectDetails from './ProjectDetails'
 import ActivityName from './ActivityName'
-import MainLayout from '../../../Layout/MainLayout'
 import { generalInfo, resultAndActivities, organisations, regionas, sectors } from '../../../../helpers/constants'
 import { AsnButton } from '../../../Forms/Button'
 import { ReactComponent as ArrowLeftSvg } from '../../../../assets/icons/arrowLeft.svg'
@@ -52,7 +51,6 @@ const headerPaginationCss = {
 const ProjectInformation: React.FC = () => {
   const navigate = useNavigate()
   return (
-    <MainLayout>
         <ProjectInfoContainer>
             <Row gutter={[11, 0]} align='middle'>
            <Col style={{ cursor: 'pointer' }} onClick={() => navigate('/overview')}><ArrowLeftSvg /></Col>
@@ -105,7 +103,6 @@ const ProjectInformation: React.FC = () => {
                 <AsnButton style={ { ...backButton } } onClick={() => navigate('/overview')}>Back</AsnButton>
                 </Row>
         </ProjectInfoContainer>
-        </MainLayout>
   )
 }
 
