@@ -12,6 +12,7 @@ const UserModal = styled(AsnModal)`
     padding: 4.3vh 1.3vw 4.5vh 4.3vh !important;
     background: var(--white);
     border-radius: 20px;
+    top: 10vh;
 
     .ant-modal-body{
       max-height: 62.5vh;
