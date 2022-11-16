@@ -4,6 +4,7 @@ import { AsnButton } from '../../../../../Forms/Button'
 import AsnInput from '../../../../../Forms/Input'
 import { Form } from '../../../../../Forms/Form'
 import { ReactComponent as DeleteIcon } from '../../../../../../assets/icons/delete.svg'
+import { Col } from 'antd'
 
 const BottomField = styled.div`
   width: 100%;
@@ -12,11 +13,6 @@ const BottomField = styled.div`
   gap: 1rem;
   margin-top: 0.5rem;
   padding: 1rem 1rem 1rem 2rem;
-
-  .formContainer {
-    max-height: 13rem;
-    overflow: auto;
-  }
 
   .ant-form-item-control-input-content {
     display: flex;
@@ -47,8 +43,11 @@ const DynamicForm: React.FC = () => {
     <BottomField>
       <Form.List name="names">
         {(fields, { add, remove }, { errors }) => (
-          <div>
-            <div className="formContainer">
+          <>
+            <Col style={{
+              maxHeight: '13rem',
+              overflow: 'auto'
+            }} >
               {fields.map((field) => (
                 <Form.Item required={false} key={field.key}>
                   <Form.Item
@@ -77,12 +76,12 @@ const DynamicForm: React.FC = () => {
                     : null}
                 </Form.Item>
               ))}
-            </div>
+            </Col>
             <Form.Item>
               <AsnButton onClick={() => add()}>+Add options</AsnButton>
               <Form.ErrorList errors={errors} />
             </Form.Item>
-          </div>
+          </>
         )}
       </Form.List>
     </BottomField>

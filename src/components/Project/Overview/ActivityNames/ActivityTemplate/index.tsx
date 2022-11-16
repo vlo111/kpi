@@ -35,10 +35,6 @@ const ActivityTemplateContainer = styled.div`
       border: none !important;
     }
   }
-
-  .assignPerson {
-    width: 100%;
-  }
 `
 
 const CourseList = styled.div`
@@ -50,36 +46,14 @@ const CourseList = styled.div`
   background-color: var(--white);
   padding: 11.5px 18px 11.5px 8px;
   border: 0.5px solid var(--dark-6);
-
-  .listTitle {
-    color: var(--dark-2);
-    font-size: var(--headline-font-size);
-  }
-
-  .subTitleContainer {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-  }
-
   svg {
     margin-left: 8px;
-  }
-
-  .subTitle {
-    color: var(--dark-4);
-    font-size: var(--font-size-small);
   }
 
   .ant-switch-checked {
     background-color: var(--secondary-green);
   }
 
-  .switchContainer {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
 `
 
 const CourseTitle = styled.span`
@@ -107,17 +81,6 @@ const FormsStructureContainer = styled.div`
   flex-direction: row;
   width: 100%;
   margin-top: 3rem;
-
-  .title {
-    font-size: clamp(0.5rem, 2.5vw, 1.25rem);
-    color: var(--dark-2);
-    margin-bottom: 2rem;
-  }
-
-  .titleItems {
-    font-size: clamp(0.5rem, 2.5vw, 1.25rem);
-    color: var(--dark-2);
-  }
 
   .ant-row {
     .ant-checkbox-inner {
@@ -171,19 +134,6 @@ const FormsStructureContainer = styled.div`
       display: flex;
       flex-direction: column;
     }
-  }
-`
-
-const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  .content {
-    font-size: var(--font-size-small);
-    color: var(--dark-2);
-    cursor: pointer;
-    gap: 8px;
   }
 `
 
@@ -241,17 +191,24 @@ const ActivityTemplate: React.FC = () => {
   }
 
   const content = (id: string): ReactElement => (
-    <ContentContainer>
-      <div className="content" onClick={() => onOpenInputClick(id)}>
+    <Row
+      style={{
+        fontSize: 'var(--font-size-small)',
+        color: 'var(--dark-2)',
+        cursor: 'pointer'
+      }}
+      gutter={[8, 8]}
+    >
+      <Col onClick={() => onOpenInputClick(id)} span={24}>
         <HelperTextIcon /> Add help text
-      </div>
-      <div className="content" onClick={() => onEditedQuestion(id)}>
+      </Col>
+      <Col onClick={() => onEditedQuestion(id)} span={24}>
         <EditIcon /> Edit
-      </div>
-      <div className="content" onClick={() => onDeletedQuestion(id)}>
+      </Col>
+      <Col onClick={() => onDeletedQuestion(id)} span={24}>
         <DeleteIcon /> Delete
-      </div>
-    </ContentContainer>
+      </Col>
+    </Row>
   )
 
   return (
@@ -261,53 +218,69 @@ const ActivityTemplate: React.FC = () => {
         {templateData?.map((item) => (
           <Fragment key={item.id}>
             <CourseList>
-              <div>
-                <div className="listTitle">{item.title}</div>
-                <div className="subTitleContainer">
+              <Row>
+                <Col
+                  span={24}
+                  style={{
+                    color: 'var(--dark-2)',
+                    fontSize: 'var(--headline-font-size)'
+                  }}
+                >
+                  {item.title}
+                </Col>
+                <Row gutter={[5, 0]}>
                   {item?.option?.length > 0
                     ? item.option.map((option: string) => (
-                        <div key={option} className="subTitle">
+                        <Col
+                          key={option}
+                          style={{
+                            color: 'var(--dark-2)',
+                            fontSize: 'var(--font-size-small)'
+                          }}
+                        >
                           {`${option}`}
-                        </div>
+                        </Col>
                     ))
                     : item.subTitle.map((subtitle: string) => (
-                        <div key={subtitle} className="subTitle">
-                          {`${subtitle}`}
-                        </div>
+                        <Col key={subtitle}>{`${subtitle}`}</Col>
                     ))}
-                </div>
-              </div>
-              <div className="switchContainer">
-                <Switch
-                  defaultChecked={item.switch}
-                  onChange={onChange}
-                  disabled={item.disabled}
-                />
-                {item.status === 0
-                  ? (
-                  <Tooltip
-                    placement="topLeft"
-                    title={<span>Add help text</span>}
-                    overlayClassName="tooltipHelper"
-                  >
-                    <IconButton onClick={() => onOpenInputClick(item.id)}>
-                      <HelperTextIcon />
-                    </IconButton>
-                  </Tooltip>
-                    )
-                  : (
-                  <Popover
-                    placement="topLeft"
-                    content={() => content(item.id)}
-                    trigger="click"
-                    overlayClassName="menuPopover"
-                  >
-                    <IconButton>
-                      <MenuIcon />
-                    </IconButton>
-                  </Popover>
-                    )}
-              </div>
+                </Row>
+              </Row>
+              <Row>
+                <Col>
+                  <Switch
+                    defaultChecked={item.switch}
+                    onChange={onChange}
+                    disabled={item.disabled}
+                  />
+                </Col>
+                <Col>
+                  {item.status === 0
+                    ? (
+                    <Tooltip
+                      placement="topLeft"
+                      title={<span>Add help text</span>}
+                      overlayClassName="tooltipHelper"
+                    >
+                      <IconButton onClick={() => onOpenInputClick(item.id)}>
+                        <HelperTextIcon />
+                      </IconButton>
+                    </Tooltip>
+                      )
+                    : (
+                    <Popover
+                      placement="topLeft"
+                      content={() => content(item.id)}
+                      trigger="click"
+                      overlayClassName="menuPopover"
+                    >
+                      <IconButton>
+                        <MenuIcon />
+                      </IconButton>
+                    </Popover>
+                      )}
+                </Col>
+              </Row>
             </CourseList>
             {rowId.includes(item.id)
               ? (
@@ -336,29 +309,67 @@ const ActivityTemplate: React.FC = () => {
             )}
         <FormsStructureContainer>
           <Row gutter={[0, 0]}>
-            <Col span={24}>
-              <div className="title">Include Forms</div>
+            <Col
+              span={24}
+              style={{
+                fontSize: 'clamp(0.5rem, 2.5vw, 1.25rem)',
+                color: 'var(--dark-2)',
+                marginBottom: '2rem'
+              }}
+            >
+              Include Forms
             </Col>
             <Col span={24}>
-              <Checkbox onChange={onCheckboxChange}>
-                <div className="titleItems"> Application Form</div>
+              <Checkbox
+                onChange={onCheckboxChange}
+                style={{
+                  fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
+                  color: 'var(--dark-2)'
+                }}
+              >
+                Application Form
               </Checkbox>
-              <Checkbox onChange={onCheckboxChange}>
-                <div className="titleItems">Assessment Form</div>
+              <Checkbox
+                onChange={onCheckboxChange}
+                style={{
+                  fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
+                  color: 'var(--dark-2)'
+                }}
+              >
+                Assessment Form
               </Checkbox>
             </Col>
           </Row>
           <Row gutter={[0, 0]}>
-            <Col span={24}>
-              <div className="title">Course Structure</div>
+            <Col
+              span={24}
+              style={{
+                fontSize: 'clamp(0.5rem, 2.5vw, 1.25rem)',
+                color: 'var(--dark-2)',
+                marginBottom: '2rem'
+              }}
+            >
+              Course Structure
             </Col>
             <Col span={24}>
               <Radio.Group onChange={onRadioChange}>
-                <Radio value={1}>
-                  <div className="titleItems">One Section</div>
+                <Radio
+                  value={1}
+                  style={{
+                    fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
+                    color: 'var(--dark-2)'
+                  }}
+                >
+                  One Section
                 </Radio>
-                <Radio value={2}>
-                  <div className="titleItems">Multi-Section</div>
+                <Radio
+                  value={2}
+                  style={{
+                    fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
+                    color: 'var(--dark-2)'
+                  }}
+                >
+                  Multi-Section
                 </Radio>
               </Radio.Group>
             </Col>

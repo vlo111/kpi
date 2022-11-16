@@ -136,3 +136,11 @@ export const MenuItems = [
   'Product Guide',
   'Keyboard Shortcuts'
 ]
+
+export const answerTypeOptions: string[] = [
+  'Choose answer type',
+  'Short Text',
+  'Number',
+  'Attachment',
+  'Dropdown options'
+]

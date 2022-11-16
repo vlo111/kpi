@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { Name, VALIDATE_MESSAGES } from '../../../../../helpers/constants'
+import { Name, PATHS, VALIDATE_MESSAGES } from '../../../../../helpers/constants'
 import {
   AddManagerHandle,
   ICreateTemplate
@@ -44,7 +44,7 @@ const CreateTemplate: React.FC<ICreateTemplate> = ({
   }
 
   const onNextClick = (): void => {
-    navigate('template/create')
+    navigate(PATHS.TEMPLATECREATE)
   }
 
   const initFields = [

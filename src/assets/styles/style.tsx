@@ -170,6 +170,7 @@ const GlobalStyle = createGlobalStyle`
 
   .menuPopover {
     .ant-popover-inner {
+      width: 9rem;
       border-radius: 10px;
       border: 1px solid var(--dark-2);
     }

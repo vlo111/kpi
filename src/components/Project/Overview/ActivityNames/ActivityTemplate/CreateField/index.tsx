@@ -8,18 +8,10 @@ import { Form } from '../../../../../Forms/Form'
 import { ReactComponent as CloseIcon } from '../../../../../../assets/icons/closeIcon.svg'
 import { ICreateFieldsProps } from '../../../../../../types/project'
 import { v4 as uuidv4 } from 'uuid'
-import { VALIDATE_MESSAGES } from '../../../../../../helpers/constants'
+import { answerTypeOptions, VALIDATE_MESSAGES } from '../../../../../../helpers/constants'
 import DynamicForm from '../DynamicForm/Index'
 
 const { Option } = Select
-
-const options: string[] = [
-  'Choose answer type',
-  'Short Text',
-  'Number',
-  'Attachment',
-  'Dropdown options'
-]
 
 const IconButton = styled.button`
   border: none;
@@ -147,7 +139,7 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
           </Form.Item>
           <Form.Item name="answerType">
             <AsnSelect onChange={onSelectChange}>
-              {options.map((option) => (
+              {answerTypeOptions.map((option) => (
                 <Option
                   value={option}
                   key={option}
