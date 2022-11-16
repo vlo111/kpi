@@ -1,52 +1,22 @@
-import styled from 'styled-components'
-import { Row, Col } from 'antd'
+import { Row, Col, Typography, Space } from 'antd'
 import React from 'react'
 import { Form } from '../../../components/Forms/Form'
 import { Password } from '../../Forms/Input'
 import { AsnButton } from '../../Forms/Button'
 import { useNavigate } from 'react-router-dom'
+import { CreateTemplateContainer } from '../../Forms/UserProfile'
+
+const { Title } = Typography
 
 const ChangePassword: React.FC = () => {
   const [form] = Form.useForm()
-  const CreateTemplateContainer = styled.div`
-    background:var(--white);
-    border-top: 3px solid var(--dark-border-ultramarine);
-    box-shadow: var(--base-box-shadow);
-    border-radius: 20px;
-    margin: 4vw 4vw 0px 4vw;
-    
-    
-  
-    .buttonContainer {
-      display: flex;
-      justify-content: space-around;
-      width: 100%;
-      grid-gap: 10px;
-      margin-bottom: 8vh;
-    }
-    p{
-        font-weight: var(--font-bold);
-        font-size: var(--headline-font-size);
-        color: var(--dark-1);
-        position: relative;
-        top: 3vh;
-        left: 3vw;
-        width: 37%;
-        margin-bottom: 7.2vh;
-    }
-    .text{
-        font-size: var(--base-font-size);
-        color: var(--dark-2);
-    }
-  `
   const navigate = useNavigate()
   return (
       <CreateTemplateContainer>
-        <p>Change Password</p>
+        <Title level={4} style={{ color: 'var(--dark-1)', padding: '3vh 3vw' }}>Change Password</Title>
         <Row justify="center" align="middle" >
           <Col span={8}>
             <Form
-              name="signin"
               form={form}
               initialValues={{
                 remember: false
@@ -62,7 +32,7 @@ const ChangePassword: React.FC = () => {
                 <Password placeholder="Old Password" />
               </Form.Item>
               <Form.Item>
-              <span className='text'>Your password must be at least 8 characters, must contain one number and one letter. The password cannot  match your email address.</span>
+              <Title level={5} style={{ color: 'var(--dark-2)' }}>Your password must be at least 8 characters, must contain one number and one letter. The password cannot  match your email address.</Title>
               </Form.Item>
               <Form.Item
                 name="New password"
@@ -80,12 +50,12 @@ const ChangePassword: React.FC = () => {
               </Form.Item>
               </div>
               <Form.Item>
-                <div className="buttonContainer">
+                <Space style={{ display: 'flex', justifyContent: 'center', marginBottom: '9vh' }}>
                   <AsnButton onClick={() => navigate('/user-profile')}>Cancel</AsnButton>
                   <AsnButton type="primary" htmlType="submit" style={{ width: 'clamp(14rem,17vw,24rem)' }}>
                     Save changes
                   </AsnButton>
-                </div>
+                </Space>
               </Form.Item>
             </Form>
           </Col>

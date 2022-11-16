@@ -18,9 +18,9 @@ const IconContainer = styled.div`
   cursor: pointer;
 `
 
-const ManagerIcon: React.FC<IManagerIcon> = ({ letter, color }) => {
+const ManagerIcon: React.FC<IManagerIcon> = ({ letter, color, width, height, marginBottom, fontSize }) => {
   return (
-        <IconContainer className="manager-icon" style={{ background: color }}>
+        <IconContainer className="manager-icon" style={{ background: color, width, height, marginBottom, fontSize }}>
             <span>{letter}</span>
         </IconContainer>
   )
