@@ -37,7 +37,7 @@ export const Header: React.FC = () => {
             display: 'flex',
             justifyContent: 'center',
             padding: '6px 0',
-            color: '#263238'
+            color: 'var(--dark-2: #263238)'
           }}
           level={5}
           onClick={() => navigate('/user-profile')}
@@ -54,7 +54,7 @@ export const Header: React.FC = () => {
             display: 'flex',
             justifyContent: 'center',
             padding: '6px 0',
-            color: '#263238'
+            color: 'var(--dark-2: #263238)'
           }}
           level={5}
           onClick={() => navigate('/sign-in')}
@@ -75,7 +75,7 @@ export const Header: React.FC = () => {
           trigger={['click']}>
           <a onClick={(e) => e.preventDefault()}>
             <Space>
-              <ManagerIcon letter="HD" color="#F3C262" />
+              <ManagerIcon letter="HD" color="var(--secondary-light-amber)" />
               <Title
                 level={5}
                 style={{ color: 'var(--dark-border-ultramarine)', margin: 0 }}

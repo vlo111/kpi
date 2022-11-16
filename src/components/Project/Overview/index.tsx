@@ -31,7 +31,7 @@ export const Overview: React.FC = () => {
   )
 }
 
-  /* <div className="create-resultArea" onClick={onRedirectResultHandle}>
+/* <div className="create-resultArea" onClick={onRedirectResultHandle}>
         <CreateResultAreaSvg />
         <span>Input result areas and activities</span>
       </div>  */
