@@ -16,61 +16,45 @@ import { Form } from '../../../Forms/Form'
 // import { Items } from './Items'
 import AsnInput from '../../../Forms/Input'
 import { Items } from './Items'
+import styled from 'styled-components'
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 4 }
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 20 }
-  }
-}
-const formItemLayoutWithOutLabel = {
-  wrapperCol: {
-    xs: { span: 24, offset: 0 },
-    sm: { span: 20, offset: 0 }
-  }
-}
-
-// const Collapses = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   gap: clamp(5px, 2vw, 20px);
-//
-//   .input-rows {
-//     .ant-collapse-content-box {
-//       display: flex;
-//       flex-direction: column;
-//       gap: 1rem;
-//       padding: 2rem 3.25rem;
-//
-//       .delete-result {
-//         display: flex;
-//         justify-content: flex-end;
-//         width: 1%;
-//         margin-top: 1rem;
-//
-//         svg {
-//           cursor: pointer;
-//         }
-//       }
-//     }
-//   }
-//
-//   .footer {
-//     display: flex;
-//     justify-content: end;
-//     gap: 5rem;
-//
-//     button {
-//       height: 44px !important;
-//       box-shadow: 0 4px 4px rgba(42, 85, 120, 0.05);
-//       border-radius: 6px;
-//     }
-//   }
-// `
+const Collapses = styled.div`
+  //display: flex;
+  //flex-direction: column;
+  //gap: clamp(5px, 2vw, 20px);
+  //
+  //.input-rows {
+  //  .ant-collapse-content-box {
+  //    display: flex;
+  //    flex-direction: column;
+  //    gap: 1rem;
+  //    padding: 2rem 3.25rem;
+  //
+  //    .delete-result {
+  //      display: flex;
+  //      justify-content: flex-end;
+  //      width: 1%;
+  //      margin-top: 1rem;
+  //
+  //      svg {
+  //        cursor: pointer;
+  //      }
+  //    }
+  //  }
+  //}
+  //
+  //.footer {
+  //  display: flex;
+  //  justify-content: end;
+  //  gap: 5rem;
+  //
+  //  button {
+  //    height: 44px !important;
+  //    box-shadow: 0 4px 4px rgba(42, 85, 120, 0.05);
+  //    border-radius: 6px;
+  //  }
+  //}
+`
 
 export const Last: React.FC = () => {
   // const [organizations, setOrganizations] = useState<Details>(OrganizationList)
@@ -170,13 +154,13 @@ export const Last: React.FC = () => {
   // }
 
   return (
-    <>
-      <Form form={form} name="dynamic_form_item" {...formItemLayoutWithOutLabel} onFinish={onFinish}>
+    <Collapses>
+      <Form form={form} name="dynamic_form_item" onFinish={onFinish}>
         <Items name={'Organisations'}/>
         <Items name={'Regions'}/>
         <Items name={'Sectors'}/>
       </Form>
-    </>
+    </Collapses>
   )
 }
 
