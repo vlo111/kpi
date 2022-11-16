@@ -1,44 +1,61 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import ProjectInfo from './ProjectInfo'
-import { ReactComponent as CreateResultAreaSvg } from '../../../assets/icons/add-files.svg'
-import { useNavigate } from 'react-router-dom'
-import { v4 as uuidv4 } from 'uuid'
+import Tabs from './Tabs'
+import ActivityNames from './ActivityNames'
+import { activeTabName } from '../../../types/project'
+import { tabNames, names } from '../../../helpers/constants'
 
 const Wrapper = styled.div`
-  height: 100%;
-  padding: 2rem 0 0 2rem;
+  height: '100%';
+  padding: 10px 0 0 30px;
   background: var(--background);
-
-  .create-resultArea {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    cursor: pointer;
-    height: calc(100% - 8rem);
-    
-    span {
-      font-size: var(--headline-font-size);
-      color: var(--dark-border-ultramarine);
-    }
-  }
 `
 
 export const Overview: React.FC = () => {
-  const navigate = useNavigate()
+  const [activeTab, setActiveTab] = useState<activeTabName>({
+    number: null,
+    default: true
+  })
+  const [activeName, setActiveName] = useState<number>()
 
-  const onRedirectResultHandle: () => void = () => {
-    navigate(`/project/steps/${uuidv4()}`)
+  const handleActiveTab = (tabNumber: number): void => {
+    tabNumber === 1 ? setActiveTab({ number: tabNumber, default: true }) : setActiveTab({ number: tabNumber, default: false })
   }
-
   return (
     <Wrapper>
       <ProjectInfo />
-      <div className="create-resultArea" onClick={onRedirectResultHandle}>
-        <CreateResultAreaSvg />
-        <span>Input result areas and activities</span>
-      </div>
+      <Tabs tabNames={tabNames} handleActiveTab={handleActiveTab} activeTab={activeTab} />
+      <ActivityNames names={names} setActiveName={setActiveName} activeName={activeName} />
     </Wrapper>
   )
 }
+
+/* <div className="create-resultArea" onClick={onRedirectResultHandle}>
+        <CreateResultAreaSvg />
+        <span>Input result areas and activities</span>
+      </div>  */
+// const navigate = useNavigate()
+
+// const onRedirectResultHandle: () => void = () => {
+//   navigate(`/project/steps/${uuidv4()}`)
+// }
+// const Wrapper = styled.div`
+//   height: 100%;
+//   padding: 2rem 0 0 2rem;
+//   background: var(--background);
+
+//   .create-resultArea {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     flex-direction: column;
+//     cursor: pointer;
+//     height: calc(100% - 8rem);
+
+//     span {
+//       font-size: var(--headline-font-size);
+//       color: var(--dark-border-ultramarine);
+//     }
+//   }
+// `
