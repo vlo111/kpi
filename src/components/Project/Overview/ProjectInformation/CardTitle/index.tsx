@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { ReactComponent as EditSvg } from '../../../../../assets/icons/edit.svg'
 
 const Title = styled.div`
-  font-weight: 400;
-  font-size: 20px;
+  font-weight:var(--font-normal);
+  font-size: var(--headline-font-size);
   line-height: 25px;
   color: var(--dark-border-ultramarine);
 `

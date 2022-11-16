@@ -18,8 +18,8 @@ const ProjectInfoContainer = styled.div`
 `
 const MainTitle = styled(Title)`
   text-align: center; 
-  font-size: 48px;
-  font-weight: 700;
+  font-size: var(--large-hedline-font-size);
+  font-weight: var(--font-bold);
 `
 const CardWrapper = styled(Card)`
   border: none;
@@ -34,7 +34,7 @@ const CardWrapper = styled(Card)`
 `
 const ResultAreaName = styled.div`
     margin-bottom: 16px;
-    font-size: 16px;
+    font-size: var(--base-font-size);
 `
 const backButton = {
   borderRaduis: '10px',
