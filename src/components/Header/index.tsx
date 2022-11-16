@@ -37,7 +37,7 @@ export const Header: React.FC = () => {
             display: 'flex',
             justifyContent: 'center',
             padding: '6px 0',
-            color: 'var(--dark-2: #263238)'
+            color: 'var(--dark-2)'
           }}
           level={5}
           onClick={() => navigate('/user-profile')}
@@ -54,7 +54,7 @@ export const Header: React.FC = () => {
             display: 'flex',
             justifyContent: 'center',
             padding: '6px 0',
-            color: 'var(--dark-2: #263238)'
+            color: 'var(--dark-2)'
           }}
           level={5}
           onClick={() => navigate('/sign-in')}
