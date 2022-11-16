@@ -29,7 +29,6 @@ const EditProfile: React.FC<ICreateTemplate> = ({
       open={isOpenCreateActivityModal}
       title="User Profile"
       onCancel={handleCancel}
-      style={{ width: '100%', maxHeight: '90vh', overflowY: 'auto' }}
     >
         <Form
           id="create-template-form"
@@ -51,7 +50,7 @@ const EditProfile: React.FC<ICreateTemplate> = ({
           <Form.Item {...Name('Position ', ' Position ')}>
             <AsnInput placeholder="Position " />
           </Form.Item>
-        <Space style={{ width: '100%', justifyContent: 'space-evenly' }}>
+        <Space style={{ display: 'flex', justifyContent: 'space-evenly' }}>
           <AsnButton onClick={onCancelClick}>Cancel</AsnButton>
           <AsnButton type="primary" htmlType="submit">
           Save changes

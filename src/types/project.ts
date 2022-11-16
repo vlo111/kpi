@@ -130,6 +130,10 @@ export interface IGeneralInfo {
 export interface IManagerIcon {
   letter: string
   color: string
+  width?: string
+  height?: string
+  marginBottom?: string
+  fontSize?: string
 }
 
 export interface IManagerOverview {
@@ -202,3 +206,4 @@ export interface ICreateTemplate {
 export interface ICreateFieldsProps {
   setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
 }
+export type InputResultTitle = (id: string, prefix: string) => JSX.Element

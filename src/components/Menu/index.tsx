@@ -8,15 +8,7 @@ import { ReactComponent as ProductGuideSvg } from '../../assets/icons/product-gu
 import { ReactComponent as ShortcutsSvg } from '../../assets/icons/shortcuts.svg'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
-
-export const MenuItems = [
-  'Dashboard',
-  'Project',
-  'Team',
-  'Applicants',
-  'Product Guide',
-  'Keyboard Shortcuts'
-]
+import { MenuItems } from '../../helpers/constants'
 
 const MenuLayout = styled(Layout)`
      height: 100%;
@@ -30,6 +22,14 @@ const MenuLayout = styled(Layout)`
        flex-direction: column;
        margin-top: 2.3rem;
        height: 100%;
+       
+       &-item {
+         padding-left: 50px !important;
+       }
+       
+       &-title-content {
+         margin-left: 0;
+       }
        
        &-item {
          margin-bottom: 0 !important;
@@ -63,10 +63,6 @@ const MenuLayout = styled(Layout)`
        &-item:nth-last-child(1), &-item:nth-last-child(2) {
          &:after {
            border: none;
-         }
-         
-         > svg {
-           margin-right: 10px;
          }
 
          span {

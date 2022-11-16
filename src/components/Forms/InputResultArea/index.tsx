@@ -75,7 +75,8 @@ export const InputResultArea = styled.div`
     }
 
     .delete-result {
-      margin-top: 1rem;
+      margin-top: 1.2rem;
+      margin-left: 0.5rem;
       width: 2rem;
       text-align: center;
       cursor: pointer;
@@ -88,7 +89,42 @@ export const InputResultArea = styled.div`
 
     &-header {
       font-size: 16px;
-      padding: 1rem 40px 1rem 1rem !important;
+      padding: 0 40px 0 0 !important;
+      width: 73vw;
+      border: none;
+      
+      .anticon-caret-right {
+        z-index: 2;
+      }
+
+      .ant-form-item {
+        margin: 0;
+        
+        .ant-input-affix-wrapper {
+          height: 60px;
+        }
+
+        &:not(&-has-error) {
+          .ant-input-affix-wrapper {
+            border: 1px solid var(--dark-5);
+
+            &:hover,
+            &:focus {
+              border: 1px solid var(--dark-5) !important;
+              box-shadow: none !important;
+            }
+          }
+        }
+
+        .ant-input-affix-wrapper {
+          width: 73vw;
+        }
+
+        input {
+          width: 100% !important;
+          height: auto !important;
+        }
+      }
     }
 
     &-item {
@@ -117,6 +153,18 @@ export const InputResultArea = styled.div`
         div:first-child .delete-result-box {
           margin-top: 2.8rem;
         }
+        
+        //&:not(.ant-form-item-has-error) {
+        //  input, textarea, .ant-select-selector {
+        //    border: 1px solid var(--dark-5) !important;
+        //
+        //    &:hover,
+        //    &:focus {
+        //      border: 1px solid var(--dark-5) !important;
+        //      box-shadow: none !important;
+        //    }
+        //  }
+        //}
       }
     }
   }
@@ -142,6 +190,14 @@ export const InputResultArea = styled.div`
 
         .ant-collapse {
           width: 100%;
+          
+          &-header {
+            width: auto;
+            
+            .ant-input-affix-wrapper {
+              width: calc(100% + 40px);
+            }
+          }
         }
       }
 
@@ -166,6 +222,20 @@ export const InputResultArea = styled.div`
 
         .delete-result-box {
           margin-top: 1.2rem !important;
+        }
+      }
+
+      .ant-select-selector {
+        box-shadow: none !important;
+      }
+
+      input:not(.ant-input-status-error), textarea:not(.ant-input-status-error), .ant-select-selector {
+        border: 1px solid var(--dark-5) !important;
+
+        &:hover,
+        &:focus {
+          border: 1px solid var(--dark-5) !important;
+          box-shadow: none !important;
         }
       }
     }
