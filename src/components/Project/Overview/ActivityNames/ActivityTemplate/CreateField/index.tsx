@@ -76,7 +76,6 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
   setQuestionType
 }) => {
   const [form] = Form.useForm()
-  const [optionForm] = Form.useForm()
   const [questionValue, setQuestionValue] = useState('')
 
   const onClosedAddVisibleField = (): void => {
@@ -87,17 +86,20 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
     setQuestionType(value)
   }
 
-  const onAddQuestion = (): void => {
+  const onQuestionValue = (event: ChangeEvent<HTMLInputElement>): void => {
+    setQuestionValue(event.target.value)
+  }
+  const onFinish = (values: any): void => {
     setTemplateData([
       ...templateData,
       {
         id: uuidv4(),
-        title: form.getFieldsValue().question,
-        subTitle: [form.getFieldsValue().answerType],
+        title: values.question,
+        subTitle: [values.answerType],
         option:
-          form.getFieldsValue().answerType === 'Dropdown options'
-            ? [...optionForm.getFieldsValue().names]
-            : [],
+        values.answerType === 'Dropdown options'
+          ? [...values.names]
+          : [],
         switch: false,
         disabled: false,
         status: 1
@@ -105,10 +107,7 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
     ])
     setIsVisibleAddField(false)
     setQuestionType('Choose answer type')
-  }
-
-  const onQuestionValue = (event: ChangeEvent<HTMLInputElement>): void => {
-    setQuestionValue(event.target.value)
+    console.log(values, 'values')
   }
 
   const initFields = [
@@ -119,6 +118,10 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
     {
       name: ['answerType'],
       value: questionType === '' ? 'Choose answer type' : questionType
+    },
+    {
+      name: ['names'],
+      value: ['']
     }
   ]
 
@@ -128,6 +131,7 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
         fields={initFields}
         form={form}
         validateMessages={VALIDATE_MESSAGES}
+        onFinish={onFinish}
       >
         <TopField>
           <div className="closeIcon">
@@ -155,13 +159,9 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
             </AsnSelect>
           </Form.Item>
         </TopField>
-        {questionType === 'Dropdown options'
-          ? (
-          <DynamicForm optionForm={optionForm} />
-            )
-          : null}
+        {questionType === 'Dropdown options' ? <DynamicForm /> : null}
         <Form.Item>
-          <AsnButton type="primary" htmlType="submit" onClick={onAddQuestion}>
+          <AsnButton type="primary" htmlType="submit" >
             Add
           </AsnButton>
         </Form.Item>

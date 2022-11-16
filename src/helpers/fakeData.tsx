@@ -183,11 +183,20 @@ export const courseTemplateData: ITemplateData[] | [] = [
   },
   {
     id: uuidv4(),
-    title: 'Course hours',
-    subTitle: [''],
+    title: 'Teaching Mode',
+    subTitle: ['Online', 'Offline', 'Blended'],
     option: [],
-    switch: false,
-    disabled: false,
+    switch: true,
+    disabled: true,
+    status: 0
+  },
+  {
+    id: uuidv4(),
+    title: 'Course Hours',
+    subTitle: [],
+    option: [],
+    switch: true,
+    disabled: true,
     status: 0
   },
   {
