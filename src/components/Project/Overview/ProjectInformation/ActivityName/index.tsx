@@ -14,12 +14,12 @@ const DividerAnt = styled(Divider)`
 `
 const isDivider = {
   marginBottom: '16px',
-  fontSize: '16px'
+  fontSize: 'var(--base-font-size)'
 }
 const noDivider = {
   marginBottom: '16px',
   paddingLeft: '32px',
-  fontSize: '16px'
+  fontSize: 'var(--base-font-size)'
 }
 const ActivityName: React.FC<ActivityNameProps> = ({ activityName, divider }) => {
   return (

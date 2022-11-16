@@ -7,7 +7,7 @@ import GeneralInfo from './GeneralInfo'
 import ResultAndActivities from './ResultAndActivities'
 import ProjectDetails from './ProjectDetails'
 import ActivityName from './ActivityName'
-import { generalInfo, resultAndActivities, organisations, regionas, sectors } from '../../../../helpers/constants'
+import { generalInfo, resultAndActivities, organisations, regionas, sectors } from '../../../../helpers/fakeData'
 import { AsnButton } from '../../../Forms/Button'
 import { ReactComponent as ArrowLeftSvg } from '../../../../assets/icons/arrowLeft.svg'
 
