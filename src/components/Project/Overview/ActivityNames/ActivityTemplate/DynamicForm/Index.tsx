@@ -1,0 +1,111 @@
+import React from 'react'
+import styled from 'styled-components'
+import { AsnButton } from '../../../../../Forms/Button'
+import AsnInput from '../../../../../Forms/Input'
+import { Form } from '../../../../../Forms/Form'
+import { ReactComponent as DeleteIcon } from '../../../../../../assets/icons/delete.svg'
+
+const formItemLayoutWithOutLabel = {
+  wrapperCol: {
+    xs: { span: 24, offset: 0 },
+    sm: { span: 20, offset: 4 }
+  }
+}
+
+const BottomField = styled.div`
+  width: 100%;
+  background-color: var(--white);
+  border-radius: 20px;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  padding: 1rem 1rem 1rem 2rem;
+
+  .formContainer {
+    max-height: 13rem;
+    overflow: auto;
+  }
+
+  .ant-form-item-control-input-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 11px;
+    margin-right: 10px;
+  }
+
+  .ant-input {
+    width: 98% !important;
+    border: 1px solid var(--light-border-gray);
+  }
+  .ant-btn {
+    width: 98% !important;
+    border: 1px solid var(--light-border-gray);
+    margin-top: 1rem;
+  }
+
+  .ant-col-sm-20 {
+    max-width: 100% !important;
+    margin-left: 0px !important;
+  }
+`
+
+const DynamicForm: React.FC<any> = ({ optionForm }) => {
+  const onFinish = (values: any): void => {
+    console.log('Received values of form:', values)
+  }
+
+  return (
+    <BottomField>
+      <Form
+        name="dynamic_form_item"
+        {...formItemLayoutWithOutLabel}
+        onFinish={onFinish}
+        initialValues={{ names: [''] }}
+        form={optionForm}
+      >
+        <Form.List name="names">
+          {(fields, { add, remove }, { errors }) => (
+            <div>
+              <div className="formContainer">
+                {fields.map((field) => (
+                  <Form.Item required={false} key={field.key}>
+                    <Form.Item
+                      {...field}
+                      validateTrigger={['onChange', 'onBlur']}
+                      rules={[
+                        {
+                          required: true,
+                          min: 1,
+                          max: 256,
+                          message:
+                            'Field must have at least 1 character and maximum 255 characters.'
+                        }
+                      ]}
+                      noStyle
+                    >
+                      <AsnInput placeholder="Example" />
+                    </Form.Item>
+                    {fields.length > 1
+                      ? (
+                      <DeleteIcon
+                        className="dynamic-delete-button"
+                        onClick={() => remove(field.name)}
+                      />
+                        )
+                      : null}
+                  </Form.Item>
+                ))}
+              </div>
+              <Form.Item>
+                <AsnButton onClick={() => add()}>+Add options</AsnButton>
+                <Form.ErrorList errors={errors} />
+              </Form.Item>
+            </div>
+          )}
+        </Form.List>
+      </Form>
+    </BottomField>
+  )
+}
+
+export default DynamicForm

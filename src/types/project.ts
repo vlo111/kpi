@@ -203,7 +203,21 @@ export interface ICreateTemplate {
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+export interface ITemplateData {
+  id: string
+  title: string
+  subTitle: string[] | []
+  option: string[] | []
+  switch: boolean
+  disabled: boolean
+  status: number
+}
+
 export interface ICreateFieldsProps {
   setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
+  templateData: ITemplateData[]
+  setTemplateData: React.Dispatch<React.SetStateAction<ITemplateData[] | []>>
+  questionType: string
+  setQuestionType: React.Dispatch<React.SetStateAction<string>>
 }
 export type InputResultTitle = (id: string, prefix: string) => JSX.Element

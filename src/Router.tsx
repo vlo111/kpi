@@ -24,6 +24,7 @@ import { PrivateRoutes } from './utils/PrivateRoutes'
 import { ProjectSteps } from './pages/Steps'
 import UserProfile from './components/Header/UserProfile'
 import ChangePassword from './components/Header/ChangePassword'
+import ActivityTemplate from './components/Project/Overview/ActivityNames/ActivityTemplate'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -44,10 +45,14 @@ export const router = createBrowserRouter(
         <Route path={PATHS.TEAMS} element={<Applicants />} />
         <Route path={PATHS.CREATEPROJECT} element={<CreateProject />} />
         <Route path={PATHS.OVERVIEW} element={<Overview />} />
+        <Route path={PATHS.TEMPLATECREATE} element={<ActivityTemplate />} />
         <Route path={PATHS.PROJECTAREA} element={<ProjectSteps />} />
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
         <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
-        <Route path={PATHS.CHANGEPASSWORDPROFILE} element={<ChangePassword />} />
+        <Route
+          path={PATHS.CHANGEPASSWORDPROFILE}
+          element={<ChangePassword />}
+        />
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
