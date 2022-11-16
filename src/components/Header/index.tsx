@@ -31,42 +31,60 @@ export const Header: React.FC = () => {
   const navigate = useNavigate()
   const items = [
     {
-      label: <Title style={{ display: 'flex', justifyContent: 'center', padding: '6px 0', color: '#263238' }} level={5} onClick={() => navigate('/user-profile')}>Account</Title>,
+      label: (
+        <Title
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '6px 0',
+            color: '#263238'
+          }}
+          level={5}
+          onClick={() => navigate('/user-profile')}
+        >
+          Account
+        </Title>
+      ),
       key: '0'
     },
     {
-      label: <Title style={{ display: 'flex', justifyContent: 'center', padding: '6px 0', color: '#263238' }} level={5} onClick={() => navigate('/sign-in')}>Sign Out</Title>,
+      label: (
+        <Title
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '6px 0',
+            color: '#263238'
+          }}
+          level={5}
+          onClick={() => navigate('/sign-in')}
+        >
+          Sign Out
+        </Title>
+      ),
       key: '1'
     }
-
   ]
-
   return (
     <HeaderLayout>
       <HeaderMenu>
         <Notification />
         <Setting />
         <Dropdown
-    menu={{
-      items
-    }}
-    trigger={['click']}
-  >
-    <a onClick={(e) => e.preventDefault()}>
-      <Space>
-      <ManagerIcon letter="HD" color="#F3C262" />
-      <Title level={5} style={{ color: 'var(--dark-border-ultramarine)', margin: 0 }}>Anun Azganun</Title>
-      </Space>
-    </a>
-  </Dropdown>
-        {/* <Row align="middle" style={{ gridGap: '16px', cursor: 'pointer' }} onClick={() => navigate('/user-profile')}>
-          <ManagerIcon letter="HD" color="#F3C262" />
-          <Row >
-            <Col span={80}>
-          <Title level={5} style={{ color: 'var(--dark-border-ultramarine)', margin: 0 }}>Anun Azganun</Title>
-          <Title level={5} style={{ fontSize: 'var(--font-size-small)', color: 'var(--secondary-light-orage)', marginTop: 0 }}>Ayaho@yaho.yaho</Title></Col>
-          </Row>
-        </Row> */}
+          menu={{ items }}
+          trigger={['click']}>
+          <a onClick={(e) => e.preventDefault()}>
+            <Space>
+              <ManagerIcon letter="HD" color="#F3C262" />
+              <Title
+                level={5}
+                style={{ color: 'var(--dark-border-ultramarine)', margin: 0 }}
+              >
+                Anun Azganun
+              </Title>
+            </Space>
+          </a>
+        </Dropdown>
       </HeaderMenu>
     </HeaderLayout>
   )
