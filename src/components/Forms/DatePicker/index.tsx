@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { DatePicker } from 'antd'
 
-const AnsDatePicker = styled(DatePicker)`
+export const AsnDatePicker = styled(DatePicker)`
   font-size: 16px;
   background: var(--white);
   border: 1px solid var(--dark-border-ultramarine);
@@ -18,5 +18,3 @@ const AnsDatePicker = styled(DatePicker)`
     box-shadow: var(--input-box-shadow);
   }
 `
-
-export default AnsDatePicker

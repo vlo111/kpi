@@ -1,32 +1,35 @@
 import React from 'react'
-import { FirstStep } from '../components/Project/Steps/First'
-import { Second } from '../components/Project/Steps/Second'
+import { First } from '../components/Project/Steps/First'
 import { Last } from '../components/Project/Steps/Last'
 import { FormItemName, IManager, ManagerFieldType } from '../types/project'
 
 export const PATHS = {
   ROOT: '/',
+  TEAMS: '/teams',
   ERROR_403: 'no-access',
+  CREATEPROJECT: 'create-project',
   SIGNIN: 'sign-in',
   CHANGEPASSWORD: 'change-password',
   FORGOTPASSWORD: 'forgot-password',
   RECOVERPASSWORD: 'reset-password',
   DASHBOARD: 'dashboard',
   TEST: 'test',
-  ConfirmEmail: 'confirm-email',
+  CONFIRMEMAIL: 'confirm-email',
   SIGNUP: 'sign-up',
-  ConfirmEmailSignUp: 'confirm-email/:email',
-  Overview: 'overview',
-  ProjectInfo: 'project-info'
+  USERPROFILE: 'user-profile',
+  CHANGEPASSWORDPROFILE: 'change-password-profile',
+  CONFIRMEMAILSIGNUP: 'confirm-email/:email',
+  OVERVIEW: 'project/overview/:id',
+  PROJECTAREA: 'project/steps/:id'
 }
 
 export const HEADERS = {
   X_API_VERSION: '1.0'
 }
 
-export const Name: FormItemName = (name: string) => ({
+export const Name: FormItemName = (name: string, label: string) => ({
   name: `${name}`,
-  label: `${name}`
+  label: `${label}`
 })
 
 export const ManagerFields: ManagerFieldType = (manager: IManager | null) => ([
@@ -54,11 +57,13 @@ export const ManagerFields: ManagerFieldType = (manager: IManager | null) => ([
 
 export const VALIDATE_MESSAGES = {
   // eslint-disable-next-line no-template-curly-in-string
-  required: 'Please enter a valid ${name}',
+  required: 'Please enter a valid ${label}',
   types: {
     // eslint-disable-next-line no-template-curly-in-string
-    email: 'Please enter your ${name} in format: yourname@domain.com'
-  }
+    email: 'Please enter your ${label} in format: yourname@domain.com'
+  },
+  // eslint-disable-next-line no-template-curly-in-string
+  string: { range: '${label} must be between ${min} and ${max} characters' }
 }
 
 export const VALIDATE_MESSAGES_PROJECT_INPUT = {
@@ -84,12 +89,8 @@ export const PlaceHolderActivityMilestone =
 
 export const StepList = [
   {
-    title: 'General Info',
-    content: <FirstStep />
-  },
-  {
     title: 'Project Input',
-    content: <Second />
+    content: <First />
   },
   {
     title: 'Project details',
@@ -112,24 +113,6 @@ export const tabNames = [
   },
   {
     name: 'Societal perceptions shifted'
-  },
-  {
-    name: 'Skill gap reduced smnfioewbF VCFUIEWQ'
-  },
-  {
-    name: 'Skill gap reduced'
-  },
-  {
-    name: 'Skill gap reduced'
-  },
-  {
-    name: 'Skill gap reduced'
-  },
-  {
-    name: 'Skill gap reduced'
-  },
-  {
-    name: 'Skill gap reduced'
   }
 ]
 
@@ -195,3 +178,17 @@ export const sectors =
     title: 'Sectors',
     descriptions: ['IT', 'Tourism', 'Hospitality']
   }
+export const passwordRegExp = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,64}$/
+
+export const passwordErrorMessage = 'password must contain at least one digit and at least one character'
+
+export const passwordMinMaxError = 'password must be between 8 and 64 characters'
+
+export const MenuItems = [
+  'Dashboard',
+  'Project',
+  'Team',
+  'Applicants',
+  'Product Guide',
+  'Keyboard Shortcuts'
+]

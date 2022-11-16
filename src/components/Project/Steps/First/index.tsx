@@ -1,21 +1,20 @@
 import React from 'react'
-import { useProject } from '../../../../hooks/useProject'
-import { Form } from '../../../Forms/Form'
-import {
-  Name,
-  PlaceHolderDescription,
-  VALIDATE_MESSAGES
-} from '../../../../helpers/constants'
-import AsnInput, { TextArea } from '../../../Forms/Input'
-import { Pickers } from './Pickers'
+import InputResult from './InputResult'
+import { VALIDATE_MESSAGES_PROJECT_INPUT } from '../../../../helpers/constants'
+import { Row } from 'antd'
 import { AsnButton } from '../../../Forms/Button'
-import { GeneralInput } from './GeneralInfo'
-import Managers from './Managers'
-import { rules } from '../../../../utils/ProjectUtils'
+import { Form } from '../../../Forms/Form'
+import { ProjectInputForm } from '../../../Forms/ProjectInputForm'
+import { initFields } from '../../../../utils/ProjectUtils'
+import { useProjectInput } from '../../../../hooks/project/useProjectInput'
+import { useProject } from '../../../../hooks/project/useProject'
 
-export const FirstStep: React.FC = () => {
-  const { nextCurrent } = useProject()
+export const First: React.FC = () => {
+  const { nextCurrent, prevCurrent } = useProject()
+  const { resultArea, addNewResultArea } = useProjectInput()
   const [form] = Form.useForm()
+
+  const fields = initFields(form.getFieldsValue(), resultArea)
 
   const onFinish: any = (values: any) => {
     console.log(values, 'finish')
@@ -27,31 +26,33 @@ export const FirstStep: React.FC = () => {
   }
 
   return (
-    <GeneralInput>
-      <Form
-        form={form}
-        layout="vertical"
-        validateMessages={VALIDATE_MESSAGES}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
-        <div className="main">
-          <Form.Item {...Name('Title')} {...rules(2, 256)}>
-            <AsnInput placeholder="Example: AWDA" />
-          </Form.Item>
-          <Form.Item {...Name('Description')} {...rules(1, 2048)}>
-            <TextArea placeholder={PlaceHolderDescription} />
-          </Form.Item>
-          <Pickers />
-          <Managers />
-        </div>
-        <div className="footer">
-          <AsnButton>Create</AsnButton>
-          <AsnButton type="primary" htmlType="submit">
-            Next
-          </AsnButton>
-        </div>
-      </Form>
-    </GeneralInput>
+        <ProjectInputForm
+            form={form}
+            layout="vertical"
+            fields={fields}
+            validateMessages={VALIDATE_MESSAGES_PROJECT_INPUT}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+        >
+            <InputResult form={form} resultArea={resultArea}/>
+            <Row>
+                <AsnButton
+                    style={{ background: 'white', width: '100%', height: '3rem' }}
+                    value="Create"
+                    onClick={() => addNewResultArea()}
+                >
+                    +Add Result Area
+                </AsnButton>
+            </Row>
+            <div className="footer">
+                <AsnButton onClick={() => {
+                  prevCurrent()
+                }}>Cancel</AsnButton>
+                <AsnButton>Save as Draft</AsnButton>
+                <AsnButton type="primary" htmlType="submit">
+                    Next
+                </AsnButton>
+            </div>
+        </ProjectInputForm>
   )
 }

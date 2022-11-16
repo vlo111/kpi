@@ -8,6 +8,10 @@ const defaultStyle = css`
     &:focus {
       box-shadow: var(--error-box-shadow) !important;
     }
+
+    &:hover {
+      border-color: var(--error) !important;
+    }
   }
 
   .ant-form-item-explain-error {
@@ -28,6 +32,7 @@ const defaultStyle = css`
     position: absolute;
     right: -12px;
     color: var(--dark-2) !important;
+    margin-top: -6px;
   }
 `
 

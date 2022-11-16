@@ -2,6 +2,8 @@ import React from 'react'
 import { Layout } from 'antd'
 import styled from 'styled-components'
 import { Menu } from '../Menu'
+import { IComponentChildren } from '../../types/global'
+import { Header } from '../Header'
 
 const LayoutStyle = styled(Layout)`
   background-color: var(--background);
@@ -10,16 +12,7 @@ const LayoutStyle = styled(Layout)`
 `
 
 const Sider = styled(LayoutStyle.Sider)`
-  background: var(--white);
-  box-shadow: var(--manu-box-shadow);
   z-index: 2;
-`
-
-const Header = styled(LayoutStyle.Header)`
-  background: var(--white);
-  box-shadow: var(--header-box-shadow);
-  z-index: 1;
-  height: 60px;
 `
 
 const Content = styled(LayoutStyle.Content)`
@@ -27,20 +20,26 @@ const Content = styled(LayoutStyle.Content)`
   overflow: auto;
 `
 
-const MainLayout: React.FC<{ children: React.ReactElement }> = ({ children }) => {
+export const MainLayout: React.FC<IComponentChildren> = ({ children }) => {
   return (
     <LayoutStyle>
-      <Sider>
-        <Menu/>
+      <Sider
+        breakpoint="lg"
+        collapsedWidth="100px"
+        width={'240px'}
+        onBreakpoint={(broken) => {
+          console.log(broken)
+        }}
+        onCollapse={(collapsed, type) => {
+          console.log(collapsed, type)
+        }}
+      >
+        <Menu />
       </Sider>
       <Layout>
-        <Header>Header</Header>
-        <Content>
-          {children}
-        </Content>
+        <Header />
+        <Content>{children}</Content>
       </Layout>
     </LayoutStyle>
   )
 }
-
-export default MainLayout

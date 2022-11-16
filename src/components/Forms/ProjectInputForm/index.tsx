@@ -12,8 +12,14 @@ export const ProjectInputForm = styled(Form)`
   }
 
   .ans-title {
-    font-size: var(--headline-font-size);
-    color: var(--dark-2);
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    
+    span {
+      font-size: var(--headline-font-size);
+      color: var(--dark-2);
+    }
   }
 
   .ant-collapse-content-box {

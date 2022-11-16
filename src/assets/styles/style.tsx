@@ -26,6 +26,8 @@ const GlobalStyle = createGlobalStyle`
     --white: #FFFFFF;
     --background: #F9FCFF;
     
+    --tooltip-color: #2C5477;
+    
     --scroll-bar-background: #F9F9F9;
     
     --forget-password-gray: #A2A2A2;
@@ -37,10 +39,11 @@ const GlobalStyle = createGlobalStyle`
     --light-border-ultramarine: #0D99FF;
      
     /*Typography*/
-    --font: Lexend;
-    
+    --font: 'Lexend';
+
     --large-hedline-font-size: 48px;
     --large-font-size: 38px;
+    --font-size-semilarge: 24px;
     --headline-font-size: 20px;
     --base-font-size: 16px;
     --font-size-semismall: 14px;
@@ -54,7 +57,8 @@ const GlobalStyle = createGlobalStyle`
     --base-line-height: 1.5;
     
     /*Shadows*/
-    --base-box-shadow: -4px -4px 4px rgba(42, 85, 120, 0.05), 4px 4px 4px rgba(42, 85, 120, 0.05); 
+    --base-box-shadow: -4px -4px 4px rgba(42, 85, 120, 0.05), 4px 4px 4px rgba(42, 85, 120, 0.05);
+    --search-box-shadow: inset 3px 0px 6px rgba(42, 85, 120, 0.16);
     --input-result-are-box-shadow: -4px -4px 4px rgb(42 85 120 / 5%), 4px 4px 4px rgb(42 85 120 / 5%);
     --input-box-shadow: 3px -3px 4px rgba(42, 85, 120, 0.25), -3px 3px 4px rgba(42, 85, 120, 0.25);
     --error-box-shadow: 0 0 0 2px #ff787533;
@@ -90,6 +94,70 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 3.5px;    
     padding: 5px;
     width: 12px;
+  }
+  
+  .ant-modal-wrap {
+    overflow: hidden;
+  }
+
+  .ant-select-dropdown {
+    padding: 0;
+    border: 1px solid var(--dark-5);
+    border-radius: 6px;
+    
+    .ant-select-item-option {
+      height: 58px;
+      padding: 19px 8px;
+      border-top: 1px solid var(--dark-border-ultramarine);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--dark-2);
+      font-size: var(--base-font-size);
+
+      &-active:not(.ant-select-item-option-disabled) {
+        background-color: var(--primary-light-2);
+      }
+
+      &-selected:not(.ant-select-item-option-disabled) {
+        font-weight: var(--font-semibold);
+        background-color: var(--primary-light-3);
+      }
+      
+      &:hover {
+        background: var(--primary-light-1);
+      }
+    }
+
+    .ant-select-item-option:last-child {
+      border-bottom: 1px solid var(--dark-border-ultramarine);
+    }
+  }
+
+  .result-area-tooltip {
+    
+    .ant-tooltip-inner {
+      background-color: var(--tooltip-color);
+      border-radius: 40px;
+      padding: 2rem;
+      width: 39rem;
+    }
+    
+    .ant-tooltip-arrow-content:before {
+      background: var(--tooltip-color);
+    }
+  }
+
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
   }
   .ant-tree-switcher{
     display: none

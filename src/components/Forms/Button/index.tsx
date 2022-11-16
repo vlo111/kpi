@@ -18,8 +18,8 @@ export const AsnButton = styled(Button)`
      height: 44px;
      width: 100%;
      font-size: var(--headline-font-size);
-     margin-top: 8px;
      max-width: 460px;
+     padding: 7px 32px;
   }
     
     &:hover {
@@ -35,7 +35,7 @@ export const AsnButton = styled(Button)`
     font-weight: var(--font-bold);
     padding: 5px 30px;
     font-size: var(--base-font-size);
-    height: auto;
+    height: 44px;
     border-radius: 5px;
 
     &:hover {

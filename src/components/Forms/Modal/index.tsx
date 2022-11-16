@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 import { Modal } from 'antd'
 
-const AsnModal = styled(Modal)`
-  width: clamp(18rem, 42vw, 40rem) !important;
+export const AsnModal = styled(Modal)`
+  width: clamp(18rem, 42vw, 40rem);
   
   .ant-modal-content {
-    padding: 32px 72px 52px;
+    padding: 5rem 4rem 5rem;
     border-radius: 20px;
   }
   
@@ -18,6 +18,8 @@ const AsnModal = styled(Modal)`
     font-size: var(--headline-font-size);
     color: var(--dark-3);
     border-bottom: none;
+    padding: 0;
+    padding-bottom: 2rem;
   }
   
   .ant-modal-footer {
@@ -28,6 +30,10 @@ const AsnModal = styled(Modal)`
       justify-content: space-evenly;
     }
   }
-`
 
-export default AsnModal
+  .ant-modal-title {
+    color: var(--dark-3);
+    font-weight: var(--font-semibold);
+    font-size: var(--headline-font-size);
+  }
+`
