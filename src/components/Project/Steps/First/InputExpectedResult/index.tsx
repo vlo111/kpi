@@ -1,16 +1,11 @@
 import React from 'react'
-import { IExpectedResult } from '../../../../../types/project'
 import { AsnButton } from '../../../../Forms/Button'
 import { Row } from 'antd'
 import InputAreaBox from '../InputAreaBox'
 import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
-import { FormInstance } from 'antd/lib/form/hooks/useForm'
+import { IExpectedResultProps } from '../../../../../types/project'
 
-const ExpectedResult: React.FC<{
-  id: string
-  results: IExpectedResult[]
-  form: FormInstance
-}> = ({ id, results, form }) => {
+const ExpectedResult: React.FC<IExpectedResultProps> = ({ id, results, form }) => {
   const { addNewResult } = useProjectInput()
 
   return (

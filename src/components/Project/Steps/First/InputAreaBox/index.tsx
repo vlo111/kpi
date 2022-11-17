@@ -1,17 +1,11 @@
 import React, { useState } from 'react'
-import { IExpectedResult, IMilestones } from '../../../../../types/project'
 import BoxContainer from './BoxContainer'
 import { ConfirmModal } from '../../../../Forms/Modal/ConfirmModal'
 import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
 import { ActionHandle } from '../../../../../types/context'
-import { FormInstance } from 'antd/lib/form/hooks/useForm'
+import { IInputAreaBoxProps } from '../../../../../types/project'
 
-const InputAreaBox: React.FC<{
-  list: IExpectedResult[] | IMilestones[]
-  resultAreaId: string
-  activityId?: string
-  form: FormInstance
-}> = ({
+const InputAreaBox: React.FC<IInputAreaBoxProps> = ({
   list,
   resultAreaId,
   activityId,
