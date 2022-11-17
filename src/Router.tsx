@@ -15,10 +15,11 @@ import ConfirmEmail from './pages/Auth/ConfirmMailSignIn'
 import SignUp from './pages/Auth/SignUp'
 import Applicants from './components/Team/ApplicantsList'
 import ConfirmMailSignUp from './pages/Auth/ConfirmMailSignUp'
+import ProjectInformation from './components/Project/Overview/ProjectInformation'
 import { Overview } from './components/Project/Overview'
 import { PATHS } from './helpers/constants'
 import { PublicRoutes } from './utils/PublicRoutes'
-import { CreateProject } from './pages/Project/CreatePages'
+import { CreateProject } from './pages/Project/CreateProject'
 import { Project } from './components/Project'
 import { PrivateRoutes } from './utils/PrivateRoutes'
 import { ProjectSteps } from './pages/Steps'
@@ -49,10 +50,8 @@ export const router = createBrowserRouter(
         <Route path={PATHS.PROJECTAREA} element={<ProjectSteps />} />
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
         <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
-        <Route
-          path={PATHS.CHANGEPASSWORDPROFILE}
-          element={<ChangePassword />}
-        />
+        <Route path={PATHS.CHANGEPASSWORDPROFILE} element={<ChangePassword />} />
+        <Route path={PATHS.PROJECTINFORMATION} element={<ProjectInformation />} />
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />

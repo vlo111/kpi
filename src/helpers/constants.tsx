@@ -21,7 +21,8 @@ export const PATHS = {
   CONFIRMEMAILSIGNUP: 'confirm-email/:email',
   OVERVIEW: 'project/overview/:id',
   PROJECTAREA: 'project/steps/:id',
-  TEMPLATECREATE: 'template/create'
+  TEMPLATECREATE: 'template/create',
+  PROJECTINFORMATION: 'project-information'
 }
 
 export const HEADERS = {

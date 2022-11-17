@@ -447,3 +447,65 @@ export const UsersPermissionsRule: () => any = () => [
     ]
   }
 ]
+export const generalInfo = [
+  {
+    title: 'Title',
+    description: 'AWDA'
+  },
+  {
+    title: 'Description',
+    description: `Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills
+    Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills`
+  },
+  {
+    title: 'Start Date',
+    description: '10/11/21'
+  },
+  {
+    title: 'End Date',
+    description: '10/10/26'
+  }
+]
+export const resultAndActivities = [
+  {
+    option: 'OP1.1',
+    count: '1000',
+    description: 'individuals with improved technical and soft skills following participation in USG-assisted workforce development programs'
+  },
+  {
+    option: 'OP1.2',
+    count: '50',
+    description: 'vulnerable persons including persons with disabilities (PWD) benefiting from U.S. Government supported work-based training and dual education programs'
+  },
+  {
+    option: 'OP1.3',
+    count: '50%',
+    description: 'female participants in USG-assisted programs '
+  },
+  {
+    option: 'OP1.4',
+    count: '20',
+    description: 'service providers trained who serve vulnerable persons'
+  },
+  {
+    option: 'OP1.5',
+    count: '1',
+    description: 'U.S. Government‐assisted organization and/or service delivery system that serves vulnerable persons strengthened'
+  }
+]
+
+export const organisations =
+  {
+    title: 'Organisations',
+    descriptions: ['Analysed', 'EIF', 'Synergy']
+  }
+export const regionas =
+  {
+    title: 'Regionas/Marzes',
+    descriptions: ['Ararat marz', 'Syunik marz', 'Gegharkunik marz']
+  }
+export const sectors =
+  {
+    title: 'Sectors',
+    descriptions: ['IT', 'Tourism', 'Hospitality']
+  }
