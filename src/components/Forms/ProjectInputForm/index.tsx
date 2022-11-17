@@ -61,13 +61,25 @@ export const ProjectInputForm = styled(Form)`
     margin-bottom: 3rem;
   }
 
-  button {
-    border: 1px solid var(--dark-5) !important;
-    color: var(--dark-2) !important;
+  div:not(:last-child) {
+    button {
+      border: 1px solid var(--dark-5) !important;
+      color: var(--dark-2) !important;
 
-    span {
-      font-size: var(--base-font-size) !important;
-      font-weight: var(--font-normal) !important;
+      span {
+        font-size: var(--base-font-size) !important;
+        font-weight: var(--font-normal) !important;
+      }
     }
   }
+
+  //button {
+  //  border: 1px solid var(--dark-5) !important;
+  //  color: var(--dark-2) !important;
+  //
+  //  span {
+  //    font-size: var(--base-font-size) !important;
+  //    font-weight: var(--font-normal) !important;
+  //  }
+  //}
 `
