@@ -72,14 +72,4 @@ export const ProjectInputForm = styled(Form)`
       }
     }
   }
-
-  //button {
-  //  border: 1px solid var(--dark-5) !important;
-  //  color: var(--dark-2) !important;
-  //
-  //  span {
-  //    font-size: var(--base-font-size) !important;
-  //    font-weight: var(--font-normal) !important;
-  //  }
-  //}
 `
