@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { IInputResultProps, IResultArea } from '../../../../../types/project'
+import { IInputResultProps } from '../../../../../types/project'
 import { AsnCollapse } from '../../../../AsnCollapse'
 import { Panel } from '../../../../Forms/AsnCollapse'
 import { InputResultArea } from '../../../../Forms/InputResultArea'
@@ -24,7 +24,7 @@ const InputResult: React.FC<IInputResultProps> = ({ resultArea, form }) => {
 
   return (
     <>
-      {resultArea.map((r, i) => (
+      {resultArea.map((r, i: number) => (
         <InputResultArea key={r.id}>
           <span className="ans-title">
             <span>Input Result Area {i + 1} *</span>
