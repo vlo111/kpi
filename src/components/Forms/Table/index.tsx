@@ -119,4 +119,7 @@ export const AsnTable: React.FC<TableProps<any>> = styled(Table)`
     .ant-table-tbody > .ant-table-measure-row > td {
       padding: 0 !important;
     }
+    .ant-pagination-item-link-icon{
+      color: var(--dark-1) !important;
+    }
 `
