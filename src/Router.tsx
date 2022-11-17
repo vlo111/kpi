@@ -19,7 +19,7 @@ import ProjectInformation from './components/Project/Overview/ProjectInformation
 import { Overview } from './components/Project/Overview'
 import { PATHS } from './helpers/constants'
 import { PublicRoutes } from './utils/PublicRoutes'
-import { CreateProject } from './pages/Project/CreatePages'
+import { CreateProject } from './pages/Project/CreateProject'
 import { Project } from './components/Project'
 import { PrivateRoutes } from './utils/PrivateRoutes'
 import { ProjectSteps } from './pages/Steps'
