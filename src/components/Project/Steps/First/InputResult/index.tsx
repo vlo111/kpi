@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { IResultArea } from '../../../../../types/project'
+import { IInputResultProps } from '../../../../../types/project'
 import { AsnCollapse } from '../../../../AsnCollapse'
 import { Panel } from '../../../../Forms/AsnCollapse'
 import { InputResultArea } from '../../../../Forms/InputResultArea'
@@ -10,14 +10,10 @@ import { ReactComponent as InfoSvg } from '../../../../../assets/icons/info.svg'
 import { ConfirmModal } from '../../../../Forms/Modal/ConfirmModal'
 import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
 import { ActionHandle } from '../../../../../types/context'
-import { FormInstance } from 'antd/lib/form/hooks/useForm'
 import { Tooltip } from 'antd'
 import { title, TollTipText } from '../../../../../utils/ProjectUtils'
 
-const InputResult: React.FC<{
-  resultArea: IResultArea[]
-  form: FormInstance
-}> = ({ resultArea, form }) => {
+const InputResult: React.FC<IInputResultProps> = ({ resultArea, form }) => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState(false)
   const [selectDeleteId, setSelectDeleteId] = useState('')
   const { deleteResultArea } = useProjectInput()
@@ -28,7 +24,7 @@ const InputResult: React.FC<{
 
   return (
     <>
-      {resultArea.map((r, i) => (
+      {resultArea.map((r, i: number) => (
         <InputResultArea key={r.id}>
           <span className="ans-title">
             <span>Input Result Area {i + 1} *</span>

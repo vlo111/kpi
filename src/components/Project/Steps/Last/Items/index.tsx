@@ -6,8 +6,12 @@ import AsnInput from '../../../../Forms/Input'
 import { AsnButton } from '../../../../Forms/Button'
 import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.svg'
 import { Form } from '../../../../Forms/Form'
-import { rules } from '../../../../../utils/ProjectUtils'
+import {
+  placeHolderInputDetails,
+  rules
+} from '../../../../../utils/ProjectUtils'
 import styled from 'styled-components'
+import { IProjectDetailsItems } from '../../../../../types/project'
 
 const FormList = styled(Form.List)`
   button {
@@ -17,13 +21,11 @@ const FormList = styled(Form.List)`
   }
 `
 
-export const Items: React.FC<{
-  name: string
-}> = ({ name }) => {
+export const Items: React.FC<IProjectDetailsItems> = ({ name, onDelete }) => {
   return (
     <FormList name={name}>
       {(fields: any[], { add, remove }: any, { errors }: any) => (
-        <Row>
+        <Row gutter={[16, 16]}>
           <Col span={24}>
             <AsnCollapse key={name} id={name}>
               <Panel key={name} className="input-rows" header={name}>
@@ -32,25 +34,30 @@ export const Items: React.FC<{
                     <Col span={24}>
                       <Form.Item required={false} key={field.key}>
                         <Row>
-                          <Col span={index ? 23 : 24}>
+                          <Col span={fields.length > 1 ? 23 : 24}>
                             <Form.Item
                               {...field}
                               validateTrigger={['onChange', 'onBlur']}
                               {...rules(2, 256)}
-                              noStyle
                             >
-                              <AsnInput placeholder="passenger name" />
+                              <AsnInput
+                                placeholder={placeHolderInputDetails(name)}
+                              />
                             </Form.Item>
                           </Col>
                           <Col span={1}>
                             {fields.length > 1
                               ? (
-                              <div className="delete-result">
-                                <DeleteSvg
-                                  className="dynamic-delete-button"
-                                  onClick={() => remove(field.name)}
-                                />
-                              </div>
+                              <Row align={'middle'} className="delete-item">
+                                <Col span={12}>
+                                  <DeleteSvg
+                                    className="dynamic-delete-button"
+                                    onClick={() => {
+                                      onDelete(remove, field.name)
+                                    }}
+                                  />
+                                </Col>
+                              </Row>
                                 )
                               : null}
                           </Col>
@@ -59,8 +66,8 @@ export const Items: React.FC<{
                     </Col>
                   </Row>
                 ))}
-                <Row>
-                  <Col>
+                <Row className="last-item-footer">
+                  <Col span={24}>
                     <Form.Item>
                       <AsnButton onClick={() => add()}>+Add {name}</AsnButton>
                     </Form.Item>
