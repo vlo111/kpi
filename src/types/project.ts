@@ -180,6 +180,32 @@ export interface ActivityNamesProps {
   setActiveName: React.Dispatch<React.SetStateAction<number | undefined>>
 }
 
+export interface SubActivityProps {
+  multiple: boolean
+  activity: string
+  subActivities: string[]
+}
+export interface GeneralInfoProps {
+  title: string
+  description: string
+}
+export interface ResultAndActivitiesProps {
+  option: string
+  description: string
+  count: string
+  divider: boolean
+}
+
+export interface ActivityNameProps {
+  activityName: string
+  divider: boolean
+}
+export interface ProjectsDetailProps {
+  info: {
+    title: string
+    descriptions: string[]
+  }
+}
 export type AddManagerHandle = (values: unknown) => void
 
 export interface IDetail {
