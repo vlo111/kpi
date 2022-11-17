@@ -230,3 +230,8 @@ export interface ICreateTemplate {
 }
 
 export type InputResultTitle = (id: string, prefix: string, placeholder: string) => JSX.Element
+
+export interface IProjectDetailsItems {
+  name: string
+  onDelete: (remove: (name: string) => void, fields: string) => void
+}
