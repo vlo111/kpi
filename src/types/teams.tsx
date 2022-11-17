@@ -1,3 +1,5 @@
+import { TablePaginationConfig } from 'antd'
+
 export interface TemUsersType {
   status: string
   name: string
@@ -5,6 +7,10 @@ export interface TemUsersType {
   picture: string
   viewLevel: string
   key: string
+}
+
+export interface TableParams {
+  pagination?: TablePaginationConfig
 }
 
 export interface UsersType {

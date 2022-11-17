@@ -9,15 +9,12 @@ import { ConfirmModal } from '../../Forms/Modal/ConfirmModal'
 import ApplicantPermissionInfoModal from './AppllicantPermissionModal'
 import { AsnTable } from '../../Forms/Table'
 import qs from 'qs'
-import { UsersType } from '../../../types/teams'
+import { TableParams, UsersType } from '../../../types/teams'
 
 const ApplicantList = styled.div`
     margin-top: 8px;
     height: calc(100% - 75px);
 `
-interface TableParams {
-  pagination?: TablePaginationConfig
-}
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const getRandomuserParams = (params: TableParams) => ({
@@ -30,7 +27,7 @@ const ApplicantsList: React.FC<{ }> = () => {
   const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState(false)
   const [showModal, setShowModal] = useState('')
   const [openApplicantPermissionModal, setOpenApplicantPermissionModal] = useState(false)
-  const columns: any = [
+  const columns = [
     {
       title: 'Name Surname',
       render: (item: UsersType) => {
