@@ -22,7 +22,7 @@ import { CreateProject } from './pages/Project/CreateProject'
 import { Project } from './components/Project'
 import { PrivateRoutes } from './utils/PrivateRoutes'
 import { ProjectSteps } from './pages/Steps'
-import UserProfile from './components/Header/UserProfile'
+import UserProfile from './components/Users/UserProfile'
 import ChangePassword from './components/Header/ChangePassword'
 
 export const router = createBrowserRouter(

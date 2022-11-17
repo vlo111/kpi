@@ -18,23 +18,6 @@ const FormList = styled(Form.List)`
   }
 `
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 4 }
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 20 }
-  }
-}
-const formItemLayoutWithOutLabel = {
-  wrapperCol: {
-    xs: { span: 24, offset: 0 },
-    sm: { span: 20, offset: 4 }
-  }
-}
-
 // export const Items: React.FC<{
 //   header: string
 //   items: IDetail[]
@@ -77,47 +60,83 @@ export const Items: React.FC<{
       <FormList name={name}>
         {(fields: any[], { add, remove }: any, { errors }: any) => (
             <>
-              {fields.map((field, index) => (
-                  <Form.Item
-                      {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                      required={false}
-                      key={field.key}
-                  >
-                    <Form.Item
-                        {...field}
-                        validateTrigger={['onChange', 'onBlur']}
-                        rules={[
-                          {
-                            required: true,
-                            whitespace: true,
-                            message: "Please input passenger's name or delete this field."
-                          }
-                        ]}
-                        noStyle
-                    >
-                      <AsnInput placeholder="passenger name" />
-                    </Form.Item>
-                    {fields.length > 1
-                      ? (
-                            <DeleteSvg
-                                className="dynamic-delete-button"
-                                onClick={() => remove(field.name)}
-                            />
-                        )
-                      : null}
-                  </Form.Item>
-              ))}
-              <Row>
-                <Col>
-                  <Form.Item>
-                    <AsnButton
-                        onClick={() => add()}
-                    >
-                      +Add {name}
-                    </AsnButton>
-                  </Form.Item>
-                </Col>
-              </Row>
+                <AsnCollapse key={name} id={name}>
+                    <Panel key={name} className="input-rows" header={name}>
+                        {/* {items.map((r: IDetail, i: number) => ( */}
+                        {/*    <Row key={`${r.id}${i}`}> */}
+                        {/*        <Form.Item */}
+                        {/*            style={{ width: items.length > 1 ? '99%' : '100%' }} */}
+                        {/*            name={r.id} */}
+                        {/*            {...rules(2, 256)} */}
+                        {/*        > */}
+                        {/*            <AsnInput placeholder="Organisation name" /> */}
+                        {/*        </Form.Item> */}
+                        {/*        {items.length > 1 && ( */}
+                        {/*            <div */}
+                        {/*                className="delete-result" */}
+                        {/*                onClick={() => deleteItemHandle([header, r.id])} */}
+                        {/*            > */}
+                        {/*                <DeleteSvg /> */}
+                        {/*            </div> */}
+                        {/*        )} */}
+                        {/*    </Row> */}
+                        {/* ))} */}
+                        {fields.map((field, index) => (
+                            <Row key={index}>
+                                {/* <Form.Item */}
+                                {/*    style={{ width: items.length > 1 ? '99%' : '100%' }} */}
+                                {/*    name={r.id} */}
+                                {/*    {...rules(2, 256)} */}
+                                {/* > */}
+                                {/*    <AsnInput placeholder="Organisation name" /> */}
+                                {/* </Form.Item> */}
+                                {/* {items.length > 1 && ( */}
+                                {/*    <div */}
+                                {/*        className="delete-result" */}
+                                {/*        onClick={() => deleteItemHandle([header, r.id])} */}
+                                {/*    > */}
+                                {/*        <DeleteSvg /> */}
+                                {/*    </div> */}
+                                {/* )} */}
+                                <Form.Item
+                                    required={false}
+                                    key={field.key}
+                                >
+                                    <Form.Item
+                                        {...field}
+                                        validateTrigger={['onChange', 'onBlur']}
+                                        {...rules(2, 256)}
+                                        noStyle
+                                    >
+                                        <AsnInput placeholder="passenger name" />
+                                    </Form.Item>
+                                    {fields.length > 1
+                                      ? (
+                                          <div className="delete-result">
+                                              <DeleteSvg
+                                                  className="dynamic-delete-button"
+                                                  onClick={() => remove(field.name)}
+                                              />
+                                          </div>
+                                        )
+                                      : null}
+                                </Form.Item>
+                            </Row>
+                        ))}
+                        <Row>
+                            <Col>
+                                <Form.Item>
+                                    <AsnButton
+                                        onClick={() => add()}
+                                    >
+                                        +Add {name}
+                                    </AsnButton>
+                                </Form.Item>
+                            </Col>
+                        </Row>/
+
+                    </Panel>
+                </AsnCollapse>
             </>
         )}
       </FormList>
