@@ -9,6 +9,7 @@ import { ConfirmModal } from '../../Forms/Modal/ConfirmModal'
 import ApplicantPermissionInfoModal from './AppllicantPermissionModal'
 import { AsnTable } from '../../Forms/Table'
 import qs from 'qs'
+import { UsersType } from '../../../types/teams'
 
 const ApplicantList = styled.div`
     margin-top: 8px;
@@ -32,7 +33,7 @@ const ApplicantsList: React.FC<{ }> = () => {
   const columns: any = [
     {
       title: 'Name Surname',
-      render: (item: { picture: { large: string | undefined }, name: { first: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined, last: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined } }) => {
+      render: (item: UsersType) => {
         return (
           <Space direction='horizontal'>
             <Space align='start'>
@@ -48,14 +49,14 @@ const ApplicantsList: React.FC<{ }> = () => {
     {
       title: 'Email',
       dataIndex: 'email',
-      render: (item: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined) => {
+      render: (item: UsersType['name']['first']) => {
         return <h2>{item}</h2>
       }
     },
     {
       title: 'Access level',
       dataIndex: 'gender',
-      render: (item: string | number | boolean | React.ReactFragment | React.ReactPortal | React.ReactElement<any, string | React.JSXElementConstructor<any>> | null | undefined) => {
+      render: (item: UsersType['name']['first']) => {
         return (
         <Space direction='horizontal'>
           <Space align='start'>
@@ -71,7 +72,7 @@ const ApplicantsList: React.FC<{ }> = () => {
     {
       title: 'User status',
       dataIndex: 'gender',
-      render: (item: string | number | boolean | React.ReactFragment | React.ReactElement<any, string | React.JSXElementConstructor<any>> | null | undefined) => {
+      render: (item: UsersType['boolean']['status']) => {
         return (
           <Space
             className={`${item === 'male' ? 'user_status_pending' : 'user_status_resolved'}`}
