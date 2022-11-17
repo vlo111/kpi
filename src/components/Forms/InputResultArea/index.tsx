@@ -137,6 +137,18 @@ export const InputResultArea = styled.div`
       display: flex;
       flex-direction: column;
       gap: 2rem;
+      
+      .panel:first-child {
+        input:not(.ant-input-status-error), textarea:not(.ant-input-status-error), .ant-select-selector {
+          border: 1px solid var(--dark-5) !important;
+
+          &:hover,
+          &:focus {
+            border: 1px solid var(--dark-5) !important;
+            box-shadow: none !important;
+          }
+        }
+      }
 
       .panel {
         ${areaPanelBox('var(--secondary-light-amber)')}

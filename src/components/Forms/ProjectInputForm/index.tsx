@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Form } from '../Form'
 
 export const ProjectInputForm = styled(Form)`
-  width: clamp(19rem,73vw,90rem);
+  width: clamp(19rem, 73vw, 90rem);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -15,7 +15,7 @@ export const ProjectInputForm = styled(Form)`
     display: flex;
     gap: 0.5rem;
     align-items: center;
-    
+
     span {
       font-size: var(--headline-font-size);
       color: var(--dark-2);
@@ -32,7 +32,7 @@ export const ProjectInputForm = styled(Form)`
     }
 
     .ant-btn-primary {
-      margin-left: 1rem
+      margin-left: 1rem;
     }
   }
 
@@ -52,12 +52,22 @@ export const ProjectInputForm = styled(Form)`
       width: 100%;
     }
   }
-  
+
   .footer {
     display: flex;
     gap: 6rem;
     justify-content: end;
     margin-top: 3rem;
     margin-bottom: 3rem;
+  }
+
+  button {
+    border: 1px solid var(--dark-5) !important;
+    color: var(--dark-2) !important;
+
+    span {
+      font-size: var(--base-font-size) !important;
+      font-weight: var(--font-normal) !important;
+    }
   }
 `
