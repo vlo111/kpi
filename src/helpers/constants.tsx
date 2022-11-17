@@ -20,7 +20,8 @@ export const PATHS = {
   CHANGEPASSWORDPROFILE: 'change-password-profile',
   CONFIRMEMAILSIGNUP: 'confirm-email/:email',
   OVERVIEW: 'project/overview/:id',
-  PROJECTAREA: 'project/steps/:id'
+  PROJECTAREA: 'project/steps/:id',
+  PROJECTINFORMATION: 'project-information'
 }
 
 export const HEADERS = {
@@ -82,10 +83,10 @@ export const PlaceHolderDescription =
   'Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills'
 
 export const PlaceHolderExpectedResult =
-    'individuals with improved technical and soft skills following participation in USG-assisted workforce development programs'
+  'individuals with improved technical and soft skills following participation in USG-assisted workforce development programs'
 
 export const PlaceHolderActivityMilestone =
-    'skill mapping study completed and study report, summarizing findings and recommendations developed.'
+  'skill mapping study completed and study report, summarizing findings and recommendations developed.'
 
 export const StepList = [
   {
