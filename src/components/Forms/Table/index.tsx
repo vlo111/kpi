@@ -5,7 +5,7 @@ import { TableProps } from 'antd/es/table'
 export const AsnTable: React.FC<TableProps<any>> = styled(Table)`
     height: 100%;
     td{
-       padding: 9px 8px !important;
+       padding: .9vh 8px !important;
        border-bottom: 0.5px solid var(--light-border);
        
         &:last-child{
@@ -44,11 +44,11 @@ export const AsnTable: React.FC<TableProps<any>> = styled(Table)`
     }
     th{
       font-weight: var(--font-normal) !important;
-      font-size: var(--font-size-small) !important;
+      font-size: var(--base-font-size) !important;
       background: var(--background) !important;
-      color: var(--dark-4);
+      color: var(--dark-4) !important;
       border-top: 0.5px solid var(--light-border);
-      padding: 14px 8px !important;
+      padding: 1.1vh 8px !important;
 
       &::before{
         content: none !important;
@@ -62,6 +62,7 @@ export const AsnTable: React.FC<TableProps<any>> = styled(Table)`
     }
     .ant-table-pagination-right {
       justify-content: center;
+      align-items: center;
     }
     .ant-spin-container {
       position: relative;
@@ -102,7 +103,7 @@ export const AsnTable: React.FC<TableProps<any>> = styled(Table)`
         }
       }
     }
-    .ant-space-item{
+    .ant-space-item {
      svg{
         &:hover{
             cursor: pointer;
@@ -112,7 +113,13 @@ export const AsnTable: React.FC<TableProps<any>> = styled(Table)`
     .ant-table-pagination.ant-pagination {
      margin: 3px 0;
     }
+    .ant-spin-dot-item {
+      background-color: var(--dark-border-ultramarine);
+    }
     .ant-table-tbody > .ant-table-measure-row > td {
       padding: 0 !important;
+    }
+    .ant-pagination-item-link-icon{
+      color: var(--dark-1) !important;
     }
 `
