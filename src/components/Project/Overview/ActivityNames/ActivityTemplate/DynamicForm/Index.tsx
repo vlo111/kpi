@@ -49,7 +49,7 @@ const DynamicForm: React.FC = () => {
               overflow: 'auto'
             }} >
               {fields.map((field) => (
-                <Form.Item required={false} key={field.key}>
+                <Form.Item key={field.key}>
                   <Form.Item
                     {...field}
                     validateTrigger={['onChange', 'onBlur']}

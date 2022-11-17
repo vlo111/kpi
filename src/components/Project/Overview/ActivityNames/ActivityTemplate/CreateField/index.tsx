@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent } from 'react'
 import styled from 'styled-components'
 import { Select } from 'antd'
 import { AsnSelect } from '../../../../../Forms/Select'
@@ -7,8 +7,7 @@ import AsnInput from '../../../../../Forms/Input'
 import { Form } from '../../../../../Forms/Form'
 import { ReactComponent as CloseIcon } from '../../../../../../assets/icons/closeIcon.svg'
 import { ICreateFieldsProps } from '../../../../../../types/project'
-import { v4 as uuidv4 } from 'uuid'
-import { answerTypeOptions, VALIDATE_MESSAGES } from '../../../../../../helpers/constants'
+import { answerTypeOptions } from '../../../../../../helpers/constants'
 import DynamicForm from '../DynamicForm/Index'
 
 const { Option } = Select
@@ -62,14 +61,10 @@ const TopField = styled.div`
 
 const CreateFields: React.FC<ICreateFieldsProps> = ({
   setIsVisibleAddField,
-  templateData,
-  setTemplateData,
   questionType,
-  setQuestionType
+  setQuestionType,
+  setQuestionValue
 }) => {
-  const [form] = Form.useForm()
-  const [questionValue, setQuestionValue] = useState('')
-
   const onClosedAddVisibleField = (): void => {
     setIsVisibleAddField(false)
   }
@@ -81,83 +76,41 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
   const onQuestionValue = (event: ChangeEvent<HTMLInputElement>): void => {
     setQuestionValue(event.target.value)
   }
-  const onFinish = (values: any): void => {
-    setTemplateData([
-      ...templateData,
-      {
-        id: uuidv4(),
-        title: values.question,
-        subTitle: [values.answerType],
-        option:
-        values.answerType === 'Dropdown options'
-          ? [...values.names]
-          : [],
-        switch: false,
-        disabled: false,
-        status: 1
-      }
-    ])
-    setIsVisibleAddField(false)
-    setQuestionType('Choose answer type')
-    console.log(values, 'values')
-  }
-
-  const initFields = [
-    {
-      name: ['question'],
-      value: questionValue === '' ? '' : questionValue
-    },
-    {
-      name: ['answerType'],
-      value: questionType === '' ? 'Choose answer type' : questionType
-    },
-    {
-      name: ['names'],
-      value: ['']
-    }
-  ]
 
   return (
     <CreateField>
-      <Form
-        fields={initFields}
-        form={form}
-        validateMessages={VALIDATE_MESSAGES}
-        onFinish={onFinish}
-      >
-        <TopField>
-          <div className="closeIcon">
-            <IconButton onClick={onClosedAddVisibleField}>
-              <CloseIcon />
-            </IconButton>
-          </div>
-          <Form.Item
-            name="question"
-            rules={[{ required: true }, { min: 1 }, { max: 256 }]}
-          >
-            <AsnInput placeholder="Add question" onChange={onQuestionValue} />
-          </Form.Item>
-          <Form.Item name="answerType">
-            <AsnSelect onChange={onSelectChange}>
-              {answerTypeOptions.map((option) => (
-                <Option
-                  value={option}
-                  key={option}
-                  className="customSelectOption"
-                >
-                  {option}
-                </Option>
-              ))}
-            </AsnSelect>
-          </Form.Item>
-        </TopField>
-        {questionType === 'Dropdown options' ? <DynamicForm /> : null}
-        <Form.Item>
-          <AsnButton type="primary" htmlType="submit" >
-            Add
-          </AsnButton>
+      <TopField>
+        <div className="closeIcon">
+          <IconButton onClick={onClosedAddVisibleField}>
+            <CloseIcon />
+          </IconButton>
+        </div>
+        <Form.Item
+          name="question"
+          rules={[{ required: true }, { min: 1 }, { max: 256 }]}
+        >
+          <AsnInput placeholder="Add question" onChange={onQuestionValue} />
         </Form.Item>
-      </Form>
+        <Form.Item name="answerType">
+          <AsnSelect onChange={onSelectChange}>
+            {answerTypeOptions.map((option) => (
+              <Option
+                value={option}
+                key={option}
+                className="customSelectOption"
+              >
+                {option}
+              </Option>
+            ))}
+          </AsnSelect>
+        </Form.Item>
+      </TopField>
+      {questionType === 'Dropdown options' ? <DynamicForm /> : null}
+      <Form.Item>
+        <AsnButton type="primary" htmlType="submit">
+          Add
+        </AsnButton>
+      </Form.Item>
     </CreateField>
   )
 }

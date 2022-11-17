@@ -241,10 +241,17 @@ export interface ITemplateData {
 
 export interface ICreateFieldsProps {
   setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
-  templateData: ITemplateData[]
-  setTemplateData: React.Dispatch<React.SetStateAction<ITemplateData[] | []>>
   questionType: string
   setQuestionType: React.Dispatch<React.SetStateAction<string>>
+  setQuestionValue: React.Dispatch<React.SetStateAction<string>>
+}
+
+export interface IQuestionsRow {
+  item: ITemplateData
+  templateData: ITemplateData[]
+  setTemplateData: React.Dispatch<React.SetStateAction<ITemplateData[]>>
+  setQuestionType: React.Dispatch<React.SetStateAction<string>>
+  setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export type InputResultTitle = (id: string, prefix: string, placeholder: string) => JSX.Element
