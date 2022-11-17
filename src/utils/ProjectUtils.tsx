@@ -77,3 +77,5 @@ export const title: InputResultTitle = (id, prefix, placeholder) => (<Form.Item
 >
     <AsnInput prefix={prefix} placeholder={placeholder}/>
 </Form.Item>)
+
+export const placeHolderInputDetails: (name: string) => string = (name) => name === 'Organisations' ? 'Your Organisation' : name === 'Regions' ? 'Region/Marz* ' : 'Example: IT*'
