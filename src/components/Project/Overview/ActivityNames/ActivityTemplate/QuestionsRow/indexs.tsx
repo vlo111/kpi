@@ -8,6 +8,8 @@ import { ReactComponent as EditIcon } from '../../../../../../assets/icons/edit.
 import { ReactComponent as DeleteIcon } from '../../../../../../assets/icons/delete.svg'
 import { Form } from '../../../../../Forms/Form'
 import { IQuestionsRow, ITemplateData } from '../../../../../../types/project'
+import { AsnModal } from '../../../../../Forms/Modal'
+import { AsnButton } from '../../../../../Forms/Button'
 
 const CourseList = styled.div`
   display: flex;
@@ -39,6 +41,14 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
   setIsVisibleAddField
 }) => {
   const [rowId, setRowId] = useState<string[]>([])
+  const [itemId, setItemId] = useState<string>('')
+  const [isDeletedFieldModal, setIsDeletedFieldModal] =
+    useState<boolean>(false)
+  const [openPopover, setOpenPopover] = useState<boolean>(false)
+
+  const handleOpenChange = (newOpen: boolean): void => {
+    setOpenPopover(newOpen)
+  }
 
   const onOpenInputClick = (id: string): void => {
     if (!rowId.includes(id)) {
@@ -47,10 +57,13 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
     if (rowId.length > 0 && rowId.includes(id)) {
       setRowId(rowId.filter((item) => item !== id))
     }
+    setOpenPopover(false)
   }
 
   const onDeletedQuestion = (id: string): void => {
-    setTemplateData(templateData.filter((item: ITemplateData) => item.id !== id))
+    setItemId(id)
+    setIsDeletedFieldModal(true)
+    setOpenPopover(false)
   }
 
   const onEditedQuestion = (id: string): void => {
@@ -64,6 +77,17 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
       setIsVisibleAddField(true)
       setQuestionType(item?.subTitle[0] ?? '')
     }
+    setOpenPopover(false)
+  }
+
+  const handleCancel = (): void => {
+    setIsDeletedFieldModal(false)
+  }
+  const handleDelete = (): void => {
+    setTemplateData(
+      templateData.filter((item: ITemplateData) => item.id !== itemId)
+    )
+    setIsDeletedFieldModal(false)
   }
 
   const content = (id: string): ReactElement => (
@@ -141,6 +165,8 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
                 content={() => content(item.id)}
                 trigger="click"
                 overlayClassName="menuPopover"
+                onOpenChange={handleOpenChange}
+                open={openPopover}
               >
                 <IconButton>
                   <MenuIcon />
@@ -160,6 +186,23 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
         </Form.Item>
           )
         : null}
+      <AsnModal
+        footer={false}
+        open={isDeletedFieldModal}
+        title="Are you sure you want to delete this field?"
+        onCancel={handleCancel}
+      >
+        <Row gutter={[60, 0]} align="middle" justify="center">
+          <Col>
+            <AsnButton type="primary" onClick={handleDelete}>
+              Delete
+            </AsnButton>
+          </Col>
+          <Col>
+            <AsnButton onClick={handleCancel}>Cancel</AsnButton>
+          </Col>
+        </Row>
+      </AsnModal>
     </Fragment>
   )
 }
