@@ -53,7 +53,7 @@ const SignIn: React.FC = () => {
              rules={[{ required: true }, { type: 'email' }, { max: 128 }]}
              style={ { marginBottom: '32px' } }
              >
-              <AsnInput placeholder="Email Address" />
+              <AsnInput placeholder="Email Address" style={{ height: '32px', fontSize: '14px' }} />
             </Form.Item>
             <Form.Item name="password" label="Password"
               {...rulesPassword({ min: 8, message: passwordMinMaxError }, { max: 64, message: passwordMinMaxError }, { pattern: passwordRegExp, message: passwordErrorMessage })}
