@@ -44,7 +44,7 @@ const CreateTemplate: React.FC<ICreateTemplate> = ({
   }
 
   const onNextClick = (): void => {
-    navigate(PATHS.TEMPLATECREATE)
+    navigate(`/${PATHS.TEMPLATECREATE}`)
   }
 
   const initFields = [
