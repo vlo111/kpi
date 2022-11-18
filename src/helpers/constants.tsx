@@ -68,6 +68,13 @@ export const VALIDATE_MESSAGES = {
   string: { range: '${label} must be between ${min} and ${max} characters' }
 }
 
+export const VALIDATE_PROJECT_DETAILS_MESSAGES = {
+  // eslint-disable-next-line no-template-curly-in-string
+  required: 'Please enter a valid name',
+  // eslint-disable-next-line no-template-curly-in-string
+  string: { range: 'The name must be between ${min} and ${max} characters' }
+}
+
 export const VALIDATE_MESSAGES_PROJECT_INPUT = {
   // eslint-disable-next-line no-template-curly-in-string
   required: '',

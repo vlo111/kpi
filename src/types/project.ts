@@ -1,5 +1,6 @@
 import { Moment } from 'moment'
 import React from 'react'
+import { FormInstance } from 'antd/lib/form/hooks/useForm'
 
 export type DisabledDate = (current: Moment, item: string) => boolean
 
@@ -255,3 +256,34 @@ export interface IQuestionsRow {
 }
 
 export type InputResultTitle = (id: string, prefix: string, placeholder: string) => JSX.Element
+
+export interface IProjectDetailsItems {
+  name: string
+  onDelete: (remove: (name: string) => void, fields: string) => void
+}
+
+export interface IProjectItemsBox {
+  item: IExpectedResult | IMilestones
+  index: number
+  accessDelete: boolean
+  onDelete: (item: string, id: string) => void
+  form: FormInstance
+}
+
+export interface IInputAreaBoxProps {
+  list: IExpectedResult[] | IMilestones[]
+  resultAreaId: string
+  activityId?: string
+  form: FormInstance
+}
+
+export interface IExpectedResultProps {
+  id: string
+  results: IExpectedResult[]
+  form: FormInstance
+}
+
+export interface IInputResultProps {
+  resultArea: IResultArea[]
+  form: FormInstance
+}
