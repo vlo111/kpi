@@ -244,7 +244,6 @@ export interface ICreateFieldsProps {
   setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
   questionType: string
   setQuestionType: React.Dispatch<React.SetStateAction<string>>
-  setQuestionValue: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface IQuestionsRow {

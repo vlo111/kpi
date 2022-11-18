@@ -113,7 +113,6 @@ const ActivityTemplate: React.FC = () => {
   const [isVisibleAddField, setIsVisibleAddField] = useState<boolean>(false)
   const [templateData, setTemplateData] = useState<ITemplateData[] | []>([])
   const [questionType, setQuestionType] = useState('')
-  const [questionValue, setQuestionValue] = useState('')
   const [form] = Form.useForm()
 
   useEffect(() => {
@@ -145,7 +144,7 @@ const ActivityTemplate: React.FC = () => {
   const initFields = [
     {
       name: ['question'],
-      value: questionValue === '' ? '' : questionValue
+      value: form.getFieldValue('question') === '' ? '' : form.getFieldValue('question')
     },
     {
       name: ['answerType'],
@@ -208,7 +207,6 @@ const ActivityTemplate: React.FC = () => {
               setIsVisibleAddField={setIsVisibleAddField}
               questionType={questionType}
               setQuestionType={setQuestionType}
-              setQuestionValue={setQuestionValue}
             />
               )}
           <FormsStructureContainer>

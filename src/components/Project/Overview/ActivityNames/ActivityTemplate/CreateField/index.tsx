@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Select } from 'antd'
 import { AsnSelect } from '../../../../../Forms/Select'
@@ -62,8 +62,7 @@ const TopField = styled.div`
 const CreateFields: React.FC<ICreateFieldsProps> = ({
   setIsVisibleAddField,
   questionType,
-  setQuestionType,
-  setQuestionValue
+  setQuestionType
 }) => {
   const onClosedAddVisibleField = (): void => {
     setIsVisibleAddField(false)
@@ -71,10 +70,6 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
 
   const onSelectChange = (value: any): void => {
     setQuestionType(value)
-  }
-
-  const onQuestionValue = (event: ChangeEvent<HTMLInputElement>): void => {
-    setQuestionValue(event.target.value)
   }
 
   return (
@@ -89,7 +84,7 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
           name="question"
           rules={[{ required: true }, { min: 1 }, { max: 256 }]}
         >
-          <AsnInput placeholder="Add question" onChange={onQuestionValue} />
+          <AsnInput placeholder="Add question"/>
         </Form.Item>
         <Form.Item name="answerType">
           <AsnSelect onChange={onSelectChange}>
