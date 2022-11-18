@@ -1,5 +1,12 @@
-import { IActivity, IExpectedResult, IManager, IResultArea, IMilestones } from '../types/project'
 import { TemUsersType } from '../types/teams'
+import {
+  IActivity,
+  IExpectedResult,
+  IManager,
+  IResultArea,
+  IMilestones,
+  ITemplateData
+} from '../types/project'
 import { v4 as uuidv4 } from 'uuid'
 
 export const OrganizationList: Array<{ name: string, id: string }> = Array.from(
@@ -75,33 +82,133 @@ export const DefaultResultArea: () => IResultArea = () => ({
   activity: [DefaultActivity()]
 })
 
-export const ManagerList: () => IManager[] = () => [{
-  id: '1',
-  firstName: 'Volodya',
-  color: `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`,
-  lastName: 'Vardanyan',
-  email: 'vv@vv.vv',
-  position: 'manager',
-  assigned: 'Project'
-}, {
-  id: '2',
-  firstName: 'Leo',
-  color: `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`,
-  lastName: 'Messi',
-  email: 'aa@aa.bb',
-  position: 'manager',
-  assigned: 'Project'
-}]
+export const ManagerList: () => IManager[] = () => [
+  {
+    id: '1',
+    firstName: 'Volodya',
+    color: `#${((Math.random() * 0xffffff) << 0)
+      .toString(16)
+      .padStart(6, '0')}`,
+    lastName: 'Vardanyan',
+    email: 'vv@vv.vv',
+    position: 'manager',
+    assigned: 'Project'
+  },
+  {
+    id: '2',
+    firstName: 'Leo',
+    color: `#${((Math.random() * 0xffffff) << 0)
+      .toString(16)
+      .padStart(6, '0')}`,
+    lastName: 'Messi',
+    email: 'aa@aa.bb',
+    position: 'manager',
+    assigned: 'Project'
+  }
+]
 
 export const InitManager = {
   assigned: '',
   email: '',
-  color: `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`,
+  color: `#${((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')}`,
   firstName: '',
   id: '',
   lastName: '',
   position: ''
 }
+
+export const courseTemplateData: ITemplateData[] | [] = [
+  {
+    id: uuidv4(),
+    title: 'Title',
+    subTitle: [''],
+    option: [],
+    switch: true,
+    disabled: true,
+    status: 0
+  },
+  {
+    id: uuidv4(),
+    title: 'Organization',
+    subTitle: ['EIF', 'Analysed'],
+    option: [],
+    switch: true,
+    disabled: true,
+    status: 0
+  },
+  {
+    id: uuidv4(),
+    title: 'Activity Manager',
+    subTitle: [''],
+    option: [],
+    switch: true,
+    disabled: true,
+    status: 0
+  },
+  {
+    id: uuidv4(),
+    title: 'Sector',
+    subTitle: ['IT', 'Tourism', 'Hospitality'],
+    option: [],
+    switch: true,
+    disabled: true,
+    status: 0
+  },
+  {
+    id: uuidv4(),
+    title: 'Region',
+    subTitle: ['Ararat marz', 'Gegharkunik', 'Syunik'],
+    option: [],
+    switch: true,
+    disabled: true,
+    status: 0
+  },
+  {
+    id: uuidv4(),
+    title: 'Start Date',
+    subTitle: [''],
+    option: [],
+    switch: true,
+    disabled: true,
+    status: 0
+  },
+  {
+    id: uuidv4(),
+    title: 'End Date',
+    subTitle: [''],
+    option: [],
+    switch: true,
+    disabled: true,
+    status: 0
+  },
+  {
+    id: uuidv4(),
+    title: 'Teaching Mode',
+    subTitle: ['Online', 'Offline', 'Blended'],
+    option: [],
+    switch: true,
+    disabled: true,
+    status: 0
+  },
+  {
+    id: uuidv4(),
+    title: 'Duration',
+    subTitle: [],
+    option: [],
+    switch: true,
+    disabled: true,
+    status: 0
+  },
+  {
+    id: uuidv4(),
+    title: 'Partner organization',
+    subTitle: [''],
+    option: [],
+    switch: false,
+    disabled: false,
+    status: 0
+  }
+]
 
 export const TeamList: () => TemUsersType[] = () => [
   {

@@ -148,6 +148,38 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  .customSelectOption{
+    border-top: 0px !important;
+    height: 38px !important;
+    border-radius: 6px !important;
+  }
+
+  .tooltipHelper{
+    .ant-tooltip-inner{
+      border-radius: 10px;
+      background-color: white;
+      border: 1px solid var(--dark-2);
+      color: var(--dark-2);
+      font-size: var( --font-size-small);
+      padding: 8px 16px 
+    }
+    .ant-tooltip-arrow{
+      display: none;
+    }
+  }
+
+  .menuPopover {
+    .ant-popover-inner {
+      width: 9rem;
+      border-radius: 10px;
+      border: 1px solid var(--dark-2);
+    }
+
+    .ant-popover-arrow{
+      display: none;
+    }
+
+}
   /* Chrome, Safari, Edge, Opera */
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {

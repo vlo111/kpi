@@ -4,7 +4,7 @@ import { ReactComponent as EditSvg } from '../../../../assets/icons/projectPage.
 import { AsnButton } from '../../../Forms/Button'
 import ActiveName from '../ActiveName'
 import { ActivityNamesProps, AddManagerHandle } from '../../../../types/project'
-import CreateTemplate from './CreateTemplate'
+import CreateTemplate from './CreateTemplateModal'
 
 const Activities = styled.div`
   display: flex;

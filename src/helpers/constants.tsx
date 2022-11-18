@@ -21,6 +21,7 @@ export const PATHS = {
   CONFIRMEMAILSIGNUP: 'confirm-email/:email',
   OVERVIEW: 'project/overview/:id',
   PROJECTAREA: 'project/steps/:id',
+  TEMPLATECREATE: 'template/create',
   PROJECTINFORMATION: 'project-information'
 }
 
@@ -33,7 +34,7 @@ export const Name: FormItemName = (name: string, label: string) => ({
   label: `${label}`
 })
 
-export const ManagerFields: ManagerFieldType = (manager: IManager | null) => ([
+export const ManagerFields: ManagerFieldType = (manager: IManager | null) => [
   {
     name: ['firstName'],
     value: manager?.firstName
@@ -54,7 +55,7 @@ export const ManagerFields: ManagerFieldType = (manager: IManager | null) => ([
     name: ['assigned'],
     value: 'Project'
   }
-])
+]
 
 export const VALIDATE_MESSAGES = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -107,7 +108,11 @@ export const StepList = [
 ]
 
 export const names = [
-  '1.1 Mapping the labor market', '1.2 Establishment of educational labs', '1.3 Courses and programs', '1.4 Establishment of educational labs', '1.5 Establishment of educational labs'
+  '1.1 Mapping the labor market',
+  '1.2 Establishment of educational labs',
+  '1.3 Courses and programs',
+  '1.4 Establishment of educational labs',
+  '1.5 Establishment of educational labs'
 ]
 export const tabNames = [
   {
@@ -126,7 +131,8 @@ export const tabNames = [
 
 export const passwordRegExp = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,64}$/
 
-export const passwordErrorMessage = 'password must contain at least one digit and at least one character'
+export const passwordErrorMessage =
+  'password must contain at least one digit and at least one character'
 
 export const passwordMinMaxError = 'password must be between 8 and 64 characters'
 
@@ -137,4 +143,12 @@ export const MenuItems = [
   'Applicants',
   'Product Guide',
   'Keyboard Shortcuts'
+]
+
+export const answerTypeOptions: string[] = [
+  'Choose answer type',
+  'Short Text',
+  'Number',
+  'Attachment',
+  'Dropdown options'
 ]

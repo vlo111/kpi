@@ -1,6 +1,7 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { Name, VALIDATE_MESSAGES } from '../../../../../helpers/constants'
+import { Name, PATHS, VALIDATE_MESSAGES } from '../../../../../helpers/constants'
 import {
   AddManagerHandle,
   ICreateTemplate
@@ -24,6 +25,7 @@ const CreateTemplate: React.FC<ICreateTemplate> = ({
   setIsOpenCreateActivityModal
 }) => {
   const [form] = Form.useForm()
+  const navigate = useNavigate()
 
   const onCancelClick: AddManagerHandle = () => {
     setIsOpenCreateActivityModal(false)
@@ -39,6 +41,10 @@ const CreateTemplate: React.FC<ICreateTemplate> = ({
 
   const onFinish: any = (values: any) => {
     console.log(values, 'failed')
+  }
+
+  const onNextClick = (): void => {
+    navigate(PATHS.TEMPLATECREATE)
   }
 
   const initFields = [
@@ -76,21 +82,27 @@ const CreateTemplate: React.FC<ICreateTemplate> = ({
           <Form.Item {...Name('category', 'Category')}>
             <AsnInput />
           </Form.Item>
-          <Form.Item {...Name('templateName', 'Template Name')} {...rules(2, 256)}>
+          <Form.Item
+            {...Name('templateName', 'Template Name')}
+            {...rules(2, 256)}
+          >
             <AsnInput placeholder="One section course " />
           </Form.Item>
-          <Form.Item {...Name('description', 'Description')} rules={[{ min: 0, max: 2048 }]}>
-          <TextArea placeholder="Activity Template for long-term courses. The course has one section." />
-        </Form.Item>
-        <div className="buttonContainer">
-          <AsnButton onClick={onCancelClick}>Cancel</AsnButton>
-          <AsnButton type="primary" htmlType="submit">
-            Next
-          </AsnButton>
-        </div>
-      </Form>
-    </CreateTemplateContainer>
-    </AsnModal >
+          <Form.Item
+            {...Name('description', 'Description')}
+            rules={[{ min: 0, max: 2048 }]}
+          >
+            <TextArea placeholder="Activity Template for long-term courses. The course has one section." />
+          </Form.Item>
+          <div className="buttonContainer">
+            <AsnButton onClick={onCancelClick}>Cancel</AsnButton>
+            <AsnButton type="primary" htmlType="submit" onClick={onNextClick}>
+              Next
+            </AsnButton>
+          </div>
+        </Form>
+      </CreateTemplateContainer>
+    </AsnModal>
   )
 }
 

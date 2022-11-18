@@ -230,6 +230,30 @@ export interface ICreateTemplate {
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+export interface ITemplateData {
+  id: string
+  title: string
+  subTitle: string[] | []
+  option: string[] | []
+  switch: boolean
+  disabled: boolean
+  status: number
+}
+
+export interface ICreateFieldsProps {
+  setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
+  questionType: string
+  setQuestionType: React.Dispatch<React.SetStateAction<string>>
+}
+
+export interface IQuestionsRow {
+  item: ITemplateData
+  templateData: ITemplateData[]
+  setTemplateData: React.Dispatch<React.SetStateAction<ITemplateData[]>>
+  setQuestionType: React.Dispatch<React.SetStateAction<string>>
+  setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
+}
+
 export type InputResultTitle = (id: string, prefix: string, placeholder: string) => JSX.Element
 
 export interface IProjectDetailsItems {
