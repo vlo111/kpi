@@ -1,11 +1,15 @@
 import React from 'react'
-import { Col, Layout, Row, Typography } from 'antd'
+import { Col, Layout, Row, Typography, Button, Dropdown, Space, Divider } from 'antd'
 import { ReactComponent as Notification } from '../../assets/icons/notification.svg'
 import { ReactComponent as Setting } from '../../assets/icons/setting.svg'
+import { CaretDownOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom'
 import ManagerIcon from '../ManagerIcon'
 
+
+
 import styled from 'styled-components'
+import DropdownMenu from '../Menu/DropdownMenu'
 const { Title } = Typography
 
 const HeaderLayout = styled(Layout)`
@@ -28,39 +32,51 @@ const HeaderMenu = styled(Layout)`
 `
 
 export const Header: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const logOut = () => {
+    localStorage.removeItem('token')
+  };
+
+  const data = [
+    {
+      label: (
+        <Button onClick={() => navigate('/user-profile')} type="text">
+          Profile
+        </Button>
+      ),
+      key: 0,
+    },
+    {
+      label: (
+        <Button onClick={() => logOut()} type="text">
+          Sign Out
+        </Button>
+      ),
+      key: 1,
+    },
+  ];
+  const newMenu = <DropdownMenu items={data} />;
+
   return (
     <HeaderLayout>
       <HeaderMenu>
-        <Notification />
-        <Setting />
-        <Row
-          align="middle"
-          style={{ gridGap: '16px', cursor: 'pointer' }}
-          onClick={() => navigate('/user-profile')}
-        >
-          <ManagerIcon letter="HD" color="#F3C262" />
-          <Row>
-            <Col span={80}>
-              <Title
-                level={5}
-                style={{ color: 'var(--dark-border-ultramarine)', margin: 0 }}
-              >
-                Anun Azganun
-              </Title>
-              <Title
-                level={5}
-                style={{
-                  fontSize: 'var(--font-size-small)',
-                  color: 'var(--secondary-light-orage)',
-                  marginTop: 0
-                }}
-              >
-                Ayaho@yaho.yaho
-              </Title>
+        <>
+          <Row justify="end" align="middle">
+            <Col> <Notification /></Col>
+            <Col>
+              <Dropdown overlay={newMenu} trigger={['click']}>
+                <Button type="text" onClick={(e) => e.preventDefault()}>
+                  <Space>
+                    <ManagerIcon letter="HD" color="var(--secondary-light-amber)" />
+                    Անի Հովհաննիսըան
+                    <CaretDownOutlined />
+                  </Space>
+                </Button>
+              </Dropdown>
             </Col>
           </Row>
-        </Row>
+          <Divider />
+        </>
       </HeaderMenu>
     </HeaderLayout>
   )
