@@ -13,7 +13,8 @@
   },
   "plugins": ["react"],
   "rules": {
-    "semi": ["error", "never"],
+    "semi": [2, "always"],
+    "@typescript-eslint/semi": "off",
     "eol-last": 1,
     "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
     "@typescript-eslint/strict-boolean-expressions": [

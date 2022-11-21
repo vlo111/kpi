@@ -1,9 +1,9 @@
-import React from 'react'
-import { useRouteError } from 'react-router-dom'
+import React from 'react';
+import { useRouteError } from 'react-router-dom';
 
 const ErrorBoundary: React.FC = () => {
-  const error = useRouteError()
-  console.error(error)
+  const error = useRouteError();
+  console.error(error);
   return (
         <div
             style={{
@@ -17,7 +17,7 @@ const ErrorBoundary: React.FC = () => {
             <h2 style={{ fontSize: '150px' }}>Error</h2>
             <p>Error Happened</p>
         </div>
-  )
-}
+  );
+};
 
-export default ErrorBoundary
+export default ErrorBoundary;

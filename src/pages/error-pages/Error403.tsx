@@ -1,5 +1,5 @@
-import React from 'react'
+import React from 'react';
 
-const Error403: React.FC = () => <div>403 Forbidden</div>
+const Error403: React.FC = () => <div>403 Forbidden</div>;
 
-export default Error403
+export default Error403;

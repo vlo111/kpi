@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -95,106 +95,6 @@ const GlobalStyle = createGlobalStyle`
     padding: 5px;
     width: 12px;
   }
-  
-  .ant-modal-wrap {
-    overflow: hidden;
-  }
+`;
 
-  .ant-select-dropdown {
-    padding: 0;
-    border: 1px solid var(--dark-5);
-    border-radius: 6px;
-    
-    .ant-select-item-option {
-      height: 58px;
-      padding: 19px 8px;
-      border-top: 1px solid var(--dark-border-ultramarine);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--dark-2);
-      font-size: var(--base-font-size);
-
-      &-active:not(.ant-select-item-option-disabled) {
-        background-color: var(--primary-light-2);
-      }
-
-      &-selected:not(.ant-select-item-option-disabled) {
-        font-weight: var(--font-semibold);
-        background-color: var(--primary-light-3);
-      }
-      
-      &:hover {
-        background: var(--primary-light-1);
-      }
-    }
-
-    .ant-select-item-option:last-child {
-      border-bottom: 1px solid var(--dark-border-ultramarine);
-    }
-  }
-
-  .result-area-tooltip {
-    
-    .ant-tooltip-inner {
-      background-color: var(--tooltip-color);
-      border-radius: 40px;
-      padding: 2rem;
-      width: 39rem;
-    }
-    
-    .ant-tooltip-arrow-content:before {
-      background: var(--tooltip-color);
-    }
-  }
-
-  .customSelectOption{
-    border-top: 0px !important;
-    height: 38px !important;
-    border-radius: 6px !important;
-  }
-
-  .tooltipHelper{
-    .ant-tooltip-inner{
-      border-radius: 10px;
-      background-color: white;
-      border: 1px solid var(--dark-2);
-      color: var(--dark-2);
-      font-size: var( --font-size-small);
-      padding: 8px 16px 
-    }
-    .ant-tooltip-arrow{
-      display: none;
-    }
-  }
-
-  .menuPopover {
-    .ant-popover-inner {
-      width: 9rem;
-      border-radius: 10px;
-      border: 1px solid var(--dark-2);
-    }
-
-    .ant-popover-arrow{
-      display: none;
-    }
-
-}
-  /* Chrome, Safari, Edge, Opera */
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  /* Firefox */
-  input[type=number] {
-    -moz-appearance: textfield;
-  }
-  .ant-dropdown-menu{
-    border-radius: 10px;
-    padding: 15px 0;
-  }
-`
-
-export default GlobalStyle
+export default GlobalStyle;

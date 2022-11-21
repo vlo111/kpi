@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const PageNotFound: React.FC = () => {
   return (
@@ -11,7 +11,7 @@ const PageNotFound: React.FC = () => {
             <p>Otherwise, <a href="/">Click here</a> to redirect to homepage.</p>
         </div>
 
-  )
-}
+  );
+};
 
-export default PageNotFound
+export default PageNotFound;
