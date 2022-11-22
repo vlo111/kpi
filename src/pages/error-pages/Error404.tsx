@@ -1,17 +1,18 @@
 import React from 'react';
+import { Result, Space } from 'antd';
+import AsnButton from '../../components/Forms/Button';
+import { ReactComponent as SmileOutlined } from './images/404.svg';
+// import { SmileOutlined } from '@ant-design/icons';
 
 const PageNotFound: React.FC = () => {
   return (
-        <div style={{
-          display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100vh', paddingTop: '18vh'
-        }}>
-            <h2 style={{ fontSize: '150px' }}>404</h2>
-            <h3>Oops, nothing here...</h3>
-            <p>Please Check the URL</p>
-            <p>Otherwise, <a href="/">Click here</a> to redirect to homepage.</p>
-        </div>
-
-  );
+    <Result
+      icon={<SmileOutlined />}
+      title="Error 404 - Page Not Found"
+      subTitle={<><h3>The page you requested could not be found.</h3> <p>The page you requested could not be found.</p> <p>We’re working on it :)</p></>}
+      extra={<Space size="middle" direction="vertical"><AsnButton type="primary" href='/' > Back Home</AsnButton ></Space>}
+    />
+  )
 };
 
 export default PageNotFound;
