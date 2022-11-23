@@ -4,7 +4,6 @@ import { Row, Col, message, Space, Typography, Form } from 'antd';
 import get from "lodash/get";
 
 import { VALIDATE_MESSAGES } from '../../helpers/constants'
-import AuthLayout from '../../components/Layout/AuthLayout';
 import AsnInput from '../../components/Forms/Input';
 import AsnButton from '../../components/Forms/Button';
 import useSignUpApi from '../../api/Auth/useSignUpApi';
@@ -17,6 +16,7 @@ const SignUp: React.FC = () => {
   const { mutate: signUp, isLoading } = useSignUpApi(
     {
       onSuccess: (payload: any) => {
+        navigate('/')
         console.log(payload.data, 'payload.data');
       },
       onError: (error: any) => {
