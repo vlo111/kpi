@@ -16,10 +16,10 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate()
   const { mutate: signUp, isLoading } = useSignUpApi(
     {
-      onSuccess: (payload) => {
+      onSuccess: (payload: any) => {
         console.log(payload.data, 'payload.data');
       },
-      onError: (error) => {
+      onError: (error: any) => {
 
       },
     }
