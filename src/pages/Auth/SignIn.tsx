@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Form, Space, Typography, message } from 'antd';
-import { useNavigate } from 'react-router-dom'
-import get from "lodash/get";
+import { useNavigate } from 'react-router-dom';
+import get from 'lodash/get';
 
 import { PATHS, VALIDATE_MESSAGES } from '../../helpers/constants';
 import AsnInput from '../../components/Forms/Input';
@@ -20,27 +20,25 @@ const SignIn: React.FC = () => {
 
         navigate(`/${PATHS.ROOT}`);
       },
-      onError: (error: any) => { message.error(error) }
+      onError: (error: any) => { void message.error(error); }
     }
   );
   const onFinish: any = (values: any) => {
     console.log(values, 'values');
     try {
       signIn(values);
-
     } catch (error) {
-      const errorMessage = get(error, "error.message", "Something went wrong!");
-      message.error(errorMessage);
-
+      const errorMessage = get(error, 'error.message', 'Something went wrong!');
+      void message.error(errorMessage);
     }
-  }
+  };
   const onFinishFailed: any = (values: any) => {
-    console.log(values, 'values')
-  }
+    console.log(values, 'values');
+  };
   return (
-    <Row type="flex" justify="center" align="middle" style={{ minHeight: '100vh' }}>
+    <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
       <Col span={6}>
-        <Title level={2} className="text-center" justify="center" align="middle">Sign In</Title>
+        <Title level={2} className="text-center">Sign In</Title>
         <Form
           name="signin"
           form={form}
@@ -72,7 +70,7 @@ const SignIn: React.FC = () => {
         </Form>
       </Col>
     </Row>
-  )
-}
+  );
+};
 
-export default SignIn
+export default SignIn;

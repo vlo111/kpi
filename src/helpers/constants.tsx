@@ -3,15 +3,21 @@ export const PATHS = {
   ERROR_403: 'no-access',
   SIGNIN: 'sign-in',
   SIGNUP: 'sign-up',
+  CONFIRMEMAILSIGNUP: 'confirm-email/:email'
 };
 
 export const VALIDATE_MESSAGES = {
-  required: 'Պարտադիր դաշտ',
+  // eslint-disable-next-line no-template-curly-in-string
+  required: 'Please enter a valid ${label}',
   types: {
-    email: '${label} դաշտը վավեր չէ',
-    number: '${label} դաշտը վավեր չէ',
+    // eslint-disable-next-line no-template-curly-in-string
+    email: 'Please enter your ${label} in format: yourname@domain.com'
   },
-  number: {
-    range: '${label}ը պետք է լինի ${min} և ${max}',
-  },
+
+  pattern: {
+  // eslint-disable-next-line no-template-curly-in-string
+    mismatch: 'Password must contain at least one digit and at least one character'
+  }
 };
+
+export const passwordRegExp = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,64}$/;

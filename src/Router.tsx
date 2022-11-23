@@ -8,13 +8,13 @@ import {
 import { PublicRoutes } from './utils/PublicRoutes';
 import { PrivateRoutes } from './utils/PrivateRoutes';
 import { PATHS } from './helpers/constants';
-import AuthLayout from './components/Layout/AuthLayout'
+import AuthLayout from './components/Layout/AuthLayout';
 
 import ErrorBoundary from './pages/error-pages/ErrorBoundary';
 import Error404 from './pages/error-pages/Error404';
-import SignIn from './pages/Auth/SignIn'
-import SignUp from './pages/Auth/SignUp'
-
+import SignIn from './pages/Auth/SignIn';
+import SignUp from './pages/Auth/SignUp';
+import ConfirmEmailSignUp from './pages/Auth/ConfirmEmailSignUp';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +23,7 @@ export const router = createBrowserRouter(
         <Route element={<AuthLayout />}>
           <Route path={PATHS.SIGNIN} element={<SignIn />} />
           <Route path={PATHS.SIGNUP} element={<SignUp />} />
+          <Route path={PATHS.CONFIRMEMAILSIGNUP} element={<ConfirmEmailSignUp />} />
         </Route>
 
       </Route>

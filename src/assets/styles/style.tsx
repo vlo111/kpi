@@ -25,6 +25,7 @@ const GlobalStyle = createGlobalStyle`
     
     --white: #FFFFFF;
     --background: #F9FCFF;
+    --background-auth: rgb(249, 252, 255);
     
     --tooltip-color: #2C5477;
     
