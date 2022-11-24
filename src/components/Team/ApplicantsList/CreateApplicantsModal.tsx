@@ -60,9 +60,10 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
             }
     }
     .anticon[tabindex]{
-          position: absolute;
-          right: -17px;
-    }
+        position: absolute;
+        top: 42px;
+        right: -17px;
+     }
     
     .ant-row {
       width: 100%;
@@ -100,6 +101,7 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
 const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) => {
   const [form] = Form.useForm()
   const [value, setValue] = useState(1)
+  const [value1, setValue1] = useState<any>(undefined)
   const [cascadeValue, setCascadeValue] = useState<any>(undefined)
 
   const [defaultVal, setDefaultVal] = useState(UsersPermissionsRule)
@@ -107,7 +109,10 @@ const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) =>
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const onChange = (value: any, selectedOptions: any) => {
     setCascadeValue(value)
+    setValue1(value)
   }
+
+  console.log(cascadeValue)
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const onChangePermission = (e: RadioChangeEvent) => {
@@ -176,45 +181,18 @@ const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) =>
                     <AsnInput/>
                 </Form.Item>
                 <Form.List name="users" initialValue={[{}]}>
-                  {(fields, { add, remove }, { errors }) => (
+                  {(fields, { add, remove }) => (
                     <>
-                      {fields.map(({ key, name, ...restField }, index) => (
-                           <Row key={key} justify='space-between' align='middle' style={{ marginBottom: '1.03vh', width: '100%' }}>
+                      {fields.map(({ key, name }, index) => (
+                           <Row key={key} justify='space-between' align='middle' style={{ marginBottom: '1.03vh', width: '100%', position: 'relative' }}>
                             <Form.Item
                              style={{ width: '100%' }}
-                             name="assigned" label="Assign to"
-                             rules={[{
-                               required: true
-                             }]}
-                             {...restField}
-                            // rules={[
-                            //   {
-                            //     required: true
-                            //   },
-                            //   ({ getFieldValue, getFieldsValue }) => ({
-                            //     async validator (_, value) {
-                            //       console.log(getFieldValue(cascadeValue), 'aaaaaaaa')
-                            //       if (
-                            //         !value ||
-                            //         getFieldValue('ABC')
-                            //           .filter(
-                            //             (d: any) => d.name === value
-                            //           ).length === 1
-                            //       ) {
-                            //         return await Promise.resolve()
-                            //       }
-                            //       return await Promise.reject(
-                            //         new Error(
-                            //           'Duplicate values are not allowed.'
-                            //         )
-                            //       )
-                            //     }
-                            //   })
-                            // ]}
+                             name={[index, 'Assign to']}
+                             label="Assign to"
+                             rules={[{ required: true }]}
                             >
-                            <Row justify='center' align='middle'>
-                             <Cascader
-                               {...restField}
+                              <Cascader
+                               value={value1}
                                options={defaultVal}
                                onChange={onChange}
                                displayRender={label => label.join(' >  ')}
@@ -222,24 +200,23 @@ const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) =>
                                allowClear
                                maxTagCount="responsive"
                               />
-                                {fields.length > 1 && index !== 0
-                                  ? (
-                                 <DeleteOutlined onClick={() => remove(name)} />
-                                    )
-                                  : null}
+                            </Form.Item>
+                            <Row justify='end' align='middle'>
+                              {fields.length > 1 && index !== 0
+                                ? (
+                                   <DeleteOutlined onClick={() => remove(name)} />
+                                  )
+                                : null}
                             </Row>
-                            {fields.length > 1 && index !== 0
-                              ? (
-                            <Radio.Group value={value} key={key}>
-                              <Radio value={1} onChange={onChangePermission}>
-                                 View
-                              </Radio>
-                              <Radio value={2} onChange={onChangePermission}>
-                                 Edit
-                              </Radio>
-                            </Radio.Group>
-                                )
-                              : null}
+                            <Form.Item name={[index, 'Radio']}>
+                              <Radio.Group value={value} key={key} defaultValue={1}>
+                                <Radio value={1} onChange={onChangePermission}>
+                                   View
+                                </Radio>
+                                <Radio value={2} onChange={onChangePermission}>
+                                   Edit
+                                </Radio>
+                              </Radio.Group>
                             </Form.Item>
                            </Row>
                       ))}
