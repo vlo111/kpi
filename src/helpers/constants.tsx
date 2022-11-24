@@ -2,6 +2,8 @@ import React from 'react'
 import { First } from '../components/Project/Steps/First'
 import { Last } from '../components/Project/Steps/Last'
 import { FormItemName, IManager, ManagerFieldType } from '../types/project'
+import { RuleObject } from 'antd/lib/form'
+import { StoreValue } from 'antd/lib/form/interface'
 
 export const PATHS = {
   ROOT: '/',
@@ -134,7 +136,8 @@ export const passwordRegExp = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,64}$/
 export const passwordErrorMessage =
   'password must contain at least one digit and at least one character'
 
-export const passwordMinMaxError = 'password must be between 8 and 64 characters'
+export const passwordMinMaxError =
+  'password must be between 8 and 64 characters'
 
 export const MenuItems = [
   'Dashboard',
@@ -162,3 +165,30 @@ export const ProjectInputInitialValue = {
     }
   ]
 }
+
+export const TargetRule: (
+  max: number
+) => Array<
+| (() => { validator: (_: RuleObject, value: any) => Promise<void> })
+| { required: boolean, message: string, pattern: RegExp }
+> = (max) => [
+  {
+    required: true,
+    message: '',
+    pattern: /^[0-9]+$/
+  },
+  () => ({
+    async validator (_: RuleObject, value: StoreValue) {
+      if (!value) {
+        throw new Error('')
+      }
+      if (isNaN(value)) {
+        throw new Error('')
+      }
+      if (!(value >= 1 && value <= max)) {
+        throw new Error('')
+      }
+      return await Promise.resolve()
+    }
+  })
+]

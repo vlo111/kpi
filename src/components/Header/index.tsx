@@ -1,16 +1,20 @@
 import React from 'react'
-import { Col, Layout, Row, Typography, Button, Dropdown, Space, Divider } from 'antd'
+import {
+  Col,
+  Layout,
+  Row,
+  Button,
+  Dropdown,
+  Space,
+  Divider
+} from 'antd'
 import { ReactComponent as Notification } from '../../assets/icons/notification.svg'
-import { ReactComponent as Setting } from '../../assets/icons/setting.svg'
-import { CaretDownOutlined } from '@ant-design/icons';
+import { CaretDownOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import ManagerIcon from '../ManagerIcon'
 
-
-
 import styled from 'styled-components'
 import DropdownMenu from '../Menu/DropdownMenu'
-const { Title } = Typography
 
 const HeaderLayout = styled(Layout)`
   background: var(--white);
@@ -32,10 +36,10 @@ const HeaderMenu = styled(Layout)`
 `
 
 export const Header: React.FC = () => {
-  const navigate = useNavigate();
-  const logOut = () => {
+  const navigate = useNavigate()
+  const logOut: any = () => {
     localStorage.removeItem('token')
-  };
+  }
 
   const data = [
     {
@@ -44,7 +48,7 @@ export const Header: React.FC = () => {
           Profile
         </Button>
       ),
-      key: 0,
+      key: 0
     },
     {
       label: (
@@ -52,22 +56,28 @@ export const Header: React.FC = () => {
           Sign Out
         </Button>
       ),
-      key: 1,
-    },
-  ];
-  const newMenu = <DropdownMenu items={data} />;
+      key: 1
+    }
+  ]
+  const newMenu = <DropdownMenu items={data} />
 
   return (
     <HeaderLayout>
       <HeaderMenu>
         <>
           <Row justify="end" align="middle">
-            <Col> <Notification /></Col>
+            <Col>
+              {' '}
+              <Notification />
+            </Col>
             <Col>
               <Dropdown overlay={newMenu} trigger={['click']}>
                 <Button type="text" onClick={(e) => e.preventDefault()}>
                   <Space>
-                    <ManagerIcon letter="HD" color="var(--secondary-light-amber)" />
+                    <ManagerIcon
+                      letter="HD"
+                      color="var(--secondary-light-amber)"
+                    />
                     Անի Հովհաննիսըան
                     <CaretDownOutlined />
                   </Space>
