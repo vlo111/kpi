@@ -173,14 +173,12 @@ export interface TabsNames {
     number: number | null
     default: boolean
   }
-  subActivity: boolean
 }
 
 export interface ActivityNamesProps {
   names: string[]
   activeName: number | undefined
   setActiveName: React.Dispatch<React.SetStateAction<number | undefined>>
-  subActivity: boolean
 }
 
 export interface SubActivityProps {
@@ -287,7 +285,4 @@ export interface IExpectedResultProps {
 export interface IInputResultProps {
   resultArea: IResultArea[]
   form: FormInstance
-}
-export interface OverviewProps {
-  subActivity: boolean
 }
