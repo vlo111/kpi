@@ -25,8 +25,8 @@ export const ResultAreaOverview: React.FC = () => {
   return (
     <Wrapper>
       <ProjectInfo />
-      <Tabs tabNames={tabNames} handleActiveTab={handleActiveTab} activeTab={activeTab} />
-      <ActivityNames names={names} setActiveName={setActiveName} activeName={activeName} />
+      <Tabs subActivity={false} tabNames={tabNames} handleActiveTab={handleActiveTab} activeTab={activeTab} />
+      <ActivityNames subActivity={false} names={names} setActiveName={setActiveName} activeName={activeName} />
     </Wrapper>
   )
 }

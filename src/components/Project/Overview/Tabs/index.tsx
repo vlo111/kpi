@@ -12,7 +12,7 @@ const TabNameWrapper = styled.div`
  justify-content: space-between;
 `
 
-const Tabs: React.FC<TabsNames> = ({ tabNames, handleActiveTab, activeTab }) => {
+const Tabs: React.FC<TabsNames> = ({ tabNames, handleActiveTab, activeTab, subActivity }) => {
   return (
         <TabNameWrapper>
         <div style={ { display: 'flex' } }>
@@ -28,7 +28,7 @@ const Tabs: React.FC<TabsNames> = ({ tabNames, handleActiveTab, activeTab }) => 
             />
           ))}
         </div>
-        <AsnButton style={{ height: '48px', border: 'none', background: 'var(--primary-light-1)' }} className='primary'>Draft</AsnButton>
+       {!subActivity && <AsnButton style={{ height: '48px', border: 'none', background: 'var(--primary-light-1)' }} className='primary'>Draft</AsnButton>}
       </TabNameWrapper>
   )
 }
