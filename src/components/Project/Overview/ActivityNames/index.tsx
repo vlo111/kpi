@@ -14,7 +14,7 @@ const Activities = styled.div`
   width: 20vw;
 `
 const ActivitiesNames = styled.div`
-  background: var(--white);;
+  background: var(--white);
   height: 66vh;
   padding: 47px 0px 0px 24px;
   display: flex;
