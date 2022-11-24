@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { ReactComponent as EditSvg } from '../../../../assets/icons/projectPage.svg'
 import { AsnButton } from '../../../Forms/Button'
 import ActiveName from '../ActiveName'
-import { ActivityNamesProps, AddManagerHandle } from '../../../../types/project'
-import CreateTemplate from './CreateTemplateModal'
+import { ActivityNamesProps } from '../../../../types/project'
+// import CreateTemplate from './CreateTemplate'
+import { SubAndActive } from '../../../SubActivites'
 
 const Activities = styled.div`
   display: flex;
@@ -31,12 +32,12 @@ const EditPublish = styled.div`
   }
 `
 
-const ActivityNames: React.FC<ActivityNamesProps> = ({ names, activeName, setActiveName }) => {
-  const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState<boolean>(false)
+const ActivityNames: React.FC<ActivityNamesProps> = ({ names, activeName, setActiveName, subActivity }) => {
+  // const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState<boolean>(false)
 
-  const onEditedPublishProject: AddManagerHandle = () => {
-    setIsOpenCreateActivityModal(true)
-  }
+  // const onEditedPublishProject: AddManagerHandle = () => {
+  //   setIsOpenCreateActivityModal(true)
+  // }
 
   return (
     <ActivitiesNames>
@@ -49,12 +50,13 @@ const ActivityNames: React.FC<ActivityNamesProps> = ({ names, activeName, setAct
           ))}
         </Activities>
       </div>
-      <EditPublish>
+   {!subActivity && <EditPublish>
         <EditSvg />
-        <AsnButton style={{ maxWidth: '300px', fontSize: 'var(--base-font-size)' }} className='primary' type='primary' onClick={onEditedPublishProject
-        }>Edit and Publish the project</AsnButton>
-      </EditPublish>
-      <CreateTemplate isOpenCreateActivityModal={isOpenCreateActivityModal} setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}/>
+        <AsnButton style={{ maxWidth: '300px', fontSize: 'var(--base-font-size)' }} className='primary' type='primary'
+    >Edit and Publish the project</AsnButton>
+      </EditPublish>}
+      {subActivity && <SubAndActive/>}
+      {/* <CreateTemplate isOpenCreateActivityModal={isOpenCreateActivityModal} setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}/> */}
     </ActivitiesNames>
   )
 }
