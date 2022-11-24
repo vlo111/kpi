@@ -22,7 +22,8 @@ export const PATHS = {
   OVERVIEW: 'project/overview/:id',
   PROJECTAREA: 'project/steps/:id',
   TEMPLATECREATE: 'template/create',
-  PROJECTINFORMATION: 'project-information'
+  PROJECTINFORMATION: 'project-information',
+  PROJECTSUBACTIVITY: 'profile_pages'
 }
 
 export const HEADERS = {
@@ -152,13 +153,3 @@ export const answerTypeOptions: string[] = [
   'Attachment',
   'Dropdown options'
 ]
-
-export const ProjectInputInitialValue = {
-  result_area_form: [
-    {
-      resultAreaInput: '',
-      expectedList: [{}],
-      activities: [{ activityInput: '', milestones: [{}] }]
-    }
-  ]
-}
