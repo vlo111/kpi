@@ -195,6 +195,16 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 10px;
     padding: 15px 0;
   }
+  .ant-cascader-menu-item-expand >
+  .ant-cascader-checkbox {
+        display: none !important;
+  }
+
+  .ant-cascader-menus ul:first-child {
+    .ant-cascader-checkbox {
+        display: none !important;
+  }
+  }
 `
 
 export default GlobalStyle

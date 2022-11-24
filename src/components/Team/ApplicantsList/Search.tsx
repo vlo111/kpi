@@ -76,7 +76,7 @@ const SearchApplicants: React.FC<{ showModal: any, setShowModal: any }> = ({
               marginLeft: '10px'
             }}
           >
-            Total members: 12
+            Total members: 11
           </Col>
         </Row>
       </Col>

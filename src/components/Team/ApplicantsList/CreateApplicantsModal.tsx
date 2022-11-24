@@ -63,6 +63,7 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
           position: absolute;
           right: -17px;
     }
+    
     .ant-row {
       width: 100%;
     }
@@ -99,12 +100,13 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
 const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) => {
   const [form] = Form.useForm()
   const [value, setValue] = useState(1)
+  const [cascadeValue, setCascadeValue] = useState<any>(undefined)
 
   const [defaultVal, setDefaultVal] = useState(UsersPermissionsRule)
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const onChange = (value: any, selectedOptions: any) => {
-    console.log(value)
+    setCascadeValue(value)
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -129,14 +131,14 @@ const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) =>
               <Row key={'action'} gutter={14} justify='center'>
                 <Col span={7}>
                   <Row justify='start'>
-                   <AsnButton key="back" onClick={handleCancel}>
+                   <AsnButton key="back" onClick={handleCancel} style={{ width: '133px' }}>
                         Cancel
                    </AsnButton>
                    </Row>
                 </Col>
                 <Col span={7}>
                   <Row justify='end'>
-                    <AsnButton form="managerForm" key="submit" type="primary" htmlType="submit">
+                    <AsnButton form="managerForm" key="submit" type="primary" htmlType="submit" style={{ width: '133px' }}>
                         {/* { false ? 'Edit' : 'Add'} */}
                         Add
                     </AsnButton>
@@ -154,39 +156,71 @@ const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) =>
                 // fields={fields}
             >
                 <Form.Item name="email" label="Email Address" rules={[{ required: true }, { type: 'email' }]}>
-                    <AsnInput placeholder="annahakobyan@name.com"/>
+                    <AsnInput/>
                 </Form.Item>
                 <Form.Item name="firstName" label="First Name" rules={[{
                   required: true,
                   min: 2,
                   max: 256
                 }]} >
-                    <AsnInput placeholder="Anna"/>
+                    <AsnInput/>
                 </Form.Item>
                 <Form.Item name="lastName" label="Last Name" rules={[{
                   required: true,
                   min: 2,
                   max: 256
                 }]}>
-                    <AsnInput placeholder="Hakobyan"/>
+                    <AsnInput/>
                 </Form.Item>
                 <Form.Item name="position" label="Position">
-                    <AsnInput placeholder="Project Manager"/>
+                    <AsnInput/>
                 </Form.Item>
                 <Form.List name="users" initialValue={[{}]}>
-                  {(fields, { add, remove }) => (
+                  {(fields, { add, remove }, { errors }) => (
                     <>
                       {fields.map(({ key, name, ...restField }, index) => (
                            <Row key={key} justify='space-between' align='middle' style={{ marginBottom: '1.03vh', width: '100%' }}>
-                            <Form.Item style={{ width: '100%' }} name="assigned" label="Assign to" rules={[{
-                              required: true
-                            }]}>
+                            <Form.Item
+                             style={{ width: '100%' }}
+                             name="assigned" label="Assign to"
+                             rules={[{
+                               required: true
+                             }]}
+                             {...restField}
+                            // rules={[
+                            //   {
+                            //     required: true
+                            //   },
+                            //   ({ getFieldValue, getFieldsValue }) => ({
+                            //     async validator (_, value) {
+                            //       console.log(getFieldValue(cascadeValue), 'aaaaaaaa')
+                            //       if (
+                            //         !value ||
+                            //         getFieldValue('ABC')
+                            //           .filter(
+                            //             (d: any) => d.name === value
+                            //           ).length === 1
+                            //       ) {
+                            //         return await Promise.resolve()
+                            //       }
+                            //       return await Promise.reject(
+                            //         new Error(
+                            //           'Duplicate values are not allowed.'
+                            //         )
+                            //       )
+                            //     }
+                            //   })
+                            // ]}
+                            >
                             <Row justify='center' align='middle'>
                              <Cascader
                                {...restField}
                                options={defaultVal}
                                onChange={onChange}
                                displayRender={label => label.join(' >  ')}
+                               multiple
+                               allowClear
+                               maxTagCount="responsive"
                               />
                                 {fields.length > 1 && index !== 0
                                   ? (
@@ -214,7 +248,11 @@ const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) =>
                            key="submit"
                            type="primary"
                            style={{ width: '100%', marginBottom: '2.88vh' }}
-                           onClick={() => add()}>
+                           disabled={cascadeValue === undefined || cascadeValue.length === 0}
+                           onClick={() => {
+                             add()
+                             setCascadeValue(undefined)
+                           }}>
                               +
                           </AsnButton>
                       </Form.Item>
