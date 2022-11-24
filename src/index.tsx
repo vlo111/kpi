@@ -9,9 +9,6 @@ import { AuthProvider } from './hooks/useAuth';
 import GlobalStyle from './assets/styles/style';
 import locale from 'antd/lib/locale/hy_AM';
 import 'antd/dist/antd.min.css';
-// import './styles/globals.css';
-// import { Providers } from './utils/providers/Providers';
-import { VALIDATE_MESSAGES } from './helpers/constants';
 
 const root: ReactDOM.Root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,18 +16,15 @@ const root: ReactDOM.Root = ReactDOM.createRoot(
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false,
-    },
-  },
+      refetchOnWindowFocus: false
+    }
+  }
 });
 
 // eslint-disable-next-line no-template-curly-in-string
 root.render(
   <>
-
-    <ConfigProvider
-      locale={locale}
-    >
+    <ConfigProvider locale={locale}>
       <AuthProvider>
         <QueryClientProvider client={queryClient}>
           <GlobalStyle />

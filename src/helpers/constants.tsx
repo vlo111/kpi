@@ -2,16 +2,19 @@ export const PATHS = {
   ROOT: '/',
   ERROR_403: 'no-access',
   SIGNIN: 'sign-in',
-  SIGNUP: 'sign-up',
+  SIGNUP: 'sign-up'
 };
 
 export const VALIDATE_MESSAGES = {
   required: 'Պարտադիր դաշտ',
   types: {
+    // eslint-disable-next-line no-template-curly-in-string
     email: '${label} դաշտը վավեր չէ',
-    number: '${label} դաշտը վավեր չէ',
+    // eslint-disable-next-line no-template-curly-in-string
+    number: '${label} դաշտը վավեր չէ'
   },
   number: {
-    range: '${label}ը պետք է լինի ${min} և ${max}',
-  },
+    // eslint-disable-next-line no-template-curly-in-string
+    range: '${label}ը պետք է լինի ${min} և ${max}'
+  }
 };
