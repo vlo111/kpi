@@ -1,80 +1,105 @@
 import React, { useState } from 'react'
-import { IInputResultProps } from '../../../../../types/project'
 import { AsnCollapse } from '../../../../AsnCollapse'
 import { Panel } from '../../../../Forms/AsnCollapse'
 import { InputResultArea } from '../../../../Forms/InputResultArea'
-import InputExpectedResult from '../InputExpectedResult'
-import InputActivity from '../InputActivity'
-import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.svg'
 import { ReactComponent as InfoSvg } from '../../../../../assets/icons/info.svg'
+import { Form, Row, Tooltip } from 'antd'
+import { TollTipText } from '../../../../../utils/ProjectUtils'
+import AsnInput from '../../../../Forms/Input'
+import { AsnButton } from '../../../../Forms/Button'
+import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.svg'
 import { ConfirmModal } from '../../../../Forms/Modal/ConfirmModal'
-import { useProjectInput } from '../../../../../hooks/project/useProjectInput'
-import { ActionHandle } from '../../../../../types/context'
-import { Tooltip } from 'antd'
-import { title, TollTipText } from '../../../../../utils/ProjectUtils'
+import InputExpectedResult from './Expected'
+import InputActivity from './Activity'
 
-const InputResult: React.FC<IInputResultProps> = ({ resultArea, form }) => {
-  const [openDeleteResultModal, setOpenDeleteResultModal] = useState(false)
-  const [selectDeleteId, setSelectDeleteId] = useState('')
-  const { deleteResultArea } = useProjectInput()
+const header: (
+  key: number,
+  name: Array<number | string>,
+  index: string,
+  placeholder: string
+) => JSX.Element = (key, name, index, placeholder) => (
+  <div key={`result_area_header_${key}`} onClick={(e) => e.stopPropagation()}>
+    <Form.Item name={name} rules={[{ required: true, min: 5, max: 256 }]}>
+      <AsnInput prefix={index} placeholder={placeholder} />
+    </Form.Item>
+  </div>
+)
 
-  const deleteResultHandle: ActionHandle = (id) => {
-    deleteResultArea(id)
-  }
+const InputResult: React.FC = () => {
+  const [openDeleteResultModal, setOpenDeleteResultModal] = useState<any>()
+  const [selectDeleteId, setSelectDeleteId] = useState<{ remove: (name: number | number[]) => void, field: number }>()
 
   return (
     <>
-      {resultArea.map((r, i: number) => (
-        <InputResultArea key={r.id}>
-          <span className="ans-title">
-            <span>Input Result Area {i + 1} *</span>
-            <Tooltip
-              overlayClassName="result-area-tooltip"
-              placement="right"
-              style={{ width: '600px' }}
-              title={TollTipText(
-                'Must include at least one result area and at least one expected result measurement.',
-                'Code is optional; can contain: A-Z letters, 0-9 digits, symbol (.).',
-                'Expected result statement is required; can contain: A-Z letters, 0-9 digits; maximum of 256 characters.',
-                'Target for Percentage: Range 1-100.',
-                'Target for Number: Range 1-999999.'
-              )}
-            >
-              <InfoSvg />
-            </Tooltip>
-          </span>
-          <div className="result-container">
-            <div className="result-area">
-              <AsnCollapse key={r.id} id={r.id}>
-                <Panel key={r.id} header={title(r.id, `${i + 1}.`, 'Example: Skill gap reduced')}>
-                  <InputExpectedResult
-                    form={form}
-                    id={r.id}
-                    results={r.expectedResult}
-                  />
-                  <InputActivity
-                    form={form}
-                    id={r.id}
-                    index={i + 1}
-                    activities={r.activity}
-                  />
-                </Panel>
-              </AsnCollapse>
-            </div>
-            {resultArea.length > 1 && (
-              <div
-                className="delete-result"
-                onClick={() => {
-                  setOpenDeleteResultModal(!openDeleteResultModal)
-                  setSelectDeleteId(r.id)
-                }}
+      <Form.List name="result_area_form">
+        {(fields, { add, remove }) => (
+          <>
+            {fields.map((field, index: number) => (
+              <InputResultArea key={field.key}>
+                <span id={`ans-title-${field.key}`} className="ans-title result_area_title">
+                  <span>Input Result Area {index + 1} *</span>
+                  <Tooltip
+                    overlayClassName="result-area-tooltip"
+                    placement="right"
+                    style={{ width: '600px' }}
+                    title={TollTipText(
+                      'Must include at least one result area and at least one expected result measurement.',
+                      'Code is optional; can contain: A-Z letters, 0-9 digits, symbol (.).',
+                      'Expected result statement is required; can contain: A-Z letters, 0-9 digits; maximum of 256 characters.',
+                      'Target for Percentage: Range 1-100.',
+                      'Target for Number: Range 1-999999.'
+                    )}
+                  >
+                    <InfoSvg />
+                  </Tooltip>
+                </span>
+                <div className="result-container">
+                  <div className="result-area">
+                    <AsnCollapse key={`${field.key}`} id={`${field.key}`}>
+                      <Panel
+                        key={`${field.key}`}
+                        header={header(
+                          field.key,
+                          [field.name, 'resultAreaInput'],
+                          `${index + 1}.`,
+                          'Example: Skill gap reduced'
+                        )}
+                      >
+                        <InputExpectedResult resultId={field.key}/>
+                        <InputActivity resultId={field.key}/>
+                      </Panel>
+                    </AsnCollapse>
+                  </div>
+                  {fields.length > 1 && (
+                    <div
+                      className="delete-result"
+                      onClick={() => {
+                        setOpenDeleteResultModal(!openDeleteResultModal)
+                        setSelectDeleteId({ remove, field: field.name })
+                      }}
+                    >
+                      <DeleteSvg />
+                    </div>
+                  )}
+                </div>
+              </InputResultArea>
+            ))}
+            <Row>
+              <AsnButton
+                style={{ background: 'white', width: '100%', height: '3rem' }}
+                value="Create"
+                onClick={() => add({
+                  resultAreaInput: '',
+                  expectedList: [{}],
+                  activities: [{ activityInput: '', milestones: [{}] }]
+                })}
               >
-                <DeleteSvg />
-              </div>
-            )}
-          </div>
-        </InputResultArea>
-      ))}
+                +Add Result Area
+              </AsnButton>
+            </Row>
+          </>
+        )}
+      </Form.List>
       <ConfirmModal
         styles={{ gap: '6rem' }}
         yes="Delete"
@@ -82,8 +107,8 @@ const InputResult: React.FC<IInputResultProps> = ({ resultArea, form }) => {
         open={openDeleteResultModal}
         title="Are you sure you want to delete  the field?"
         onSubmit={() => {
-          deleteResultHandle(selectDeleteId)
-          setOpenDeleteResultModal(!openDeleteResultModal)
+          selectDeleteId?.remove(selectDeleteId.field)
+          setOpenDeleteResultModal(null)
         }}
         onCancel={() => setOpenDeleteResultModal(!openDeleteResultModal)}
       />
