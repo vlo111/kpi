@@ -28,8 +28,7 @@ const treeData = [
 export const StatusFilter: React.FC = () => {
   const [value, setValue] = useState([])
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const onChange = (newValue: any) => {
+  const onChange = (newValue: any): void => {
     setValue(newValue)
   }
 

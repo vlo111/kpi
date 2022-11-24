@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react'
 import { TreeSelect } from 'antd'
 
@@ -31,7 +30,7 @@ const treeData = [
 export const AssingnesFilter: React.FC = () => {
   const [value, setValue] = useState([])
 
-  const onChange = (newValue: any) => {
+  const onChange = (newValue: any): void => {
     setValue(newValue)
   }
 

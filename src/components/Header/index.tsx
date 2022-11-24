@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React from 'react'
-import { Col, Layout, Row, Typography, Button, Dropdown, Space, Divider } from 'antd'
+import { Col, Layout, Row, Button, Dropdown, Space, Divider } from 'antd'
 import { ReactComponent as Notification } from '../../assets/icons/notification.svg'
 import { ReactComponent as Setting } from '../../assets/icons/setting.svg'
 import { CaretDownOutlined } from '@ant-design/icons'
@@ -10,7 +8,6 @@ import ManagerIcon from '../ManagerIcon'
 
 import styled from 'styled-components'
 import DropdownMenu from '../Menu/DropdownMenu'
-const { Title } = Typography
 
 const HeaderLayout = styled(Layout)`
   background: var(--white);
@@ -34,7 +31,7 @@ const HeaderLayout = styled(Layout)`
 
 export const Header: React.FC = () => {
   const navigate = useNavigate()
-  const logOut = () => {
+  const logOut = (): void => {
     localStorage.removeItem('token')
   }
 
@@ -68,7 +65,6 @@ export const Header: React.FC = () => {
 
   return (
     <HeaderLayout>
-      {/* <HeaderMenu> */}
           <Row justify="end" align="middle">
             <Col> <Notification /></Col>
             <Col><Setting/></Col>
@@ -85,7 +81,6 @@ export const Header: React.FC = () => {
             </Col>
           </Row>
           <Divider />
-      {/* </HeaderMenu> */}
     </HeaderLayout>
   )
 }

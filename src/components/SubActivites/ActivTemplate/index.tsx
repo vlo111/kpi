@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react'
 import { Button, Popover, Card, Col, Row } from 'antd'
 import styled from 'styled-components'
@@ -10,12 +9,11 @@ import { ReactComponent as Dublicat } from '../../../assets/icons/duplicate.svg'
 export const ActiveTempalate: React.FC = () => {
   const [open, setOpen] = useState(false)
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const hide = () => {
+  const hide = (): void => {
     setOpen(false)
   }
 
-  const handleOpenChange = (newOpen: boolean) => {
+  const handleOpenChange = (newOpen: boolean): void => {
     setOpen(newOpen)
   }
 
