@@ -112,7 +112,7 @@ export const ActiveTempalate: React.FC = () => {
             gridGap: '11px',
             padding: '0 2px',
             color: '#263238',
-            alignItems: 'center'
+            alignItems: 'baseline'
 
           }}
         >
