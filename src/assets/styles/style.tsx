@@ -195,6 +195,25 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 10px;
     padding: 15px 0;
   }
+  .ant-popover-message-icon{
+    display: none;
+  }
+  .ant-popover-buttons{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    margin-left: 16px;
+    button, button:hover{
+      border: none;
+      color: inherit;
+    }
+  }
+  .ant-popover-inner-content {
+    padding: 2px 28px 1px 0px;
+    svg path{
+      fill: #111B23;
+    }
+}
 `
 
 export default GlobalStyle

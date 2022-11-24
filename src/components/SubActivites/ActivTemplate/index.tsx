@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
-import { Button, Popover, Card, Col, Row } from 'antd'
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import React from 'react'
+import { Button, Popconfirm, Card, Col, Row } from 'antd'
 import styled from 'styled-components'
 import { ReactComponent as Eye } from '../../../assets/icons/eye.svg'
 import { ReactComponent as TrashSvg } from '../../../assets/icons/trash.svg'
@@ -7,16 +9,6 @@ import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg'
 import { ReactComponent as Dublicat } from '../../../assets/icons/duplicate.svg'
 
 export const ActiveTempalate: React.FC = () => {
-  const [open, setOpen] = useState(false)
-
-  const hide = (): void => {
-    setOpen(false)
-  }
-
-  const handleOpenChange = (newOpen: boolean): void => {
-    setOpen(newOpen)
-  }
-
   const Container = styled.div`
     .card {
       height: 200px;
@@ -38,17 +30,12 @@ export const ActiveTempalate: React.FC = () => {
       overflow: auto;
     }
   `
-  const content = (
-    <div style={{ display: 'grid' }}>
-      <div>
-        <Button
-          type="link"
-          onClick={hide}
-          style={{ position: 'absolute', right: '10px', top: '10px' }}
-        >
-          X
-        </Button>
-      </div>
+  const confirm = async () =>
+    await new Promise((resolve) => {
+      setTimeout(() => resolve(null), 3000)
+    })
+  const title = (
+   <div style={{ display: 'grid' }}>
       <div
         style={{
           display: 'grid',
@@ -68,7 +55,7 @@ export const ActiveTempalate: React.FC = () => {
             color: '#263238'
           }}
         >
-          <Eye />
+          <Eye style={{ SVGPathElement: '#263238' }}/>
           View
         </Button>
         <Button
@@ -124,10 +111,12 @@ export const ActiveTempalate: React.FC = () => {
             justifyContent: 'flex-start',
             gridGap: '11px',
             padding: '0 2px',
-            color: '#263238'
+            color: '#263238',
+            alignItems: 'center'
+
           }}
         >
-          <p>+ </p>Use
+          <p style={{ fontSize: '20px' }}>+ </p>Use
         </Button>
       </div>
     </div>
@@ -136,58 +125,40 @@ export const ActiveTempalate: React.FC = () => {
     <Container>
       <Row gutter={[32, 0]}>
         <Col>
-          <Popover
-            content={content}
-            trigger="click"
-            open={open}
-            onOpenChange={handleOpenChange}
-            placement="bottom"
-          >
-            <Button
+        <Popconfirm title={title} onConfirm={confirm} okText cancelText="X" placement="bottom" >
+        <Button
               type="link"
-              style={{ position: 'absolute', zIndex: '1', right: '20px' }}
+              style={{ position: 'absolute', zIndex: '1', right: '20px', color: '#111B23' }}
             >
               ...
             </Button>
-          </Popover>
+    </Popconfirm>
           <Card title="Card title" className="cardInactive card">
             Card content
           </Card>
         </Col>
         <Col>
-          <Popover
-            content={content}
-            trigger="click"
-            open={open}
-            onOpenChange={handleOpenChange}
-            placement="bottom"
-          >
-            <Button
+        <Popconfirm title={title} onConfirm={confirm} okText cancelText="X" placement="bottom" >
+        <Button
               type="link"
-              style={{ position: 'absolute', zIndex: '1', right: '20px' }}
+              style={{ position: 'absolute', zIndex: '1', right: '20px', color: '#111B23' }}
             >
               ...
             </Button>
-          </Popover>
+    </Popconfirm>
           <Card title="Card title" className="cardInactive card">
             Card content
           </Card>
         </Col>
         <Col>
-          <Popover
-            content={content}
-            trigger="click"
-            open={open}
-            onOpenChange={handleOpenChange}
-            placement="bottom"
-          >
-            <Button
+        <Popconfirm title={title} onConfirm={confirm} okText cancelText="X" placement="bottom" >
+        <Button
               type="link"
-              style={{ position: 'absolute', zIndex: '1', right: '20px' }}
+              style={{ position: 'absolute', zIndex: '1', right: '20px', color: '#111B23' }}
             >
               ...
             </Button>
-          </Popover>
+    </Popconfirm>
           <Card title="Card title" className="cardInactive card">
             Card content
           </Card>
