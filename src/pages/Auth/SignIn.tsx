@@ -1,5 +1,6 @@
 import React from 'react';
-import { Row, Col, Form, Space, Typography, message } from 'antd';
+import { Row, Col, message } from 'antd';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 
@@ -7,9 +8,15 @@ import { PATHS, VALIDATE_MESSAGES } from '../../helpers/constants';
 import AsnInput from '../../components/Forms/Input';
 import AsnButton from '../../components/Forms/Button';
 import useSignInApi from '../../api/Auth/useSignInApi';
+import { TitleAuth } from '../../components/Layout/TitleAuth';
+import { Form } from '../../components/Forms/Form';
 
-const { Title } = Typography;
-
+const ForgotPassword = styled.div`
+  color: var(--forget-password-gray); 
+  font-size: var(--base-font-size);
+  cursor: pointer;
+  margin-bottom: 24px;
+`;
 const SignIn: React.FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -17,14 +24,12 @@ const SignIn: React.FC = () => {
     {
       onSuccess: (payload: any) => {
         console.log(payload.data, 'payload.data');
-
         navigate(`/${PATHS.ROOT}`);
       },
       onError: (error: any) => { void message.error(error); }
     }
   );
   const onFinish: any = (values: any) => {
-    console.log(values, 'values');
     try {
       signIn(values);
     } catch (error) {
@@ -37,8 +42,7 @@ const SignIn: React.FC = () => {
   };
   return (
     <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
-      <Col span={6}>
-        <Title level={2} className="text-center">Sign In</Title>
+      <Col span={8} style={{ maxWidth: '460px' }}>
         <Form
           name="signin"
           form={form}
@@ -51,25 +55,27 @@ const SignIn: React.FC = () => {
           validateMessages={VALIDATE_MESSAGES}
           layout='vertical'
         >
+          <TitleAuth>
+            Sign In
+          </TitleAuth>
           <Form.Item
             name="email" label="Email Address"
             rules={[{ required: true }, { type: 'email' }, { max: 128 }]}
           >
             <AsnInput placeholder="Email Address" />
           </Form.Item>
-          <Form.Item name="password" label="Password" rules={[{ required: true, min: 6 }]}>
+          <Form.Item name="password" label="Password" rules={[{ required: true }, { min: 8, max: 64 }]} style={{ marginBottom: '16px' }}>
             <AsnInput.Password placeholder="Password" />
           </Form.Item>
+          <ForgotPassword onClick={() => navigate('/forgot-password')}>Forgot password?</ForgotPassword>
           <Form.Item>
-            <Space size="middle" style={{ width: '100%' }} direction="vertical">
               <AsnButton htmlType="submit" loading={isLoading} className='primary'>
                 Sign In
               </AsnButton>
-            </Space>
           </Form.Item>
         </Form>
       </Col>
-    </Row>
+    </Row >
   );
 };
 
