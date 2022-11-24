@@ -5,6 +5,7 @@ import { AsnButton } from '../../../Forms/Button'
 import { Form } from '../../../Forms/Form'
 import { ProjectInputForm } from '../../../Forms/ProjectInputForm'
 import { useProject } from '../../../../hooks/project/useProject'
+import { FinishFailed } from '../../../../types/global'
 
 const setTitleColor: (element: HTMLElement, color: string) => void = (element, color) => {
   if (element) {
@@ -52,7 +53,7 @@ export const First: React.FC = () => {
     nextCurrent()
   }
 
-  const onFinishFailed: any = (values: FormData) => {
+  const onFinishFailed: FinishFailed = (values: FormData) => {
     console.log(values, 'failed')
 
     setError(values)
