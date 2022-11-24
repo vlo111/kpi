@@ -101,7 +101,7 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
 const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) => {
   const [form] = Form.useForm()
   const [value, setValue] = useState(1)
-  const [value1, setValue1] = useState<any>(undefined)
+  const [filedValue, setFiledValue] = useState<any>(undefined)
   const [cascadeValue, setCascadeValue] = useState<any>(undefined)
 
   const [defaultVal, setDefaultVal] = useState(UsersPermissionsRule)
@@ -109,14 +109,13 @@ const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) =>
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const onChange = (value: any, selectedOptions: any) => {
     setCascadeValue(value)
-    setValue1(value)
+    setFiledValue(value)
   }
 
   console.log(cascadeValue)
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const onChangePermission = (e: RadioChangeEvent) => {
-    console.log('radio checked', e.target.value)
     setValue(e.target.value)
   }
 
@@ -192,13 +191,14 @@ const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) =>
                              rules={[{ required: true }]}
                             >
                               <Cascader
-                               value={value1}
+                               value={filedValue}
                                options={defaultVal}
                                onChange={onChange}
                                displayRender={label => label.join(' >  ')}
                                multiple
                                allowClear
                                maxTagCount="responsive"
+                               changeOnSelect
                               />
                             </Form.Item>
                             <Row justify='end' align='middle'>
