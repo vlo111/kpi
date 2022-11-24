@@ -27,7 +27,7 @@ export const AuthProvider: any = ({ children }: any) => {
     () => ({
       user,
       login,
-      logout,
+      logout
     }),
     [login, logout, user]
   );
@@ -35,6 +35,6 @@ export const AuthProvider: any = ({ children }: any) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = () => {
+export const useAuth: () => void = () => {
   return useContext(AuthContext);
 };
