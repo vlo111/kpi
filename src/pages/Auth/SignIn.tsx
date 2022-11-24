@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Form, Space, Typography, message } from 'antd';
-import { useNavigate } from 'react-router-dom'
-import get from "lodash/get";
+import { useNavigate } from 'react-router-dom';
+import get from 'lodash/get';
 
 import { PATHS, VALIDATE_MESSAGES } from '../../helpers/constants';
 import AsnInput from '../../components/Forms/Input';
@@ -13,34 +13,32 @@ const { Title } = Typography;
 const SignIn: React.FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const { mutate: signIn, isLoading } = useSignInApi(
-    {
-      onSuccess: (payload: any) => {
-        console.log(payload.data, 'payload.data');
+  const { mutate: signIn, isLoading } = useSignInApi({
+    onSuccess: (payload: any) => {
+      console.log(payload.data, 'payload.data');
 
-        navigate(`/${PATHS.ROOT}`);
-      },
-      onError: (error: any) => { message.error(error) }
-    }
-  );
+      navigate(`/${PATHS.ROOT}`);
+    },
+    onError: () => {}
+  });
   const onFinish: any = (values: any) => {
     console.log(values, 'values');
     try {
       signIn(values);
-
     } catch (error) {
-      const errorMessage = get(error, "error.message", "Something went wrong!");
-      message.error(errorMessage);
-
+      const errorMessage = get(error, 'error.message', 'Something went wrong!');
+      void message.error(errorMessage);
     }
-  }
+  };
   const onFinishFailed: any = (values: any) => {
-    console.log(values, 'values')
-  }
+    console.log(values, 'values');
+  };
   return (
-    <Row type="flex" justify="center" align="middle" style={{ minHeight: '100vh' }}>
+    <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
       <Col span={6}>
-        <Title level={2} className="text-center" justify="center" align="middle">Sign In</Title>
+        <Title level={2} className="text-center">
+          Sign In
+        </Title>
         <Form
           name="signin"
           form={form}
@@ -51,20 +49,29 @@ const SignIn: React.FC = () => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
           validateMessages={VALIDATE_MESSAGES}
-          layout='vertical'
+          layout="vertical"
         >
           <Form.Item
-            name="email" label="Email Address"
+            name="email"
+            label="Email Address"
             rules={[{ required: true }, { type: 'email' }, { max: 128 }]}
           >
             <AsnInput placeholder="Email Address" />
           </Form.Item>
-          <Form.Item name="password" label="Password" rules={[{ required: true, min: 6 }]}>
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={[{ required: true, min: 6 }]}
+          >
             <AsnInput.Password placeholder="Password" />
           </Form.Item>
           <Form.Item>
             <Space size="middle" style={{ width: '100%' }} direction="vertical">
-              <AsnButton htmlType="submit" loading={isLoading} className='primary'>
+              <AsnButton
+                htmlType="submit"
+                loading={isLoading}
+                className="primary"
+              >
                 Sign In
               </AsnButton>
             </Space>
@@ -72,7 +79,7 @@ const SignIn: React.FC = () => {
         </Form>
       </Col>
     </Row>
-  )
-}
+  );
+};
 
-export default SignIn
+export default SignIn;
