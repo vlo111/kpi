@@ -67,7 +67,7 @@ export const InputResultArea = styled.div`
           width: 58px;
         }
 
-        > .delete-result-box {
+        .delete-result-box {
           margin-top: 1.4rem;
           cursor: pointer;
         }
