@@ -152,3 +152,13 @@ export const answerTypeOptions: string[] = [
   'Attachment',
   'Dropdown options'
 ]
+
+export const ProjectInputInitialValue = {
+  result_area_form: [
+    {
+      resultAreaInput: '',
+      expectedList: [{}],
+      activities: [{ activityInput: '', milestones: [{}] }]
+    }
+  ]
+}

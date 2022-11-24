@@ -1,6 +1,6 @@
 import React from 'react'
 import InputResult from './InputResult'
-import { VALIDATE_MESSAGES_PROJECT_INPUT } from '../../../../helpers/constants'
+import { ProjectInputInitialValue, VALIDATE_MESSAGES_PROJECT_INPUT } from '../../../../helpers/constants'
 import { AsnButton } from '../../../Forms/Button'
 import { Form } from '../../../Forms/Form'
 import { ProjectInputForm } from '../../../Forms/ProjectInputForm'
@@ -22,7 +22,7 @@ const setTitleColor: (element: HTMLElement, color: string) => void = (element, c
   }
 }
 
-const setError: () => void = () => {
+const setError: (values: FormData) => void = (values) => {
   // @ts-expect-error
   const errorsIndex = [...new Set(values.errorFields.map((r) => r.name[1]))]
 
@@ -52,24 +52,16 @@ export const First: React.FC = () => {
     nextCurrent()
   }
 
-  const onFinishFailed: any = (values: any) => {
+  const onFinishFailed: any = (values: FormData) => {
     console.log(values, 'failed')
 
-    setError()
+    setError(values)
   }
 
   return (
     <ProjectInputForm
       form={form}
-      initialValues={{
-        result_area_form: [
-          {
-            resultAreaInput: '',
-            expectedList: [{}],
-            activities: [{ activityInput: '', milestones: [{}] }]
-          }
-        ]
-      }}
+      initialValues={ProjectInputInitialValue}
       layout="vertical"
       validateMessages={VALIDATE_MESSAGES_PROJECT_INPUT}
       onFinish={onFinish}
