@@ -217,9 +217,6 @@ const GlobalStyle = createGlobalStyle`
       fill: var(--dark-1);
     }
   }
-  .ant-popover-message-icon{
-    display: none;
-  }
   }
  
 `

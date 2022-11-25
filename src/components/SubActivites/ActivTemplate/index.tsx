@@ -85,6 +85,7 @@ export const ActiveTempalate: React.FC = () => {
             okText
             cancelText="X"
             placement="bottom"
+            icon={false}
           >
             <Button
               type="link"
@@ -109,6 +110,7 @@ export const ActiveTempalate: React.FC = () => {
             okText
             cancelText="X"
             placement="bottom"
+            icon={false}
           >
             <Button
               type="link"
@@ -133,6 +135,7 @@ export const ActiveTempalate: React.FC = () => {
             okText
             cancelText="X"
             placement="bottom"
+            icon={false}
           >
             <Button
               type="link"
