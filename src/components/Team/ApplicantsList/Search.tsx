@@ -5,8 +5,9 @@ import { ReactComponent as DownloadInfo } from '../../../assets/icons/download.s
 import AsnInput from '../../Forms/Input'
 import { AsnButton } from '../../Forms/Button'
 import AddApplicantModal from './CreateApplicantsModal'
+import { ShowDeleteUserModal } from '../../../types/teams'
 
-const SearchApplicants: React.FC<{ showModal: string | undefined, setShowModal: React.Dispatch<React.SetStateAction<string >> }> = ({
+const SearchApplicants: React.FC<ShowDeleteUserModal> = ({
   showModal,
   setShowModal
 }) => {

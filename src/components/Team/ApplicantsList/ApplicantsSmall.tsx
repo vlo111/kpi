@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Row, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 
-import { TemUsersType } from '../../../types/teams'
+import { ShowAddUserModalTypes, TemUsersType } from '../../../types/teams'
 import { TeamList } from '../../../helpers/fakeData'
 import { AsnModal } from '../../../components/Forms/Modal/index'
 import { AsnButton } from '../../Forms/Button'
@@ -79,7 +79,7 @@ const columns: ColumnsType<TemUsersType> = [
   }
 ]
 
-const ApplicantsListSmall: React.FC<{ setShowModal: React.Dispatch<React.SetStateAction<boolean >> }> = ({ setShowModal }) => {
+const ApplicantsListSmall: React.FC<ShowAddUserModalTypes> = ({ setShowModal }) => {
   const navigate = useNavigate()
   return (
         <ApplicantListSmall

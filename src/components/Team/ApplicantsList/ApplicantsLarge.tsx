@@ -10,14 +10,14 @@ import AddApplicantModal from './CreateApplicantsModal'
 import { ConfirmModal } from '../../Forms/Modal/ConfirmModal'
 import ApplicantPermissionInfoModal from './AppllicantPermissionModal'
 import { AsnTable } from '../../Forms/Table'
-import { TableParams, UsersType } from '../../../types/teams'
+import { TableGlobals, TableParams, UsersType } from '../../../types/teams'
 
 const ApplicantList = styled.div`
     margin-top: 8px;
     height: calc(100% - 75px);
 `
 
-const getRandomuserParams: (params: TableParams) => { pagination?: TablePaginationConfig, page: number | undefined, results: number | undefined } = (params: TableParams) => ({
+const getRandomuserParams: TableGlobals = (params) => ({
   results: params.pagination?.pageSize,
   page: params.pagination?.current,
   ...params
@@ -130,8 +130,8 @@ const ApplicantsList: React.FC<{}> = () => {
     fetchData()
   }, [JSON.stringify(tableParams)])
 
-  const handleTableChange: any = (
-    pagination: TablePaginationConfig
+  const handleTableChange: (pagination: TablePaginationConfig) => void = (
+    pagination
   ) => {
     setTableParams({
       pagination

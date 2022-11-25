@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Cascader, Col, Radio, RadioChangeEvent, Row } from 'antd'
@@ -10,6 +9,7 @@ import AsnInput from '../../Forms/Input'
 import { VALIDATE_MESSAGES } from '../../../helpers/constants'
 import { AsnButton } from '../../Forms/Button'
 import { UsersPermissionsRule } from '../../../helpers/fakeData'
+import { ShowDeleteUserModal } from '../../../types/teams'
 
 const AddApplicantsModalWrapper = styled(AsnModal)`
     width: 600px !important;
@@ -99,15 +99,15 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
     }
 `
 
-const AddApplicantModal: React.FC<{ setShowModal: React.Dispatch<React.SetStateAction<string >> }> = ({ setShowModal }) => {
+const AddApplicantModal: React.FC<ShowDeleteUserModal> = ({ setShowModal }) => {
   const [form] = Form.useForm()
   const [value, setValue] = useState(1)
-  const [filedValue, setFiledValue] = useState<string [] | undefined>(undefined)
+  const [filedValue, setFiledValue] = useState<string [] | undefined >(undefined)
   const [cascadeValue, setCascadeValue] = useState<string [] | undefined>(undefined)
 
-  const [defaultVal, setDefaultVal] = useState(UsersPermissionsRule)
+  const [defaultVal] = useState(UsersPermissionsRule)
 
-  const onChange: any = (value: string[]) => {
+  const onChange: any = (value: string []) => {
     setCascadeValue(value)
     setFiledValue(value)
   }

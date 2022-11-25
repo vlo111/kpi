@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Breadcrumb, Col, Row } from 'antd'
 
 import { AsnModal } from '../../Forms/Modal'
+import { ShowPermissionModalTypes } from '../../../types/teams'
 
 const PermissionInfoModal = styled(AsnModal)`
    width: 628px !important;
@@ -22,7 +23,7 @@ const PermissionInfoModal = styled(AsnModal)`
 
 `
 
-const ApplicantPermissionInfoModal: React.FC<{ showPermissionModal: boolean, setShowPermissionModal: (b: boolean) => void }> = ({ showPermissionModal, setShowPermissionModal }) => {
+const ApplicantPermissionInfoModal: React.FC<ShowPermissionModalTypes> = ({ showPermissionModal, setShowPermissionModal }) => {
   return (
         <PermissionInfoModal
             open={ showPermissionModal }
