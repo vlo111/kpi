@@ -1,18 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 import { AsnButton } from '../../../../Forms/Button'
-import { ReactComponent as DeleteIcon } from '../../../../../assets/icons/delete.svg'
-// import { Row, Col } from 'antd'
 import { Form } from '../../../../Forms/Form'
 import LearningStatus from './LearningStatus'
+import { Space } from 'antd'
 
 const CourseSectionContainer = styled.div`
-
-    .ant-col-sm-20{
-        max-width: 100% !important;
-    }
+  .ant-col-sm-20 {
+    max-width: 100% !important;
+  }
 `
-
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -31,15 +28,48 @@ const formItemLayoutWithOutLabel = {
 }
 
 const CourseSection: React.FC = () => {
+  const [form] = Form.useForm()
   const onFinish = (values: any): void => {
     console.log(values)
   }
+
+  const initFields = [
+    {
+      name: ['documentName'],
+      value: ''
+    },
+    {
+      name: ['documentCount'],
+      value: 0
+    },
+    {
+      name: ['statuses'],
+      value: 0
+    }
+  ]
   return (
     <CourseSectionContainer>
+      <Space
+        size={32}
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          margin: '2rem 0px 2rem 6% ',
+          width: '88%',
+          fontSize: 'var(--headline-font-size)'
+        }}
+      >
+        <span>Sections:</span>
+        <span>
+          Input course sections name and choose their learning statuses
+        </span>
+      </Space>
       <Form
         name="dynamic_form_item"
         {...formItemLayoutWithOutLabel}
         onFinish={onFinish}
+        form={form}
+        fields={initFields}
       >
         <Form.List initialValue={['']} name="names">
           {(fields, { add, remove }) => (
@@ -52,33 +82,16 @@ const CourseSection: React.FC = () => {
                   required={false}
                   key={field.key}
                 >
-                  <Form.Item
-                    {...field}
-                    validateTrigger={['onChange', 'onBlur']}
-                    rules={[
-                      {
-                        required: true,
-                        whitespace: true,
-                        message:
-                          "Please input passenger's name or delete this field."
-                      }
-                    ]}
-                    noStyle
-                  >
-                    <LearningStatus/>
+                  <Form.Item {...field}>
+                    <LearningStatus fields={fields} field={field} remove={remove}/>
                   </Form.Item>
-                  {fields.length > 1
-                    ? (
-                    <DeleteIcon className="dynamic-delete-button" onClick={() => remove(field.name)}/>
-                      )
-                    : null}
                 </Form.Item>
               ))}
               <Form.Item>
                 <AsnButton
                   type="primary"
                   onClick={() => add()}
-                  style={{ width: '88%' }}
+                  style={{ width: '88%', marginLeft: '6%' }}
                 >
                   Add field
                 </AsnButton>
@@ -87,9 +100,21 @@ const CourseSection: React.FC = () => {
           )}
         </Form.List>
         <Form.Item>
-          <AsnButton type="primary" htmlType="submit">
-            Submit
-          </AsnButton>
+          <Space
+            size={32}
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              margin: '2rem 0px 2rem 6% ',
+              width: '88%'
+            }}
+          >
+            <AsnButton>Cancel</AsnButton>
+            <AsnButton>Save as Draft</AsnButton>
+            <AsnButton type="primary" htmlType="submit">
+              Publish
+            </AsnButton>
+          </Space>
         </Form.Item>
       </Form>
     </CourseSectionContainer>

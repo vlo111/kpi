@@ -520,7 +520,7 @@ export const courseSectionData = [
   {
     id: uuidv4(),
     name: 'Selection',
-    checked: true,
+    checked: false,
     disabled: false
   },
   {

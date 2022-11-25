@@ -179,6 +179,11 @@ export interface ICreateTemplate {
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+export interface IAddRequiredDocument {
+  isOpenAddDocumentsModal: boolean
+  setIsOpenAddDocumentsModal: React.Dispatch<React.SetStateAction<boolean>>
+}
+
 export interface ITemplateData {
   id: string
   title: string
@@ -230,3 +235,9 @@ export type ProjectTargetRule = (
 | (() => { validator: (_: RuleObject, value: any) => Promise<void> })
 | { required: boolean, message: string, pattern: RegExp }
 >
+
+export interface ILearningStatus {
+  fields: FormListFieldData[]
+  field: FormListFieldData
+  remove: (index: number | number[]) => void
+}

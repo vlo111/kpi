@@ -1,13 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-// import { AsnButton } from '../../../../Forms/Button'
-import { Row, Col, Space, Checkbox } from 'antd'
+import { Row, Col, Space, Checkbox, Form } from 'antd'
 import { courseSectionData } from '../../../../../../helpers/fakeData'
 import { AsnButton } from '../../../../../Forms/Button'
+import { ReactComponent as DeleteIcon } from '../../../../../../assets/icons/delete.svg'
+import AddRequiredDocumentModal from '../AddRequiredDocumentModal'
+import { ILearningStatus } from '../../../../../../types/project'
 
 const SectionContainer = styled(Row)`
   width: 100%;
   gap: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .dynamic-delete-button{
+    margin-left: 11px;
+    cursor: pointer;
+  }
 `
 const SectionHeader = styled(Col)`
   background: var(--dark-7);
@@ -74,19 +84,33 @@ const SectionRow = styled(Space)`
   }
 `
 
-const LearningStatus: React.FC = () => {
+const LearningStatus: React.FC<ILearningStatus> = ({ fields, remove, field }) => {
+  const [isOpenAddDocumentsModal, setIsOpenAddDocumentsModal] = useState(false)
+
   return (
     <SectionContainer>
-      <SectionHeader span={21}>Section 1:</SectionHeader>
+      <SectionHeader>Section 1:</SectionHeader>
+      {fields.length > 1
+        ? (
+        <DeleteIcon
+          className="dynamic-delete-button"
+          onClick={() => remove(field.name)}
+        />
+          )
+        : null}
       <SectionContent>
         {courseSectionData.map((item) => (
           <SectionRow key={item.id} direction="horizontal">
             {item.name}
-            <Checkbox
-              style={{
-                color: 'var(--dark-2)'
-              }}
-            ></Checkbox>
+            <Form.Item name="statuses">
+              <Checkbox
+                style={{
+                  color: 'var(--dark-2)'
+                }}
+                defaultChecked={item.checked}
+                disabled={item.disabled}
+              ></Checkbox>
+            </Form.Item>
           </SectionRow>
         ))}
         <Space
@@ -98,9 +122,18 @@ const LearningStatus: React.FC = () => {
             marginTop: '1rem'
           }}
         >
-          <AsnButton type="primary">Add required documents</AsnButton>
+          <AsnButton
+            type="primary"
+            onClick={() => setIsOpenAddDocumentsModal(true)}
+          >
+            Add required documents
+          </AsnButton>
         </Space>
       </SectionContent>
+      <AddRequiredDocumentModal
+        isOpenAddDocumentsModal={isOpenAddDocumentsModal}
+        setIsOpenAddDocumentsModal={setIsOpenAddDocumentsModal}
+      />
     </SectionContainer>
   )
 }
