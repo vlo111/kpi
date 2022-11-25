@@ -1,16 +1,17 @@
 import React from 'react'
+import { Col, Row } from 'antd'
+import styled from 'styled-components'
+
 import { AsnCollapse } from '../../../../AsnCollapse'
 import { Panel } from '../../../../Forms/AsnCollapse'
-import { Col, Row } from 'antd'
 import AsnInput from '../../../../Forms/Input'
 import { AsnButton } from '../../../../Forms/Button'
-import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.svg'
 import { Form } from '../../../../Forms/Form'
+import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.svg'
 import {
   placeHolderInputDetails,
   rules
 } from '../../../../../utils/ProjectUtils'
-import styled from 'styled-components'
 import { IProjectDetailsItems } from '../../../../../types/project'
 
 const FormList = styled(Form.List)`

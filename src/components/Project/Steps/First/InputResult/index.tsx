@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
+import { Form, Row, Tooltip } from 'antd'
+
+import InputActivity from './Activity'
+import InputExpectedResult from './Expected'
+import { AsnButton } from '../../../../Forms/Button'
 import { AsnCollapse } from '../../../../AsnCollapse'
 import { Panel } from '../../../../Forms/AsnCollapse'
-import { InputResultArea } from '../../../../Forms/InputResultArea'
-import { ReactComponent as InfoSvg } from '../../../../../assets/icons/info.svg'
-import { Form, Row, Tooltip } from 'antd'
 import { TollTipText } from '../../../../../utils/ProjectUtils'
-import { AsnButton } from '../../../../Forms/Button'
-import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.svg'
-import { ConfirmModal } from '../../../../Forms/Modal/ConfirmModal'
-import InputExpectedResult from './Expected'
-import InputActivity from './Activity'
 import { HeaderElement } from '../../../../../helpers/constants'
+import { InputResultArea } from '../../../../Forms/InputResultArea'
+import { ConfirmModal } from '../../../../Forms/Modal/ConfirmModal'
+import { ReactComponent as InfoSvg } from '../../../../../assets/icons/info.svg'
+import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.svg'
 
 const InputResult: React.FC = () => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<any>()

@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { Form } from '../../../Forms/Form'
 import styled from 'styled-components'
-import { Items } from './Items'
-import { ConfirmModal } from '../../../Forms/Modal/ConfirmModal'
-import { AsnButton } from '../../../Forms/Button'
-import { useProject } from '../../../../hooks/project/useProject'
 import { Col, Row } from 'antd'
-import { VALIDATE_PROJECT_DETAILS_MESSAGES } from '../../../../helpers/constants'
+
+import { Items } from './Items'
+import { Form } from '../../../Forms/Form'
+import { AsnButton } from '../../../Forms/Button'
+import { ConfirmModal } from '../../../Forms/Modal/ConfirmModal'
+import { useProject } from '../../../../hooks/project/useProject'
 import { OpenDeleteResultModal } from '../../../../types/project'
+import { VALIDATE_PROJECT_DETAILS_MESSAGES } from '../../../../helpers/constants'
 
 const Collapses = styled.div`
   #dynamic_form_item > .ant-row {

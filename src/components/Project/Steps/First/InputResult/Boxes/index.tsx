@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
-import { AsnButton } from '../../../../../Forms/Button'
 import { Col, Row, Select } from 'antd'
+
+import { AsnButton } from '../../../../../Forms/Button'
 import { Form } from '../../../../../Forms/Form'
-import AsnInput, { TextArea } from '../../../../../Forms/Input'
-import { rules } from '../../../../../../utils/ProjectUtils'
 import { AsnSelect } from '../../../../../Forms/Select'
+import { rules } from '../../../../../../utils/ProjectUtils'
+import AsnInput, { TextArea } from '../../../../../Forms/Input'
 import {
   PlaceHolderActivityMilestone,
   PlaceHolderExpectedResult,
   TargetRule
 } from '../../../../../../helpers/constants'
-import { ReactComponent as DeleteSvg } from '../../../../../../assets/icons/delete.svg'
 import { ProjectInputBoxProps } from '../../../../../../types/project'
+import { ReactComponent as DeleteSvg } from '../../../../../../assets/icons/delete.svg'
 
 const { Option } = Select
 
