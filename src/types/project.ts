@@ -1,16 +1,11 @@
 import { Moment } from 'moment'
 import React from 'react'
-import { FormInstance } from 'antd/lib/form/hooks/useForm'
+import { FormListFieldData } from 'antd'
+import { RuleObject } from 'antd/lib/form'
 
 export type DisabledDate = (current: Moment, item: string) => boolean
 
 export type Date = Moment | null
-
-export type HandleSubmit = () => void
-
-export interface StepProps {
-  setStep: (b: boolean) => void
-}
 
 export type FormItemName = (
   name: string,
@@ -28,11 +23,18 @@ export type RulesPassword = (
   pattern: {
     pattern: RegExp
     message: string
-  },
-) => { rules: [{ required: true }, { min: number, message: string }, { max: number, message: string }, {
-  pattern: RegExp
-  message: string
-}] }
+  }
+) => {
+  rules: [
+    { required: true },
+    { min: number, message: string },
+    { max: number, message: string },
+    {
+      pattern: RegExp
+      message: string
+    }
+  ]
+}
 
 export type InitResultAreaFields = (
   data: any,
@@ -42,12 +44,6 @@ export type InitResultAreaFields = (
 export type InitGeneralInfoFields = (
   generalInfo: IGeneralInfo[]
 ) => Array<{ name: string[], value: string }>
-
-export interface IAddManagers {
-  setManagerModalOpen: (b: IManager | null) => void
-  setAddManager: (b: any) => void
-  manager: IManager | null
-}
 
 export interface IManager {
   id: string
@@ -59,33 +55,9 @@ export interface IManager {
   assigned: string
 }
 
-export interface IManagerState {
-  managers: IManager[]
-  addNewManager: (manager: IManager) => void
-  getManagerById: (id: string | null) => IManager | undefined
-  deleteManagerById: (id: string | null) => void
-  editManager: (manager: IManager) => void
-}
-
 export type ManagerFieldType = (
   manager: IManager | null
 ) => Array<{ name: string[], value: string | undefined }>
-
-export interface IPanel {
-  header: string
-  list: IPanelData[]
-  deleteData: HandlePanelDelete
-  addData: HandlePanelAdd
-}
-
-export interface IPanelData {
-  id: string
-  name: string
-}
-
-export type HandlePanelDelete = (header: string, id: string) => void
-
-export type HandlePanelAdd = (header: string) => void
 
 export interface IPanelIsActive {
   isActive: boolean
@@ -137,11 +109,6 @@ export interface IManagerIcon {
   fontSize?: string
 }
 
-export interface IManagerOverview {
-  id: string | null
-  setOverview: any
-}
-
 export interface TabNames {
   tabNumber: number
   name: string
@@ -183,15 +150,11 @@ export interface ActivityNamesProps {
   subActivity: boolean
 }
 
-export interface SubActivityProps {
-  multiple: boolean
-  activity: string
-  subActivities: string[]
-}
 export interface GeneralInfoProps {
   title: string
   description: string
 }
+
 export interface ResultAndActivitiesProps {
   option: string
   description: string
@@ -203,29 +166,15 @@ export interface ActivityNameProps {
   activityName: string
   divider: boolean
 }
+
 export interface ProjectsDetailProps {
   info: {
     title: string
     descriptions: string[]
   }
 }
+
 export type AddManagerHandle = (values: unknown) => void
-
-export interface IDetail {
-  name: string
-  id: string
-}
-
-export type Details = IDetail[]
-
-export interface IDetailsState {
-  organizations: Details
-  setOrganizations: (organization: IDetail[]) => void
-  regions: Details
-  setRegions: (region: IDetail[]) => void
-  sectors: Details
-  setSectors: (region: IDetail[]) => void
-}
 
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
@@ -256,38 +205,34 @@ export interface IQuestionsRow {
   setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export type InputResultTitle = (id: string, prefix: string, placeholder: string) => JSX.Element
+export type InputResultTitle = (
+  id: string,
+  prefix: string,
+  placeholder: string
+) => JSX.Element
 
 export interface IProjectDetailsItems {
   name: string
   onDelete: (remove: (name: string) => void, fields: string) => void
 }
 
-export interface IProjectItemsBox {
-  item: IExpectedResult | IMilestones
-  index: number
-  accessDelete: boolean
-  onDelete: (item: string, id: string) => void
-  form: FormInstance
+export interface ProjectInputBoxProps {
+  resultId: number
+  activityId?: number
+  type: string
+  list: FormListFieldData[]
+  add: (defaultValue?: any, insertIndex?: number | undefined) => void
+  remove: (index: number | number[]) => void
+  onDelete: (remove: (index: number | number[]) => void, field: number) => void
 }
 
-export interface IInputAreaBoxProps {
-  list: IExpectedResult[] | IMilestones[]
-  resultAreaId: string
-  activityId?: string
-  form: FormInstance
-}
+export type ProjectTargetRule = (
+  max: number
+) => Array<
+  | (() => { validator: (_: RuleObject, value: any) => Promise<void> })
+  | { required: boolean, message: string, pattern: RegExp }
+  >
 
-export interface IExpectedResultProps {
-  id: string
-  results: IExpectedResult[]
-  form: FormInstance
-}
-
-export interface IInputResultProps {
-  resultArea: IResultArea[]
-  form: FormInstance
-}
 export interface OverviewProps {
   subActivity: boolean
 }

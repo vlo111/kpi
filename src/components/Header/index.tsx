@@ -33,7 +33,7 @@ export const Header: React.FC = () => {
   const navigate = useNavigate()
   const logOut = (): void => {
     localStorage.removeItem('token')
-  }
+  };
 
   const data = [
     {
@@ -46,7 +46,7 @@ export const Header: React.FC = () => {
     },
     {
       label: (
-        <Button onClick={() => logOut() } type="text">
+        <Button onClick={() => logOut()} type="text">
           Sign Out
         </Button>
       ),
