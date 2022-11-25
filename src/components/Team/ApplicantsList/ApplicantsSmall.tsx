@@ -2,11 +2,12 @@ import React from 'react'
 import { Row, Space, Table } from 'antd'
 import styled from 'styled-components'
 import type { ColumnsType } from 'antd/es/table'
+import { useNavigate } from 'react-router-dom'
+
 import { TemUsersType } from '../../../types/teams'
 import { TeamList } from '../../../helpers/fakeData'
 import { AsnModal } from '../../../components/Forms/Modal/index'
 import { AsnButton } from '../../Forms/Button'
-import { useNavigate } from 'react-router-dom'
 import { PATHS } from '../../../helpers/constants'
 
 const ApplicantListSmall = styled(AsnModal)`

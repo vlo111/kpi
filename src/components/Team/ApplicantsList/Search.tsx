@@ -1,9 +1,10 @@
 import React from 'react'
+import { Col, Row } from 'antd'
+
 import { ReactComponent as DownloadInfo } from '../../../assets/icons/download.svg'
 import AsnInput from '../../Forms/Input'
 import { AsnButton } from '../../Forms/Button'
 import AddApplicantModal from './CreateApplicantsModal'
-import { Col, Row } from 'antd'
 
 const SearchApplicants: React.FC<{ showModal: any, setShowModal: any }> = ({
   showModal,

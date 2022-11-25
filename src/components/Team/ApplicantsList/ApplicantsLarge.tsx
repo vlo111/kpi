@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Space, TablePaginationConfig } from 'antd'
 import styled from 'styled-components'
+import qs from 'qs'
+
 import { ReactComponent as Preview } from '../../../assets/icons/eye.svg'
 import { ReactComponent as TrashSvg } from '../../../assets/icons/trash.svg'
 import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg'
@@ -8,7 +10,6 @@ import AddApplicantModal from './CreateApplicantsModal'
 import { ConfirmModal } from '../../Forms/Modal/ConfirmModal'
 import ApplicantPermissionInfoModal from './AppllicantPermissionModal'
 import { AsnTable } from '../../Forms/Table'
-import qs from 'qs'
 import { TableParams, UsersType } from '../../../types/teams'
 
 const ApplicantList = styled.div`

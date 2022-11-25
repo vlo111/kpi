@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
+import styled from 'styled-components'
+import { Cascader, Col, Radio, RadioChangeEvent, Row } from 'antd'
+import { DeleteOutlined } from '@ant-design/icons'
+
 import { AsnModal } from '../../Forms/Modal'
 import { Form } from '../../Forms/Form'
 import AsnInput from '../../Forms/Input'
 import { VALIDATE_MESSAGES } from '../../../helpers/constants'
-import styled from 'styled-components'
 import { AsnButton } from '../../Forms/Button'
-import { Cascader, Col, Radio, RadioChangeEvent, Row } from 'antd'
-import { DeleteOutlined } from '@ant-design/icons'
 import { UsersPermissionsRule } from '../../../helpers/fakeData'
 
 const AddApplicantsModalWrapper = styled(AsnModal)`

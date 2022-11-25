@@ -1,6 +1,7 @@
 import { Col, Row } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
+
 import { AsnModal } from '../../Forms/Modal'
 
 const PermissionInfoModal = styled(AsnModal)`
