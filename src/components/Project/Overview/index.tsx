@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   background: var(--background);
 `
 
-export const Overview: React.FC<OverviewProps> = ({ subActivity }) => {
+export const Overview: React.FC<OverviewProps> = ({ subActivity = false }) => {
   const [activeTab, setActiveTab] = useState<activeTabName>({
     number: null,
     default: true

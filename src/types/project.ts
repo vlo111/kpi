@@ -234,5 +234,5 @@ export type ProjectTargetRule = (
 >
 
 export interface OverviewProps {
-  subActivity: boolean
+  subActivity?: boolean
 }

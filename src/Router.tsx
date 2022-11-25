@@ -46,7 +46,7 @@ export const router = createBrowserRouter(
         <Route path={PATHS.ROOT} element={<Project />} />
         <Route path={PATHS.TEAMS} element={<Applicants />} />
         <Route path={PATHS.CREATEPROJECT} element={<CreateProject />} />
-        <Route path={PATHS.OVERVIEW} element={<Overview subActivity={false} />} />
+        <Route path={PATHS.OVERVIEW} element={<Overview />} />
         <Route path={PATHS.TEMPLATECREATE} element={<ActivityTemplate />} />
         <Route path={PATHS.PROJECTAREA} element={<ProjectSteps />} />
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
