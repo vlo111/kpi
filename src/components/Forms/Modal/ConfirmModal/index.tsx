@@ -32,7 +32,7 @@ const ConfirmModalWrapper = styled(AsnModal)`
 export const ConfirmModal: React.FC<ConfirmModalType> = ({ open, title, onSubmit, onCancel, yes, no, styles }) => {
   return (
         <ConfirmModalWrapper
-            open={open}
+            open={Boolean(open)}
             width={'600px'}
             onCancel={onCancel}
             footer={false}

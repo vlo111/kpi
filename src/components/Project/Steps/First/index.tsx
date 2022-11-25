@@ -6,8 +6,9 @@ import { Form } from '../../../Forms/Form'
 import { ProjectInputForm } from '../../../Forms/ProjectInputForm'
 import { useProject } from '../../../../hooks/project/useProject'
 import { FormFinish } from '../../../../types/global'
+import { SetResultArea, SetTitleColor } from '../../../../types/project'
 
-const setTitleColor: (element: HTMLElement, color: string) => void = (element, color) => {
+const setTitleColor: SetTitleColor = (element, color) => {
   if (element) {
     const titleElement = element.firstChild as HTMLElement
 
@@ -23,7 +24,7 @@ const setTitleColor: (element: HTMLElement, color: string) => void = (element, c
   }
 }
 
-const setError: (values: FormData) => void = (values) => {
+const setError: SetResultArea = (values) => {
   // @ts-expect-error
   const errorsIndex = [...new Set(values.errorFields.map((r) => r.name[1]))]
 

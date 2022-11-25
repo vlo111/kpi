@@ -5,25 +5,12 @@ import { InputResultArea } from '../../../../Forms/InputResultArea'
 import { ReactComponent as InfoSvg } from '../../../../../assets/icons/info.svg'
 import { Form, Row, Tooltip } from 'antd'
 import { TollTipText } from '../../../../../utils/ProjectUtils'
-import AsnInput from '../../../../Forms/Input'
 import { AsnButton } from '../../../../Forms/Button'
 import { ReactComponent as DeleteSvg } from '../../../../../assets/icons/delete.svg'
 import { ConfirmModal } from '../../../../Forms/Modal/ConfirmModal'
 import InputExpectedResult from './Expected'
 import InputActivity from './Activity'
-
-const header: (
-  key: number,
-  name: Array<number | string>,
-  index: string,
-  placeholder: string
-) => JSX.Element = (key, name, index, placeholder) => (
-  <div key={`result_area_header_${key}`} onClick={(e) => e.stopPropagation()}>
-    <Form.Item name={name} rules={[{ required: true, min: 5, max: 256 }]}>
-      <AsnInput prefix={index} placeholder={placeholder} />
-    </Form.Item>
-  </div>
-)
+import { HeaderElement } from '../../../../../helpers/constants'
 
 const InputResult: React.FC = () => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<any>()
@@ -58,11 +45,12 @@ const InputResult: React.FC = () => {
                     <AsnCollapse key={`${field.key}`} id={`${field.key}`}>
                       <Panel
                         key={`${field.key}`}
-                        header={header(
+                        header={HeaderElement(
                           field.key,
                           [field.name, 'resultAreaInput'],
                           `${index + 1}.`,
-                          'Example: Skill gap reduced'
+                          'Example: Skill gap reduced',
+                          'result_area_header_'
                         )}
                       >
                         <InputExpectedResult resultId={field.key}/>

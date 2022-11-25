@@ -7,6 +7,7 @@ import { AsnButton } from '../../../Forms/Button'
 import { useProject } from '../../../../hooks/project/useProject'
 import { Col, Row } from 'antd'
 import { VALIDATE_PROJECT_DETAILS_MESSAGES } from '../../../../helpers/constants'
+import { OpenDeleteResultModal } from '../../../../types/project'
 
 const Collapses = styled.div`
   #dynamic_form_item > .ant-row {
@@ -53,7 +54,7 @@ export const Last: React.FC = () => {
 
   const { prevCurrent } = useProject()
 
-  const [openDeleteResultModal, setOpenDeleteResultModal] = useState<any>()
+  const [openDeleteResultModal, setOpenDeleteResultModal] = useState<OpenDeleteResultModal>()
 
   const onFinish: any = (values: any) => {
     console.log(values, 'finish')
@@ -99,10 +100,10 @@ export const Last: React.FC = () => {
           open={openDeleteResultModal}
           title="Are you sure you want to delete  the field?"
           onSubmit={() => {
-            openDeleteResultModal.remove(openDeleteResultModal.fields)
-            setOpenDeleteResultModal(null)
+            if (openDeleteResultModal) { openDeleteResultModal.remove(openDeleteResultModal.fields) }
+            setOpenDeleteResultModal(undefined)
           }}
-          onCancel={() => setOpenDeleteResultModal(null)}
+          onCancel={() => setOpenDeleteResultModal(undefined)}
       />
     </Collapses>
   )
