@@ -101,8 +101,8 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
 const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) => {
   const [form] = Form.useForm()
   const [value, setValue] = useState(1)
-  const [filedValue, setFiledValue] = useState<any>(undefined)
-  const [cascadeValue, setCascadeValue] = useState<any>(undefined)
+  const [filedValue, setFiledValue] = useState<string [] | undefined>(undefined)
+  const [cascadeValue, setCascadeValue] = useState<string [] | undefined>(undefined)
 
   const [defaultVal, setDefaultVal] = useState(UsersPermissionsRule)
 
@@ -192,6 +192,7 @@ const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) =>
                             >
                               <Cascader
                                value={filedValue}
+                               popupClassName="customCascaderPopup"
                                options={defaultVal}
                                onChange={onChange}
                                displayRender={label => label.join(' >  ')}

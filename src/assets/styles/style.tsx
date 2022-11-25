@@ -195,16 +195,31 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 10px;
     padding: 15px 0;
   }
-  .ant-cascader-menu-item-expand >
-  .ant-cascader-checkbox {
-        display: none !important;
+
+  .customCascaderPopup{
+    .ant-cascader-menu-item-expand >
+    .ant-cascader-checkbox {
+          display: none !important;
+    }
+
+    .ant-cascader-menus ul:first-child {
+     .ant-cascader-checkbox {
+         display: none !important;
+      }
+    }
+    .ant-cascader-menu-item-active{
+
+      background-color: var(--primary-light-1);
+      &:hover{
+        background-color: var(--primary-light-1);
+      }
+    }
+    .ant-cascader-checkbox-checked .ant-cascader-checkbox-inner{
+      background-color: var(--dark-border-ultramarine);
+      border: var(--dark-border-ultramarine);
+    }
   }
 
-  .ant-cascader-menus ul:first-child {
-    .ant-cascader-checkbox {
-        display: none !important;
-  }
-  }
 `
 
 export default GlobalStyle
