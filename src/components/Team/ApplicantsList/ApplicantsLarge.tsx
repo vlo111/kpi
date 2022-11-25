@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Space, TablePaginationConfig } from 'antd'
 import styled from 'styled-components'
 import qs from 'qs'
+import { Space, TablePaginationConfig } from 'antd'
 
 import { ReactComponent as Preview } from '../../../assets/icons/eye.svg'
 import { ReactComponent as TrashSvg } from '../../../assets/icons/trash.svg'
@@ -17,14 +17,13 @@ const ApplicantList = styled.div`
     height: calc(100% - 75px);
 `
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const getRandomuserParams = (params: TableParams) => ({
+const getRandomuserParams: (params: TableParams) => { pagination?: TablePaginationConfig, page: number | undefined, results: number | undefined } = (params: TableParams) => ({
   results: params.pagination?.pageSize,
   page: params.pagination?.current,
   ...params
 })
 
-const ApplicantsList: React.FC<{ }> = () => {
+const ApplicantsList: React.FC<{}> = () => {
   const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState(false)
   const [showModal, setShowModal] = useState('')
   const [openApplicantPermissionModal, setOpenApplicantPermissionModal] = useState(false)
@@ -110,8 +109,7 @@ const ApplicantsList: React.FC<{ }> = () => {
     }
   })
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const fetchData = () => {
+  const fetchData = (): void => {
     setLoading(true)
     void fetch(`https://randomuser.me/api?${qs.stringify(getRandomuserParams(tableParams))}`)
       .then(async res => await res.json())
@@ -132,8 +130,7 @@ const ApplicantsList: React.FC<{ }> = () => {
     fetchData()
   }, [JSON.stringify(tableParams)])
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const handleTableChange = (
+  const handleTableChange: any = (
     pagination: TablePaginationConfig
   ) => {
     setTableParams({

@@ -1,6 +1,6 @@
-import { Col, Row } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
+import { Breadcrumb, Col, Row } from 'antd'
 
 import { AsnModal } from '../../Forms/Modal'
 
@@ -30,10 +30,22 @@ const ApplicantPermissionInfoModal: React.FC<{ showPermissionModal: boolean, set
             mask={false}
             onCancel={() => setShowPermissionModal(false)}
         >
-            <Row gutter={24} style={{ color: 'var(--dark-2)', fontSize: 'var(--base-font-size)' }}>
-              <Col span={24} style={{ marginBottom: '24px' }}>Result Area {' > '} Result area 1</Col>
-              <Col span={24}>Template {' > '} Result area 1 {' > '} Activity 1.2  {' > '} One section course template</Col>
-            </Row>
+             <Row gutter={24}>
+               <Col span={24} style={{ marginBottom: '24px' }}>
+                 <Breadcrumb separator=">" style={{ color: 'var(--dark-2)', fontSize: 'var(--base-font-size)' }}>
+                   <Breadcrumb.Item>Result Area</Breadcrumb.Item>
+                   <Breadcrumb.Item >Result area 1</Breadcrumb.Item>
+                 </Breadcrumb>
+               </Col>
+               <Col span={24}>
+                 <Breadcrumb separator=">" style={{ color: 'var(--dark-2)', fontSize: 'var(--base-font-size)' }}>
+                   <Breadcrumb.Item>Template</Breadcrumb.Item>
+                   <Breadcrumb.Item >Result area 1</Breadcrumb.Item>
+                   <Breadcrumb.Item>Activity 1.2</Breadcrumb.Item>
+                   <Breadcrumb.Item>One section course template</Breadcrumb.Item>
+                 </Breadcrumb>
+               </Col>
+           </Row>
 
         </PermissionInfoModal>
   )

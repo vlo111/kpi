@@ -1,8 +1,8 @@
 import React from 'react'
-import { Row, Space, Table } from 'antd'
-import styled from 'styled-components'
-import type { ColumnsType } from 'antd/es/table'
 import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import { Row, Space, Table } from 'antd'
+import type { ColumnsType } from 'antd/es/table'
 
 import { TemUsersType } from '../../../types/teams'
 import { TeamList } from '../../../helpers/fakeData'
@@ -79,7 +79,7 @@ const columns: ColumnsType<TemUsersType> = [
   }
 ]
 
-const ApplicantsListSmall: React.FC<{ setShowModal: any }> = ({ setShowModal }) => {
+const ApplicantsListSmall: React.FC<{ setShowModal: React.Dispatch<React.SetStateAction<boolean >> }> = ({ setShowModal }) => {
   const navigate = useNavigate()
   return (
         <ApplicantListSmall

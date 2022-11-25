@@ -99,7 +99,7 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
     }
 `
 
-const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) => {
+const AddApplicantModal: React.FC<{ setShowModal: React.Dispatch<React.SetStateAction<string >> }> = ({ setShowModal }) => {
   const [form] = Form.useForm()
   const [value, setValue] = useState(1)
   const [filedValue, setFiledValue] = useState<string [] | undefined>(undefined)
@@ -107,23 +107,18 @@ const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) =>
 
   const [defaultVal, setDefaultVal] = useState(UsersPermissionsRule)
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const onChange = (value: any, selectedOptions: any) => {
+  const onChange: any = (value: string[]) => {
     setCascadeValue(value)
     setFiledValue(value)
   }
 
-  console.log(cascadeValue)
-
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const onChangePermission = (e: RadioChangeEvent) => {
+  const onChangePermission: (e: RadioChangeEvent) => void = (e: RadioChangeEvent) => {
     setValue(e.target.value)
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const handleCancel = () => {
+  const handleCancel = (): void => {
     form.resetFields()
-    setShowModal(undefined)
+    setShowModal('')
   }
 
   return (
