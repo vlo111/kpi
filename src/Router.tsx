@@ -30,11 +30,9 @@ export const router = createBrowserRouter(
           <Route path={PATHS.FORGOTPASSWORD} element={<ForgotPassword />} />
           <Route path={PATHS.RESETPASSWORD} element={<ResetPassword />} />
         </Route>
-
       </Route>
       <Route element={<PrivateRoutes />} errorElement={<ErrorBoundary />}>
         <Route path={PATHS.ROOT} element={<SignUp />} />
-
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
