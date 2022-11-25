@@ -14,3 +14,5 @@ export interface ConfirmModalType {
   onCancel: () => void
   styles?: any
 }
+
+export type FinishFailed = (errorInfo: any) => void
