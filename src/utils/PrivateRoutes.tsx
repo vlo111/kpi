@@ -6,5 +6,5 @@ export const PrivateRoutes: React.FC = () => {
 
   return (
     <Outlet/>
-  )
-}
+  );
+};

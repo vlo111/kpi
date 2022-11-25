@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const clearLocalStorage = () => {
+export const clearLocalStorage = (): any => {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
 };
@@ -8,9 +8,9 @@ export const clearLocalStorage = () => {
 export const useLocalStorage: any = (keyName: any, defaultValue: any) => {
   const [storedValue, setStoredValue] = useState(() => {
     try {
-      const value = window.localStorage.getItem(keyName);
+      const value: string | null = window.localStorage.getItem(keyName);
 
-      if (value) {
+      if (value != null) {
         return JSON.parse(value);
       } else {
         window.localStorage.setItem(keyName, JSON.stringify(defaultValue));

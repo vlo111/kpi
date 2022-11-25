@@ -3,7 +3,10 @@ export const PATHS = {
   ERROR_403: 'no-access',
   SIGNIN: 'sign-in',
   SIGNUP: 'sign-up',
-  CONFIRMEMAILSIGNUP: 'confirm-email/:email'
+  RESENDCONFIRMATION: 'resend-confirmation/:email',
+  CONFIRMATION: 'confirm-email',
+  FORGOTPASSWORD: 'forgot-password',
+  RESETPASSWORD: 'reset-password'
 };
 
 export const VALIDATE_MESSAGES = {

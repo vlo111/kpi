@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import AsnButton from '../../components/Forms/Button';
-import useResendConfirmEmail from '../../api/Auth/useResendConfirmEmail';
+import useResendEmail from '../../api/Auth/useResendEmail';
 import { ReactComponent as CheckedSvg } from '../../assets/icons/checked.svg';
 
 const Checked = styled.div`
@@ -15,9 +15,9 @@ span{
 }
 `;
 
-const ConfirmEmailSignUp: React.FC = () => {
+const ResendConfirmation: React.FC = () => {
   const { email } = useParams();
-  const { mutate: reSend, isLoading }: any = useResendConfirmEmail(
+  const { mutate: reSend, isLoading }: any = useResendEmail(
     {
       onSuccess: (payload: any) => {
         void message.success('sucess', 1);
@@ -68,4 +68,4 @@ const ConfirmEmailSignUp: React.FC = () => {
   );
 };
 
-export default ConfirmEmailSignUp;
+export default ResendConfirmation;

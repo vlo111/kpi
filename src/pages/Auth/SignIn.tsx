@@ -3,6 +3,7 @@ import { Row, Col, message } from 'antd';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
+import { useAuth } from '../../hooks/useAuth';
 
 import { PATHS, VALIDATE_MESSAGES } from '../../helpers/constants';
 import AsnInput from '../../components/Forms/Input';
@@ -10,6 +11,7 @@ import AsnButton from '../../components/Forms/Button';
 import useSignInApi from '../../api/Auth/useSignInApi';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import { Form } from '../../components/Forms/Form';
+// import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 const ForgotPassword = styled.div`
   color: var(--forget-password-gray); 
@@ -20,10 +22,19 @@ const ForgotPassword = styled.div`
 const SignIn: React.FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const { login, isToken } = useAuth();
+  // const { setValue } = useLocalStorage('token', null);
   const { mutate: signIn, isLoading } = useSignInApi(
     {
       onSuccess: (payload: any) => {
-        console.log(payload.data, 'payload.data');
+        const { id, firstName, lastName, email, accessToken } = payload.data;
+        login({
+          id,
+          firstName,
+          lastName,
+          email
+        });
+        isToken(accessToken);
         navigate(`/${PATHS.ROOT}`);
       },
       onError: (error: any) => { void message.error(error); }

@@ -15,6 +15,8 @@ const Container = styled.div`
   background-position: center;
   background-position-y: 100%;
   background-color: var(--background-auth);
+  height: 100vh;
+  width: 100vw
 `;
 
 const AuthLayout: React.FC = () => {

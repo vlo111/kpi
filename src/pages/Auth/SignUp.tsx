@@ -28,7 +28,7 @@ const SignUp: React.FC = () => {
     try {
       const { email } = values;
       signUp(values);
-      navigate(`/confirm-email/${email}`);
+      navigate(`/resend-confirmation/${email}`);
     } catch (error) {
       const errorMessage = get(error, 'error.message', 'Something went wrong!');
       void message.error(errorMessage);
@@ -46,7 +46,7 @@ const SignUp: React.FC = () => {
     { pattern: passwordRegExp },
     ({ getFieldValue }: { getFieldValue: (name: string) => string }) => ({
       async validator (_: object, value: string) {
-        if (!value || getFieldValue('password') === value) {
+        if (getFieldValue('password') === value) {
           return await Promise.resolve();
         }
         return await Promise.reject(new Error('The two passwords that you entered do not match!'));
