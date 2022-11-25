@@ -196,7 +196,7 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 10px;
     padding: 15px 0;
   }
-  .ant-popover{
+  .popconFirm{
     .ant-popover-buttons{
     position: absolute;
     top: 0;
@@ -216,6 +216,9 @@ const GlobalStyle = createGlobalStyle`
     svg path{
       fill: var(--dark-1);
     }
+  }
+  .ant-popover-message{
+    padding: 25px 6px 8px 20px
   }
   }
  

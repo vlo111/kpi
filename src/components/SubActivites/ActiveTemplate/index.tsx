@@ -45,16 +45,10 @@ export const ActiveTempalate: React.FC = () => {
     align-items: baseline;
   `
   const title = (
-    <div style={{ display: 'grid' }}>
-      <div
-        style={{
-          display: 'grid',
-          padding: '22px 0px 0px 10px',
-          color: 'inherit'
-        }}
-      >
+    <Row>
+      <Col>
         <Popup type="link">
-          <Eye style={{ SVGPathElement: '#263238' }} />
+          <Eye />
           View
         </Popup>
         <Popup type="link">
@@ -72,14 +66,15 @@ export const ActiveTempalate: React.FC = () => {
         <Popup type="link">
           <div style={{ fontSize: '20px' }}>+ </div>Use
         </Popup>
-      </div>
-    </div>
+      </Col>
+    </Row>
   )
   return (
     <Container>
       <Row gutter={[32, 0]}>
         <Col>
           <Popconfirm
+            overlayClassName="popconFirm"
             title={title}
             okText
             cancelText="X"
@@ -96,6 +91,7 @@ export const ActiveTempalate: React.FC = () => {
         </Col>
         <Col>
           <Popconfirm
+            overlayClassName="popconFirm"
             title={title}
             okText
             cancelText="X"
@@ -112,6 +108,7 @@ export const ActiveTempalate: React.FC = () => {
         </Col>
         <Col>
           <Popconfirm
+            overlayClassName="popconFirm"
             title={title}
             okText
             cancelText="X"
