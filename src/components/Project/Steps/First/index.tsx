@@ -5,7 +5,7 @@ import { AsnButton } from '../../../Forms/Button'
 import { Form } from '../../../Forms/Form'
 import { ProjectInputForm } from '../../../Forms/ProjectInputForm'
 import { useProject } from '../../../../hooks/project/useProject'
-import { FinishFailed } from '../../../../types/global'
+import { FormFinish } from '../../../../types/global'
 
 const setTitleColor: (element: HTMLElement, color: string) => void = (element, color) => {
   if (element) {
@@ -48,12 +48,12 @@ export const First: React.FC = () => {
   const { nextCurrent, prevCurrent } = useProject()
   const [form] = Form.useForm()
 
-  const onFinish: any = (values: any) => {
+  const onFinish: FormFinish = (values: FormData) => {
     console.log(values, 'finish')
     nextCurrent()
   }
 
-  const onFinishFailed: FinishFailed = (values: FormData) => {
+  const onFinishFailed: FormFinish = (values: FormData) => {
     console.log(values, 'failed')
 
     setError(values)
