@@ -6,7 +6,7 @@ import AsnInput from '../../Forms/Input'
 import { AsnButton } from '../../Forms/Button'
 import AddApplicantModal from './CreateApplicantsModal'
 
-const SearchApplicants: React.FC<{ showModal: string | undefined, setShowModal: any }> = ({
+const SearchApplicants: React.FC<{ showModal: string | undefined, setShowModal: React.Dispatch<React.SetStateAction<string >> }> = ({
   showModal,
   setShowModal
 }) => {

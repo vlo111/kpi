@@ -25,7 +25,7 @@ const ApplicantContent = styled.div`
 `
 
 const Applicants: React.FC<{}> = () => {
-  const [showModal, setShowModal] = useState(undefined)
+  const [showModal, setShowModal] = useState('')
 
   return (
     <ApplicantContent>
