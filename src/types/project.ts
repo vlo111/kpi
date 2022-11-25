@@ -229,9 +229,9 @@ export interface ProjectInputBoxProps {
 export type ProjectTargetRule = (
   max: number
 ) => Array<
-  | (() => { validator: (_: RuleObject, value: any) => Promise<void> })
-  | { required: boolean, message: string, pattern: RegExp }
-  >
+| (() => { validator: (_: RuleObject, value: any) => Promise<void> })
+| { required: boolean, message: string, pattern: RegExp }
+>
 
 export interface OverviewProps {
   subActivity: boolean
