@@ -33,7 +33,7 @@ export const Header: React.FC = () => {
   const navigate = useNavigate()
   const logOut = (): void => {
     localStorage.removeItem('token')
-  };
+  }
 
   const data = [
     {

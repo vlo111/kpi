@@ -5,6 +5,7 @@ import { AsnButton } from '../../../Forms/Button'
 import ActiveName from '../ActiveName'
 import { ActivityNamesProps, AddManagerHandle } from '../../../../types/project'
 import CreateTemplate from './CreateTemplateModal'
+import { SubAndActive } from '../../../SubActivites'
 
 const Activities = styled.div`
   display: flex;
@@ -13,25 +14,25 @@ const Activities = styled.div`
   width: 20vw;
 `
 const ActivitiesNames = styled.div`
-  background: var(--white);;
+  background: var(--white);
   height: 66vh;
   padding: 47px 0px 0px 24px;
   display: flex;
-  gap: 16px; 
+  gap: 16px;
   box-shadow: -2px 4px 8px rgba(42, 85, 120, 0.1);
 `
 const EditPublish = styled.div`
   width: 100%;
-  display: flex; 
-  align-items: center; 
-  flex-direction: column; 
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   box-shadow: -4px -4px 8px rgba(17, 27, 35, 0.05), 4px 4px 8px rgba(17, 27, 35, 0.25);
   svg{
     margin-top: 25px;
   }
 `
 
-const ActivityNames: React.FC<ActivityNamesProps> = ({ names, activeName, setActiveName }) => {
+const ActivityNames: React.FC<ActivityNamesProps> = ({ names, activeName, setActiveName, subActivity }) => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState<boolean>(false)
 
   const onEditedPublishProject: AddManagerHandle = () => {
@@ -49,11 +50,12 @@ const ActivityNames: React.FC<ActivityNamesProps> = ({ names, activeName, setAct
           ))}
         </Activities>
       </div>
-      <EditPublish>
+      {!subActivity && <EditPublish>
         <EditSvg />
-        <AsnButton style={{ maxWidth: '300px', fontSize: 'var(--base-font-size)' }} className='primary' type='primary' onClick={onEditedPublishProject
-        }>Edit and Publish the project</AsnButton>
-      </EditPublish>
+        <AsnButton style={{ maxWidth: '300px', fontSize: 'var(--base-font-size)' }} className='primary' type='primary' onClick={onEditedPublishProject}
+        >Edit and Publish the project</AsnButton>
+      </EditPublish>}
+      {subActivity && <SubAndActive/>}
       <CreateTemplate isOpenCreateActivityModal={isOpenCreateActivityModal} setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}/>
     </ActivitiesNames>
   )

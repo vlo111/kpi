@@ -191,19 +191,18 @@ const GlobalStyle = createGlobalStyle`
   input[type=number] {
     -moz-appearance: textfield;
   }
+  
   .ant-dropdown-menu{
     border-radius: 10px;
     padding: 15px 0;
   }
-  .ant-popover-message-icon{
-    display: none;
-  }
+  
   .ant-popover-buttons{
     position: absolute;
     top: 0;
     width: 100%;
     margin-left: 16px;
-    
+
     button {
       &:hover{
         border: none;
@@ -216,7 +215,7 @@ const GlobalStyle = createGlobalStyle`
     svg path{
       fill: var(--dark-1);
     }
-}
+  }
 `
 
 export default GlobalStyle
