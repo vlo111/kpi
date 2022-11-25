@@ -140,14 +140,14 @@ export interface TabsNames {
     number: number | null
     default: boolean
   }
-  subActivity: boolean
+  subActivity?: boolean
 }
 
 export interface ActivityNamesProps {
   names: string[]
   activeName: number | undefined
   setActiveName: React.Dispatch<React.SetStateAction<number | undefined>>
-  subActivity: boolean
+  subActivity?: boolean
 }
 
 export interface GeneralInfoProps {

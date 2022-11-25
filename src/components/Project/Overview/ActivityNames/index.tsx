@@ -32,7 +32,7 @@ const EditPublish = styled.div`
   }
 `
 
-const ActivityNames: React.FC<ActivityNamesProps> = ({ names, activeName, setActiveName, subActivity }) => {
+const ActivityNames: React.FC<ActivityNamesProps> = ({ names, activeName, setActiveName, subActivity = false }) => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState<boolean>(false)
 
   const onEditedPublishProject: AddManagerHandle = () => {

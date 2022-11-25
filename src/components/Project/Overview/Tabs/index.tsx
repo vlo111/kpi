@@ -16,7 +16,7 @@ const Tabs: React.FC<TabsNames> = ({
   tabNames,
   handleActiveTab,
   activeTab,
-  subActivity
+  subActivity = false
 }) => {
   return (
     <TabNameWrapper>
