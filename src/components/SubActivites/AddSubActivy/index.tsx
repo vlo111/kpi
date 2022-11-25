@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Card, Row, Col } from 'antd'
+
 import { AddManagerHandle, ICreateTemplate } from '../../../types/project'
 import { AsnModal } from '../../Forms/Modal'
-import { Card, Row, Col } from 'antd'
 
 const SubModal = styled(AsnModal)`
     padding: 4.3vh 1.3vw 4.5vh 2.3vh !important;
