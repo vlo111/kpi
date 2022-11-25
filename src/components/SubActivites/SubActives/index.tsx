@@ -60,6 +60,13 @@ background: rgba(104, 163, 149, 0.05);
 border-top: 2px solid var(--secondary-green);
 box-shadow: 0px 4px 4px rgba(104, 163, 149, 0.2);
 }
+.cardRoundInactive{
+  border: 2px solid var(--dark-5);
+}
+.active{
+  border: 2px solid var(--secondary-green);
+   align-Items: center;
+}
 .ant-card-head-title{
  font-size: var(--headline-font-size);
 }
@@ -94,7 +101,7 @@ export const SubActivity: React.FC = () => {
    </Button>
    <AddSubActivity isOpenCreateActivityModal={isOpenCreateActivityModal} setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}/>
    <Card title="Card title" className='cardInactive card'>
-          <div className='cardRoundInactive cardRound' style={{ border: '2px solid var(--dark-5)' }}></div>
+          <div className='cardRoundInactive cardRound'></div>
           <p>Node Cours</p>
           <p><Location/>Gyumri</p>
           <p><Calendar/>jul 12  julk 25</p>
@@ -115,28 +122,28 @@ export const SubActivity: React.FC = () => {
           <p>IT </p>
         </Card>
         <Card title="Card title" className='cardInactive card'>
-          <div className='cardRoundInactive cardRound' style={{ border: '2px solid var(--dark-5)' }}></div>
+          <div className='cardRoundInactive cardRound'></div>
           <p>Node Cours</p>
           <p><Location/>Gyumri</p>
           <p><Calendar/>jul 12  julk 25</p>
           <p>IT </p>
         </Card>
         <Card title="Card title" className='card cardActive'>
-        <div className='cardRound active' style={{ border: '2px solid var(--secondary-green)', alignItems: 'center' }}><Active/></div>
+        <div className='cardRound active'><Active/></div>
           <p>Node Cours</p>
           <p><Location/>Gyumri</p>
           <p><Calendar/>jul 12  julk 25</p>
           <p>IT </p>
         </Card>
         <Card title="Card title" className='card cardActive'>
-          <div className='cardRound active' style={{ border: '2px solid var(--secondary-green)', alignItems: 'center' }}><Active/></div>
+          <div className='cardRound active'><Active/></div>
           <p>Node Cours</p>
           <p><Location/>Gyumri</p>
           <p><Calendar/>jul 12  julk 25</p>
           <p>IT </p>
         </Card>
         <Card title="Card title" className='cardInactive card'>
-          <div className='cardRoundInactive cardRound' style={{ border: '2px solid var(--secondary-green)' }}></div>
+          <div className='cardRoundInactive cardRound' ></div>
           <p>Node Cours</p>
           <p><Location/>Gyumri</p>
           <p><Calendar/>jul 12  julk 25</p>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ActiveTempalate } from './ActivTemplate'
+import { ActiveTempalate } from './ActiveTemplate'
 import { SubActivity } from './SubActives'
 import { Tabs } from 'antd'
 import styled from 'styled-components'

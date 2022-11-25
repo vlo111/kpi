@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React from 'react'
 import { Button, Popconfirm, Card, Col, Row } from 'antd'
 import styled from 'styled-components'
@@ -30,15 +28,16 @@ export const ActiveTempalate: React.FC = () => {
       height: 52vh;
       overflow: auto;
     }
+    .cardClick {
+      position: absolute;
+      z-index: 1;
+      right: 20px;
+      color: #111b23;
+    }
   `
-  const confirm = async () =>
-    await new Promise((resolve) => {
-      setTimeout(() => resolve(null), 3000)
-    })
   const Popup = styled(Button)`
     display: grid;
     grid-template-columns: 21px auto;
-    align-items: center;
     justify-content: flex-start;
     grid-gap: 11px;
     padding: 0 2px;
@@ -82,21 +81,12 @@ export const ActiveTempalate: React.FC = () => {
         <Col>
           <Popconfirm
             title={title}
-            onConfirm={confirm}
             okText
             cancelText="X"
             placement="bottom"
             icon={false}
           >
-            <Button
-              type="link"
-              style={{
-                position: 'absolute',
-                zIndex: '1',
-                right: '20px',
-                color: '#111B23'
-              }}
-            >
+            <Button type="link" className="cardClick">
               ...
             </Button>
           </Popconfirm>
@@ -107,21 +97,12 @@ export const ActiveTempalate: React.FC = () => {
         <Col>
           <Popconfirm
             title={title}
-            onConfirm={confirm}
             okText
             cancelText="X"
             placement="bottom"
             icon={false}
           >
-            <Button
-              type="link"
-              style={{
-                position: 'absolute',
-                zIndex: '1',
-                right: '20px',
-                color: '#111B23'
-              }}
-            >
+            <Button type="link" className="cardClick">
               ...
             </Button>
           </Popconfirm>
@@ -132,21 +113,12 @@ export const ActiveTempalate: React.FC = () => {
         <Col>
           <Popconfirm
             title={title}
-            onConfirm={confirm}
             okText
             cancelText="X"
             placement="bottom"
             icon={false}
           >
-            <Button
-              type="link"
-              style={{
-                position: 'absolute',
-                zIndex: '1',
-                right: '20px',
-                color: '#111B23'
-              }}
-            >
+            <Button type="link" className="cardClick">
               ...
             </Button>
           </Popconfirm>
