@@ -196,14 +196,15 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 10px;
     padding: 15px 0;
   }
-  
-  .ant-popover-buttons{
+  .ant-popover{
+    .ant-popover-buttons{
     position: absolute;
     top: 0;
     width: 100%;
     margin-left: 16px;
 
     button {
+      border: none;
       &:hover{
         border: none;
         color: inherit;
@@ -216,6 +217,11 @@ const GlobalStyle = createGlobalStyle`
       fill: var(--dark-1);
     }
   }
+  .ant-popover-message-icon{
+    display: none;
+  }
+  }
+ 
 `
 
 export default GlobalStyle

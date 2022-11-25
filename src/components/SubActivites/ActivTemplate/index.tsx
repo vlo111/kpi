@@ -34,8 +34,18 @@ export const ActiveTempalate: React.FC = () => {
     await new Promise((resolve) => {
       setTimeout(() => resolve(null), 3000)
     })
+  const Popup = styled(Button)`
+    display: grid;
+    grid-template-columns: 21px auto;
+    align-items: center;
+    justify-content: flex-start;
+    grid-gap: 11px;
+    padding: 0 2px;
+    color: #263238;
+    align-items: baseline;
+  `
   const title = (
-   <div style={{ display: 'grid' }}>
+    <div style={{ display: 'grid' }}>
       <div
         style={{
           display: 'grid',
@@ -43,81 +53,25 @@ export const ActiveTempalate: React.FC = () => {
           color: 'inherit'
         }}
       >
-        <Button
-          type="link"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '21px auto',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            gridGap: '11px',
-            padding: '0 2px',
-            color: '#263238'
-          }}
-        >
-          <Eye style={{ SVGPathElement: '#263238' }}/>
+        <Popup type="link">
+          <Eye style={{ SVGPathElement: '#263238' }} />
           View
-        </Button>
-        <Button
-          type="link"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '21px auto',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            gridGap: '11px',
-            padding: '0 2px',
-            color: '#263238'
-          }}
-        >
+        </Popup>
+        <Popup type="link">
           <EditSvg />
           Edit
-        </Button>
-        <Button
-          type="link"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '21px auto',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            gridGap: '11px',
-            padding: '0 2px',
-            color: '#263238'
-          }}
-        >
+        </Popup>
+        <Popup type="link">
           <TrashSvg />
           Delete
-        </Button>
-        <Button
-          type="link"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '21px auto',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            gridGap: '11px',
-            padding: '0 2px',
-            color: '#263238'
-          }}
-        >
+        </Popup>
+        <Popup type="link">
           <Dublicat />
           Duplicate
-        </Button>
-        <Button
-          type="link"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '21px auto',
-            justifyContent: 'flex-start',
-            gridGap: '11px',
-            padding: '0 2px',
-            color: '#263238',
-            alignItems: 'baseline'
-
-          }}
-        >
-          <p style={{ fontSize: '20px' }}>+ </p>Use
-        </Button>
+        </Popup>
+        <Popup type="link">
+          <div style={{ fontSize: '20px' }}>+ </div>Use
+        </Popup>
       </div>
     </div>
   )
@@ -125,40 +79,73 @@ export const ActiveTempalate: React.FC = () => {
     <Container>
       <Row gutter={[32, 0]}>
         <Col>
-        <Popconfirm title={title} onConfirm={confirm} okText cancelText="X" placement="bottom" >
-        <Button
+          <Popconfirm
+            title={title}
+            onConfirm={confirm}
+            okText
+            cancelText="X"
+            placement="bottom"
+          >
+            <Button
               type="link"
-              style={{ position: 'absolute', zIndex: '1', right: '20px', color: '#111B23' }}
+              style={{
+                position: 'absolute',
+                zIndex: '1',
+                right: '20px',
+                color: '#111B23'
+              }}
             >
               ...
             </Button>
-    </Popconfirm>
+          </Popconfirm>
           <Card title="Card title" className="cardInactive card">
             Card content
           </Card>
         </Col>
         <Col>
-        <Popconfirm title={title} onConfirm={confirm} okText cancelText="X" placement="bottom" >
-        <Button
+          <Popconfirm
+            title={title}
+            onConfirm={confirm}
+            okText
+            cancelText="X"
+            placement="bottom"
+          >
+            <Button
               type="link"
-              style={{ position: 'absolute', zIndex: '1', right: '20px', color: '#111B23' }}
+              style={{
+                position: 'absolute',
+                zIndex: '1',
+                right: '20px',
+                color: '#111B23'
+              }}
             >
               ...
             </Button>
-    </Popconfirm>
+          </Popconfirm>
           <Card title="Card title" className="cardInactive card">
             Card content
           </Card>
         </Col>
         <Col>
-        <Popconfirm title={title} onConfirm={confirm} okText cancelText="X" placement="bottom" >
-        <Button
+          <Popconfirm
+            title={title}
+            onConfirm={confirm}
+            okText
+            cancelText="X"
+            placement="bottom"
+          >
+            <Button
               type="link"
-              style={{ position: 'absolute', zIndex: '1', right: '20px', color: '#111B23' }}
+              style={{
+                position: 'absolute',
+                zIndex: '1',
+                right: '20px',
+                color: '#111B23'
+              }}
             >
               ...
             </Button>
-    </Popconfirm>
+          </Popconfirm>
           <Card title="Card title" className="cardInactive card">
             Card content
           </Card>
