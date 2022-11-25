@@ -203,15 +203,18 @@ const GlobalStyle = createGlobalStyle`
     top: 0;
     width: 100%;
     margin-left: 16px;
-    button, button:hover{
-      border: none;
-      color: inherit;
+    
+    button {
+      &:hover{
+        border: none;
+        color: inherit;
+      }
     }
   }
   .ant-popover-inner-content {
     padding: 2px 28px 1px 0px;
     svg path{
-      fill: #111B23;
+      fill: var(--dark-1);
     }
 }
 `
