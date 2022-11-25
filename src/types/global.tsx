@@ -15,4 +15,4 @@ export interface ConfirmModalType {
   styles?: any
 }
 
-export type FinishFailed = (errorInfo: any) => void
+export type FormFinish = (errorInfo: any) => void
