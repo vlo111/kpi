@@ -41,7 +41,7 @@ export const ActiveTempalate: React.FC = () => {
     justify-content: flex-start;
     grid-gap: 11px;
     padding: 0 2px;
-    color: #263238;
+    color: var(--dark-2);
     align-items: baseline;
   `
   const title = (

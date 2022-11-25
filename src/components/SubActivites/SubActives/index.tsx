@@ -1,10 +1,11 @@
+import React, { useState } from 'react'
 import { Card, Row, Button, Typography } from 'antd'
 import styled from 'styled-components'
+
 import { ReactComponent as Active } from '../../../assets/icons/active.svg'
 import { ReactComponent as Location } from '../../../assets/icons/location.svg'
 import { ReactComponent as Calendar } from '../../../assets/icons/calendar.svg'
 // import { StatusFilter } from '../Filter/Status'
-import React, { useState } from 'react'
 import AddSubActivity from '../AddSubActivy'
 import { AddManagerHandle } from '../../../types/project'
 // import { AssingnesFilter } from '../Filter/Assigned'
