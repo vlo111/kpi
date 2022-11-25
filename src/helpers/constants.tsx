@@ -1,7 +1,7 @@
 import React from 'react'
 import { First } from '../components/Project/Steps/First'
 import { Last } from '../components/Project/Steps/Last'
-import { FormItemName, IManager, ManagerFieldType } from '../types/project'
+import { FormItemName, IManager, ManagerFieldType, ProjectTargetRule } from '../types/project'
 import { RuleObject } from 'antd/lib/form'
 import { StoreValue } from 'antd/lib/form/interface'
 
@@ -166,12 +166,7 @@ export const ProjectInputInitialValue = {
   ]
 }
 
-export const TargetRule: (
-  max: number
-) => Array<
-| (() => { validator: (_: RuleObject, value: any) => Promise<void> })
-| { required: boolean, message: string, pattern: RegExp }
-> = (max) => [
+export const TargetRule: ProjectTargetRule = (max) => [
   {
     required: true,
     message: '',

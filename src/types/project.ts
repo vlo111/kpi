@@ -1,6 +1,7 @@
 import { Moment } from 'moment'
 import React from 'react'
 import { FormListFieldData } from 'antd'
+import { RuleObject } from 'antd/lib/form'
 
 export type DisabledDate = (current: Moment, item: string) => boolean
 
@@ -222,3 +223,10 @@ export interface ProjectInputBoxProps {
   remove: (index: number | number[]) => void
   onDelete: (remove: (index: number | number[]) => void, field: number) => void
 }
+
+export type ProjectTargetRule = (
+  max: number
+) => Array<
+| (() => { validator: (_: RuleObject, value: any) => Promise<void> })
+| { required: boolean, message: string, pattern: RegExp }
+>
