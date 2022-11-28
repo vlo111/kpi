@@ -6,7 +6,7 @@ export interface SignUpForm {
   password: string
   repeatPassword: string
 }
-export interface SignInForm {
+export interface ISignInForm {
   email: string
   password: string
 }

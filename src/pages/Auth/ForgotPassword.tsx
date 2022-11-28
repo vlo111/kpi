@@ -4,7 +4,7 @@ import { Row, Col, message } from 'antd';
 import get from 'lodash/get';
 import { VALIDATE_MESSAGES } from '../../helpers/constants';
 import useForgotPassword from '../../api/Auth/useForgotPassword';
-import { Form } from '../../components/Forms/Form';
+import AsnForm from '../../components/Forms/Form';
 import AsnInput from '../../components/Forms/Input';
 import AsnButton from '../../components/Forms/Button';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +12,7 @@ import { TitleAuth } from '../../components/Layout/TitleAuth';
 import { ReactComponent as KeySvg } from '../../assets/icons/forgot.svg';
 
 const ForgotPassword: React.FC = () => {
-  const [form] = Form.useForm();
+  const [form] = AsnForm.useForm();
   const navigate = useNavigate();
   const { mutate: forgotPassword, isLoading }: any = useForgotPassword(
     {
@@ -54,7 +54,7 @@ const ForgotPassword: React.FC = () => {
   return (
       <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
         <Col span={8} style={{ maxWidth: '460px' }} >
-          <Form
+          <AsnForm
             name="signin"
             form={form}
             onFinish={onFinish}
@@ -65,20 +65,20 @@ const ForgotPassword: React.FC = () => {
             <KeySvg style={{ width: '100%', marginBottom: '26px' }} />
             <TitleAuth>Forget Password</TitleAuth>
             <Description>Please enter the email you use to sign in to Meetk.</Description>
-            <Form.Item
+            <AsnForm.Item
              name="email"
              label="Email Address"
              rules={[{ required: true }, { type: 'email' }, { max: 128 }]}
              >
               <AsnInput placeholder="Email Address" />
-            </Form.Item>
-            <Form.Item style={ { marginBottom: '9px' } }>
+            </AsnForm.Item>
+            <AsnForm.Item style={ { marginBottom: '9px' } }>
               <AsnButton className='primary' type="primary" htmlType="submit" loading={isLoading}>
                 Reset Password
               </AsnButton>
-            </Form.Item>
+            </AsnForm.Item>
             <BackSignIn onClick={() => navigate('/sign-in')}>Back To Sign In </BackSignIn>
-          </Form>
+          </AsnForm>
         </Col>
       </Row>
   );

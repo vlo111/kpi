@@ -10,8 +10,7 @@ import AsnInput from '../../components/Forms/Input';
 import AsnButton from '../../components/Forms/Button';
 import useSignInApi from '../../api/Auth/useSignInApi';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
-import { Form } from '../../components/Forms/Form';
-import { SignInForm } from '../../types/auth';
+import AsnForm from '../../components/Forms/Form';
 
 const ForgotPassword = styled.div`
   color: var(--forget-password-gray); 
@@ -20,7 +19,7 @@ const ForgotPassword = styled.div`
   margin-bottom: 24px;
 `;
 const SignIn: React.FC = () => {
-  const [form] = Form.useForm();
+  const [form] = AsnForm.useForm();
   const navigate = useNavigate();
   const { login, isToken } = useAuth();
   const { mutate: signIn, isLoading }: any = useSignInApi(
@@ -39,7 +38,7 @@ const SignIn: React.FC = () => {
       onError: (error: string) => { void message.error(error); }
     }
   );
-  const onFinish: any = (values: SignInForm) => {
+  const onFinish: any = (values: any) => {
     try {
       console.log(values);
       signIn(values);
@@ -48,13 +47,13 @@ const SignIn: React.FC = () => {
       void message.error(errorMessage);
     }
   };
-  const onFinishFailed: ((values: unknown | SignInForm) => void) | undefined = (values) => {
-    console.log(values, 'values');
+  const onFinishFailed = (): void => {
+    console.log('error');
   };
   return (
     <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
       <Col span={8} style={{ maxWidth: '460px' }}>
-        <Form
+        <AsnForm
           name="signin"
           form={form}
           initialValues={{
@@ -69,23 +68,23 @@ const SignIn: React.FC = () => {
           <TitleAuth>
             Sign In
           </TitleAuth>
-          <Form.Item
+          <AsnForm.Item
             name="email"
             label="Email Address"
             rules={[{ required: true }, { type: 'email' }, { max: 128 }]}
           >
             <AsnInput placeholder="Email Address" />
-          </Form.Item>
-          <Form.Item name="password" label="Password" rules={[{ required: true }, { min: 8, max: 64 }]} style={{ marginBottom: '16px' }}>
+          </AsnForm.Item>
+          <AsnForm.Item name="password" label="Password" rules={[{ required: true }, { min: 8, max: 64 }]} style={{ marginBottom: '16px' }}>
             <AsnInput.Password placeholder="Password" />
-          </Form.Item>
+          </AsnForm.Item>
           <ForgotPassword onClick={() => navigate('/forgot-password')}>Forgot password?</ForgotPassword>
-          <Form.Item>
+          <AsnForm.Item>
               <AsnButton htmlType="submit" loading={isLoading} className='primary'>
                 Sign In
               </AsnButton>
-          </Form.Item>
-        </Form>
+          </AsnForm.Item>
+        </AsnForm>
       </Col>
     </Row >
   );
