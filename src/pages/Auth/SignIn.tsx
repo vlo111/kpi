@@ -35,7 +35,7 @@ const SignIn: React.FC = () => {
         isToken(accessToken);
         navigate(PATHS.ROOT);
       },
-      onError: (error: string) => { void message.error(error); }
+      onError: ({ response }: any) => { console.log(response.data.message, 'error'); }
     }
   );
   const onFinish: any = (values: any) => {

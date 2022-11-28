@@ -16,6 +16,8 @@ const Description = styled.div`
 
 const ResetPassword: React.FC = () => {
   const [form] = AsnForm.useForm();
+  const token = localStorage.getItem('token');
+
   const { mutate: resetPassword, isLoading }: any = useResetPassword(
     {
       onSuccess: (payload: any) => {
@@ -26,8 +28,9 @@ const ResetPassword: React.FC = () => {
   );
 
   const onFinish: any = (values: any) => {
+    const { password, confirmPassword } = values;
     try {
-      resetPassword(values);
+      resetPassword({ password, repeatPassword: confirmPassword, token });
     } catch (error) {
       console.log(error);
     }
