@@ -11,7 +11,7 @@ import AsnButton from '../../components/Forms/Button';
 import useSignInApi from '../../api/Auth/useSignInApi';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import { Form } from '../../components/Forms/Form';
-// import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { SignInForm } from '../../types/auth';
 
 const ForgotPassword = styled.div`
   color: var(--forget-password-gray); 
@@ -23,10 +23,9 @@ const SignIn: React.FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const { login, isToken } = useAuth();
-  // const { setValue } = useLocalStorage('token', null);
-  const { mutate: signIn, isLoading } = useSignInApi(
+  const { mutate: signIn, isLoading }: any = useSignInApi(
     {
-      onSuccess: (payload: any) => {
+      onSuccess: (payload: { data: { id: string, firstName: string, lastName: string, email: string, accessToken: string } }) => {
         const { id, firstName, lastName, email, accessToken } = payload.data;
         login({
           id,
@@ -35,20 +34,21 @@ const SignIn: React.FC = () => {
           email
         });
         isToken(accessToken);
-        navigate(`/${PATHS.ROOT}`);
+        navigate(PATHS.ROOT);
       },
-      onError: (error: any) => { void message.error(error); }
+      onError: (error: string) => { void message.error(error); }
     }
   );
-  const onFinish: any = (values: any) => {
+  const onFinish: any = (values: SignInForm) => {
     try {
+      console.log(values);
       signIn(values);
     } catch (error) {
       const errorMessage = get(error, 'error.message', 'Something went wrong!');
       void message.error(errorMessage);
     }
   };
-  const onFinishFailed: any = (values: any) => {
+  const onFinishFailed: ((values: unknown | SignInForm) => void) | undefined = (values) => {
     console.log(values, 'values');
   };
   return (
