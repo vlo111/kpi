@@ -8,6 +8,7 @@ const AuthContext: any = createContext({});
 
 export const AuthProvider: any = ({ children }: any) => {
   const [user, setUser] = useLocalStorage('user', null);
+  const [token, setToken] = useLocalStorage('token', null);
 
   const login: any = useCallback(
     (data: any) => {
@@ -23,18 +24,26 @@ export const AuthProvider: any = ({ children }: any) => {
     <Navigate to="/" replace />;
   }, [setUser]);
 
+  const isToken: any = useCallback(
+    (data: any) => {
+      setToken(data);
+    },
+    [setToken]
+  );
+
   const value = useMemo(
     () => ({
       user,
       login,
-      logout
+      logout,
+      isToken
     }),
-    [login, logout, user]
+    [login, logout, user, token]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth: () => void = () => {
+export const useAuth = (): any => {
   return useContext(AuthContext);
 };

@@ -14,6 +14,9 @@ const Container = styled.div`
   background-size: cover;
   background-position: center;
   background-position-y: 100%;
+  background-color: var(--background-auth);
+  height: 100vh;
+  width: 100vw
 `;
 
 const AuthLayout: React.FC = () => {
@@ -23,13 +26,12 @@ const AuthLayout: React.FC = () => {
     navigate(`/${PATHS.ROOT}`);
   };
   return (
-    <Container>
-      <Row style={{ gap: '15px' }}>
-        <LogoSvg style={{ cursor: 'pointer' }} onClick={() => handleClick()} />
-      </Row>
-
-      <Outlet />
-    </Container>
+        <Container>
+            <Row style={{ position: 'absolute', padding: '32px 0px 0px 32px' }}>
+                <LogoSvg style={{ cursor: 'pointer' }} onClick={() => handleClick()} />
+            </Row>
+            <Outlet />
+        </Container>
   );
 };
 

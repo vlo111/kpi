@@ -1,4 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
+// import { PATHS } from '../helpers/constants';
+// import { logOut } from '../helpers/utils';
 
 const client = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -9,8 +11,7 @@ const client = axios.create({
 
 client.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    const token: string | boolean =
-      Boolean(JSON.parse(localStorage.getItem('token') as any)) || '';
+    const token: string | null = JSON.parse(localStorage.getItem('token') as string);
     if (token != null) {
       config.headers = config.headers ?? {};
       config.headers.Authorization = `Bearer ${

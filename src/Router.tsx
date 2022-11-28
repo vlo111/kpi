@@ -14,6 +14,10 @@ import ErrorBoundary from './pages/error-pages/ErrorBoundary';
 import Error404 from './pages/error-pages/Error404';
 import SignIn from './pages/Auth/SignIn';
 import SignUp from './pages/Auth/SignUp';
+import ResendConfirmation from './pages/Auth/ResendConfirmation';
+import Confirmation from './pages/Auth/Confirmation';
+import ForgotPassword from './pages/Auth/ForgotPassword';
+import ResetPassword from './pages/Auth/ResetPassword';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +26,9 @@ export const router = createBrowserRouter(
         <Route element={<AuthLayout />}>
           <Route path={PATHS.SIGNIN} element={<SignIn />} />
           <Route path={PATHS.SIGNUP} element={<SignUp />} />
+          <Route path={PATHS.RESENDCONFIRMATION} element={<ResendConfirmation />} />
+          <Route path={PATHS.FORGOTPASSWORD} element={<ForgotPassword />} />
+          <Route path={PATHS.RESETPASSWORD} element={<ResetPassword />} />
         </Route>
       </Route>
       <Route element={<PrivateRoutes />} errorElement={<ErrorBoundary />}>
@@ -29,6 +36,7 @@ export const router = createBrowserRouter(
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
+      <Route path={PATHS.CONFIRMATION} element={<Confirmation />} />
     </>
   )
 );

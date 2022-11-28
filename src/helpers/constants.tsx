@@ -2,19 +2,25 @@ export const PATHS = {
   ROOT: '/',
   ERROR_403: 'no-access',
   SIGNIN: 'sign-in',
-  SIGNUP: 'sign-up'
+  SIGNUP: 'sign-up',
+  RESENDCONFIRMATION: 'resend-confirmation/:email',
+  CONFIRMATION: 'confirm-email',
+  FORGOTPASSWORD: 'forgot-password',
+  RESETPASSWORD: 'reset-password'
 };
 
 export const VALIDATE_MESSAGES = {
-  required: 'Պարտադիր դաշտ',
+  // eslint-disable-next-line no-template-curly-in-string
+  required: 'Please enter a valid ${label}',
   types: {
     // eslint-disable-next-line no-template-curly-in-string
-    email: '${label} դաշտը վավեր չէ',
-    // eslint-disable-next-line no-template-curly-in-string
-    number: '${label} դաշտը վավեր չէ'
+    email: 'Please enter your ${label} in format: yourname@domain.com'
   },
-  number: {
-    // eslint-disable-next-line no-template-curly-in-string
-    range: '${label}ը պետք է լինի ${min} և ${max}'
+
+  pattern: {
+  // eslint-disable-next-line no-template-curly-in-string
+    mismatch: 'Password must contain at least one digit and at least one character'
   }
 };
+
+export const passwordRegExp = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,64}$/;

@@ -9,6 +9,9 @@ import { AuthProvider } from './hooks/useAuth';
 import GlobalStyle from './assets/styles/style';
 import locale from 'antd/lib/locale/hy_AM';
 import 'antd/dist/antd.min.css';
+// import './styles/globals.css';
+// import { Providers } from './utils/providers/Providers';
+// import { VALIDATE_MESSAGES } from './helpers/constants';
 
 const root: ReactDOM.Root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

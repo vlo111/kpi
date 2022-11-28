@@ -13,6 +13,8 @@ const AsnButton = styled(Button)`
   align-items: center;
   padding: 13px 40px 13px 40px;
   gap: 10px; 
+  font-size: var(--headline-font-size);
+  border: none;
 
   
   &:hover {
