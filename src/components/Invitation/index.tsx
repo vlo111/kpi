@@ -8,12 +8,13 @@ import { Password } from '../../components/Forms/Input'
 import { AsnButton } from '../../components/Forms/Button'
 import { TitleAuth } from '../../components/Layout/TitleAuth'
 import { rulesPassword } from '../../utils/ProjectUtils'
+import { FormFinish } from '../../types/global'
 
 const Inivation: React.FC = () => {
   const [form] = Form.useForm()
   const { Paragraph } = Typography
 
-  const onFinishFailed: any = (values: any) => {
+  const onFinishFailed: FormFinish = (values) => {
     console.log(values, 'failed')
   }
   const rulesConfirmPassword = [
