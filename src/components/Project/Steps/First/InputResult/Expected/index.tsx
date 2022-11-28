@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import { v4 as uuid } from 'uuid'
+
+import Boxes from '../Boxes'
 import { Form } from '../../../../../Forms/Form'
 import { ConfirmModal } from '../../../../../Forms/Modal/ConfirmModal'
-import Boxes from '../Boxes'
-import { v4 as uuid } from 'uuid'
 
 const ExpectedResult: React.FC<{ resultId: number }> = ({ resultId }) => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<any>()

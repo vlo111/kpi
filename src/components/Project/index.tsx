@@ -1,7 +1,8 @@
 import React from 'react'
-import { ReactComponent as CreateProjectSvg } from '../../assets/icons/create-project.svg'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+
+import { ReactComponent as CreateProjectSvg } from '../../assets/icons/create-project.svg'
 
 const Container = styled.div`
   display: flex;

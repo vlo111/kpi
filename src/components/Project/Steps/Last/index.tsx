@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { Form } from '../../../Forms/Form'
 import styled from 'styled-components'
-import { Items } from './Items'
-import { ConfirmModal } from '../../../Forms/Modal/ConfirmModal'
-import { AsnButton } from '../../../Forms/Button'
-import { useProject } from '../../../../hooks/project/useProject'
 import { Col, Row } from 'antd'
+
+import { Items } from './Items'
+import { Form } from '../../../Forms/Form'
+import { AsnButton } from '../../../Forms/Button'
+import { ConfirmModal } from '../../../Forms/Modal/ConfirmModal'
+import { useProject } from '../../../../hooks/project/useProject'
+import { OpenDeleteResultModal } from '../../../../types/project'
 import { VALIDATE_PROJECT_DETAILS_MESSAGES } from '../../../../helpers/constants'
 
 const Collapses = styled.div`
@@ -53,7 +55,7 @@ export const Last: React.FC = () => {
 
   const { prevCurrent } = useProject()
 
-  const [openDeleteResultModal, setOpenDeleteResultModal] = useState<any>()
+  const [openDeleteResultModal, setOpenDeleteResultModal] = useState<OpenDeleteResultModal>()
 
   const onFinish: any = (values: any) => {
     console.log(values, 'finish')
@@ -99,10 +101,10 @@ export const Last: React.FC = () => {
           open={openDeleteResultModal}
           title="Are you sure you want to delete  the field?"
           onSubmit={() => {
-            openDeleteResultModal.remove(openDeleteResultModal.fields)
-            setOpenDeleteResultModal(null)
+            if (openDeleteResultModal) { openDeleteResultModal.remove(openDeleteResultModal.fields) }
+            setOpenDeleteResultModal(undefined)
           }}
-          onCancel={() => setOpenDeleteResultModal(null)}
+          onCancel={() => setOpenDeleteResultModal(undefined)}
       />
     </Collapses>
   )

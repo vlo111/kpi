@@ -36,15 +36,6 @@ export type RulesPassword = (
   ]
 }
 
-export type InitResultAreaFields = (
-  data: any,
-  resultArea: IResultArea[]
-) => Array<{ name: string[], value: string }>
-
-export type InitGeneralInfoFields = (
-  generalInfo: IGeneralInfo[]
-) => Array<{ name: string[], value: string }>
-
 export interface IManager {
   id: string
   color: string
@@ -215,6 +206,22 @@ export interface IProjectDetailsItems {
   name: string
   onDelete: (remove: (name: string) => void, fields: string) => void
 }
+
+export type OpenDeleteResultModal =
+  | { remove: (name: string) => void, fields: string }
+  | undefined
+
+export type SetResultArea = (values: FormData) => void
+
+export type SetTitleColor = (element: HTMLElement, color: string) => void
+
+export type CollapseHeader = (
+  key: number | string,
+  name: Array<number | string>,
+  index: string,
+  placeholder: string,
+  className: string
+) => JSX.Element
 
 export interface ProjectInputBoxProps {
   resultId: number
