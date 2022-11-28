@@ -221,7 +221,17 @@ const GlobalStyle = createGlobalStyle`
     padding: 25px 6px 8px 20px
   }
   }
- 
+ .errorPages{
+    padding: 0;
+    display: grid;
+    height: 100vh;
+    align-content: center;
+ a.ant-btn{
+    padding-top: 0 !important;
+    line-height: 41px;
+
+ }
+ }
 `
 
 export default GlobalStyle
