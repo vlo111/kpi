@@ -13,12 +13,6 @@ const Inivation: React.FC = () => {
   const [form] = Form.useForm()
   const { Paragraph } = Typography
 
-  const onFinish: any = (values: { email: string, password: string, confirmPassword: string }) => {
-    const { password, confirmPassword } = values
-    console.log(password || confirmPassword)
-    console.log(values, 'success')
-  }
-
   const onFinishFailed: any = (values: any) => {
     console.log(values, 'failed')
   }
@@ -49,7 +43,6 @@ const Inivation: React.FC = () => {
               initialValues={{
                 remember: false
               }}
-              onFinish={onFinish}
               onFinishFailed={onFinishFailed}
               autoComplete="off"
               validateMessages={VALIDATE_MESSAGES}
