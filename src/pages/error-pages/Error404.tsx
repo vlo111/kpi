@@ -1,17 +1,21 @@
 import React from 'react'
-
-const PageNotFound: React.FC = () => {
+import { Result, Space } from 'antd'
+import { ReactComponent as Pages404 } from '../../assets/icons/errorPages/pages404.svg'
+import { AsnButton } from '../../components/Forms/Button'
+const PagesNotFound: React.FC = () => {
   return (
-        <div style={{
-          display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100vh', paddingTop: '18vh'
-        }}>
-            <h2 style={{ fontSize: '150px' }}>404</h2>
-            <h3>Oops, nothing here...</h3>
-            <p>Please Check the URL</p>
-            <p>Otherwise, <a href="/">Click here</a> to redirect to homepage.</p>
-        </div>
-
+    <Result
+      className="errorPages"
+      icon={<Pages404 />}
+      extra={
+        <Space size="middle" direction="vertical">
+          <AsnButton type="primary" href="/" style={{ padding: '0 !important' }}>
+            Back Home
+          </AsnButton>
+        </Space>
+      }
+    />
   )
 }
 
-export default PageNotFound
+export default PagesNotFound

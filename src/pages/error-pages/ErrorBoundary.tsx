@@ -1,23 +1,21 @@
 import React from 'react'
-import { useRouteError } from 'react-router-dom'
-
-const ErrorBoundary: React.FC = () => {
-  const error = useRouteError()
-  console.error(error)
+import { Result, Space } from 'antd'
+import { ReactComponent as Pages500 } from '../../assets/icons/errorPages/pages500.svg'
+import { AsnButton } from '../../components/Forms/Button'
+const ServerError: React.FC = () => {
   return (
-        <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              height: '100vh',
-              paddingTop: '18vh'
-            }}
-        >
-            <h2 style={{ fontSize: '150px' }}>Error</h2>
-            <p>Error Happened</p>
-        </div>
+    <Result
+      className="errorPages"
+      icon={<Pages500 />}
+      extra={
+        <Space size="middle" direction="vertical">
+          <AsnButton type="primary" href="/" style={{ padding: '0 !important' }}>
+            Back Home
+          </AsnButton>
+        </Space>
+      }
+    />
   )
 }
 
-export default ErrorBoundary
+export default ServerError
