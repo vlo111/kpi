@@ -1,9 +1,11 @@
 import React from 'react'
 import { First } from '../components/Project/Steps/First'
 import { Last } from '../components/Project/Steps/Last'
-import { FormItemName, IManager, ManagerFieldType, ProjectTargetRule } from '../types/project'
+import { CollapseHeader, FormItemName, IManager, ManagerFieldType, ProjectTargetRule } from '../types/project'
 import { RuleObject } from 'antd/lib/form'
 import { StoreValue } from 'antd/lib/form/interface'
+import { Form } from 'antd'
+import AsnInput from '../components/Forms/Input'
 
 export const PATHS = {
   ROOT: '/',
@@ -187,3 +189,11 @@ export const TargetRule: ProjectTargetRule = (max) => [
     }
   })
 ]
+
+export const HeaderElement: CollapseHeader = (key, name, index, placeholder, className) => (
+  <div key={`${className}${key}`} onClick={(e) => e.stopPropagation()}>
+    <Form.Item name={name} rules={[{ required: true, min: 5, max: 256 }]}>
+      <AsnInput prefix={index} placeholder={placeholder} />
+    </Form.Item>
+  </div>
+)
