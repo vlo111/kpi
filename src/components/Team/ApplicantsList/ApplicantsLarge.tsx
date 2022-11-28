@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import qs from 'qs'
-import { Space, TablePaginationConfig } from 'antd'
+import { Space } from 'antd'
 
 import { ReactComponent as Preview } from '../../../assets/icons/eye.svg'
 import { ReactComponent as TrashSvg } from '../../../assets/icons/trash.svg'
@@ -10,7 +10,7 @@ import AddApplicantModal from './CreateApplicantsModal'
 import { ConfirmModal } from '../../Forms/Modal/ConfirmModal'
 import ApplicantPermissionInfoModal from './AppllicantPermissionModal'
 import { AsnTable } from '../../Forms/Table'
-import { TableGlobals, TableParams, UsersType } from '../../../types/teams'
+import { ITablePaginationConfig, TableGlobals, TableParams, UsersType } from '../../../types/teams'
 
 const ApplicantList = styled.div`
     margin-top: 8px;
@@ -23,7 +23,7 @@ const getRandomuserParams: TableGlobals = (params) => ({
   ...params
 })
 
-const ApplicantsList: React.FC<{}> = () => {
+const ApplicantsList: React.FC = () => {
   const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState(false)
   const [showModal, setShowModal] = useState('')
   const [openApplicantPermissionModal, setOpenApplicantPermissionModal] = useState(false)
@@ -130,7 +130,7 @@ const ApplicantsList: React.FC<{}> = () => {
     fetchData()
   }, [JSON.stringify(tableParams)])
 
-  const handleTableChange: (pagination: TablePaginationConfig) => void = (
+  const handleTableChange: (pagination: ITablePaginationConfig) => void = (
     pagination
   ) => {
     setTableParams({

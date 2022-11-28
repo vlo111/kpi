@@ -24,7 +24,7 @@ const ApplicantContent = styled.div`
   height: 100%;
 `
 
-const Applicants: React.FC<{}> = () => {
+const Applicants: React.FC = () => {
   const [showModal, setShowModal] = useState('')
 
   return (
