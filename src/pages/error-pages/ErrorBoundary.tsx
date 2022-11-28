@@ -12,7 +12,13 @@ const ErrorBoundary: React.FC = () => {
       icon={<SmileOutlined />}
       title="We are sorry, "
       subTitle={<p>AN INTERNET SERVER ERROR HAS OCCURED.</p>}
-      extra={<Space size="middle" direction="vertical"><AsnButton type="primary" href='/' > Back Home</AsnButton ></Space>}
+      extra={
+        <Space size="middle" direction="vertical">
+          <AsnButton type="primary" href="/">
+            Back Home
+          </AsnButton>
+        </Space>
+      }
     />
   );
 };

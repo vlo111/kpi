@@ -27,10 +27,7 @@ const queryClient = new QueryClient({
 // eslint-disable-next-line no-template-curly-in-string
 root.render(
   <>
-
-    <ConfigProvider
-      locale={locale}
-    >
+    <ConfigProvider locale={locale}>
       <AuthProvider>
         <QueryClientProvider client={queryClient}>
           <GlobalStyle />

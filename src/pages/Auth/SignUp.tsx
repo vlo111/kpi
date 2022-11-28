@@ -66,19 +66,23 @@ const SignUp: React.FC = () => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
           validateMessages={VALIDATE_MESSAGES}
-          layout='vertical'
+          layout="vertical"
         >
            <TitleAuth>Sign Up</TitleAuth>
           <Form.Item name="firstName" label="First Name"
             rules={[{ required: true }, { min: 3, max: 128 }]}>
             <AsnInput placeholder="First Name" />
           </Form.Item>
-          <Form.Item name="lastName" label="Last Name"
-            rules={[{ required: true }, { min: 3, max: 128 }]}>
+          <Form.Item
+            name="lastName"
+            label="Last Name"
+            rules={[{ required: true }, { min: 3, max: 128 }]}
+          >
             <AsnInput placeholder="Last Name" />
           </Form.Item>
           <Form.Item
-            name="email" label="Email Address"
+            name="email"
+            label="Email Address"
             rules={[{ required: true }, { type: 'email' }, { max: 128 }]}
           >
             <AsnInput placeholder="Email Address" />
@@ -97,7 +101,11 @@ const SignUp: React.FC = () => {
           </Form.Item>
           <Form.Item>
             <Space size="middle" style={{ width: '100%' }} direction="vertical">
-              <AsnButton htmlType="submit" loading={isLoading} className='primary'>
+              <AsnButton
+                htmlType="submit"
+                loading={isLoading}
+                className="primary"
+              >
                 Create Account
               </AsnButton>
             </Space>

@@ -64,13 +64,14 @@ const SignIn: React.FC = () => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
           validateMessages={VALIDATE_MESSAGES}
-          layout='vertical'
+          layout="vertical"
         >
           <TitleAuth>
             Sign In
           </TitleAuth>
           <Form.Item
-            name="email" label="Email Address"
+            name="email"
+            label="Email Address"
             rules={[{ required: true }, { type: 'email' }, { max: 128 }]}
           >
             <AsnInput placeholder="Email Address" />
