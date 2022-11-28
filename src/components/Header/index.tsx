@@ -1,14 +1,7 @@
 import React from 'react'
-import {
-  Col,
-  Layout,
-  Row,
-  Button,
-  Dropdown,
-  Space,
-  Divider
-} from 'antd'
+import { Col, Layout, Row, Button, Dropdown, Space, Divider } from 'antd'
 import { ReactComponent as Notification } from '../../assets/icons/notification.svg'
+import { ReactComponent as Setting } from '../../assets/icons/setting.svg'
 import { CaretDownOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import ManagerIcon from '../ManagerIcon'
@@ -22,22 +15,23 @@ const HeaderLayout = styled(Layout)`
   z-index: 1;
   max-height: 60px;
   min-height: 60px;
-`
-
-const HeaderMenu = styled(Layout)`
-  justify-content: end;
-  display: grid;
-  grid-template-columns: auto auto auto;
-  align-items: center;
-  grid-gap: 16px;
-  padding: 0 56px;
-  background: var(--white);
-  box-shadow: var(--header-box-shadow);
+  .ant-divider-horizontal{
+    display: none;
+  }
+  .ant-row-middle{
+    height: 60px;
+    grid-gap: 22px;
+    padding: 0 50px;
+  }
+  .ant-btn{
+    height: auto;
+    padding: 0;
+  }
 `
 
 export const Header: React.FC = () => {
   const navigate = useNavigate()
-  const logOut: any = () => {
+  const logOut = (): void => {
     localStorage.removeItem('token')
   }
 
@@ -57,27 +51,28 @@ export const Header: React.FC = () => {
         </Button>
       ),
       key: 1
+    },
+    {
+      label: (
+        <Button onClick={() => navigate('/profile_pages')} type="text">
+          Profile Pages
+        </Button>
+      ),
+      key: 2
     }
   ]
   const newMenu = <DropdownMenu items={data} />
 
   return (
     <HeaderLayout>
-      <HeaderMenu>
-        <>
           <Row justify="end" align="middle">
-            <Col>
-              {' '}
-              <Notification />
-            </Col>
+            <Col> <Notification /></Col>
+            <Col><Setting/></Col>
             <Col>
               <Dropdown overlay={newMenu} trigger={['click']}>
                 <Button type="text" onClick={(e) => e.preventDefault()}>
                   <Space>
-                    <ManagerIcon
-                      letter="HD"
-                      color="var(--secondary-light-amber)"
-                    />
+                    <ManagerIcon letter="HD" color="var(--secondary-light-amber)" />
                     Անի Հովհաննիսըան
                     <CaretDownOutlined />
                   </Space>
@@ -86,100 +81,6 @@ export const Header: React.FC = () => {
             </Col>
           </Row>
           <Divider />
-        </>
-      </HeaderMenu>
     </HeaderLayout>
   )
 }
-
-// import React from 'react'
-// import { Layout, Dropdown, Space, Typography } from 'antd'
-// import { ReactComponent as Notification } from '../../assets/icons/notification.svg'
-// import { ReactComponent as Setting } from '../../assets/icons/setting.svg'
-// import { useNavigate } from 'react-router-dom'
-// import ManagerIcon from '../ManagerIcon'
-
-// import styled from 'styled-components'
-// const { Title } = Typography
-
-// const HeaderLayout = styled(Layout)`
-//   background: var(--white);
-//   box-shadow: var(--header-box-shadow);
-//   z-index: 1;
-//   max-height: 60px;
-//   min-height: 60px;
-// `
-
-// const HeaderMenu = styled(Layout)`
-//   justify-content: end;
-//   display: grid;
-//   grid-template-columns: auto auto auto;
-//   align-items: center;
-//   grid-gap: 16px;
-//   padding: 0 56px;
-//   background: var(--white);
-//   box-shadow: var(--header-box-shadow);
-// `
-
-// export const Header: React.FC = () => {
-//   const navigate = useNavigate()
-//   const items = [
-//     {
-//       label: (
-//         <Title
-//           style={{
-//             display: 'flex',
-//             justifyContent: 'center',
-//             padding: '6px 0',
-//             color: 'var(--dark-2)'
-//           }}
-//           level={5}
-//           onClick={() => navigate('/user-profile')}
-//         >
-//           Account
-//         </Title>
-//       ),
-//       key: '0'
-//     },
-//     {
-//       label: (
-//         <Title
-//           style={{
-//             display: 'flex',
-//             justifyContent: 'center',
-//             padding: '6px 0',
-//             color: 'var(--dark-2)'
-//           }}
-//           level={5}
-//           onClick={() => navigate('/sign-in')}
-//         >
-//           Sign Out
-//         </Title>
-//       ),
-//       key: '1'
-//     }
-//   ]
-//   return (
-//     <HeaderLayout>
-//       <HeaderMenu>
-//         <Notification />
-//         <Setting />
-//         <Dropdown
-//           menu={{ items }}
-//           trigger={['click']}>
-//           <a onClick={(e) => e.preventDefault()}>
-//             <Space>
-//               <ManagerIcon letter="HD" color="var(--secondary-light-amber)" />
-//               <Title
-//                 level={5}
-//                 style={{ color: 'var(--dark-border-ultramarine)', margin: 0 }}
-//               >
-//                 Anun Azganun
-//               </Title>
-//             </Space>
-//           </a>
-//         </Dropdown>
-//       </HeaderMenu>
-//     </HeaderLayout>
-//   )
-// }
