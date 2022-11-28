@@ -131,12 +131,14 @@ export interface TabsNames {
     number: number | null
     default: boolean
   }
+  subActivity?: boolean
 }
 
 export interface ActivityNamesProps {
   names: string[]
   activeName: number | undefined
   setActiveName: React.Dispatch<React.SetStateAction<number | undefined>>
+  subActivity?: boolean
 }
 
 export interface GeneralInfoProps {
@@ -237,3 +239,7 @@ export type ProjectTargetRule = (
 | (() => { validator: (_: RuleObject, value: any) => Promise<void> })
 | { required: boolean, message: string, pattern: RegExp }
 >
+
+export interface OverviewProps {
+  subActivity?: boolean
+}

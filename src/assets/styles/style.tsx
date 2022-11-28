@@ -191,6 +191,7 @@ const GlobalStyle = createGlobalStyle`
   input[type=number] {
     -moz-appearance: textfield;
   }
+  
   .ant-dropdown-menu{
     border-radius: 10px;
     padding: 15px 0;
@@ -220,6 +221,42 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  .popconFirm{
+    .ant-popover-buttons{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    margin-left: 16px;
+
+    button {
+      border: none;
+      &:hover{
+        border: none;
+        color: inherit;
+      }
+    }
+  }
+  .ant-popover-inner-content {
+    padding: 2px 28px 1px 0px;
+    svg path{
+      fill: var(--dark-1);
+    }
+  }
+  .ant-popover-message{
+    padding: 25px 6px 8px 20px
+  }
+  }
+ .errorPages{
+    padding: 0;
+    display: grid;
+    height: 100vh;
+    align-content: center;
+ a.ant-btn{
+    padding-top: 0 !important;
+    line-height: 41px;
+
+ }
+ }
 `
 
 export default GlobalStyle
