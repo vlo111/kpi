@@ -1,28 +1,16 @@
 import React, { useState } from 'react'
+import { v4 as uuid } from 'uuid'
+import { Form, Row, Tooltip } from 'antd'
+
+import Boxes from '../Boxes'
+import { AsnButton } from '../../../../../Forms/Button'
 import { AsnCollapse } from '../../../../../AsnCollapse'
 import { Panel } from '../../../../../Forms/AsnCollapse'
-import { Form, Row, Tooltip } from 'antd'
-import { AsnButton } from '../../../../../Forms/Button'
-import { ReactComponent as DeleteSvg } from '../../../../../../assets/icons/delete.svg'
-import { ConfirmModal } from '../../../../../Forms/Modal/ConfirmModal'
 import { TollTipText } from '../../../../../../utils/ProjectUtils'
+import { HeaderElement } from '../../../../../../helpers/constants'
+import { ConfirmModal } from '../../../../../Forms/Modal/ConfirmModal'
+import { ReactComponent as DeleteSvg } from '../../../../../../assets/icons/delete.svg'
 import { ReactComponent as InfoSvg } from '../../../../../../assets/icons/info.svg'
-import AsnInput from '../../../../../Forms/Input'
-import Boxes from '../Boxes'
-import { v4 as uuid } from 'uuid'
-
-const header: (
-  key: string,
-  name: Array<number | string>,
-  index: string,
-  placeholder: string
-) => JSX.Element = (key, name, index, placeholder) => (
-  <div key={`activity_header_${key}`} onClick={(e) => e.stopPropagation()}>
-    <Form.Item name={name} rules={[{ required: true, min: 5, max: 256 }]}>
-      <AsnInput prefix={index} placeholder={placeholder} />
-    </Form.Item>
-  </div>
-)
 
 const InputActivity: React.FC<{ resultId: number }> = ({ resultId }) => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<any>()
@@ -86,11 +74,12 @@ const InputActivity: React.FC<{ resultId: number }> = ({ resultId }) => {
                         >
                           <Panel
                             key={`activity_${resultId}_${activity.key}`}
-                            header={header(
+                            header={HeaderElement(
                               `activity_${resultId}_${activity.key}`,
                               [activity.name, 'activityInput'],
                               `${index + 1}.`,
-                              'Individuals with improved soft skills'
+                              'Individuals with improved soft skills',
+                              'activity_header_'
                             )}
                           >
                             <Form.List name={[activity.key, 'milestones']}>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { OpenDeleteResultModal } from './project'
 
 export interface IComponentChildren {
   children: React.ReactElement
@@ -6,7 +7,7 @@ export interface IComponentChildren {
 }
 
 export interface ConfirmModalType {
-  open: boolean
+  open: boolean | OpenDeleteResultModal
   title: string
   yes: string
   no: string
