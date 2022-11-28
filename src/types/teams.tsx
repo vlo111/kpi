@@ -1,4 +1,4 @@
-import { PaginationProps, TablePaginationConfig } from 'antd'
+import { TablePaginationConfig } from 'antd'
 
 export interface TemUsersType {
   status: string
@@ -52,4 +52,4 @@ export interface ShowDeleteUserModal {
   setShowModal: (b: string) => void
 }
 
-export interface ITablePaginationConfig extends PaginationProps {}
+export type HandleTableOnChange = (pagination: TablePaginationConfig) => void

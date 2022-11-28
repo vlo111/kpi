@@ -10,7 +10,7 @@ import AddApplicantModal from './CreateApplicantsModal'
 import { ConfirmModal } from '../../Forms/Modal/ConfirmModal'
 import ApplicantPermissionInfoModal from './AppllicantPermissionModal'
 import { AsnTable } from '../../Forms/Table'
-import { ITablePaginationConfig, TableGlobals, TableParams, UsersType } from '../../../types/teams'
+import { HandleTableOnChange, TableGlobals, TableParams, UsersType } from '../../../types/teams'
 
 const ApplicantList = styled.div`
     margin-top: 8px;
@@ -130,7 +130,7 @@ const ApplicantsList: React.FC = () => {
     fetchData()
   }, [JSON.stringify(tableParams)])
 
-  const handleTableChange: (pagination: ITablePaginationConfig) => void = (
+  const handleTableChange: HandleTableOnChange = (
     pagination
   ) => {
     setTableParams({
