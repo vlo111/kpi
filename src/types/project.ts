@@ -171,10 +171,19 @@ export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
 }
+export interface IRequiredDocuments {
+  documentName: string
+  documentCount: number
+  id: string
+}
 
 export interface IAddRequiredDocument {
   isOpenAddDocumentsModal: boolean
   setIsOpenAddDocumentsModal: React.Dispatch<React.SetStateAction<boolean>>
+  requiredDocuments: IRequiredDocuments[]
+  setRequiredDocuments: React.Dispatch<React.SetStateAction<IRequiredDocuments[]>>
+  restField: { fieldKey?: number | undefined }
+  name: number
 }
 
 export interface ITemplateData {
@@ -247,7 +256,8 @@ export type ProjectTargetRule = (
 
 export interface ILearningStatus {
   fields: FormListFieldData[]
-  field: FormListFieldData
+  restField: { fieldKey?: number | undefined }
+  name: number
   remove: (index: number | number[]) => void
 }
 export interface OverviewProps {

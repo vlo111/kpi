@@ -10,41 +10,16 @@ const CourseSectionContainer = styled.div`
     max-width: 100% !important;
   }
 `
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 4 }
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 20 }
-  }
-}
-const formItemLayoutWithOutLabel = {
-  wrapperCol: {
-    xs: { span: 24, offset: 0 },
-    sm: { span: 20, offset: 0 }
-  }
-}
-
 const CourseSection: React.FC = () => {
   const [form] = Form.useForm()
   const onFinish = (values: any): void => {
-    console.log(values)
+    console.log(values, '>>>>>>>>>>>>>>>>>>>>>')
   }
 
   const initFields = [
     {
-      name: ['documentName'],
-      value: ''
-    },
-    {
-      name: ['documentCount'],
-      value: 0
-    },
-    {
-      name: ['statuses'],
-      value: 0
+      name: 'selection',
+      value: false
     }
   ]
   return (
@@ -66,24 +41,22 @@ const CourseSection: React.FC = () => {
       </Space>
       <Form
         name="dynamic_form_item"
-        {...formItemLayoutWithOutLabel}
         onFinish={onFinish}
         form={form}
         fields={initFields}
       >
-        <Form.List initialValue={['']} name="names">
+        <Form.List initialValue={['']} name="courseSection">
           {(fields, { add, remove }) => (
             <>
-              {fields.map((field, index) => (
-                <Form.Item
-                  {...(index === 0
-                    ? formItemLayout
-                    : formItemLayoutWithOutLabel)}
-                  required={false}
-                  key={field.key}
-                >
-                  <Form.Item {...field}>
-                    <LearningStatus fields={fields} field={field} remove={remove}/>
+              {fields.map(({ key, name, ...restField }) => (
+                <Form.Item key={key}>
+                  <Form.Item {...restField}>
+                    <LearningStatus
+                      fields={fields}
+                      restField={restField}
+                      name={name}
+                      remove={remove}
+                    />
                   </Form.Item>
                 </Form.Item>
               ))}
