@@ -23,7 +23,7 @@ const AuthLayout: React.FC = () => {
   const navigate = useNavigate();
 
   const handleClick = (): void => {
-    navigate(`/${PATHS.ROOT}`);
+    navigate(PATHS.ROOT);
   };
   return (
         <Container>
