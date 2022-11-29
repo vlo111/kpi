@@ -18,12 +18,14 @@ import ResendConfirmation from './pages/Auth/ResendConfirmation';
 import Confirmation from './pages/Auth/Confirmation';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import ResetPassword from './pages/Auth/ResetPassword';
+import Dashboard from './pages/Dashboard';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route element={<PublicRoutes />}>
         <Route element={<AuthLayout />}>
+          <Route path={PATHS.ROOT} element={<SignIn />} />
           <Route path={PATHS.SIGNIN} element={<SignIn />} />
           <Route path={PATHS.SIGNUP} element={<SignUp />} />
           <Route path={PATHS.RESENDCONFIRMATION} element={<ResendConfirmation />} />
@@ -32,7 +34,7 @@ export const router = createBrowserRouter(
         </Route>
       </Route>
       <Route element={<PrivateRoutes />} errorElement={<ErrorBoundary />}>
-        <Route path={PATHS.ROOT} element={<SignUp />} />
+        <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />

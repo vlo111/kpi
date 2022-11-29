@@ -16,19 +16,16 @@ const Container = styled.div`
   background-position-y: 100%;
   background-color: var(--background-auth);
   height: 100vh;
-  width: 100vw
+  width: 100vw;
 `;
 
 const AuthLayout: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleClick = (): void => {
-    navigate(PATHS.ROOT);
-  };
   return (
         <Container>
             <Row style={{ position: 'absolute', padding: '32px 0px 0px 32px' }}>
-                <LogoSvg style={{ cursor: 'pointer' }} onClick={() => handleClick()} />
+                <LogoSvg style={{ cursor: 'pointer' }} onClick={() => navigate(PATHS.ROOT)} />
             </Row>
             <Outlet />
         </Container>
