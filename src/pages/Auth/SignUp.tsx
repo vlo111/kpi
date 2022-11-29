@@ -8,11 +8,11 @@ import AsnInput from '../../components/Forms/Input';
 import AsnButton from '../../components/Forms/Button';
 import useSignUpApi from '../../api/Auth/useSignUpApi';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
-import { Form } from '../../components/Forms/Form';
+import AsnForm from '../../components/Forms/Form';
 import { SignUpForm } from '../../types/auth';
 
 const SignUp: React.FC = () => {
-  const [form] = Form.useForm();
+  const [form] = AsnForm.useForm();
   const navigate = useNavigate();
   const { mutate: signUp, isLoading }: any = useSignUpApi(
     {
@@ -56,7 +56,7 @@ const SignUp: React.FC = () => {
   return (
     <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
       <Col span={8} style={ { maxWidth: '460px' } } >
-        <Form
+        <AsnForm
           name="signUp"
           form={form}
           initialValues={{
@@ -69,37 +69,37 @@ const SignUp: React.FC = () => {
           layout="vertical"
         >
            <TitleAuth>Sign Up</TitleAuth>
-          <Form.Item name="firstName" label="First Name"
+          <AsnForm.Item name="firstName" label="First Name"
             rules={[{ required: true }, { min: 3, max: 128 }]}>
             <AsnInput placeholder="First Name" />
-          </Form.Item>
-          <Form.Item
+          </AsnForm.Item>
+          <AsnForm.Item
             name="lastName"
             label="Last Name"
             rules={[{ required: true }, { min: 3, max: 128 }]}
           >
             <AsnInput placeholder="Last Name" />
-          </Form.Item>
-          <Form.Item
+          </AsnForm.Item>
+          <AsnForm.Item
             name="email"
             label="Email Address"
             rules={[{ required: true }, { type: 'email' }, { max: 128 }]}
           >
             <AsnInput placeholder="Email Address" />
-          </Form.Item>
-          <Form.Item
+          </AsnForm.Item>
+          <AsnForm.Item
             name="organization" label="Organisation Name"
             rules={[{ required: true }, { min: 2, max: 128 }]}
           >
             <AsnInput placeholder="Organisation Name" />
-          </Form.Item>
-          <Form.Item name="password" label="Password" rules={[{ required: true }, { min: 8, max: 64 }, { pattern: passwordRegExp }]}>
+          </AsnForm.Item>
+          <AsnForm.Item name="password" label="Password" rules={[{ required: true }, { min: 8, max: 64 }, { pattern: passwordRegExp }]}>
             <AsnInput.Password placeholder="Password" />
-          </Form.Item>
-          <Form.Item name="repeatPassword" label="Confirm Password" rules={rulesConfirmPassword}>
+          </AsnForm.Item>
+          <AsnForm.Item name="repeatPassword" label="Confirm Password" rules={rulesConfirmPassword}>
             <AsnInput.Password placeholder="Confirm Password" />
-          </Form.Item>
-          <Form.Item>
+          </AsnForm.Item>
+          <AsnForm.Item>
             <Space size="middle" style={{ width: '100%' }} direction="vertical">
               <AsnButton
                 htmlType="submit"
@@ -109,8 +109,8 @@ const SignUp: React.FC = () => {
                 Create Account
               </AsnButton>
             </Space>
-          </Form.Item>
-        </Form>
+          </AsnForm.Item>
+        </AsnForm>
       </Col>
     </Row>
   );

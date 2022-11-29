@@ -1,11 +1,12 @@
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, message } from 'antd';
 import AsnInput from '../../components/Forms/Input';
-import { Form } from '../../components/Forms/Form';
+import AsnForm from '../../components/Forms/Form';
 import { VALIDATE_MESSAGES, passwordRegExp } from '../../helpers/constants';
 import AsnButton from '../../components/Forms/Button';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import styled from 'styled-components';
+import useResetPassword from '../../api/Auth/useResetPassword';
 
 const Description = styled.div`
   font-size: var(--headline-font-size); 
@@ -14,14 +15,29 @@ const Description = styled.div`
 `;
 
 const ResetPassword: React.FC = () => {
-  const [form] = Form.useForm();
+  const [form] = AsnForm.useForm();
+  const token = localStorage.getItem('token');
+
+  const { mutate: resetPassword, isLoading }: any = useResetPassword(
+    {
+      onSuccess: (payload: any) => {
+        console.log(payload.data);
+      },
+      onError: (error: string) => { void message.error(error); }
+    }
+  );
 
   const onFinish: any = (values: any) => {
-    console.log(values, 'sucess');
+    const { password, confirmPassword } = values;
+    try {
+      resetPassword({ password, repeatPassword: confirmPassword, token });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const onFinishFailed: any = (values: any) => {
-    console.log(values, 'failed');
+  const onFinishFailed = (): void => {
+    console.log('failed');
   };
   const rulesConfirmPassword = [
     {
@@ -41,7 +57,7 @@ const ResetPassword: React.FC = () => {
   return (
       <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
         <Col span={8} style={{ maxWidth: '460px' }} >
-          <Form
+          <AsnForm
             name="signin"
             form={form}
             onFinish={onFinish}
@@ -53,27 +69,27 @@ const ResetPassword: React.FC = () => {
               Reset Password
             </TitleAuth>
             <Description>The password should have at least 8 characters</Description>
-            <Form.Item
+            <AsnForm.Item
             name="password"
             label="New Password"
             rules={[{ required: true }, { min: 8, max: 64 }, { pattern: passwordRegExp }]}
             style={ { marginBottom: '16px' } }
             >
               <AsnInput.Password placeholder="New Password"/>
-            </Form.Item>
-            <Form.Item
+            </AsnForm.Item>
+            <AsnForm.Item
             name="confirmPassword"
             label="Confirm Password"
             rules={rulesConfirmPassword}
              >
               <AsnInput.Password placeholder="Confirm Password" />
-            </Form.Item>
-            <Form.Item>
-              <AsnButton className='primary' type="primary" htmlType="submit">
+            </AsnForm.Item>
+            <AsnForm.Item>
+              <AsnButton className='primary' type="primary" htmlType="submit" loading={isLoading}>
                 Reset Password
               </AsnButton>
-            </Form.Item>
-          </Form>
+            </AsnForm.Item>
+          </AsnForm>
         </Col>
       </Row>
   );

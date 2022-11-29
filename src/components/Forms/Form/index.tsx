@@ -1,8 +1,8 @@
-import styled, { css } from 'styled-components';
-import { Form as AntForm } from 'antd';
+import styled from 'styled-components';
+import { Form } from 'antd';
 
-const defaultStyle = css`
-  .ant-input-affix-wrapper-status-error, .ant-input-status-error {
+const AsnForm = styled(Form)`
+.ant-input-affix-wrapper-status-error, .ant-input-status-error {
     border-color: var(--error) !important;
 
     &:focus {
@@ -35,7 +35,4 @@ const defaultStyle = css`
     margin-top: -6px;
   }
 `;
-
-export const Form = styled(AntForm)`
-  ${defaultStyle}
-`;
+export default AsnForm;
