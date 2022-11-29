@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import useResendEmail from '../../api/Auth/useConfirmEmail';
 import { Spin, message, Row, Col } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -7,12 +7,14 @@ import { LoadingOutlined } from '@ant-design/icons';
 const antIcon = <LoadingOutlined style={{ fontSize: 100, color: 'var(--dark-border-ultramarine)' }} spin />;
 
 const Confirmation: React.FC = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   const { mutate: confirmEmail }: any = useResendEmail(
     {
-      onSuccess: (payload: any) => {
+      onSuccess: () => {
         void message.success('sucess', 1);
+        navigate('/sign-in');
       },
       onError: (error: any) => {
         console.log(error);

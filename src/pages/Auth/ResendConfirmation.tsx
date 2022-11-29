@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col, Space, message } from 'antd';
 import styled from 'styled-components';
@@ -7,6 +7,7 @@ import { TitleAuth } from '../../components/Layout/TitleAuth';
 import AsnButton from '../../components/Forms/Button';
 import useResendEmail from '../../api/Auth/useResendEmail';
 import { ReactComponent as CheckedSvg } from '../../assets/icons/checked.svg';
+import ErrorBeckend from '../../components/Errors/AnsAlert';
 
 const Checked = styled.div`
 font-size: var(--headline-font-size);
@@ -16,15 +17,14 @@ span{
 `;
 
 const ResendConfirmation: React.FC = () => {
+  const [error, setError] = useState<string>('');
   const { email } = useParams();
   const { mutate: reSend, isLoading }: any = useResendEmail(
     {
-      onSuccess: (payload: any) => {
+      onSuccess: () => {
         void message.success('sucess', 1);
       },
-      onError: (error: any) => {
-        console.log(error);
-      }
+      onError: ({ response }: any) => { setError(response.data.message); }
     }
   );
   const reSendEmail = (): void => {
@@ -37,6 +37,7 @@ const ResendConfirmation: React.FC = () => {
             <Row justify='start'>
               <TitleAuth style={{ minWidth: '50vw', marginBottom: '0', textAlign: 'left' }}>We&apos;ve Sent An Email To</TitleAuth>
             </Row>
+            {(error.length > 0) && <ErrorBeckend type="error" message={error} />}
             <Row justify='start' style={{ fontSize: 'var(--font-size-semilarge)', color: 'var(--secondary-green)' }}>{email}</Row>
             <Row justify='start' style={{ fontSize: 'var(--headline-font-size)' }}>Please make sure</Row>
             <Row>

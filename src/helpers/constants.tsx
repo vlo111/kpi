@@ -6,7 +6,7 @@ export const PATHS = {
   RESENDCONFIRMATION: 'resend-confirmation/:email',
   CONFIRMATION: 'confirm-email',
   FORGOTPASSWORD: 'forgot-password',
-  RESETPASSWORD: 'reset-password',
+  RESTOREPASSWORD: 'restore-password',
   DASHBOARD: 'dashboard'
 };
 
