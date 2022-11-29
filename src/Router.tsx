@@ -30,7 +30,7 @@ export const router = createBrowserRouter(
           <Route path={PATHS.SIGNUP} element={<SignUp />} />
           <Route path={PATHS.RESENDCONFIRMATION} element={<ResendConfirmation />} />
           <Route path={PATHS.FORGOTPASSWORD} element={<ForgotPassword />} />
-          <Route path={PATHS.RESETPASSWORD} element={<ResetPassword />} />
+          <Route path={PATHS.RESTOREPASSWORD} element={<ResetPassword />} />
         </Route>
       </Route>
       <Route element={<PrivateRoutes />} errorElement={<ErrorBoundary />}>

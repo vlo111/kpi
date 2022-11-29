@@ -18,7 +18,6 @@ const ForgotPassword: React.FC = () => {
     {
       onSuccess: (payload: any) => {
         void message.success('sucess', 1);
-        navigate('/reset-password');
       },
       onError: (error: any) => {
         console.log(error);

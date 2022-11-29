@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Row, Col, message } from 'antd';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,7 @@ import AsnButton from '../../components/Forms/Button';
 import useSignInApi from '../../api/Auth/useSignInApi';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import AsnForm from '../../components/Forms/Form';
+import ErrorBeckend from '../../components/Errors/AnsAlert';
 
 const ForgotPassword = styled.div`
   color: var(--forget-password-gray); 
@@ -19,6 +20,7 @@ const ForgotPassword = styled.div`
   margin-bottom: 24px;
 `;
 const SignIn: React.FC = () => {
+  const [error, setError] = useState<string>('');
   const [form] = AsnForm.useForm();
   const navigate = useNavigate();
   const { login, isToken } = useAuth();
@@ -35,7 +37,7 @@ const SignIn: React.FC = () => {
         isToken(accessToken);
         navigate(PATHS.ROOT);
       },
-      onError: ({ response }: any) => { console.log(response.data.message, 'error'); }
+      onError: ({ response }: any) => { setError(response.data.message); }
     }
   );
   const onFinish: any = (values: any) => {
@@ -56,9 +58,6 @@ const SignIn: React.FC = () => {
         <AsnForm
           name="signin"
           form={form}
-          initialValues={{
-            remember: false
-          }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
@@ -68,6 +67,7 @@ const SignIn: React.FC = () => {
           <TitleAuth>
             Sign In
           </TitleAuth>
+          {(error.length > 0) && <ErrorBeckend type="error" message={error} />}
           <AsnForm.Item
             name="email"
             label="Email Address"

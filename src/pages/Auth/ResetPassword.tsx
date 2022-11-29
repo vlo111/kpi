@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Row, Col, message } from 'antd';
 import AsnInput from '../../components/Forms/Input';
 import AsnForm from '../../components/Forms/Form';
@@ -7,6 +7,8 @@ import AsnButton from '../../components/Forms/Button';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import styled from 'styled-components';
 import useResetPassword from '../../api/Auth/useResetPassword';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import ErrorBeckend from '../../components/Errors/AnsAlert';
 
 const Description = styled.div`
   font-size: var(--headline-font-size); 
@@ -15,15 +17,19 @@ const Description = styled.div`
 `;
 
 const ResetPassword: React.FC = () => {
+  const [error, setError] = useState<string>('');
+  const navigate = useNavigate();
   const [form] = AsnForm.useForm();
-  const token = localStorage.getItem('token');
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token');
 
   const { mutate: resetPassword, isLoading }: any = useResetPassword(
     {
       onSuccess: (payload: any) => {
-        console.log(payload.data);
+        void message.success('sucess', 1);
+        navigate('/sign-in');
       },
-      onError: (error: string) => { void message.error(error); }
+      onError: ({ response }: any) => { setError(response.data.message); }
     }
   );
 
@@ -68,6 +74,7 @@ const ResetPassword: React.FC = () => {
             <TitleAuth>
               Reset Password
             </TitleAuth>
+            {(error.length > 0) && <ErrorBeckend type="error" message={error} />}
             <Description>The password should have at least 8 characters</Description>
             <AsnForm.Item
             name="password"
