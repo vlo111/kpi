@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+
 import ApplicantsList from './ApplicantsLarge'
 import SearchApplicants from './Search'
 
@@ -23,8 +24,8 @@ const ApplicantContent = styled.div`
   height: 100%;
 `
 
-const Applicants: React.FC<{}> = () => {
-  const [showModal, setShowModal] = useState(undefined)
+const Applicants: React.FC = () => {
+  const [showModal, setShowModal] = useState('')
 
   return (
     <ApplicantContent>
