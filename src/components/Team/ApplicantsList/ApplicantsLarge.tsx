@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Space, TablePaginationConfig } from 'antd'
 import styled from 'styled-components'
+import qs from 'qs'
+import { Space } from 'antd'
+
 import { ReactComponent as Preview } from '../../../assets/icons/eye.svg'
 import { ReactComponent as TrashSvg } from '../../../assets/icons/trash.svg'
 import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg'
@@ -8,22 +10,20 @@ import AddApplicantModal from './CreateApplicantsModal'
 import { ConfirmModal } from '../../Forms/Modal/ConfirmModal'
 import ApplicantPermissionInfoModal from './AppllicantPermissionModal'
 import { AsnTable } from '../../Forms/Table'
-import qs from 'qs'
-import { TableParams, UsersType } from '../../../types/teams'
+import { HandleTableOnChange, TableGlobals, TableParams, UsersType } from '../../../types/teams'
 
 const ApplicantList = styled.div`
     margin-top: 8px;
     height: calc(100% - 75px);
 `
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const getRandomuserParams = (params: TableParams) => ({
+const getRandomuserParams: TableGlobals = (params) => ({
   results: params.pagination?.pageSize,
   page: params.pagination?.current,
   ...params
 })
 
-const ApplicantsList: React.FC<{ }> = () => {
+const ApplicantsList: React.FC = () => {
   const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState(false)
   const [showModal, setShowModal] = useState('')
   const [openApplicantPermissionModal, setOpenApplicantPermissionModal] = useState(false)
@@ -109,8 +109,7 @@ const ApplicantsList: React.FC<{ }> = () => {
     }
   })
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const fetchData = () => {
+  const fetchData = (): void => {
     setLoading(true)
     void fetch(`https://randomuser.me/api?${qs.stringify(getRandomuserParams(tableParams))}`)
       .then(async res => await res.json())
@@ -131,9 +130,8 @@ const ApplicantsList: React.FC<{ }> = () => {
     fetchData()
   }, [JSON.stringify(tableParams)])
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const handleTableChange = (
-    pagination: TablePaginationConfig
+  const handleTableChange: HandleTableOnChange = (
+    pagination
   ) => {
     setTableParams({
       pagination

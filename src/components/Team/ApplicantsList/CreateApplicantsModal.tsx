@@ -1,14 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
+import styled from 'styled-components'
+import { Cascader, Col, Radio, RadioChangeEvent, Row } from 'antd'
+import { DeleteOutlined } from '@ant-design/icons'
+
 import { AsnModal } from '../../Forms/Modal'
 import { Form } from '../../Forms/Form'
 import AsnInput from '../../Forms/Input'
 import { VALIDATE_MESSAGES } from '../../../helpers/constants'
-import styled from 'styled-components'
 import { AsnButton } from '../../Forms/Button'
-import { Cascader, Col, Radio, RadioChangeEvent, Row } from 'antd'
-import { DeleteOutlined } from '@ant-design/icons'
 import { UsersPermissionsRule } from '../../../helpers/fakeData'
+import { ShowDeleteUserModal } from '../../../types/teams'
 
 const AddApplicantsModalWrapper = styled(AsnModal)`
     width: 600px !important;
@@ -60,9 +61,11 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
             }
     }
     .anticon[tabindex]{
-          position: absolute;
-          right: -17px;
-    }
+        position: absolute;
+        top: 42px;
+        right: -17px;
+     }
+    
     .ant-row {
       width: 100%;
     }
@@ -96,27 +99,26 @@ const AddApplicantsModalWrapper = styled(AsnModal)`
     }
 `
 
-const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) => {
+const AddApplicantModal: React.FC<ShowDeleteUserModal> = ({ setShowModal }) => {
   const [form] = Form.useForm()
   const [value, setValue] = useState(1)
+  const [filedValue, setFiledValue] = useState<string [] | undefined >(undefined)
+  const [cascadeValue, setCascadeValue] = useState<string [] | undefined>(undefined)
 
-  const [defaultVal, setDefaultVal] = useState(UsersPermissionsRule)
+  const [defaultVal] = useState(UsersPermissionsRule)
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const onChange = (value: any, selectedOptions: any) => {
-    console.log(value)
+  const onChange: any = (value: string []) => {
+    setCascadeValue(value)
+    setFiledValue(value)
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const onChangePermission = (e: RadioChangeEvent) => {
-    console.log('radio checked', e.target.value)
+  const onChangePermission: (e: RadioChangeEvent) => void = (e: RadioChangeEvent) => {
     setValue(e.target.value)
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const handleCancel = () => {
+  const handleCancel = (): void => {
     form.resetFields()
-    setShowModal(undefined)
+    setShowModal('')
   }
 
   return (
@@ -129,14 +131,14 @@ const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) =>
               <Row key={'action'} gutter={14} justify='center'>
                 <Col span={7}>
                   <Row justify='start'>
-                   <AsnButton key="back" onClick={handleCancel}>
+                   <AsnButton key="back" onClick={handleCancel} style={{ width: '133px' }}>
                         Cancel
                    </AsnButton>
                    </Row>
                 </Col>
                 <Col span={7}>
                   <Row justify='end'>
-                    <AsnButton form="managerForm" key="submit" type="primary" htmlType="submit">
+                    <AsnButton form="managerForm" key="submit" type="primary" htmlType="submit" style={{ width: '133px' }}>
                         {/* { false ? 'Edit' : 'Add'} */}
                         Add
                     </AsnButton>
@@ -154,58 +156,64 @@ const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) =>
                 // fields={fields}
             >
                 <Form.Item name="email" label="Email Address" rules={[{ required: true }, { type: 'email' }]}>
-                    <AsnInput placeholder="annahakobyan@name.com"/>
+                    <AsnInput/>
                 </Form.Item>
                 <Form.Item name="firstName" label="First Name" rules={[{
                   required: true,
                   min: 2,
                   max: 256
                 }]} >
-                    <AsnInput placeholder="Anna"/>
+                    <AsnInput/>
                 </Form.Item>
                 <Form.Item name="lastName" label="Last Name" rules={[{
                   required: true,
                   min: 2,
                   max: 256
                 }]}>
-                    <AsnInput placeholder="Hakobyan"/>
+                    <AsnInput/>
                 </Form.Item>
                 <Form.Item name="position" label="Position">
-                    <AsnInput placeholder="Project Manager"/>
+                    <AsnInput/>
                 </Form.Item>
                 <Form.List name="users" initialValue={[{}]}>
                   {(fields, { add, remove }) => (
                     <>
-                      {fields.map(({ key, name, ...restField }, index) => (
-                           <Row key={key} justify='space-between' align='middle' style={{ marginBottom: '1.03vh', width: '100%' }}>
-                            <Form.Item style={{ width: '100%' }} name="assigned" label="Assign to" rules={[{
-                              required: true
-                            }]}>
-                            <Row justify='center' align='middle'>
-                             <Cascader
-                               {...restField}
+                      {fields.map(({ key, name }, index) => (
+                           <Row key={key} justify='space-between' align='middle' style={{ marginBottom: '1.03vh', width: '100%', position: 'relative' }}>
+                            <Form.Item
+                             style={{ width: '100%' }}
+                             name={[index, 'Assign to']}
+                             label="Assign to"
+                             rules={[{ required: true }]}
+                            >
+                              <Cascader
+                               value={filedValue}
+                               popupClassName="customCascaderPopup"
                                options={defaultVal}
                                onChange={onChange}
                                displayRender={label => label.join(' >  ')}
+                               multiple
+                               allowClear
+                               maxTagCount="responsive"
+                               changeOnSelect
                               />
-                                {fields.length > 1 && index !== 0
-                                  ? (
-                                 <DeleteOutlined onClick={() => remove(name)} />
-                                    )
-                                  : null}
+                            </Form.Item>
+                            <Row justify='end' align='middle'>
+                              {fields.length > 1 && index !== 0
+                                ? (
+                                   <DeleteOutlined onClick={() => remove(name)} />
+                                  )
+                                : null}
                             </Row>
-                            {fields.length > 1 && index !== 0
-                              ? (
-                            <Radio.Group value={value} key={key}>
-                              <Radio value={1} onChange={onChangePermission}>
-                                 View
-                              </Radio>
-                              <Radio value={2} onChange={onChangePermission}>
-                                 Edit
-                              </Radio>
-                            </Radio.Group>
-                                )
-                              : null}
+                            <Form.Item name={[index, 'Radio']}>
+                              <Radio.Group value={value} key={key} defaultValue={1}>
+                                <Radio value={1} onChange={onChangePermission}>
+                                   View
+                                </Radio>
+                                <Radio value={2} onChange={onChangePermission}>
+                                   Edit
+                                </Radio>
+                              </Radio.Group>
                             </Form.Item>
                            </Row>
                       ))}
@@ -214,7 +222,11 @@ const AddApplicantModal: React.FC<{ setShowModal: any }> = ({ setShowModal }) =>
                            key="submit"
                            type="primary"
                            style={{ width: '100%', marginBottom: '2.88vh' }}
-                           onClick={() => add()}>
+                           disabled={cascadeValue === undefined || cascadeValue.length === 0}
+                           onClick={() => {
+                             add()
+                             setCascadeValue(undefined)
+                           }}>
                               +
                           </AsnButton>
                       </Form.Item>
