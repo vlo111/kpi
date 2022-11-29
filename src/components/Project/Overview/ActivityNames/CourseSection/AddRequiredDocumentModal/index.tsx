@@ -10,6 +10,7 @@ import { AsnButton } from '../../../../../Forms/Button'
 import { Form } from '../../../../../Forms/Form'
 import AsnInput, { AsnNumberInput } from '../../../../../Forms/Input'
 import { AsnModal } from '../../../../../Forms/Modal'
+import { VALIDATE_MESSAGES } from '../../../../../../helpers/constants'
 
 const CreateTemplateContainer = styled.div`
   display: flex;
@@ -21,14 +22,9 @@ const AddRequiredDocumentModal: React.FC<IAddRequiredDocument> = ({
   isOpenAddDocumentsModal,
   setIsOpenAddDocumentsModal,
   requiredDocuments,
-  setRequiredDocuments,
-  restField,
-  name
+  setRequiredDocuments
 }) => {
   const [modalForm] = Form.useForm()
-  const onCancelClick: AddManagerHandle = () => {
-    setIsOpenAddDocumentsModal(false)
-  }
 
   const handleCancel: AddManagerHandle = () => {
     setIsOpenAddDocumentsModal(false)
@@ -41,6 +37,17 @@ const AddRequiredDocumentModal: React.FC<IAddRequiredDocument> = ({
     modalForm.resetFields()
   }
 
+  const initFields = [
+    {
+      name: 'documentName',
+      value: ''
+    },
+    {
+      name: 'documentCount',
+      value: 1
+    }
+  ]
+
   return (
     <AsnModal
       footer={false}
@@ -50,21 +57,35 @@ const AddRequiredDocumentModal: React.FC<IAddRequiredDocument> = ({
       width={'42%'}
     >
       <CreateTemplateContainer>
-        <Form name="dynamic_form_item" onFinish={onFinish} form={modalForm} autoComplete="off"
->
+        <Form
+          name="dynamic_form_item"
+          onFinish={onFinish}
+          form={modalForm}
+          autoComplete="off"
+          validateMessages={VALIDATE_MESSAGES}
+          fields={initFields}
+        >
           <Space direction="vertical">
             <Space>
               <Form.Item
                 name="documentName"
+                rules={[
+                  {
+                    required: true,
+                    min: 1,
+                    max: 255,
+                    message: 'Please enter a valid Field'
+                  }
+                ]}
               >
-                <AsnInput />
+                <AsnInput placeholder="example:" />
               </Form.Item>
               <Form.Item name="documentCount">
-                <AsnNumberInput />
+                <AsnNumberInput min={1} max={100} />
               </Form.Item>
             </Space>
             <Space style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <AsnButton onClick={onCancelClick}>Cancel</AsnButton>
+              <AsnButton onClick={handleCancel}>Cancel</AsnButton>
               <AsnButton type="primary" htmlType="submit">
                 Add
               </AsnButton>

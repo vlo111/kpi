@@ -177,13 +177,16 @@ export interface IRequiredDocuments {
   id: string
 }
 
+export interface IAddedDocuments {
+  requiredDocuments: IRequiredDocuments
+  setRequiredDocuments: React.Dispatch<React.SetStateAction<IRequiredDocuments[]>>
+}
+
 export interface IAddRequiredDocument {
   isOpenAddDocumentsModal: boolean
   setIsOpenAddDocumentsModal: React.Dispatch<React.SetStateAction<boolean>>
   requiredDocuments: IRequiredDocuments[]
   setRequiredDocuments: React.Dispatch<React.SetStateAction<IRequiredDocuments[]>>
-  restField: { fieldKey?: number | undefined }
-  name: number
 }
 
 export interface ITemplateData {
@@ -254,11 +257,12 @@ export type ProjectTargetRule = (
 | { required: boolean, message: string, pattern: RegExp }
 >
 
+export interface ISection { id: string }
 export interface ILearningStatus {
-  fields: FormListFieldData[]
-  restField: { fieldKey?: number | undefined }
-  name: number
-  remove: (index: number | number[]) => void
+  index: number
+  section: ISection
+  setSections: React.Dispatch<React.SetStateAction<ISection[]>>
+  sections: ISection[]
 }
 export interface OverviewProps {
   subActivity?: boolean

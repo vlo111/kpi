@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Row, Col, Space, Checkbox, Form } from 'antd'
+import { Row, Col, Space, Checkbox } from 'antd'
 import { courseSectionData } from '../../../../../../helpers/fakeData'
 import { AsnButton } from '../../../../../Forms/Button'
 import { ReactComponent as DeleteIcon } from '../../../../../../assets/icons/delete.svg'
 import AddRequiredDocumentModal from '../AddRequiredDocumentModal'
 import {
   ILearningStatus,
-  IRequiredDocuments
+  IRequiredDocuments,
+  ISection
 } from '../../../../../../types/project'
+import AddedDocuments from '../AddedDocuments'
 
 const SectionContainer = styled(Row)`
   width: 100% !important;
@@ -43,18 +45,11 @@ const SectionContent = styled(Col)`
   padding: 1rem 2rem 2.5rem;
 `
 
-const DocumentsCountContainer = styled(Space)`
-  background: var(--white);
-  padding: 0.5rem 0.25rem 1.7rem 2rem;
-  border-radius: 20px;
-  width: 33vw;
-`
-
 const SectionHeaderContainer = styled(Col)`
   width: 100%;
   position: relative;
   display: flex;
-    justify-content: center;
+  justify-content: center;
 `
 
 const SectionRow = styled(Space)`
@@ -113,36 +108,37 @@ const SectionRow = styled(Space)`
 `
 
 const LearningStatus: React.FC<ILearningStatus> = ({
-  fields,
-  remove,
-  restField,
-  name
+  index,
+  section,
+  setSections,
+  sections
 }) => {
+  const sectionsCount = 'Multi-Section'
   const [isOpenAddDocumentsModal, setIsOpenAddDocumentsModal] = useState(false)
   const [requiredDocuments, setRequiredDocuments] = useState<
   IRequiredDocuments[]
   >([])
 
-  const onDeleteDocument = (id: string): void => {
-    setRequiredDocuments(
-      requiredDocuments.filter((document) => {
-        return document.id !== id
-      })
-    )
+  const onDeleteSection = (): void => {
+    if (sections.length > 1) {
+      setSections(
+        sections.filter((item: ISection): boolean => item.id !== section.id)
+      )
+    }
   }
 
   return (
     <SectionContainer>
       <SectionHeaderContainer>
-        <SectionHeader>Section {+name + 1}:</SectionHeader>
-        {fields.length > 1
+        <SectionHeader>Section {+index + 1}:</SectionHeader>
+        {sections.length > (sectionsCount === 'Multi-Section' ? 2 : 1)
           ? (
-            <div style={{ position: 'absolute', right: 46, top: 23 }}>
-              <DeleteIcon
-                className="dynamic-delete-button"
-                onClick={() => remove(name)}
-              />
-            </div>
+          <div style={{ position: 'absolute', right: '4%', top: 23 }}>
+            <DeleteIcon
+              className="dynamic-delete-button"
+              onClick={onDeleteSection}
+            />
+          </div>
             )
           : null}
       </SectionHeaderContainer>
@@ -150,15 +146,14 @@ const LearningStatus: React.FC<ILearningStatus> = ({
         {courseSectionData.map((item) => (
           <SectionRow key={item.id} direction="horizontal">
             {item.name}
-            <Form.Item name="selection" {...restField}>
-              <Checkbox
-                style={{
-                  color: 'var(--dark-2)'
-                }}
-                defaultChecked={item.checked}
-                disabled={item.disabled}
-              ></Checkbox>
-            </Form.Item>
+            <Checkbox
+              style={{
+                color: 'var(--dark-2)'
+              }}
+              defaultChecked={item.checked}
+              disabled={item.checked}
+              onChange={(value) => console.log(value.target.checked)}
+            ></Checkbox>
           </SectionRow>
         ))}
         <Space
@@ -174,41 +169,10 @@ const LearningStatus: React.FC<ILearningStatus> = ({
         >
           {requiredDocuments.length > 0
             ? (
-            <DocumentsCountContainer direction="vertical" size={24}>
-              <Space
-                style={{
-                  fontWeight: 600,
-                  fontSize: 'var(--headline-font-size)'
-                }}
-              >
-                Required documents list:
-              </Space>
-              <Space
-                direction="vertical"
-                style={{ width: '100%', height: '130px', overflow: 'auto' }}
-                size={0}
-              >
-                {requiredDocuments.map((document) => (
-                  <Space
-                    key={document.id}
-                    direction="horizontal"
-                    style={{ display: 'flex', justifyContent: 'space-between' }}
-                  >
-                    <Space style={{ fontSize: 'var(--headline-font-size)' }}>
-                      {document.documentName}:
-                      <Space style={{ color: 'var(--dark-4)' }}>
-                        {document.documentCount}
-                      </Space>
-                    </Space>
-                    <Space style={{ marginRight: '1rem', cursor: 'pointer' }}>
-                      <DeleteIcon
-                        onClick={() => onDeleteDocument(document.id)}
-                      />
-                    </Space>
-                  </Space>
-                ))}
-              </Space>
-            </DocumentsCountContainer>
+            <AddedDocuments
+              requiredDocuments={requiredDocuments}
+              setRequiredDocuments={setRequiredDocuments}
+            />
               )
             : null}
           <AsnButton
@@ -224,8 +188,6 @@ const LearningStatus: React.FC<ILearningStatus> = ({
         setIsOpenAddDocumentsModal={setIsOpenAddDocumentsModal}
         setRequiredDocuments={setRequiredDocuments}
         requiredDocuments={requiredDocuments}
-        restField={restField}
-        name={name}
       />
     </SectionContainer>
   )
