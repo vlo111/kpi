@@ -6,7 +6,8 @@ export const PATHS = {
   RESENDCONFIRMATION: 'resend-confirmation/:email',
   CONFIRMATION: 'confirm-email',
   FORGOTPASSWORD: 'forgot-password',
-  RESETPASSWORD: 'reset-password'
+  RESETPASSWORD: 'reset-password',
+  DASHBOARD: 'dashboard'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -22,5 +23,19 @@ export const VALIDATE_MESSAGES = {
     mismatch: 'Password must contain at least one digit and at least one character'
   }
 };
+export const MenuItems = [
+  'Dashboard',
+  'Project',
+  'Team',
+  'Applicants',
+  'Product Guide',
+  'Keyboard Shortcuts'
+];
+export const menuItemsNavigate = [
+  '/dashboard',
+  '/project',
+  '/teams',
+  '/applicants'
+];
 
 export const passwordRegExp = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,64}$/;
