@@ -4,7 +4,7 @@ import { Row, Col, message, Space } from 'antd';
 import get from 'lodash/get';
 
 import useSignUpApi from '../../api/Auth/useSignUpApi';
-import { VALIDATE_MESSAGES, passwordRegExp } from '../../helpers/constants';
+import { VALIDATE_MESSAGES, passwordRegExp, PATHS } from '../../helpers/constants';
 import { SignUpForm, ISuccessMessage } from '../../types/auth';
 import { TVoid } from '../../types/global';
 
@@ -12,7 +12,7 @@ import AsnInput from '../../components/Forms/Input';
 import AsnButton from '../../components/Forms/Button';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import AsnForm from '../../components/Forms/Form';
-import AsnAlert from '../../components/Errors';
+import AsnAlert from '../../components/Forms/AsnAlert';
 
 const SignUp: React.FC = () => {
   const [error, setError] = useState<string>('');
@@ -23,7 +23,7 @@ const SignUp: React.FC = () => {
       onSuccess: ({ data }: ISuccessMessage) => {
         const email: string = form.getFieldValue('email');
         void message.success(data.result, 2);
-        navigate(`/resend-confirmation/${email}`);
+        navigate(`/${PATHS.RESENDCONFIRMATION.replace(':email', email)}`);
       },
       onError: ({ response }: any) => { setError(response.data.message); }
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IAnsAlert } from '../../types/global';
+import { IAnsAlert } from '../../../types/global';
 import { AsnAlert, AsnText } from './AsnAlert';
 
 const AlertAnt: React.FC<IAnsAlert> = ({ message, type, email }) => {

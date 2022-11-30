@@ -8,7 +8,7 @@ import { TVoid } from '../../types/global';
 import { ISuccessMessage } from '../../types/auth';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import AsnButton from '../../components/Forms/Button';
-import AsnAlert from '../../components/Errors';
+import AsnAlert from '../../components/Forms/AsnAlert';
 import { ReactComponent as CheckedSvg } from '../../assets/icons/checked.svg';
 
 const Checked = styled.div`

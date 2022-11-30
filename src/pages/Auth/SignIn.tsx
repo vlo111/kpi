@@ -13,7 +13,7 @@ import AsnInput from '../../components/Forms/Input';
 import AsnButton from '../../components/Forms/Button';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import AsnForm from '../../components/Forms/Form';
-import AnsAlert from '../../components/Errors';
+import AnsAlert from '../../components/Forms/AsnAlert';
 
 import useSignInApi from '../../api/Auth/useSignInApi';
 
