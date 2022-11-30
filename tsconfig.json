@@ -22,7 +22,7 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "env.d.ts", "src"
+    "env.d.ts", "src", "babel.config.ts", "jest.config.ts", "beforeTest.ts"
   ],
   "exclude": ["src/reportWebVitals.ts"]
 }

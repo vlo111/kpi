@@ -56,6 +56,7 @@ const SignIn: React.FC = () => {
     <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
       <Col span={8} style={{ maxWidth: '460px' }}>
         <AsnForm
+          data-testid="signInForm"
           name="signin"
           form={form}
           onFinish={onFinish}
@@ -73,10 +74,10 @@ const SignIn: React.FC = () => {
             label="Email Address"
             rules={[{ required: true }, { type: 'email' }, { max: 128 }]}
           >
-            <AsnInput placeholder="Email Address" />
+            <AsnInput placeholder="Email Address" data-testid="email" />
           </AsnForm.Item>
           <AsnForm.Item name="password" label="Password" rules={[{ required: true }, { min: 8, max: 64 }]} style={{ marginBottom: '16px' }}>
-            <AsnInput.Password placeholder="Password" />
+            <AsnInput.Password data-testid="password" placeholder="Password" />
           </AsnForm.Item>
           <ForgotPassword onClick={() => navigate('/forgot-password')}>Forgot password?</ForgotPassword>
           <AsnForm.Item>

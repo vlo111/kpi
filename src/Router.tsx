@@ -35,6 +35,7 @@ export const router = createBrowserRouter(
       </Route>
       <Route element={<PrivateRoutes />} errorElement={<ErrorBoundary />}>
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
+
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
