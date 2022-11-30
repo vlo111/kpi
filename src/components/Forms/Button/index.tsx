@@ -17,7 +17,7 @@ const AsnButton = styled(Button)`
   border: none;
 
   
-  &:hover {
+  &:hover, :focus, :active {
     background: var(--primary-light-1);
     color: var(--dark-border-ultramarine)
   }

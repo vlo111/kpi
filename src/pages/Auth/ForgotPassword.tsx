@@ -1,30 +1,33 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Row, Col, message } from 'antd';
+import styled from 'styled-components';
 import get from 'lodash/get';
-import { VALIDATE_MESSAGES } from '../../helpers/constants';
+
 import useForgotPassword from '../../api/Auth/useForgotPassword';
+import { VALIDATE_MESSAGES, PATHS } from '../../helpers/constants';
+import { TVoid } from '../../types/global';
+import { ISuccessMessage } from '../../types/auth';
 import AsnForm from '../../components/Forms/Form';
 import AsnInput from '../../components/Forms/Input';
 import AsnButton from '../../components/Forms/Button';
-import { useNavigate } from 'react-router-dom';
+import AsnAlert from '../../components/Errors';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import { ReactComponent as KeySvg } from '../../assets/icons/forgot.svg';
 
 const ForgotPassword: React.FC = () => {
+  const [error, setError] = useState<string>('');
   const [form] = AsnForm.useForm();
   const navigate = useNavigate();
   const { mutate: forgotPassword, isLoading }: any = useForgotPassword(
     {
-      onSuccess: (payload: any) => {
-        void message.success('sucess', 1);
+      onSuccess: ({ data }: ISuccessMessage) => {
+        void message.success(data.result, 2);
       },
-      onError: (error: any) => {
-        console.log(error);
-      }
+      onError: ({ response }: any) => { setError(response.data.message); }
     }
   );
-  const onFinish: any = (values: any) => {
+  const onFinish: TVoid = (values: { email: string }) => {
     try {
       forgotPassword(values);
     } catch (error) {
@@ -33,9 +36,6 @@ const ForgotPassword: React.FC = () => {
     }
   };
 
-  const onFinishFailed: any = (values: any) => {
-    console.log(values, 'failed');
-  };
   const BackSignIn = styled.div`
     font-size: var(--base-font-size);
     color: var(--dark-border-ultramarine); 
@@ -57,12 +57,12 @@ const ForgotPassword: React.FC = () => {
             name="signin"
             form={form}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             validateMessages={VALIDATE_MESSAGES}
             layout="vertical"
           >
             <KeySvg style={{ width: '100%', marginBottom: '26px' }} />
             <TitleAuth>Forget Password</TitleAuth>
+            {(error.length > 0) && <AsnAlert type="error" message={error} />}
             <Description>Please enter the email you use to sign in to Meetk.</Description>
             <AsnForm.Item
              name="email"
@@ -76,7 +76,7 @@ const ForgotPassword: React.FC = () => {
                 Reset Password
               </AsnButton>
             </AsnForm.Item>
-            <BackSignIn onClick={() => navigate('/sign-in')}>Back To Sign In </BackSignIn>
+            <BackSignIn onClick={() => navigate(PATHS.SIGNIN)}>Back To Sign In </BackSignIn>
           </AsnForm>
         </Col>
       </Row>

@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Row, Col, message, Space } from 'antd';
 import get from 'lodash/get';
-import { useNavigate } from 'react-router-dom';
 
+import useSignUpApi from '../../api/Auth/useSignUpApi';
 import { VALIDATE_MESSAGES, passwordRegExp } from '../../helpers/constants';
+import { SignUpForm, ISuccessMessage } from '../../types/auth';
+import { TVoid } from '../../types/global';
+
 import AsnInput from '../../components/Forms/Input';
 import AsnButton from '../../components/Forms/Button';
-import useSignUpApi from '../../api/Auth/useSignUpApi';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import AsnForm from '../../components/Forms/Form';
-import { SignUpForm } from '../../types/auth';
-import ErrorBeckend from '../../components/Errors/AnsAlert';
+import AsnAlert from '../../components/Errors';
 
 const SignUp: React.FC = () => {
   const [error, setError] = useState<string>('');
@@ -18,15 +20,15 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const { mutate: signUp, isLoading }: any = useSignUpApi(
     {
-      onSuccess: () => {
+      onSuccess: ({ data }: ISuccessMessage) => {
         const email: string = form.getFieldValue('email');
-        void message.success('sucess', 1);
+        void message.success(data.result, 2);
         navigate(`/resend-confirmation/${email}`);
       },
       onError: ({ response }: any) => { setError(response.data.message); }
     }
   );
-  const onFinish = (values: SignUpForm): void => {
+  const onFinish: TVoid = (values: SignUpForm) => {
     try {
       signUp(values);
     } catch (error) {
@@ -56,13 +58,12 @@ const SignUp: React.FC = () => {
         <AsnForm
           name="signUp"
           form={form}
-          onFinish={(values) => onFinish(values as SignUpForm)}
-          autoComplete="off"
+          onFinish={onFinish}
           validateMessages={VALIDATE_MESSAGES}
           layout="vertical"
         >
            <TitleAuth>Sign Up</TitleAuth>
-           {(error.length > 0) && <ErrorBeckend type="error" message={error} />}
+           {(error.length > 0) && <AsnAlert type="error" message={error} />}
           <AsnForm.Item name="firstName" label="First Name"
             rules={[{ required: true }, { min: 3, max: 128 }]}>
             <AsnInput placeholder="First Name" />

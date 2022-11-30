@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
-import { Row, Col, message } from 'antd';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
-import { useAuth } from '../../hooks/useAuth';
+import { Row, Col, message } from 'antd';
+import styled from 'styled-components';
 
+import { useAuth } from '../../hooks/useAuth';
+import { handleErrorMessage } from '../../helpers/utils';
+import { IUser, ISignInForm } from '../../types/auth';
+import { TVoid } from '../../types/global';
 import { PATHS, VALIDATE_MESSAGES } from '../../helpers/constants';
 import AsnInput from '../../components/Forms/Input';
 import AsnButton from '../../components/Forms/Button';
-import useSignInApi from '../../api/Auth/useSignInApi';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import AsnForm from '../../components/Forms/Form';
-import ErrorBeckend from '../../components/Errors/AnsAlert';
+import AnsAlert from '../../components/Errors';
+
+import useSignInApi from '../../api/Auth/useSignInApi';
 
 const ForgotPassword = styled.div`
   color: var(--forget-password-gray); 
@@ -23,10 +27,11 @@ const SignIn: React.FC = () => {
   const [error, setError] = useState<string>('');
   const [form] = AsnForm.useForm();
   const navigate = useNavigate();
+  const email = form.getFieldValue('email');
   const { login, isToken } = useAuth();
   const { mutate: signIn, isLoading }: any = useSignInApi(
     {
-      onSuccess: (payload: { data: { id: string, firstName: string, lastName: string, email: string, accessToken: string } }) => {
+      onSuccess: (payload: { data: IUser }) => {
         const { id, firstName, lastName, email, accessToken } = payload.data;
         login({
           id,
@@ -37,20 +42,16 @@ const SignIn: React.FC = () => {
         isToken(accessToken);
         navigate(PATHS.ROOT);
       },
-      onError: ({ response }: any) => { setError(response.data.message); }
+      onError: ({ response }: any) => { setError(handleErrorMessage(response)); }
     }
   );
-  const onFinish: any = (values: any) => {
+  const onFinish: TVoid = (values: ISignInForm) => {
     try {
-      console.log(values);
       signIn(values);
     } catch (error) {
       const errorMessage = get(error, 'error.message', 'Something went wrong!');
       void message.error(errorMessage);
     }
-  };
-  const onFinishFailed = (): void => {
-    console.log('error');
   };
   return (
     <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
@@ -59,15 +60,13 @@ const SignIn: React.FC = () => {
           name="signin"
           form={form}
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
           validateMessages={VALIDATE_MESSAGES}
           layout="vertical"
         >
           <TitleAuth>
             Sign In
           </TitleAuth>
-          {(error.length > 0) && <ErrorBeckend type="error" message={error} />}
+          {(error.length > 0) && <AnsAlert type="error" message={error} email={email} />}
           <AsnForm.Item
             name="email"
             label="Email Address"
@@ -78,7 +77,7 @@ const SignIn: React.FC = () => {
           <AsnForm.Item name="password" label="Password" rules={[{ required: true }, { min: 8, max: 64 }]} style={{ marginBottom: '16px' }}>
             <AsnInput.Password placeholder="Password" />
           </AsnForm.Item>
-          <ForgotPassword onClick={() => navigate('/forgot-password')}>Forgot password?</ForgotPassword>
+          <ForgotPassword onClick={() => navigate(PATHS.FORGOTPASSWORD)}>Forgot password?</ForgotPassword>
           <AsnForm.Item>
               <AsnButton htmlType="submit" loading={isLoading} className='primary'>
                 Sign In

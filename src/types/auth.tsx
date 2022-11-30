@@ -10,11 +10,22 @@ export interface ISignInForm {
   email: string
   password: string
 }
-export interface User {
+export interface IUser {
   email: string
   firstName: string
   lastName: string
-  organization: string
+  organization?: string
   id: string
   accessToken: string
+}
+
+export interface ISuccessMessage {
+  data: {
+    result: string
+  }
+}
+
+export interface IResetPassword {
+  password: string
+  confirmPassword: string
 }
