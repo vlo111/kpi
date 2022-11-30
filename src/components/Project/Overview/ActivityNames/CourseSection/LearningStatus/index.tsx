@@ -53,7 +53,7 @@ const SectionHeaderContainer = styled(Col)`
 `
 
 const SectionRow = styled(Space)`
-  border: 0.5px solid #edf0f4;
+  border: 0.5px solid var(--dark-6);
   padding: 11px 15px 11px 8px;
   background-color: var(--white);
   font-size: var(--headline-font-size);
