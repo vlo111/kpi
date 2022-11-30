@@ -11,6 +11,7 @@ import { Form } from '../../../../../Forms/Form'
 import AsnInput, { AsnNumberInput } from '../../../../../Forms/Input'
 import { AsnModal } from '../../../../../Forms/Modal'
 import { VALIDATE_MESSAGES } from '../../../../../../helpers/constants'
+import { FormFinish } from '../../../../../../types/global'
 
 const CreateTemplateContainer = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ const AddRequiredDocumentModal: React.FC<IAddRequiredDocument> = ({
     modalForm.resetFields()
   }
 
-  const onFinish = (values: any): void => {
+  const onFinish: FormFinish = (values) => {
     setIsOpenAddDocumentsModal(false)
     setRequiredDocuments([...requiredDocuments, { id: uuidv4(), ...values }])
     modalForm.resetFields()

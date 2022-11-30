@@ -178,7 +178,7 @@ export interface IRequiredDocuments {
 }
 
 export interface IAddedDocuments {
-  requiredDocuments: IRequiredDocuments
+  requiredDocuments: IRequiredDocuments[]
   setRequiredDocuments: React.Dispatch<React.SetStateAction<IRequiredDocuments[]>>
 }
 
@@ -267,3 +267,5 @@ export interface ILearningStatus {
 export interface OverviewProps {
   subActivity?: boolean
 }
+
+export type HandleDeleteDocument = (id: string) => void

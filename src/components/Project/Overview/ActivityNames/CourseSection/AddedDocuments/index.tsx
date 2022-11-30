@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Space } from 'antd'
 import { ReactComponent as DeleteIcon } from '../../../../../../assets/icons/delete.svg'
-import { IRequiredDocuments } from '../../../../../../types/project'
+import { HandleDeleteDocument, IAddedDocuments, IRequiredDocuments } from '../../../../../../types/project'
 
 const DocumentsCountContainer = styled(Space)`
   background: var(--white);
@@ -11,11 +11,11 @@ const DocumentsCountContainer = styled(Space)`
   width: 33vw;
 `
 
-const AddedDocuments: React.FC<any> = ({
+const AddedDocuments: React.FC<IAddedDocuments> = ({
   requiredDocuments,
   setRequiredDocuments
 }) => {
-  const onDeleteDocument = (id: string): void => {
+  const onDeleteDocument: HandleDeleteDocument = (id) => {
     setRequiredDocuments(
       requiredDocuments.filter((document: IRequiredDocuments) => {
         return document.id !== id

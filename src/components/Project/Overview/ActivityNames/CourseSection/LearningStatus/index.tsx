@@ -27,8 +27,8 @@ const SectionContainer = styled(Row)`
 `
 const SectionHeader = styled(Col)`
   background: var(--dark-7);
-  box-shadow: 0px 4px 4px rgba(17, 27, 35, 0.05),
-    0px 8px 8px rgba(17, 27, 35, 0.05);
+  box-shadow: var(--header-box-shadow),
+    var(--project-shadow);
   border-radius: 10px;
   width: 88%;
   padding: 1rem;
@@ -39,7 +39,7 @@ const SectionHeader = styled(Col)`
 `
 const SectionContent = styled(Col)`
   background: var(--dark-7);
-  box-shadow: 0px 8px 8px rgba(17, 27, 35, 0.05);
+  box-shadow: var(--project-shadow);
   border-radius: 0 0 20px 20px;
   width: 84%;
   padding: 1rem 2rem 2.5rem;
