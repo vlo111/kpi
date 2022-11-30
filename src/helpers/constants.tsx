@@ -1,12 +1,12 @@
 export const PATHS = {
   ROOT: '/',
   ERROR_403: 'no-access',
-  ERROR_500: '/error-500',
-  SIGNIN: '/sign-in',
+  ERROR_500: 'error-500',
+  SIGNIN: 'sign-in',
   SIGNUP: 'sign-up',
   RESENDCONFIRMATION: 'resend-confirmation/:email',
   CONFIRMATION: 'confirm-email',
-  FORGOTPASSWORD: '/forgot-password',
+  FORGOTPASSWORD: 'forgot-password',
   RESTOREPASSWORD: 'restore-password',
   DASHBOARD: 'dashboard'
 };

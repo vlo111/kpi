@@ -76,7 +76,7 @@ const ForgotPassword: React.FC = () => {
                 Reset Password
               </AsnButton>
             </AsnForm.Item>
-            <BackSignIn onClick={() => navigate(PATHS.SIGNIN)}>Back To Sign In </BackSignIn>
+            <BackSignIn onClick={() => navigate(`/${PATHS.SIGNIN}`)}>Back To Sign In </BackSignIn>
           </AsnForm>
         </Col>
       </Row>

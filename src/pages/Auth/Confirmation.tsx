@@ -17,10 +17,10 @@ const Confirmation: React.FC = () => {
     {
       onSuccess: ({ data }: ISuccessMessage) => {
         void message.success(data.result, 2);
-        navigate(PATHS.SIGNIN);
+        navigate(`/${PATHS.SIGNIN}`);
       },
       onError: () => {
-      <Navigate to={PATHS.ERROR_500} />;
+      <Navigate to={`/${PATHS.ERROR_500}`} />;
       }
     }
   );

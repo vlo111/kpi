@@ -31,7 +31,7 @@ const ResetPassword: React.FC = () => {
     {
       onSuccess: ({ data }: ISuccessMessage) => {
         void message.success(data.result, 2);
-        navigate(PATHS.SIGNIN);
+        navigate(`/${PATHS.SIGNIN}`);
       },
       onError: ({ response }: any) => { setError(response.data.message); }
     }
