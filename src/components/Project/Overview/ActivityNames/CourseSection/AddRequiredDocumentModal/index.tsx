@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Space } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import {
@@ -12,12 +11,6 @@ import AsnInput, { AsnNumberInput } from '../../../../../Forms/Input'
 import { AsnModal } from '../../../../../Forms/Modal'
 import { VALIDATE_MESSAGES } from '../../../../../../helpers/constants'
 import { FormFinish } from '../../../../../../types/global'
-
-const CreateTemplateContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
 
 const AddRequiredDocumentModal: React.FC<IAddRequiredDocument> = ({
   isOpenAddDocumentsModal,
@@ -57,7 +50,11 @@ const AddRequiredDocumentModal: React.FC<IAddRequiredDocument> = ({
       onCancel={handleCancel}
       width={'42%'}
     >
-      <CreateTemplateContainer>
+      <Space style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
         <Form
           name="dynamic_form_item"
           onFinish={onFinish}
@@ -93,7 +90,7 @@ const AddRequiredDocumentModal: React.FC<IAddRequiredDocument> = ({
             </Space>
           </Space>
         </Form>
-      </CreateTemplateContainer>
+      </Space>
     </AsnModal>
   )
 }
