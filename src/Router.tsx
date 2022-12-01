@@ -38,6 +38,7 @@ export const router = createBrowserRouter(
 
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
+      <Route path={PATHS.ERROR_500} element={<ErrorBoundary />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
       <Route path={PATHS.CONFIRMATION} element={<Confirmation />} />
     </>

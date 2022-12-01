@@ -6,5 +6,8 @@ export interface IComponentChildren {
 
 export interface IAnsAlert {
   message: string
-  type: any
+  type: 'success' | 'info' | 'warning' | 'error' | undefined
+  email?: string
 }
+
+export type TVoid = (params?: any) => void
