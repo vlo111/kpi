@@ -27,7 +27,8 @@ export const PATHS = {
   PROJECTAREA: 'project/steps/:id',
   TEMPLATECREATE: 'template/create',
   PROJECTINFORMATION: 'project-information',
-  PROJECTSUBACTIVITY: 'profile_pages'
+  PROJECTSUBACTIVITY: 'profile_pages',
+  SECTIONS: 'sections'
 }
 
 export const HEADERS = {

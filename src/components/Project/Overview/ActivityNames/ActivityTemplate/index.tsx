@@ -8,8 +8,9 @@ import { v4 as uuidv4 } from 'uuid'
 import { courseTemplateData } from '../../../../../helpers/fakeData'
 import { ITemplateData } from '../../../../../types/project'
 import { Form } from '../../../../Forms/Form'
-import { VALIDATE_MESSAGES } from '../../../../../helpers/constants'
+import { PATHS, VALIDATE_MESSAGES } from '../../../../../helpers/constants'
 import QuestionsRow from './QuestionsRow/indexs'
+import { useNavigate } from 'react-router-dom'
 
 const ActivityTemplateContainer = styled.div`
   display: flex;
@@ -114,6 +115,7 @@ const ActivityTemplate: React.FC = () => {
   const [templateData, setTemplateData] = useState<ITemplateData[] | []>([])
   const [questionType, setQuestionType] = useState('')
   const [form] = Form.useForm()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setTemplateData(courseTemplateData)
@@ -139,6 +141,10 @@ const ActivityTemplate: React.FC = () => {
     ])
     setIsVisibleAddField(false)
     setQuestionType('Choose answer type')
+  }
+
+  const onNextClick = (): void => {
+    navigate(`/${PATHS.SECTIONS}`)
   }
 
   const initFields = [
@@ -285,7 +291,7 @@ const ActivityTemplate: React.FC = () => {
       </ActivityTemplateContainer>
       <ButtonsContainer>
         <AsnButton>Cancel</AsnButton>
-        <AsnButton type="primary">Next</AsnButton>
+        <AsnButton type="primary" onClick={onNextClick}>Next</AsnButton>
       </ButtonsContainer>
     </>
   )

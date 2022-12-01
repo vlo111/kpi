@@ -171,6 +171,23 @@ export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
 }
+export interface IRequiredDocuments {
+  documentName: string
+  documentCount: number
+  id: string
+}
+
+export interface IAddedDocuments {
+  requiredDocuments: IRequiredDocuments[]
+  setRequiredDocuments: React.Dispatch<React.SetStateAction<IRequiredDocuments[]>>
+}
+
+export interface IAddRequiredDocument {
+  isOpenAddDocumentsModal: boolean
+  setIsOpenAddDocumentsModal: React.Dispatch<React.SetStateAction<boolean>>
+  requiredDocuments: IRequiredDocuments[]
+  setRequiredDocuments: React.Dispatch<React.SetStateAction<IRequiredDocuments[]>>
+}
 
 export interface ITemplateData {
   id: string
@@ -240,6 +257,15 @@ export type ProjectTargetRule = (
 | { required: boolean, message: string, pattern: RegExp }
 >
 
+export interface ISection { id: string }
+export interface ILearningStatus {
+  index: number
+  section: ISection
+  setSections: React.Dispatch<React.SetStateAction<ISection[]>>
+  sections: ISection[]
+}
 export interface OverviewProps {
   subActivity?: boolean
 }
+
+export type HandleDeleteDocument = (id: string) => void

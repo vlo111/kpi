@@ -509,3 +509,48 @@ export const sectors =
     title: 'Sectors',
     descriptions: ['IT', 'Tourism', 'Hospitality']
   }
+
+export const courseSectionData = [
+  {
+    id: uuidv4(),
+    name: 'Applicant',
+    checked: true,
+    disabled: true
+  },
+  {
+    id: uuidv4(),
+    name: 'Selection',
+    checked: false,
+    disabled: false
+  },
+  {
+    id: uuidv4(),
+    name: 'Pre-assessment of selected',
+    checked: true,
+    disabled: true
+  },
+  {
+    id: uuidv4(),
+    name: 'Participant',
+    checked: true,
+    disabled: true
+  },
+  {
+    id: uuidv4(),
+    name: 'Trained',
+    checked: true,
+    disabled: true
+  },
+  {
+    id: uuidv4(),
+    name: 'Not enrolled',
+    checked: true,
+    disabled: true
+  },
+  {
+    id: uuidv4(),
+    name: 'Dropped',
+    checked: true,
+    disabled: true
+  }
+]

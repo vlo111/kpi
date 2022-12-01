@@ -27,6 +27,7 @@ import UserProfile from './components/Users/UserProfile'
 import ChangePassword from './components/Header/ChangePassword'
 import PagesSubActivy from './components/SubActivites/ProfilePagesSubActivity'
 import ActivityTemplate from './components/Project/Overview/ActivityNames/ActivityTemplate'
+import CourseSection from './components/Project/Overview/ActivityNames/CourseSection'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -54,6 +55,7 @@ export const router = createBrowserRouter(
         <Route path={PATHS.CHANGEPASSWORDPROFILE} element={<ChangePassword />} />
         <Route path={PATHS.PROJECTINFORMATION} element={<ProjectInformation />} />
         <Route path={PATHS.PROJECTSUBACTIVITY} element={<PagesSubActivy />} />
+        <Route path={PATHS.SECTIONS} element={<CourseSection />} />
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
