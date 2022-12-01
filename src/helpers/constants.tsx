@@ -1,3 +1,5 @@
+import { FormItemName } from '../types/project';
+
 export const PATHS = {
   ROOT: '/',
   ERROR_403: 'no-access',
@@ -8,7 +10,9 @@ export const PATHS = {
   CONFIRMATION: 'confirm-email',
   FORGOTPASSWORD: 'forgot-password',
   RESTOREPASSWORD: 'restore-password',
-  DASHBOARD: 'dashboard'
+  DASHBOARD: 'dashboard',
+  USERPROFILE: 'user-profile',
+  CHANGEPASSWORDPROFILE: 'change-password-profile'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -38,5 +42,10 @@ export const menuItemsNavigate = [
   '/teams',
   '/applicants'
 ];
+
+export const Name: FormItemName = (name: string, label: string) => ({
+  name: `${name}`,
+  label: `${label}`
+});
 
 export const passwordRegExp = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,64}$/;
