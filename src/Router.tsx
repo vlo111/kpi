@@ -38,7 +38,7 @@ export const router = createBrowserRouter(
       <Route element={<PrivateRoutes />} errorElement={<ErrorBoundary />}>
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
         <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
-        <Route path={PATHS.CHANGEPASSWORDPROFILE} element={<ChangePassword />} />
+        <Route path={PATHS.CHANGEPASSWORD} element={<ChangePassword />} />
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path={PATHS.ERROR_500} element={<ErrorBoundary />} />

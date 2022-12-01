@@ -51,6 +51,9 @@ const EditProfile: React.FC<ICreateTemplate> = ({
       onSuccess: () => {
         void message.success('sucess', 2);
         setIsOpenCreateActivityModal(!isOpenCreateActivityModal);
+        if (error.length > 0) {
+          setError('');
+        };
       },
       onError: ({ response }: any) => { setError(response.data.message); }
     }
@@ -58,7 +61,7 @@ const EditProfile: React.FC<ICreateTemplate> = ({
   const [form] = AsnForm.useForm();
   const onFinish: TVoid = (values: IUser) => {
     try {
-      saveChanges({ ...values });
+      saveChanges(values);
     } catch (error) {
       const errorMessage = get(error, 'error.message', 'Something went wrong!');
       void message.error(errorMessage);
@@ -66,10 +69,16 @@ const EditProfile: React.FC<ICreateTemplate> = ({
   };
   const handleCancel: TVoid = () => {
     setIsOpenCreateActivityModal(false);
+    if (error.length > 0) {
+      setError('');
+    }
   };
 
   const onCancelClick: TVoid = () => {
     setIsOpenCreateActivityModal(false);
+    if (error.length > 0) {
+      setError('');
+    }
   };
   return (
     <UserModal

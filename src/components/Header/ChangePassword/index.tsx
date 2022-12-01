@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Typography, Space, message } from 'antd';
 import styled from 'styled-components';
@@ -6,7 +6,9 @@ import get from 'lodash/get';
 
 import useChangePassword from '../../../api/UserProfile/useChangePassword';
 import { TVoid } from '../../../types/global';
-import { passwordRegExp, VALIDATE_MESSAGES } from '../../../helpers/constants';
+import { passwordRegExp, VALIDATE_MESSAGES, PATHS } from '../../../helpers/constants';
+import { ISuccessMessage } from '../../../types/auth';
+import { AsnAlert } from '../../Forms/Alert';
 import AsnForm from '../../Forms/Form';
 import AsnButton from '../../Forms/Button';
 import AsnInput from '../../Forms/Input';
@@ -22,13 +24,14 @@ const CreateTemplateContainer = styled.div`
 `;
 
 const ChangePassword: React.FC = () => {
+  const [error, setError] = useState<string>('');
   const { mutate: changePassword, isLoading }: any = useChangePassword(
     {
-      onSuccess: (data: any) => {
-        console.log(data, 'data');
-        void message.success('sucess', 2);
+      onSuccess: ({ data }: ISuccessMessage) => {
+        void message.success(data?.result, 2);
+        navigate(`/${PATHS.USERPROFILE}`);
       },
-      onError: ({ response }: any) => { console.log(response, 'resss'); }
+      onError: ({ response }: any) => { setError(response.data.message); }
     }
   );
   const [form] = AsnForm.useForm();
@@ -61,6 +64,7 @@ const ChangePassword: React.FC = () => {
         <Title level={4} style={{ color: 'var(--dark-1)', padding: '3vh 3vw' }}>Change Password</Title>
         <Row justify="center" align="middle" >
           <Col span={8}>
+          {(error.length > 0) && <AsnAlert type="error" message={error} />}
             <AsnForm
               form={form}
               initialValues={{
@@ -77,9 +81,6 @@ const ChangePassword: React.FC = () => {
                 rules={[{ required: true }, { min: 8, max: 64 }, { pattern: passwordRegExp }]}
               >
                 <AsnInput.Password placeholder="Old Password" />
-              </AsnForm.Item>
-              <AsnForm.Item>
-              <Title level={5} style={{ color: 'var(--dark-2)' }}>Your password must be at least 8 characters, must contain one number and one letter. The password cannot  match your email address.</Title>
               </AsnForm.Item>
               <AsnForm.Item
                 name="newPassword"
@@ -98,7 +99,7 @@ const ChangePassword: React.FC = () => {
               </div>
               <AsnForm.Item>
                 <Space size={[40, 16]} style={{ display: 'flex', justifyContent: 'center', marginBottom: '9vh' }}>
-                  <AsnButton onClick={() => navigate('/user-profile')}>Cancel</AsnButton>
+                  <AsnButton onClick={() => navigate(`/${PATHS.USERPROFILE}`)}>Cancel</AsnButton>
                   <AsnButton type="primary" htmlType="submit" style={{ width: 'clamp(12.5rem,12vw,24rem)' }} loading={isLoading}>
                     Set Password
                   </AsnButton>

@@ -12,7 +12,7 @@ export const PATHS = {
   RESTOREPASSWORD: 'restore-password',
   DASHBOARD: 'dashboard',
   USERPROFILE: 'user-profile',
-  CHANGEPASSWORDPROFILE: 'change-password-profile'
+  CHANGEPASSWORD: 'change-password'
 };
 
 export const VALIDATE_MESSAGES = {

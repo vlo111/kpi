@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Col, Row, Typography, Upload, Button } from 'antd';
+import { Row, Col, Button, Upload, Typography } from 'antd';
 
 import useCurrentUser from '../../../api/UserProfile/useCurrentUser';
+import { PATHS } from '../../../helpers/constants';
 import { TVoid } from '../../../types/global';
-import AsnButton from '../../Forms/Button';
 import ManagerIcon from '../../ManagerIcon';
-import EditProfile from '../EditUserProfile';
 import { CreateTemplateContainer } from '../../Forms/UserProfile';
-import { ReactComponent as Edit } from '../../../assets/icons/edit.svg';
+import AsnButton from '../../Forms/Button';
+import EditProfile from '../EditUserProfile';
 import { ReactComponent as UploadUser } from '../../../assets/icons/upload.svg';
+import { ReactComponent as Edit } from '../../../assets/icons/edit.svg';
 
 const { Title } = Typography;
-
 const UserProfile: React.FC = () => {
-  const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
-    useState<boolean>(false);
   const { data: user } = useCurrentUser();
-  console.log(user);
+  const navigate = useNavigate();
+  const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
+  useState<boolean>(false);
+
   const onEditedPublishProject: TVoid = () => {
     setIsOpenCreateActivityModal(true);
   };
-  const navigate = useNavigate();
   return (
     <CreateTemplateContainer>
-      <Col
+         <Col
         style={{
           top: '4vh',
           marginLeft: 'auto',
@@ -34,48 +34,31 @@ const UserProfile: React.FC = () => {
         }}
       >
         {' '}
-        <a onClick={onEditedPublishProject}>
+        <Button type='link' onClick={onEditedPublishProject}>
           <Edit style={{ height: '24px', width: '24px' }} />
-        </a>
+        </Button>
+        <EditProfile
+              isOpenCreateActivityModal={isOpenCreateActivityModal}
+              setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
+              user={user}
+            />
       </Col>
-      <Row
-        style={{
-          marginTop: '9vh',
-          paddingLeft: '3.3vw'
-        }}
-      >
-        <Col>
-          <Col >
-            <Upload>
-              <ManagerIcon
-                letter="AA"
-                color="#F3C262"
-                width="120px"
-                height="120px"
-                marginBottom="8vh"
-                fontSize="var(--large-hedline-font-size)"
-              />
-              <Button icon={<UploadUser />}></Button>
-            </Upload>
-          </Col>
-          <Col style={{ paddingTop: '12vh' }}>
-            <AsnButton
-              type="primary"
-              onClick={() => navigate('/change-password-profile')}
-              style={{
-                width: 'clamp(13.4rem, 10vw, 21rem)',
-                marginBottom: '20vh',
-                fontSize: 'var(--headline-font-size)',
-                padding: '0'
-              }}
-            >
-              Change Password
-            </AsnButton>
-          </Col>
+      <Row gutter={[0, 32]} style={{ padding: '64px 60px' }} >
+        <Col md={7} xs={12} span={8}>
+          <Upload>
+            <ManagerIcon
+              letter="AA"
+              color="#F3C262"
+              width="120px"
+              height="120px"
+              marginBottom="8vh"
+              fontSize="var(--large-hedline-font-size)"
+            />
+            <Button icon={<UploadUser />}></Button>
+          </Upload>
         </Col>
-        <Col style={{ width: '66%', marginLeft: '-30px' }}>
-          <div>
-            <Title
+        <Col md={12} xs={24}>
+        <Title
               level={5}
               style={{
                 fontSize: 'clamp(1rem, 2.2vw, 3rem)',
@@ -83,36 +66,35 @@ const UserProfile: React.FC = () => {
                 fontWeight: 'var(--font-normal)'
               }}
             >
-              Anun Azganun
+             {user?.firstName} {user?.lastName}
             </Title>
-            <EditProfile
-              isOpenCreateActivityModal={isOpenCreateActivityModal}
-              setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
-              user={user}
-            />
-          </div>
-          <Row
-            gutter={[100, 10]}
-            style={{
-              color: 'var(--dark-2)',
-              fontSize: 'clamp(1rem, 1.4vw, 9rem)'
-            }}
-          >
-            <div>
-              <Col>E-mail:</Col>
-              <Col>Phone:</Col>
-              <Col>Organization:</Col>
-              <Col>Position:</Col>
-              <Col>Assign to:</Col>
-            </div>
-            <div>
-              <Col>{user?.firstName}</Col>
-              <Col>{user?.phone}</Col>
-              <Col>{user?.organization}</Col>
-              <Col>{user?.position}</Col>
-              <Col>{user?.firstName}</Col>
-            </div>
+          <Row style={{ color: 'var(--dark-2)', fontSize: '20px', gap: '0 30px' }}>
+            <Col span={10}>E-mail:</Col>
+            <Col span={10}>{user?.email}</Col>
+            <Col span={10}>Phone:</Col>
+            <Col span={10}>{user?.phone}</Col>
+            <Col span={10}>Organization:</Col>
+            <Col span={10}>{user?.organization}</Col>
+            <Col span={10}>Position:</Col>
+            <Col span={10}>{user?.position}</Col>
+            {/* <Col span={10}>Assign to:</Col>
+            <Col span={10}>Project</Col> */}
           </Row>
+        </Col>
+        <Col span={24}>
+          {' '}
+          <AsnButton
+            type="primary"
+            onClick={() => navigate(`/${PATHS.CHANGEPASSWORD}`)}
+             style={{
+               width: 'clamp(13.4rem, 10vw, 21rem)',
+               marginBottom: '1vh',
+               fontSize: 'var(--headline-font-size)',
+               padding: '0'
+             }}
+          >
+            Change Password
+          </AsnButton>
         </Col>
       </Row>
     </CreateTemplateContainer>
