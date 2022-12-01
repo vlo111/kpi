@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo } from 'react';
 import { Navigate } from 'react-router-dom';
 
+import { IUser } from '../types/auth';
 import { useLocalStorage } from './useLocalStorage';
 
 // // @ts-expect-error
@@ -10,8 +11,8 @@ export const AuthProvider: any = ({ children }: any) => {
   const [user, setUser] = useLocalStorage('user', null);
   const [token, setToken] = useLocalStorage('token', null);
 
-  const login: any = useCallback(
-    (data: any) => {
+  const login = useCallback(
+    (data: IUser) => {
       setUser(data);
     },
     [setUser]
