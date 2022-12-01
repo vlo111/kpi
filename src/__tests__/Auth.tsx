@@ -1,12 +1,46 @@
-/**
- * Test Auth Sign In Page
- */
-
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent, screen, act, waitFor } from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  screen,
+  act,
+  waitFor
+} from '@testing-library/react';
 
 import { App } from '../App';
 import '../__mocks__/MatchMedia';
+import { ExpectElementExist, Login } from '../types/test';
+/**
+ * Login function
+ * Submit form after filed (in)correct data in the fields
+ */
+const login: Login = async (email, password) => {
+  await act(async () => {
+    fireEvent.change(screen.getByTestId('email'), {
+      target: { value: email }
+    });
+
+    fireEvent.change(screen.getByTestId('password'), {
+      target: { value: password }
+    });
+  });
+
+  await act(async () => {
+    fireEvent.submit(screen.getByTestId('signInForm'));
+  });
+};
+/**
+ * Text To be In The Document
+ * @param item
+ */
+const expectInTheDocument: ExpectElementExist = async (item) =>
+  await waitFor(() => expect(screen.queryByText(item)).toBeInTheDocument());
+/**
+ * Text To be Not In The Document
+ * @param item
+ */
+const expectNotInTheDocument: ExpectElementExist = async (item) =>
+  await waitFor(() => expect(screen.queryByText(item)).not.toBeInTheDocument());
 
 /**
  * Check fields exist on the Login page
@@ -47,54 +81,30 @@ describe('Sign In Form behaviour', () => {
    * Empty input validation
    */
   test('validate user inputs, and provides empty input error messages', async () => {
-    const { getByTestId, queryByText } = render(App);
+    render(App);
+    await login('', '');
 
-    await act(async () => {
-      fireEvent.change(screen.getByLabelText(/email/i), {
-        target: { value: '' }
-      });
+    await expectInTheDocument('Please enter a valid Email Address');
 
-      fireEvent.change(screen.getByLabelText(/password/i), {
-        target: { value: '' }
-      });
-    });
-
-    await act(async () => {
-      fireEvent.submit(getByTestId('signInForm'));
-    });
-
-    await waitFor(() => expect(queryByText('Please enter a valid Email Address')).toBeInTheDocument());
-
-    await waitFor(() => expect(queryByText('Please enter a valid Password')).toBeInTheDocument());
+    await expectInTheDocument('Please enter a valid Password');
   });
 
   /**
    * Filled input validation
    */
   test('validate user inputs, and provides filled input error messages', async () => {
-    const { getByTestId, queryByText } = render(App);
+    render(App);
+    await login('vv@vv.v', '123456');
 
-    await act(async () => {
-      fireEvent.change(screen.getByLabelText(/email/i), {
-        target: { value: 'vv@vv.v' }
-      });
+    await expectInTheDocument(
+      'Please enter your Email Address in format: yourname@domain.com'
+    );
 
-      fireEvent.change(screen.getByLabelText(/password/i), {
-        target: { value: '123456' }
-      });
-    });
+    await expectInTheDocument('Password must be between 8-64 characters');
 
-    await act(async () => {
-      fireEvent.submit(getByTestId('signInForm'));
-    });
+    await expectNotInTheDocument('Please enter a valid Email Address');
 
-    await waitFor(() => expect(queryByText('Please enter your Email Address in format: yourname@domain.com')).toBeInTheDocument());
-
-    await waitFor(() => expect(queryByText('Password must be between 8-64 characters')).toBeInTheDocument());
-
-    await waitFor(() => expect(queryByText('Please enter a valid Email Address')).not.toBeInTheDocument());
-
-    await waitFor(() => expect(queryByText('Please enter a valid Password')).not.toBeInTheDocument());
+    await expectNotInTheDocument('Please enter a valid Password');
   });
 
   /**
@@ -102,24 +112,26 @@ describe('Sign In Form behaviour', () => {
    * Get error message from server
    */
   test('validate user inputs, and provides received error messages from server', async () => {
-    const { getByTestId, queryByText } = render(App);
+    const { queryByText } = render(App);
 
-    await act(async () => {
-      fireEvent.change(screen.getByLabelText(/email/i), {
-        target: { value: 'vv@vv.vv' }
-      });
+    await login('vv@vv.vv', '12345678');
 
-      fireEvent.change(screen.getByLabelText(/password/i), {
-        target: { value: '12345678' }
-      });
-    });
-
-    await act(async () => {
-      fireEvent.submit(getByTestId('signInForm'));
-    });
-
-    await waitFor(() => expect(queryByText('Invalid email or password')).toBeInTheDocument());
+    await waitFor(() =>
+      expect(queryByText('Invalid email or password')).toBeInTheDocument()
+    );
   });
 
-  // -> should submit when form inputs contain text
+  /**
+   * Filled input
+   * Success login after form submit
+   */
+  test('should submit when form inputs contain correct login', async () => {
+    const { queryByText } = render(App);
+
+    await login('vv@vv.vv', '12345678');
+
+    await waitFor(() =>
+      expect(queryByText('Invalid email or password')).toBeInTheDocument()
+    );
+  });
 });
