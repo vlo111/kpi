@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Row, Col, message } from 'antd';
+import styled from 'styled-components';
+import get from 'lodash/get';
+
+import useResetPassword from '../../api/Auth/useResetPassword';
+import { VALIDATE_MESSAGES, passwordRegExp, PATHS } from '../../helpers/constants';
+import { ISuccessMessage, IResetPassword } from '../../types/auth';
+import { TVoid } from '../../types/global';
 import AsnInput from '../../components/Forms/Input';
 import AsnForm from '../../components/Forms/Form';
-import { VALIDATE_MESSAGES, passwordRegExp } from '../../helpers/constants';
 import AsnButton from '../../components/Forms/Button';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
-import styled from 'styled-components';
-import useResetPassword from '../../api/Auth/useResetPassword';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import ErrorBeckend from '../../components/Errors/AnsAlert';
+import { AsnAlert } from '../../components/Forms/Alert';
 
 const Description = styled.div`
   font-size: var(--headline-font-size); 
@@ -25,26 +29,24 @@ const ResetPassword: React.FC = () => {
 
   const { mutate: resetPassword, isLoading }: any = useResetPassword(
     {
-      onSuccess: (payload: any) => {
-        void message.success('sucess', 1);
-        navigate('/sign-in');
+      onSuccess: ({ data }: ISuccessMessage) => {
+        void message.success(data.result, 2);
+        navigate(`/${PATHS.SIGNIN}`);
       },
       onError: ({ response }: any) => { setError(response.data.message); }
     }
   );
 
-  const onFinish: any = (values: any) => {
+  const onFinish: TVoid = (values: IResetPassword) => {
     const { password, confirmPassword } = values;
     try {
       resetPassword({ password, repeatPassword: confirmPassword, token });
     } catch (error) {
-      console.log(error);
+      const errorMessage = get(error, 'error.message', 'Something went wrong!');
+      void message.error(errorMessage);
     }
   };
 
-  const onFinishFailed = (): void => {
-    console.log('failed');
-  };
   const rulesConfirmPassword = [
     {
       required: true
@@ -67,14 +69,13 @@ const ResetPassword: React.FC = () => {
             name="signin"
             form={form}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             validateMessages={VALIDATE_MESSAGES}
             layout="vertical"
           >
             <TitleAuth>
               Reset Password
             </TitleAuth>
-            {(error.length > 0) && <ErrorBeckend type="error" message={error} />}
+            {(error.length > 0) && <AsnAlert type="error" message={error} />}
             <Description>The password should have at least 8 characters</Description>
             <AsnForm.Item
             name="password"
