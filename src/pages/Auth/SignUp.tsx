@@ -12,7 +12,7 @@ import AsnInput from '../../components/Forms/Input';
 import AsnButton from '../../components/Forms/Button';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import AsnForm from '../../components/Forms/Form';
-import AsnAlert from '../../components/Forms/AsnAlert';
+import { AsnAlert } from '../../components/Forms/Alert';
 
 const SignUp: React.FC = () => {
   const [error, setError] = useState<string>('');

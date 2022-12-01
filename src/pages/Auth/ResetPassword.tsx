@@ -12,7 +12,7 @@ import AsnInput from '../../components/Forms/Input';
 import AsnForm from '../../components/Forms/Form';
 import AsnButton from '../../components/Forms/Button';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
-import AsnAlert from '../../components/Forms/AsnAlert';
+import { AsnAlert } from '../../components/Forms/Alert';
 
 const Description = styled.div`
   font-size: var(--headline-font-size); 

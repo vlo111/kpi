@@ -11,7 +11,7 @@ import { ISuccessMessage } from '../../types/auth';
 import AsnForm from '../../components/Forms/Form';
 import AsnInput from '../../components/Forms/Input';
 import AsnButton from '../../components/Forms/Button';
-import AsnAlert from '../../components/Forms/AsnAlert';
+import { AsnAlert } from '../../components/Forms/Alert';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import { ReactComponent as KeySvg } from '../../assets/icons/forgot.svg';
 

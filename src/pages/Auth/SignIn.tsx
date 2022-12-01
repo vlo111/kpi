@@ -13,7 +13,7 @@ import AsnInput from '../../components/Forms/Input';
 import AsnButton from '../../components/Forms/Button';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import AsnForm from '../../components/Forms/Form';
-import AnsAlert from '../../components/Forms/AsnAlert';
+import { AsnAlert } from '../../components/Forms/Alert';
 
 import useSignInApi from '../../api/Auth/useSignInApi';
 
@@ -66,7 +66,7 @@ const SignIn: React.FC = () => {
           <TitleAuth>
             Sign In
           </TitleAuth>
-          {(error.length > 0) && <AnsAlert type="error" message={error} email={email} />}
+          {(error.length > 0) && <AsnAlert type="error" message={error} email={email} />}
           <AsnForm.Item
             name="email"
             label="Email Address"

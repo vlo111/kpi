@@ -7,7 +7,7 @@ import { IAnsAlert } from '../../../types/global';
 
 const { Text } = Typography;
 
-const AsnAlert = styled(Alert)`
+const AntAlert = styled(Alert)`
   margin-bottom: 24px;
   .ant-alert-message{
     color:${props => props.type === 'error' ? 'var(--error)' : ''};
@@ -21,7 +21,7 @@ const textStyle = {
   color: 'var(--error)',
   cursor: 'pointer'
 };
-const AlertAnt: React.FC<IAnsAlert> = ({ message, type, email }) => {
+export const AsnAlert: React.FC<IAnsAlert> = ({ message, type, email }) => {
   const navigate = useNavigate();
   const handleClick = (): void => {
     if (email != null) {
@@ -29,7 +29,7 @@ const AlertAnt: React.FC<IAnsAlert> = ({ message, type, email }) => {
     }
   };
   return (
-      <AsnAlert
+      <AntAlert
         message={
           <>
             {message}
@@ -41,5 +41,3 @@ const AlertAnt: React.FC<IAnsAlert> = ({ message, type, email }) => {
       />
   );
 };
-
-export default AlertAnt;
