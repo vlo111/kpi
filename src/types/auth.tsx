@@ -16,7 +16,7 @@ export interface IUser {
   lastName: string
   organization?: string
   id: string
-  accessToken: string
+  accessToken?: string
 }
 
 export interface ISuccessMessage {
