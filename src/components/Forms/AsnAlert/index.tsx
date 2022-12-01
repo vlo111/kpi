@@ -1,9 +1,26 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Alert, Typography } from 'antd';
+import styled from 'styled-components';
 import { PATHS } from '../../../helpers/constants';
 import { IAnsAlert } from '../../../types/global';
-import { AsnAlert, AsnText } from './AsnAlert';
 
+const { Text } = Typography;
+
+const AsnAlert = styled(Alert)`
+  margin-bottom: 24px;
+  .ant-alert-message{
+    color:${props => props.type === 'error' ? 'var(--error)' : ''};
+  }
+  &.ant-alert-error{
+    border: 1px solid var(--error);
+  }
+`;
+const textStyle = {
+  textDecoration: 'underline',
+  color: 'var(--error)',
+  cursor: 'pointer'
+};
 const AlertAnt: React.FC<IAnsAlert> = ({ message, type, email }) => {
   const navigate = useNavigate();
   const handleClick = (): void => {
@@ -16,7 +33,7 @@ const AlertAnt: React.FC<IAnsAlert> = ({ message, type, email }) => {
         message={
           <>
             {message}
-            {' '}{(email != null) && message === 'Please confirm your email' && <AsnText onClick={handleClick}>Resend confirmation email</AsnText>}
+            {' '}{(email != null) && message === 'Please confirm your email' && <Text style={{ ...textStyle }} onClick={handleClick}>Resend confirmation email</Text>}
           </>
         }
         type={type}
