@@ -16,4 +16,13 @@ export interface ConfirmModalType {
   styles?: any
 }
 
+export interface IAsnCheckbox {
+  width?: string
+  height?: string
+  top?: string
+  checkWidth?: string
+  checkHeight?: string
+  borderSize?: string
+}
+
 export type FormFinish = (errorInfo: any) => void
