@@ -54,6 +54,7 @@ const SignUp: React.FC = () => {
     <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
       <Col span={8} style={ { maxWidth: '460px' } } >
         <AsnForm
+          data-testid="signUpForm"
           name="signUp"
           form={form}
           onFinish={onFinish}

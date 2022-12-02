@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom/extend-expect';
+import React from 'react';
 import {
   render,
   fireEvent,
@@ -6,10 +6,12 @@ import {
   act,
   waitFor
 } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { App } from '../../App';
-import '../../__mocks__/MatchMedia';
 import '../../__mocks__/Axios';
+import '../../__mocks__/MatchMedia';
+import SignIn from '../../pages/Auth/SignIn';
 import { ExpectElementExist, Login } from '../../types/test';
 
 /**
@@ -28,7 +30,7 @@ const login: Login = async (email, password) => {
   });
 
   await act(async () => {
-    fireEvent.submit(screen.getByTestId('signInForm'));
+    fireEvent.submit(screen.getByRole('button'));
   });
 };
 /**
@@ -44,9 +46,18 @@ const expectInTheDocument: ExpectElementExist = async (item) =>
 const expectNotInTheDocument: ExpectElementExist = async (item) =>
   await waitFor(() => expect(screen.queryByText(item)).not.toBeInTheDocument());
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => jest.fn()
+}));
+
 describe('Sign In Form', () => {
   beforeEach(() => {
-    render(App);
+    render(
+      <QueryClientProvider client={new QueryClient()}>
+        <SignIn />
+      </QueryClientProvider>
+    );
   });
 
   /**
@@ -101,7 +112,9 @@ describe('Sign In Form', () => {
         'Please enter your Email Address in format: yourname@domain.com'
       );
 
-      await expectInTheDocument('Password must be between 8-64 characters');
+      await expectInTheDocument(
+        "'password' must be between 8 and 64 characters"
+      );
 
       await expectNotInTheDocument('Please enter a valid Email Address');
 
@@ -116,7 +129,9 @@ describe('Sign In Form', () => {
       await login('vv@vv.vv', '12345678');
 
       await waitFor(() =>
-        expect(screen.queryByText('Invalid email or password')).toBeInTheDocument()
+        expect(
+          screen.queryByText('Invalid email or password')
+        ).toBeInTheDocument()
       );
     });
   });
