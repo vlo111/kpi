@@ -5,6 +5,7 @@ import { Row, Col, Button, Upload, Typography } from 'antd';
 import useCurrentUser from '../../../api/UserProfile/useCurrentUser';
 import { PATHS } from '../../../helpers/constants';
 import { TVoid } from '../../../types/global';
+import { IUser } from '../../../types/auth';
 import ManagerIcon from '../../ManagerIcon';
 import { CreateTemplateContainer } from '../../Forms/UserProfile';
 import AsnButton from '../../Forms/Button';
@@ -14,7 +15,7 @@ import { ReactComponent as Edit } from '../../../assets/icons/edit.svg';
 
 const { Title } = Typography;
 const UserProfile: React.FC = () => {
-  const { data: user } = useCurrentUser();
+  const { data: user }: { data: IUser } = useCurrentUser();
   const navigate = useNavigate();
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
   useState<boolean>(false);
@@ -47,7 +48,7 @@ const UserProfile: React.FC = () => {
         <Col md={7} xs={12} span={8}>
           <Upload>
             <ManagerIcon
-              letter="AA"
+              letter={`${user?.firstName[0]}${user?.lastName[0]}`}
               color="#F3C262"
               width="120px"
               height="120px"
