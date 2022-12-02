@@ -46,7 +46,7 @@ const ChangePassword: React.FC = () => {
     {
       required: true
     },
-    { min: 8, max: 64 },
+    { min: 8, max: 16 },
     { pattern: passwordRegExp },
     ({ getFieldValue }: { getFieldValue: (name: string) => string }) => ({
       async validator (_: object, value: string) {
@@ -76,14 +76,14 @@ const ChangePassword: React.FC = () => {
               <AsnForm.Item
                 name="oldPassword"
                 label="Old Password"
-                rules={[{ required: true }, { min: 8, max: 64 }, { pattern: passwordRegExp }]}
+                rules={[{ required: true }, { min: 8, max: 16 }, { pattern: passwordRegExp }]}
               >
                 <AsnInput.Password placeholder="Old Password" />
               </AsnForm.Item>
               <AsnForm.Item
                 name="newPassword"
                 label="New password"
-                rules={[{ required: true }, { min: 8, max: 64 }, { pattern: passwordRegExp }]}
+                rules={[{ required: true }, { min: 8, max: 16 }, { pattern: passwordRegExp }]}
               >
                 <AsnInput.Password placeholder="New password" />
               </AsnForm.Item>
