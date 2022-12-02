@@ -19,6 +19,8 @@ import Confirmation from './pages/Auth/Confirmation';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import ResetPassword from './pages/Auth/ResetPassword';
 import Dashboard from './pages/Dashboard';
+import UserProfile from './components/Users/UserProfile';
+import ChangePassword from './components/Header/ChangePassword';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +37,8 @@ export const router = createBrowserRouter(
       </Route>
       <Route element={<PrivateRoutes />} errorElement={<ErrorBoundary />}>
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
+        <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
+        <Route path={PATHS.CHANGEPASSWORD} element={<ChangePassword />} />
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path={PATHS.ERROR_500} element={<ErrorBoundary />} />
