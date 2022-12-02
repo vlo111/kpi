@@ -119,17 +119,5 @@ describe('Sign In Form', () => {
         expect(screen.queryByText('Invalid email or password')).toBeInTheDocument()
       );
     });
-
-    /**
-     * Filled input
-     * Success login after form submit
-     */
-    test('should submit when form inputs contain correct login', async () => {
-      await login('vv@vv.vv', '12345678');
-
-      await waitFor(() =>
-        expect(screen.queryByText('Invalid email or password')).toBeInTheDocument()
-      );
-    });
   });
 });

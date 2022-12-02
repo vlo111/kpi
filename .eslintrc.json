@@ -3,10 +3,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": [
-    "plugin:react/recommended",
-    "standard-with-typescript"
-  ],
+  "extends": ["plugin:react/recommended", "standard-with-typescript"],
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -14,14 +11,9 @@
     "project": "tsconfig.json",
     "tsconfigRootDir": "./"
   },
-  "plugins": [
-    "react"
-  ],
+  "plugins": ["react"],
   "rules": {
-    "semi": [
-      2,
-      "always"
-    ],
+    "semi": [2, "always"],
     "@typescript-eslint/semi": "off",
     "eol-last": 1,
     "no-multiple-empty-lines": [
