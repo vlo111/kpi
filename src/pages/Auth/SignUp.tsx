@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, message, Space } from 'antd';
-import get from 'lodash/get';
 
 import useSignUpApi from '../../api/Auth/useSignUpApi';
 import { VALIDATE_MESSAGES, passwordRegExp, PATHS } from '../../helpers/constants';
@@ -31,9 +30,8 @@ const SignUp: React.FC = () => {
   const onFinish: TVoid = (values: SignUpForm) => {
     try {
       signUp(values);
-    } catch (error) {
-      const errorMessage = get(error, 'error.message', 'Something went wrong!');
-      void message.error(errorMessage);
+    } catch (error: any) {
+      void message.error(error, 2);
     }
   };
 

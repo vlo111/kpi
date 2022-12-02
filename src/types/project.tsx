@@ -7,12 +7,6 @@ export interface IManagerIcon {
   marginBottom?: string
   fontSize?: string
 }
-
-export type FormItemName = (
-  name: string,
-  label: string
-) => { name: string, label: string }
-
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>

@@ -9,18 +9,18 @@ import {
   Divider
 } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
-import { useAuth } from '../../hooks/useAuth';
-import { clearLocalStorage } from '../../hooks/useLocalStorage';
+import AsnAvatar from '../Forms/Avatar';
+import DropdownMenu from '../Menu/DropdownMenu';
 import { TVoid } from '../../types/global';
 import { IUser } from '../../types/auth';
+import { PATHS } from '../../helpers/constants';
+import { clearLocalStorage } from '../../hooks/useLocalStorage';
+import { useAuth } from '../../hooks/useAuth';
+import { CaretDownOutlined } from '@ant-design/icons';
 import { ReactComponent as Notification } from '../../assets/icons/notification.svg';
 import { ReactComponent as Setting } from '../../assets/icons/setting.svg';
-import { CaretDownOutlined } from '@ant-design/icons';
-import ManagerIcon from '../ManagerIcon';
-
-import styled from 'styled-components';
-import DropdownMenu from '../Menu/DropdownMenu';
 
 const HeaderLayout = styled(Layout)`
   background: var(--white);
@@ -53,7 +53,7 @@ export const Header: React.FC = () => {
   const data = [
     {
       label: (
-        <Button onClick={() => navigate('/user-profile')} type="text">
+        <Button onClick={() => navigate(`/${PATHS.USERPROFILE}`)} type="text">
           Profile
         </Button>
       ),
@@ -87,7 +87,7 @@ export const Header: React.FC = () => {
               <Dropdown overlay={newMenu} trigger={['click']}>
                 <Button type="text" onClick={(e) => e.preventDefault()}>
                   <Space>
-                    <ManagerIcon letter={`${firstName[0]}${lastName[0]}`} color="var(--secondary-light-amber)" />
+                    <AsnAvatar letter={`${firstName?.charAt(0)}${lastName?.charAt(0)}`} />
                    {firstName}{lastName}
                     <CaretDownOutlined />
                   </Space>

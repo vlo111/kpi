@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Typography, Space, message } from 'antd';
 import styled from 'styled-components';
-import get from 'lodash/get';
 
-import useChangePassword from '../../../api/UserProfile/useChangePassword';
+import AsnInput from '../../Forms/Input';
+import AsnForm from '../../Forms/Form';
+import AsnButton from '../../Forms/Button';
+import { AsnAlert } from '../../Forms/Alert';
 import { TVoid } from '../../../types/global';
 import { passwordRegExp, VALIDATE_MESSAGES, PATHS } from '../../../helpers/constants';
 import { ISuccessMessage } from '../../../types/auth';
-import { AsnAlert } from '../../Forms/Alert';
-import AsnForm from '../../Forms/Form';
-import AsnButton from '../../Forms/Button';
-import AsnInput from '../../Forms/Input';
+import useChangePassword from '../../../api/UserProfile/useChangePassword';
 
 const { Title } = Typography;
 
@@ -39,9 +38,8 @@ const ChangePassword: React.FC = () => {
   const onFinish: TVoid = (values) => {
     try {
       changePassword(values);
-    } catch (error) {
-      const errorMessage = get(error, 'error.message', 'Something went wrong!');
-      void message.error(errorMessage);
+    } catch (error: any) {
+      void message.error(error, 2);
     }
   };
   const rulesConfirmPassword = [
