@@ -6,7 +6,7 @@ import useCurrentUser from '../../../api/UserProfile/useCurrentUser';
 import { PATHS } from '../../../helpers/constants';
 import { TVoid } from '../../../types/global';
 import { IUser } from '../../../types/auth';
-import ManagerIcon from '../../ManagerIcon';
+import AsnAvatar from '../../Forms/Avatar';
 import { CreateTemplateContainer } from '../../Forms/UserProfile';
 import AsnButton from '../../Forms/Button';
 import EditProfile from '../EditUserProfile';
@@ -47,13 +47,9 @@ const UserProfile: React.FC = () => {
       <Row gutter={[0, 32]} style={{ padding: '64px 60px' }} >
         <Col md={7} xs={12} span={8}>
           <Upload>
-            <ManagerIcon
-              letter={`${user?.firstName[0]}${user?.lastName[0]}`}
-              color="#F3C262"
-              width="120px"
-              height="120px"
-              marginBottom="8vh"
-              fontSize="var(--large-hedline-font-size)"
+            <AsnAvatar
+              letter={`${user?.firstName?.charAt(0)}${user?.lastName?.charAt(0)}`}
+              size={128}
             />
             <Button icon={<UploadUser />}></Button>
           </Upload>

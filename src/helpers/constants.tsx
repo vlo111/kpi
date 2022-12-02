@@ -1,4 +1,3 @@
-import { FormItemName } from '../types/project';
 
 export const PATHS = {
   ROOT: '/',
@@ -25,7 +24,7 @@ export const VALIDATE_MESSAGES = {
 
   pattern: {
   // eslint-disable-next-line no-template-curly-in-string
-    mismatch: 'Password must contain at least one digit and at least one character'
+    mismatch: 'Password must contain at least one uppercase character, one lowercase character and one digit '
   }
 };
 export const MenuItems = [
@@ -43,9 +42,4 @@ export const menuItemsNavigate = [
   '/applicants'
 ];
 
-export const Name: FormItemName = (name: string, label: string) => ({
-  name: `${name}`,
-  label: `${label}`
-});
-
-export const passwordRegExp = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$).{8,64}$/;
+export const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$/;
