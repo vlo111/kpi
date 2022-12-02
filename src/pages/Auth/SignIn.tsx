@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import get from 'lodash/get';
 import { Row, Col, message } from 'antd';
 import styled from 'styled-components';
 
@@ -48,9 +47,8 @@ const SignIn: React.FC = () => {
   const onFinish: TVoid = (values: ISignInForm) => {
     try {
       signIn(values);
-    } catch (error) {
-      const errorMessage = get(error, 'error.message', 'Something went wrong!');
-      void message.error(errorMessage);
+    } catch (error: any) {
+      void message.error(error, 2);
     }
   };
   return (

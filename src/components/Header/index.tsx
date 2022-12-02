@@ -8,14 +8,19 @@ import {
   Space,
   Divider
 } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
+import AsnAvatar from '../Forms/Avatar';
+import DropdownMenu from '../Menu/DropdownMenu';
+import { TVoid } from '../../types/global';
+import { IUser } from '../../types/auth';
+import { PATHS } from '../../helpers/constants';
+import { clearLocalStorage } from '../../hooks/useLocalStorage';
+import { useAuth } from '../../hooks/useAuth';
+import { CaretDownOutlined } from '@ant-design/icons';
 import { ReactComponent as Notification } from '../../assets/icons/notification.svg';
 import { ReactComponent as Setting } from '../../assets/icons/setting.svg';
-import { CaretDownOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import ManagerIcon from '../ManagerIcon';
-
-import styled from 'styled-components';
-import DropdownMenu from '../Menu/DropdownMenu';
 
 const HeaderLayout = styled(Layout)`
   background: var(--white);
@@ -38,15 +43,17 @@ const HeaderLayout = styled(Layout)`
 `;
 
 export const Header: React.FC = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
-  const logOut = (): void => {
-    localStorage.removeItem('token');
+  const { firstName, lastName }: IUser = user;
+  const logout: TVoid = () => {
+    clearLocalStorage();
+    window.location.reload();
   };
-
   const data = [
     {
       label: (
-        <Button onClick={() => navigate('/user-profile')} type="text">
+        <Button onClick={() => navigate(`/${PATHS.USERPROFILE}`)} type="text">
           Profile
         </Button>
       ),
@@ -54,20 +61,20 @@ export const Header: React.FC = () => {
     },
     {
       label: (
-        <Button onClick={() => logOut()} type="text">
+        <Button onClick={() => logout()} type="text">
           Sign Out
         </Button>
       ),
       key: 1
-    },
-    {
-      label: (
-        <Button onClick={() => navigate('/profile_pages')} type="text">
-          Profile Pages
-        </Button>
-      ),
-      key: 2
     }
+    // {
+    //   label: (
+    //     <Button onClick={() => navigate('/profile_pages')} type="text">
+    //       Profile Pages
+    //     </Button>
+    //   ),
+    //   key: 2
+    // }
   ];
   const newMenu = <DropdownMenu items={data} />;
 
@@ -80,8 +87,8 @@ export const Header: React.FC = () => {
               <Dropdown overlay={newMenu} trigger={['click']}>
                 <Button type="text" onClick={(e) => e.preventDefault()}>
                   <Space>
-                    <ManagerIcon letter="HD" color="var(--secondary-light-amber)" />
-                    Անի Հովհաննիսըան
+                    <AsnAvatar letter={`${firstName?.charAt(0)}${lastName?.charAt(0)}`} />
+                   {firstName}{lastName}
                     <CaretDownOutlined />
                   </Space>
                 </Button>

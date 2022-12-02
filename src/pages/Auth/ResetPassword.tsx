@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Row, Col, message } from 'antd';
 import styled from 'styled-components';
-import get from 'lodash/get';
 
 import useResetPassword from '../../api/Auth/useResetPassword';
 import { VALIDATE_MESSAGES, passwordRegExp, PATHS } from '../../helpers/constants';
@@ -41,9 +40,8 @@ const ResetPassword: React.FC = () => {
     const { password, confirmPassword } = values;
     try {
       resetPassword({ password, repeatPassword: confirmPassword, token });
-    } catch (error) {
-      const errorMessage = get(error, 'error.message', 'Something went wrong!');
-      void message.error(errorMessage);
+    } catch (error: any) {
+      void message.error(error, 2);
     }
   };
 

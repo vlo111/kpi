@@ -11,12 +11,19 @@ export interface ISignInForm {
   password: string
 }
 export interface IUser {
+  createdAt?: string
+  deletedAt?: string
+  emailVerified?: boolean
   email: string
   firstName: string
   lastName: string
   organization?: string
+  phone?: string | null
+  photo?: string | null
+  position?: string
+  updatedAt?: string
   id: string
-  accessToken: string
+  accessToken?: string
 }
 
 export interface ISuccessMessage {
