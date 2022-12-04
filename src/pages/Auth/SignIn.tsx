@@ -65,7 +65,7 @@ const SignIn: React.FC = () => {
           <TitleAuth>
             Sign In
           </TitleAuth>
-          {(error.length > 0) && <AsnAlert type="error" message={error} email={email} />}
+          {(error?.length > 0) && <AsnAlert type="error" message={error} email={email} />}
           <AsnForm.Item
             name="email"
             label="Email Address"

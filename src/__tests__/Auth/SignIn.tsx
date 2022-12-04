@@ -7,12 +7,12 @@ import {
   waitFor
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import '../../__mocks__/Axios';
-import '../../__mocks__/MatchMedia';
+import '../../__mocks__/Combine';
 import SignIn from '../../pages/Auth/SignIn';
 import { ExpectElementExist, Login } from '../../types/test';
+import { VALIDATE_EMPTY } from '../../helpers/constants';
+import renderer from 'react-test-renderer';
 
 /**
  * Login function
@@ -46,24 +46,15 @@ const expectInTheDocument: ExpectElementExist = async (item) =>
 const expectNotInTheDocument: ExpectElementExist = async (item) =>
   await waitFor(() => expect(screen.queryByText(item)).not.toBeInTheDocument());
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => jest.fn()
-}));
-
 describe('Sign In Form', () => {
   beforeEach(() => {
-    render(
-      <QueryClientProvider client={new QueryClient()}>
-        <SignIn />
-      </QueryClientProvider>
-    );
+    render(<SignIn />);
   });
 
   /**
    * Check fields exist on the Login page
    */
-  describe('Sign In: Check the actions and behavior of fields', () => {
+  describe('Sign In: Check the fields in the document', () => {
     /**
      * Check elements in the document
      */
@@ -90,16 +81,16 @@ describe('Sign In Form', () => {
   /**
    * Fields behaviour after submit form
    */
-  describe('Sign In: Form behaviour', () => {
+  describe('Sign In: Form validation behaviour', () => {
     /**
      * Empty input validation
      */
     test('validate user inputs, and provides empty input error messages', async () => {
       await login('', '');
 
-      await expectInTheDocument('Please enter a valid Email Address');
+      await expectInTheDocument(VALIDATE_EMPTY.email);
 
-      await expectInTheDocument('Please enter a valid Password');
+      await expectInTheDocument(VALIDATE_EMPTY.password);
     });
 
     /**
@@ -116,23 +107,16 @@ describe('Sign In Form', () => {
         "'password' must be between 8 and 64 characters"
       );
 
-      await expectNotInTheDocument('Please enter a valid Email Address');
+      await expectNotInTheDocument(VALIDATE_EMPTY.email);
 
-      await expectNotInTheDocument('Please enter a valid Password');
+      await expectNotInTheDocument(VALIDATE_EMPTY.password);
     });
+  });
+});
 
-    /**
-     * Filled input validation
-     * Get error message from server
-     */
-    test('validate user inputs, and provides received error messages from server', async () => {
-      await login('vv@vv.vv', '12345678');
-
-      await waitFor(() =>
-        expect(
-          screen.queryByText('Invalid email or password')
-        ).toBeInTheDocument()
-      );
-    });
+describe('Snapshot sign in', () => {
+  test('sign in page', () => {
+    const tree = renderer.create(<SignIn />).toJSON();
+    expect(tree).toMatchSnapshot();
   });
 });

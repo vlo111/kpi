@@ -7,43 +7,86 @@ import {
   screen,
   waitFor
 } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import renderer from 'react-test-renderer';
 
-import '../../__mocks__/Axios';
-import '../../__mocks__/MatchMedia';
+import '../../__mocks__/Combine';
 import SignUp from '../../pages/Auth/SignUp';
-import { ExpectElementExist, ExpectToBeInDocument } from '../../types/test';
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => jest.fn()
-}));
+import {
+  ExpectElementExist,
+  ExpectEmptyValidation,
+  ExpectToBeInDocument,
+  GetByRole,
+  GetTextBoxes
+} from '../../types/test';
+import { VALIDATE_EMPTY, VALIDATE_FILLED } from '../../helpers/constants';
 
 /**
  * Text To be In The Document
  * @param item
  */
 const expectInTheDocument: ExpectElementExist = async (item) =>
-  await waitFor(() => expect(screen.queryByText(item)).toBeInTheDocument());
+  await waitFor(() => expect(screen.getByText(item)).toBeInTheDocument());
 
 /**
- * Text To be Not In The Document
- * @param item
+ * Get input by name
  */
-const expectNotInTheDocument: ExpectElementExist = async (item) =>
-  await waitFor(() => expect(screen.queryByText(item)).not.toBeInTheDocument());
+const getByRole: GetByRole = async (name) =>
+  screen.getByRole('textbox', { name });
+
+/**
+ * Expect empty filed validation to be in the document
+ */
+const expectEmptyValidation: ExpectEmptyValidation = async () => {
+  await expectInTheDocument(VALIDATE_EMPTY.email);
+
+  await expectInTheDocument(VALIDATE_EMPTY.firstName);
+
+  await expectInTheDocument(VALIDATE_EMPTY.lastName);
+
+  await expectInTheDocument(VALIDATE_EMPTY.email);
+
+  await expectInTheDocument(VALIDATE_EMPTY.password);
+
+  await expectInTheDocument(VALIDATE_EMPTY.confirm);
+};
+
+/**
+ * Expect filled validation to be in the document
+ */
+const expectFilledValidation: ExpectEmptyValidation = async () => {
+  await expectInTheDocument(VALIDATE_FILLED.firstName);
+
+  await expectInTheDocument(VALIDATE_FILLED.lastName);
+
+  await expectInTheDocument(VALIDATE_FILLED.email);
+
+  await expectInTheDocument(VALIDATE_FILLED.organisation);
+
+  await expectInTheDocument(VALIDATE_FILLED.password);
+
+  await expectInTheDocument(VALIDATE_FILLED.organisation);
+};
+
+/**
+ * Get all inputs by name
+ */
+const getTextBoxes: GetTextBoxes = async () => [
+  await getByRole('First Name'),
+  await getByRole('Last Name'),
+  await getByRole('Email Address'),
+  await getByRole('Organisation Name'),
+  await screen.getByPlaceholderText('Password'),
+  await screen.getByPlaceholderText('Confirm Password')
+];
 
 /**
  * Check fields exist on the Login page
  */
 describe('Sign Up: Check the actions and behavior of fields', () => {
   beforeEach(() => {
-    render(
-      <QueryClientProvider client={new QueryClient()}>
-        <SignUp />
-      </QueryClientProvider>
-    );
+    render(<SignUp />);
   });
+
   const expectPlaceholderToBeInDocument: ExpectToBeInDocument = (...items) =>
     items.map((item) =>
       expect(screen.getByPlaceholderText(item)).toBeInTheDocument()
@@ -71,34 +114,33 @@ describe('Sign Up: Check the actions and behavior of fields', () => {
    * Empty input validation
    */
   test('validate user inputs, and provides empty input error messages', async () => {
-    // await act(async () => {
-    //   fireEvent.change(screen.getByTestId('email'), {
-    //     target: { value: email }
-    //   });
-    //
-    //   fireEvent.change(screen.getByTestId('password'), {
-    //     target: { value: password }
-    //   });
-    // });
-
     await act(async () => {
       fireEvent.submit(screen.getByTestId('signUpForm'));
     });
 
-    screen.debug(undefined, 300000);
+    await expectEmptyValidation();
+  });
 
-    // await expectInTheDocument('Please enter a valid Email Address');
-    //
-    // await expectInTheDocument('Please enter a valid First Name');
-    //
-    // await expectInTheDocument('Please enter a valid Last Name');
-    //
-    // await expectInTheDocument('Please enter a valid Organisation Name');
-    //
-    // await expectInTheDocument('Please enter a valid Password');
-    //
-    // await expectInTheDocument('Please enter a valid Confirm Password');
-    //
-    // await expectNotInTheDocument('The two passwords that you entered do not match!');
+  test('validate user inputs, and provides filled input error messages', async () => {
+    const fields = await getTextBoxes();
+
+    await act(async () => {
+      fields.forEach((input) => {
+        fireEvent.change(input, {
+          target: { value: '1' }
+        });
+      });
+    });
+
+    await expectFilledValidation();
+  });
+});
+
+describe('Snapshot sign up', () => {
+  test('sign up page', () => {
+    const tree = renderer
+      .create(<SignUp />)
+      .toJSON();
+    expect(tree).toMatchSnapshot();
   });
 });
