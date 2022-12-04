@@ -73,7 +73,7 @@ const SignIn: React.FC = () => {
           >
             <AsnInput placeholder="Email Address" data-testid="email" />
           </AsnForm.Item>
-          <AsnForm.Item name="password" label="Password" rules={[{ required: true }, { min: 8, max: 64 }]} style={{ marginBottom: '16px' }}>
+          <AsnForm.Item name="password" label="Password" rules={[{ required: true }, { min: 8, max: 16 }]} style={{ marginBottom: '16px' }}>
             <AsnInput.Password data-testid="password" placeholder="Password" />
           </AsnForm.Item>
           <ForgotPassword onClick={() => navigate(`/${PATHS.FORGOTPASSWORD}`)}>Forgot password?</ForgotPassword>

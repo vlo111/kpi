@@ -39,7 +39,7 @@ const SignUp: React.FC = () => {
     {
       required: true
     },
-    { min: 8, max: 64 },
+    { min: 8, max: 16 },
     { pattern: passwordRegExp },
     ({ getFieldValue }: { getFieldValue: (name: string) => string }) => ({
       async validator (_: object, value: string) {
@@ -87,7 +87,7 @@ const SignUp: React.FC = () => {
           >
             <AsnInput placeholder="Organisation Name" />
           </AsnForm.Item>
-          <AsnForm.Item name="password" label="Password" rules={[{ required: true }, { min: 8, max: 64 }, { pattern: passwordRegExp }]}>
+          <AsnForm.Item name="password" label="Password" rules={[{ required: true }, { min: 8, max: 16 }, { pattern: passwordRegExp }]}>
             <AsnInput.Password placeholder="Password" />
           </AsnForm.Item>
           <AsnForm.Item name="repeatPassword" label="Confirm Password" rules={rulesConfirmPassword}>
