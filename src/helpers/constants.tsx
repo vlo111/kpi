@@ -58,6 +58,6 @@ export const VALIDATE_FILLED = {
   lastName: "'lastName' must be between 3 and 128 characters",
   email: 'Please enter your Email Address in format: yourname@domain.com',
   organisation: "'organization' must be between 2 and 128 characters",
-  password: "'password' must be between 8 and 64 characters",
+  password: "'password' must be between 8 and 16 characters",
   confirm: "'repeatPassword' must be between 8 and 64 characters"
 };

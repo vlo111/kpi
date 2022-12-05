@@ -11,7 +11,7 @@ import '@testing-library/jest-dom/extend-expect';
 import '../../__mocks__/Combine';
 import SignIn from '../../pages/Auth/SignIn';
 import { ExpectElementExist, Login } from '../../types/test';
-import { VALIDATE_EMPTY } from '../../helpers/constants';
+import { VALIDATE_EMPTY, VALIDATE_FILLED } from '../../helpers/constants';
 import renderer from 'react-test-renderer';
 
 /**
@@ -38,7 +38,7 @@ const login: Login = async (email, password) => {
  * @param item
  */
 const expectInTheDocument: ExpectElementExist = async (item) =>
-  await waitFor(() => expect(screen.queryByText(item)).toBeInTheDocument());
+  await waitFor(() => expect(screen.getByText(item)).toBeInTheDocument());
 /**
  * Text To be Not In The Document
  * @param item
@@ -99,13 +99,9 @@ describe('Sign In Form', () => {
     test('validate user inputs, and provides filled input error messages', async () => {
       await login('vv@vv.v', '123456');
 
-      await expectInTheDocument(
-        'Please enter your Email Address in format: yourname@domain.com'
-      );
+      await expectInTheDocument(VALIDATE_FILLED.email);
 
-      await expectInTheDocument(
-        "'password' must be between 8 and 64 characters"
-      );
+      await expectInTheDocument(VALIDATE_FILLED.password);
 
       await expectNotInTheDocument(VALIDATE_EMPTY.email);
 
