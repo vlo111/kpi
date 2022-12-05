@@ -12,7 +12,7 @@ export const AsnCollapse: React.FC<{
     defaultActiveKey: [id],
     expandIconPosition: 'end',
     expandIcon: ({ isActive }: IPanelIsActive) => (
-            <CaretRightOutlined rotate={isActive ? 90 : 0}/>
+            <CaretRightOutlined rotate={isActive ? -90 : 90}/>
     )
   }
 

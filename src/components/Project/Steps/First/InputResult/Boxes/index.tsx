@@ -13,6 +13,7 @@ import {
 } from '../../../../../../helpers/constants'
 import { ProjectInputBoxProps } from '../../../../../../types/project'
 import { ReactComponent as DeleteSvg } from '../../../../../../assets/icons/delete.svg'
+import { CaretRightOutlined } from '@ant-design/icons'
 
 const { Option } = Select
 
@@ -73,11 +74,20 @@ const Boxes: React.FC<ProjectInputBoxProps> = ({
           <Col>
             <Form.Item
               name={[item.name, `m_${resultId}${activityId ?? ''}${item.key}`]}
-              label={firstLabel('Measure', index)}
+              label={firstLabel('Measurement', index)}
               {...rules(2, 256)}
             >
               <AsnSelect
+                dropdownAlign={{ offset: [0, -1] }}
+                getPopupContainer={trigger => trigger.parentNode}
                 defaultValue="Select"
+                popupClassName="asn-select-primary"
+                suffixIcon={
+                  <CaretRightOutlined
+                    rotate={90}
+                    style={{ color: 'var(--dark-2)' }}
+                  />
+                }
                 style={{ width: '148px', height: '58px' }}
                 onChange={(value) => {
                   if (value === 'number') {

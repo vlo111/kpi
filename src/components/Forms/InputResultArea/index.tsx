@@ -102,6 +102,11 @@ export const InputResultArea = styled.div`
         
         .ant-input-affix-wrapper {
           height: 60px;
+          width: 73vw;
+        }
+
+        .ant-input-affix-wrapper-focused {
+          box-shadow: none;
         }
 
         &:not(&-has-error) {
@@ -114,10 +119,6 @@ export const InputResultArea = styled.div`
               box-shadow: none !important;
             }
           }
-        }
-
-        .ant-input-affix-wrapper {
-          width: 73vw;
         }
 
         input {
@@ -141,12 +142,23 @@ export const InputResultArea = styled.div`
       .panel:first-child {
         input:not(.ant-input-status-error), textarea:not(.ant-input-status-error), .ant-select-selector {
           border: 1px solid var(--dark-5) !important;
+          box-shadow: none !important;
 
           &:hover,
           &:focus {
             border: 1px solid var(--dark-5) !important;
             box-shadow: none !important;
           }
+        }
+      }
+
+      .ant-select-selector {
+        box-shadow: none !important;
+      }
+      
+      .ant-select-open {
+        .ant-select-selector {
+          border-radius: 5px 5px 0 0 !important;
         }
       }
 
@@ -174,7 +186,6 @@ export const InputResultArea = styled.div`
     box-shadow: var(--input-result-are-box-shadow);
     border-radius: 20px;
     ${areaPanelBox('var(--secondary-green)')}
-    padding-right: 1rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -229,6 +240,12 @@ export const InputResultArea = styled.div`
         box-shadow: none !important;
       }
 
+      .ant-select-open {
+        .ant-select-selector {
+          border-radius: 5px 5px 0 0 !important;
+        }
+      }
+
       input:not(.ant-input-status-error), textarea:not(.ant-input-status-error), .ant-select-selector {
         border: 1px solid var(--dark-5) !important;
 
@@ -244,5 +261,16 @@ export const InputResultArea = styled.div`
       box-shadow: var(--input-result-are-box-shadow);
       border-radius: 20px;
     }
+  }
+
+  ::-webkit-scrollbar {
+    width: 2px !important;
+    height: 2px !important;
+    padding: 2px !important;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    padding: 2px !important;
+    width: 4px !important;
   }
 `

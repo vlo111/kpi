@@ -87,12 +87,11 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
           <AsnInput placeholder="Add question"/>
         </Form.Item>
         <Form.Item name="answerType">
-          <AsnSelect onChange={onSelectChange}>
+          <AsnSelect onChange={onSelectChange} popupClassName="asn-select-default">
             {answerTypeOptions.map((option) => (
               <Option
                 value={option}
                 key={option}
-                className="customSelectOption"
               >
                 {option}
               </Option>
