@@ -20,5 +20,5 @@ export interface ConfirmModalType {
   no: string
   onSubmit: () => void
   onCancel: () => void
-  styles?: any
+  styles?: { gap: string }
 }
