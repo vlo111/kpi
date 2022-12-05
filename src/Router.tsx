@@ -19,8 +19,8 @@ import Confirmation from './pages/Auth/Confirmation';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import ResetPassword from './pages/Auth/ResetPassword';
 import Dashboard from './pages/Dashboard';
-import UserProfile from './components/Users/UserProfile';
-import ChangePassword from './components/Header/ChangePassword';
+import UserProfile from './pages/Profile';
+import ChangePassword from './pages/Profile/ChangePassword';
 import { Project } from './pages/Project';
 import { CreateProject } from './pages/Project/Create';
 

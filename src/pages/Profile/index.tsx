@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Upload, Typography } from 'antd';
 
-import useCurrentUser from '../../../api/UserProfile/useCurrentUser';
-import { PATHS } from '../../../helpers/constants';
-import { TVoid } from '../../../types/global';
-import { IUser } from '../../../types/auth';
-import AsnAvatar from '../../Forms/Avatar';
-import { CreateTemplateContainer } from '../../Profile';
-import { AsnButton } from '../../Forms/Button';
-import EditProfile from '../EditUserProfile';
-import { ReactComponent as UploadUser } from '../../../assets/icons/upload.svg';
-import { ReactComponent as Edit } from '../../../assets/icons/edit.svg';
+import useCurrentUser from '../../api/UserProfile/useCurrentUser';
+import { PATHS } from '../../helpers/constants';
+import { TVoid } from '../../types/global';
+import { IUser } from '../../types/auth';
+import AsnAvatar from '../../components/Forms/Avatar';
+import { CreateTemplateContainer } from '../../components/Profile';
+import { AsnButton } from '../../components/Forms/Button';
+import EditProfile from '../../components/Users/EditUserProfile';
+import { ReactComponent as UploadUser } from '../../assets/icons/upload.svg';
+import { ReactComponent as Edit } from '../../assets/icons/edit.svg';
 
 const { Title } = Typography;
+
 const UserProfile: React.FC = () => {
   const { data: user }: { data: IUser } = useCurrentUser();
   const navigate = useNavigate();
