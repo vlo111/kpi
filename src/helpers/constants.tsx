@@ -9,6 +9,8 @@ export const PATHS = {
   FORGOTPASSWORD: 'forgot-password',
   RESTOREPASSWORD: 'restore-password',
   DASHBOARD: 'dashboard',
+  PROJECT: 'project',
+  PROJECTCREATE: 'create',
   USERPROFILE: 'user-profile',
   CHANGEPASSWORD: 'change-password'
 };
@@ -61,3 +63,14 @@ export const VALIDATE_FILLED = {
   password: "'password' must be between 8 and 16 characters",
   confirm: "'repeatPassword' must be between 8 and 64 characters"
 };
+
+export const Rules = {
+  rules: [
+    {
+      required: true
+    }
+  ]
+};
+
+export const PlaceHolderDescription =
+  'Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills';

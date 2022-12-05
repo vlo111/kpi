@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import AsnForm from '../Form';
+import { AsnForm } from '../Form';
 
 export const CreateTemplateContainer = styled(AsnForm)`
      background:var(--white);

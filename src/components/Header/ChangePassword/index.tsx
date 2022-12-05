@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { Row, Col, Typography, Space, message } from 'antd';
 import styled from 'styled-components';
 
-import AsnInput from '../../Forms/Input';
-import AsnForm from '../../Forms/Form';
-import AsnButton from '../../Forms/Button';
+import { AsnInput } from '../../Forms/Input';
+import { AsnForm } from '../../Forms/Form';
+import { AsnButton } from '../../Forms/Button';
 import { AsnAlert } from '../../Forms/Alert';
 import { TVoid } from '../../../types/global';
 import { passwordRegExp, VALIDATE_MESSAGES, PATHS } from '../../../helpers/constants';

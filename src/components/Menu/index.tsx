@@ -96,6 +96,7 @@ export const Menu: React.FC = () => {
 
   const onNavigateHandle: (ev: MenuInfo) => void = (ev) => {
     menuItemsNavigate.forEach((item, i) => {
+      console.log(+ev.key === i + 1 ? item : '');
       if (+ev.key === i + 1) navigate(item);
     }
     );

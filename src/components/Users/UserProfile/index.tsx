@@ -8,7 +8,7 @@ import { TVoid } from '../../../types/global';
 import { IUser } from '../../../types/auth';
 import AsnAvatar from '../../Forms/Avatar';
 import { CreateTemplateContainer } from '../../Forms/UserProfile';
-import AsnButton from '../../Forms/Button';
+import { AsnButton } from '../../Forms/Button';
 import EditProfile from '../EditUserProfile';
 import { ReactComponent as UploadUser } from '../../../assets/icons/upload.svg';
 import { ReactComponent as Edit } from '../../../assets/icons/edit.svg';

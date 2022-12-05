@@ -1,4 +1,5 @@
 import { IUser } from './auth';
+import { Moment } from 'moment';
 export interface IManagerIcon {
   letter: string
   color: string
@@ -12,3 +13,11 @@ export interface ICreateTemplate {
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
   user: IUser
 }
+
+export type OpenDeleteResultModal =
+  | { remove: (name: string) => void, fields: string }
+  | undefined
+
+export type Date = Moment | null
+
+export type DisabledDate = (current: Moment, item: string) => boolean

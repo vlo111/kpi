@@ -1,6 +1,6 @@
 import React from 'react';
 import { Result, Space } from 'antd';
-import AsnButton from '../../components/Forms/Button';
+import { AsnButton } from '../../components/Forms/Button';
 import { ReactComponent as SmileOutlined } from './images/404.svg';
 // import { SmileOutlined } from '@ant-design/icons';
 

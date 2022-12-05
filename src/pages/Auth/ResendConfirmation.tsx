@@ -7,7 +7,7 @@ import useResendEmail from '../../api/Auth/useResendEmail';
 import { TVoid } from '../../types/global';
 import { ISuccessMessage } from '../../types/auth';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
-import AsnButton from '../../components/Forms/Button';
+import { AsnButton } from '../../components/Forms/Button';
 import { AsnAlert } from '../../components/Forms/Alert';
 import { ReactComponent as CheckedSvg } from '../../assets/icons/checked.svg';
 
