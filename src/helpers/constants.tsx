@@ -1,4 +1,3 @@
-
 export const PATHS = {
   ROOT: '/',
   ERROR_403: 'no-access',
@@ -23,8 +22,9 @@ export const VALIDATE_MESSAGES = {
   },
 
   pattern: {
-  // eslint-disable-next-line no-template-curly-in-string
-    mismatch: 'Password must contain at least one uppercase character, one lowercase character and one digit '
+    // eslint-disable-next-line no-template-curly-in-string
+    mismatch:
+      'Password must contain at least one uppercase character, one lowercase character and one digit '
   }
 };
 export const MenuItems = [
@@ -43,3 +43,21 @@ export const menuItemsNavigate = [
 ];
 
 export const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$/;
+
+export const VALIDATE_EMPTY = {
+  firstName: 'Please enter a valid Email Address',
+  lastName: 'Please enter a valid Last Name',
+  email: 'Please enter a valid Email Address',
+  organisation: 'Please enter a valid Organisation Name',
+  password: 'Please enter a valid Password',
+  confirm: 'Please enter a valid Confirm Password'
+};
+
+export const VALIDATE_FILLED = {
+  firstName: "'firstName' must be between 3 and 128 characters",
+  lastName: "'lastName' must be between 3 and 128 characters",
+  email: 'Please enter your Email Address in format: yourname@domain.com',
+  organisation: "'organization' must be between 2 and 128 characters",
+  password: "'password' must be between 8 and 16 characters",
+  confirm: "'repeatPassword' must be between 8 and 64 characters"
+};
