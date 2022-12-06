@@ -84,7 +84,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
     height: 6px;
     background-color: var(--scroll-bar-background);
     padding: 5px;
@@ -95,6 +95,25 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 3.5px;    
     padding: 5px;
     width: 12px;
+  }
+  
+  .ant-picker-dropdown {
+    .ant-picker-cell-inner {
+      border-radius: 50% !important;
+
+      :before {
+        border-radius: 50% !important;
+        border: 1px solid var(--dark-border-ultramarine) !important;
+      }
+    }
+    
+    .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
+      background: var(--dark-border-ultramarine);
+    }
+    
+    .ant-picker-today-btn {
+      color: var(--dark-border-ultramarine);
+    }
   }
 `;
 

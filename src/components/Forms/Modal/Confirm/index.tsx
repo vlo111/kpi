@@ -43,8 +43,8 @@ export const ConfirmModal: React.FC<ConfirmModalType> = ({ open, title, onSubmit
           {title}
         </div>
         <div className="buttons">
-          <AsnButton onClick={onCancel}>{no}</AsnButton>
-          <AsnButton type="primary" onClick={onSubmit}>{yes}</AsnButton>
+          <AsnButton className="default" onClick={onCancel}>{no}</AsnButton>
+          <AsnButton className="primary" onClick={onSubmit}>{yes}</AsnButton>
         </div>
       </div>
     </ConfirmModalWrapper>

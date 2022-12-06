@@ -13,8 +13,20 @@ export const AsnDatePicker = styled(DatePicker)`
   :hover {
     border: 1px solid var(--dark-border-ultramarine);
   }
-  :focus {
+  
+  .ant-picker-input {
+    flex-direction: row-reverse;
+    
+    svg {
+      fill: var(--dark-2);
+      margin-right: 12px;
+    }
+  }
+
+  &.ant-picker-focused {
     border: 1px solid var(--dark-border-ultramarine);
     box-shadow: var(--input-box-shadow);
+  }
+  }
   }
 `;

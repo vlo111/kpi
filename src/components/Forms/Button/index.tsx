@@ -2,31 +2,34 @@ import styled from 'styled-components';
 import { Button } from 'antd';
 
 export const AsnButton = styled(Button)`
+  &.default {
+    color: var(--dark-border-ultramarine);
+    border: 1px solid var(--dark-border-ultramarine);
+    background: transparent;
+    font-weight: var(--font-normal);
+    padding: 5px 30px;
+    font-size: var(--base-font-size);
+    height: 44px;
+    border-radius: 5px;
 
-  color: var(--white);
-  background: var(--dark-border-ultramarine);
-  font-weight: var(--font-bold);
-  height: 44px; 
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 13px 40px 13px 40px;
-  gap: 10px; 
-  font-size: var(--headline-font-size);
-  border: none;
-
-  
-  &:hover, :focus, :active {
-    background: var(--primary-light-1);
-    color: var(--dark-border-ultramarine)
+    &:hover {
+      background: var(--primary-light-1);
+    }
   }
-  &:disabled {
-    background-color: #cee6e5;
-    color: #ffffff;
-  } 
 
   &.primary {
-     width: 100%;
- }
+    color: var(--white);
+    border: none;
+    background: var(--dark-border-ultramarine);
+    font-weight: var(--font-bold);
+    padding: 10px 32px;
+    font-size: var(--base-font-size);
+    border-radius: 5px;
+    height: 44px;
+
+    &:hover {
+      background: var(--primary-light-1);
+      color: var(--dark-border-ultramarine)
+    }
+  }
 `;

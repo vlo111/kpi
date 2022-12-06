@@ -21,7 +21,6 @@ import ResetPassword from './pages/Auth/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import UserProfile from './pages/Profile';
 import ChangePassword from './pages/Profile/ChangePassword';
-import { Project } from './pages/Project';
 import { CreateProject } from './pages/Project/Create';
 
 export const router = createBrowserRouter(
@@ -39,7 +38,7 @@ export const router = createBrowserRouter(
       </Route>
       <Route element={<PrivateRoutes />} errorElement={<ErrorBoundary />}>
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
-        <Route path={PATHS.PROJECT} element={<Project />}>
+        <Route path={PATHS.PROJECT}>
           <Route index element={<CreateProject />} />
           <Route path={PATHS.PROJECTCREATE} element={<CreateProject />} />
         </Route>

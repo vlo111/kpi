@@ -130,8 +130,8 @@ const EditProfile: React.FC<ICreateTemplate> = ({
             <AsnInput placeholder="Position" />
           </AsnForm.Item>
         <Space style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-          <AsnButton onClick={onCancelClick}>Cancel</AsnButton>
-          <AsnButton type="primary" htmlType="submit" loading={isLoading}>
+          <AsnButton className="default" onClick={onCancelClick}>Cancel</AsnButton>
+          <AsnButton className="primary" htmlType="submit" loading={isLoading}>
           Save changes
           </AsnButton>
         </Space>

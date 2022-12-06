@@ -39,7 +39,7 @@ export const MenuItems = [
 ];
 export const menuItemsNavigate = [
   '/dashboard',
-  '/project',
+  '/project/create',
   '/teams',
   '/applicants'
 ];

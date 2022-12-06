@@ -53,6 +53,11 @@ export const ProjectStyle = styled.div`
   button {
     border-radius: 10px !important;
   }
+  
+  textarea {
+    height: 10rem;
+    resize: none;
+  }
 `;
 
 export const PickerSpace = styled(Space)`
@@ -201,10 +206,10 @@ export const CreateProject: React.FC = () => {
           </div>
           <Row justify={'space-evenly'} gutter={[0, 12]}>
             <Col>
-              <AsnButton>Cancel</AsnButton>
+              <AsnButton className="default">Cancel</AsnButton>
             </Col>
             <Col>
-              <AsnButton type="primary" htmlType="submit">
+              <AsnButton className="primary" htmlType="submit">
                 Create
               </AsnButton>
             </Col>
