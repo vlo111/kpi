@@ -97,8 +97,8 @@ const ChangePassword: React.FC = () => {
           </div>
             <AsnForm.Item>
               <Space size={[40, 16]} style={{ display: 'flex', justifyContent: 'center', marginBottom: '9vh' }}>
-                <AsnButton onClick={() => navigate(`/${PATHS.USERPROFILE}`)}>Cancel</AsnButton>
-                <AsnButton type="primary" htmlType="submit" style={{ width: 'clamp(12.5rem,12vw,24rem)' }} loading={isLoading}>
+                <AsnButton className="default" onClick={() => navigate(`/${PATHS.USERPROFILE}`)}>Cancel</AsnButton>
+                <AsnButton className="primary" htmlType="submit" style={{ width: 'clamp(12.5rem,12vw,24rem)' }} loading={isLoading}>
                   Set Password
                 </AsnButton>
               </Space>

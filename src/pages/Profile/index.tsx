@@ -86,7 +86,7 @@ const UserProfile: React.FC = () => {
         <Col span={24}>
           {' '}
           <AsnButton
-            type="primary"
+            className="primary"
             onClick={() => navigate(`/${PATHS.CHANGEPASSWORD}`)}
             style={{
               width: 'clamp(13.4rem, 10vw, 21rem)',

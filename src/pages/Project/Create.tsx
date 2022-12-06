@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
+import { Col, notification, Row, Space, Typography } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { Moment } from 'moment';
+
 import { AsnForm } from '../../components/Forms/Form';
 import {
   PlaceHolderDescription,
-  Rules,
   VALIDATE_MESSAGES
 } from '../../helpers/constants';
 import { AsnInput, AsnTextArea } from '../../components/Forms/Input';
-import { AsnButton } from '../../components/Forms/Button';
-import styled from 'styled-components';
 import { ConfirmModal } from '../../components/Forms/Modal/Confirm';
-import { useNavigate } from 'react-router-dom';
-import { Date, DisabledDate } from '../../types/project';
-import { v4 as uuidv4 } from 'uuid';
-import { Col, Row, Space, Typography } from 'antd';
-import { Moment } from 'moment';
 import { AsnDatePicker } from '../../components/Forms/DatePicker';
+import useCreateProject from '../../api/Project/useCreateProject';
+import { AsnButton } from '../../components/Forms/Button';
+import { DisabledDate } from '../../types/project';
+import { AsnAlert } from '../../components/Forms/Alert';
+
 const { Title } = Typography;
 
 export const ProjectStyle = styled.div`
@@ -53,7 +55,7 @@ export const ProjectStyle = styled.div`
   button {
     border-radius: 10px !important;
   }
-  
+
   textarea {
     height: 10rem;
     resize: none;
@@ -79,11 +81,25 @@ export const PickerSpace = styled(Space)`
 `;
 
 export const CreateProject: React.FC = () => {
-  const [title, setTitle] = useState<string>();
-  const [description, setDescription] = useState<string>();
+  const [error, setError] = useState<string>('');
 
-  const [startDate, setStartDate] = useState<Date>(null);
-  const [endDate, setEndDate] = useState<Date>(null);
+  const { mutate: createProject, isLoading }: any = useCreateProject({
+    onSuccess: ({ data }: any) => {
+      notification.success({
+        placement: 'top',
+        message: 'The project saved successfully'
+      });
+      setOpenDeleteModal(!openDeleteModal);
+    },
+    onError: ({ response }: any) => {
+      if (response.status === 409) {
+        setError('A project with the same name already exists');
+      } else {
+        setError(response.data.message);
+      }
+      setOpenDeleteModal(false);
+    }
+  });
 
   const disabledDate: DisabledDate = (current: Moment, item) => {
     const startDate = form.getFieldsValue().startDate;
@@ -103,56 +119,37 @@ export const CreateProject: React.FC = () => {
   const navigate = useNavigate();
 
   const onFinish: any = (values: any) => {
-    setTitle(values.Title);
-    setDescription(values.Description);
-
-    setStartDate(values['Start Date']);
-    setEndDate(values['End Date']);
-
-    setOpenDeleteModal(!openDeleteModal);
+    createProject({
+      ...values,
+      startDate: new Date(values.startDate).toJSON(),
+      endDate: new Date(values.endDate).toJSON()
+    });
   };
 
   const onFinishFailed: any = (values: any) => {
     console.log(values, 'failed');
   };
 
-  const initFields = [
-    {
-      name: ['Title'],
-      value: title
-    },
-    {
-      name: ['Description'],
-      value: description
-    },
-    {
-      name: ['Start Date'],
-      value: startDate
-    },
-    {
-      name: ['End Date'],
-      value: endDate
-    }
-  ];
-
   const onRedirectToUser: () => void = () => {
     navigate('/teams');
   };
 
   const onSkipUser: () => void = () => {
-    navigate(`/project/overview/${uuidv4()}`);
+    navigate('/project/overview/1');
   };
 
   return (
     <>
       <ProjectStyle>
+        {(error?.length > 0) && <AsnAlert type="error" message={error} />}
+
         <Title level={4} className="title">
           To create a new project, please fill in the following information
         </Title>
         <AsnForm
           id="general-info-form"
           form={form}
-          fields={initFields}
+          // fields={initFields}
           layout="vertical"
           validateMessages={VALIDATE_MESSAGES}
           onFinish={onFinish}
@@ -180,7 +177,15 @@ export const CreateProject: React.FC = () => {
               </Col>
               <PickerSpace size={24}>
                 <Col span={24}>
-                  <AsnForm.Item name="startDate" label="Start Date" {...Rules}>
+                  <AsnForm.Item
+                    name="startDate"
+                    label="Start Date"
+                    rules={[
+                      {
+                        required: true
+                      }
+                    ]}
+                  >
                     <AsnDatePicker
                       format="DD/MM/YYYY"
                       placeholder="10/22/21"
@@ -191,7 +196,15 @@ export const CreateProject: React.FC = () => {
                   </AsnForm.Item>
                 </Col>
                 <Col span={24}>
-                  <AsnForm.Item name="endDate" label="End Date" {...Rules}>
+                  <AsnForm.Item
+                    name="endDate"
+                    label="End Date"
+                    rules={[
+                      {
+                        required: true
+                      }
+                    ]}
+                  >
                     <AsnDatePicker
                       format="DD/MM/YYYY"
                       placeholder="10/22/26"
@@ -209,22 +222,22 @@ export const CreateProject: React.FC = () => {
               <AsnButton className="default">Cancel</AsnButton>
             </Col>
             <Col>
-              <AsnButton className="primary" htmlType="submit">
+              <AsnButton className="primary" htmlType="submit" loading={isLoading}>
                 Create
               </AsnButton>
             </Col>
           </Row>
+          <ConfirmModal
+            styles={{ gap: '3rem' }}
+            yes="Add"
+            no="Skip"
+            open={openDeleteModal}
+            title="Do you want to add users?"
+            onSubmit={onRedirectToUser}
+            onCancel={onSkipUser}
+          />
         </AsnForm>
       </ProjectStyle>
-      <ConfirmModal
-        styles={{ gap: '3rem' }}
-        yes="Add"
-        no="Skip"
-        open={openDeleteModal}
-        title="Do you want to add users?"
-        onSubmit={onRedirectToUser}
-        onCancel={onSkipUser}
-      />
     </>
   );
 };
