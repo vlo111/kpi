@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Form } from 'antd';
 
-const AsnForm = styled(Form)`
+export const AsnForm = styled(Form)`
 .ant-input-affix-wrapper-status-error, .ant-input-status-error {
     border-color: var(--error) !important;
 
@@ -35,4 +35,3 @@ const AsnForm = styled(Form)`
     margin-top: -6px;
   }
 `;
-export default AsnForm;

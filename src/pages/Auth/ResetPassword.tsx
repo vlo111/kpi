@@ -7,9 +7,9 @@ import useResetPassword from '../../api/Auth/useResetPassword';
 import { VALIDATE_MESSAGES, passwordRegExp, PATHS } from '../../helpers/constants';
 import { ISuccessMessage, IResetPassword } from '../../types/auth';
 import { TVoid } from '../../types/global';
-import AsnInput from '../../components/Forms/Input';
-import AsnForm from '../../components/Forms/Form';
-import AsnButton from '../../components/Forms/Button';
+import { AsnInput } from '../../components/Forms/Input';
+import { AsnForm } from '../../components/Forms/Form';
+import { AsnButton } from '../../components/Forms/Button';
 import { TitleAuth } from '../../components/Layout/TitleAuth';
 import { AsnAlert } from '../../components/Forms/Alert';
 

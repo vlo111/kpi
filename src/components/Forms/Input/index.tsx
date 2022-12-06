@@ -24,16 +24,16 @@ const AsnInput = styled(Input)`
   ${defaultStyle}
 `;
 
-const TextArea = styled(Input.TextArea)`
+const AsnTextArea = styled(Input.TextArea)`
   ${defaultStyle}
 `;
 
-AsnInput.TextArea = TextArea;
+AsnInput.TextArea = AsnTextArea;
 
-const Password = styled(Input.Password)`
+const AsnPassword = styled(Input.Password)`
   ${defaultStyle}
 `;
 
-AsnInput.Password = Password;
+AsnInput.Password = AsnPassword;
 
-export default AsnInput;
+export { AsnInput, AsnTextArea, AsnPassword };
