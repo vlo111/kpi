@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, notification, Row, Space, Typography } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Moment } from 'moment';
 
@@ -16,6 +16,7 @@ import useCreateProject from '../../api/Project/useCreateProject';
 import { AsnButton } from '../../components/Forms/Button';
 import { DisabledDate } from '../../types/project';
 import { AsnAlert } from '../../components/Forms/Alert';
+import { useGetProjectById } from '../../api/Project/useGetProject';
 
 const { Title } = Typography;
 
@@ -81,6 +82,16 @@ export const PickerSpace = styled(Space)`
 `;
 
 export const CreateProject: React.FC = () => {
+  const navigate = useNavigate();
+
+  const { projectId } = useParams();
+
+  const projectData = useGetProjectById(projectId);
+
+  // const [project, setProject] = useState<{ title: string }>();
+
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+
   const [error, setError] = useState<string>('');
 
   const { mutate: createProject, isLoading }: any = useCreateProject({
@@ -112,11 +123,7 @@ export const CreateProject: React.FC = () => {
     }
   };
 
-  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-
   const [form] = AsnForm.useForm();
-
-  const navigate = useNavigate();
 
   const onFinish: any = (values: any) => {
     createProject({
@@ -138,10 +145,17 @@ export const CreateProject: React.FC = () => {
     navigate('/project/overview/1');
   };
 
+  // useEffect(() => {
+  //   if (projectId !== undefined) {
+  //     setProject(projectData);
+  //   }
+  // }, [projectData]);
+
+  console.log('------------------------- ', projectData);
   return (
     <>
       <ProjectStyle>
-        {(error?.length > 0) && <AsnAlert type="error" message={error} />}
+        {error?.length > 0 && <AsnAlert type="error" message={error} />}
 
         <Title level={4} className="title">
           To create a new project, please fill in the following information
@@ -149,7 +163,7 @@ export const CreateProject: React.FC = () => {
         <AsnForm
           id="general-info-form"
           form={form}
-          // fields={initFields}
+          initialValues={{ title: projectData?.title }}
           layout="vertical"
           validateMessages={VALIDATE_MESSAGES}
           onFinish={onFinish}
@@ -222,7 +236,11 @@ export const CreateProject: React.FC = () => {
               <AsnButton className="default">Cancel</AsnButton>
             </Col>
             <Col>
-              <AsnButton className="primary" htmlType="submit" loading={isLoading}>
+              <AsnButton
+                className="primary"
+                htmlType="submit"
+                loading={isLoading}
+              >
                 Create
               </AsnButton>
             </Col>

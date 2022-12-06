@@ -2,8 +2,7 @@ import React from 'react';
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  Route,
-  Navigate
+  Route
 } from 'react-router-dom';
 import { PublicRoutes } from './utils/PublicRoutes';
 import { PrivateRoutes } from './utils/PrivateRoutes';
@@ -40,8 +39,9 @@ export const router = createBrowserRouter(
       <Route element={<PrivateRoutes />} errorElement={<ErrorBoundary />}>
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
         <Route path={PATHS.PROJECT}>
-          <Route index element={<CreateProject />} />
+          {/* <Route index element={<CreateProject />} /> */}
           <Route path={PATHS.PROJECTCREATE} element={<CreateProject />} />
+          <Route path={PATHS.PROJECTEDIT} element={<CreateProject />} />
           <Route path={PATHS.PROJECTS} element={<ProjectList />} />
         </Route>
         <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
@@ -49,7 +49,7 @@ export const router = createBrowserRouter(
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path={PATHS.ERROR_500} element={<ErrorBoundary />} />
-      <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
+      {/* <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} /> */}
       <Route path={PATHS.CONFIRMATION} element={<Confirmation />} />
     </>
   )
