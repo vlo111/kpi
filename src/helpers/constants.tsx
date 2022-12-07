@@ -11,7 +11,7 @@ export const PATHS = {
   DASHBOARD: 'dashboard',
   PROJECT: 'project',
   PROJECTCREATE: 'create',
-  PROJECTEDIT: ':projectId',
+  PROJECTEDIT: ':id',
   PROJECTS: 'list',
   USERPROFILE: 'user-profile',
   CHANGEPASSWORD: 'change-password'

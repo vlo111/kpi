@@ -1,56 +1,64 @@
+import React, { FC, ReactNode } from 'react';
+import dayjs from 'dayjs';
 import { Card, Col, Row } from 'antd';
-import React from 'react';
-import { useGetProjects } from '../../api/Project/useGetProjects';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
+import { ICreateProject } from '../../types/project';
+import { useGetProjects } from '../../api/Project/useGetProjects';
+
 const ProjectListRow = styled(Row)`
   padding: 2rem;
-  
+
   .ant-col {
     padding: 1rem;
   }
 `;
 
-interface Result {
-  id: string
-  title: string
-  description: string
-  startDate: string
-  endDate: string
-  status: string
-  stepStatus: string
-}
-
-export const ProjectList: React.FC = () => {
+export const ProjectList: FC = () => {
   const navigate = useNavigate();
 
-  const {
-    data: { data: { result = [], has_more: hasMore, count } } = { data: { result: [], has_more: null, count: null } }
-  } = useGetProjects();
+  const { data: { result = [], has_more: hasMore, count } = {} } = useGetProjects();
+
+  const extraElement: (id: string) => ReactNode = (id) => <a
+    onClick={(e) => {
+      e.preventDefault();
+      navigate(`../${id}`, { replace: true });
+    }}
+    style={{ marginRight: '10px' }}
+  >
+    Edit
+  </a>;
 
   return (
     <>
       <Row gutter={16}>
+        <Col>Count: {count}</Col>
         <Col>
-          Count: {count}
-        </Col>
-        <Col>
-          Has more: {(hasMore === null || hasMore === false) ? 'no' : 'yes'}
+          Has more: {hasMore === null || (hasMore === false) ? 'no' : 'yes'}
         </Col>
       </Row>
       <ProjectListRow gutter={16}>
-        {result.map(
-          (r: Result) => (
-            <Col span={8} key={r.id}>
-              <Card title={r.title} bordered={false} extra={<><div onClick={() => {
-                navigate(`../${r.id}`, { replace: true });
-              }} style={{ marginRight: '10px' }}>Edit</div> <a href="#">Delete</a></>}>
-                {Object.keys(r).map((e: string) => <p key={r.id + e}>{e}: {(r as any)[e]}</p>)}
-              </Card>
-            </Col>
-          )
-        )}
+        {result?.map((r: ICreateProject) => (
+          <Col span={6} key={r.id}>
+            <Card
+              headStyle={{ background: 'var(--secondary-light-amber)' }}
+              title={r.title}
+              bordered={false}
+              extra={extraElement(r.id)}
+            >
+              <p>
+                <b>Description</b> {r?.description}
+              </p>
+              <p>
+                <b>Start Date</b> {dayjs(r?.startDate).format('DD/MM/YYYY')}
+              </p>
+              <p>
+                <b>End Date</b> {dayjs(r?.endDate).format('DD/MM/YYYY')}
+              </p>
+            </Card>
+          </Col>
+        ))}
       </ProjectListRow>
     </>
   );

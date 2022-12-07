@@ -1,4 +1,5 @@
 import { OpenDeleteResultModal } from './project';
+import { UseMutateFunction } from '@tanstack/react-query';
 
 export interface IComponentChildren {
   children: React.ReactElement
@@ -23,3 +24,32 @@ export interface ConfirmModalType {
   onClose?: (() => void)
   styles?: { gap: string }
 }
+
+export type FormFinish = (errorInfo: any) => void
+
+export type Void = () => void
+
+export interface IQueryData {
+  isLoading: false | true
+  error: Error | null
+  status: 'error' | 'success' | 'loading'
+}
+
+export type Mutate<RequestData, ResponseErrorData> = UseMutateFunction<
+unknown,
+{
+  response: {
+    status: number
+    data: ResponseErrorData
+  }
+},
+RequestData,
+unknown
+>;
+
+export type UseMutation<Success, Error, ResponseErrorData, RequestData> = (
+  options: {} | { onSuccess: Success, onError: Error }
+) => {
+  mutate: Mutate<RequestData, ResponseErrorData>
+  isLoading: boolean
+};

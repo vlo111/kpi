@@ -16,8 +16,26 @@ export interface ICreateTemplate {
 
 export type OpenDeleteResultModal =
   | { remove: (name: string) => void, fields: string }
-  | undefined
+  | undefined;
 
-export type Date = Moment | null
+export type Date = Moment | null;
 
-export type DisabledDate = (current: Moment, item: string) => boolean
+export type DisabledDate = (current: Moment, item: string) => boolean;
+
+export interface ICreateProject {
+  id: string
+  title: string
+  description: string
+  startDate: string
+  endDate: string
+  status: string
+  stepStatus: string
+}
+
+export type ProjectErrorResponse = (data: {
+  response: { status: number, data: { message: string } }
+}) => void;
+
+export type ProjectSuccessResponse = (
+  response: { status: number, data: { id: string } }
+) => void;

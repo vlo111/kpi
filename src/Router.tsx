@@ -22,6 +22,7 @@ import UserProfile from './pages/Profile';
 import ChangePassword from './pages/Profile/ChangePassword';
 import { CreateProject } from './pages/Project/Create';
 import { ProjectList } from './pages/Project/List';
+import { EditProject } from './pages/Project/Edit';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,7 +42,7 @@ export const router = createBrowserRouter(
         <Route path={PATHS.PROJECT}>
           {/* <Route index element={<CreateProject />} /> */}
           <Route path={PATHS.PROJECTCREATE} element={<CreateProject />} />
-          <Route path={PATHS.PROJECTEDIT} element={<CreateProject />} />
+          <Route path={PATHS.PROJECTEDIT} element={<EditProject />} />
           <Route path={PATHS.PROJECTS} element={<ProjectList />} />
         </Route>
         <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
