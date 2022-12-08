@@ -22,6 +22,10 @@ export const AsnForm = styled(Form)`
     padding: 0;
 
     > label {
+      overflow: hidden;
+      display: block;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       padding: 0;
       color: var(--dark-2);
       font-size: var(--base-font-size);

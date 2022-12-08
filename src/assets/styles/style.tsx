@@ -115,6 +115,48 @@ const GlobalStyle = createGlobalStyle`
       color: var(--dark-border-ultramarine);
     }
   }
+
+  .asn-select-primary {
+    padding: 0;
+    border: 1px solid var(--dark-5);
+    border-radius: 0 0 5px 5px;
+    box-shadow: none;
+
+    .ant-select-item-option {
+      height: 58px;
+      padding: 19px 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--dark-2);
+      font-size: var(--base-font-size);
+
+      &-active:not(.ant-select-item-option-disabled) {
+        background-color: var(--primary-light-2);
+      }
+
+      &-selected:not(.ant-select-item-option-disabled) {
+        font-weight: var(--font-semibold);
+        background-color: var(--primary-light-3);
+      }
+
+      &:hover {
+        background: var(--primary-light-1);
+      }
+
+      &:not(:first-child) {
+        border-top: 1px solid var(--dark-border-ultramarine);
+      }
+    }
+  }
+
+  .asn-select-default{
+    .ant-select-item-option {
+      border-top: 0;
+      height: 38px;
+      border-radius: 6px;
+    }
+  }
 `;
 
 export default GlobalStyle;
