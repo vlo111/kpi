@@ -27,6 +27,4 @@ export const AsnDatePicker = styled(DatePicker)`
     border: 1px solid var(--dark-border-ultramarine);
     box-shadow: var(--input-box-shadow);
   }
-  }
-  }
 `;
