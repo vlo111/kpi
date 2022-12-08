@@ -51,7 +51,7 @@ const InputResult: React.FC = () => {
                 </span>
                 <div className="result-container">
                   <div className="result-area">
-                    <AsnCollapse key={`${field.key}`} id={`${field.key}`}>
+                    <AsnCollapse id={`${field.key}`}>
                       <Panel
                         key={`${field.key}`}
                         header={HeaderElement(
@@ -83,18 +83,12 @@ const InputResult: React.FC = () => {
             ))}
             <Row>
               <AsnButton
-                style={{
-                  width: '14rem',
-                  margin: '0 auto',
-                  background: 'white',
-                  height: '44px'
-                }}
                 value="Create"
                 onClick={() =>
                   add({
-                    resultAreaInput: '',
-                    expectedList: [{}],
-                    activities: [{ activityInput: '', milestones: [{}] }]
+                    title: '',
+                    expectedResults: [{ measurement: 'NUMBER' }],
+                    inputActivities: [{ title: '', milestones: [{ measurement: 'NUMBER' }] }]
                   })
                 }
               >

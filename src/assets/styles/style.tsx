@@ -157,6 +157,20 @@ const GlobalStyle = createGlobalStyle`
       border-radius: 6px;
     }
   }
+
+  .result-area-tooltip {
+    .ant-tooltip-inner {
+      background-color: var(--tooltip-color);
+      border-radius: 40px;
+      padding: 2rem;
+      width: 39rem;
+    }
+
+    .ant-tooltip-arrow-content:before {
+      background: var(--tooltip-color);
+    }
+  }
+
 `;
 
 export default GlobalStyle;

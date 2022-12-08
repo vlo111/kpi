@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Input } from 'antd';
+import { Input, InputNumber } from 'antd';
 
 const defaultStyle = css`
     height: 44px;
@@ -24,6 +24,25 @@ const AsnInput = styled(Input)`
   ${defaultStyle}
 `;
 
+const AsnInputNumber = styled(InputNumber)`
+  ${defaultStyle}
+  
+  .hide {
+    background: red;
+    /* Chrome, Safari, Edge, Opera */
+    .ant-input-number-handler-wrap::-webkit-outer-spin-button,
+    .ant-input-number-handler-wrap::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+  }
+`;
+
 const AsnTextArea = styled(Input.TextArea)`
   ${defaultStyle}
 `;
@@ -36,4 +55,4 @@ const AsnPassword = styled(Input.Password)`
 
 AsnInput.Password = AsnPassword;
 
-export { AsnInput, AsnTextArea, AsnPassword };
+export { AsnInput, AsnTextArea, AsnPassword, AsnInputNumber };

@@ -70,7 +70,6 @@ const InputActivity: React.FC<{ resultId: number }> = ({ resultId }) => {
                         className="activity-block"
                       >
                         <AsnCollapse
-                          key={`activity_${resultId}_${activity.key}`}
                           id={`activity_${resultId}_${activity.key}`}
                         >
                           <Panel
@@ -117,15 +116,9 @@ const InputActivity: React.FC<{ resultId: number }> = ({ resultId }) => {
                     ))}
                     <Row>
                       <AsnButton
-                        style={{
-                          background: 'white',
-                          width: '14rem',
-                          margin: '0 auto',
-                          height: '44px'
-                        }}
                         value="Create"
                         onClick={() => {
-                          addActivity({ activityInput: '', milestones: [{}] });
+                          addActivity({ title: '', milestones: [{ measurement: 'NUMBER' }] });
                         }}
                       >
                         +Add Activity

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { v4 as uuid } from 'uuid';
 
 import Boxes from '../Boxes';
 import { AsnForm } from '../../../Forms/Form';
@@ -27,7 +26,6 @@ const ExpectedResult: React.FC<{ resultId: number }> = ({ resultId }) => {
           {(expectedList, { add, remove }) => (
             <Boxes
               type={'expected'}
-              key={uuid()}
               add={add}
               onDelete={onDelete}
               remove={remove}

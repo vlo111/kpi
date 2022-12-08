@@ -87,6 +87,10 @@ const ProjectInputForm = styled(AsnForm)`
     button {
       border: 1px solid var(--dark-5) !important;
       color: var(--dark-2) !important;
+      background: var(--white);
+      width: 14rem;
+      margin: 0 auto;
+      height: 44px;
 
       span {
         font-size: var(--base-font-size) !important;
@@ -196,8 +200,8 @@ export const First: React.FC = () => {
         resultAreas: [
           {
             title: '',
-            expectedResults: [{}],
-            inputActivities: [{ title: '', milestones: [{}] }]
+            expectedResults: [{ measurement: 'NUMBER' }],
+            inputActivities: [{ title: '', milestones: [{ measurement: 'NUMBER' }] }]
           }
         ]
       });

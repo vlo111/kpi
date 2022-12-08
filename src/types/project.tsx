@@ -1,7 +1,6 @@
 import { IUser } from './auth';
 import { Moment } from 'moment';
 import { FormListFieldData } from 'antd';
-import { RuleObject } from 'antd/lib/form';
 
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
@@ -59,13 +58,6 @@ export interface ProjectInputBoxProps {
   remove: (index: number | number[]) => void
   onDelete: (remove: (index: number | number[]) => void, field: number) => void
 }
-
-export type ProjectTargetRule = (
-  max: number
-) => Array<
-| (() => { validator: (_: RuleObject, value: any) => Promise<void> })
-| { required: boolean, message: string, pattern: RegExp }
->
 
 export interface IResultBox {
   code: string

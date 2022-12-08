@@ -1,41 +1,19 @@
 import { Col, Row } from 'antd';
 import React, { useState } from 'react';
-import { StoreValue } from 'antd/lib/form/interface';
 import { CaretRightOutlined } from '@ant-design/icons';
 
 import { AsnForm } from '../../../Forms/Form';
 import { AsnButton } from '../../../Forms/Button';
 import { AsnSelect } from '../../../Forms/Select';
-import { AsnInput, AsnTextArea } from '../../../Forms/Input';
-import { ProjectInputBoxProps, ProjectTargetRule } from '../../../../types/project';
+import { AsnInput, AsnTextArea, AsnInputNumber } from '../../../Forms/Input';
+import { ProjectInputBoxProps } from '../../../../types/project';
 import { ReactComponent as DeleteSvg } from '../../../../assets/icons/delete.svg';
+import { RuleObject } from 'antd/lib/form';
 
 const { Option } = AsnSelect;
 
 const firstLabel: (text: string, i: number) => string = (text, i) =>
   i === 0 ? text : '';
-
-const TargetRule: ProjectTargetRule = (max) => [
-  {
-    required: true,
-    message: '',
-    pattern: /^[0-9]+$/
-  },
-  () => ({
-    async validator (_, value: StoreValue) {
-      if (value === null) {
-        throw new Error('');
-      }
-      if (isNaN(value)) {
-        throw new Error('');
-      }
-      if (!(value >= 1 && value <= max)) {
-        throw new Error('');
-      }
-      return await Promise.resolve();
-    }
-  })
-];
 
 const PlaceHolderExpectedResult =
   'individuals with improved technical and soft skills following participation in USG-assisted workforce development programs';
@@ -52,13 +30,30 @@ const Boxes: React.FC<ProjectInputBoxProps> = ({
   activityId,
   type
 }) => {
-  const [max, setMax] = useState<number>(100);
+  const [max, setMax] = useState<number>(99999999999);
+
+  const targetValidation = [
+    {
+      required: true,
+      message: undefined
+    },
+    {
+      message: ' ',
+      validator: async (_: RuleObject, value: number) => {
+        if (!(value >= 1 && value <= max)) {
+          throw new Error('');
+        } else {
+          return await Promise.resolve();
+        }
+      }
+    }
+  ];
 
   return (
     <>
       {list.map((item, index: number) => (
         <Row
-          key={`expected_${resultId}${activityId ?? ''}${item.key}`}
+          key={`${resultId}.${activityId ?? ''}.${index}`}
           gutter={16}
           justify="start"
           align="top"
@@ -103,7 +98,6 @@ const Boxes: React.FC<ProjectInputBoxProps> = ({
               <AsnSelect
                 dropdownAlign={{ offset: [0, -1] }}
                 getPopupContainer={(trigger) => trigger.parentNode}
-                defaultValue="Select"
                 popupClassName="asn-select-primary"
                 suffixIcon={
                   <CaretRightOutlined
@@ -113,7 +107,8 @@ const Boxes: React.FC<ProjectInputBoxProps> = ({
                 }
                 style={{ width: '148px', height: '58px' }}
                 onChange={(value) => {
-                  if (value === 'number') {
+                  console.log(value);
+                  if (value === 'NUMBER') {
                     setMax(99999999999);
                   } else {
                     setMax(100);
@@ -130,9 +125,10 @@ const Boxes: React.FC<ProjectInputBoxProps> = ({
             <AsnForm.Item
               name={[item.name, 'target']}
               label={firstLabel('Target', index)}
-              rules={TargetRule(max)}
+              rules={targetValidation}
             >
-              <AsnInput placeholder={'100'} />
+              {/* <AsnInput placeholder={'100'} /> */}
+              <AsnInputNumber className="hide" placeholder={'100'} />
             </AsnForm.Item>
           </Col>
           {list.length > 1 && (
@@ -149,14 +145,8 @@ const Boxes: React.FC<ProjectInputBoxProps> = ({
       ))}
       <Row style={{ width: 'calc(100% - 10px)' }}>
         <AsnButton
-          style={{
-            background: 'white',
-            width: '14rem',
-            margin: '0 auto',
-            height: '44px'
-          }}
           value="Create"
-          onClick={() => add()}
+          onClick={() => add({ measurement: 'NUMBER' })}
         >
           +Add {type === 'expected' ? 'expected result' : 'Milestone'}
         </AsnButton>
