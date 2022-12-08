@@ -1,22 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Row, Col, Button, Upload, Typography } from 'antd';
+import { Row, Col, Button, Upload, Typography, Avatar } from 'antd';
 
 import useCurrentUser from '../../api/UserProfile/useCurrentUser';
 import { PATHS } from '../../helpers/constants';
 import { TVoid } from '../../types/global';
 import { IUser } from '../../types/auth';
-import AsnAvatar from '../../components/Forms/Avatar';
+// import AsnAvatar from '../../components/Forms/Avatar';
 import { CreateTemplateContainer } from '../../components/Profile';
 import { AsnButton } from '../../components/Forms/Button';
 import EditProfile from '../../components/Users/EditUserProfile';
 import { ReactComponent as UploadUser } from '../../assets/icons/upload.svg';
 import { ReactComponent as Edit } from '../../assets/icons/edit.svg';
+import axios from 'axios';
+import useEditUser from '../../api/UserProfile/useEditUser';
 
 const { Title } = Typography;
 
 const UserProfile: React.FC = () => {
   const { data: user }: { data: IUser } = useCurrentUser();
+  const [photo, setPhoto] = useState('');
   const navigate = useNavigate();
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
@@ -24,6 +27,47 @@ const UserProfile: React.FC = () => {
   const onEditedPublishProject: TVoid = () => {
     setIsOpenCreateActivityModal(true);
   };
+
+  const { mutate: saveChanges }: any = useEditUser(
+    {
+      onSuccess: () => {
+        console.log('ok');
+      },
+      onError: () => {
+        console.log('err');
+      }
+    }
+  );
+
+  useEffect(() => {
+    if (photo !== '') {
+      saveChanges({ photo });
+    }
+  }, [photo]);
+
+  const props: any = {
+    customRequest: async (options: { onSuccess: any, onError: any, file: any }): Promise<void> => {
+      const { onSuccess, onError, file } = options;
+      const fmData = new FormData();
+      fmData.append('photo', file);
+      try {
+        const res = await axios.post(
+          'https://apimeetk.analysed.ai/api/media/upload/photo',
+          fmData
+        );
+        onSuccess('ok');
+        console.log(photo);
+        setPhoto(res?.data?.result[0]);
+      } catch (err) {
+        console.log(err);
+        onError({ err });
+      }
+    },
+    name: 'photo',
+    accept: '.jpg,.png,.heic,.webp',
+    showUploadList: false
+  };
+
   return (
     <CreateTemplateContainer>
       <Col
@@ -47,12 +91,15 @@ const UserProfile: React.FC = () => {
       </Col>
       <Row gutter={[0, 32]} style={{ padding: '64px 60px' }}>
         <Col md={7} xs={12} span={8}>
-          <Upload>
-            <AsnAvatar
-              letter={`${user?.firstName?.charAt(0)}${user?.lastName?.charAt(
-                0
-              )}`}
+          <Upload
+          {...props}
+          >
+            <Avatar
+              // letter={`${user?.firstName?.charAt(0)}${user?.lastName?.charAt(
+              //   0
+              // )}`}
               size={128}
+              src={(photo !== '') || user.photo}
             />
             <Button icon={<UploadUser />}></Button>
           </Upload>
