@@ -1,22 +1,22 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-import client from "../client";
+import client from '../client';
 
-const url = "api/project/:id";
+const url = 'api/project/:id';
 
-const useGetUSSCenterById = (id, options = { enabled: true }) => {
+const useGetUSSCenterById: any = (id: string, options = { enabled: true }) => {
   const result = useQuery(
     [url, id],
-    async (values) => await client.get(url.replace(":id", id), values),
+    async (values) => await client.get(url.replace(':id', id), values),
     {
       select: (data) => data?.data,
-      ...options,
+      ...options
     }
   );
   const { data, isSuccess } = result;
   return {
     ...result,
-    data: isSuccess ? data : [],
+    data: isSuccess ? data : []
   };
 };
 
