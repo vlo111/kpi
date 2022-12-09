@@ -11,6 +11,8 @@ export const PATHS = {
   DASHBOARD: 'dashboard',
   PROJECT: 'project',
   PROJECTCREATE: 'create',
+  PROJECTEDIT: ':id',
+  PROJECTS: 'list',
   USERPROFILE: 'user-profile',
   CHANGEPASSWORD: 'change-password',
   PROJECTOVERVIEW: 'project-overview/:id'
@@ -63,14 +65,6 @@ export const VALIDATE_FILLED = {
   organisation: "'organization' must be between 2 and 128 characters",
   password: "'password' must be between 8 and 16 characters",
   confirm: "'repeatPassword' must be between 8 and 64 characters"
-};
-
-export const Rules = {
-  rules: [
-    {
-      required: true
-    }
-  ]
 };
 
 export const PlaceHolderDescription =
