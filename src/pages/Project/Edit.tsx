@@ -1,14 +1,14 @@
 import moment from 'moment';
+import { notification } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { FormProject } from '.';
 import { FormFinish, Void } from '../../types/global';
 import { AsnForm } from '../../components/Forms/Form';
-import { useGetProjectById } from '../../api/Project/useGetProject';
 import { ProjectErrorResponse } from '../../types/project';
 import useEditProject from '../../api/Project/useEditProject';
-import { notification } from 'antd';
+import { useGetProjectById } from '../../api/Project/useGetProject';
 
 export const EditProject: React.FC = () => {
   const navigate = useNavigate();
@@ -39,7 +39,6 @@ export const EditProject: React.FC = () => {
     } else {
       setError(response.data.message);
     }
-    if (id !== undefined) navigate(`../overview/${id}`, { replace: true });
   };
 
   const { mutate: updateProject } = useEditProject({
@@ -49,14 +48,16 @@ export const EditProject: React.FC = () => {
 
   const onFinish: FormFinish = useCallback(
     (values) => {
-      updateProject({
-        id: id ?? '',
-        data: {
-          ...values,
-          startDate: new Date(values.startDate).toJSON(),
-          endDate: new Date(values.endDate).toJSON()
-        }
-      });
+      if (id !== undefined) {
+        updateProject({
+          id,
+          data: {
+            ...values,
+            startDate: new Date(values.startDate).toJSON(),
+            endDate: new Date(values.endDate).toJSON()
+          }
+        });
+      }
     },
     [form]
   );
