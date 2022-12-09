@@ -20,12 +20,51 @@ const defaultStyle = css`
     }
 `;
 
+const primaryStyle = css`
+  height: 44px;
+  font-size: 16px;
+  background: var(--white);
+  border-radius: 5px;
+
+  :hover, :focus {
+    border: 1px solid var(--dark-5) !important;
+    box-shadow: none;
+
+    &.ant-input-number-status-error {
+      border: 1px solid var(--error) !important;
+      box-shadow: none !important;
+    }
+  }
+
+  &.ant-input-number-focused:not(.ant-input-number-status-error) {
+    border: 1px solid var(--dark-5);
+    box-shadow: none;
+
+    :hover {
+      border: 1px solid var(--dark-5) !important;
+    }
+  }
+
+  &.ant-input-number-status-error {
+    border: 1px solid var(--error) !important;
+    box-shadow: none !important;
+  }
+  
+  &.hideArrow {
+    .ant-input-number-handler-wrap {
+      display: none;
+    }
+  }
+`;
+
 const AsnInput = styled(Input)`
   ${defaultStyle}
 `;
 
 const AsnInputNumber = styled(InputNumber)`
-  ${defaultStyle}
+  &.primary {
+    ${primaryStyle}
+  }
 `;
 
 const AsnTextArea = styled(Input.TextArea)`
