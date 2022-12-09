@@ -15,7 +15,7 @@ export const PATHS = {
   PROJECTS: 'list',
   USERPROFILE: 'user-profile',
   CHANGEPASSWORD: 'change-password',
-  PROJECTOVERVIEW: 'project-overview/:id'
+  PROJECTOVERVIEW: 'project/overview/:id'
 };
 
 export const VALIDATE_MESSAGES = {
