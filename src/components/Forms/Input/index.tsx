@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Input } from 'antd';
+import { Input, InputNumber } from 'antd';
 
 const defaultStyle = css`
     height: 44px;
@@ -24,6 +24,10 @@ const AsnInput = styled(Input)`
   ${defaultStyle}
 `;
 
+const AsnInputNumber = styled(InputNumber)`
+  ${defaultStyle}
+`;
+
 const AsnTextArea = styled(Input.TextArea)`
   ${defaultStyle}
 `;
@@ -36,4 +40,4 @@ const AsnPassword = styled(Input.Password)`
 
 AsnInput.Password = AsnPassword;
 
-export { AsnInput, AsnTextArea, AsnPassword };
+export { AsnInput, AsnTextArea, AsnPassword, AsnInputNumber };
