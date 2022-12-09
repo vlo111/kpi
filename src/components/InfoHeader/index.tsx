@@ -1,9 +1,10 @@
 import React from 'react';
+import moment from 'moment';
 import styled from 'styled-components';
 import { Col, Row, Breadcrumb, Badge, Divider, Typography } from 'antd';
 import Icon from '@ant-design/icons';
 
-import { IProjectOverview } from '../../types/project';
+import { IInfoHeader } from '../../types/global';
 import { ReactComponent as WarningSvg } from '../../assets/icons/projectWarning.svg';
 import { ReactComponent as PeopleSvg } from '../../assets/icons/people.svg';
 
@@ -32,7 +33,7 @@ const AntIcon = styled(Icon)`
 }
 `;
 const { Text } = Typography;
-const SubActivityHeader: React.FC<IProjectOverview> = ({ overview }) => {
+const InfoHeader: React.FC<IInfoHeader> = ({ overview, project }) => {
   return (
     <Row style={{ padding: '20px' }}>
       <Col>
@@ -44,25 +45,21 @@ const SubActivityHeader: React.FC<IProjectOverview> = ({ overview }) => {
         </Breadcrumb>
         }
         <Row gutter={[16, 0]}>
-          <Col span={4} style={{ color: 'var(--dark-border-ultramarine)', fontSize: 'var(--headline-font-size)' }}> PYTHON COURSE</Col>
+          <Col span={4} style={{ color: 'var(--dark-border-ultramarine)', fontSize: 'var(--headline-font-size)' }}> {project?.title}</Col>
           <Col span={14} offset={1} style={{ color: 'var(--dark-1)' }}>
-            Includes procedural and data abstractions, program design,
-            debugging, testing, and documentation. Covers data types, control
-            structures, functions, parameter passing, library functions, arrays,
-            inheritance and object oriented design. Laboratory exercises in
-            Python.
+              {project?.description}
             <Row align='middle' style={{ marginTop: '20px' }}>
               <Col>
-                <AntBadge color="var(--secondary-green)" text="Active" />
+                <AntBadge color="var(--primary-light-orange)" text="Active" />
                 <AntDivider type='vertical' />
               </Col>
               <Col style={{ fontSize: 'var(--base-font-size)' }}>
-                10/05/2022 - 10/05/2022
+               {moment(project?.startDate).format('DD/MM/YYYY')} - {moment(project?.endDate).format('DD/MM/YYYY')}
                 <AntDivider type='vertical' />
               </Col>
               <Col>
                 <AntIcon component={PeopleSvg} />
-                <Text underline={true} style={{ fontSize: 'var(--base-font-size)', marginLeft: '8px' }}>17</Text>
+                <Text underline={true} style={{ fontSize: 'var(--base-font-size)', marginLeft: '8px' }}>1</Text>
                 <AntDivider type='vertical' />
               </Col>
               <Col>
@@ -75,4 +72,4 @@ const SubActivityHeader: React.FC<IProjectOverview> = ({ overview }) => {
     </Row>
   );
 };
-export default SubActivityHeader;
+export default InfoHeader;

@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
     --secondary-light-green: #EBF1F0;
     --secondary-light-orage: #F6976D;
     --secondary-light-amber: #F3C262;
+    --primary-light-orange: #F07760;
 
     --dark-1: #111B23;
     --dark-2: #263238;

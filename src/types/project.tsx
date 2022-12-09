@@ -14,9 +14,6 @@ export type OpenDeleteResultModal =
 
 export type Date = Moment | null;
 
-export interface IProjectOverview {
-  overview?: boolean
-}
 export type DisabledDate = (current: Moment, item: string) => boolean;
 
 export interface ICreateProject {
