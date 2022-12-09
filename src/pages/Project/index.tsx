@@ -3,10 +3,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { Col, Row, Space, Typography } from 'antd';
 
-import {
-  PlaceHolderDescription,
-  VALIDATE_MESSAGES
-} from '../../helpers/constants';
+import { VALIDATE_MESSAGES } from '../../helpers/constants';
 import { AsnInput, AsnTextArea } from '../../components/Forms/Input';
 import { AsnDatePicker } from '../../components/Forms/DatePicker';
 import { AsnButton } from '../../components/Forms/Button';
@@ -15,6 +12,9 @@ import { AsnForm } from '../../components/Forms/Form';
 import { DisabledDate } from '../../types/project';
 
 const { Title } = Typography;
+
+const PlaceHolderDescription =
+  'Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills Armenia Workforce Development Activity (AWDA) is a five-year program, designed to provide the youth and women with the opportunities to improve their skills';
 
 export const ProjectStyle = styled.div`
   width: clamp(16rem, 41.7vw, 60rem);
