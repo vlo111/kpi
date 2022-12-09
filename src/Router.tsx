@@ -25,7 +25,6 @@ import { CreateProject } from './pages/Project/Create';
 import { ProjectList } from './pages/Project/List';
 import { EditProject } from './pages/Project/Edit';
 import { ProjectSteps } from './pages/ProjectSteps';
-import { ProjectOverview } from './pages/ProjectOverview';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
