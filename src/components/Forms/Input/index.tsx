@@ -26,21 +26,6 @@ const AsnInput = styled(Input)`
 
 const AsnInputNumber = styled(InputNumber)`
   ${defaultStyle}
-  
-  .hide {
-    background: red;
-    /* Chrome, Safari, Edge, Opera */
-    .ant-input-number-handler-wrap::-webkit-outer-spin-button,
-    .ant-input-number-handler-wrap::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    /* Firefox */
-    input[type=number] {
-      -moz-appearance: textfield;
-    }
-  }
 `;
 
 const AsnTextArea = styled(Input.TextArea)`

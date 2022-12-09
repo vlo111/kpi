@@ -134,7 +134,7 @@ const setError: SetResultArea = (values) => {
 export const First: React.FC = () => {
   const { id } = useParams();
 
-  const resultArea = useGetResultArea(id);
+  const resultAreas = useGetResultArea(id);
 
   const [form] = AsnForm.useForm();
 
@@ -184,8 +184,8 @@ export const First: React.FC = () => {
   };
 
   useEffect(() => {
-    if (resultArea !== undefined && resultArea.length !== 0) {
-      form.setFieldsValue(resultArea);
+    if (resultAreas !== undefined && resultAreas.length !== 0) {
+      form.setFieldsValue({ resultAreas });
     } else {
       // form.setFieldsValue({
       //   result: [
@@ -206,7 +206,7 @@ export const First: React.FC = () => {
         ]
       });
     }
-  }, [resultArea]);
+  }, [resultAreas]);
 
   return (
     <ProjectInputForm

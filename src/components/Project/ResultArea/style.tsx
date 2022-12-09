@@ -279,4 +279,13 @@ export const InputResultArea = styled.div`
     padding: 2px !important;
     width: 4px !important;
   }
+
+  .ant-input-number {
+    width: 58px;
+    height: 58px;
+    
+    input {
+      border: 1px solid var(--dark-5) !important;
+    }
+  }
 `;
