@@ -15,7 +15,7 @@ export const ProjectList: FC = () => {
   const { isLoading } = useGetProjects(
     {},
     {
-      onSuccess: (data: any) =>
+      onSuccess: (data) =>
         setResult((prev) => ({
           data: data.result,
           totalRecords: data.count,
