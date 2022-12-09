@@ -27,7 +27,5 @@ yarn-lock
 .npm/
 
 # configs
- .eslintrc.json
  env.d.ts
- tsconfig.json
-README.md
+ README.md

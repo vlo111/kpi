@@ -62,7 +62,11 @@ export const CreateProject: React.FC = () => {
   };
 
   const onSkipUser: Void = () => {
-    if (openDeleteModal !== '') { navigate(`../overview/${openDeleteModal}`, { replace: true }); }
+    if (openDeleteModal !== '') {
+      // navigate(`../overview/${openDeleteModal}`, { replace: true });
+      // navigate(`../${openDeleteModal}/steps/${ProjectSteps.First}`, { replace: true });
+      navigate(`../overview/${openDeleteModal}`, { replace: true });
+    }
   };
 
   return (
