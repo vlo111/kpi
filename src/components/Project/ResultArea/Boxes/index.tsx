@@ -128,7 +128,7 @@ const Boxes: React.FC<ProjectInputBoxProps> = ({
               rules={targetValidation}
             >
               {/* <AsnInput placeholder={'100'} /> */}
-              <AsnInputNumber className="hide" placeholder={'100'} />
+              <AsnInputNumber className="primary hideArrow" placeholder={'100'} />
             </AsnForm.Item>
           </Col>
           {list.length > 1 && (
@@ -143,7 +143,7 @@ const Boxes: React.FC<ProjectInputBoxProps> = ({
           )}
         </Row>
       ))}
-      <Row style={{ width: 'calc(100% - 10px)' }}>
+      <Row>
         <AsnButton
           value="Create"
           onClick={() => add({ measurement: 'NUMBER' })}
