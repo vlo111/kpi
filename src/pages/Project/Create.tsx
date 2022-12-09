@@ -12,7 +12,6 @@ import {
 import useCreateProject from '../../api/Project/useCreateProject';
 import { ConfirmModal } from '../../components/Forms/Modal/Confirm';
 import { ICreateProjectData } from '../../types/api/project/get-project';
-import { ProjectSteps } from '../../helpers/constants';
 
 export const CreateProject: React.FC = () => {
   const navigate = useNavigate();
@@ -65,7 +64,8 @@ export const CreateProject: React.FC = () => {
   const onSkipUser: Void = () => {
     if (openDeleteModal !== '') {
       // navigate(`../overview/${openDeleteModal}`, { replace: true });
-      navigate(`../${openDeleteModal}/steps/${ProjectSteps.First}`, { replace: true });
+      // navigate(`../${openDeleteModal}/steps/${ProjectSteps.First}`, { replace: true });
+      navigate(`../overview/${openDeleteModal}`, { replace: true });
     }
   };
 

@@ -11,6 +11,7 @@ export const PATHS = {
   DASHBOARD: 'dashboard',
   PROJECT: 'project',
   PROJECTCREATE: 'create',
+  OVERVIEW: 'overview/:id',
   PROJECTEDIT: ':id',
   PROJECTS: 'list',
   STEPS: ':id/steps/:index',
