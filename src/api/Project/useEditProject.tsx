@@ -1,11 +1,25 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import client from "../client";
+import { noop } from "../../helpers/utils";
 
-import client from '../client';
-import { UseEditProject } from '../../types/api/project/get-project';
+import { URL_GET_PROJECTS } from "./useGetProject";
 
-const url = 'api/project';
+const url = "api/project/:id";
 
-const useEditProject: UseEditProject = (options = {}) =>
-  useMutation(async (params) => await client.put(`${url}/${params.id}`, params.data), options);
+const useEditProject = (params, { onSuccess = noop, ...restOptions }) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    async (values) => await client.put(url.replace(":id", params.id), values),
+    {
+      ...restOptions,
+      onSuccess: () => {
+        queryClient.invalidateQueries([URL_GET_PROJECTS]);
+        onSuccess();
+      },
+    }
+  );
+  return mutation;
+};
 
 export default useEditProject;
