@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import { FormFinish, Void } from '../../types/global';
 import { AsnForm } from '../../components/Forms/Form';
@@ -9,7 +9,13 @@ import { AsnButton } from '../../components/Forms/Button';
 import InputResult from '../../components/Project/ResultArea';
 import { useGetResultArea } from '../../api/Project/ResultArea/useGetResultArea';
 import useCreateResultArea from '../../api/Project/ResultArea/useCreateResultArea';
-import { ProjectErrorResponse, SetResultArea, SetTitleColor } from '../../types/project';
+import {
+  ProjectErrorResponse,
+  SetResultArea,
+  SetTitleColor
+} from '../../types/project';
+import useUpdateResultArea from '../../api/Project/ResultArea/useUpdateResultArea';
+import { PATHS } from '../../helpers/constants';
 
 const VALIDATE_MESSAGES_PROJECT_INPUT = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -45,7 +51,7 @@ const ProjectInputForm = styled(AsnForm)`
   }
 
   .ant-collapse-content-box {
-    padding: 2rem !important
+    padding: 2rem !important;
   }
 
   .form-footer {
@@ -115,15 +121,20 @@ const setError: SetResultArea = (values) => {
   const errorsIndex = [...new Set(values.errorFields.map((r) => r.name[1]))];
 
   const resultAreaElement: (id: string) => void = (id) => {
-    const resultAreaElement = document.getElementById(`ans-title-${id}`) as HTMLElement;
+    const resultAreaElement = document.getElementById(
+      `ans-title-${id}`
+    ) as HTMLElement;
 
     setTitleColor(resultAreaElement, 'var(--error)');
   };
 
-  const resultAreaElements: HTMLCollectionOf<HTMLElement> = document.getElementsByClassName('result_area_title') as HTMLCollectionOf<HTMLElement>;
+  const resultAreaElements: HTMLCollectionOf<HTMLElement> =
+    document.getElementsByClassName(
+      'result_area_title'
+    ) as HTMLCollectionOf<HTMLElement>;
 
   if (!_.isEmpty(resultAreaElements)) {
-    Array.from(resultAreaElements).forEach(element => {
+    Array.from(resultAreaElements).forEach((element) => {
       setTitleColor(element, 'var(--dark-2)');
     });
   }
@@ -134,12 +145,21 @@ const setError: SetResultArea = (values) => {
 export const First: React.FC = () => {
   const { id } = useParams();
 
+  const navigate = useNavigate();
+
   const resultAreas = useGetResultArea(id);
 
   const [form] = AsnForm.useForm();
 
   const onSuccess: Void = () => {
     console.log('success');
+    const path = `/project/${PATHS.STEPS}`
+      .replace(':id', id ?? '')
+      .replace(':index', '1');
+
+    console.log(path);
+
+    navigate(path);
     // notification.success({
     //   bottom: 50,
     //   placement: 'topRight',
@@ -165,15 +185,24 @@ export const First: React.FC = () => {
     onError
   });
 
+  const { mutate: updateResultArea } = useUpdateResultArea({
+    onSuccess,
+    onError
+  });
+
   const onFinish: FormFinish = (values: FormData) => {
-    console.log(values, 'finish');
-    // nextCurrent();
-    console.log(id, form.getFieldsValue());
     if (id !== undefined) {
-      createResultArea({
-        id,
-        data: form.getFieldsValue()
-      });
+      if (resultAreas?.length != null) {
+        updateResultArea({
+          id,
+          data: form.getFieldsValue()
+        });
+      } else {
+        createResultArea({
+          id,
+          data: form.getFieldsValue()
+        });
+      }
     }
   };
 
@@ -187,21 +216,14 @@ export const First: React.FC = () => {
     if (resultAreas !== undefined && resultAreas.length !== 0) {
       form.setFieldsValue({ resultAreas });
     } else {
-      // form.setFieldsValue({
-      //   result: [
-      //     {
-      //       title: 'qw eqw e',
-      //       expectedResults: [{ code: 'asdasd' }],
-      //       inputActivities: [{ title: 'zaza ', milestones: [{ measurement: 'ATTACHMENT', statement: 'barev dzez', target: '78' }] }]
-      //     }
-      //   ]
-      // });
       form.setFieldsValue({
         resultAreas: [
           {
             title: '',
             expectedResults: [{ measurement: 'NUMBER' }],
-            inputActivities: [{ title: '', milestones: [{ measurement: 'NUMBER' }] }]
+            inputActivities: [
+              { title: '', milestones: [{ measurement: 'NUMBER' }] }
+            ]
           }
         ]
       });

@@ -1,6 +1,6 @@
 import { Steps } from 'antd';
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { First } from './First';
 import { useParams } from 'react-router-dom';
@@ -88,15 +88,11 @@ const AsnStepsHeader = styled(Steps)`
 export const ProjectSteps: React.FC = () => {
   const { index } = useParams();
 
-  const [current] = useState<number>(parseInt(index ?? '0'));
+  const [current, setCurrent] = useState(parseInt(index ?? '0'));
 
-  // const prevCurrent: any = () => {
-  //   setCurrent(current - 1);
-  // };
-  //
-  // const nextCurrent: () => void = () => {
-  //   setCurrent(current + 1);
-  // };
+  useEffect(() => {
+    return setCurrent(parseInt(index ?? '0'));
+  }, [index]);
 
   return (
     <ProjectContainer>
