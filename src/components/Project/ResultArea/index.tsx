@@ -83,6 +83,7 @@ const InputResult: React.FC = () => {
             ))}
             <Row>
               <AsnButton
+                className="transparent"
                 value="Create"
                 onClick={() =>
                   add({

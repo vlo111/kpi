@@ -76,3 +76,20 @@ export interface IResultAreaData {
   inputActivities: IInputActivities
   title: string
 }
+
+export interface IProjectDetailsData {
+  id: string
+  title: string
+}
+
+export interface IProjectDetails {
+  organization: IProjectDetailsData[]
+  sector: IProjectDetailsData[]
+  region: IProjectDetailsData[]
+}
+
+export interface IProjectDetailsItems {
+  title: string
+  name: string
+  onDelete: (remove: (name: string) => void, fields: string) => void
+}

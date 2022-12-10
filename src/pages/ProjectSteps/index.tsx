@@ -2,17 +2,18 @@ import { Steps } from 'antd';
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 
-import { First } from './First';
+import { ResultArea } from './ResultArea';
+import { ProjectDetails } from './ProjectDetails';
 import { useParams } from 'react-router-dom';
 
 const StepList = [
   {
     title: 'Project Input',
-    content: <First />
+    content: <ResultArea />
   },
   {
     title: 'Project details',
-    content: <div>Last</div>
+    content: <ProjectDetails />
   }
 ];
 

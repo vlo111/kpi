@@ -145,6 +145,7 @@ const Boxes: React.FC<ProjectInputBoxProps> = ({
       ))}
       <Row>
         <AsnButton
+          className="transparent"
           value="Create"
           onClick={() => add({ measurement: 'NUMBER' })}
         >

@@ -91,17 +91,8 @@ const ProjectInputForm = styled(AsnForm)`
 
   div:not(:last-child) {
     button {
-      border: 1px solid var(--dark-5) !important;
-      color: var(--dark-2) !important;
-      background: var(--white);
       width: 14rem;
       margin: 0 auto;
-      height: 44px;
-
-      span {
-        font-size: var(--base-font-size) !important;
-        font-weight: var(--font-normal) !important;
-      }
     }
   }
 `;
@@ -142,7 +133,7 @@ const setError: SetResultArea = (values) => {
   errorsIndex.map((i) => resultAreaElement(i));
 };
 
-export const First: React.FC = () => {
+export const ResultArea: React.FC = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -152,32 +143,15 @@ export const First: React.FC = () => {
   const [form] = AsnForm.useForm();
 
   const onSuccess: Void = () => {
-    console.log('success');
     const path = `/project/${PATHS.STEPS}`
       .replace(':id', id ?? '')
       .replace(':index', '1');
 
-    console.log(path);
-
     navigate(path);
-    // notification.success({
-    //   bottom: 50,
-    //   placement: 'topRight',
-    //   message: 'The project saved successfully',
-    //   duration: 3
-    // });
-    // if (id !== undefined) {
-    //   navigate(`../overview/${id}`, { replace: true });
-    // }
   };
 
   const onError: ProjectErrorResponse = ({ response }) => {
     console.log('error', response);
-    // if (response.status === 409) {
-    //   setError('A project with the same name already exists');
-    // } else {
-    //   setError(response.data.message);
-    // }
   };
 
   const { mutate: createResultArea } = useCreateResultArea({

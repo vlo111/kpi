@@ -116,6 +116,7 @@ const InputActivity: React.FC<{ resultId: number }> = ({ resultId }) => {
                     ))}
                     <Row>
                       <AsnButton
+                        className="transparent"
                         value="Create"
                         onClick={() => {
                           addActivity({ title: '', milestones: [{ measurement: 'NUMBER' }] });

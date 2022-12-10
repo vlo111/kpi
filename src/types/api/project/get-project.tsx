@@ -1,6 +1,6 @@
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { ICreateProject, IResultAreaData, ProjectErrorResponse } from '../../project';
+import { ICreateProject, IProjectDetails, IResultAreaData, ProjectErrorResponse } from '../../project';
 import { IQueryData, UseMutation, Void } from '../../global';
 import { Moment } from 'moment';
 
@@ -26,6 +26,11 @@ export interface ICreateResultArea {
 export interface ICreateResultAreaData {
   id: string
   data: IResultAreaData
+}
+
+export interface ICreateProjectDetails {
+  id: string
+  data: IProjectDetails
 }
 
 export interface IEditProjectData {
@@ -60,6 +65,8 @@ export type UseEditProject = UseMutation<Void, ProjectErrorResponse, ResponseErr
 export type UseCreateProject = UseMutation<Void, ProjectErrorResponse, ResponseErrorParam, ICreateProjectData>;
 
 export type UseCreateResultArea = UseMutation<Void, ProjectErrorResponse, ResponseErrorParam, ICreateResultAreaData>;
+
+export type UseCreateProjectDetails = UseMutation<Void, ProjectErrorResponse, ResponseErrorParam, ICreateProjectDetails>;
 
 export interface UseGetProjects {
   isLoading: false | true
