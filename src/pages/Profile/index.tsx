@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Upload, Typography } from 'antd';
+import { RcFile } from 'antd/lib/upload';
 import { DeleteOutlined } from '@ant-design/icons';
 
 import useCurrentUser from '../../api/UserProfile/useCurrentUser';
 import { PATHS } from '../../helpers/constants';
 import { TVoid } from '../../types/global';
-import { IUser } from '../../types/auth';
+import { IUploadProps, IUser, IUserUpload } from '../../types/auth';
 import AsnAvatar from '../../components/Forms/Avatar';
 import { CreateTemplateContainer } from '../../components/Profile';
 import { AsnButton } from '../../components/Forms/Button';
@@ -29,7 +30,7 @@ const UserProfile: React.FC = () => {
     setIsOpenCreateActivityModal(true);
   };
 
-  const { mutate: saveChanges }: any = useEditUser(
+  const { mutate: saveChanges } = useEditUser(
     {
       onSuccess: () => {},
       onError: () => {}
@@ -37,8 +38,8 @@ const UserProfile: React.FC = () => {
   );
 
   const { mutate: imageUpload } = userImageUpload({
-    onSuccess: (options: any) => {
-      const { data: { result } }: any = options;
+    onSuccess: (options: IUserUpload) => {
+      const { data: { result } } = options;
       setPhoto(result[0]);
     }
   });
@@ -49,8 +50,8 @@ const UserProfile: React.FC = () => {
     }
   }, [photo]);
 
-  const props: any = {
-    customRequest: (options: { file: File }) => {
+  const props: IUploadProps = {
+    customRequest: (options: { file: string | Blob | RcFile }) => {
       const { file } = options;
       imageUpload(file);
     },
@@ -59,7 +60,7 @@ const UserProfile: React.FC = () => {
     showUploadList: false
   };
 
-  const onRemove = (): void => {
+  const onRemove: TVoid = () => {
     saveChanges({ photo: '' });
     setPhoto('');
   };
