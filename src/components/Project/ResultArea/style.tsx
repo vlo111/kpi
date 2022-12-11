@@ -37,7 +37,7 @@ export const InputResultArea = styled.div`
         }
 
         > div:nth-child(2) {
-          width: calc(100% - 78px - 158px - 58px - 48px);
+          width: calc(100% - 78px - 164px - 58px - 48px);
           
           &.statement-box {
             min-width: 12rem;
@@ -73,7 +73,6 @@ export const InputResultArea = styled.div`
         }
 
         .delete-result-box {
-          margin-top: 1.4rem;
           cursor: pointer;
         }
       }
@@ -181,9 +180,9 @@ export const InputResultArea = styled.div`
           }
         }
 
-        div:first-child .delete-result-box {
-          margin-top: 2.8rem;
-        }
+        //div:first-child .delete-result-box {
+        //  margin-top: 2.8rem;
+        //}
       }
     }
   }
@@ -236,14 +235,28 @@ export const InputResultArea = styled.div`
         padding: 2rem !important;
         padding-bottom: 1rem !important;
         ${areaPanelBox('var(--dark-border-ultramarine)')}
-
-        div:first-child .delete-result-box {
-          margin-top: 3rem !important;
+        
+        > .ant-row:first-child {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        
+        > .ant-row:not(:first-child) .delete-result-box {
+          position: absolute;
+          right: 153px;
+          margin-top: 17px;
         }
 
-        .delete-result-box {
-          margin-top: 1.2rem !important;
-        }
+        //div:first-child {
+        //  display: flex;
+        //  justify-content: center;
+        //  align-items: center;
+        //}
+
+        //.delete-result-box {
+        //  margin-top: 1.2rem !important;
+        //}
       }
 
       .ant-select-selector {

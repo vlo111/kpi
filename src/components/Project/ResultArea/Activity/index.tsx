@@ -53,9 +53,6 @@ const InputActivity: React.FC<{ resultId: number }> = ({ resultId }) => {
               </Tooltip>
             </div>
             <div className="activity-list">
-              {/* {activities.length > 1 */}
-              {/*   ? FooterRow('calc(100% - 18px)') */}
-              {/*   : FooterRow('100%')} */}
               <Form.List name={[resultId, 'inputActivities']}>
                 {(activities, { add: addActivity, remove }) => (
                   <>
@@ -77,7 +74,7 @@ const InputActivity: React.FC<{ resultId: number }> = ({ resultId }) => {
                               'activity_header_'
                             )}
                           >
-                            <Form.List name={[activity.key, 'milestones']}>
+                            <Form.List name={[activity.name, 'milestones']}>
                               {(milestones, { add, remove }) => (
                                 <Boxes
                                   type={'milestones'}
