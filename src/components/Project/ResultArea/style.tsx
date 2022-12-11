@@ -38,6 +38,10 @@ export const InputResultArea = styled.div`
 
         > div:nth-child(2) {
           width: calc(100% - 78px - 158px - 58px - 48px);
+          
+          &.statement-box {
+            min-width: 12rem;
+          }
 
           .ant-col {
             width: 100%;
@@ -219,6 +223,8 @@ export const InputResultArea = styled.div`
       .delete-activity {
         margin-top: 1rem;
         cursor: pointer;
+        position: absolute;
+        right: 5rem;
       }
     }
 

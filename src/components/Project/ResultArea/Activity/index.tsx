@@ -105,7 +105,7 @@ const InputActivity: React.FC<{ resultId: number }> = ({ resultId }) => {
                             }}
                           >
                             <DeleteSvg />
-                          </div>
+                    </div>
                         )}
                       </div>
                     ))}

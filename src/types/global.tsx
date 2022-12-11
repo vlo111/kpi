@@ -22,7 +22,6 @@ export interface ConfirmModalType {
   closable?: boolean
   onSubmit: () => void
   onCancel: () => void
-  onClose?: (() => void)
   styles?: { gap: string }
 }
 

@@ -101,7 +101,6 @@ const InputResult: React.FC = () => {
         styles={{ gap: '6rem' }}
         yes="Delete"
         no="Cancel"
-        closable={true}
         open={openDeleteResultModal}
         title="Are you sure you want to delete  the field?"
         onSubmit={() => {
