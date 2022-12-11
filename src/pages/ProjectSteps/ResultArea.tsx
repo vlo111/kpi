@@ -16,6 +16,7 @@ import {
 } from '../../types/project';
 import useUpdateResultArea from '../../api/Project/ResultArea/useUpdateResultArea';
 import { PATHS } from '../../helpers/constants';
+import { Spin } from 'antd';
 
 const VALIDATE_MESSAGES_PROJECT_INPUT = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -138,7 +139,8 @@ export const ResultArea: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const resultAreas = useGetResultArea(id);
+  // @ts-expect-error
+  const { resultAreas, isLoading } = useGetResultArea(id);
 
   const [form] = AsnForm.useForm();
 
@@ -205,28 +207,30 @@ export const ResultArea: React.FC = () => {
   }, [resultAreas]);
 
   return (
-    <ProjectInputForm
-      form={form}
-      layout="vertical"
-      validateMessages={VALIDATE_MESSAGES_PROJECT_INPUT}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-    >
-      <InputResult />
-      <div className="footer">
-        <AsnButton
-          className="default"
-          onClick={() => {
-            // prevCurrent();
-          }}
-        >
-          Cancel
-        </AsnButton>
-        <AsnButton className="default">Save as Draft</AsnButton>
-        <AsnButton className="primary" htmlType="submit">
-          Next
-        </AsnButton>
-      </div>
-    </ProjectInputForm>
+    <Spin spinning={isLoading}>
+      <ProjectInputForm
+        form={form}
+        layout="vertical"
+        validateMessages={VALIDATE_MESSAGES_PROJECT_INPUT}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+      >
+        <InputResult />
+        <div className="footer">
+          <AsnButton
+            className="default"
+            onClick={() => {
+              // prevCurrent();
+            }}
+          >
+            Cancel
+          </AsnButton>
+          <AsnButton className="default">Save as Draft</AsnButton>
+          <AsnButton className="primary" htmlType="submit">
+            Next
+          </AsnButton>
+        </div>
+      </ProjectInputForm>
+    </Spin>
   );
 };

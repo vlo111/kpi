@@ -36,11 +36,11 @@ export const Items: React.FC<IProjectDetailsItems> = ({ title, name, onDelete })
                 {fields.map((field, index) => (
                   <Row key={index}>
                     <Col span={24}>
-                      <AsnForm.Item required={false} key={field.key}>
                         <Row>
-                          <Col span={fields.length > 1 ? 23 : 24}>
+                          <Col span={24}>
                             <AsnForm.Item
-                              {...field}
+                              style={{ marginBottom: '22px' }}
+                              name={[field.name, 'title']}
                               validateTrigger={['onChange', 'onBlur']}
                               rules={[{ required: true, min: 2, max: 256 }]}
                             >
@@ -49,7 +49,7 @@ export const Items: React.FC<IProjectDetailsItems> = ({ title, name, onDelete })
                               />
                             </AsnForm.Item>
                           </Col>
-                          <Col span={1}>
+                          <Col span={1} className="delete">
                             {fields.length > 1
                               ? (
                                 <Row align={'middle'} className="delete-item">
@@ -66,7 +66,6 @@ export const Items: React.FC<IProjectDetailsItems> = ({ title, name, onDelete })
                               : null}
                           </Col>
                         </Row>
-                      </AsnForm.Item>
                     </Col>
                   </Row>
                 ))}

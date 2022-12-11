@@ -19,12 +19,17 @@ const ProjectDetailsStyle = styled.div`
       }
     }   
   }
-  
-  .delete-item {
-    width: 100%;
-    height: 65%;
-    justify-content: center;
-    cursor: pointer;
+  .delete {
+    right: -14px;
+    top: 12px;
+    position: absolute;
+    
+    &-item {
+      width: 100%;
+      height: 65%;
+      justify-content: center;
+      cursor: pointer;
+    }
   }
   
   input {

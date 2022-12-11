@@ -8,8 +8,9 @@ import { AsnButton } from '../../Forms/Button';
 import { PATHS } from '../../../helpers/constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetProjectDetails } from '../../../api/Project/Details/useGetProjectDetails';
-import useCreateResultArea from '../../../api/Project/ResultArea/useCreateResultArea';
 import { Void } from '../../../types/global';
+import useCreateProjectDetails from '../../../api/Project/Details/useCreateProjectDetails';
+import useUpdateProjectDetails from '../../../api/Project/Details/useUpdateProjectDetails';
 
 export const VALIDATE_PROJECT_DETAILS_MESSAGES = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -41,7 +42,12 @@ export const ProjectDetailComponent: React.FC = () => {
     console.log('error', response);
   };
 
-  const { mutate: createProjectDetails } = useCreateResultArea({
+  const { mutate: createProjectDetails } = useCreateProjectDetails({
+    onSuccess,
+    onError
+  });
+
+  const { mutate: updateProjectDetails } = useUpdateProjectDetails({
     onSuccess,
     onError
   });
@@ -49,12 +55,11 @@ export const ProjectDetailComponent: React.FC = () => {
   const onFinish: any = (values: any) => {
     if (id !== undefined) {
       if (projectDetails?.length != null) {
-        // updateResultArea({
-        //   id,
-        //   data: form.getFieldsValue()
-        // });
+        updateProjectDetails({
+          id,
+          data: form.getFieldsValue()
+        });
       } else {
-        console.log('zaza -- ', form.getFieldsValue());
         createProjectDetails({
           id,
           data: form.getFieldsValue()
@@ -64,28 +69,34 @@ export const ProjectDetailComponent: React.FC = () => {
   };
 
   useEffect(() => {
-    if (projectDetails !== undefined && projectDetails.length !== 0) {
-      form.setFieldsValue({ projectDetails });
-    } else {
-      console.log(form.getFieldsValue());
-      form.setFieldsValue({
-        organisation: [''],
-        region: [''],
-        sector: ['']
-      });
-    }
+    // if (projectDetails !== undefined && projectDetails.length !== 0) {
+    //   console.log('sssssssssadsdasd', projectDetails);
+    //   form.setFieldsValue(projectDetails);
+    // } else {
+    //   console.log(form.getFieldsValue());
+    //   form.setFieldsValue({
+    //     organisations: [{ title: '2' }],
+    //     regions: [{ title: '25' }],
+    //     sectors: [{ title: '' }]
+    //   });
+    // }
+    form.setFieldsValue({
+      organisations: [{ title: '' }],
+      regions: [{ title: '' }],
+      sectors: [{ title: '' }]
+    });
   }, [projectDetails]);
 
   return (
     <>
       <AsnForm validateMessages={VALIDATE_PROJECT_DETAILS_MESSAGES} form={form} name="dynamic_form_item" onFinish={onFinish}>
-        <Items name="organisation" title='Organisations' onDelete={(remove, fields) => {
+        <Items name="organisations" title='Organisations' onDelete={(remove, fields) => {
           setOpenDeleteResultModal({ remove, fields });
         }}/>
-        <Items name="sector" title='Regions' onDelete={(remove, fields) => {
+        <Items name="regions" title='Regions' onDelete={(remove, fields) => {
           setOpenDeleteResultModal({ remove, fields });
         }}/>
-        <Items name="region" title='Sectors' onDelete={(remove, fields) => {
+        <Items name="sectors" title='Sectors' onDelete={(remove, fields) => {
           setOpenDeleteResultModal({ remove, fields });
         }}/>
         <Row className="accept-buttons">

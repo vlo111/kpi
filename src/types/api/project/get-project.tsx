@@ -1,6 +1,11 @@
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { ICreateProject, IProjectDetails, IResultAreaData, ProjectErrorResponse } from '../../project';
+import {
+  ICreateProject,
+  IProjectDetails,
+  IResultAreaData,
+  ProjectErrorResponse
+} from '../../project';
 import { IQueryData, UseMutation, Void } from '../../global';
 import { Moment } from 'moment';
 
@@ -20,7 +25,7 @@ export interface ICreateProjectData {
 }
 
 export interface ICreateResultArea {
-  result: []
+  result: IResultAreaData
 }
 
 export interface ICreateResultAreaData {
@@ -48,25 +53,54 @@ export interface IGetResultArea extends IQueryData {
 
 export type QueryGetProject = UseQueryResult<AxiosResponse<IProject>, Error>;
 
-export type QueryGetResultArea = UseQueryResult<AxiosResponse<IResultArea>, Error>;
+export type QueryGetResultArea = UseQueryResult<
+AxiosResponse<ICreateResultArea>,
+Error
+>;
 
 export type UseGetProjectId = (
   id: string | undefined
 ) => IGetProjectById | undefined;
 
-export type UseGetProjectResultArea = (
+export type UseGetProjectResultArea1 = (
   id: string | undefined
 ) => IGetResultArea | undefined;
 
-export interface ResponseErrorParam { message: string }
+export type UseGetProjectResultArea = (
+  id: string | undefined
+) => { resultAreas: IResultAreaData | undefined, isLoading: false | true } | undefined;
+// (id: string | undefined) => { isLoading: false | true, resultAreas: [] | undefined } | undefined
+export interface ResponseErrorParam {
+  message: string
+}
 
-export type UseEditProject = UseMutation<Void, ProjectErrorResponse, ResponseErrorParam, IEditProjectData>;
+export type UseEditProject = UseMutation<
+Void,
+ProjectErrorResponse,
+ResponseErrorParam,
+IEditProjectData
+>;
 
-export type UseCreateProject = UseMutation<Void, ProjectErrorResponse, ResponseErrorParam, ICreateProjectData>;
+export type UseCreateProject = UseMutation<
+Void,
+ProjectErrorResponse,
+ResponseErrorParam,
+ICreateProjectData
+>;
 
-export type UseCreateResultArea = UseMutation<Void, ProjectErrorResponse, ResponseErrorParam, ICreateResultAreaData>;
+export type UseCreateResultArea = UseMutation<
+Void,
+ProjectErrorResponse,
+ResponseErrorParam,
+ICreateResultAreaData
+>;
 
-export type UseCreateProjectDetails = UseMutation<Void, ProjectErrorResponse, ResponseErrorParam, ICreateProjectDetails>;
+export type UseCreateProjectDetails = UseMutation<
+Void,
+ProjectErrorResponse,
+ResponseErrorParam,
+ICreateProjectDetails
+>;
 
 export interface UseGetProjects {
   isLoading: false | true
@@ -78,3 +112,5 @@ export interface UseGetProjects {
   error: unknown
   status: 'error' | 'success' | 'loading'
 }
+
+export type UseGetProjectDetails = (id: string | undefined) => [] | undefined
