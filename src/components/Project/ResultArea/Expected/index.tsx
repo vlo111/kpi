@@ -3,19 +3,14 @@ import React, { useState } from 'react';
 import Boxes from '../Boxes';
 import { AsnForm } from '../../../Forms/Form';
 import { ConfirmModal } from '../../../Forms/Modal/Confirm';
+import { IProjectModalDelete, OnDeleteBoxHandler } from '../../../../types/project';
 
 const ExpectedResult: React.FC<{ resultId: number }> = ({ resultId }) => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<boolean>();
-  const [selectDeleteId, setSelectDeleteId] = useState<{
-    remove: (name: number | number[]) => void
-    field: number
-  }>();
+  const [selectDeleteId, setSelectDeleteId] = useState<IProjectModalDelete>();
 
-  const onDelete: (
-    remove: (index: number | number[]) => void,
-    field: number
-  ) => void = (remove, field) => {
-    setOpenDeleteResultModal(false);
+  const onDelete: OnDeleteBoxHandler = (remove, field) => {
+    setOpenDeleteResultModal(true);
     setSelectDeleteId({ remove, field });
   };
 

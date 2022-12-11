@@ -11,6 +11,7 @@ import { ConfirmModal } from '../../Forms/Modal/Confirm';
 import { TollTipText, HeaderElement } from '../../../helpers/utils';
 import { ReactComponent as InfoSvg } from '../../../assets/icons/info.svg';
 import { ReactComponent as DeleteSvg } from '../../../assets/icons/delete.svg';
+import { IProjectModalDelete } from '../../../types/project';
 
 const tooltipText = [
   'Must include at least one result area and at least one expected result measurement.',
@@ -23,10 +24,7 @@ const tooltipText = [
 
 const InputResult: React.FC = () => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<boolean>();
-  const [selectDeleteId, setSelectDeleteId] = useState<{
-    remove: (name: number | number[]) => void
-    field: number
-  }>();
+  const [selectDeleteId, setSelectDeleteId] = useState<IProjectModalDelete>();
 
   return (
     <>
@@ -71,7 +69,7 @@ const InputResult: React.FC = () => {
                     <div
                       className="delete-result"
                       onClick={() => {
-                        setOpenDeleteResultModal(false);
+                        setOpenDeleteResultModal(true);
                         setSelectDeleteId({ remove, field: field.name });
                       }}
                     >
@@ -103,6 +101,7 @@ const InputResult: React.FC = () => {
         styles={{ gap: '6rem' }}
         yes="Delete"
         no="Cancel"
+        closable={true}
         open={openDeleteResultModal}
         title="Are you sure you want to delete  the field?"
         onSubmit={() => {

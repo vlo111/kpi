@@ -8,7 +8,7 @@ import { AsnButton } from '../../Forms/Button';
 import { PATHS } from '../../../helpers/constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetProjectDetails } from '../../../api/Project/Details/useGetProjectDetails';
-import { Void } from '../../../types/global';
+import { FormFinish, Void } from '../../../types/global';
 import useCreateProjectDetails from '../../../api/Project/Details/useCreateProjectDetails';
 import useUpdateProjectDetails from '../../../api/Project/Details/useUpdateProjectDetails';
 
@@ -52,7 +52,7 @@ export const ProjectDetailComponent: React.FC = () => {
     onError
   });
 
-  const onFinish: any = (values: any) => {
+  const onFinish: FormFinish = (values) => {
     if (id !== undefined) {
       if (projectDetails?.length != null) {
         updateProjectDetails({
@@ -75,13 +75,13 @@ export const ProjectDetailComponent: React.FC = () => {
     // } else {
     //   console.log(form.getFieldsValue());
     //   form.setFieldsValue({
-    //     organisations: [{ title: '2' }],
+    //     organizations: [{ title: '2' }],
     //     regions: [{ title: '25' }],
     //     sectors: [{ title: '' }]
     //   });
     // }
     form.setFieldsValue({
-      organisations: [{ title: '' }],
+      organizations: [{ title: '' }],
       regions: [{ title: '' }],
       sectors: [{ title: '' }]
     });
@@ -90,7 +90,7 @@ export const ProjectDetailComponent: React.FC = () => {
   return (
     <>
       <AsnForm validateMessages={VALIDATE_PROJECT_DETAILS_MESSAGES} form={form} name="dynamic_form_item" onFinish={onFinish}>
-        <Items name="organisations" title='Organisations' onDelete={(remove, fields) => {
+        <Items name="organizations" title='Organizations' onDelete={(remove, fields) => {
           setOpenDeleteResultModal({ remove, fields });
         }}/>
         <Items name="regions" title='Regions' onDelete={(remove, fields) => {

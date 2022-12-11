@@ -19,6 +19,7 @@ export interface ConfirmModalType {
   title: string
   yes: string
   no: string
+  closable?: boolean
   onSubmit: () => void
   onCancel: () => void
   onClose?: (() => void)

@@ -141,7 +141,7 @@ export const InputResultArea = styled.div`
       gap: 2rem;
 
       .panel:first-child {
-        input:not(.ant-input-status-error),
+        .ant-input:not(.ant-input-status-error),
         textarea:not(.ant-input-status-error),
         .ant-select-selector {
           border: 1px solid var(--dark-5) !important;
@@ -283,5 +283,9 @@ export const InputResultArea = styled.div`
   .ant-input-number {
     width: 58px;
     height: 58px;
+  }
+  
+  textarea {
+    resize: none;
   }
 `;

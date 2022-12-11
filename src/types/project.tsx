@@ -56,7 +56,7 @@ export interface ProjectInputBoxProps {
   list: FormListFieldData[]
   add: (defaultValue?: any, insertIndex?: number | undefined) => void
   remove: (index: number | number[]) => void
-  onDelete: (remove: (index: number | number[]) => void, field: number) => void
+  onDelete: OnDeleteBoxHandler
 }
 
 export interface IResultBox {
@@ -93,3 +93,13 @@ export interface IProjectDetailsItems {
   name: string
   onDelete: (remove: (name: string) => void, fields: string) => void
 }
+
+export interface IProjectModalDelete {
+  remove: (name: number | number[]) => void
+  field: number
+}
+
+export type OnDeleteBoxHandler = (
+  remove: (index: number | number[]) => void,
+  field: number
+) => void

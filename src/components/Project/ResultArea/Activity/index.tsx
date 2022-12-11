@@ -10,6 +10,7 @@ import { ConfirmModal } from '../../../Forms/Modal/Confirm';
 import { HeaderElement, TollTipText } from '../../../../helpers/utils';
 import { ReactComponent as DeleteSvg } from '../../../../assets/icons/delete.svg';
 import { ReactComponent as InfoSvg } from '../../../../assets/icons/info.svg';
+import { IProjectModalDelete, OnDeleteBoxHandler } from '../../../../types/project';
 
 const tooltipText = [
   'Must include at least one activity and at least one milestone statement.',
@@ -22,16 +23,10 @@ const tooltipText = [
 
 const InputActivity: React.FC<{ resultId: number }> = ({ resultId }) => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<boolean>();
-  const [selectDeleteId, setSelectDeleteId] = useState<{
-    remove: (name: number | number[]) => void
-    field: number
-  }>();
+  const [selectDeleteId, setSelectDeleteId] = useState<IProjectModalDelete>();
 
-  const onDelete: (
-    remove: (index: number | number[]) => void,
-    field: number
-  ) => void = (remove, field) => {
-    setOpenDeleteResultModal(false);
+  const onDelete: OnDeleteBoxHandler = (remove, field) => {
+    setOpenDeleteResultModal(true);
     setSelectDeleteId({ remove, field });
   };
 

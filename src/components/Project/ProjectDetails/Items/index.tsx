@@ -19,8 +19,8 @@ const FormList = styled(AsnForm.List)`
 `;
 
 const placeHolderInputDetails: (name: string) => string = (name) =>
-  name === 'Organisations'
-    ? 'Your Organisation'
+  name === 'Organizations'
+    ? 'Your Organization'
     : name === 'Regions'
       ? 'Region/Marz* '
       : 'Example: IT*';
