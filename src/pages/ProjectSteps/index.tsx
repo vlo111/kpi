@@ -49,6 +49,10 @@ export const ProjectContainer = styled.div`
     font-size: var(--headline-font-size);
     color: var(--dark-2);
   }
+  
+  .delete {
+    display: none;
+  }
 `;
 
 const AsnStepsHeader = styled(Steps)`

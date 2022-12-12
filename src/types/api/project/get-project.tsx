@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import {
   ICreateProject,
   IProjectDetails,
-  IResultAreaData,
+  IResultAreaData, ProjectDetails,
   ProjectErrorResponse
 } from '../../project';
 import { IQueryData, UseMutation, Void } from '../../global';
@@ -11,10 +11,6 @@ import { Moment } from 'moment';
 
 export interface IProject {
   result: ICreateProject
-}
-
-export interface IResultArea {
-  result: []
 }
 
 export interface ICreateProjectData {
@@ -69,7 +65,7 @@ export type UseGetProjectResultArea1 = (
 export type UseGetProjectResultArea = (
   id: string | undefined
 ) => { resultAreas: IResultAreaData | undefined, isLoading: false | true } | undefined;
-// (id: string | undefined) => { isLoading: false | true, resultAreas: [] | undefined } | undefined
+
 export interface ResponseErrorParam {
   message: string
 }
@@ -113,4 +109,9 @@ export interface UseGetProjects {
   status: 'error' | 'success' | 'loading'
 }
 
-export type UseGetProjectDetails = (id: string | undefined) => [] | undefined
+interface ProjectDetailsData {
+  projectDetails: ProjectDetails
+  isLoading: boolean
+}
+
+export type UseGetProjectDetails = (id: string | undefined) => ProjectDetailsData | undefined

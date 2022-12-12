@@ -1,6 +1,6 @@
 import { IUser } from './auth';
 import { Moment } from 'moment';
-import { FormListFieldData } from 'antd';
+import { FormInstance, FormListFieldData } from 'antd';
 
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
@@ -90,6 +90,7 @@ export interface IProjectDetails {
 
 export interface IProjectDetailsItems {
   title: string
+  form: any
   name: string
   onDelete: (remove: (name: string) => void, fields: string) => void
 }
@@ -103,3 +104,9 @@ export type OnDeleteBoxHandler = (
   remove: (index: number | number[]) => void,
   field: number
 ) => void
+
+export interface ProjectDetails {
+  organizations: string[]
+  sectors: string[]
+  regions: string[]
+}

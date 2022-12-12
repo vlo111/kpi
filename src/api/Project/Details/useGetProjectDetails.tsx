@@ -7,13 +7,13 @@ const URL_GET_PROJECTS = 'api/project';
 export const useGetProjectDetails: UseGetProjectDetails = (id: string | undefined) => {
   try {
     if (id !== undefined) {
-      const { data } =
+      const { data, isLoading } =
         useQuery(
           ['project', id],
           async () => await client.get(`${URL_GET_PROJECTS}/${id}/project-details`)
         );
 
-      return data?.data?.result;
+      return { projectDetails: data?.data?.result, isLoading };
     }
   } catch (e) {
     console.log(e);

@@ -3,7 +3,7 @@ import { AsnForm } from '../../Forms/Form';
 import { OpenDeleteResultModal, ProjectErrorResponse } from '../../../types/project';
 import { ConfirmModal } from '../../Forms/Modal/Confirm';
 import { Items } from './Items';
-import { Col, Row } from 'antd';
+import { Col, Row, Spin } from 'antd';
 import { AsnButton } from '../../Forms/Button';
 import { PATHS } from '../../../helpers/constants';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -11,6 +11,7 @@ import { useGetProjectDetails } from '../../../api/Project/Details/useGetProject
 import { FormFinish, Void } from '../../../types/global';
 import useCreateProjectDetails from '../../../api/Project/Details/useCreateProjectDetails';
 import useUpdateProjectDetails from '../../../api/Project/Details/useUpdateProjectDetails';
+import { AsnInput } from '../../Forms/Input';
 
 export const VALIDATE_PROJECT_DETAILS_MESSAGES = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -26,7 +27,8 @@ export const ProjectDetailComponent: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const projectDetails = useGetProjectDetails(id);
+  // @ts-expect-error
+  const { projectDetails, isLoading } = useGetProjectDetails(id);
 
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<OpenDeleteResultModal>();
 
@@ -54,7 +56,7 @@ export const ProjectDetailComponent: React.FC = () => {
 
   const onFinish: FormFinish = (values) => {
     if (id !== undefined) {
-      if (projectDetails?.length != null) {
+      if (projectDetails?.sectors.length != null) {
         updateProjectDetails({
           id,
           data: form.getFieldsValue()
@@ -69,36 +71,40 @@ export const ProjectDetailComponent: React.FC = () => {
   };
 
   useEffect(() => {
-    // if (projectDetails !== undefined && projectDetails.length !== 0) {
-    //   console.log('sssssssssadsdasd', projectDetails);
-    //   form.setFieldsValue(projectDetails);
-    // } else {
-    //   console.log(form.getFieldsValue());
-    //   form.setFieldsValue({
-    //     organizations: [{ title: '2' }],
-    //     regions: [{ title: '25' }],
-    //     sectors: [{ title: '' }]
-    //   });
-    // }
-    form.setFieldsValue({
-      organizations: [{ title: '' }],
-      regions: [{ title: '' }],
-      sectors: [{ title: '' }]
-    });
+    if (projectDetails?.sectors?.length !== 0) {
+      form.setFieldsValue(projectDetails);
+    } else {
+      const initField = [{ title: '' }];
+
+      form.setFieldsValue({
+        organizations: initField,
+        regions: initField,
+        sectors: initField
+      });
+    }
   }, [projectDetails]);
 
   return (
-    <>
+    <Spin spinning={isLoading}>
       <AsnForm validateMessages={VALIDATE_PROJECT_DETAILS_MESSAGES} form={form} name="dynamic_form_item" onFinish={onFinish}>
-        <Items name="organizations" title='Organizations' onDelete={(remove, fields) => {
+        <Items form={form} name="organizations" title='Organizations' onDelete={(remove, fields) => {
           setOpenDeleteResultModal({ remove, fields });
         }}/>
-        <Items name="regions" title='Regions' onDelete={(remove, fields) => {
+        <Items form={form} name="regions" title='Regions' onDelete={(remove, fields) => {
           setOpenDeleteResultModal({ remove, fields });
         }}/>
-        <Items name="sectors" title='Sectors' onDelete={(remove, fields) => {
+        <Items form={form} name="sectors" title='Sectors' onDelete={(remove, fields) => {
           setOpenDeleteResultModal({ remove, fields });
         }}/>
+        <AsnForm.Item className='delete' name='deletedOrganizationIds'>
+          <AsnInput />
+        </AsnForm.Item>
+        <AsnForm.Item className='delete' name='deletedSectorIds'>
+          <AsnInput />
+        </AsnForm.Item>
+        <AsnForm.Item className='delete' name='deletedRegionIds'>
+          <AsnInput />
+        </AsnForm.Item>
         <Row className="accept-buttons">
           <Col>
             <AsnButton
@@ -136,6 +142,6 @@ export const ProjectDetailComponent: React.FC = () => {
         }}
         onCancel={() => setOpenDeleteResultModal(undefined)}
       />
-    </>
+    </Spin>
   );
 };
