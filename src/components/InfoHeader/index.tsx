@@ -35,7 +35,7 @@ const AntIcon = styled(Icon)`
 const { Text } = Typography;
 const InfoHeader: React.FC<IInfoHeader> = ({ overview, project }) => {
   return (
-    <Row style={{ padding: '20px' }}>
+    <Row style={{ padding: '40px' }}>
       <Col>
       {(overview === false) &&
       <Breadcrumb separator=">" style={{ marginBottom: '4vh' }}>
