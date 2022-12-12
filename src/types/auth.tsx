@@ -53,4 +53,10 @@ export interface IUploadProps {
   showUploadList?: boolean
 }
 
-export type UserImageUpload = UseMutation<Void, any, any, any>;
+export type UploadSuccessResponse = (response: {
+  result: string[]
+}) => void;
+
+export type UploadErrorResponse = () => void;
+
+export type UserImageUpload = UseMutation<Void, UploadErrorResponse, UploadSuccessResponse, string | Blob | RcFile >;
