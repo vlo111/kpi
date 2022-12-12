@@ -92,7 +92,7 @@ const ProjectInputForm = styled(AsnForm)`
 
   div:not(:last-child) {
     button {
-      width: 14rem;
+      width: 100%;
       margin: 0 auto;
     }
   }

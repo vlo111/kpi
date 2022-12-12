@@ -37,7 +37,7 @@ export const InputResultArea = styled.div`
         }
 
         > div:nth-child(2) {
-          width: calc(100% - 78px - 164px - 58px - 48px);
+          width: calc(100% - 337px);
           
           &.statement-box {
             min-width: 12rem;
@@ -180,12 +180,23 @@ export const InputResultArea = styled.div`
           }
         }
 
-        //div:first-child .delete-result-box {
-        //  margin-top: 2.8rem;
-        //}
+        .delete-result-box{
+          position: absolute;
+          right: 50px;
+        }
+
+        > .ant-row:first-child {
+          display: flex;
+          align-items: center;
+        }
+
+        .ant-row:not(:first-child) {
+          .delete-result-box{
+            margin-top: 15px;
+          }
+        }
       }
     }
-  }
 
   .activity-panel {
     border-top: 3px solid var(--light-border-gray);
@@ -238,7 +249,6 @@ export const InputResultArea = styled.div`
         
         > .ant-row:first-child {
           display: flex;
-          justify-content: center;
           align-items: center;
         }
         
@@ -247,16 +257,6 @@ export const InputResultArea = styled.div`
           right: 153px;
           margin-top: 17px;
         }
-
-        //div:first-child {
-        //  display: flex;
-        //  justify-content: center;
-        //  align-items: center;
-        //}
-
-        //.delete-result-box {
-        //  margin-top: 1.2rem !important;
-        //}
       }
 
       .ant-select-selector {
@@ -306,5 +306,6 @@ export const InputResultArea = styled.div`
   
   textarea {
     resize: none;
+    font-size: 15px;
   }
 `;

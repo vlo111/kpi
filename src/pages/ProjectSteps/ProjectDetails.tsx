@@ -14,7 +14,7 @@ const ProjectDetailsStyle = styled.div`
       display: flex;
       
       button {
-        width: 14rem;
+        width: 100%;
         margin: 0 auto;
       }
     }   
