@@ -50,7 +50,7 @@ export const ProjectContainer = styled.div`
     color: var(--dark-2);
   }
   
-  .delete {
+  .deleteItem {
     display: none;
   }
 `;

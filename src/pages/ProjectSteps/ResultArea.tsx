@@ -17,6 +17,7 @@ import {
 import useUpdateResultArea from '../../api/Project/ResultArea/useUpdateResultArea';
 import { PATHS } from '../../helpers/constants';
 import { Spin } from 'antd';
+import { AsnInput } from '../../components/Forms/Input';
 
 const VALIDATE_MESSAGES_PROJECT_INPUT = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -216,6 +217,18 @@ export const ResultArea: React.FC = () => {
         onFinishFailed={onFinishFailed}
       >
         <InputResult />
+        <AsnForm.Item className='deleteItem' name='deletedResultAreaIds'>
+          <AsnInput />
+        </AsnForm.Item>
+        <AsnForm.Item className='deleteItem' name='deletedExpectedResultIds'>
+          <AsnInput />
+        </AsnForm.Item>
+        <AsnForm.Item className='deleteItem' name='deletedInputActivityIds'>
+          <AsnInput />
+        </AsnForm.Item>
+        <AsnForm.Item className='deleteItem' name='deletedMilestoneIds'>
+          <AsnInput />
+        </AsnForm.Item>
         <div className="footer">
           <AsnButton
             className="default"

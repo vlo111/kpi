@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AsnForm } from '../../Forms/Form';
-import { OpenDeleteResultModal, ProjectErrorResponse } from '../../../types/project';
+import { OpenDeleteResultModal, ProjectDetailsDelete, ProjectErrorResponse } from '../../../types/project';
 import { ConfirmModal } from '../../Forms/Modal/Confirm';
 import { Items } from './Items';
 import { Col, Row, Spin } from 'antd';
@@ -84,25 +84,31 @@ export const ProjectDetailComponent: React.FC = () => {
     }
   }, [projectDetails]);
 
+  const onDeleteHandler: ProjectDetailsDelete = (remove, fieldName, title) => {
+    setOpenDeleteResultModal({ remove, fields: fieldName });
+
+    const deleteName = `deleted${title.slice(0, -1)}Ids`;
+
+    const deletedFields = form.getFieldValue(deleteName) ?? [];
+
+    const updateDeletedIds = deletedFields.concat(form.getFieldValue(title.toLocaleLowerCase())[fieldName].id);
+
+    form.setFieldsValue({ [deleteName]: updateDeletedIds });
+  };
+
   return (
     <Spin spinning={isLoading}>
       <AsnForm validateMessages={VALIDATE_PROJECT_DETAILS_MESSAGES} form={form} name="dynamic_form_item" onFinish={onFinish}>
-        <Items form={form} name="organizations" title='Organizations' onDelete={(remove, fields) => {
-          setOpenDeleteResultModal({ remove, fields });
-        }}/>
-        <Items form={form} name="regions" title='Regions' onDelete={(remove, fields) => {
-          setOpenDeleteResultModal({ remove, fields });
-        }}/>
-        <Items form={form} name="sectors" title='Sectors' onDelete={(remove, fields) => {
-          setOpenDeleteResultModal({ remove, fields });
-        }}/>
-        <AsnForm.Item className='delete' name='deletedOrganizationIds'>
+        <Items name="organizations" title='Organizations' onDelete={onDeleteHandler}/>
+        <Items name="regions" title='Regions' onDelete={onDeleteHandler}/>
+        <Items name="sectors" title='Sectors' onDelete={onDeleteHandler}/>
+        <AsnForm.Item className='deleteItem' name='deletedOrganizationIds'>
           <AsnInput />
         </AsnForm.Item>
-        <AsnForm.Item className='delete' name='deletedSectorIds'>
+        <AsnForm.Item className='deleteItem' name='deletedSectorIds'>
           <AsnInput />
         </AsnForm.Item>
-        <AsnForm.Item className='delete' name='deletedRegionIds'>
+        <AsnForm.Item className='deleteItem' name='deletedRegionIds'>
           <AsnInput />
         </AsnForm.Item>
         <Row className="accept-buttons">

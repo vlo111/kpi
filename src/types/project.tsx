@@ -90,9 +90,8 @@ export interface IProjectDetails {
 
 export interface IProjectDetailsItems {
   title: string
-  form: any
   name: string
-  onDelete: (remove: (name: string) => void, fields: string) => void
+  onDelete: (remove: (name: string) => void, fields: string, title: string) => void
 }
 
 export interface IProjectModalDelete {
@@ -104,6 +103,8 @@ export type OnDeleteBoxHandler = (
   remove: (index: number | number[]) => void,
   field: number
 ) => void
+
+export type ProjectDetailsDelete = (remove: (name: string) => void, fields: string, title: string) => void
 
 export interface ProjectDetails {
   organizations: string[]

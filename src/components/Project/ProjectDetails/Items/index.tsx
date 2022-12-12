@@ -25,17 +25,7 @@ const placeHolderInputDetails: (name: string) => string = (name) =>
       ? 'Region/Marz* '
       : 'Example: IT*';
 
-export const Items: React.FC<IProjectDetailsItems> = ({ title, name, onDelete, form }) => {
-  const deleteHandler: (remove: any, fieldName: string) => void = (remove, fieldName) => {
-    onDelete(remove, fieldName);
-
-    const deleteName = `deleted${title.slice(0, -1)}Ids`;
-
-    const deletedFields = form.getFieldValue(deleteName) ?? [];
-
-    form.setFieldsValue({ [deleteName]: deletedFields.concat(form.getFieldValue(name)[fieldName].id) });
-  };
-
+export const Items: React.FC<IProjectDetailsItems> = ({ title, name, onDelete }) => {
   return (
     <FormList name={name}>
       {(fields: any[], { add, remove }: any, { errors }: any) => (
@@ -66,7 +56,9 @@ export const Items: React.FC<IProjectDetailsItems> = ({ title, name, onDelete, f
                                   <Col span={12}>
                                     <DeleteSvg
                                       className="dynamic-delete-button"
-                                      onClick={() => deleteHandler(remove, field.name)}
+                                      onClick={() => {
+                                        onDelete(remove, field.name, title);
+                                      }}
                                     />
                                   </Col>
                                 </Row>
