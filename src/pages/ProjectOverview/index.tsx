@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import InfoHeader from '../../components/InfoHeader';
 import { AsnButton } from '../../components/Forms/Button';
 import { AsnTabs } from '../../components/Forms/Tabs';
+import AsnSpin from '../../components/Forms/Spin';
 import { IResultAreas, IInputActivities } from '../../types/project';
 import useGetProjectById from '../../api/Project/useGetProject';
 import { ReactComponent as AddResultAreaSvg } from '../../assets/icons/projectOverview.svg';
@@ -23,9 +24,8 @@ const ProjectOverview: React.FC = () => {
   const { id } = useParams<string>();
   const data = useGetProjectById(id);
   const navigate = useNavigate();
-
+  const { isLoading } = data;
   const { result: project } = data?.data;
-
   const AntBadge = styled(Badge)`
    margin-right: 4px;
    .ant-badge-count{
@@ -84,7 +84,9 @@ const ProjectOverview: React.FC = () => {
       )
     };
   });
-
+  if (isLoading === true) {
+    return <AsnSpin />;
+  }
   return (
     <>
       <InfoHeader overview={true} project={project} />
