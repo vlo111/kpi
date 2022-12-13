@@ -53,7 +53,13 @@ const ProjectOverview: React.FC = () => {
             style={projectItems > 3 ? { width: '70px' } : {}}
           >
             <AntBadge count={i + 1} />
-            {projectItems <= 3 && <Text ellipsis={true} style={{ width: '85%' }}>{item?.title}</Text>}
+            {projectItems <= 3 &&
+              <Text
+                ellipsis={true}
+                style={active === i + 1 ? { width: '85%', color: 'var(--dark-border-ultramarine)' } : { width: '85%' }}>
+                {item?.title}
+              </Text>
+            }
           </AntRow>
         </Tooltip>,
       key: `${item?.id}`,
@@ -99,7 +105,7 @@ const ProjectOverview: React.FC = () => {
         >
           <AddResultAreaSvg />
           <Text
-            style={{ color: 'var(--dark-border-ultramarine', fontSize: 'var(--headline-font-size)' }}
+            style={{ color: 'var(--dark-border-ultramarine)', fontSize: 'var(--headline-font-size)' }}
           >
             Input result areas and activities
           </Text>
