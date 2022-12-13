@@ -9,7 +9,7 @@ export interface ICreateTemplate {
 }
 
 export type OpenDeleteResultModal =
-  | { remove: (name: string) => void, fields: string }
+  | { remove: (name: string) => void, fields: string, title: string }
   | undefined;
 
 export type DisabledDate = (current: Moment, item: string) => boolean;
@@ -56,7 +56,10 @@ export interface ProjectInputBoxProps {
   list: FormListFieldData[]
   add: (defaultValue?: any, insertIndex?: number | undefined) => void
   remove: (index: number | number[]) => void
-  onDelete: OnDeleteBoxHandler
+  onDelete: (
+    remove: (index: number | number[]) => void,
+    field: number,
+  ) => void
 }
 
 export interface IResultBox {
@@ -97,9 +100,23 @@ export interface IProjectDetailsItems {
 export interface IProjectModalDelete {
   remove: (name: number | number[]) => void
   field: number
+  title: string
+  activityName?: number
+}
+
+export interface IProjectResultAreaDelete {
+  remove: (name: number | number[]) => void
+  field: number
 }
 
 export type OnDeleteBoxHandler = (
+  remove: (index: number | number[]) => void,
+  field: number,
+  title: string,
+  activityName?: number
+) => void
+
+export type OnDeleteExpectedHandler = (
   remove: (index: number | number[]) => void,
   field: number
 ) => void

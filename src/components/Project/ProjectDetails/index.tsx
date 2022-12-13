@@ -85,15 +85,28 @@ export const ProjectDetailComponent: React.FC = () => {
   }, [projectDetails]);
 
   const onDeleteHandler: ProjectDetailsDelete = (remove, fieldName, title) => {
-    setOpenDeleteResultModal({ remove, fields: fieldName });
+    setOpenDeleteResultModal({ remove, fields: fieldName, title });
+  };
 
-    const deleteName = `deleted${title.slice(0, -1)}Ids`;
+  const submitDeleteModal: Void = () => {
+    if (openDeleteResultModal != null) {
+      const { title, remove, fields } = openDeleteResultModal;
 
-    const deletedFields = form.getFieldValue(deleteName) ?? [];
+      const deleteName = `deleted${title.slice(0, -1)}Ids`;
 
-    const updateDeletedIds = deletedFields.concat(form.getFieldValue(title.toLocaleLowerCase())[fieldName].id);
+      const deletedFields = form.getFieldValue(deleteName) ?? [];
 
-    form.setFieldsValue({ [deleteName]: updateDeletedIds });
+      const currentId = form.getFieldValue(title.toLocaleLowerCase())[fields].id;
+
+      if (currentId !== undefined) {
+        const updateDeletedIds = deletedFields.concat();
+
+        form.setFieldsValue({ [deleteName]: updateDeletedIds });
+      }
+
+      remove(fields);
+    }
+    setOpenDeleteResultModal(undefined);
   };
 
   return (
@@ -142,10 +155,7 @@ export const ProjectDetailComponent: React.FC = () => {
         no="Cancel"
         open={openDeleteResultModal}
         title="Are you sure you want to delete  the field?"
-        onSubmit={() => {
-          if (openDeleteResultModal != null) { openDeleteResultModal.remove(openDeleteResultModal.fields); }
-          setOpenDeleteResultModal(undefined);
-        }}
+        onSubmit={submitDeleteModal}
         onCancel={() => setOpenDeleteResultModal(undefined)}
       />
     </Spin>

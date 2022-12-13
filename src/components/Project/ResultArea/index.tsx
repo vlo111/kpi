@@ -11,7 +11,8 @@ import { ConfirmModal } from '../../Forms/Modal/Confirm';
 import { TollTipText, HeaderElement } from '../../../helpers/utils';
 import { ReactComponent as InfoSvg } from '../../../assets/icons/info.svg';
 import { ReactComponent as DeleteSvg } from '../../../assets/icons/delete.svg';
-import { IProjectModalDelete } from '../../../types/project';
+import { IProjectResultAreaDelete } from '../../../types/project';
+import { Void } from '../../../types/global';
 
 const tooltipText = [
   'Must include at least one result area and at least one expected result measurement.',
@@ -22,9 +23,30 @@ const tooltipText = [
   'Target for Number: Range 1-999999.'
 ];
 
-const InputResult: React.FC = () => {
+const InputResult: React.FC<{ form: any }> = ({ form }) => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<boolean>();
-  const [selectDeleteId, setSelectDeleteId] = useState<IProjectModalDelete>();
+  const [selectDeleteId, setSelectDeleteId] = useState<IProjectResultAreaDelete>();
+
+  const onSubmitDelete: Void = () => {
+    if (selectDeleteId !== undefined) {
+      const { remove, field } = selectDeleteId;
+
+      const deleteName = 'deletedResultAreaIds';
+
+      const deletedFields = form.getFieldValue(deleteName) ?? [];
+
+      const currentId = form.getFieldValue('resultAreas')[field ?? ''].id;
+
+      if (currentId !== undefined) {
+        const updateDeletedIds = deletedFields.concat(currentId);
+
+        form.setFieldsValue({ [deleteName]: updateDeletedIds });
+      }
+
+      remove(field);
+    }
+    setOpenDeleteResultModal(false);
+  };
 
   return (
     <>
@@ -60,8 +82,8 @@ const InputResult: React.FC = () => {
                           'result_area_header_'
                         )}
                       >
-                        <InputExpectedResult resultId={field.key} />
-                        <InputActivity resultId={field.key} />
+                        <InputExpectedResult form={form} resultId={field.key} />
+                        <InputActivity form={form} resultId={field.key} />
                       </Panel>
                     </AsnCollapse>
                   </div>
@@ -103,10 +125,7 @@ const InputResult: React.FC = () => {
         no="Cancel"
         open={openDeleteResultModal}
         title="Are you sure you want to delete  the field?"
-        onSubmit={() => {
-          selectDeleteId?.remove(selectDeleteId.field);
-          setOpenDeleteResultModal(false);
-        }}
+        onSubmit={onSubmitDelete}
         onCancel={() => setOpenDeleteResultModal(false)}
       />
     </>

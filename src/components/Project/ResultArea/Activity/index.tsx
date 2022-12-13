@@ -10,7 +10,11 @@ import { ConfirmModal } from '../../../Forms/Modal/Confirm';
 import { HeaderElement, TollTipText } from '../../../../helpers/utils';
 import { ReactComponent as DeleteSvg } from '../../../../assets/icons/delete.svg';
 import { ReactComponent as InfoSvg } from '../../../../assets/icons/info.svg';
-import { IProjectModalDelete, OnDeleteBoxHandler } from '../../../../types/project';
+import {
+  IProjectModalDelete,
+  OnDeleteBoxHandler
+} from '../../../../types/project';
+import { Void } from '../../../../types/global';
 
 const tooltipText = [
   'Must include at least one activity and at least one milestone statement.',
@@ -21,13 +25,39 @@ const tooltipText = [
   'Target for Attachment: Range 1-100.'
 ];
 
-const InputActivity: React.FC<{ resultId: number }> = ({ resultId }) => {
+const InputActivity: React.FC<{ resultId: number, form: any }> = ({
+  resultId,
+  form
+}) => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<boolean>();
   const [selectDeleteId, setSelectDeleteId] = useState<IProjectModalDelete>();
 
-  const onDelete: OnDeleteBoxHandler = (remove, field) => {
+  const onDelete: OnDeleteBoxHandler = (remove, field, title, activityName) => {
     setOpenDeleteResultModal(true);
-    setSelectDeleteId({ remove, field });
+    setSelectDeleteId({ remove, field, title, activityName });
+  };
+
+  const onSubmitDelete: Void = () => {
+    if (selectDeleteId !== undefined) {
+      const { remove, field, title, activityName } = selectDeleteId;
+
+      const deleteName = `deleted${title}Ids`;
+
+      const deletedFields = form.getFieldValue(deleteName) ?? [];
+
+      const currentId = title === 'InputActivity'
+        ? form.getFieldValue().resultAreas[resultId].inputActivities[field ?? ''].id
+        : form.getFieldValue().resultAreas[resultId].inputActivities[activityName ?? ''].milestones[field].id;
+
+      if (currentId !== undefined) {
+        const updateDeletedIds = deletedFields.concat(currentId);
+
+        form.setFieldsValue({ [deleteName]: updateDeletedIds });
+      }
+
+      remove(field);
+    }
+    setOpenDeleteResultModal(false);
   };
 
   return (
@@ -80,7 +110,9 @@ const InputActivity: React.FC<{ resultId: number }> = ({ resultId }) => {
                                   type={'milestones'}
                                   key={uuid()}
                                   add={add}
-                                  onDelete={onDelete}
+                                  onDelete={(remove, field) =>
+                                    onDelete(remove, field, 'Milestone', activity.name)
+                                  }
                                   remove={remove}
                                   list={milestones}
                                   resultId={resultId}
@@ -93,16 +125,12 @@ const InputActivity: React.FC<{ resultId: number }> = ({ resultId }) => {
                         {activities.length > 1 && (
                           <div
                             className="delete-activity"
-                            onClick={() => {
-                              setOpenDeleteResultModal(true);
-                              setSelectDeleteId({
-                                remove,
-                                field: activity.name
-                              });
-                            }}
+                            onClick={() =>
+                              onDelete(remove, activity.name, 'InputActivity')
+                            }
                           >
                             <DeleteSvg />
-                    </div>
+                          </div>
                         )}
                       </div>
                     ))}
@@ -111,7 +139,10 @@ const InputActivity: React.FC<{ resultId: number }> = ({ resultId }) => {
                         className="transparent"
                         value="Create"
                         onClick={() => {
-                          addActivity({ title: '', milestones: [{ measurement: 'NUMBER' }] });
+                          addActivity({
+                            title: '',
+                            milestones: [{ measurement: 'NUMBER' }]
+                          });
                         }}
                       >
                         +Add Activity
@@ -130,10 +161,7 @@ const InputActivity: React.FC<{ resultId: number }> = ({ resultId }) => {
         no="Cancel"
         open={openDeleteResultModal}
         title="Are you sure you want to delete  the field?"
-        onSubmit={() => {
-          selectDeleteId?.remove(selectDeleteId.field);
-          setOpenDeleteResultModal(false);
-        }}
+        onSubmit={onSubmitDelete}
         onCancel={() => setOpenDeleteResultModal(false)}
       />
     </>

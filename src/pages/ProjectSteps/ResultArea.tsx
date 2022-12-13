@@ -216,7 +216,7 @@ export const ResultArea: React.FC = () => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
-        <InputResult />
+        <InputResult form={form} />
         <AsnForm.Item className='deleteItem' name='deletedResultAreaIds'>
           <AsnInput />
         </AsnForm.Item>
