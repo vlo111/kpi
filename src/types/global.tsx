@@ -61,5 +61,6 @@ export interface IInfoHeader {
     title: string
     startDate: string
     endDate: string
+    status: string
   }
 }

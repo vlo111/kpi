@@ -41,8 +41,5 @@ export const AsnButton = styled(Button)`
       font-size: var(--base-font-size);
       border-radius: 5px;
       height: 38px;
-      position: absolute;
-      right: 0;
-      z-index: 10;
     }
 `;

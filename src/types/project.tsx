@@ -70,6 +70,7 @@ export interface IResultBox {
 
 export interface IInputActivities {
   title: string
+  id: string
   milestones: IResultBox[]
 }
 
@@ -77,4 +78,10 @@ export interface IResultAreaData {
   expectedResults: IResultBox[]
   inputActivities: IInputActivities
   title: string
+}
+
+export interface IResultAreas {
+  title: string
+  id: string
+  inputActivities: IInputActivities[]
 }

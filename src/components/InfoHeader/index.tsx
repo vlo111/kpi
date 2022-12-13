@@ -29,7 +29,7 @@ const AntDivider = styled(Divider)`
 const AntIcon = styled(Icon)`
 &.anticon{
   vertical-align: -0.225em;
- font-size:17px;
+  font-size:17px;
 }
 `;
 const { Text } = Typography;
@@ -37,24 +37,24 @@ const InfoHeader: React.FC<IInfoHeader> = ({ overview, project }) => {
   return (
     <Row style={{ padding: '40px' }}>
       <Col>
-      {(overview === false) &&
-      <Breadcrumb separator=">" style={{ marginBottom: '4vh' }}>
-          <Breadcrumb.Item>Objective 1</Breadcrumb.Item>
-          <Breadcrumb.Item>Activity 1.3</Breadcrumb.Item>
-          <Breadcrumb.Item>PYTHON COURSE</Breadcrumb.Item>
-        </Breadcrumb>
+        {(overview === false) &&
+          <Breadcrumb separator=">" style={{ marginBottom: '4vh' }}>
+            <Breadcrumb.Item>Objective 1</Breadcrumb.Item>
+            <Breadcrumb.Item>Activity 1.3</Breadcrumb.Item>
+            <Breadcrumb.Item>PYTHON COURSE</Breadcrumb.Item>
+          </Breadcrumb>
         }
         <Row gutter={[16, 0]}>
           <Col span={4} style={{ color: 'var(--dark-border-ultramarine)', fontSize: 'var(--headline-font-size)' }}> {project?.title}</Col>
           <Col span={14} offset={1} style={{ color: 'var(--dark-1)' }}>
-              {project?.description}
+            {project?.description}
             <Row align='middle' style={{ marginTop: '20px' }}>
               <Col>
-                <AntBadge color="var(--primary-light-orange)" text="Active" />
+                <AntBadge color="var(--secondary-green)" text="Active" />
                 <AntDivider type='vertical' />
               </Col>
               <Col style={{ fontSize: 'var(--base-font-size)' }}>
-               {moment(project?.startDate).format('DD/MM/YYYY')} - {moment(project?.endDate).format('DD/MM/YYYY')}
+                {moment(project?.startDate).format('DD/MM/YYYY')} - {moment(project?.endDate).format('DD/MM/YYYY')}
                 <AntDivider type='vertical' />
               </Col>
               <Col>
@@ -62,9 +62,9 @@ const InfoHeader: React.FC<IInfoHeader> = ({ overview, project }) => {
                 <Text underline={true} style={{ fontSize: 'var(--base-font-size)', marginLeft: '8px' }}>1</Text>
                 <AntDivider type='vertical' />
               </Col>
-              <Col>
+              {project?.status !== 'DRAFT' && <Col>
                 <AntIcon component={WarningSvg} />
-              </Col>
+              </Col>}
             </Row>
           </Col>
         </Row>
