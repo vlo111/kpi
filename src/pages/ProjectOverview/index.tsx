@@ -7,7 +7,7 @@ import InfoHeader from '../../components/InfoHeader';
 import { AsnButton } from '../../components/Forms/Button';
 import { AsnTabs } from '../../components/Forms/Tabs';
 import { IResultAreas, IInputActivities } from '../../types/project';
-import { useGetProjectById } from '../../api/Project/useGetProject';
+import useGetProjectById from '../../api/Project/useGetProject';
 import { ReactComponent as AddResultAreaSvg } from '../../assets/icons/projectOverview.svg';
 import { ReactComponent as EditPublishSvg } from '../../assets/icons/editpublish.svg';
 
@@ -24,7 +24,7 @@ const ProjectOverview: React.FC = () => {
   const data = useGetProjectById(id);
   const navigate = useNavigate();
 
-  const { project }: any = data;
+  const { result: project } = data?.data;
 
   const AntBadge = styled(Badge)`
    margin-right: 4px;
@@ -81,7 +81,7 @@ const ProjectOverview: React.FC = () => {
 
   return (
     <>
-      <InfoHeader overview={true} project={data?.project} />
+      <InfoHeader overview={true} project={project} />
       {project?.resultAreas.length !== 0
         ? (
           <AsnTabs
