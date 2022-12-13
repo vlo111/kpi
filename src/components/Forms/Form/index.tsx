@@ -31,11 +31,21 @@ export const AsnForm = styled(Form)`
       font-size: var(--base-font-size);
     }
   }
+  
+  .ant-form-item-label>label.ant-form-item-required:not(.ant-form-item-required-mark-optional) {
 
-  .ant-form-item-required:before {
-    position: absolute;
-    right: -12px;
-    color: var(--dark-2) !important;
-    margin-top: -6px;
+    &:before {
+      display: none !important;
+    }
+    
+    &:after {
+      color: var(--dark-2) !important;
+      display: inline-block;
+      margin-right: 4px;
+      font-size: 14px;
+      font-family: SimSun,sans-serif;
+      line-height: 1;
+      content: "*";
+    }
   }
 `;

@@ -89,10 +89,16 @@ export const FormProject: React.FC<{
     const startDate = form.getFieldsValue().startDate;
     const endDate = form.getFieldsValue().endDate;
 
+    let tomorrow = current;
+
+    if (startDate !== undefined) {
+      tomorrow = startDate.clone().add(1, 'days');
+    }
+
     if (item === 'start') {
       return current > (endDate ?? current);
     } else {
-      return current < (startDate ?? current);
+      return current < (tomorrow ?? current);
     }
   };
 

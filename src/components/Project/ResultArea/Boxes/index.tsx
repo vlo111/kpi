@@ -74,7 +74,7 @@ const Boxes: React.FC<ProjectInputBoxProps> = ({
               />
             </AsnForm.Item>
           </Col>
-          <Col>
+          <Col className="statement-box">
             <AsnForm.Item
               name={[item.name, 'statement']}
               label={firstLabel('Input expected result statement', index)}
@@ -145,6 +145,7 @@ const Boxes: React.FC<ProjectInputBoxProps> = ({
       ))}
       <Row>
         <AsnButton
+          className="transparent"
           value="Create"
           onClick={() => add({ measurement: 'NUMBER' })}
         >

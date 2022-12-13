@@ -3,20 +3,37 @@ import React, { useState } from 'react';
 import Boxes from '../Boxes';
 import { AsnForm } from '../../../Forms/Form';
 import { ConfirmModal } from '../../../Forms/Modal/Confirm';
+import { IProjectResultAreaDelete, OnDeleteExpectedHandler } from '../../../../types/project';
+import { Void } from '../../../../types/global';
 
-const ExpectedResult: React.FC<{ resultId: number }> = ({ resultId }) => {
+const ExpectedResult: React.FC<{ resultId: number, form: any }> = ({ resultId, form }) => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<boolean>();
-  const [selectDeleteId, setSelectDeleteId] = useState<{
-    remove: (name: number | number[]) => void
-    field: number
-  }>();
+  const [selectDeleteId, setSelectDeleteId] = useState<IProjectResultAreaDelete>();
 
-  const onDelete: (
-    remove: (index: number | number[]) => void,
-    field: number
-  ) => void = (remove, field) => {
-    setOpenDeleteResultModal(false);
+  const onDelete: OnDeleteExpectedHandler = (remove, field) => {
+    setOpenDeleteResultModal(true);
     setSelectDeleteId({ remove, field });
+  };
+
+  const onSubmitDelete: Void = () => {
+    if (selectDeleteId !== undefined) {
+      const { remove, field } = selectDeleteId;
+
+      const deleteName = 'deletedExpectedResultIds';
+
+      const deletedFields = form.getFieldValue(deleteName) ?? [];
+
+      const currentId = form.getFieldValue().resultAreas[resultId].expectedResults[field ?? ''].id;
+
+      if (currentId !== undefined) {
+        const updateDeletedIds = deletedFields.concat(currentId);
+
+        form.setFieldsValue({ [deleteName]: updateDeletedIds });
+      }
+
+      remove(field);
+    }
+    setOpenDeleteResultModal(false);
   };
 
   return (
@@ -41,10 +58,7 @@ const ExpectedResult: React.FC<{ resultId: number }> = ({ resultId }) => {
         no="Cancel"
         open={openDeleteResultModal}
         title="Are you sure you want to delete  the field?"
-        onSubmit={() => {
-          selectDeleteId?.remove(selectDeleteId.field);
-          setOpenDeleteResultModal(false);
-        }}
+        onSubmit={onSubmitDelete}
         onCancel={() => setOpenDeleteResultModal(false)}
       />
     </>

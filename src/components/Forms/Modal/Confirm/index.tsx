@@ -33,19 +33,19 @@ export const ConfirmModal: React.FC<ConfirmModalType> = ({
   open,
   title,
   onSubmit,
-  onClose,
   onCancel,
   yes,
   no,
+  closable = true,
   styles
 }) => {
   return (
     <ConfirmModalWrapper
       open={Boolean(open)}
       width={'600px'}
-      onCancel={onClose ?? undefined}
+      onCancel={closable ? onCancel : undefined}
       footer={false}
-      closable={false}
+      closable={closable}
       centered
     >
       <div className="wrapper" style={styles}>
