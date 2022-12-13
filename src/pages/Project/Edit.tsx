@@ -1,14 +1,14 @@
 import moment from 'moment';
 import { notification } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { FormProject } from '.';
 import { FormFinish, Void } from '../../types/global';
 import { AsnForm } from '../../components/Forms/Form';
 import { ProjectErrorResponse } from '../../types/project';
 import useEditProject from '../../api/Project/useEditProject';
-import { useGetProjectById } from '../../api/Project/useGetProject';
+import useGetProjectById from '../../api/Project/useGetProject';
 
 export const EditProject: React.FC = () => {
   const navigate = useNavigate();
@@ -17,7 +17,16 @@ export const EditProject: React.FC = () => {
 
   const [error, setError] = useState<string>('');
 
-  const { project, isLoading } = useGetProjectById(id) ?? { project: null };
+  const { data: project, isLoading } = useGetProjectById(id, {
+    enabled: !(id === null),
+    onSuccess: ({ ...data }) => {
+      form.setFieldsValue({
+        ...data.result,
+        startDate: moment(data.result?.startDate),
+        endDate: moment(data.result?.endDate)
+      });
+    }
+  });
 
   const onSuccess: Void = () => {
     console.log('success');
@@ -41,36 +50,24 @@ export const EditProject: React.FC = () => {
     }
   };
 
-  const { mutate: updateProject } = useEditProject({
-    onSuccess,
-    onError
-  });
+  const { mutate: updateProject } = useEditProject(
+    { id },
+    {
+      onSuccess,
+      onError
+    }
+  );
 
   const onFinish: FormFinish = useCallback(
     (values) => {
-      if (id !== undefined) {
-        updateProject({
-          id,
-          data: {
-            ...values,
-            startDate: new Date(values.startDate).toJSON(),
-            endDate: new Date(values.endDate).toJSON()
-          }
-        });
-      }
-    },
-    [form]
-  );
-
-  useEffect(() => {
-    if (project !== undefined) {
-      form.setFieldsValue({
-        ...project,
+      updateProject({
+        ...values,
         startDate: moment(project?.startDate),
         endDate: moment(project?.endDate)
       });
-    }
-  }, [id, project]);
+    },
+    [updateProject]
+  );
 
   return (
     <FormProject
