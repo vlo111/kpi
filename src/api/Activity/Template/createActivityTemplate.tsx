@@ -1,13 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
-import { ICreateTemplate } from '../../../types/api/activity/template';
+import { CreateActivityTemplate, ICreateTemplateData } from '../../../types/api/activity/template';
 
 import client from '../../client';
 
 const url = 'api/activity';
 
-const useCreateActivityTemplate: any = (options = {}) =>
+const useCreateActivityTemplate: CreateActivityTemplate = (options = {}) =>
   useMutation(
-    async (params: ICreateTemplate) =>
+    async (params: ICreateTemplateData) =>
       await client.post(`${url}/${params.id}/template`, params.data),
     options
   );
