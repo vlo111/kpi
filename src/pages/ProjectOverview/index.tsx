@@ -68,7 +68,7 @@ const ProjectOverview: React.FC = () => {
                 children: (
                   <Space direction='vertical' align='center' style={{ width: '100%', padding: '5vh 0 30px 0' }} >
                     <EditPublishSvg />
-                    <AsnButton className='primary'>Edit and Publish the project</AsnButton>
+                    <AsnButton className='primary' >Edit and Publish the project</AsnButton>
                   </Space>
                 )
               };
