@@ -1,18 +1,19 @@
 import { Steps } from 'antd';
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { First } from './First';
+import { ResultArea } from './ResultArea';
+import { ProjectDetails } from './ProjectDetails';
 import { useParams } from 'react-router-dom';
 
 const StepList = [
   {
     title: 'Project Input',
-    content: <First />
+    content: <ResultArea />
   },
   {
     title: 'Project details',
-    content: <div>Last</div>
+    content: <ProjectDetails />
   }
 ];
 
@@ -47,6 +48,10 @@ export const ProjectContainer = styled.div`
     justify-content: center;
     font-size: var(--headline-font-size);
     color: var(--dark-2);
+  }
+  
+  .deleteItem {
+    display: none;
   }
 `;
 
@@ -88,15 +93,11 @@ const AsnStepsHeader = styled(Steps)`
 export const ProjectSteps: React.FC = () => {
   const { index } = useParams();
 
-  const [current] = useState<number>(parseInt(index ?? '0'));
+  const [current, setCurrent] = useState(parseInt(index ?? '0'));
 
-  // const prevCurrent: any = () => {
-  //   setCurrent(current - 1);
-  // };
-  //
-  // const nextCurrent: () => void = () => {
-  //   setCurrent(current + 1);
-  // };
+  useEffect(() => {
+    return setCurrent(parseInt(index ?? '0'));
+  }, [index]);
 
   return (
     <ProjectContainer>

@@ -1,6 +1,6 @@
 import { IUser } from './auth';
 import { Moment } from 'moment';
-import { FormListFieldData } from 'antd';
+import { FormInstance, FormListFieldData } from 'antd';
 
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
@@ -9,7 +9,7 @@ export interface ICreateTemplate {
 }
 
 export type OpenDeleteResultModal =
-  | { remove: (name: string) => void, fields: string }
+  | { remove: (name: string) => void, fields: string, title: string }
   | undefined;
 
 export type Date = Moment | null;
@@ -58,7 +58,10 @@ export interface ProjectInputBoxProps {
   list: FormListFieldData[]
   add: (defaultValue?: any, insertIndex?: number | undefined) => void
   remove: (index: number | number[]) => void
-  onDelete: (remove: (index: number | number[]) => void, field: number) => void
+  onDelete: (
+    remove: (index: number | number[]) => void,
+    field: number,
+  ) => void
 }
 
 export interface IResultBox {
