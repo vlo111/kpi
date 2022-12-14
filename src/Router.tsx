@@ -51,7 +51,6 @@ export const router = createBrowserRouter(
         </Route>
         <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
         <Route path={PATHS.CHANGEPASSWORD} element={<ChangePassword />} />
-        <Route path={PATHS.PROJECTOVERVIEW} element={<ProjectOverview />} />
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path={PATHS.ERROR_500} element={<ErrorBoundary />} />

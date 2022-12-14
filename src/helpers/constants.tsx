@@ -17,8 +17,7 @@ export const PATHS = {
   STEPS: ':id/steps/:index',
   CURRENTSTEP: ':index',
   USERPROFILE: 'user-profile',
-  CHANGEPASSWORD: 'change-password',
-  PROJECTOVERVIEW: 'project/overview/:id'
+  CHANGEPASSWORD: 'change-password'
 };
 
 export const VALIDATE_MESSAGES = {
