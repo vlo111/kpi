@@ -24,7 +24,7 @@ export const AsnCollapseStyle = styled(Collapse)`
     background: transparent;
 
     >.ant-collapse-content-box {
-      padding: 2rem 1rem 2rem 2rem;
+      padding: 2rem 3rem 2rem 3rem;
     }
   }
 
