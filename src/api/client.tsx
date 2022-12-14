@@ -1,23 +1,23 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig } from "axios";
 // import { PATHS } from '../helpers/constants';
-import { logOut } from '../helpers/utils';
+import { logOut } from "../helpers/utils";
 
 const client = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: {
-    'Content-Type': 'application/json'
-  }
+    "Content-Type": "application/json",
+  },
 });
 
 client.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const token: string | null = JSON.parse(
-      localStorage.getItem('token') as string
+      localStorage.getItem("token") as string
     );
     if (token != null) {
       config.headers = config.headers ?? {};
       config.headers.Authorization = `Bearer ${
-        typeof token === 'boolean' ? '' : token
+        typeof token === "boolean" ? "" : token
       }`;
     }
     return config;

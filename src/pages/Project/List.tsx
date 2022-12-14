@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Col, Row, Space, Spin, Typography } from 'antd';
 import dayjs from 'dayjs';

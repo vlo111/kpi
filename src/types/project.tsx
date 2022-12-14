@@ -12,8 +12,6 @@ export type OpenDeleteResultModal =
   | { remove: (name: string) => void, fields: string, title: string }
   | undefined;
 
-export type Date = Moment | null;
-
 export type DisabledDate = (current: Moment, item: string) => boolean;
 
 export interface ICreateProject {
@@ -73,7 +71,6 @@ export interface IResultBox {
 
 export interface IInputActivities {
   title: string
-  id: string
   milestones: IResultBox[]
 }
 
@@ -83,8 +80,51 @@ export interface IResultAreaData {
   title: string
 }
 
-export interface IResultAreas {
-  title: string
+export interface IProjectDetailsData {
   id: string
-  inputActivities: IInputActivities[]
+  title: string
+}
+
+export interface IProjectDetails {
+  organization: IProjectDetailsData[]
+  sector: IProjectDetailsData[]
+  region: IProjectDetailsData[]
+}
+
+export interface IProjectDetailsItems {
+  title: string
+  name: string
+  onDelete: (remove: (name: string) => void, fields: string, title: string) => void
+}
+
+export interface IProjectModalDelete {
+  remove: (name: number | number[]) => void
+  field: number
+  title: string
+  activityName?: number
+}
+
+export interface IProjectResultAreaDelete {
+  remove: (name: number | number[]) => void
+  field: number
+}
+
+export type OnDeleteBoxHandler = (
+  remove: (index: number | number[]) => void,
+  field: number,
+  title: string,
+  activityName?: number
+) => void
+
+export type OnDeleteExpectedHandler = (
+  remove: (index: number | number[]) => void,
+  field: number
+) => void
+
+export type ProjectDetailsDelete = (remove: (name: string) => void, fields: string, title: string) => void
+
+export interface ProjectDetails {
+  organizations: string[]
+  sectors: string[]
+  regions: string[]
 }

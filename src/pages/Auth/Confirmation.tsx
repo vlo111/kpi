@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSearchParams, useNavigate, Navigate } from 'react-router-dom';
-import { message } from 'antd';
+import { Spin, message, Row, Col } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
-import AsnSpin from '../../components/Forms/Spin';
 import useResendEmail from '../../api/Auth/useConfirmEmail';
 import { PATHS } from '../../helpers/constants';
 import { ISuccessMessage } from '../../types/auth';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 100, color: 'var(--dark-border-ultramarine)' }} spin />;
 
 const Confirmation: React.FC = () => {
   const navigate = useNavigate();
@@ -28,7 +30,9 @@ const Confirmation: React.FC = () => {
     }
   }, [token]);
   return (
-            <AsnSpin />
+            <Row align="middle" justify='center' style={ { height: '100vh' } }>
+                <Col><Spin indicator={antIcon} /></Col>
+            </Row>
   );
 };
 

@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { Space, message } from 'antd';
 import styled from 'styled-components';
 
-import { AsnInput } from '../../Forms/Input';
+import useEditUser from '../../../api/UserProfile/useEditUser';
+import { IUser } from '../../../types/auth';
 import { AsnAlert } from '../../Forms/Alert';
+import { ICreateTemplate } from '../../../types/project';
+import { TVoid } from '../../../types/global';
 import { AsnModal } from '../../Forms/Modal';
 import { AsnButton } from '../../Forms/Button';
 import { AsnForm } from '../../Forms/Form';
-import { phoneRegExp, VALIDATE_MESSAGES, phoneErrorMesage } from '../../../helpers/constants';
-import { IUser } from '../../../types/auth';
-import { ICreateTemplate } from '../../../types/project';
-import { TVoid } from '../../../types/global';
-import useEditUser from '../../../api/UserProfile/useEditUser';
+import { AsnInput } from '../../Forms/Input';
 
 const UserModal = styled(AsnModal)`
     padding: 4.3vh 1.3vw 4.5vh 4.3vh !important;
@@ -67,7 +66,6 @@ const EditProfile: React.FC<ICreateTemplate> = ({
   };
   const handleCancel: TVoid = () => {
     setIsOpenCreateActivityModal(false);
-    form.resetFields();
     if (error.length > 0) {
       setError('');
     }
@@ -75,12 +73,10 @@ const EditProfile: React.FC<ICreateTemplate> = ({
 
   const onCancelClick: TVoid = () => {
     setIsOpenCreateActivityModal(false);
-    form.resetFields();
     if (error.length > 0) {
       setError('');
     }
   };
-
   return (
     <UserModal
       footer={false}
@@ -90,7 +86,6 @@ const EditProfile: React.FC<ICreateTemplate> = ({
     >
        {(error.length > 0) && <AsnAlert type="error" message={error} />}
         <AsnForm
-          validateMessages={VALIDATE_MESSAGES}
           id="create-template-form"
           form={form}
           layout="vertical"
@@ -116,9 +111,8 @@ const EditProfile: React.FC<ICreateTemplate> = ({
            name='phone'
            label='Phone'
            initialValue={user?.phone}
-           rules={[{ pattern: phoneRegExp, message: phoneErrorMesage }]}
            >
-            <AsnInput placeholder='+(374) XXXXXX' />
+            <AsnInput placeholder="Phone" />
           </AsnForm.Item>
           <AsnForm.Item
            name='organization'
@@ -136,7 +130,7 @@ const EditProfile: React.FC<ICreateTemplate> = ({
             <AsnInput placeholder="Position" />
           </AsnForm.Item>
         <Space style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-          <AsnButton onClick={onCancelClick} className="default">Cancel</AsnButton>
+          <AsnButton className="default" onClick={onCancelClick}>Cancel</AsnButton>
           <AsnButton className="primary" htmlType="submit" loading={isLoading}>
           Save changes
           </AsnButton>

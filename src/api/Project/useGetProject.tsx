@@ -4,7 +4,7 @@ import client from '../client';
 
 const url = 'api/project/:id';
 
-const useGetProjectById: any = (id: string, options = { enabled: true }) => {
+const useGetUSSCenterById: any = (id: string, options = { enabled: true }) => {
   const result = useQuery(
     [url, id],
     async (values) => await client.get(url.replace(':id', id), values),
@@ -20,4 +20,4 @@ const useGetProjectById: any = (id: string, options = { enabled: true }) => {
   };
 };
 
-export default useGetProjectById;
+export default useGetUSSCenterById;
