@@ -30,16 +30,16 @@ const UserProfile: React.FC = () => {
     setIsOpenCreateActivityModal(true);
   };
 
-  const { mutate: saveChanges } = useEditUser(
-    {
-      onSuccess: () => {},
-      onError: () => {}
-    }
-  );
+  const { mutate: saveChanges } = useEditUser({
+    onSuccess: () => {},
+    onError: () => {}
+  });
 
   const { mutate: imageUpload } = userImageUpload({
     onSuccess: (options: IUserUpload) => {
-      const { data: { result } } = options;
+      const {
+        data: { result }
+      } = options;
       setPhoto(result[0]);
     }
   });
@@ -88,20 +88,21 @@ const UserProfile: React.FC = () => {
       </Col>
       <Row gutter={[0, 32]} style={{ padding: '64px 60px' }}>
         <Col md={7} xs={12} span={8}>
-          <Upload
-          {...props}
-          >
+          <Upload {...props}>
             <AsnAvatar
               size={128}
-              letter={`${user?.firstName?.charAt(0)}${user?.lastName?.charAt(0)}`}
+              letter={`${user?.firstName?.charAt(0)}${user?.lastName?.charAt(
+                0
+              )}`}
               src={photo.length > 0 ? photo : user.photo}
             />
-            {(photo.length < 0 || (user.photo === '' || user.photo === null)) &&
-              <Button icon={<UploadUser />}></Button>}
+            {!((user?.photo ?? '').length !== 0) && (
+              <Button icon={<UploadUser />}></Button>
+            )}
           </Upload>
-          {(photo.length > 0 || (user.photo !== '')) &&
+          {(user?.photo ?? '').length !== 0 && (
             <Button onClick={onRemove} icon={<DeleteOutlined />}></Button>
-            }
+          )}
         </Col>
         <Col md={12} xs={24}>
           <Title
