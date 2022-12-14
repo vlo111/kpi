@@ -59,12 +59,12 @@ export const ProjectDetailComponent: React.FC = () => {
       if (projectDetails?.sectors.length != null) {
         updateProjectDetails({
           id,
-          data: form.getFieldsValue()
+          data: values
         });
       } else {
         createProjectDetails({
           id,
-          data: form.getFieldsValue()
+          data: values
         });
       }
     }
