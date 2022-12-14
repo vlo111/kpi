@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import { FormFinish, Void } from '../../types/global';
 import { AsnForm } from '../../components/Forms/Form';
@@ -9,7 +9,15 @@ import { AsnButton } from '../../components/Forms/Button';
 import InputResult from '../../components/Project/ResultArea';
 import { useGetResultArea } from '../../api/Project/ResultArea/useGetResultArea';
 import useCreateResultArea from '../../api/Project/ResultArea/useCreateResultArea';
-import { ProjectErrorResponse, SetResultArea, SetTitleColor } from '../../types/project';
+import {
+  ProjectErrorResponse,
+  SetResultArea,
+  SetTitleColor
+} from '../../types/project';
+import useUpdateResultArea from '../../api/Project/ResultArea/useUpdateResultArea';
+import { PATHS } from '../../helpers/constants';
+import { Spin } from 'antd';
+import { AsnInput } from '../../components/Forms/Input';
 
 const VALIDATE_MESSAGES_PROJECT_INPUT = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -45,7 +53,7 @@ const ProjectInputForm = styled(AsnForm)`
   }
 
   .ant-collapse-content-box {
-    padding: 2rem !important
+    padding: 2rem !important;
   }
 
   .form-footer {
@@ -85,17 +93,8 @@ const ProjectInputForm = styled(AsnForm)`
 
   div:not(:last-child) {
     button {
-      border: 1px solid var(--dark-5) !important;
-      color: var(--dark-2) !important;
-      background: var(--white);
-      width: 14rem;
+      width: 100%;
       margin: 0 auto;
-      height: 44px;
-
-      span {
-        font-size: var(--base-font-size) !important;
-        font-weight: var(--font-normal) !important;
-      }
     }
   }
 `;
@@ -115,15 +114,20 @@ const setError: SetResultArea = (values) => {
   const errorsIndex = [...new Set(values.errorFields.map((r) => r.name[1]))];
 
   const resultAreaElement: (id: string) => void = (id) => {
-    const resultAreaElement = document.getElementById(`ans-title-${id}`) as HTMLElement;
+    const resultAreaElement = document.getElementById(
+      `ans-title-${id}`
+    ) as HTMLElement;
 
     setTitleColor(resultAreaElement, 'var(--error)');
   };
 
-  const resultAreaElements: HTMLCollectionOf<HTMLElement> = document.getElementsByClassName('result_area_title') as HTMLCollectionOf<HTMLElement>;
+  const resultAreaElements: HTMLCollectionOf<HTMLElement> =
+    document.getElementsByClassName(
+      'result_area_title'
+    ) as HTMLCollectionOf<HTMLElement>;
 
   if (!_.isEmpty(resultAreaElements)) {
-    Array.from(resultAreaElements).forEach(element => {
+    Array.from(resultAreaElements).forEach((element) => {
       setTitleColor(element, 'var(--dark-2)');
     });
   }
@@ -131,33 +135,26 @@ const setError: SetResultArea = (values) => {
   errorsIndex.map((i) => resultAreaElement(i));
 };
 
-export const First: React.FC = () => {
+export const ResultArea: React.FC = () => {
   const { id } = useParams();
 
-  const resultAreas = useGetResultArea(id);
+  const navigate = useNavigate();
+
+  // @ts-expect-error
+  const { resultAreas, isLoading } = useGetResultArea(id);
 
   const [form] = AsnForm.useForm();
 
   const onSuccess: Void = () => {
-    console.log('success');
-    // notification.success({
-    //   bottom: 50,
-    //   placement: 'topRight',
-    //   message: 'The project saved successfully',
-    //   duration: 3
-    // });
-    // if (id !== undefined) {
-    //   navigate(`../overview/${id}`, { replace: true });
-    // }
+    const path = `/project/${PATHS.STEPS}`
+      .replace(':id', id ?? '')
+      .replace(':index', '1');
+
+    navigate(path);
   };
 
   const onError: ProjectErrorResponse = ({ response }) => {
     console.log('error', response);
-    // if (response.status === 409) {
-    //   setError('A project with the same name already exists');
-    // } else {
-    //   setError(response.data.message);
-    // }
   };
 
   const { mutate: createResultArea } = useCreateResultArea({
@@ -165,15 +162,24 @@ export const First: React.FC = () => {
     onError
   });
 
+  const { mutate: updateResultArea } = useUpdateResultArea({
+    onSuccess,
+    onError
+  });
+
   const onFinish: FormFinish = (values: FormData) => {
-    console.log(values, 'finish');
-    // nextCurrent();
-    console.log(id, form.getFieldsValue());
     if (id !== undefined) {
-      createResultArea({
-        id,
-        data: form.getFieldsValue()
-      });
+      if (resultAreas?.length != null) {
+        updateResultArea({
+          id,
+          data: form.getFieldsValue()
+        });
+      } else {
+        createResultArea({
+          id,
+          data: form.getFieldsValue()
+        });
+      }
     }
   };
 
@@ -187,21 +193,14 @@ export const First: React.FC = () => {
     if (resultAreas !== undefined && resultAreas.length !== 0) {
       form.setFieldsValue({ resultAreas });
     } else {
-      // form.setFieldsValue({
-      //   result: [
-      //     {
-      //       title: 'qw eqw e',
-      //       expectedResults: [{ code: 'asdasd' }],
-      //       inputActivities: [{ title: 'zaza ', milestones: [{ measurement: 'ATTACHMENT', statement: 'barev dzez', target: '78' }] }]
-      //     }
-      //   ]
-      // });
       form.setFieldsValue({
         resultAreas: [
           {
             title: '',
             expectedResults: [{ measurement: 'NUMBER' }],
-            inputActivities: [{ title: '', milestones: [{ measurement: 'NUMBER' }] }]
+            inputActivities: [
+              { title: '', milestones: [{ measurement: 'NUMBER' }] }
+            ]
           }
         ]
       });
@@ -209,28 +208,42 @@ export const First: React.FC = () => {
   }, [resultAreas]);
 
   return (
-    <ProjectInputForm
-      form={form}
-      layout="vertical"
-      validateMessages={VALIDATE_MESSAGES_PROJECT_INPUT}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-    >
-      <InputResult />
-      <div className="footer">
-        <AsnButton
-          className="default"
-          onClick={() => {
-            // prevCurrent();
-          }}
-        >
-          Cancel
-        </AsnButton>
-        <AsnButton className="default">Save as Draft</AsnButton>
-        <AsnButton className="primary" htmlType="submit">
-          Next
-        </AsnButton>
-      </div>
-    </ProjectInputForm>
+    <Spin spinning={isLoading}>
+      <ProjectInputForm
+        form={form}
+        layout="vertical"
+        validateMessages={VALIDATE_MESSAGES_PROJECT_INPUT}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+      >
+        <InputResult form={form} />
+        <AsnForm.Item className='deleteItem' name='deletedResultAreaIds'>
+          <AsnInput />
+        </AsnForm.Item>
+        <AsnForm.Item className='deleteItem' name='deletedExpectedResultIds'>
+          <AsnInput />
+        </AsnForm.Item>
+        <AsnForm.Item className='deleteItem' name='deletedInputActivityIds'>
+          <AsnInput />
+        </AsnForm.Item>
+        <AsnForm.Item className='deleteItem' name='deletedMilestoneIds'>
+          <AsnInput />
+        </AsnForm.Item>
+        <div className="footer">
+          <AsnButton
+            className="default"
+            onClick={() => {
+              // prevCurrent();
+            }}
+          >
+            Cancel
+          </AsnButton>
+          <AsnButton className="default">Save as Draft</AsnButton>
+          <AsnButton className="primary" htmlType="submit">
+            Next
+          </AsnButton>
+        </div>
+      </ProjectInputForm>
+    </Spin>
   );
 };

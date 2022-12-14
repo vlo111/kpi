@@ -29,7 +29,18 @@ export const AsnButton = styled(Button)`
 
     &:hover {
       background: var(--primary-light-1);
-      color: var(--dark-border-ultramarine)
+      color: var(--dark-border-ultramarine);
+    }
+  }
+
+  &.transparent {
+    border: 1px solid var(--dark-5) !important;
+    color: var(--dark-2) !important;
+    height: 44px;
+
+    span {
+      font-size: var(--base-font-size) !important;
+      font-weight: var(--font-normal) !important;
     }
   }
   &.draft{
