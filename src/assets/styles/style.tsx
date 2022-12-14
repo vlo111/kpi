@@ -73,10 +73,6 @@ const GlobalStyle = createGlobalStyle`
     --interval: clamp(15px, 5%, 50px)
   }
 
-  .dki {
-    width: clamp(15px, 8vw, 250px) !important;
-  }
-
   * {
     margin: 0;
     padding: 0;
