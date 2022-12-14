@@ -3,16 +3,20 @@ import client from '../../client';
 
 export const url = 'api/activity';
 
-const useGroups: any = (id: any) => {
-//   return useQuery < { TQueryFnData: unknown, TError: unknown } >({
-//     enabled: true
-//   });
-  const { data, isLoading } = useQuery(
-    ['templates', id],
-    async () => await client.get(`${url}/`)
+const GetTemplates: any = (params = {}, options = { enabled: false }) => {
+  const result = useQuery(
+    [url, params],
+    async () => await client.get(`${url}/${params.id}/templates`),
+    {
+      ...options,
+      select: (data) => data.data
+    }
   );
-
-  return { templates: data?.data?.result, isLoading };
+  const { data, isSuccess } = result;
+  return {
+    ...result,
+    data: isSuccess ? data : []
+  };
 };
 
-export default useGroups;
+export default GetTemplates;
