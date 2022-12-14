@@ -17,7 +17,8 @@ export const PATHS = {
   STEPS: ':id/steps/:index',
   CURRENTSTEP: ':index',
   USERPROFILE: 'user-profile',
-  CHANGEPASSWORD: 'change-password'
+  CHANGEPASSWORD: 'change-password',
+  PROJECTOVERVIEW: 'project/overview/:id'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -50,6 +51,8 @@ export const menuItemsNavigate = [
 ];
 
 export const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$/;
+export const phoneRegExp = /^[+][(][0-9]{1,5}[)][-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,12}$/im;
+export const phoneErrorMesage = 'Please enter your phone in format: +(374) XXXXXX';
 
 export const VALIDATE_EMPTY = {
   firstName: 'Please enter a valid Email Address',
