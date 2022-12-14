@@ -10,7 +10,7 @@ import { ReactComponent as PeopleSvg } from '../../assets/icons/people.svg';
 
 const AntBadge = styled(Badge)`
  .ant-badge-status-text{
-  font-size: 16px;
+  font-size: var(--base-font-size);
  }
  .ant-badge-status-dot{
   width: 10px;
@@ -29,14 +29,14 @@ const AntDivider = styled(Divider)`
 const AntIcon = styled(Icon)`
 &.anticon{
   vertical-align: -0.225em;
-  font-size:17px;
+  font-size:var(--font-size-base-medium);
 }
 `;
 const { Text } = Typography;
 const InfoHeader: React.FC<IInfoHeader> = ({ overview, project }) => {
   return (
     <Row style={{ padding: '40px' }}>
-      <Col>
+      <Col span={24}>
         {(overview === false) &&
           <Breadcrumb separator=">" style={{ marginBottom: '4vh' }}>
             <Breadcrumb.Item>Objective 1</Breadcrumb.Item>

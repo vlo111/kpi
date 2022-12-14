@@ -50,6 +50,7 @@ const GlobalStyle = createGlobalStyle`
     --base-font-size: 16px;
     --font-size-semismall: 14px;
     --font-size-small: 12px;
+    --font-size-base-medium: 17px
     
     --font-normal: 400;
     --font-semibold: 500;
