@@ -62,8 +62,8 @@ export const EditProject: React.FC = () => {
     (values) => {
       updateProject({
         ...values,
-        startDate: moment(project?.startDate),
-        endDate: moment(project?.endDate)
+        startDate: moment(values?.startDate),
+        endDate: moment(values?.endDate)
       });
     },
     [updateProject]
