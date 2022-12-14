@@ -167,17 +167,17 @@ export const ResultArea: React.FC = () => {
     onError
   });
 
-  const onFinish: FormFinish = (values: FormData) => {
+  const onFinish: FormFinish = (values) => {
     if (id !== undefined) {
       if (resultAreas?.length != null) {
         updateResultArea({
           id,
-          data: form.getFieldsValue()
+          data: values
         });
       } else {
         createResultArea({
           id,
-          data: form.getFieldsValue()
+          data: values
         });
       }
     }
