@@ -26,6 +26,7 @@ export const ProjectList: FC = () => {
   const handleEdit = (id: string): void => {
     navigate(`/${PATHS.PROJECT}/${id}`);
   };
+  console.log(result);
   return (
     <Spin spinning={isLoading}>
       <Space direction="vertical">

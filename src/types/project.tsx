@@ -1,6 +1,6 @@
 import { IUser } from './auth';
 import { Moment } from 'moment';
-import { FormInstance, FormListFieldData } from 'antd';
+import { FormListFieldData } from 'antd';
 
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
@@ -127,4 +127,11 @@ export interface ProjectDetails {
   organizations: string[]
   sectors: string[]
   regions: string[]
+}
+
+export interface IGeneralInfoProps {
+  title: string
+  description: string
+  startDate: string
+  endDate: string
 }

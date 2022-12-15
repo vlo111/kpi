@@ -53,3 +53,8 @@ export type UseMutation<Success, Error, ResponseErrorData, RequestData> = (
   mutate: Mutate<RequestData, ResponseErrorData>
   isLoading: boolean
 };
+
+export interface IBreadcrumb {
+  path: string
+  breadcrumbName: string
+}

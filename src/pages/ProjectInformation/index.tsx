@@ -1,23 +1,23 @@
 import React from 'react';
-import styled from 'styled-components';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Typography, Card, Space, Row } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
 import CardTitle from './CardTitle';
-// import ResultAndActivities from './ResultAndActivities';
-// import ActivityName from './ActivityName';
+import GeneralInfo from './GeneralInfo';
 import { AsnButton } from '../../components/Forms/Button';
 import AsnBreadcrumb from '../../components/Forms/Breadcrumb';
+import useGetProjectById from '../../api/Project/useGetProject';
+// import ResultAndActivities from './ResultAndActivities';
+
+// import ResultAndActivities from './ResultAndActivities';
+// import ActivityName from './ActivityName';
 // import { ReactComponent as ArrowLeftSvg } from '../../../../assets/icons/arrowLeft.svg';
 
 const { Title } = Typography;
 
 const ProjectInfoContainer = styled.div`
   padding: 40px 32px 60px 32px;
-`;
-const MainTitle = styled(Title)`
-  text-align: center; 
-  font-size: var(--large-hedline-font-size);
-  font-weight: var(--font-bold);
 `;
 const CardWrapper = styled(Card)`
   border: none;
@@ -47,27 +47,63 @@ const backButton = {
 // };
 
 const ProjectInformation: React.FC = () => {
+  const { id } = useParams<string>();
+  const data = useGetProjectById(id);
+  const { isLoading } = data;
+  const { result: project } = data?.data;
   const navigate = useNavigate();
+  if (isLoading === true) {
+    return <div>loading</div>;
+  }
+  console.log(project);
   return (
     <ProjectInfoContainer>
-      {/* <Row gutter={[11, 0]} align='middle'>
-        <Col style={{ cursor: 'pointer' }} onClick={() => navigate('/overview')}><ArrowLeftSvg /></Col>
-        <Col style={{ ...headerPaginationCss, color: 'var(--dark-3)' }} onClick={() => navigate('/overview')}>Project Overview {'>'}</Col>
-        <Col style={{ ...headerPaginationCss }}>Project information</Col>
-      </Row> */}
-      <AsnBreadcrumb />
-      <MainTitle>Project Information</MainTitle>
+      <AsnBreadcrumb
+        routes={
+          [{
+            path: '/overview/:id',
+            breadcrumbName: 'Project Overview'
+          },
+          {
+            path: '/overviw/:id',
+            breadcrumbName: 'Project Information'
+          }]
+        }
+      />
+      <Title level={2} style={{
+        textAlign: 'center',
+        fontSize: 'var(--large-hedline-font-size)',
+        fontWeight: 'var(--font-bold)'
+      }}>
+        Project Information
+      </Title>
       <CardWrapper>
         <Space direction={'vertical'} size={[0, 16]} style={{ width: '100%' }}>
           <CardTitle title={'General Info'} />
-          {/* {generalInfo.map((info, i) => (
-            <GeneralInfo key={i} title={info.title} description={info.description} />
-          ))} */}
+             <GeneralInfo
+             title={project?.title}
+             description={project?.description}
+             startDate={project?.startDate}
+             endDate={project?.endDate}
+           />
         </Space>
       </CardWrapper>
       <CardWrapper style={{ borderTop: '3px solid var(--secondary-green)' }}>
         <CardTitle title={'Result areas and Activities'} />
-        <ResultAreaName>1.Skill gap reduced</ResultAreaName>
+        {project?.resultAreas?.map((result: any, i: number) => (
+           // eslint-disable-next-line react/jsx-key
+           <>
+           <ResultAreaName>{result?.title}</ResultAreaName>
+           {/* <ResultAndActivities
+            key={i}
+            // option={result.option}
+            description={result.description}
+            count={result.count}
+            divider={true}
+          /> */}
+          </>
+        ))
+        }
         {/* {resultAndActivities.map((info, i) => (
           <ResultAndActivities
             key={i}

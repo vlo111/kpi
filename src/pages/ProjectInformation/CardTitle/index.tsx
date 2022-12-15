@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import styled from 'styled-components';
-// import { ReactComponent as EditSvg } from '../../../../../assets/icons/edit.svg';
+import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg';
 
 const Title = styled.div`
   font-weight:var(--font-normal);
@@ -17,7 +17,7 @@ const CardTitle: React.FC<{ title: string }> = ({ title }) => {
           <Title>{title}</Title>
         </Col>
         <Col>
-          {/* <EditSvg style={ { cursor: 'pointer' }} /> */}
+          <EditSvg style={ { cursor: 'pointer' }} />
         </Col>
       </Row>
   );
