@@ -15,7 +15,7 @@ import EditProfile from '../../components/Users/EditUserProfile';
 import { ReactComponent as UploadUser } from '../../assets/icons/upload.svg';
 import { ReactComponent as Edit } from '../../assets/icons/edit.svg';
 import useEditUser from '../../api/UserProfile/useEditUser';
-import userImageUpload from '../../api/UserProfile/userImageUpload';
+import userImageUpload from '../../api/UserProfile/useUserImageUpload';
 
 const { Title } = Typography;
 

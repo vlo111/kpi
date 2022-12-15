@@ -5,7 +5,7 @@ import { IAvatarTypes } from '../../../types/global';
 
 const AntAvatar = styled(Avatar)<{ src: string | undefined | null }>`
   background-color: ${(props) =>
-    (props.src ?? '').length !== 0 ? 'var( --secondary-light-amber)' : 'none'};
+    !((props.src ?? '').length !== 0) ? 'var( --secondary-light-amber)' : 'none'};
   .ant-avatar-string {
     font-size: ${(props) =>
       props.size === 128 ? 'var(--large-hedline-font-size)' : ''};
