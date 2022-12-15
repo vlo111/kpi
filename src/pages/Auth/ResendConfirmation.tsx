@@ -52,7 +52,7 @@ const ResendConfirmation: React.FC = () => {
                 <CheckedSvg />
                 <Checked>Check your <span>spam and notifications folders<br></br>in your inbox</span></Checked>
               </Space>
-              <AsnButton style={{ marginTop: '41px', maxWidth: '460px' }} loading={isLoading} className='primary' type="primary" htmlType="submit" onClick={reSendEmail}>
+              <AsnButton style={{ marginTop: '41px', maxWidth: '460px', width: '100%' }} loading={isLoading} className='primary' htmlType="submit" onClick={reSendEmail}>
                 Re-Send Confirmation Email
               </AsnButton>
           </Space>

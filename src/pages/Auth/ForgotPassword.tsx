@@ -70,7 +70,7 @@ const ForgotPassword: React.FC = () => {
               <AsnInput placeholder="Email Address" />
             </AsnForm.Item>
             <AsnForm.Item style={ { marginBottom: '9px' } }>
-              <AsnButton className='primary' type="primary" htmlType="submit" loading={isLoading}>
+              <AsnButton className='primary' htmlType="submit" loading={isLoading} style={{ width: '100%' }}>
                 Reset Password
               </AsnButton>
             </AsnForm.Item>

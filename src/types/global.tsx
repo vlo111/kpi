@@ -53,3 +53,14 @@ export type UseMutation<Success, Error, ResponseErrorData, RequestData> = (
   mutate: Mutate<RequestData, ResponseErrorData>
   isLoading: boolean
 };
+
+export interface IInfoHeader {
+  overview?: boolean
+  project?: {
+    description: string
+    title: string
+    startDate: string
+    endDate: string
+    status: string
+  }
+}
