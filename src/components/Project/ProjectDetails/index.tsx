@@ -7,10 +7,10 @@ import { Col, Row, Spin } from 'antd';
 import { AsnButton } from '../../Forms/Button';
 import { PATHS } from '../../../helpers/constants';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetProjectDetails } from '../../../api/Project/Details/useGetProjectDetails';
+import { useGetProjectDetails } from '../../../api/Details/useGetProjectDetails';
 import { Void } from '../../../types/global';
-import useCreateProjectDetails from '../../../api/Project/Details/useCreateProjectDetails';
-import useUpdateProjectDetails from '../../../api/Project/Details/useUpdateProjectDetails';
+import useCreateProjectDetails from '../../../api/Details/useCreateProjectDetails';
+import useUpdateProjectDetails from '../../../api/Details/useUpdateProjectDetails';
 
 export const VALIDATE_PROJECT_DETAILS_MESSAGES = {
   // eslint-disable-next-line no-template-curly-in-string

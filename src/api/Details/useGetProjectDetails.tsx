@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import client from '../../client';
-import { UseGetProjectDetails } from '../../../types/api/project/get-project';
+import client from '../client';
+import { UseGetProjectDetails } from '../../types/api/project/get-project';
 
 const URL_GET_PROJECTS = 'api/project';
 

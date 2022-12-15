@@ -7,14 +7,14 @@ import { FormFinish, Void } from '../../types/global';
 import { AsnForm } from '../../components/Forms/Form';
 import { AsnButton } from '../../components/Forms/Button';
 import InputResult from '../../components/Project/ResultArea';
-import { useGetResultArea } from '../../api/Project/ResultArea/useGetResultArea';
-import useCreateResultArea from '../../api/Project/ResultArea/useCreateResultArea';
+import { useGetResultArea } from '../../api/ResultArea/useGetResultArea';
+import useCreateResultArea from '../../api/ResultArea/useCreateResultArea';
 import {
   ProjectErrorResponse,
   SetResultArea,
   SetTitleColor
 } from '../../types/project';
-import useUpdateResultArea from '../../api/Project/ResultArea/useUpdateResultArea';
+import useUpdateResultArea from '../../api/ResultArea/useUpdateResultArea';
 import { PATHS } from '../../helpers/constants';
 import { Spin } from 'antd';
 

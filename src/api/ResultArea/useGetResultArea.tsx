@@ -3,9 +3,9 @@ import { AxiosResponse } from 'axios';
 import {
   ICreateResultArea,
   QueryGetResultArea, UseGetProjectResultArea
-} from '../../../types/api/project/get-project';
+} from '../../types/api/project/get-project';
 
-import client from '../../client';
+import client from '../client';
 
 const URL_GET_PROJECTS = 'api/project';
 
