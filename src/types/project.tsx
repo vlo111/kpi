@@ -86,9 +86,12 @@ export interface IProjectDetailsData {
 }
 
 export interface IProjectDetails {
-  organization: IProjectDetailsData[]
-  sector: IProjectDetailsData[]
-  region: IProjectDetailsData[]
+  deletedSectorIds: string[]
+  deletedOrganizationIds: string[]
+  deletedRegionIds: string[]
+  organizations: IProjectDetailsData[]
+  sectors: IProjectDetailsData[]
+  regions: IProjectDetailsData[]
 }
 
 export interface IProjectDetailsItems {

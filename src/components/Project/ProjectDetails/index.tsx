@@ -8,10 +8,9 @@ import { AsnButton } from '../../Forms/Button';
 import { PATHS } from '../../../helpers/constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetProjectDetails } from '../../../api/Project/Details/useGetProjectDetails';
-import { FormFinish, Void } from '../../../types/global';
+import { Void } from '../../../types/global';
 import useCreateProjectDetails from '../../../api/Project/Details/useCreateProjectDetails';
 import useUpdateProjectDetails from '../../../api/Project/Details/useUpdateProjectDetails';
-import { AsnInput } from '../../Forms/Input';
 
 export const VALIDATE_PROJECT_DETAILS_MESSAGES = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -26,6 +25,12 @@ export const ProjectDetailComponent: React.FC = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
+
+  const initialValues = {
+    deletedOrganizationIds: [],
+    deletedSectorIds: [],
+    deletedRegionIds: []
+  };
 
   // @ts-expect-error
   const { projectDetails, isLoading } = useGetProjectDetails(id);
@@ -54,18 +59,28 @@ export const ProjectDetailComponent: React.FC = () => {
     onError
   });
 
-  const onFinish: FormFinish = (values) => {
+  const onFinish: Void = () => {
     if (id !== undefined) {
+      const { deletedOrganizationIds, deletedRegionIds, deletedSectorIds, organizations, regions, sectors } = form.getFieldValue([]);
+
+      const data = {
+        deletedSectorIds,
+        deletedOrganizationIds,
+        deletedRegionIds,
+        organizations,
+        regions,
+        sectors
+      };
+
+      const requestData = {
+        id,
+        data
+      };
+
       if (projectDetails?.sectors.length != null) {
-        updateProjectDetails({
-          id,
-          data: values
-        });
+        updateProjectDetails({ ...requestData });
       } else {
-        createProjectDetails({
-          id,
-          data: values
-        });
+        createProjectDetails({ ...requestData });
       }
     }
   };
@@ -111,19 +126,16 @@ export const ProjectDetailComponent: React.FC = () => {
 
   return (
     <Spin spinning={isLoading}>
-      <AsnForm validateMessages={VALIDATE_PROJECT_DETAILS_MESSAGES} form={form} name="dynamic_form_item" onFinish={onFinish}>
+      <AsnForm
+        form={form}
+        initialValues={initialValues}
+        validateMessages={VALIDATE_PROJECT_DETAILS_MESSAGES}
+        name="dynamic_form_item"
+        onFinish={onFinish}
+      >
         <Items name="organizations" title='Organizations' onDelete={onDeleteHandler}/>
         <Items name="regions" title='Regions' onDelete={onDeleteHandler}/>
         <Items name="sectors" title='Sectors' onDelete={onDeleteHandler}/>
-        <AsnForm.Item className='deleteItem' name='deletedOrganizationIds'>
-          <AsnInput />
-        </AsnForm.Item>
-        <AsnForm.Item className='deleteItem' name='deletedSectorIds'>
-          <AsnInput />
-        </AsnForm.Item>
-        <AsnForm.Item className='deleteItem' name='deletedRegionIds'>
-          <AsnInput />
-        </AsnForm.Item>
         <Row className="accept-buttons">
           <Col>
             <AsnButton
