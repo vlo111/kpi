@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import styled from 'styled-components';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { FormFinish, Void } from '../../types/global';
@@ -17,6 +17,7 @@ import {
 import useUpdateResultArea from '../../api/ResultArea/useUpdateResultArea';
 import { PATHS } from '../../helpers/constants';
 import { Spin } from 'antd';
+import { ConfirmSave } from '../../components/Project/ResultArea/Modal';
 
 const VALIDATE_MESSAGES_PROJECT_INPUT = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -134,22 +135,41 @@ const setError: SetResultArea = (values) => {
   errorsIndex.map((i) => resultAreaElement(i));
 };
 
+const initialResulArea = {
+  resultAreas: [
+    {
+      title: '',
+      order: 1,
+      expectedResults: [{ measurement: 'NUMBER' }],
+      inputActivities: [
+        { title: '', order: 1.1, milestones: [{ measurement: 'NUMBER' }] }
+      ]
+    }
+  ]
+};
+
+const initialValues = {
+  deletedResultAreaIds: [],
+  deletedInputActivityIds: [],
+  deletedExpectedResultIds: [],
+  deletedMilestoneIds: [],
+  resultAreas: { ...initialResulArea.resultAreas }
+};
+
 export const ResultArea: React.FC = () => {
   const { id } = useParams();
+
+  const [form] = AsnForm.useForm();
 
   const navigate = useNavigate();
 
   // @ts-expect-error
   const { resultAreas, isLoading } = useGetResultArea(id);
 
-  const [form] = AsnForm.useForm();
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
   const onSuccess: Void = () => {
-    const path = `/project/${PATHS.STEPS}`
-      .replace(':id', id ?? '')
-      .replace(':index', '1');
 
-    navigate(path);
   };
 
   const onError: ProjectErrorResponse = ({ response }) => {
@@ -167,15 +187,37 @@ export const ResultArea: React.FC = () => {
   });
 
   const onFinish: Void = () => {
+    createOrUpdate();
+
+    const path = `/project/${PATHS.STEPS}`
+      .replace(':id', id ?? '')
+      .replace(':index', '1');
+
+    navigate(path);
+  };
+
+  const onFinishFailed: FormFinish = (values: FormData) => {
+    setError(values);
+  };
+
+  useEffect(() => {
+    if (resultAreas !== undefined && resultAreas.length !== 0) {
+      form.setFieldsValue({ resultAreas });
+    } else {
+      form.setFieldsValue(initialResulArea);
+    }
+  }, [resultAreas]);
+
+  const createOrUpdate: Void = () => {
     if (id !== undefined) {
-      const values = form.getFieldValue([]);
+      const isUpdate = resultAreas?.length != null;
 
       const requestData = {
         id,
-        data: values
+        data: form.getFieldValue([])
       };
 
-      if (resultAreas?.length != null) {
+      if (isUpdate) {
         updateResultArea({ ...requestData });
       } else {
         createResultArea({ ...requestData });
@@ -183,34 +225,38 @@ export const ResultArea: React.FC = () => {
     }
   };
 
-  const onFinishFailed: FormFinish = (values: FormData) => {
-    setError(values);
-  };
+  const onSaveModal: Void = () => {
+    createOrUpdate();
 
-  const initialValues = {
-    deletedResultAreaIds: [],
-    deletedInputActivityIds: [],
-    deletedExpectedResultIds: [],
-    deletedMilestoneIds: []
-  };
+    if (id !== undefined) {
+      const path = `/project/${PATHS.OVERVIEW}`
+        .replace(':id', id);
 
-  useEffect(() => {
-    if (resultAreas !== undefined && resultAreas.length !== 0) {
-      form.setFieldsValue({ resultAreas });
-    } else {
-      form.setFieldsValue({
-        resultAreas: [
-          {
-            title: '',
-            expectedResults: [{ measurement: 'NUMBER' }],
-            inputActivities: [
-              { title: '', milestones: [{ measurement: 'NUMBER' }] }
-            ]
-          }
-        ]
-      });
+      navigate(path);
     }
-  }, [resultAreas]);
+  };
+
+  const onCancelModal: Void = () => {
+    setOpenConfirmModal(false);
+  };
+
+  const onNotSaveModal: Void = () => {
+    if (id !== undefined) {
+      const path = `/project/${PATHS.OVERVIEW}`
+        .replace(':id', id);
+
+      navigate(path);
+    }
+  };
+
+  const onCloseResult: Void = () => {
+    if (resultAreas.length === 0 || _.isEqual(resultAreas, form.getFieldsValue())) {
+      createOrUpdate();
+    } else {
+      // open confirm save modal
+      setOpenConfirmModal(true);
+    }
+  };
 
   return (
     <Spin spinning={isLoading}>
@@ -223,12 +269,16 @@ export const ResultArea: React.FC = () => {
         initialValues={initialValues}
       >
         <InputResult />
+        <ConfirmSave
+          open={openConfirmModal}
+          onSave={onSaveModal}
+          onCancel={onCancelModal}
+          onNotSave={onNotSaveModal}
+        />
         <div className="footer">
           <AsnButton
+            onClick={onCloseResult}
             className="default"
-            onClick={() => {
-              // prevCurrent();
-            }}
           >
             Cancel
           </AsnButton>

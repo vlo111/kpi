@@ -26,6 +26,12 @@ const tooltipText = [
   'Target for Attachment: Range 1-100.'
 ];
 
+const initialActivity: (order: number) => any = (order) => ({
+  title: '',
+  order,
+  milestones: [{ measurement: 'NUMBER' }]
+});
+
 const InputActivity: React.FC<{ resultId: number }> = ({
   resultId
 }) => {
@@ -61,6 +67,8 @@ const InputActivity: React.FC<{ resultId: number }> = ({
     }
     setOpenDeleteResultModal(false);
   };
+
+  const order: (index: number) => number = (index) => form.getFieldValue('resultAreas')[resultId].inputActivities[index].order;
 
   return (
     <>
@@ -101,7 +109,7 @@ const InputActivity: React.FC<{ resultId: number }> = ({
                             header={HeaderElement(
                               `activity_${resultId}_${activity.key}`,
                               [activity.name, 'title'],
-                              `${index + 1}.`,
+                              `${order(index)}.`,
                               'Individuals with improved soft skills',
                               'activity_header_'
                             )}
@@ -141,10 +149,7 @@ const InputActivity: React.FC<{ resultId: number }> = ({
                         className="transparent"
                         value="Create"
                         onClick={() => {
-                          addActivity({
-                            title: '',
-                            milestones: [{ measurement: 'NUMBER' }]
-                          });
+                          addActivity(initialActivity((resultId + 1) + (0.1 * (activities.length + 1))));
                         }}
                       >
                         +Add Activity

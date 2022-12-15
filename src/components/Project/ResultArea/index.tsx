@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Row, Tooltip } from 'antd';
+import { Form, FormInstance, Row, Tooltip } from 'antd';
 
 import InputActivity from './Activity';
 import { InputResultArea } from './style';
@@ -11,7 +11,7 @@ import { ConfirmModal } from '../../Forms/Modal/Confirm';
 import { TollTipText, HeaderElement } from '../../../helpers/utils';
 import { ReactComponent as InfoSvg } from '../../../assets/icons/info.svg';
 import { ReactComponent as DeleteSvg } from '../../../assets/icons/delete.svg';
-import { IProjectResultAreaDelete } from '../../../types/project';
+import { DeleteResultArea, IProjectResultAreaDelete, IResultAreaData } from '../../../types/project';
 import { Void } from '../../../types/global';
 import { AsnForm } from '../../Forms/Form';
 
@@ -24,8 +24,15 @@ const tooltipText = [
   'Target for Number: Range 1-999999.'
 ];
 
+const initialResultArea: (order: number) => IResultAreaData = (order) => ({
+  title: '',
+  order,
+  expectedResults: [{ measurement: 'NUMBER' }],
+  inputActivities: [{ title: '', order: order + 0.1, milestones: [{ measurement: 'NUMBER' }] }]
+});
+
 const InputResult: React.FC = () => {
-  const form = AsnForm.useFormInstance();
+  const form: FormInstance = AsnForm.useFormInstance();
 
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<boolean>();
   const [selectDeleteId, setSelectDeleteId] = useState<IProjectResultAreaDelete>();
@@ -51,6 +58,16 @@ const InputResult: React.FC = () => {
     setOpenDeleteResultModal(false);
   };
 
+  const deleteResultHandler: DeleteResultArea = (remove, field) => {
+    setOpenDeleteResultModal(true);
+    setSelectDeleteId({ remove, field });
+  };
+
+  const order: (index: number) => number = (index) => {
+    console.log('form.getFieldValue( --- ', form.getFieldValue('resultAreas')[index].order);
+    return form.getFieldValue('resultAreas')[index].order;
+  };
+
   return (
     <>
       <Form.List name="resultAreas">
@@ -62,7 +79,7 @@ const InputResult: React.FC = () => {
                   id={`ans-title-${field.key}`}
                   className="ans-title result_area_title"
                 >
-                  <span>Input Result Area {index + 1} *</span>
+                  <span>Input Result Area {order(field.key)} *</span>
                   <Tooltip
                     overlayClassName="result-area-tooltip"
                     placement="right"
@@ -80,7 +97,7 @@ const InputResult: React.FC = () => {
                         header={HeaderElement(
                           field.key,
                           [field.name, 'title'],
-                          `${index + 1}.`,
+                          `${order(field.key)}.`,
                           'Example: Skill gap reduced',
                           'result_area_header_'
                         )}
@@ -93,10 +110,7 @@ const InputResult: React.FC = () => {
                   {fields.length > 1 && (
                     <div
                       className="delete-result"
-                      onClick={() => {
-                        setOpenDeleteResultModal(true);
-                        setSelectDeleteId({ remove, field: field.name });
-                      }}
+                      onClick={() => deleteResultHandler(remove, field.name)}
                     >
                       <DeleteSvg />
                     </div>
@@ -109,11 +123,7 @@ const InputResult: React.FC = () => {
                 className="transparent"
                 value="Create"
                 onClick={() =>
-                  add({
-                    title: '',
-                    expectedResults: [{ measurement: 'NUMBER' }],
-                    inputActivities: [{ title: '', milestones: [{ measurement: 'NUMBER' }] }]
-                  })
+                  add(initialResultArea(fields.length + 1))
                 }
               >
                 +Add Result Area

@@ -1,6 +1,7 @@
 import { IUser } from './auth';
 import { Moment } from 'moment';
 import { FormInstance, FormListFieldData } from 'antd';
+import { Void } from './global';
 
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
@@ -63,21 +64,23 @@ export interface ProjectInputBoxProps {
 }
 
 export interface IResultBox {
-  code: string
-  statement: string
+  code?: string
+  statement?: string
   measurement: string
-  target: number
+  target?: number
 }
 
 export interface IInputActivities {
   title: string
+  order: number
   milestones: IResultBox[]
 }
 
 export interface IResultAreaData {
   expectedResults: IResultBox[]
-  inputActivities: IInputActivities
+  inputActivities: IInputActivities[]
   title: string
+  order: number
 }
 
 export interface IProjectDetailsData {
@@ -126,8 +129,12 @@ export type OnDeleteExpectedHandler = (
 
 export type ProjectDetailsDelete = (remove: (name: string) => void, fields: string, title: string) => void
 
+export type DeleteResultArea = (remove: (name: number | number[]) => void, field: number) => void
+
 export interface ProjectDetails {
   organizations: string[]
   sectors: string[]
   regions: string[]
 }
+
+export interface IResulAreaConfirmModal { open: boolean, onSave: Void, onCancel: Void, onNotSave: Void }
