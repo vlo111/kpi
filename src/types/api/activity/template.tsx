@@ -10,6 +10,32 @@ export interface ICreateTemplateData {
   }
 }
 
+type SettingsEnmTyp = 'SHORT_TEXT' | 'NUMBER' | 'ATTACHMENT' | 'DROPDOWN'
+export interface ICreateSettingData {
+  id: string
+  data: {
+    answerType: SettingsEnmTyp
+    title: string
+    data: string[]
+  }
+}
+
+export interface IAddSettingHelpText {
+  id: string
+  data: {
+    text: string
+  }
+}
+
+export interface IUpdateSettingData {
+  id: string
+  data: {
+    answerType: SettingsEnmTyp
+    title: string
+    data?: string[]
+  }
+}
+
 type FormEnum = 'APPLICATION' | 'ASSESSMENT'
 
 enum SectionEnum {
@@ -50,10 +76,18 @@ export interface ICreateRequiredDocsData {
 }
 
 export type CreateActivityTemplate = UseMutation<Void, any, ResponseErrorParam, ICreateTemplateData>;
-export type PublishActivityTemplate = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
 export type CreateSecondStepTemplate = UseMutation<Void, any, ResponseErrorParam, ICreateSecondStepData>
 export type CreateRequiredDocs = UseMutation<Void, any, ResponseErrorParam, ICreateRequiredDocsData>
 export type CreateSection = UseMutation<Void, any, ResponseErrorParam, IOnlyId>
+export type CreateSetting = UseMutation<Void, any, ResponseErrorParam, ICreateSettingData>;
+export type AddSettingHelpText = UseMutation<Void, any, ResponseErrorParam, IAddSettingHelpText>;
+
+export type PublishActivityTemplate = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
 
 export type DeleteRequiredDoc = UseMutation<Void, any, ResponseErrorParam, IOnlyId>
 export type DeleteSection = UseMutation<Void, any, ResponseErrorParam, IOnlyId>
+export type DeleteTemplate = UseMutation<Void, any, ResponseErrorParam, IOnlyId>
+export type DeleteSetting = UseMutation<Void, any, ResponseErrorParam, IOnlyId>
+
+export type UpdateSetting = UseMutation<Void, any, ResponseErrorParam, IUpdateSettingData>
+export type UpdateSingleStatus = UseMutation<Void, any, ResponseErrorParam, IOnlyId>
