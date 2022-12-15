@@ -7,6 +7,7 @@ import ProjectInformationHeader from '../../components/Menu/ProjectInformationHe
 import { AsnButton } from '../../components/Forms/Button';
 import { AsnTabs } from '../../components/Forms/Tabs';
 import AsnSpin from '../../components/Forms/Spin';
+import { TVoid } from '../../types/global';
 import { IResultAreas, IInputActivities } from '../../types/project';
 import useGetProjectById from '../../api/Project/useGetProject';
 import { ReactComponent as AddResultAreaSvg } from '../../assets/icons/projectOverview.svg';
@@ -26,6 +27,21 @@ const ProjectOverview: React.FC = () => {
   const navigate = useNavigate();
   const { isLoading } = data;
   const { result: project } = data?.data;
+  const handleDraft: TVoid = () => {
+    if (id != null) {
+      navigate(`/project/${id}/steps/0`);
+    }
+  };
+  const handleEdit: TVoid = () => {
+    if (id != null) {
+      navigate(`/project/${id}/steps/1`);
+    }
+  };
+  const addResultAreas: TVoid = () => {
+    if (id != null) {
+      navigate(`/project/${id}/steps/0`);
+    }
+  };
   const AntBadge = styled(Badge)`
    margin-right: 4px;
    .ant-badge-count{
@@ -36,7 +52,7 @@ const ProjectOverview: React.FC = () => {
    border-radius: 100%;
 }
 `;
-  const operations = <AsnButton className='draft' onClick={() => navigate(`/project/${(id != null) ? id : ''}/steps/0`)}>Draft</AsnButton>;
+  const operations = <AsnButton className='draft' onClick={handleDraft}>Draft</AsnButton>;
   const projectItems = project?.resultAreas.length;
   const items = project?.resultAreas?.map((item: IResultAreas, i: number) => {
     return {
@@ -74,7 +90,7 @@ const ProjectOverview: React.FC = () => {
                 children: (
                   <Space direction='vertical' align='center' style={{ width: '100%', padding: '5vh 0 30px 0' }} >
                     <EditPublishSvg />
-                    <AsnButton className='primary' onClick={() => navigate(`/project/${(id != null) ? id : ''}/steps/1`)}>Edit and Publish the project</AsnButton>
+                    <AsnButton className='primary' onClick={handleEdit}>Edit and Publish the project</AsnButton>
                   </Space>
                 )
               };
@@ -103,7 +119,7 @@ const ProjectOverview: React.FC = () => {
           direction='vertical'
           align='center'
           style={{ width: '100%', paddingTop: '15vh', cursor: 'pointer' }}
-          onClick={() => navigate(`/project/${(id != null) ? id : ''}/steps/0`)}
+          onClick={addResultAreas}
         >
           <AddResultAreaSvg />
           <Text
