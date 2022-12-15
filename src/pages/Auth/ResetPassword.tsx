@@ -91,7 +91,7 @@ const ResetPassword: React.FC = () => {
               <AsnInput.Password placeholder="Confirm Password" />
             </AsnForm.Item>
             <AsnForm.Item>
-              <AsnButton className='primary' type="primary" htmlType="submit" loading={isLoading}>
+              <AsnButton className='primary' htmlType="submit" loading={isLoading} style={{ width: '100%' }}>
                 Reset Password
               </AsnButton>
             </AsnForm.Item>

@@ -99,6 +99,7 @@ const SignUp: React.FC = () => {
                 htmlType="submit"
                 loading={isLoading}
                 className="primary"
+                style={{ width: '100%' }}
               >
                 Create Account
               </AsnButton>

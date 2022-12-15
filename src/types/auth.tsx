@@ -1,3 +1,7 @@
+import { RcFile } from 'antd/lib/upload';
+import { ReactNode } from 'react';
+import { UseMutation, Void } from './global';
+
 export interface SignUpForm {
   email: string
   firstName: string
@@ -36,3 +40,23 @@ export interface IResetPassword {
   password: string
   confirmPassword: string
 }
+
+export interface IUserUpload {
+  result?: string []
+  data: { result: string[] }
+}
+export interface IUploadProps {
+  children?: ReactNode
+  customRequest: (options: { file: string | Blob | RcFile }) => void
+  name?: string
+  accept?: string
+  showUploadList?: boolean
+}
+
+export type UploadSuccessResponse = (response: {
+  result: string[]
+}) => void;
+
+export type UploadErrorResponse = () => void;
+
+export type UserImageUpload = UseMutation<Void, UploadErrorResponse, UploadSuccessResponse, string | Blob | RcFile >;
