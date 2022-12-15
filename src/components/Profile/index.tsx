@@ -18,5 +18,10 @@ export const CreateTemplateContainer = styled(AsnForm)`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &:hover{
+      color: var(--dark-border-ultramarine);
+      border-color: transparent;
+    }
   }
 `;

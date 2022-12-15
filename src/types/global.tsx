@@ -27,6 +27,12 @@ export interface ConfirmModalType {
 
 export type FormFinish = (errorInfo: any) => void
 
+export interface IAvatarTypes {
+  letter: string
+  size?: number
+  src?: string | undefined | null
+}
+
 export type Void = () => void
 
 export interface IQueryData {
