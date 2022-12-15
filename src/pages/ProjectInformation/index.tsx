@@ -8,7 +8,8 @@ import GeneralInfo from './GeneralInfo';
 import { AsnButton } from '../../components/Forms/Button';
 import AsnBreadcrumb from '../../components/Forms/Breadcrumb';
 import useGetProjectById from '../../api/Project/useGetProject';
-// import ResultAndActivities from './ResultAndActivities';
+import ResultAndActivities from './ResultAndActivities';
+import ActivityName from './ActivityName';
 
 // import ResultAndActivities from './ResultAndActivities';
 // import ActivityName from './ActivityName';
@@ -80,30 +81,44 @@ const ProjectInformation: React.FC = () => {
       <CardWrapper>
         <Space direction={'vertical'} size={[0, 16]} style={{ width: '100%' }}>
           <CardTitle title={'General Info'} />
-             <GeneralInfo
-             title={project?.title}
-             description={project?.description}
-             startDate={project?.startDate}
-             endDate={project?.endDate}
-           />
+          <GeneralInfo
+            title={project?.title}
+            description={project?.description}
+            startDate={project?.startDate}
+            endDate={project?.endDate}
+          />
         </Space>
       </CardWrapper>
       <CardWrapper style={{ borderTop: '3px solid var(--secondary-green)' }}>
         <CardTitle title={'Result areas and Activities'} />
         {project?.resultAreas?.map((result: any, i: number) => (
-           // eslint-disable-next-line react/jsx-key
-           <>
-           <ResultAreaName>{result?.title}</ResultAreaName>
-           {/* <ResultAndActivities
-            key={i}
-            // option={result.option}
-            description={result.description}
-            count={result.count}
-            divider={true}
-          /> */}
+          <>
+            <ResultAreaName key={i}>{result?.title}</ResultAreaName>
+            {result.expectedResults.map((expectedResult: any, i: number) => (
+              <ResultAndActivities
+                key={i}
+                code={expectedResult?.code}
+                statement={expectedResult?.statement}
+                target={expectedResult?.target}
+                divider={true} />
+            ))}
+            {result?.inputActivities?.map((activity: any, i: number) => (
+              <>
+              <ActivityName key={i} activityName={activity?.title} divider={true} count={result?.inputActivities?.length - 1 === i} />
+              {activity?.milestones?.map((milestone: any, j: number) => (
+                <ResultAndActivities
+                key={j}
+                code={milestone?.code}
+                statement={milestone?.statement}
+                target={milestone?.target}
+                divider={activity?.milestones.length !== 1 && result?.inputActivities?.length - 1 !== i} />
+              ))}
+              </>
+            ))}
           </>
         ))
-        }
+          }
+
         {/* {resultAndActivities.map((info, i) => (
           <ResultAndActivities
             key={i}
