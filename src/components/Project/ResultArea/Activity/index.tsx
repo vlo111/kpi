@@ -15,6 +15,7 @@ import {
   OnDeleteBoxHandler
 } from '../../../../types/project';
 import { Void } from '../../../../types/global';
+import { AsnForm } from '../../../Forms/Form';
 
 const tooltipText = [
   'Must include at least one activity and at least one milestone statement.',
@@ -25,10 +26,11 @@ const tooltipText = [
   'Target for Attachment: Range 1-100.'
 ];
 
-const InputActivity: React.FC<{ resultId: number, form: any }> = ({
-  resultId,
-  form
+const InputActivity: React.FC<{ resultId: number }> = ({
+  resultId
 }) => {
+  const form = AsnForm.useFormInstance();
+
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<boolean>();
   const [selectDeleteId, setSelectDeleteId] = useState<IProjectModalDelete>();
 
@@ -46,8 +48,8 @@ const InputActivity: React.FC<{ resultId: number, form: any }> = ({
       const deletedFields = form.getFieldValue(deleteName) ?? [];
 
       const currentId = title === 'InputActivity'
-        ? form.getFieldValue().resultAreas[resultId].inputActivities[field ?? ''].id
-        : form.getFieldValue().resultAreas[resultId].inputActivities[activityName ?? ''].milestones[field].id;
+        ? form.getFieldsValue().resultAreas[resultId].inputActivities[field ?? ''].id
+        : form.getFieldsValue().resultAreas[resultId].inputActivities[activityName ?? ''].milestones[field].id;
 
       if (currentId !== undefined) {
         const updateDeletedIds = deletedFields.concat(currentId);

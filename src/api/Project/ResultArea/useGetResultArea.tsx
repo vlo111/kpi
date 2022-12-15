@@ -18,7 +18,7 @@ export const useGetResultArea: UseGetProjectResultArea = (id) => {
           async () => await client.get(`${URL_GET_PROJECTS}/${id}/result-areas`)
         );
 
-      return { resultAreas: data?.data?.result, isLoading };
+      return { resultAreas: data?.data?.result.resultAreas, isLoading };
     }
   } catch (e) {
     console.log(e);

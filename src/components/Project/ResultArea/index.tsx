@@ -13,6 +13,7 @@ import { ReactComponent as InfoSvg } from '../../../assets/icons/info.svg';
 import { ReactComponent as DeleteSvg } from '../../../assets/icons/delete.svg';
 import { IProjectResultAreaDelete } from '../../../types/project';
 import { Void } from '../../../types/global';
+import { AsnForm } from '../../Forms/Form';
 
 const tooltipText = [
   'Must include at least one result area and at least one expected result measurement.',
@@ -23,7 +24,9 @@ const tooltipText = [
   'Target for Number: Range 1-999999.'
 ];
 
-const InputResult: React.FC<{ form: any }> = ({ form }) => {
+const InputResult: React.FC = () => {
+  const form = AsnForm.useFormInstance();
+
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<boolean>();
   const [selectDeleteId, setSelectDeleteId] = useState<IProjectResultAreaDelete>();
 
@@ -82,8 +85,8 @@ const InputResult: React.FC<{ form: any }> = ({ form }) => {
                           'result_area_header_'
                         )}
                       >
-                        <InputExpectedResult form={form} resultId={field.key} />
-                        <InputActivity form={form} resultId={field.key} />
+                        <InputExpectedResult resultId={field.key} />
+                        <InputActivity resultId={field.key} />
                       </Panel>
                     </AsnCollapse>
                   </div>

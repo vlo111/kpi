@@ -17,7 +17,6 @@ import {
 import useUpdateResultArea from '../../api/Project/ResultArea/useUpdateResultArea';
 import { PATHS } from '../../helpers/constants';
 import { Spin } from 'antd';
-import { AsnInput } from '../../components/Forms/Input';
 
 const VALIDATE_MESSAGES_PROJECT_INPUT = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -167,26 +166,32 @@ export const ResultArea: React.FC = () => {
     onError
   });
 
-  const onFinish: FormFinish = (values) => {
+  const onFinish: Void = () => {
     if (id !== undefined) {
+      const values = form.getFieldValue([]);
+
+      const requestData = {
+        id,
+        data: values
+      };
+
       if (resultAreas?.length != null) {
-        updateResultArea({
-          id,
-          data: values
-        });
+        updateResultArea({ ...requestData });
       } else {
-        createResultArea({
-          id,
-          data: values
-        });
+        createResultArea({ ...requestData });
       }
     }
   };
 
   const onFinishFailed: FormFinish = (values: FormData) => {
-    console.log(values, 'failed');
-
     setError(values);
+  };
+
+  const initialValues = {
+    deletedResultAreaIds: [],
+    deletedInputActivityIds: [],
+    deletedExpectedResultIds: [],
+    deletedMilestoneIds: []
   };
 
   useEffect(() => {
@@ -215,20 +220,9 @@ export const ResultArea: React.FC = () => {
         validateMessages={VALIDATE_MESSAGES_PROJECT_INPUT}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
+        initialValues={initialValues}
       >
-        <InputResult form={form} />
-        <AsnForm.Item className='deleteItem' name='deletedResultAreaIds'>
-          <AsnInput />
-        </AsnForm.Item>
-        <AsnForm.Item className='deleteItem' name='deletedExpectedResultIds'>
-          <AsnInput />
-        </AsnForm.Item>
-        <AsnForm.Item className='deleteItem' name='deletedInputActivityIds'>
-          <AsnInput />
-        </AsnForm.Item>
-        <AsnForm.Item className='deleteItem' name='deletedMilestoneIds'>
-          <AsnInput />
-        </AsnForm.Item>
+        <InputResult />
         <div className="footer">
           <AsnButton
             className="default"
