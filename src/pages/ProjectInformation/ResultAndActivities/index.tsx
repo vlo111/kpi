@@ -16,7 +16,7 @@ const ResultAndActivities: React.FC<{ code: string, target: string, statement: s
   return (
         <Row gutter={[16, 0]}>
           <Col style={{ padding: '0' }} offset={1}>{divider && <DividerAnt type='vertical' />}</Col>
-            <Col offset={4} style={ { fontSize: 'var(--base-font-size)', width: '110px' } }>{code}</Col>
+            <Col sm={{ offset: 1 }} md={{ offset: 4 }} style={ { fontSize: 'var(--base-font-size)', width: '110px' } }>{code}</Col>
             <Col span={12} style={{ paddingBottom: '16px', fontSize: 'var(--base-font-size)' }} >{statement}</Col>
             <Col span={2} style={ { fontSize: 'var(--base-font-size)' } }>{target}</Col>
         </Row>
