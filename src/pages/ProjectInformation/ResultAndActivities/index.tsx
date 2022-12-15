@@ -1,7 +1,8 @@
 import React from 'react';
 import { Row, Col, Divider } from 'antd';
 import styled from 'styled-components';
-// import { ResultAndActivitiesProps } from '../../../../../types/project';
+
+import { IProjectExpectedResults } from '../../../types/project';
 
 const DividerAnt = styled(Divider)`
     border-left: 1px solid var(--dark-1);
@@ -12,13 +13,17 @@ const DividerAnt = styled(Divider)`
     top: 0;
 `;
 
-const ResultAndActivities: React.FC<{ code: string, target: string, statement: string, divider: boolean }> = ({ code, statement, target, divider }) => {
+const AntCol = styled(Col)`
+  font-size: var(--base-font-size);
+`;
+
+const ResultAndActivities: React.FC<IProjectExpectedResults> = ({ code, statement, target, divider }) => {
   return (
         <Row gutter={[16, 0]}>
-          <Col style={{ padding: '0' }} offset={1}>{divider && <DividerAnt type='vertical' />}</Col>
-            <Col sm={{ offset: 1 }} md={{ offset: 4 }} style={ { fontSize: 'var(--base-font-size)', width: '110px' } }>{code}</Col>
-            <Col span={12} style={{ paddingBottom: '16px', fontSize: 'var(--base-font-size)' }} >{statement}</Col>
-            <Col span={2} style={ { fontSize: 'var(--base-font-size)' } }>{target}</Col>
+          <Col style={{ padding: '0' }} offset={1}>{(Boolean(divider)) && <DividerAnt type='vertical' />}</Col>
+            <AntCol sm={{ offset: 1 }} md={{ offset: 4 }} style={ { width: '110px' } }>{code}</AntCol>
+            <AntCol span={12} style={{ paddingBottom: '16px' }} >{statement}</AntCol>
+            <AntCol span={2}>{target}</AntCol>
         </Row>
   );
 };

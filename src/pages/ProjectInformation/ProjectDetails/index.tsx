@@ -1,16 +1,22 @@
 import React from 'react';
 import { Col, Row } from 'antd';
-// import { ProjectsDetailProps } from '../../../../../types/project';
+import styled from 'styled-components';
 
-const ProjectDetails: React.FC<{ title: string, organizations: any }> = ({ title, organizations }) => {
+import { IProjectDetailsProps } from '../../../types/project';
+
+const AntCol = styled(Col)`
+  font-size: var(--base-font-size);
+`;
+
+const ProjectDetails: React.FC<IProjectDetailsProps> = ({ title, details }) => {
   return (
         <>
         <Row style={ { marginBottom: '8px' } }>
-          <Col offset={5} style={ { fontSize: 'var(--base-font-size)' } }>{title}</Col>
+          <AntCol offset={5}>{title}</AntCol>
         </Row>
-        {organizations?.map((organization: any, i: number) => (
-           <Row key={i} style={ { marginBottom: '8px' } }>
-           <Col offset={7} style={ { fontSize: 'var(--base-font-size)' } }>{organization?.title}</Col>
+        {details?.map((detail) => (
+           <Row key={detail?.id} style={ { marginBottom: '8px' } }>
+           <AntCol offset={7}>{detail?.title}</AntCol>
          </Row>
         ))}
       </>

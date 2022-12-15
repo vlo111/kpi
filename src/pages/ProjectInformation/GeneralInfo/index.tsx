@@ -1,31 +1,37 @@
 import React from 'react';
 import { Row, Col, Space } from 'antd';
+import styled from 'styled-components';
 import moment from 'moment';
 
 import { IGeneralInfoProps } from '../../../types/project';
 import { ReactComponent as DateSvg } from '../../../assets/icons/date.svg';
+
+const AntCol = styled(Col)`
+ font-size: var(--base-font-size);
+  width: 110px;
+`;
 
 const GeneralInfo: React.FC<IGeneralInfoProps> = ({ title, description, startDate, endDate }) => {
   return (
     <>
       <Space direction='vertical' style={{ width: '100%' }}>
         <Row>
-          <Col sm={{ offset: 2 }} md={{ offset: 5 }} style={{ fontSize: 'var(--base-font-size)', width: '110px' }}>Title</Col>
-          <Col span={12} style={{ fontSize: 'var(--base-font-size)' }}>{title}</Col>
+          <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>Title</AntCol>
+          <AntCol span={12}>{title}</AntCol>
         </Row>
         <Row>
-          <Col sm={{ offset: 2 }} md={{ offset: 5 }} style={{ fontSize: 'var(--base-font-size)', width: '110px' }}>Description</Col>
-          <Col span={12} style={{ fontSize: 'var(--base-font-size)' }}>{description}</Col>
+          <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>Description</AntCol>
+          <AntCol span={12}>{description}</AntCol>
         </Row>
         <Row>
-          <Col sm={{ offset: 2 }} md={{ offset: 5 }} style={{ fontSize: 'var(--base-font-size)', width: '110px' }}>Start Date</Col>
+          <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>Start Date</AntCol>
           <Col><DateSvg style={{ marginRight: '10px' }} /></Col>
-          <Col span={12} style={{ fontSize: 'var(--base-font-size)' }}> {moment(startDate).format('DD/MM/YYYY')}</Col>
+          <AntCol span={12}> {moment(startDate).format('DD/MM/YYYY')}</AntCol>
         </Row>
         <Row>
-          <Col sm={{ offset: 2 }} md={{ offset: 5 }} style={{ fontSize: 'var(--base-font-size)', width: '110px' }}>End Date</Col>
+          <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>End Date</AntCol>
           <Col><DateSvg style={{ marginRight: '10px' }} /></Col>
-          <Col span={12} style={{ fontSize: 'var(--base-font-size)' }}>{moment(endDate).format('DD/MM/YYYY')}</Col>
+          <AntCol span={12}>{moment(endDate).format('DD/MM/YYYY')}</AntCol>
         </Row>
       </Space>
     </>

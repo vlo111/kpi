@@ -10,8 +10,8 @@ import AsnSpin from '../../components/Forms/Spin';
 import { TVoid } from '../../types/global';
 import { IResultAreas, IInputActivities } from '../../types/project';
 import useGetProjectById from '../../api/Project/useGetProject';
-import { ReactComponent as AddResultAreaSvg } from '../../assets/icons/projectOverview.svg';
-import { ReactComponent as EditPublishSvg } from '../../assets/icons/editpublish.svg';
+import { ReactComponent as AddResultAreaSvg } from '../../assets/icons/project-overview.svg';
+import { ReactComponent as EditPublishSvg } from '../../assets/icons/edit-publish.svg';
 
 const { Text } = Typography;
 

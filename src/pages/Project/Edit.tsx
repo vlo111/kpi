@@ -17,7 +17,7 @@ export const EditProject: React.FC = () => {
 
   const [error, setError] = useState<string>('');
 
-  const {isLoading} = useGetProjectById(id, {
+  const { isLoading } = useGetProjectById(id, {
     enabled: !(id === null),
     onSuccess: ({ ...data }) => {
       form.setFieldsValue({

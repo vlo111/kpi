@@ -137,9 +137,44 @@ export interface ProjectDetails {
   regions: string[]
 }
 
+export interface IProjectExpectedResults {
+  id?: string
+  code: string
+  target: number
+  statement: string
+  divider?: boolean
+}
+export interface IProjectInputActivities {
+  id: string
+  title: string
+  milestones: IProjectMilestones[]
+}
+export interface IProjectMilestones {
+  id: string
+  statement: string
+  target: number
+  code: string
+}
+export interface IProjectResultAreas {
+  id: string
+  title: string
+  expectedResults: IProjectExpectedResults[]
+  inputActivities: IProjectInputActivities[]
+}
 export interface IGeneralInfoProps {
   title: string
   description: string
   startDate: string
   endDate: string
+}
+
+export interface IActivityName {
+  divider: boolean
+  count: boolean
+  activityName: string
+}
+
+export interface IProjectDetailsProps {
+  title: string
+  details: IProjectDetailsData[]
 }
