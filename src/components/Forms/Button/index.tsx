@@ -44,4 +44,14 @@ export const AsnButton = styled(Button)`
       margin-left: 2px;
     }
   }
+  &.draft{
+      color: var(--dark-border-ultramarine);
+      border: none;
+      background: var(--primary-light-1);
+      font-weight: var(--font-bold);
+      padding: 8px 32px;
+      font-size: var(--base-font-size);
+      border-radius: 5px;
+      height: 38px;
+    }
 `;

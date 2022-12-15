@@ -20,11 +20,11 @@ import ResetPassword from './pages/Auth/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import UserProfile from './pages/Profile';
 import ChangePassword from './pages/Profile/ChangePassword';
+import ProjectOverview from './pages/ProjectOverview';
 import { CreateProject } from './pages/Project/Create';
 import { ProjectList } from './pages/Project/List';
 import { EditProject } from './pages/Project/Edit';
 import { ProjectSteps } from './pages/ProjectSteps';
-import { ProjectOverview } from './pages/ProjectOverview';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
