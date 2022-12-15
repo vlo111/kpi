@@ -27,6 +27,12 @@ export interface ConfirmModalType {
 
 export type FormFinish = (errorInfo: any) => void
 
+export interface IAvatarTypes {
+  letter: string
+  size?: number
+  src?: string | undefined | null
+}
+
 export type Void = () => void
 
 export interface IQueryData {
@@ -57,4 +63,14 @@ export type UseMutation<Success, Error, ResponseErrorData, RequestData> = (
 export interface IBreadcrumb {
   path: string
   breadcrumbName: string
+}
+export interface IInfoHeader {
+  overview?: boolean
+  project?: {
+    description: string
+    title: string
+    startDate: string
+    endDate: string
+    status: string
+  }
 }

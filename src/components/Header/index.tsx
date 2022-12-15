@@ -77,7 +77,6 @@ export const Header: React.FC = () => {
     // }
   ];
   const newMenu = <DropdownMenu items={data} />;
-
   return (
     <HeaderLayout>
           <Row justify="end" align="middle">
@@ -87,7 +86,7 @@ export const Header: React.FC = () => {
               <Dropdown overlay={newMenu} trigger={['click']}>
                 <Button type="text" onClick={(e) => e.preventDefault()}>
                   <Space>
-                    <AsnAvatar letter={`${firstName?.charAt(0)}${lastName?.charAt(0)}`} />
+                    <AsnAvatar letter={`${firstName?.charAt(0)}${lastName?.charAt(0)}`}/>
                    {firstName}{lastName}
                     <CaretDownOutlined />
                   </Space>

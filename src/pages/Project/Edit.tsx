@@ -17,7 +17,7 @@ export const EditProject: React.FC = () => {
 
   const [error, setError] = useState<string>('');
 
-  const { data: project, isLoading } = useGetProjectById(id, {
+  const {isLoading} = useGetProjectById(id, {
     enabled: !(id === null),
     onSuccess: ({ ...data }) => {
       form.setFieldsValue({
@@ -62,8 +62,8 @@ export const EditProject: React.FC = () => {
     (values) => {
       updateProject({
         ...values,
-        startDate: moment(project?.startDate),
-        endDate: moment(project?.endDate)
+        startDate: moment(values?.startDate),
+        endDate: moment(values?.endDate)
       });
     },
     [updateProject]

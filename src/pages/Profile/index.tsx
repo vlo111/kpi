@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Upload, Typography } from 'antd';
+import { RcFile } from 'antd/lib/upload';
+import { DeleteOutlined } from '@ant-design/icons';
 
 import useCurrentUser from '../../api/UserProfile/useCurrentUser';
 import { PATHS } from '../../helpers/constants';
 import { TVoid } from '../../types/global';
-import { IUser } from '../../types/auth';
+import { IUploadProps, IUser, IUserUpload } from '../../types/auth';
 import AsnAvatar from '../../components/Forms/Avatar';
 import { CreateTemplateContainer } from '../../components/Profile';
 import { AsnButton } from '../../components/Forms/Button';
 import EditProfile from '../../components/Users/EditUserProfile';
 import { ReactComponent as UploadUser } from '../../assets/icons/upload.svg';
 import { ReactComponent as Edit } from '../../assets/icons/edit.svg';
+import useEditUser from '../../api/UserProfile/useEditUser';
+import userImageUpload from '../../api/UserProfile/useUserImageUpload';
 
 const { Title } = Typography;
 
 const UserProfile: React.FC = () => {
   const { data: user }: { data: IUser } = useCurrentUser();
+  const [photo, setPhoto] = useState('');
   const navigate = useNavigate();
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
@@ -24,6 +29,42 @@ const UserProfile: React.FC = () => {
   const onEditedPublishProject: TVoid = () => {
     setIsOpenCreateActivityModal(true);
   };
+
+  const { mutate: saveChanges } = useEditUser({
+    onSuccess: () => {},
+    onError: () => {}
+  });
+
+  const { mutate: imageUpload } = userImageUpload({
+    onSuccess: (options: IUserUpload) => {
+      const {
+        data: { result }
+      } = options;
+      setPhoto(result[0]);
+    }
+  });
+
+  useEffect(() => {
+    if (photo !== '') {
+      saveChanges({ photo });
+    }
+  }, [photo]);
+
+  const props: IUploadProps = {
+    customRequest: (options: { file: string | Blob | RcFile }) => {
+      const { file } = options;
+      imageUpload(file);
+    },
+    name: 'photo',
+    accept: '.jpg,.png,.heic,.webp',
+    showUploadList: false
+  };
+
+  const onRemove: TVoid = () => {
+    saveChanges({ photo: '' });
+    setPhoto('');
+  };
+
   return (
     <CreateTemplateContainer>
       <Col
@@ -47,15 +88,21 @@ const UserProfile: React.FC = () => {
       </Col>
       <Row gutter={[0, 32]} style={{ padding: '64px 60px' }}>
         <Col md={7} xs={12} span={8}>
-          <Upload>
+          <Upload {...props}>
             <AsnAvatar
+              size={128}
               letter={`${user?.firstName?.charAt(0)}${user?.lastName?.charAt(
                 0
               )}`}
-              size={128}
+              src={photo.length > 0 ? photo : user.photo}
             />
-            <Button icon={<UploadUser />}></Button>
+            {!((user?.photo ?? '').length !== 0) && (
+              <Button icon={<UploadUser />}></Button>
+            )}
           </Upload>
+          {(user?.photo ?? '').length !== 0 && (
+            <Button onClick={onRemove} icon={<DeleteOutlined />}></Button>
+          )}
         </Col>
         <Col md={12} xs={24}>
           <Title
@@ -79,8 +126,6 @@ const UserProfile: React.FC = () => {
             <Col span={10}>{user?.organization}</Col>
             <Col span={10}>Position:</Col>
             <Col span={10}>{user?.position}</Col>
-            {/* <Col span={10}>Assign to:</Col>
-            <Col span={10}>Project</Col> */}
           </Row>
         </Col>
         <Col span={24}>

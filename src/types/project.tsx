@@ -12,6 +12,8 @@ export type OpenDeleteResultModal =
   | { remove: (name: string) => void, fields: string, title: string }
   | undefined;
 
+export type Date = Moment | null;
+
 export type DisabledDate = (current: Moment, item: string) => boolean;
 
 export interface ICreateProject {
@@ -71,6 +73,7 @@ export interface IResultBox {
 
 export interface IInputActivities {
   title: string
+  id: string
   milestones: IResultBox[]
 }
 
@@ -80,6 +83,11 @@ export interface IResultAreaData {
   title: string
 }
 
+export interface IResultAreas {
+  title: string
+  id: string
+  inputActivities: IInputActivities[]
+}
 export interface IProjectDetailsData {
   id: string
   title: string
