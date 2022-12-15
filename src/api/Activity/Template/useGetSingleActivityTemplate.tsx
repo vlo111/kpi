@@ -3,10 +3,11 @@ import client from '../../client';
 
 export const url = 'api/activity';
 
-const GetTemplates: any = (params = {}, options = { enabled: false }) => {
+const GetSingleTemplate: any = (id: string, options = { enabled: false }) => {
+  console.log(id);
   const result = useQuery(
-    [url, params],
-    async () => await client.get(`${url}/${params.id}/templates`),
+    [url, id],
+    async () => await client.get(`${url}/template/${id}`),
     {
       ...options,
       select: (data) => data.data
@@ -19,4 +20,4 @@ const GetTemplates: any = (params = {}, options = { enabled: false }) => {
   };
 };
 
-export default GetTemplates;
+export default GetSingleTemplate;
