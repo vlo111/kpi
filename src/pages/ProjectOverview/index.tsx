@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Typography, Space, Badge, Row, Tooltip } from 'antd';
 import styled from 'styled-components';
 
-import InfoHeader from '../../components/InfoHeader';
+import ProjectInformationHeader from '../../components/Menu/ProjectInformationHeader';
 import { AsnButton } from '../../components/Forms/Button';
 import { AsnTabs } from '../../components/Forms/Tabs';
 import AsnSpin from '../../components/Forms/Spin';
@@ -89,7 +89,7 @@ const ProjectOverview: React.FC = () => {
   }
   return (
     <>
-      <InfoHeader overview={true} project={project} />
+      <ProjectInformationHeader overview={true} project={project} />
       {project?.resultAreas.length !== 0
         ? (
           <AsnTabs

@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { Col, Row, Breadcrumb, Badge, Divider, Typography } from 'antd';
 import Icon from '@ant-design/icons';
 
-import { IInfoHeader } from '../../types/global';
-import { ReactComponent as WarningSvg } from '../../assets/icons/projectWarning.svg';
-import { ReactComponent as PeopleSvg } from '../../assets/icons/people.svg';
+import { IInfoHeader } from '../../../types/global';
+import { ReactComponent as WarningSvg } from '../../../assets/icons/project-warning.svg';
+import { ReactComponent as PeopleSvg } from '../../../assets/icons/people.svg';
 
 const AntBadge = styled(Badge)`
  .ant-badge-status-text{
@@ -33,7 +33,7 @@ const AntIcon = styled(Icon)`
 }
 `;
 const { Text } = Typography;
-const InfoHeader: React.FC<IInfoHeader> = ({ overview, project }) => {
+const ProjectInformationHeader: React.FC<IInfoHeader> = ({ overview, project }) => {
   return (
     <Row style={{ padding: '40px' }}>
       <Col span={24}>
@@ -72,4 +72,4 @@ const InfoHeader: React.FC<IInfoHeader> = ({ overview, project }) => {
     </Row>
   );
 };
-export default InfoHeader;
+export default ProjectInformationHeader;
