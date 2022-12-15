@@ -1,6 +1,7 @@
 import { IUser } from './auth';
 import { Moment } from 'moment';
 import { FormListFieldData } from 'antd';
+import { Void } from './global';
 
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
