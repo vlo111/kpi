@@ -190,3 +190,5 @@ export interface IProjectDetailsProps {
 export interface IResulAreaConfirmModal { open: boolean, onSave: Void, onCancel: Void, onNotSave: Void }
 
 export type SetProjectId = (id: string) => void
+
+export type ResultAreaOrder = (index: number) => number

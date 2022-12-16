@@ -1,6 +1,6 @@
 import { notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { FormProject } from '.';
 import { FormFinish, Void } from '../../types/global';
@@ -13,13 +13,14 @@ import useCreateProject from '../../api/Project/useCreateProject';
 import { ConfirmModal } from '../../components/Forms/Modal/Confirm';
 import { ICreateProjectData } from '../../types/api/project/get-project';
 import { useProject } from '../../hooks/useProject';
+import { PATHS } from '../../helpers/constants';
 
 export const CreateProject: React.FC = () => {
   const navigate = useNavigate();
 
   const [form] = AsnForm.useForm<ICreateProjectData>();
 
-  const { setProjectId } = useProject();
+  const { setProjectId, projectId } = useProject();
 
   const [openModal, setModal] = useState<string>('');
 
@@ -70,6 +71,12 @@ export const CreateProject: React.FC = () => {
       navigate(`../overview/${openModal}`, { replace: true });
     }
   };
+
+  useEffect(() => {
+    if (projectId !== null) {
+      navigate(`/project/${PATHS.OVERVIEW}`.replace(':id', projectId));
+    }
+  }, []);
 
   return (
     <>

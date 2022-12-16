@@ -1,13 +1,14 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 
 import { IComponentChildren } from '../types/global';
 import { SetProjectId } from '../types/project';
+import { useLocalStorage } from './useLocalStorage';
 
 // @ts-expect-error
 const ProjectContext = createContext();
 
 export const ProjectProvider: React.FC<IComponentChildren> = ({ children }) => {
-  const [projectId, setId] = useState<string | null>(null);
+  const [projectId, setId] = useLocalStorage('project', null);
 
   const setProjectId: SetProjectId = (id) => {
     setId(id);
