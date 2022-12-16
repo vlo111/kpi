@@ -250,11 +250,15 @@ export const ResultArea: React.FC = () => {
   };
 
   const onCloseResult: Void = () => {
-    if (resultAreas.length === 0 || _.isEqual(resultAreas, form.getFieldsValue())) {
-      createOrUpdate();
-    } else {
-      // open confirm save modal
-      setOpenConfirmModal(true);
+    if (id !== undefined) {
+      if (resultAreas.length === 0 || _.isEqual(resultAreas, form.getFieldsValue().resultAreas)) {
+        const path = `/project/${PATHS.OVERVIEW}`
+          .replace(':id', id);
+
+        navigate(path);
+      } else {
+        setOpenConfirmModal(true);
+      }
     }
   };
 

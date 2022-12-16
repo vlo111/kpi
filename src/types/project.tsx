@@ -76,6 +76,7 @@ export interface IInputActivities {
   title: string
   order: number
   milestones: IResultBox[]
+  id?: string | undefined
 }
 
 export interface IResultAreaData {
