@@ -90,7 +90,7 @@ const ProjectOverview: React.FC = () => {
                 key: `${item?.id}`,
                 children: (
                   <Space direction='vertical' align='center' style={{ width: '100%', padding: '5vh 0 30px 0' }} >
-                    {project?.status !== 'DRAFT'
+                    {project?.status === 'DRAFT'
                       ? (
                         <>
                           <EditPublishSvg />
