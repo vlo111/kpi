@@ -60,6 +60,10 @@ export type UseMutation<Success, Error, ResponseErrorData, RequestData> = (
   isLoading: boolean
 };
 
+export interface IBreadcrumb {
+  path: string
+  breadcrumbName: string
+}
 export interface IInfoHeader {
   overview?: boolean
   project?: {

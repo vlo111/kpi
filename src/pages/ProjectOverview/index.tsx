@@ -10,8 +10,9 @@ import AsnSpin from '../../components/Forms/Spin';
 import { TVoid } from '../../types/global';
 import { IResultAreas, IInputActivities } from '../../types/project';
 import useGetProjectById from '../../api/Project/useGetProject';
-import { ReactComponent as AddResultAreaSvg } from '../../assets/icons/projectOverview.svg';
-import { ReactComponent as EditPublishSvg } from '../../assets/icons/editpublish.svg';
+import { ReactComponent as AddResultAreaSvg } from '../../assets/icons/project-overview.svg';
+import { ReactComponent as EditPublishSvg } from '../../assets/icons/edit-publish.svg';
+import { ReactComponent as CreateTemplateSvg } from '../../assets/icons/create-template.svg';
 
 const { Text } = Typography;
 
@@ -89,8 +90,22 @@ const ProjectOverview: React.FC = () => {
                 key: `${item?.id ?? i}`,
                 children: (
                   <Space direction='vertical' align='center' style={{ width: '100%', padding: '5vh 0 30px 0' }} >
-                    <EditPublishSvg />
-                    <AsnButton className='primary' onClick={handleEdit}>Edit and Publish the project</AsnButton>
+                    {project?.status === 'DRAFT'
+                      ? (
+                        <>
+                          <EditPublishSvg />
+                          <AsnButton className='primary' onClick={handleEdit}>Edit and Publish the project</AsnButton>
+                        </>
+                        )
+                      : (
+                        <>
+                          <CreateTemplateSvg style={{ marginBottom: '20px' }} />
+                          <Text style={{ fontSize: 'var(--headline-font-size)' }}>Create Activity Template</Text>
+                          <Text>Create activity templates to start</Text>
+                          <AsnButton style={{ marginTop: '12px' }} className='primary'>Create Activity Template</AsnButton>
+                        </>
+                        )}
+
                   </Space>
                 )
               };

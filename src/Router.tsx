@@ -25,6 +25,7 @@ import { CreateProject } from './pages/Project/Create';
 import { ProjectList } from './pages/Project/List';
 import { EditProject } from './pages/Project/Edit';
 import { ProjectSteps } from './pages/ProjectSteps';
+import ProjectInformation from './pages/ProjectInformation';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -49,6 +50,7 @@ export const router = createBrowserRouter(
           <Route path={PATHS.STEPS} element={<ProjectSteps />} />
           <Route path={PATHS.OVERVIEW} element={<ProjectOverview />} />
         </Route>
+        <Route path={PATHS.PROJECTINFORMATION} element={<ProjectInformation />} />
         <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
         <Route path={PATHS.CHANGEPASSWORD} element={<ChangePassword />} />
       </Route>
