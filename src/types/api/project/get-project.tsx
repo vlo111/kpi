@@ -21,7 +21,7 @@ export interface ICreateProjectData {
 }
 
 export interface ICreateResultArea {
-  result: IResultAreaData
+  result: { resultAreas: IResultAreaData }
 }
 
 export interface ICreateResultAreaData {
