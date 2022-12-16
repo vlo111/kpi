@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MenuItems, menuItemsNavigate } from '../../helpers/constants';
 import { MenuInfo } from 'rc-menu/lib/interface';
+import { useProject } from '../../hooks/useProject';
 
 const MenuLayout = styled(Layout)`
   height: 100%;
@@ -93,6 +94,8 @@ const Header = styled(MenuLayout.Header)`
 
 export const Menu: React.FC = () => {
   const navigate = useNavigate();
+
+  const { projectId } = useProject();
 
   const { pathname } = useLocation();
 
