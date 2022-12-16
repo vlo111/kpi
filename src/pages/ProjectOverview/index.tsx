@@ -13,6 +13,7 @@ import useGetProjectById from '../../api/Project/useGetProject';
 import { ReactComponent as AddResultAreaSvg } from '../../assets/icons/project-overview.svg';
 import { ReactComponent as EditPublishSvg } from '../../assets/icons/edit-publish.svg';
 import { ReactComponent as CreateTemplateSvg } from '../../assets/icons/create-template.svg';
+import CreateTemplate from '../../components/CreateTemplateModal';
 
 const { Text } = Typography;
 
@@ -22,6 +23,7 @@ const AntRow = styled(Row)`
 `;
 
 const ProjectOverview: React.FC = () => {
+  const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState(false);
   const [active, setActive] = useState<number>(1);
   const { id } = useParams<string>();
   const data = useGetProjectById(id);
@@ -102,7 +104,7 @@ const ProjectOverview: React.FC = () => {
                           <CreateTemplateSvg style={{ marginBottom: '20px' }} />
                           <Text style={{ fontSize: 'var(--headline-font-size)' }}>Create Activity Template</Text>
                           <Text>Create activity templates to start</Text>
-                          <AsnButton style={{ marginTop: '12px' }} className='primary'>Create Activity Template</AsnButton>
+                          <AsnButton style={{ marginTop: '12px' }} className='primary' onClick={() => setIsOpenCreateActivityModal(true)}>Create Activity Template</AsnButton>
                         </>
                         )}
 
@@ -144,6 +146,7 @@ const ProjectOverview: React.FC = () => {
           </Text>
         </Space>
       }
+      <CreateTemplate isOpenCreateActivityModal={isOpenCreateActivityModal} setIsOpenCreateActivityModal={setIsOpenCreateActivityModal} />
     </>
   );
 };

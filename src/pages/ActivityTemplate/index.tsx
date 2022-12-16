@@ -1,0 +1,333 @@
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { Col, Form, Radio, Row } from 'antd';
+import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router-dom';
+import { AsnButton } from '../../components/Forms/Button';
+import CreateFields from '../../components/ActivityTemplate/CreateField';
+import { AsnCheckbox } from '../../components/Forms/Checkbox';
+import QuestionsRow from '../../components/ActivityTemplate/QuestionsRow';
+import { FormFinish, Void } from '../../types/global';
+import { IHelpText } from '../../types/project';
+import { PATHS, VALIDATE_MESSAGES } from '../../helpers/constants';
+
+const ActivityTemplateContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+  margin: 0 auto;
+
+  .ant-btn-primary {
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  .courseDescriptionInput {
+    border: none;
+    box-shadow: inset var(--header-box-shadow);
+    border-radius: 0px;
+
+    :hover {
+      border: none !important;
+    }
+  }
+
+  .ant-form {
+    width: 100%;
+  }
+`;
+
+const CourseTitle = styled.span`
+  color: var(--dark-2);
+  font-size: var(--headline-font-size);
+  margin-bottom: 2rem;
+`;
+
+const ButtonsContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 3.75rem;
+  padding: 3.75rem 0rem 3.75rem;
+  width: 100%;
+
+  .ant-btn-primary {
+    width: auto;
+    margin-top: 0rem;
+  }
+`;
+
+const FormsStructureContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 3rem;
+
+  .ant-form-item {
+    margin: 0;
+  }
+
+  .ant-row {
+    .ant-checkbox-inner {
+      border: 3px solid var(--dark-border-ultramarine);
+
+      ::after {
+        border: 3px solid var(--white);
+        border-top: 0;
+        border-left: 0;
+      }
+    }
+
+    .ant-checkbox-checked {
+      .ant-checkbox-inner {
+        -color: var(--dark-border-ultramarine);
+      }
+    }
+
+    .ant-checkbox-wrapper {
+      margin-left: 0px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .ant-radio-checked .ant-radio-inner {
+      border-color: var(--dark-border-ultramarine);
+    }
+
+    .ant-radio-wrapper {
+      margin-bottom: 1rem;
+    }
+
+    .ant-radio-inner {
+      width: 20px;
+      height: 20px;
+
+      ::after {
+        transform: scale(0.7);
+        background-color: var(--dark-border-ultramarine);
+      }
+    }
+    .ant-radio-group {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+`;
+
+const ActivityTemplate: React.FC = () => {
+  const [isVisibleAddField, setIsVisibleAddField] = useState<boolean>(false);
+  const [templateData, setTemplateData] = useState<any[] | []>([]);
+  const [questionType, setQuestionType] = useState('');
+  const [helpTextValue, setHelpTextValue] = useState<IHelpText[] | []>([]);
+
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setTemplateData([]);
+  }, [setTemplateData]);
+
+  const onOpenAddVisibleField: Void = () => {
+    setIsVisibleAddField(true);
+  };
+
+  const onFinish: FormFinish = (values) => {
+    setTemplateData([
+      ...templateData,
+      {
+        id: uuidv4(),
+        title: values.question,
+        subTitle: [values.answerType],
+        option:
+          values.answerType === 'Dropdown options' ? [...values.names] : [],
+        switch: false,
+        disabled: false,
+        status: 1
+      }
+    ]);
+    setIsVisibleAddField(false);
+    setQuestionType('');
+    form.resetFields();
+  };
+
+  const onNextClick: Void = () => {
+    navigate(`/${PATHS.COURSESECTION}`);
+  };
+
+  const initFields = [
+    {
+      name: ['question'],
+      value:
+        form.getFieldValue('question') === ''
+          ? ''
+          : form.getFieldValue('question')
+    },
+    {
+      name: 'answerType',
+      value:
+        form.getFieldValue('answerType') === ''
+          ? ''
+          : form.getFieldValue('answerType')
+    },
+    {
+      name: ['names'],
+      value: ['']
+    },
+    {
+      name: ['helpText'],
+      value: ['']
+    },
+    // {
+    //   name: ['applicant'],
+    //   value: form.getFieldsValue().applicant
+    //     ? form.getFieldsValue().applicant
+    //     : false
+    // },
+    // {
+    //   name: ['assessment'],
+    //   value: form.getFieldsValue().assessment
+    //     ? form.getFieldsValue().assessment
+    //     : false
+    // },
+    {
+      name: ['courseStructure'],
+      value: 'One Section'
+    }
+  ];
+
+  return (
+    <ActivityTemplateContainer>
+      <CourseTitle>Course activity template</CourseTitle>
+      <Form
+        fields={initFields}
+        form={form}
+        validateMessages={VALIDATE_MESSAGES}
+        onFinish={onFinish}
+        autoComplete="off"
+      >
+        {templateData?.map((item) => (
+          <QuestionsRow
+            key={item.id}
+            item={item}
+            setTemplateData={setTemplateData}
+            templateData={templateData}
+            setQuestionType={setQuestionType}
+            setIsVisibleAddField={setIsVisibleAddField}
+            setHelpTextValue={setHelpTextValue}
+            helpTextValue={helpTextValue}
+          />
+        ))}
+        {!isVisibleAddField
+          ? (
+          <AsnButton
+            className="primary"
+            onClick={onOpenAddVisibleField}
+            style={{ width: '100%', marginTop: '2rem' }}
+          >
+            +Add Field
+          </AsnButton>
+            )
+          : (
+          <CreateFields
+            setIsVisibleAddField={setIsVisibleAddField}
+            questionType={questionType}
+            form={form}
+            setQuestionType={setQuestionType}
+          />
+            )}
+        <FormsStructureContainer>
+          <Row style={{ marginRight: '13%' }}>
+            <Col
+              span={24}
+              style={{
+                fontSize: 'clamp(0.5rem, 2.5vw, 1.25rem)',
+                color: 'var(--dark-2)',
+                marginBottom: '2rem'
+              }}
+            >
+              Include Forms
+            </Col>
+            <Col span={24}>
+              <Form.Item name="applicant" valuePropName="checked">
+                <AsnCheckbox
+                  width="2rem"
+                  height="2rem"
+                  checkWidth="10px"
+                  checkHeight="18px"
+                  top="12px"
+                  left="7px"
+                  style={{
+                    fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
+                    color: 'var(--dark-2)'
+                  }}
+                >
+                  Application Form
+                </AsnCheckbox>
+              </Form.Item>
+              <Form.Item name="assessment" valuePropName="checked">
+                <AsnCheckbox
+                  width="2rem"
+                  height="2rem"
+                  checkWidth="10px"
+                  checkHeight="18px"
+                  top="12px"
+                  left="7px"
+                  style={{
+                    fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
+                    color: 'var(--dark-2)'
+                  }}
+                >
+                  Assessment Form
+                </AsnCheckbox>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={[0, 0]}>
+            <Col
+              span={24}
+              style={{
+                fontSize: 'clamp(0.5rem, 2.5vw, 1.25rem)',
+                color: 'var(--dark-2)',
+                marginBottom: '2rem'
+              }}
+            >
+              Course Structure
+            </Col>
+            <Col span={24}>
+              <Form.Item name="courseStructure">
+                <Radio.Group>
+                  <Radio
+                    value={'One Section'}
+                    style={{
+                      fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
+                      color: 'var(--dark-2)'
+                    }}
+                  >
+                    One Section
+                  </Radio>
+                  <Radio
+                    value={'Multi-Section'}
+                    style={{
+                      fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
+                      color: 'var(--dark-2)'
+                    }}
+                  >
+                    Multi-Section
+                  </Radio>
+                </Radio.Group>
+              </Form.Item>
+            </Col>
+          </Row>
+        </FormsStructureContainer>
+      </Form>
+      <ButtonsContainer>
+        <AsnButton className="default">Cancel</AsnButton>
+        <AsnButton className="primary" onClick={onNextClick}>
+          Next
+        </AsnButton>
+      </ButtonsContainer>
+    </ActivityTemplateContainer>
+  );
+};
+
+export default ActivityTemplate;
