@@ -186,3 +186,5 @@ export interface IProjectDetailsProps {
   title: string
   details: IProjectDetailsData[]
 }
+
+export interface IResulAreaConfirmModal { open: boolean, onSave: Void, onCancel: Void, onNotSave: Void }
