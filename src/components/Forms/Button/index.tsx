@@ -41,6 +41,7 @@ export const AsnButton = styled(Button)`
     span {
       font-size: var(--base-font-size) !important;
       font-weight: var(--font-normal) !important;
+      margin-left: 2px;
     }
   }
   &.draft{

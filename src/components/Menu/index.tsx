@@ -8,7 +8,7 @@ import { ReactComponent as ProductGuideSvg } from '../../assets/icons/product-gu
 import { ReactComponent as ShortcutsSvg } from '../../assets/icons/shortcuts.svg';
 import { ReactComponent as LogoSvg } from '../../assets/icons/menu-logo.svg';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { MenuItems, menuItemsNavigate } from '../../helpers/constants';
 import { MenuInfo } from 'rc-menu/lib/interface';
 
@@ -94,6 +94,10 @@ const Header = styled(MenuLayout.Header)`
 export const Menu: React.FC = () => {
   const navigate = useNavigate();
 
+  const { pathname } = useLocation();
+
+  const currentItem = [`${menuItemsNavigate.indexOf(pathname) + 1}`];
+
   const onNavigateHandle: (ev: MenuInfo) => void = (ev) => {
     menuItemsNavigate.forEach((item, i) => {
       console.log(+ev.key === i + 1 ? item : '');
@@ -111,7 +115,7 @@ export const Menu: React.FC = () => {
         mode="inline"
         inlineIndent={45}
         onClick={onNavigateHandle}
-        defaultSelectedKeys={['1']}
+        defaultSelectedKeys={currentItem}
         items={[
           DashboardSvg,
           ProjectSvg,

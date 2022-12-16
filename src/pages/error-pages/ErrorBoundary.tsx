@@ -14,7 +14,7 @@ const ErrorBoundary: React.FC = () => {
       subTitle={<p>AN INTERNET SERVER ERROR HAS OCCURED.</p>}
       extra={
         <Space size="middle" direction="vertical">
-          <AsnButton type="primary" href="/">
+          <AsnButton className="primary" href="/">
             Back Home
           </AsnButton>
         </Space>

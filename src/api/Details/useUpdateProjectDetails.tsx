@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
-import client from '../../client';
-import { UseCreateProjectDetails } from '../../../types/api/project/get-project';
+import client from '../client';
+import { UseCreateProjectDetails } from '../../types/api/project/get-project';
 
 const url = 'api/project';
 

@@ -6,7 +6,9 @@ import { ConfirmModal } from '../../../Forms/Modal/Confirm';
 import { IProjectResultAreaDelete, OnDeleteExpectedHandler } from '../../../../types/project';
 import { Void } from '../../../../types/global';
 
-const ExpectedResult: React.FC<{ resultId: number, form: any }> = ({ resultId, form }) => {
+const ExpectedResult: React.FC<{ resultId: number }> = ({ resultId }) => {
+  const form = AsnForm.useFormInstance();
+
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<boolean>();
   const [selectDeleteId, setSelectDeleteId] = useState<IProjectResultAreaDelete>();
 
@@ -23,7 +25,7 @@ const ExpectedResult: React.FC<{ resultId: number, form: any }> = ({ resultId, f
 
       const deletedFields = form.getFieldValue(deleteName) ?? [];
 
-      const currentId = form.getFieldValue().resultAreas[resultId].expectedResults[field ?? ''].id;
+      const currentId = form.getFieldsValue().resultAreas[resultId].expectedResults[field ?? ''].id;
 
       if (currentId !== undefined) {
         const updateDeletedIds = deletedFields.concat(currentId);

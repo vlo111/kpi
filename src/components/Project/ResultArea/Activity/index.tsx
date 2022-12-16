@@ -15,6 +15,7 @@ import {
   OnDeleteBoxHandler
 } from '../../../../types/project';
 import { Void } from '../../../../types/global';
+import { AsnForm } from '../../../Forms/Form';
 
 const tooltipText = [
   'Must include at least one activity and at least one milestone statement.',
@@ -25,10 +26,17 @@ const tooltipText = [
   'Target for Attachment: Range 1-100.'
 ];
 
-const InputActivity: React.FC<{ resultId: number, form: any }> = ({
-  resultId,
-  form
+const initialActivity: (order: number) => any = (order) => ({
+  title: '',
+  order,
+  milestones: [{ measurement: 'NUMBER' }]
+});
+
+const InputActivity: React.FC<{ resultId: number }> = ({
+  resultId
 }) => {
+  const form = AsnForm.useFormInstance();
+
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<boolean>();
   const [selectDeleteId, setSelectDeleteId] = useState<IProjectModalDelete>();
 
@@ -46,8 +54,8 @@ const InputActivity: React.FC<{ resultId: number, form: any }> = ({
       const deletedFields = form.getFieldValue(deleteName) ?? [];
 
       const currentId = title === 'InputActivity'
-        ? form.getFieldValue().resultAreas[resultId].inputActivities[field ?? ''].id
-        : form.getFieldValue().resultAreas[resultId].inputActivities[activityName ?? ''].milestones[field].id;
+        ? form.getFieldsValue().resultAreas[resultId].inputActivities[field ?? ''].id
+        : form.getFieldsValue().resultAreas[resultId].inputActivities[activityName ?? ''].milestones[field].id;
 
       if (currentId !== undefined) {
         const updateDeletedIds = deletedFields.concat(currentId);
@@ -59,6 +67,8 @@ const InputActivity: React.FC<{ resultId: number, form: any }> = ({
     }
     setOpenDeleteResultModal(false);
   };
+
+  const order: (index: number) => number = (index) => form.getFieldValue('resultAreas')[resultId].inputActivities[index].order;
 
   return (
     <>
@@ -99,7 +109,7 @@ const InputActivity: React.FC<{ resultId: number, form: any }> = ({
                             header={HeaderElement(
                               `activity_${resultId}_${activity.key}`,
                               [activity.name, 'title'],
-                              `${index + 1}.`,
+                              `${order(index)}.`,
                               'Individuals with improved soft skills',
                               'activity_header_'
                             )}
@@ -139,10 +149,7 @@ const InputActivity: React.FC<{ resultId: number, form: any }> = ({
                         className="transparent"
                         value="Create"
                         onClick={() => {
-                          addActivity({
-                            title: '',
-                            milestones: [{ measurement: 'NUMBER' }]
-                          });
+                          addActivity(initialActivity((resultId + 1) + (0.1 * (activities.length + 1))));
                         }}
                       >
                         +Add Activity
