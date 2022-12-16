@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { UpdateSetting, IUpdateSettingData } from '../../../types/api/activity/template';
+import { UpdateSetting, IUpdateSettingData } from '../../../../types/api/activity/template';
 
-import client from '../../client';
+import client from '../../../client';
 
 const url = 'api/activity/template/setting';
 

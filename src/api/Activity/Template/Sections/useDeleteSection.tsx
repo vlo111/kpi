@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { DeleteSection, IOnlyId } from '../../../types/api/activity/template';
+import { DeleteSection, IOnlyId } from '../../../../types/api/activity/template';
 
-import client from '../../client';
+import client from '../../../client';
 
 const url = 'api/activity/template/section';
 

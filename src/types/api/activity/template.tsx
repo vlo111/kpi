@@ -81,6 +81,7 @@ export type CreateRequiredDocs = UseMutation<Void, any, ResponseErrorParam, ICre
 export type CreateSection = UseMutation<Void, any, ResponseErrorParam, IOnlyId>
 export type CreateSetting = UseMutation<Void, any, ResponseErrorParam, ICreateSettingData>;
 export type AddSettingHelpText = UseMutation<Void, any, ResponseErrorParam, IAddSettingHelpText>;
+export type DuplicateTemplate = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
 
 export type PublishActivityTemplate = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
 

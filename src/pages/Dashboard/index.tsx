@@ -6,12 +6,12 @@ import GetTemplates from '../../api/Activity/Template/useGetActivityTemplates';
 import GetSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
 import usePublishActivityTemplate from '../../api/Activity/Template/usePublishActivityTemplate';
 import useCreateSecondStepTemplate from '../../api/Activity/Template/useCreateSecondStep';
-import useCreateRequiredDocs from '../../api/Activity/Sections/useCreateRequiredDocs';
-import useDeleteRequiredDocs from '../../api/Activity/Sections/useDeleteRequiredDoc';
+import useCreateRequiredDocs from '../../api/Activity/Template/Sections/useCreateRequiredDocs';
+import useDeleteRequiredDocs from '../../api/Activity/Template/Sections/useDeleteRequiredDoc';
 import useDeleteActivityTemplate from '../../api/Activity/Template/useDeleteActivityTemplate';
-import useCreateNewSetting from '../../api/Activity/Settings/useCreateSetting';
-import useUpdateSingleSetting from '../../api/Activity/Settings/useUpdateSingleSetting';
-import useUpdateSettingStatus from '../../api/Activity/Settings/useUpdateSettingStatus';
+import useCreateNewSetting from '../../api/Activity/Template/Settings/useCreateSetting';
+import useUpdateSingleSetting from '../../api/Activity/Template/Settings/useUpdateSingleSetting';
+import useUpdateSettingStatus from '../../api/Activity/Template/Settings/useUpdateSettingStatus';
 
 const Dashboard: React.FC = () => {
   const { mutate: createTemplateFn } = useCreateActivityTemplate({
