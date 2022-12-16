@@ -14,6 +14,7 @@ import AsnSpin from '../../components/Forms/Spin';
 import AsnBreadcrumb from '../../components/Forms/Breadcrumb';
 import { IProjectResultAreas } from '../../types/project';
 import { Void } from '../../types/global';
+import { PATHS } from '../../helpers/constants';
 import useGetProjectById from '../../api/Project/useGetProject';
 
 const { Title } = Typography;
@@ -31,10 +32,10 @@ const ProjectInformation: React.FC = () => {
   if (isLoading === true) {
     return <AsnSpin />;
   }
-  console.log(project);
+
   const handleBack: Void = () => {
     if (id != null) {
-      navigate(`/project/overview/${id}`);
+      navigate(`/project/${PATHS.OVERVIEW}`.replace(':id', id));
     }
   };
   return (

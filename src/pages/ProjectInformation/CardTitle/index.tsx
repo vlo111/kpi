@@ -21,13 +21,13 @@ const CardTitle: React.FC<{ title: string, id: string | undefined }> = ({ title,
   const navigate = useNavigate();
   const handleEdit: Void = () => {
     if (title === 'General Info' && id != null) {
-      navigate(`/project/${id}/steps/0`);
+      navigate(`/project/${id}`);
     }
     if (title === 'Result areas and Activities' && id != null) {
-      navigate(`/project/${id}/steps/1`);
+      navigate(`/project/${id}/steps/0`);
     }
     if (title === 'Project details' && id != null) {
-      navigate(`/project/${id}/steps/2`);
+      navigate(`/project/${id}/steps/1`);
     }
   };
   return (
