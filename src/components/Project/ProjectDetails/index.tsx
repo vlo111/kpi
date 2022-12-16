@@ -69,7 +69,8 @@ export const ProjectDetailComponent: React.FC = () => {
         deletedRegionIds,
         organizations,
         regions,
-        sectors
+        sectors,
+        publish: true
       };
 
       const requestData = {
@@ -82,6 +83,11 @@ export const ProjectDetailComponent: React.FC = () => {
       } else {
         createProjectDetails({ ...requestData });
       }
+
+      const path = `/project/${PATHS.OVERVIEW}`
+        .replace(':id', id ?? '');
+
+      navigate(path);
     }
   };
 
