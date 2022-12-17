@@ -97,7 +97,9 @@ export const Menu: React.FC = () => {
 
   const { projectId } = useProject();
 
-  const { pathname } = useLocation();
+  let { pathname } = useLocation();
+
+  pathname = pathname.includes('project') ? menuItemsNavigate[1] : pathname;
 
   const currentItem = [`${menuItemsNavigate.indexOf(pathname) + 1}`];
 
