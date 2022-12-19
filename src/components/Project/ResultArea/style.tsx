@@ -174,9 +174,12 @@ export const InputResultArea = styled.div`
               position: absolute;
               right: 50px;
             }
+            
+            > .ant-row {
+              flex-wrap: inherit;
+            }
 
             > .ant-row:first-child {
-              display: flex;
               align-items: center;
             }
 
@@ -243,6 +246,7 @@ export const InputResultArea = styled.div`
               }
 
               > .ant-row {
+                flex-wrap: inherit;
                 
                 &:first-child {
                   .delete-result-box {
