@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Row, Col, Button, Upload, Typography } from 'antd';
-import { RcFile } from 'antd/lib/upload';
-import { DeleteOutlined } from '@ant-design/icons';
+import { Row, Col, Button, Upload, Typography, message, Spin } from 'antd';
+import { DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import useCurrentUser from '../../api/UserProfile/useCurrentUser';
 import { PATHS } from '../../helpers/constants';
@@ -35,7 +34,7 @@ const UserProfile: React.FC = () => {
     onError: () => {}
   });
 
-  const { mutate: imageUpload } = userImageUpload({
+  const { mutate: imageUpload, isLoading: uploadLoading } = userImageUpload({
     onSuccess: (options: IUserUpload) => {
       const {
         data: { result }
@@ -51,9 +50,15 @@ const UserProfile: React.FC = () => {
   }, [photo]);
 
   const props: IUploadProps = {
-    customRequest: (options: { file: string | Blob | RcFile }) => {
+    customRequest: (options: { file: any }) => {
       const { file } = options;
-      imageUpload(file);
+      const { file: { size } } = options;
+      const isLt2M = size / 1024 / 1024 < 8;
+      if (!isLt2M) {
+        void message.error('File size is greater than 8MB. Please upload file below 8MB.');
+      } else {
+        imageUpload(file);
+      }
     },
     name: 'photo',
     accept: '.jpg,.png,.heic,.webp',
@@ -64,6 +69,7 @@ const UserProfile: React.FC = () => {
     saveChanges({ photo: '' });
     setPhoto('');
   };
+  const antIcon = <LoadingOutlined style={{ fontSize: 60, color: 'var(--dark-border-ultramarine)' }} spin />;
 
   return (
     <CreateTemplateContainer>
@@ -91,7 +97,9 @@ const UserProfile: React.FC = () => {
           <Upload {...props}>
             <AsnAvatar
               size={128}
-              letter={`${user?.firstName?.charAt(0)}${user?.lastName?.charAt(
+              letter={uploadLoading
+                ? <Spin indicator={antIcon} spinning={uploadLoading}/>
+                : `${user?.firstName?.charAt(0)}${user?.lastName?.charAt(
                 0
               )}`}
               src={photo.length > 0 ? photo : user.photo}
