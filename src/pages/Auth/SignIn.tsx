@@ -31,12 +31,13 @@ const SignIn: React.FC = () => {
   const { mutate: signIn, isLoading }: any = useSignInApi(
     {
       onSuccess: (payload: { data: IUser }) => {
-        const { id, firstName, lastName, email, accessToken } = payload.data;
+        const { id, firstName, lastName, email, accessToken, photo } = payload.data;
         login({
           id,
           firstName,
           lastName,
-          email
+          email,
+          photo
         });
         isToken(accessToken);
         navigate(PATHS.ROOT);
