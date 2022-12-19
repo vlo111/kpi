@@ -113,7 +113,6 @@ const ProjectInformation: React.FC = () => {
                     statement={milestone?.statement}
                     target={milestone?.target}
                     divider={
-                      activity?.milestones.length !== 1 &&
                       result?.inputActivities?.length - 1 !== i
                     }
                   />
