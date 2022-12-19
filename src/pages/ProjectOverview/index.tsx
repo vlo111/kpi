@@ -26,7 +26,6 @@ const ProjectOverview: React.FC = () => {
   const { id } = useParams<string>();
   const { data, isLoading } = useGetProjectById(id);
   const { result: project } = data;
-  console.log(project);
   const navigate = useNavigate();
   const handleDraft: TVoid = () => {
     if (id != null) {

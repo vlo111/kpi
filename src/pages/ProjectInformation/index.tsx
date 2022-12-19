@@ -29,7 +29,6 @@ const ProjectInformation: React.FC = () => {
   const navigate = useNavigate();
   const { isLoading } = data;
   const { result: project } = data?.data;
-  console.log(project);
   if (isLoading === true) {
     return <AsnSpin />;
   }
