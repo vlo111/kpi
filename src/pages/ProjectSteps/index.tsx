@@ -49,6 +49,13 @@ export const ProjectContainer = styled.div`
     font-size: var(--headline-font-size);
     color: var(--dark-2);
   }
+
+  .ant-spin {
+    height: auto;
+    width: 71%;
+    top: 55%;
+    position: absolute;
+  }
 `;
 
 const AsnStepsHeader = styled(Steps)`

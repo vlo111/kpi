@@ -11,6 +11,9 @@ import { useGetProjectDetails } from '../../../api/Details/useGetProjectDetails'
 import { Void } from '../../../types/global';
 import useCreateProjectDetails from '../../../api/Details/useCreateProjectDetails';
 import useUpdateProjectDetails from '../../../api/Details/useUpdateProjectDetails';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 100, color: 'var(--dark-border-ultramarine)' }} spin />;
 
 export const VALIDATE_PROJECT_DETAILS_MESSAGES = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -111,7 +114,7 @@ export const ProjectDetailComponent: React.FC = () => {
 
       const deletedFields = form.getFieldValue(deleteName) ?? [];
 
-      const currentId = form.getFieldValue(title.toLocaleLowerCase())[fields].id;
+      const currentId = form.getFieldValue(title.toLocaleLowerCase())[fields]?.id;
 
       if (currentId !== undefined) {
         const updateDeletedIds = deletedFields.concat(currentId);
@@ -124,8 +127,12 @@ export const ProjectDetailComponent: React.FC = () => {
     setOpenDeleteResultModal(undefined);
   };
 
+  if (isLoading === true) {
+    return <Spin indicator={antIcon} />;
+  }
+
   return (
-    <Spin spinning={isLoading}>
+    <>
       <AsnForm
         form={form}
         initialValues={initialValues}
@@ -151,9 +158,9 @@ export const ProjectDetailComponent: React.FC = () => {
               Previous
             </AsnButton>
           </Col>
-          <Col>
-            <AsnButton className="default" htmlType="submit">Save as Draft</AsnButton>
-          </Col>
+          {/* <Col> */}
+          {/*   <AsnButton className="default" htmlType="submit">Save as Draft</AsnButton> */}
+          {/* </Col> */}
           <Col>
             <AsnButton className="primary" htmlType="submit">
               Publish
@@ -170,6 +177,6 @@ export const ProjectDetailComponent: React.FC = () => {
         onSubmit={submitDeleteModal}
         onCancel={() => setOpenDeleteResultModal(undefined)}
       />
-    </Spin>
+    </>
   );
 };
