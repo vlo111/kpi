@@ -1,6 +1,6 @@
 import { notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { FormProject } from '.';
 import { FormFinish, Void } from '../../types/global';
@@ -12,24 +12,29 @@ import {
 import useCreateProject from '../../api/Project/useCreateProject';
 import { ConfirmModal } from '../../components/Forms/Modal/Confirm';
 import { ICreateProjectData } from '../../types/api/project/get-project';
+import { useProject } from '../../hooks/useProject';
+import { PATHS } from '../../helpers/constants';
 
 export const CreateProject: React.FC = () => {
   const navigate = useNavigate();
 
   const [form] = AsnForm.useForm<ICreateProjectData>();
 
-  const [openDeleteModal, setOpenDeleteModal] = useState<string>('');
+  const { setProjectId, projectId } = useProject();
+
+  const [openModal, setModal] = useState<string>('');
 
   const [error, setError] = useState<string>('');
 
   const onSuccess: ProjectSuccessResponse = (response) => {
+    setProjectId(response?.data?.id);
     notification.success({
       bottom: 50,
       placement: 'topRight',
       message: 'The project saved successfully',
       duration: 3
     });
-    setOpenDeleteModal(response?.data?.id);
+    setModal(response?.data?.id);
   };
 
   const onError: ProjectErrorResponse = ({ response }) => {
@@ -38,7 +43,7 @@ export const CreateProject: React.FC = () => {
     } else {
       setError(response.data.message);
     }
-    setOpenDeleteModal('');
+    setModal('');
   };
 
   const { mutate: createProject, isLoading } = useCreateProject({
@@ -62,10 +67,16 @@ export const CreateProject: React.FC = () => {
   };
 
   const onSkipUser: Void = () => {
-    if (openDeleteModal !== '') {
-      navigate(`../overview/${openDeleteModal}`, { replace: true });
+    if (openModal !== '') {
+      navigate(`../overview/${openModal}`, { replace: true });
     }
   };
+
+  useEffect(() => {
+    if (projectId !== null) {
+      navigate(`/project/${PATHS.OVERVIEW}`.replace(':id', projectId));
+    }
+  }, []);
 
   return (
     <>
@@ -80,7 +91,7 @@ export const CreateProject: React.FC = () => {
         closable={false}
         yes="Add"
         no="Skip"
-        open={openDeleteModal !== ''}
+        open={openModal !== ''}
         title="Do you want to add users?"
         onSubmit={onRedirectToUser}
         onCancel={onSkipUser}

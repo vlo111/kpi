@@ -256,3 +256,7 @@ export interface IQuestionsRow {
   helpTextValue: IHelpText[]
   setHelpTextValue: React.Dispatch<React.SetStateAction<IHelpText[]>>
 }
+
+export type SetProjectId = (id: string) => void
+
+export type ResultAreaOrder = (index: number) => number

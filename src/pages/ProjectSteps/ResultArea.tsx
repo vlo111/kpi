@@ -249,7 +249,7 @@ export const ResultArea: React.FC = () => {
     }
   };
 
-  const onCloseResult: Void = () => {
+  const onRedirectOverview: Void = () => {
     if (id !== undefined) {
       if (resultAreas.length === 0 || _.isEqual(resultAreas, form.getFieldsValue().resultAreas)) {
         const path = `/project/${PATHS.OVERVIEW}`
@@ -281,12 +281,12 @@ export const ResultArea: React.FC = () => {
         />
         <div className="footer">
           <AsnButton
-            onClick={onCloseResult}
+            onClick={onRedirectOverview}
             className="default"
           >
             Cancel
           </AsnButton>
-          <AsnButton className="default">Save as Draft</AsnButton>
+          <AsnButton className="default" onClick={onRedirectOverview}>Save as Draft</AsnButton>
           <AsnButton className="primary" htmlType="submit">
             Next
           </AsnButton>
