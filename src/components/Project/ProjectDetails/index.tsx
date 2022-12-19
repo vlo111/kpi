@@ -38,9 +38,8 @@ export const ProjectDetailComponent: React.FC = () => {
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<OpenDeleteResultModal>();
 
   const onSuccess: Void = () => {
-    const path = `/project/${PATHS.STEPS}`
-      .replace(':id', id ?? '')
-      .replace(':index', '1');
+    const path = `/project/${PATHS.OVERVIEW}`
+      .replace(':id', id ?? '');
 
     navigate(path);
   };
@@ -83,11 +82,6 @@ export const ProjectDetailComponent: React.FC = () => {
       } else {
         createProjectDetails({ ...requestData });
       }
-
-      const path = `/project/${PATHS.OVERVIEW}`
-        .replace(':id', id ?? '');
-
-      navigate(path);
     }
   };
 
