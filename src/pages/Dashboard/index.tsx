@@ -111,7 +111,7 @@ const Dashboard: React.FC = () => {
   });
 
   const { isLoading } = GetTemplates(
-    '5167d849-d674-4a3b-88d5-5aa84c7c319a',
+    'f7dccfda-8fb0-426c-b00e-a15876fce6d9',
     {
       onSuccess: (data: { result: any, count: any }) =>
         console.log(data)
@@ -119,7 +119,7 @@ const Dashboard: React.FC = () => {
   );
 
   const { isLoading: loadSingle, refetch } = GetSingleTemplate(
-    '8dde47a4-639b-4918-8f43-fb8555323e14',
+    '954cd1e2-911a-462e-b97f-192af982499d',
     {
       onSuccess: (data: { result: any, count: any }) =>
         console.log(data)
@@ -168,7 +168,7 @@ const Dashboard: React.FC = () => {
 
   const createSetting = (): void => {
     createTemplateSetting({
-      id: '8dde47a4-639b-4918-8f43-fb8555323e14',
+      id: '954cd1e2-911a-462e-b97f-192af982499d',
       data: {
         answerType: 'DROPDOWN',
         title: 'drop',

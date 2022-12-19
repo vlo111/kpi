@@ -7,6 +7,8 @@ import { AsnForm } from '../Forms/Form';
 import { AsnInput, AsnTextArea } from '../Forms/Input';
 import { ICreateTemplateModal, AddManagerHandle } from '../../types/project';
 import { PATHS, VALIDATE_MESSAGES } from '../../helpers/constants';
+import { ICreateTemplateResponse } from '../../types/api/activity/template';
+import useCreateActivityTemplate from '../../api/Activity/Template/useCreateActivityTemplate';
 
 const CreateTemplateContainer = styled.div`
   .buttonContainer {
@@ -18,10 +20,27 @@ const CreateTemplateContainer = styled.div`
 
 const CreateTemplate: React.FC<ICreateTemplateModal> = ({
   isOpenCreateActivityModal,
-  setIsOpenCreateActivityModal
+  setIsOpenCreateActivityModal,
+  activityId
 }) => {
   const [form] = AsnForm.useForm();
   const navigate = useNavigate();
+  // const { id: projectId } = useParams();
+  const { mutate: createTemplateFn } = useCreateActivityTemplate({
+    onSuccess: (options: ICreateTemplateResponse) => {
+      const {
+        data: { result }
+      } = options;
+      if ((result.id ?? '').length > 0) {
+        navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', result.id)}`);
+        console.log(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', result.id)}`, 'ssssssssssssssssssssssssss');
+      }
+    },
+    onError: ({ response }: any) => {
+      // const { data: { 0: { massage } } } = response;
+      console.log(response, 'response');
+    }
+  });
 
   const onCancelClick: AddManagerHandle = () => {
     setIsOpenCreateActivityModal(false);
@@ -33,8 +52,15 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
   };
 
   const onFinish: any = (values: any) => {
-    console.log({ ...values, category: 'Courses' }, 'failed');
-    navigate(`/${PATHS.ACTIVITYTEMPLATE}`);
+    // console.log(projectId, 'projectId');
+    createTemplateFn({
+      id: activityId,
+      data: {
+        category: 'COURSES',
+        title: values.templateName,
+        description: values.description
+      }
+    });
   };
 
   useEffect(() => {

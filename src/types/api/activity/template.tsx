@@ -2,7 +2,7 @@ import { UseMutation, Void } from '../../global';
 import { ResponseErrorParam } from '../project/get-project';
 
 export interface ICreateTemplateData {
-  id: string
+  id: string | undefined
   data: {
     category: string
     title: string

@@ -197,6 +197,7 @@ export interface IHelpText {
 export interface ICreateTemplateModal {
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+  activityId: string | undefined
 }
 
 export type AddManagerHandle = (values: unknown) => void
