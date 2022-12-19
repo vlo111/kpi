@@ -11,7 +11,7 @@ import { ConfirmModal } from '../../Forms/Modal/Confirm';
 import { TollTipText, HeaderElement } from '../../../helpers/utils';
 import { ReactComponent as InfoSvg } from '../../../assets/icons/info.svg';
 import { ReactComponent as DeleteSvg } from '../../../assets/icons/delete.svg';
-import { DeleteResultArea, IProjectResultAreaDelete, IResultAreaData } from '../../../types/project';
+import { DeleteResultArea, IProjectResultAreaDelete, IResultAreaData, ResultAreaOrder } from '../../../types/project';
 import { Void } from '../../../types/global';
 import { AsnForm } from '../../Forms/Form';
 
@@ -63,8 +63,7 @@ const InputResult: React.FC = () => {
     setSelectDeleteId({ remove, field });
   };
 
-  const order: (index: number) => number = (index) => {
-    console.log('form.getFieldValue( --- ', form.getFieldValue('resultAreas')[index].order);
+  const order: ResultAreaOrder = (index) => {
     return form.getFieldValue('resultAreas')[index].order;
   };
 

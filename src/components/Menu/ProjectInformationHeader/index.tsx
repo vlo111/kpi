@@ -1,12 +1,14 @@
 import React from 'react';
-import moment from 'moment';
-import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { Col, Row, Breadcrumb, Badge, Divider, Typography } from 'antd';
-import Icon from '@ant-design/icons';
+import styled from 'styled-components';
+import moment from 'moment';
 
+import { PATHS } from '../../../helpers/constants';
 import { IInfoHeader } from '../../../types/global';
 import { ReactComponent as WarningSvg } from '../../../assets/icons/project-warning.svg';
 import { ReactComponent as PeopleSvg } from '../../../assets/icons/people.svg';
+import Icon from '@ant-design/icons';
 
 const AntBadge = styled(Badge)`
  .ant-badge-status-text{
@@ -34,6 +36,7 @@ const AntIcon = styled(Icon)`
 `;
 const { Text } = Typography;
 const ProjectInformationHeader: React.FC<IInfoHeader> = ({ overview, project }) => {
+  const navigate = useNavigate();
   return (
     <Row style={{ padding: '40px' }}>
       <Col span={24}>
@@ -62,8 +65,8 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({ overview, project }) 
                 <Text underline={true} style={{ fontSize: 'var(--base-font-size)', marginLeft: '8px' }}>1</Text>
                 <AntDivider type='vertical' />
               </Col>
-              {project?.status !== 'DRAFT' && <Col>
-                <AntIcon component={WarningSvg} />
+              {project?.status !== 'DRAFT' && ((project?.id) != null) && <Col>
+                <AntIcon component={WarningSvg} onClick={() => navigate(`/${PATHS.PROJECTINFORMATION}`.replace(':id', project?.id))} />
               </Col>}
             </Row>
           </Col>

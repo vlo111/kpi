@@ -16,8 +16,11 @@ import {
 } from '../../types/project';
 import useUpdateResultArea from '../../api/ResultArea/useUpdateResultArea';
 import { PATHS } from '../../helpers/constants';
-import { Spin } from 'antd';
 import { ConfirmSave } from '../../components/Project/ResultArea/Modal';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 100, color: 'var(--dark-border-ultramarine)' }} spin />;
 
 const VALIDATE_MESSAGES_PROJECT_INPUT = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -249,7 +252,7 @@ export const ResultArea: React.FC = () => {
     }
   };
 
-  const onCloseResult: Void = () => {
+  const onRedirectOverview: Void = () => {
     if (id !== undefined) {
       if (resultAreas.length === 0 || _.isEqual(resultAreas, form.getFieldsValue().resultAreas)) {
         const path = `/project/${PATHS.OVERVIEW}`
@@ -262,8 +265,11 @@ export const ResultArea: React.FC = () => {
     }
   };
 
+  if (isLoading === true) {
+    return <Spin indicator={antIcon} />;
+  }
+
   return (
-    <Spin spinning={isLoading}>
       <ProjectInputForm
         form={form}
         layout="vertical"
@@ -281,17 +287,16 @@ export const ResultArea: React.FC = () => {
         />
         <div className="footer">
           <AsnButton
-            onClick={onCloseResult}
+            onClick={onRedirectOverview}
             className="default"
           >
             Cancel
           </AsnButton>
-          <AsnButton className="default">Save as Draft</AsnButton>
+          {/* <AsnButton className="default" onClick={onRedirectOverview}>Save as Draft</AsnButton> */}
           <AsnButton className="primary" htmlType="submit">
             Next
           </AsnButton>
         </div>
       </ProjectInputForm>
-    </Spin>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Typography, Space, Row } from 'antd';
 import styled from 'styled-components';
@@ -76,7 +76,7 @@ const ProjectInformation: React.FC = () => {
       <AsnCard style={{ borderTop: '3px solid var(--secondary-green)' }}>
         <CardTitle title={'Result areas and Activities'} id={id} />
         {project?.resultAreas?.map((result: IProjectResultAreas) => (
-          <>
+          <Fragment key={result?.id}>
             <Title
               level={3}
               style={{
@@ -84,7 +84,6 @@ const ProjectInformation: React.FC = () => {
                 fontSize: 'var(--base-font-size)',
                 fontWeight: 'var(--font-normal)'
               }}
-              key={result?.id}
             >
               {result?.title}
             </Title>
@@ -98,7 +97,7 @@ const ProjectInformation: React.FC = () => {
               />
             ))}
             {result?.inputActivities?.map((activity, i: number) => (
-              <>
+              <div key={i}>
                 <ActivityName
                   key={activity?.id}
                   activityName={activity?.title}
@@ -117,9 +116,9 @@ const ProjectInformation: React.FC = () => {
                     }
                   />
                 ))}
-              </>
+              </div>
             ))}
-          </>
+          </Fragment>
         ))}
       </AsnCard>
       <AsnCard style={{ borderTop: '3px solid var(--secondary-light-orage)' }}>
