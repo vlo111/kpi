@@ -1,6 +1,7 @@
 import { IUser } from './auth';
 import { Moment } from 'moment';
 import { FormListFieldData } from 'antd';
+import { Void } from './global';
 
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
@@ -65,22 +66,24 @@ export interface ProjectInputBoxProps {
 }
 
 export interface IResultBox {
-  code: string
-  statement: string
+  code?: string
+  statement?: string
   measurement: string
-  target: number
+  target?: number
 }
 
 export interface IInputActivities {
   title: string
-  id: string
+  order: number
   milestones: IResultBox[]
+  id?: string | undefined
 }
 
 export interface IResultAreaData {
   expectedResults: IResultBox[]
-  inputActivities: IInputActivities
+  inputActivities: IInputActivities[]
   title: string
+  order: number
 }
 
 export interface IResultAreas {
@@ -94,9 +97,12 @@ export interface IProjectDetailsData {
 }
 
 export interface IProjectDetails {
-  organization: IProjectDetailsData[]
-  sector: IProjectDetailsData[]
-  region: IProjectDetailsData[]
+  deletedSectorIds: string[]
+  deletedOrganizationIds: string[]
+  deletedRegionIds: string[]
+  organizations: IProjectDetailsData[]
+  sectors: IProjectDetailsData[]
+  regions: IProjectDetailsData[]
 }
 
 export interface IProjectDetailsItems {
@@ -131,8 +137,58 @@ export type OnDeleteExpectedHandler = (
 
 export type ProjectDetailsDelete = (remove: (name: string) => void, fields: string, title: string) => void
 
+export type DeleteResultArea = (remove: (name: number | number[]) => void, field: number) => void
+
 export interface ProjectDetails {
   organizations: string[]
   sectors: string[]
   regions: string[]
 }
+
+export interface IProjectExpectedResults {
+  id?: string
+  code: string
+  target: number
+  statement: string
+  divider?: boolean
+}
+export interface IProjectInputActivities {
+  id: string
+  title: string
+  milestones: IProjectMilestones[]
+}
+export interface IProjectMilestones {
+  id: string
+  statement: string
+  target: number
+  code: string
+}
+export interface IProjectResultAreas {
+  id: string
+  title: string
+  expectedResults: IProjectExpectedResults[]
+  inputActivities: IProjectInputActivities[]
+}
+export interface IGeneralInfoProps {
+  title: string
+  description: string
+  startDate: string
+  endDate: string
+}
+
+export interface IActivityName {
+  divider: boolean
+  count: boolean
+  activityName: string
+}
+
+export interface IProjectDetailsProps {
+  title: string
+  details: IProjectDetailsData[]
+}
+
+export interface IResulAreaConfirmModal { open: boolean, onSave: Void, onCancel: Void, onNotSave: Void }
+
+export type SetProjectId = (id: string) => void
+
+export type ResultAreaOrder = (index: number) => number

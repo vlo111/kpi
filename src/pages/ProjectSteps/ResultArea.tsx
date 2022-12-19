@@ -1,23 +1,23 @@
 import _ from 'lodash';
 import styled from 'styled-components';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { FormFinish, Void } from '../../types/global';
 import { AsnForm } from '../../components/Forms/Form';
 import { AsnButton } from '../../components/Forms/Button';
 import InputResult from '../../components/Project/ResultArea';
-import { useGetResultArea } from '../../api/Project/ResultArea/useGetResultArea';
-import useCreateResultArea from '../../api/Project/ResultArea/useCreateResultArea';
+import { useGetResultArea } from '../../api/ResultArea/useGetResultArea';
+import useCreateResultArea from '../../api/ResultArea/useCreateResultArea';
 import {
   ProjectErrorResponse,
   SetResultArea,
   SetTitleColor
 } from '../../types/project';
-import useUpdateResultArea from '../../api/Project/ResultArea/useUpdateResultArea';
+import useUpdateResultArea from '../../api/ResultArea/useUpdateResultArea';
 import { PATHS } from '../../helpers/constants';
 import { Spin } from 'antd';
-import { AsnInput } from '../../components/Forms/Input';
+import { ConfirmSave } from '../../components/Project/ResultArea/Modal';
 
 const VALIDATE_MESSAGES_PROJECT_INPUT = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -135,22 +135,41 @@ const setError: SetResultArea = (values) => {
   errorsIndex.map((i) => resultAreaElement(i));
 };
 
+const initialResulArea = {
+  resultAreas: [
+    {
+      title: '',
+      order: 1,
+      expectedResults: [{ measurement: 'NUMBER' }],
+      inputActivities: [
+        { title: '', order: 1.1, milestones: [{ measurement: 'NUMBER' }] }
+      ]
+    }
+  ]
+};
+
+const initialValues = {
+  deletedResultAreaIds: [],
+  deletedInputActivityIds: [],
+  deletedExpectedResultIds: [],
+  deletedMilestoneIds: [],
+  resultAreas: { ...initialResulArea.resultAreas }
+};
+
 export const ResultArea: React.FC = () => {
   const { id } = useParams();
+
+  const [form] = AsnForm.useForm();
 
   const navigate = useNavigate();
 
   // @ts-expect-error
   const { resultAreas, isLoading } = useGetResultArea(id);
 
-  const [form] = AsnForm.useForm();
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
   const onSuccess: Void = () => {
-    const path = `/project/${PATHS.STEPS}`
-      .replace(':id', id ?? '')
-      .replace(':index', '1');
 
-    navigate(path);
   };
 
   const onError: ProjectErrorResponse = ({ response }) => {
@@ -167,25 +186,17 @@ export const ResultArea: React.FC = () => {
     onError
   });
 
-  const onFinish: FormFinish = (values) => {
-    if (id !== undefined) {
-      if (resultAreas?.length != null) {
-        updateResultArea({
-          id,
-          data: values
-        });
-      } else {
-        createResultArea({
-          id,
-          data: values
-        });
-      }
-    }
+  const onFinish: Void = () => {
+    createOrUpdate();
+
+    const path = `/project/${PATHS.STEPS}`
+      .replace(':id', id ?? '')
+      .replace(':index', '1');
+
+    navigate(path);
   };
 
   const onFinishFailed: FormFinish = (values: FormData) => {
-    console.log(values, 'failed');
-
     setError(values);
   };
 
@@ -193,19 +204,63 @@ export const ResultArea: React.FC = () => {
     if (resultAreas !== undefined && resultAreas.length !== 0) {
       form.setFieldsValue({ resultAreas });
     } else {
-      form.setFieldsValue({
-        resultAreas: [
-          {
-            title: '',
-            expectedResults: [{ measurement: 'NUMBER' }],
-            inputActivities: [
-              { title: '', milestones: [{ measurement: 'NUMBER' }] }
-            ]
-          }
-        ]
-      });
+      form.setFieldsValue(initialResulArea);
     }
   }, [resultAreas]);
+
+  const createOrUpdate: Void = () => {
+    if (id !== undefined) {
+      const isUpdate = resultAreas?.length != null;
+
+      const requestData = {
+        id,
+        data: form.getFieldValue([])
+      };
+
+      if (isUpdate) {
+        updateResultArea({ ...requestData });
+      } else {
+        createResultArea({ ...requestData });
+      }
+    }
+  };
+
+  const onSaveModal: Void = () => {
+    createOrUpdate();
+
+    if (id !== undefined) {
+      const path = `/project/${PATHS.OVERVIEW}`
+        .replace(':id', id);
+
+      navigate(path);
+    }
+  };
+
+  const onCancelModal: Void = () => {
+    setOpenConfirmModal(false);
+  };
+
+  const onNotSaveModal: Void = () => {
+    if (id !== undefined) {
+      const path = `/project/${PATHS.OVERVIEW}`
+        .replace(':id', id);
+
+      navigate(path);
+    }
+  };
+
+  const onRedirectOverview: Void = () => {
+    if (id !== undefined) {
+      if (resultAreas.length === 0 || _.isEqual(resultAreas, form.getFieldsValue().resultAreas)) {
+        const path = `/project/${PATHS.OVERVIEW}`
+          .replace(':id', id);
+
+        navigate(path);
+      } else {
+        setOpenConfirmModal(true);
+      }
+    }
+  };
 
   return (
     <Spin spinning={isLoading}>
@@ -215,30 +270,23 @@ export const ResultArea: React.FC = () => {
         validateMessages={VALIDATE_MESSAGES_PROJECT_INPUT}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
+        initialValues={initialValues}
       >
-        <InputResult form={form} />
-        <AsnForm.Item className='deleteItem' name='deletedResultAreaIds'>
-          <AsnInput />
-        </AsnForm.Item>
-        <AsnForm.Item className='deleteItem' name='deletedExpectedResultIds'>
-          <AsnInput />
-        </AsnForm.Item>
-        <AsnForm.Item className='deleteItem' name='deletedInputActivityIds'>
-          <AsnInput />
-        </AsnForm.Item>
-        <AsnForm.Item className='deleteItem' name='deletedMilestoneIds'>
-          <AsnInput />
-        </AsnForm.Item>
+        <InputResult />
+        <ConfirmSave
+          open={openConfirmModal}
+          onSave={onSaveModal}
+          onCancel={onCancelModal}
+          onNotSave={onNotSaveModal}
+        />
         <div className="footer">
           <AsnButton
+            onClick={onRedirectOverview}
             className="default"
-            onClick={() => {
-              // prevCurrent();
-            }}
           >
             Cancel
           </AsnButton>
-          <AsnButton className="default">Save as Draft</AsnButton>
+          <AsnButton className="default" onClick={onRedirectOverview}>Save as Draft</AsnButton>
           <AsnButton className="primary" htmlType="submit">
             Next
           </AsnButton>

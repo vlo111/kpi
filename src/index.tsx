@@ -6,6 +6,7 @@ import { ConfigProvider } from 'antd';
 import reportWebVitals from './reportWebVitals';
 import { router } from './Router';
 import { AuthProvider } from './hooks/useAuth';
+import { ProjectProvider } from './hooks/useProject';
 import GlobalStyle from './assets/styles/style';
 import locale from 'antd/lib/locale/hy_AM';
 import 'antd/dist/antd.min.css';
@@ -29,10 +30,12 @@ root.render(
   <>
     <ConfigProvider locale={locale}>
       <AuthProvider>
+      <ProjectProvider>
         <QueryClientProvider client={queryClient}>
           <GlobalStyle />
           <RouterProvider router={router} />
         </QueryClientProvider>
+      </ProjectProvider>
       </AuthProvider>
     </ConfigProvider>
   </>

@@ -8,9 +8,10 @@ import { ReactComponent as ProductGuideSvg } from '../../assets/icons/product-gu
 import { ReactComponent as ShortcutsSvg } from '../../assets/icons/shortcuts.svg';
 import { ReactComponent as LogoSvg } from '../../assets/icons/menu-logo.svg';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { MenuItems, menuItemsNavigate } from '../../helpers/constants';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { MenuItems, menuItemsNavigate, PATHS } from '../../helpers/constants';
 import { MenuInfo } from 'rc-menu/lib/interface';
+import { useProject } from '../../hooks/useProject';
 
 const MenuLayout = styled(Layout)`
   height: 100%;
@@ -94,10 +95,23 @@ const Header = styled(MenuLayout.Header)`
 export const Menu: React.FC = () => {
   const navigate = useNavigate();
 
+  const { projectId } = useProject();
+
+  let { pathname } = useLocation();
+
+  pathname = pathname.includes('project') ? menuItemsNavigate[1] : pathname;
+
+  const currentItem = [`${menuItemsNavigate.indexOf(pathname) + 1}`];
+
   const onNavigateHandle: (ev: MenuInfo) => void = (ev) => {
     menuItemsNavigate.forEach((item, i) => {
-      console.log(+ev.key === i + 1 ? item : '');
-      if (+ev.key === i + 1) navigate(item);
+      if (+ev.key === i + 1) {
+        if (projectId !== null && item === menuItemsNavigate[1]) {
+          navigate(`/project/${PATHS.OVERVIEW}`.replace(':id', projectId));
+        } else {
+          navigate(item);
+        }
+      }
     }
     );
   };
@@ -111,7 +125,7 @@ export const Menu: React.FC = () => {
         mode="inline"
         inlineIndent={45}
         onClick={onNavigateHandle}
-        defaultSelectedKeys={['1']}
+        defaultSelectedKeys={currentItem}
         items={[
           DashboardSvg,
           ProjectSvg,
