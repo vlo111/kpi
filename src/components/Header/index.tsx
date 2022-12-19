@@ -53,7 +53,7 @@ export const Header: React.FC = () => {
   const data = [
     {
       label: (
-        <Button onClick={() => navigate(`/${PATHS.USERPROFILE}`)} type="text">
+        <Button onClick={() => navigate(`/${PATHS.USERPROFILE}`)} type="text" style={{ width: '100%', display: 'flex', background: 'inherit' }}>
           Profile
         </Button>
       ),
@@ -61,7 +61,7 @@ export const Header: React.FC = () => {
     },
     {
       label: (
-        <Button onClick={() => logout()} type="text">
+        <Button onClick={() => logout()} type="text" style={{ width: '100%', display: 'flex', background: 'inherit' }}>
           Sign Out
         </Button>
       ),
