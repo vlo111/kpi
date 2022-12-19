@@ -26,10 +26,9 @@ const ProjectOverview: React.FC = () => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState(false);
   const [active, setActive] = useState<number>(1);
   const { id } = useParams<string>();
-  const data = useGetProjectById(id);
+  const { data, isLoading } = useGetProjectById(id);
+  const { result: project } = data;
   const navigate = useNavigate();
-  const { isLoading } = data;
-  const { result: project } = data?.data;
   const handleDraft: TVoid = () => {
     if (id != null) {
       navigate(`/project/${id}/steps/0`);

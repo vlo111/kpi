@@ -28,7 +28,7 @@ export interface ConfirmModalType {
 export type FormFinish = (errorInfo: any) => void
 
 export interface IAvatarTypes {
-  letter: string
+  letter: string | React.ReactElement
   size?: number
   src?: string | undefined | null
 }
@@ -67,6 +67,7 @@ export interface IBreadcrumb {
 export interface IInfoHeader {
   overview?: boolean
   project?: {
+    id: string
     description: string
     title: string
     startDate: string

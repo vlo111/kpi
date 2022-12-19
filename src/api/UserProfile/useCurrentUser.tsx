@@ -14,7 +14,8 @@ const useCurrentUser = (params = {}, options = { enabled: true }): any => {
       login({
         ...user,
         firstName: data?.firstName,
-        lastName: data?.lastName
+        lastName: data?.lastName,
+        photo: data?.photo
       });
     }
   });
