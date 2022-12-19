@@ -4,7 +4,7 @@ import client from '../client';
 
 const url = 'api/project/:id';
 
-const useGetProjectById: any = (id: string, options = { enabled: true }) => {
+const useGetProjectById: any = (id: string, options = { enabled: Boolean(id) }) => {
   const result = useQuery(
     [url, id],
     async (values) => await client.get(url.replace(':id', id), values),
