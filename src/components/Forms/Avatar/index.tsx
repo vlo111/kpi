@@ -13,7 +13,7 @@ const AntAvatar = styled(Avatar)<{ src: string | undefined | null }>`
 `;
 const AsnAvatar: React.FC<IAvatarTypes> = ({ letter, size, src }) => {
   return (
-    <AntAvatar size={size} src={src}>
+    <AntAvatar size={size} src={((src ?? '').length !== 0) ? src : undefined}>
       {letter}
     </AntAvatar>
   );
