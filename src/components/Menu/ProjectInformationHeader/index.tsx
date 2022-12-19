@@ -1,11 +1,11 @@
 import React from 'react';
-import moment from 'moment';
-import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { Col, Row, Breadcrumb, Badge, Divider, Typography } from 'antd';
+import styled from 'styled-components';
+import moment from 'moment';
 
 import { PATHS } from '../../../helpers/constants';
 import { IInfoHeader } from '../../../types/global';
-import { useNavigate } from 'react-router-dom';
 import { ReactComponent as WarningSvg } from '../../../assets/icons/project-warning.svg';
 import { ReactComponent as PeopleSvg } from '../../../assets/icons/people.svg';
 import Icon from '@ant-design/icons';
