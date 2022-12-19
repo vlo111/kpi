@@ -67,6 +67,7 @@ export interface IBreadcrumb {
 export interface IInfoHeader {
   overview?: boolean
   project?: {
+    id: string
     description: string
     title: string
     startDate: string

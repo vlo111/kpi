@@ -24,10 +24,9 @@ const AntRow = styled(Row)`
 const ProjectOverview: React.FC = () => {
   const [active, setActive] = useState<number>(1);
   const { id } = useParams<string>();
-  const data = useGetProjectById(id);
+  const { data, isLoading } = useGetProjectById(id);
+  const { result: project } = data;
   const navigate = useNavigate();
-  const { isLoading } = data;
-  const { result: project } = data?.data;
   const handleDraft: TVoid = () => {
     if (id != null) {
       navigate(`/project/${id}/steps/0`);
@@ -102,7 +101,11 @@ const ProjectOverview: React.FC = () => {
                           <CreateTemplateSvg style={{ marginBottom: '20px' }} />
                           <Text style={{ fontSize: 'var(--headline-font-size)' }}>Create Activity Template</Text>
                           <Text>Create activity templates to start</Text>
-                          <AsnButton style={{ marginTop: '12px' }} className='primary'>Create Activity Template</AsnButton>
+                          <AsnButton
+                            style={{ marginTop: '12px' }}
+                            className='primary'
+                          >Create Activity Template
+                          </AsnButton>
                         </>
                         )}
 
