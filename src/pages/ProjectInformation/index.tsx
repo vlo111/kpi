@@ -29,6 +29,7 @@ const ProjectInformation: React.FC = () => {
   const navigate = useNavigate();
   const { isLoading } = data;
   const { result: project } = data?.data;
+  console.log(project);
   if (isLoading === true) {
     return <AsnSpin />;
   }
@@ -103,6 +104,7 @@ const ProjectInformation: React.FC = () => {
                   activityName={activity?.title}
                   divider={true}
                   count={result?.inputActivities?.length - 1 === i}
+                  order={activity?.order}
                 />
                 {activity?.milestones?.map((milestone, j: number) => (
                   <ResultAndActivities

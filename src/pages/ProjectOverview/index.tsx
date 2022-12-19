@@ -26,6 +26,7 @@ const ProjectOverview: React.FC = () => {
   const { id } = useParams<string>();
   const { data, isLoading } = useGetProjectById(id);
   const { result: project } = data;
+  console.log(project);
   const navigate = useNavigate();
   const handleDraft: TVoid = () => {
     if (id != null) {
@@ -85,7 +86,7 @@ const ProjectOverview: React.FC = () => {
             tabPosition={'left'}
             items={item?.inputActivities?.map((item: IInputActivities, i: number) => {
               return {
-                label: <AntRow style={{ width: '18vw' }}>1.{i + 1} {item?.title}</AntRow>,
+                label: <AntRow style={{ width: '18vw' }}>{item?.order} {item?.title}</AntRow>,
                 key: `${item?.id ?? i}`,
                 children: (
                   <Space direction='vertical' align='center' style={{ width: '100%', padding: '5vh 0 30px 0' }} >
@@ -108,7 +109,6 @@ const ProjectOverview: React.FC = () => {
                           </AsnButton>
                         </>
                         )}
-
                   </Space>
                 )
               };
