@@ -171,7 +171,6 @@ export const InputResultArea = styled.div`
             }
 
             .delete-result-box{
-              position: absolute;
               right: 50px;
             }
             
@@ -226,7 +225,6 @@ export const InputResultArea = styled.div`
             .delete-activity {
               margin-top: 1rem;
               cursor: pointer;
-              position: absolute;
               right: 5rem;
             }
           }
@@ -255,7 +253,6 @@ export const InputResultArea = styled.div`
                 }
                 
                 .delete-result-box {
-                  position: absolute;
                   right: 148px;
                   margin-top: 17px;
                 }
