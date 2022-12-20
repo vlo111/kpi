@@ -53,7 +53,7 @@ export const Header: React.FC = () => {
   const data = [
     {
       label: (
-        <Button onClick={() => navigate(`/${PATHS.USERPROFILE}`)} type="text"className='headerButton'>
+        <Button onClick={() => navigate(`/${PATHS.USERPROFILE}`)} type="text" className='headerButton'>
           Profile
         </Button>
       ),
