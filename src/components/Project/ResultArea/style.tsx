@@ -37,7 +37,7 @@ export const InputResultArea = styled.div`
         }
 
         > div:nth-child(2) {
-          width: calc(100% - 337px);
+          width: calc(100% - 320px);
           
           &.statement-box {
             min-width: 12rem;
@@ -171,11 +171,13 @@ export const InputResultArea = styled.div`
             }
 
             .delete-result-box{
-              right: 50px;
+              right: -15px;
+              position: absolute;
             }
             
             > .ant-row {
               flex-wrap: inherit;
+              position: relative;
             }
 
             > .ant-row:first-child {
@@ -208,6 +210,7 @@ export const InputResultArea = styled.div`
             .activity-block {
               display: flex;
               gap: 0.5rem;
+              position: relative;
 
               .ant-collapse {
                 width: 100%;
@@ -225,7 +228,8 @@ export const InputResultArea = styled.div`
             .delete-activity {
               margin-top: 1rem;
               cursor: pointer;
-              right: 5rem;
+              position: absolute;
+              right: -15px;
             }
           }
 
@@ -245,6 +249,7 @@ export const InputResultArea = styled.div`
 
               > .ant-row {
                 flex-wrap: inherit;
+                position: relative;
                 
                 &:first-child {
                   .delete-result-box {
@@ -253,7 +258,6 @@ export const InputResultArea = styled.div`
                 }
                 
                 .delete-result-box {
-                  right: 148px;
                   margin-top: 17px;
                 }
               }
@@ -289,7 +293,7 @@ export const InputResultArea = styled.div`
         }
 
         .ant-input-number {
-          width: 58px;
+          width: 62px;
           height: 58px;
         }
 
