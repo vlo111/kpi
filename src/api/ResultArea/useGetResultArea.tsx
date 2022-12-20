@@ -7,16 +7,17 @@ import {
 
 import client from '../client';
 
-const URL_GET_PROJECTS = 'api/project';
+const URL_GET_PROJECTS = 'api/project/:id/result-areas';
 
-export const useGetResultArea: UseGetProjectResultArea = (id) => {
+const useGetResultArea: UseGetProjectResultArea = (id) => {
   try {
     if (id !== undefined) {
       const { data, isLoading }: QueryGetResultArea =
         useQuery<AxiosResponse<ICreateResultArea>, Error>(
-          ['project', id],
-          async () => await client.get(`${URL_GET_PROJECTS}/${id}/result-areas`)
+          [URL_GET_PROJECTS, id],
+          async () => await client.get(URL_GET_PROJECTS.replace(':id', id))
         );
+      console.log(data, 'id !== undefined', id);
 
       return { resultAreas: data?.data?.result.resultAreas, isLoading };
     }
@@ -24,3 +25,5 @@ export const useGetResultArea: UseGetProjectResultArea = (id) => {
     console.log(e);
   }
 };
+
+export default useGetResultArea;
