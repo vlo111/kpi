@@ -103,6 +103,7 @@ const ProjectInformation: React.FC = () => {
                   activityName={activity?.title}
                   divider={true}
                   count={result?.inputActivities?.length - 1 === i}
+                  order={activity?.order}
                 />
                 {activity?.milestones?.map((milestone, j: number) => (
                   <ResultAndActivities
@@ -111,7 +112,6 @@ const ProjectInformation: React.FC = () => {
                     statement={milestone?.statement}
                     target={milestone?.target}
                     divider={
-                      activity?.milestones.length !== 1 &&
                       result?.inputActivities?.length - 1 !== i
                     }
                   />

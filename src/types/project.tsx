@@ -154,6 +154,7 @@ export interface IProjectExpectedResults {
   divider?: boolean
 }
 export interface IProjectInputActivities {
+  order: number
   id: string
   title: string
   milestones: IProjectMilestones[]
@@ -181,6 +182,7 @@ export interface IActivityName {
   divider: boolean
   count: boolean
   activityName: string
+  order: number
 }
 
 export interface IProjectDetailsProps {

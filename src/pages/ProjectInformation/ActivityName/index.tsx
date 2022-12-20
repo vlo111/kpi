@@ -24,12 +24,12 @@ const noDivider = {
   fontSize: 'var(--base-font-size)',
   marginTop: '-12px'
 };
-const ActivityName: React.FC<IActivityName> = ({ activityName, divider, count }) => {
+const ActivityName: React.FC<IActivityName> = ({ activityName, divider, count, order }) => {
   return (
     <Row gutter={[16, 0]}>
       <Col style={{ padding: '0' }} offset={1}>{divider && <DividerAnt type='vertical' style={count ? { borderLeft: 'none' } : {}} />}</Col>
       <Col offset={1} style={!divider ? { ...noDivider } : { ...isDivider }}>
-        {activityName}
+       {order} {activityName}
       </Col>
     </Row>
   );
