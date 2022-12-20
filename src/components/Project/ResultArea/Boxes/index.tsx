@@ -54,8 +54,7 @@ const Boxes: React.FC<ProjectInputBoxProps> = ({
       {list.map((item, index: number) => (
         <Row
           key={`${resultId}.${activityId ?? ''}.${index}`}
-          gutter={16}
-          justify="start"
+          justify="space-between"
           align="top"
           style={{ minWidth: '20vw' }}
         >
@@ -144,13 +143,15 @@ const Boxes: React.FC<ProjectInputBoxProps> = ({
         </Row>
       ))}
       <Row>
-        <AsnButton
-          className="transparent"
-          value="Create"
-          onClick={() => add({ measurement: 'NUMBER' })}
-        >
-          +Add {type === 'expected' ? 'expected result' : 'Milestone'}
-        </AsnButton>
+        <Col span={24}>
+          <AsnButton
+            className="transparent"
+            value="Create"
+            onClick={() => add({ measurement: 'NUMBER' })}
+          >
+            +Add {type === 'expected' ? 'expected result' : 'Milestone'}
+          </AsnButton>
+        </Col>
       </Row>
     </>
   );
