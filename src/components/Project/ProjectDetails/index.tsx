@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { AsnForm } from '../../Forms/Form';
-import { OpenDeleteResultModal, ProjectDetailsDelete, ProjectErrorResponse } from '../../../types/project';
-import { ConfirmModal } from '../../Forms/Modal/Confirm';
-import { Items } from './Items';
-import { Col, Row, Spin } from 'antd';
-import { AsnButton } from '../../Forms/Button';
-import { PATHS } from '../../../helpers/constants';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetProjectDetails } from '../../../api/Details/useGetProjectDetails';
+import { Col, Row, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+
+import { AsnForm } from '../../Forms/Form';
+import { ConfirmModal } from '../../Forms/Modal/Confirm';
+import { AsnButton } from '../../Forms/Button';
+import { Items } from './Items';
+
+import { PATHS } from '../../../helpers/constants';
 import { Void } from '../../../types/global';
+import { OpenDeleteResultModal, ProjectDetailsDelete, ProjectErrorResponse } from '../../../types/project';
+
+import useGetProjectDetails from '../../../api/Details/useGetProjectDetails';
+import useGetResultArea from '../../../api/ResultArea/useGetResultArea';
 import useCreateProjectDetails from '../../../api/Details/useCreateProjectDetails';
 import useUpdateProjectDetails from '../../../api/Details/useUpdateProjectDetails';
-import { LoadingOutlined } from '@ant-design/icons';
 
 const antIcon = <LoadingOutlined style={{ fontSize: 100, color: 'var(--dark-border-ultramarine)' }} spin />;
 
@@ -37,6 +41,9 @@ export const ProjectDetailComponent: React.FC = () => {
 
   // @ts-expect-error
   const { projectDetails, isLoading } = useGetProjectDetails(id);
+
+  // @ts-expect-error
+  const { resultAreas } = useGetResultArea(id);
 
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<OpenDeleteResultModal>();
 
@@ -100,7 +107,15 @@ export const ProjectDetailComponent: React.FC = () => {
         sectors: initField
       });
     }
-  }, [projectDetails]);
+  }, [projectDetails, form]);
+
+  useEffect(() => {
+    if (resultAreas !== undefined && resultAreas.length === 0) {
+      if (id !== undefined) {
+        navigate(`/project/${id}/steps/0`);
+      }
+    }
+  }, [resultAreas, form]);
 
   const onDeleteHandler: ProjectDetailsDelete = (remove, fieldName, title) => {
     setOpenDeleteResultModal({ remove, fields: fieldName, title });
