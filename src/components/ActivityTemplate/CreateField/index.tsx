@@ -65,7 +65,8 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
   setIsVisibleAddField,
   questionType,
   form,
-  setQuestionType
+  setQuestionType,
+  templateId
 }) => {
   const onClosedAddVisibleField: Void = () => {
     setIsVisibleAddField(false);
@@ -73,7 +74,20 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
   };
 
   const onSelectChange: FormFinish = (value) => {
-    setQuestionType(value);
+    switch (value) {
+      case 'Short Text':
+        setQuestionType('SHORT_TEXT');
+        break;
+      case 'Number':
+        setQuestionType('NUMBER');
+        break;
+      case 'Attachment':
+        setQuestionType('ATTACHMENT');
+        break;
+      default:
+        setQuestionType('DROPDOWN');
+        break;
+    }
   };
 
   return (
@@ -104,7 +118,7 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
           </AsnSelect>
         </Form.Item>
       </TopField>
-      {questionType === 'Dropdown options' ? <DynamicForm /> : null}
+      {questionType === 'DROPDOWN' ? <DynamicForm /> : null}
       <Form.Item>
         <AsnButton
           className="primary"

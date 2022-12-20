@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Row, Col, Space, Checkbox } from 'antd';
-// import { courseSectionData } from '../../../../../../helpers/fakeData';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
 import AddRequiredDocumentModal from '../AddRequiredDocumentModal';
 import AddedDocuments from '../AddedDocuments';
 import { AsnButton } from '../../Forms/Button';
 import {
   ILearningStatus,
-  IRequiredDocuments,
-  ISection
+  IRequiredDocuments
+  // ISection
 } from '../../../types/project';
 
 const SectionContainer = styled(Row)`
@@ -107,10 +106,7 @@ const SectionRow = styled(Space)`
 `;
 
 const LearningStatus: React.FC<ILearningStatus> = ({
-  index,
-  section,
-  setSections,
-  sections
+  section
 }) => {
   const sectionsCount = 'Multi-Section';
   const [isOpenAddDocumentsModal, setIsOpenAddDocumentsModal] = useState(false);
@@ -119,18 +115,18 @@ const LearningStatus: React.FC<ILearningStatus> = ({
   >([]);
 
   const onDeleteSection = (): void => {
-    if (sections.length > 1) {
-      setSections(
-        sections.filter((item: ISection): boolean => item.id !== section.id)
-      );
-    }
+    // if (sections.length > 1) {
+    //   setSections(
+    //     sections.filter((item: ISection): boolean => item.id !== section.id)
+    //   );
+    // }
   };
 
   return (
     <SectionContainer>
       <SectionHeaderContainer>
-        <SectionHeader>Section {+index + 1}:</SectionHeader>
-        {sections.length > (sectionsCount === 'Multi-Section' ? 2 : 1)
+        <SectionHeader>{section.title}</SectionHeader>
+        {section.length > (sectionsCount === 'Multi-Section' ? 2 : 1)
           ? (
           <div style={{ position: 'absolute', right: '4%', top: 23 }}>
             <DeleteIcon
@@ -142,15 +138,15 @@ const LearningStatus: React.FC<ILearningStatus> = ({
           : null}
       </SectionHeaderContainer>
       <SectionContent>
-        {[{ id: 1, name: 'sss', checked: true }].map((item) => (
+        {section?.sectionSettingMap.map((item: any) => (
           <SectionRow key={item.id} direction="horizontal">
-            {item.name}
+            {item.setting.title}
             <Checkbox
               style={{
                 color: 'var(--dark-2)'
               }}
-              defaultChecked={item.checked}
-              disabled={item.checked}
+              defaultChecked={item.active}
+              disabled={item.active}
               onChange={(value) => console.log(value.target.checked)}
             ></Checkbox>
           </SectionRow>

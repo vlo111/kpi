@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { v4 as uuidv4 } from 'uuid';
 import LearningStatus from '../../components/CourseSection/LearningStatus';
 import { Col, Row, Space } from 'antd';
 import { AsnButton } from '../../components/Forms/Button';
 import { AsnModal } from '../../components/Forms/Modal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PATHS } from '../../helpers/constants';
 import { ReactComponent as SuccessfulIcon } from '../../assets/icons/successful.svg';
+import GetSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
+import useCreateNewSection from '../../api/Activity/Template/Sections/useCreateNewSection';
 
 const CourseSectionContainer = styled.div`
   display: flex;
@@ -18,19 +19,32 @@ const CourseSectionContainer = styled.div`
   }
 `;
 const CourseSection: React.FC = () => {
-  const section = 'Multi-Section';
   const navigate = useNavigate();
   const [isSavedProjectModal, setIsSavedProjectModal] = useState(false);
   const [isSuccessPublishModal, setIsSuccessPublishModal] = useState(false);
-  const [sections, setSections] = useState(
-    section === 'Multi-Section'
-      ? [{ id: uuidv4() }, { id: uuidv4() }]
-      : [{ id: uuidv4() }]
+  const { id: templateId } = useParams();
+
+  const { data, refetch } = GetSingleTemplate(
+    templateId,
+    {
+      onSuccess: (data: { result: any, count: any }) =>
+        console.log('>>>>>>>>>>>>>')
+    }
   );
 
+  const { mutate: createTemplateSection } = useCreateNewSection({
+    onSuccess: (options: any) => {
+      refetch();
+    },
+    onError: ({ response }: any) => {
+      // const { data: { 0: { massage } } } = response;
+      console.log(response, 'response');
+    }
+  });
+
   const onAddSection = (): void => {
-    if (sections.length <= 4) {
-      setSections([...sections, { id: uuidv4() }]);
+    if (templateId != null) {
+      createTemplateSection({ id: templateId });
     }
   };
 
@@ -64,24 +78,21 @@ const CourseSection: React.FC = () => {
         </span>
       </Space>
       <Space direction="vertical" size={32} style={{ width: '100%' }}>
-        {sections.map((section, index) => (
+        {data?.sections?.map((section: any) => (
           <LearningStatus
             key={section.id}
             section={section}
-            index={index}
-            setSections={setSections}
-            sections={sections}
           />
         ))}
       </Space>
-      {section === 'Multi-Section'
+      {data?.courseStructure === 'MULTI_SECTION'
         ? (
         <AsnButton
           className="primary"
           onClick={onAddSection}
           style={{ width: '88%', marginTop: '2rem' }}
         >
-          Add field
+         +Add Section
         </AsnButton>
           )
         : null}

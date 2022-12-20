@@ -29,11 +29,11 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
   const { mutate: createTemplateFn } = useCreateActivityTemplate({
     onSuccess: (options: ICreateTemplateResponse) => {
       const {
-        data: { result }
+        data
       } = options;
-      if ((result.id ?? '').length > 0) {
-        navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', result.id)}`);
-        console.log(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', result.id)}`, 'ssssssssssssssssssssssssss');
+      console.log(data);
+      if ((data.result.id ?? '').length > 0) {
+        navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', data.result.id)}`);
       }
     },
     onError: ({ response }: any) => {
@@ -52,7 +52,6 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
   };
 
   const onFinish: any = (values: any) => {
-    // console.log(projectId, 'projectId');
     createTemplateFn({
       id: activityId,
       data: {

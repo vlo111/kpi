@@ -204,13 +204,12 @@ export interface ICreateTemplateModal {
 
 export type AddManagerHandle = (values: unknown) => void
 
-export interface ISection { id: string }
+export interface ISection {
+  [x: string]: number
+}
 
 export interface ILearningStatus {
-  index: number
-  section: ISection
-  setSections: React.Dispatch<React.SetStateAction<ISection[]>>
-  sections: ISection[]
+  section: any // ISection
 }
 
 export interface IRequiredDocuments {
@@ -236,6 +235,7 @@ export interface ICreateFieldsProps {
   questionType: string
   form: any
   setQuestionType: React.Dispatch<React.SetStateAction<string>>
+  templateId: string | undefined
 }
 
 export type ContentType = (id: string) => ReactElement
@@ -251,13 +251,14 @@ export interface ITemplateData {
 }
 
 export interface IQuestionsRow {
-  item: ITemplateData
+  item: any // ITemplateData
   templateData: ITemplateData[]
   setTemplateData: React.Dispatch<React.SetStateAction<ITemplateData[]>>
   setQuestionType: React.Dispatch<React.SetStateAction<string>>
   setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
   helpTextValue: IHelpText[]
   setHelpTextValue: React.Dispatch<React.SetStateAction<IHelpText[]>>
+  refetch: any
 }
 
 export type SetProjectId = (id: string) => void

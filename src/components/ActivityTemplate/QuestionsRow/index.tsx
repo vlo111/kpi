@@ -16,9 +16,10 @@ import {
 } from '../../../types/global';
 import {
   ContentType,
-  IQuestionsRow,
-  ITemplateData
+  IQuestionsRow
+  // ITemplateData
 } from '../../../types/project';
+import useDeleteSetting from '../../../api/Activity/Template/Settings/useDeleteSingleSetting';
 
 const CourseList = styled.div`
   display: flex;
@@ -45,17 +46,29 @@ const IconButton = styled.div`
 const QuestionsRow: React.FC<IQuestionsRow> = ({
   item,
   templateData,
-  setTemplateData,
+  // setTemplateData,
   setQuestionType,
   setIsVisibleAddField,
   helpTextValue,
-  setHelpTextValue
+  setHelpTextValue,
+  refetch
 }) => {
   const [rowId, setRowId] = useState<string[]>([]);
   const [itemId, setItemId] = useState<string>('');
   const [isDeletedFieldModal, setIsDeletedFieldModal] =
     useState<boolean>(false);
   const [openPopover, setOpenPopover] = useState<boolean>(false);
+
+  const { mutate: deleteSettingsById } = useDeleteSetting({
+    onSuccess: (options: any) => {
+      refetch();
+      console.log(options);
+    },
+    onError: ({ response }: any) => {
+      // const { data: { 0: { massage } } } = response;
+      console.log(response, 'response');
+    }
+  });
 
   const handleOpenChange: Onchange = (newOpen) => {
     setOpenPopover(newOpen);
@@ -78,8 +91,8 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
   };
 
   const onEditedQuestion: StringVoidType = (id) => {
-    const item: ITemplateData | undefined = templateData.find(
-      (elem: ITemplateData) => elem.id === id
+    const item: any | undefined = templateData.find(
+      (elem: any) => elem.id === id
     );
     if (item?.subTitle[0] === 'Dropdown options') {
       setIsVisibleAddField(true);
@@ -95,9 +108,8 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
     setIsDeletedFieldModal(false);
   };
   const handleDelete: Void = () => {
-    setTemplateData(
-      templateData.filter((item: ITemplateData) => item.id !== itemId)
-    );
+    console.log(itemId, '_________', item);
+    deleteSettingsById({ id: itemId });
     setIsDeletedFieldModal(false);
   };
 
@@ -146,32 +158,45 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
               fontSize: 'var(--headline-font-size)'
             }}
           >
-            {item.title}
+            {item?.setting?.title}
           </Col>
           <Row gutter={[5, 0]}>
-            {item?.option?.length > 0
-              ? item.option.map((option: string) => (
-                  <Col
-                    key={option}
-                    style={{
-                      color: 'var(--dark-2)',
-                      fontSize: 'var(--font-size-small)'
-                    }}
-                  >
-                    {`${option}`}
-                  </Col>
-              ))
-              : item.subTitle.map((subtitle: string, index: number) => (
-                  <Col key={subtitle + `${index}`}>{`${subtitle}`}</Col>
-              ))}
+            {item?.setting?.data?.length > 0
+              ? (
+                  item?.setting?.data?.map((option: string) => (
+                <Col
+                  key={option}
+                  style={{
+                    color: 'var(--dark-2)',
+                    fontSize: 'var(--font-size-small)'
+                  }}
+                >
+                  {option}
+                </Col>
+                  ))
+                )
+              : (
+              <Col>
+                {item?.setting?.answerType === 'SHORT_TEXT'
+                  ? 'Short Text'
+                  : item?.setting?.answerType === 'NUMBER'
+                    ? 'Number'
+                    : item?.setting?.answerType === 'ATTACHMENT'
+                      ? 'Attachment'
+                      : 'Dropdown options'}
+              </Col>
+                )}
           </Row>
         </Row>
         <Row>
           <Col>
-            <Switch defaultChecked={item.switch} disabled={item.disabled} />
+            <Switch
+              defaultChecked={item?.active}
+              disabled={item?.setting?.changeable === false}
+            />
           </Col>
           <Col>
-            {item.status === 0
+            {item?.setting?.type === 'DEFAULT'
               ? (
               <Tooltip
                 placement="topLeft"
@@ -186,7 +211,7 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
               : (
               <Popover
                 placement="topLeft"
-                content={() => content(item.id)}
+                content={() => content(item.setting.id)}
                 trigger="click"
                 overlayClassName="menuPopover"
                 onOpenChange={handleOpenChange}

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Col, Form, Radio, Row } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AsnButton } from '../../components/Forms/Button';
 import CreateFields from '../../components/ActivityTemplate/CreateField';
 import { AsnCheckbox } from '../../components/Forms/Checkbox';
@@ -10,6 +9,9 @@ import QuestionsRow from '../../components/ActivityTemplate/QuestionsRow';
 import { FormFinish, Void } from '../../types/global';
 import { IHelpText } from '../../types/project';
 import { PATHS, VALIDATE_MESSAGES } from '../../helpers/constants';
+import GetSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
+import useCreateNewSetting from '../../api/Activity/Template/Settings/useCreateSetting';
+import useCreateSecondStepTemplate from '../../api/Activity/Template/useCreateSecondStep';
 
 const ActivityTemplateContainer = styled.div`
   display: flex;
@@ -79,7 +81,7 @@ const FormsStructureContainer = styled.div`
 
     .ant-checkbox-checked {
       .ant-checkbox-inner {
-        -color: var(--dark-border-ultramarine);
+        color: var(--dark-border-ultramarine);
       }
     }
 
@@ -122,6 +124,41 @@ const ActivityTemplate: React.FC = () => {
 
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const { id: templateId } = useParams();
+
+  const { data, refetch } = GetSingleTemplate(
+    templateId,
+    {
+      onSuccess: (data: { result: any, count: any }) =>
+        console.log('>>>>>>>>>>>>>')
+    }
+  );
+
+  const { mutate: createTemplateSetting } = useCreateNewSetting({
+    onSuccess: (options: any) => {
+      refetch();
+    },
+    onError: ({ response }: any) => {
+      // const { data: { 0: { massage } } } = response;
+      console.log(response, 'response');
+    }
+  });
+
+  const { mutate: createSecondStepTemplateFn } = useCreateSecondStepTemplate({
+    onSuccess: (options: any) => {
+      const {
+        data: { result }
+      } = options;
+      console.log(result?.id);
+      if (templateId != null) {
+        navigate(`/${PATHS.COURSESECTION.replace(':id', templateId)}`);
+      }
+    },
+    onError: ({ response }: any) => {
+      // const { data: { 0: { massage } } } = response;
+      console.log(response, 'response');
+    }
+  });
 
   useEffect(() => {
     setTemplateData([]);
@@ -132,26 +169,29 @@ const ActivityTemplate: React.FC = () => {
   };
 
   const onFinish: FormFinish = (values) => {
-    setTemplateData([
-      ...templateData,
-      {
-        id: uuidv4(),
-        title: values.question,
-        subTitle: [values.answerType],
-        option:
-          values.answerType === 'Dropdown options' ? [...values.names] : [],
-        switch: false,
-        disabled: false,
-        status: 1
-      }
-    ]);
+    if (templateId != null) {
+      createTemplateSetting({
+        id: templateId,
+        data: {
+          answerType: questionType,
+          title: values.question,
+          data: questionType === 'DROPDOWN' ? [...values.names] : []
+        }
+      });
+    }
     setIsVisibleAddField(false);
     setQuestionType('');
     form.resetFields();
   };
 
   const onNextClick: Void = () => {
-    navigate(`/${PATHS.COURSESECTION}`);
+    createSecondStepTemplateFn({
+      id: templateId,
+      data: {
+        applicationForm: ['ASSESSMENT'],
+        courseStructure: 'MULTI_SECTION'
+      }
+    });
   };
 
   const initFields = [
@@ -191,7 +231,7 @@ const ActivityTemplate: React.FC = () => {
     // },
     {
       name: ['courseStructure'],
-      value: 'One Section'
+      value: form.getFieldValue('courseStructure') === 'One Section' ? 'One Section' : form.getFieldValue('courseStructure')
     }
   ];
 
@@ -205,7 +245,7 @@ const ActivityTemplate: React.FC = () => {
         onFinish={onFinish}
         autoComplete="off"
       >
-        {templateData?.map((item) => (
+        {data?.courseSettingMap?.map((item: any) => (
           <QuestionsRow
             key={item.id}
             item={item}
@@ -215,6 +255,7 @@ const ActivityTemplate: React.FC = () => {
             setIsVisibleAddField={setIsVisibleAddField}
             setHelpTextValue={setHelpTextValue}
             helpTextValue={helpTextValue}
+            refetch={refetch}
           />
         ))}
         {!isVisibleAddField
@@ -233,6 +274,7 @@ const ActivityTemplate: React.FC = () => {
             questionType={questionType}
             form={form}
             setQuestionType={setQuestionType}
+            templateId={templateId}
           />
             )}
         <FormsStructureContainer>
@@ -248,7 +290,7 @@ const ActivityTemplate: React.FC = () => {
               Include Forms
             </Col>
             <Col span={24}>
-              <Form.Item name="applicant" valuePropName="checked">
+              <Form.Item name="applicant">
                 <AsnCheckbox
                   width="2rem"
                   height="2rem"
@@ -260,11 +302,12 @@ const ActivityTemplate: React.FC = () => {
                     fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
                     color: 'var(--dark-2)'
                   }}
+                  value='APPLICATION'
                 >
                   Application Form
                 </AsnCheckbox>
               </Form.Item>
-              <Form.Item name="assessment" valuePropName="checked">
+              <Form.Item name="assessment">
                 <AsnCheckbox
                   width="2rem"
                   height="2rem"
@@ -276,6 +319,7 @@ const ActivityTemplate: React.FC = () => {
                     fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
                     color: 'var(--dark-2)'
                   }}
+                  value='ASSESSMENT'
                 >
                   Assessment Form
                 </AsnCheckbox>

@@ -10,7 +10,7 @@ export interface ICreateTemplateData {
   }
 }
 
-type SettingsEnmTyp = 'SHORT_TEXT' | 'NUMBER' | 'ATTACHMENT' | 'DROPDOWN'
+type SettingsEnmTyp = 'SHORT_TEXT' | 'NUMBER' | 'ATTACHMENT' | 'DROPDOWN' | string
 export interface ICreateSettingData {
   id: string
   data: {
@@ -45,7 +45,7 @@ enum SectionEnum {
 
 type EnumTypes = keyof typeof SectionEnum;
 export interface ICreateSecondStepData {
-  id: string
+  id: string | undefined
   data: {
     applicationForm: FormEnum[]
     courseStructure: EnumTypes
