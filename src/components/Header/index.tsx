@@ -84,13 +84,11 @@ export const Header: React.FC = () => {
             <Col><Setting/></Col>
             <Col>
               <Dropdown overlay={newMenu} trigger={['click']}>
-                <Button type="text" onClick={(e) => e.preventDefault()}>
                   <Space>
                     <AsnAvatar letter={`${firstName?.charAt(0)}${lastName?.charAt(0)}`} src={user.photo} />
                    {firstName}{lastName}
                     <CaretDownOutlined />
                   </Space>
-                </Button>
               </Dropdown>
             </Col>
           </Row>
