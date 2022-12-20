@@ -6,13 +6,13 @@ import {
   Button,
   Dropdown,
   Space,
-  Divider
+  Divider,
+  Menu
 } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import AsnAvatar from '../Forms/Avatar';
-import DropdownMenu from '../Menu/DropdownMenu';
 import { TVoid } from '../../types/global';
 import { IUser } from '../../types/auth';
 import { PATHS } from '../../helpers/constants';
@@ -42,6 +42,17 @@ const HeaderLayout = styled(Layout)`
   }
 `;
 
+const DropdownMenu = styled(Menu)`
+  .ant-dropdown-menu-item{
+    padding: 5px 0 !important;
+  }
+  .headerButton{
+    width: 100%;
+     display: flex;
+    background: inherit
+  }
+`;
+
 export const Header: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -67,14 +78,6 @@ export const Header: React.FC = () => {
       ),
       key: 1
     }
-    // {
-    //   label: (
-    //     <Button onClick={() => navigate('/profile_pages')} type="text">
-    //       Profile Pages
-    //     </Button>
-    //   ),
-    //   key: 2
-    // }
   ];
   const newMenu = <DropdownMenu items={data} />;
   return (
