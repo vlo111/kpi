@@ -18,7 +18,8 @@ export const PATHS = {
   CURRENTSTEP: ':index',
   USERPROFILE: 'user-profile',
   CHANGEPASSWORD: 'change-password',
-  PROJECTINFORMATION: 'project-information/:id'
+  PROJECTINFORMATION: 'project-information/:id',
+  FILES: 'files/:id'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -40,6 +41,7 @@ export const MenuItems = [
   'Project',
   'Team',
   'Applicants',
+  'Files',
   'Product Guide',
   'Keyboard Shortcuts'
 ];
@@ -47,7 +49,8 @@ export const menuItemsNavigate = [
   '/dashboard',
   '/project/create',
   '/teams',
-  '/applicants'
+  '/applicants',
+  '/files'
 ];
 
 export const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$/;
