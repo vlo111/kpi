@@ -7,7 +7,7 @@ import { FormFinish, Void } from '../../types/global';
 import { AsnForm } from '../../components/Forms/Form';
 import { AsnButton } from '../../components/Forms/Button';
 import InputResult from '../../components/Project/ResultArea';
-import { useGetResultArea } from '../../api/ResultArea/useGetResultArea';
+import useGetResultArea from '../../api/ResultArea/useGetResultArea';
 import useCreateResultArea from '../../api/ResultArea/useCreateResultArea';
 import {
   ProjectErrorResponse,
