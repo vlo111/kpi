@@ -1,18 +1,9 @@
 import React from 'react';
-import {
-  Col,
-  Layout,
-  Row,
-  Button,
-  Dropdown,
-  Space,
-  Divider
-} from 'antd';
+import { Col, Layout, Row, Button, Dropdown, Space, Divider, Menu } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import AsnAvatar from '../Forms/Avatar';
-import DropdownMenu from '../Menu/DropdownMenu';
 import { TVoid } from '../../types/global';
 import { IUser } from '../../types/auth';
 import { PATHS } from '../../helpers/constants';
@@ -28,17 +19,28 @@ const HeaderLayout = styled(Layout)`
   z-index: 1;
   max-height: 60px;
   min-height: 60px;
-  .ant-divider-horizontal{
+  .ant-divider-horizontal {
     display: none;
   }
-  .ant-row-middle{
+  .ant-row-middle {
     height: 60px;
     grid-gap: 22px;
     padding: 0 50px;
   }
-  .ant-btn{
+  .ant-btn {
     height: auto;
     padding: 0;
+  }
+`;
+
+const DropdownMenu = styled(Menu)`
+  .ant-dropdown-menu-item {
+    padding: 5px 0 !important;
+  }
+  .headerButton {
+    width: 100%;
+    display: flex;
+    background: inherit;
   }
 `;
 
@@ -53,7 +55,11 @@ export const Header: React.FC = () => {
   const data = [
     {
       label: (
-        <Button onClick={() => navigate(`/${PATHS.USERPROFILE}`)} type="text">
+        <Button
+          onClick={() => navigate(`/${PATHS.USERPROFILE}`)}
+          type="text"
+          className="headerButton"
+        >
           Profile
         </Button>
       ),
@@ -61,40 +67,38 @@ export const Header: React.FC = () => {
     },
     {
       label: (
-        <Button onClick={() => logout()} type="text">
+        <Button onClick={() => logout()} type="text" className="headerButton">
           Sign Out
         </Button>
       ),
       key: 1
     }
-    // {
-    //   label: (
-    //     <Button onClick={() => navigate('/profile_pages')} type="text">
-    //       Profile Pages
-    //     </Button>
-    //   ),
-    //   key: 2
-    // }
   ];
   const newMenu = <DropdownMenu items={data} />;
   return (
     <HeaderLayout>
-          <Row justify="end" align="middle">
-            <Col> <Notification /></Col>
-            <Col><Setting/></Col>
-            <Col>
-              <Dropdown overlay={newMenu} trigger={['click']}>
-                <Button type="text" onClick={(e) => e.preventDefault()}>
-                  <Space>
-                    <AsnAvatar letter={`${firstName?.charAt(0)}${lastName?.charAt(0)}`} src={user.photo} />
-                   {firstName}{lastName}
-                    <CaretDownOutlined />
-                  </Space>
-                </Button>
-              </Dropdown>
-            </Col>
-          </Row>
-          <Divider />
+      <Row justify="end" align="middle">
+        <Col>
+          <Notification />
+        </Col>
+        <Col>
+          <Setting />
+        </Col>
+        <Col>
+          <Dropdown overlay={newMenu} trigger={['click']}>
+            <Space>
+              <AsnAvatar
+                letter={`${firstName?.charAt(0)}${lastName?.charAt(0)}`}
+                src={user.photo}
+              />
+              {firstName}
+              {lastName}
+              <CaretDownOutlined />
+            </Space>
+          </Dropdown>
+        </Col>
+      </Row>
+      <Divider />
     </HeaderLayout>
   );
 };
