@@ -17,7 +17,7 @@ export const Files: React.FC = () => {
   const [open, setOpen] = useState(false);
   const { id } = useParams();
   const data = useGetProjectFiles(id);
-  console.log(data, 'ariii xndrum em');
+  console.log(data, '');
   const onSelect: DirectoryTreeProps['onSelect'] = (keys, info) => {
   };
 
