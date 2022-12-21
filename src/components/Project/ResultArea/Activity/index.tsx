@@ -12,7 +12,7 @@ import { ReactComponent as DeleteSvg } from '../../../../assets/icons/delete.svg
 import { ReactComponent as InfoSvg } from '../../../../assets/icons/info.svg';
 import {
   IProjectModalDelete,
-  OnDeleteBoxHandler
+  OnDeleteBoxHandler, ResultAreaOrder
 } from '../../../../types/project';
 import { Void } from '../../../../types/global';
 import { AsnForm } from '../../../Forms/Form';
@@ -68,7 +68,7 @@ const InputActivity: React.FC<{ resultId: number }> = ({
     setOpenDeleteResultModal(false);
   };
 
-  const order: (index: number) => number = (index) => form.getFieldValue('resultAreas')[resultId].inputActivities[index].order;
+  const order: ResultAreaOrder = (index) => form.getFieldValue('resultAreas')[resultId].inputActivities[index].order;
 
   return (
     <>
@@ -149,7 +149,9 @@ const InputActivity: React.FC<{ resultId: number }> = ({
                         className="transparent"
                         value="Create"
                         onClick={() => {
-                          addActivity(initialActivity((resultId + 1) + (0.1 * (activities.length + 1))));
+                          const order = (resultId + 1) + (0.1 * (activities.length + 1));
+
+                          addActivity(initialActivity(order));
                         }}
                       >
                         +Add Activity
