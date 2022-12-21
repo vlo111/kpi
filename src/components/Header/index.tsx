@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Layout, Row, Button, Dropdown, Space, Divider, Menu } from 'antd';
+import { Col, Layout, Row, Button, Dropdown, Space, Menu } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -19,9 +19,7 @@ const HeaderLayout = styled(Layout)`
   z-index: 1;
   max-height: 60px;
   min-height: 60px;
-  .ant-divider-horizontal {
-    display: none;
-  }
+  
   .ant-row-middle {
     height: 60px;
     grid-gap: 22px;
@@ -98,7 +96,6 @@ export const Header: React.FC = () => {
           </Dropdown>
         </Col>
       </Row>
-      <Divider />
     </HeaderLayout>
   );
 };
