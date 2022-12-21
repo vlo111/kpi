@@ -211,6 +211,8 @@ export interface ISection {
 
 export interface ILearningStatus {
   section: any // ISection
+  data: any
+  refetch: any
 }
 
 export interface IRequiredDocuments {
@@ -222,13 +224,13 @@ export interface IRequiredDocuments {
 export interface IAddRequiredDocument {
   isOpenAddDocumentsModal: boolean
   setIsOpenAddDocumentsModal: React.Dispatch<React.SetStateAction<boolean>>
-  requiredDocuments: IRequiredDocuments[]
-  setRequiredDocuments: React.Dispatch<React.SetStateAction<IRequiredDocuments[]>>
+  sectionId: string
+  refetch: any
 }
 
 export interface IAddedDocuments {
   requiredDocuments: IRequiredDocuments[]
-  setRequiredDocuments: React.Dispatch<React.SetStateAction<IRequiredDocuments[]>>
+  refetch: any
 }
 
 export interface ICreateFieldsProps {

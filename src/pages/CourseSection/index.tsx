@@ -24,13 +24,10 @@ const CourseSection: React.FC = () => {
   const [isSuccessPublishModal, setIsSuccessPublishModal] = useState(false);
   const { id: templateId } = useParams();
 
-  const { data, refetch } = GetSingleTemplate(
-    templateId,
-    {
-      onSuccess: (data: { result: any, count: any }) =>
-        console.log('>>>>>>>>>>>>>')
-    }
-  );
+  const { data, refetch } = GetSingleTemplate(templateId, {
+    onSuccess: (data: { result: any, count: any }) =>
+      console.log('>>>>>>>>>>>>>')
+  });
 
   const { mutate: createTemplateSection } = useCreateNewSection({
     onSuccess: (options: any) => {
@@ -82,17 +79,20 @@ const CourseSection: React.FC = () => {
           <LearningStatus
             key={section.id}
             section={section}
+            refetch={refetch}
+            data={data}
           />
         ))}
       </Space>
-      {data?.courseStructure === 'MULTI_SECTION'
+      {data?.courseStructure !== 'ONE_SECTION' &&
+      data?.sections?.length !== 4
         ? (
         <AsnButton
           className="primary"
           onClick={onAddSection}
           style={{ width: '88%', marginTop: '2rem' }}
         >
-         +Add Section
+          +Add Section
         </AsnButton>
           )
         : null}

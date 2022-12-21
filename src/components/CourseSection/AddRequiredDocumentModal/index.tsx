@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form, Space } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
 import { AsnModal } from '../../Forms/Modal';
 import { AsnButton } from '../../Forms/Button';
 import { AsnInput, AsnInputNumber } from '../../Forms/Input';
@@ -8,6 +7,7 @@ import { FormFinish } from '../../../types/global';
 import { AddManagerHandle, IAddRequiredDocument } from '../../../types/project';
 import { VALIDATE_MESSAGES } from '../../../helpers/constants';
 import styled from 'styled-components';
+import useCreateRequiredDocs from '../../../api/Activity/Template/Sections/useCreateRequiredDocs';
 
 const CustomInputNumber = styled(AsnInputNumber)`
   display: flex;
@@ -18,10 +18,20 @@ const CustomInputNumber = styled(AsnInputNumber)`
 const AddRequiredDocumentModal: React.FC<IAddRequiredDocument> = ({
   isOpenAddDocumentsModal,
   setIsOpenAddDocumentsModal,
-  requiredDocuments,
-  setRequiredDocuments
+  sectionId,
+  refetch
 }) => {
   const [modalForm] = Form.useForm();
+  const { mutate: createRequiredDocs } = useCreateRequiredDocs({
+    onSuccess: (options: any) => {
+      refetch();
+      console.log(options);
+    },
+    onError: ({ response }: any) => {
+      // const { data: { 0: { massage } } } = response;
+      console.log(response, 'response');
+    }
+  });
 
   const handleCancel: AddManagerHandle = () => {
     setIsOpenAddDocumentsModal(false);
@@ -29,8 +39,16 @@ const AddRequiredDocumentModal: React.FC<IAddRequiredDocument> = ({
   };
 
   const onFinish: FormFinish = (values) => {
+    console.log(values);
+    createRequiredDocs({
+      id: sectionId,
+      data: {
+        title: values.documentName,
+        count: values.documentCount
+      }
+    });
+
     setIsOpenAddDocumentsModal(false);
-    setRequiredDocuments([...requiredDocuments, { id: uuidv4(), ...values }]);
     modalForm.resetFields();
   };
 

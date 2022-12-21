@@ -12,6 +12,8 @@ import { PATHS, VALIDATE_MESSAGES } from '../../helpers/constants';
 import GetSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
 import useCreateNewSetting from '../../api/Activity/Template/Settings/useCreateSetting';
 import useCreateSecondStepTemplate from '../../api/Activity/Template/useCreateSecondStep';
+// import useUpdateSingleSetting from '../../api/Activity/Template/Settings/useUpdateSingleSetting';
+// import useUpdateSettingStatus from '../../api/Activity/Template/Settings/useUpdateSettingStatus';
 
 const ActivityTemplateContainer = styled.div`
   display: flex;
@@ -126,13 +128,10 @@ const ActivityTemplate: React.FC = () => {
   const navigate = useNavigate();
   const { id: templateId } = useParams();
 
-  const { data, refetch } = GetSingleTemplate(
-    templateId,
-    {
-      onSuccess: (data: { result: any, count: any }) =>
-        console.log('>>>>>>>>>>>>>')
-    }
-  );
+  const { data, refetch } = GetSingleTemplate(templateId, {
+    onSuccess: (data: { result: any, count: any }) =>
+      console.log('>>>>>>>>>>>>>')
+  });
 
   const { mutate: createTemplateSetting } = useCreateNewSetting({
     onSuccess: (options: any) => {
@@ -160,6 +159,41 @@ const ActivityTemplate: React.FC = () => {
     }
   });
 
+  // const { mutate: changeSingleSettingStatus } = useUpdateSettingStatus({
+  //   onSuccess: (options: any) => {
+  //     console.log(options);
+  //   },
+  //   onError: ({ response }: any) => {
+  //     // const { data: { 0: { massage } } } = response;
+  //     console.log(response, 'response');
+  //   }
+  // });
+
+  // const updateStatus = (): void => {
+  //   changeSingleSettingStatus({ id: 'b1dd4297-63ee-41d8-9843-2784a978fb75' });
+  // };
+
+  // const { mutate: updateTemplateSetting } = useUpdateSingleSetting({
+  //   onSuccess: (options: any) => {
+  //     console.log(options);
+  //   },
+  //   onError: ({ response }: any) => {
+  //     // const { data: { 0: { massage } } } = response;
+  //     console.log(response, 'response');
+  //   }
+  // });
+
+  // const updateSetting = (): void => {
+  //   updateTemplateSetting({
+  //     id: '41d1b333-711d-4d94-8312-068426d9d515',
+  //     data: {
+  //       answerType: 'DROPDOWN',
+  //       title: 'bbbbb',
+  //       data: ['as']
+  //     }
+  //   });
+  // };
+
   useEffect(() => {
     setTemplateData([]);
   }, [setTemplateData]);
@@ -185,11 +219,12 @@ const ActivityTemplate: React.FC = () => {
   };
 
   const onNextClick: Void = () => {
+    console.log(templateId, 'templateId');
     createSecondStepTemplateFn({
       id: templateId,
       data: {
-        applicationForm: ['ASSESSMENT'],
-        courseStructure: 'MULTI_SECTION'
+        applicationForm: form.getFieldValue('includeForm'),
+        courseStructure: form.getFieldValue('courseStructure')
       }
     });
   };
@@ -217,21 +252,12 @@ const ActivityTemplate: React.FC = () => {
       name: ['helpText'],
       value: ['']
     },
-    // {
-    //   name: ['applicant'],
-    //   value: form.getFieldsValue().applicant
-    //     ? form.getFieldsValue().applicant
-    //     : false
-    // },
-    // {
-    //   name: ['assessment'],
-    //   value: form.getFieldsValue().assessment
-    //     ? form.getFieldsValue().assessment
-    //     : false
-    // },
     {
       name: ['courseStructure'],
-      value: form.getFieldValue('courseStructure') === 'One Section' ? 'One Section' : form.getFieldValue('courseStructure')
+      value:
+        form.getFieldValue('courseStructure') === undefined
+          ? 'ONE_SECTION'
+          : form.getFieldValue('courseStructure')
     }
   ];
 
@@ -290,39 +316,39 @@ const ActivityTemplate: React.FC = () => {
               Include Forms
             </Col>
             <Col span={24}>
-              <Form.Item name="applicant">
-                <AsnCheckbox
-                  width="2rem"
-                  height="2rem"
-                  checkWidth="10px"
-                  checkHeight="18px"
-                  top="12px"
-                  left="7px"
-                  style={{
-                    fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
-                    color: 'var(--dark-2)'
-                  }}
-                  value='APPLICATION'
-                >
-                  Application Form
-                </AsnCheckbox>
-              </Form.Item>
-              <Form.Item name="assessment">
-                <AsnCheckbox
-                  width="2rem"
-                  height="2rem"
-                  checkWidth="10px"
-                  checkHeight="18px"
-                  top="12px"
-                  left="7px"
-                  style={{
-                    fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
-                    color: 'var(--dark-2)'
-                  }}
-                  value='ASSESSMENT'
-                >
-                  Assessment Form
-                </AsnCheckbox>
+              <Form.Item name="includeForm">
+                <AsnCheckbox.Group>
+                  <AsnCheckbox
+                    width="2rem"
+                    height="2rem"
+                    checkWidth="10px"
+                    checkHeight="18px"
+                    top="12px"
+                    left="7px"
+                    style={{
+                      fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
+                      color: 'var(--dark-2)'
+                    }}
+                    value="APPLICATION"
+                  >
+                    Application Form
+                  </AsnCheckbox>
+                  <AsnCheckbox
+                    width="2rem"
+                    height="2rem"
+                    checkWidth="10px"
+                    checkHeight="18px"
+                    top="12px"
+                    left="7px"
+                    style={{
+                      fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
+                      color: 'var(--dark-2)'
+                    }}
+                    value="ASSESSMENT"
+                  >
+                    Assessment Form
+                  </AsnCheckbox>
+                </AsnCheckbox.Group>
               </Form.Item>
             </Col>
           </Row>
@@ -341,7 +367,7 @@ const ActivityTemplate: React.FC = () => {
               <Form.Item name="courseStructure">
                 <Radio.Group>
                   <Radio
-                    value={'One Section'}
+                    value={'ONE_SECTION'}
                     style={{
                       fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
                       color: 'var(--dark-2)'
@@ -350,7 +376,7 @@ const ActivityTemplate: React.FC = () => {
                     One Section
                   </Radio>
                   <Radio
-                    value={'Multi-Section'}
+                    value={'MULTI_SECTION'}
                     style={{
                       fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
                       color: 'var(--dark-2)'
@@ -365,7 +391,7 @@ const ActivityTemplate: React.FC = () => {
         </FormsStructureContainer>
       </Form>
       <ButtonsContainer>
-        <AsnButton className="default">Cancel</AsnButton>
+        <AsnButton className="default">Save as Draft</AsnButton>
         <AsnButton className="primary" onClick={onNextClick}>
           Next
         </AsnButton>

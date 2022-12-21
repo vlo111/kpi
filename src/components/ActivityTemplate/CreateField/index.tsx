@@ -100,11 +100,11 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
         </div>
         <Form.Item
           name="question"
-          rules={[{ required: true }, { min: 1 }, { max: 256 }]}
+          rules={[{ required: true, message: 'Please enter a valid Question' }, { min: 1 }, { max: 256 }]}
         >
           <AsnInput placeholder="Add question" />
         </Form.Item>
-        <Form.Item name="answerType">
+        <Form.Item name="answerType" rules={[{ required: true, message: 'Please enter a valid Answer Type' }]}>
           <AsnSelect onChange={onSelectChange} placeholder="Choose answer type">
             {answerTypeOptions.map((option) => (
               <Option
@@ -127,6 +127,13 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
         >
           Add
         </AsnButton>
+        {/* <AsnButton
+          className="primary"
+          htmlType="submit"
+          style={{ width: '100%' }}
+        >
+          Update
+        </AsnButton> */}
       </Form.Item>
     </CreateField>
   );

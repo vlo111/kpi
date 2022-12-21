@@ -6,10 +6,11 @@ import AddRequiredDocumentModal from '../AddRequiredDocumentModal';
 import AddedDocuments from '../AddedDocuments';
 import { AsnButton } from '../../Forms/Button';
 import {
-  ILearningStatus,
-  IRequiredDocuments
+  ILearningStatus
+  // IRequiredDocuments
   // ISection
 } from '../../../types/project';
+import useDeleteSection from '../../../api/Activity/Template/Sections/useDeleteSection';
 
 const SectionContainer = styled(Row)`
   width: 100% !important;
@@ -106,27 +107,32 @@ const SectionRow = styled(Space)`
 `;
 
 const LearningStatus: React.FC<ILearningStatus> = ({
-  section
+  section,
+  data,
+  refetch
 }) => {
-  const sectionsCount = 'Multi-Section';
   const [isOpenAddDocumentsModal, setIsOpenAddDocumentsModal] = useState(false);
-  const [requiredDocuments, setRequiredDocuments] = useState<
-  IRequiredDocuments[]
-  >([]);
+
+  const { mutate: deleteSectionById } = useDeleteSection({
+    onSuccess: (options: any) => {
+      refetch();
+      console.log(options);
+    },
+    onError: ({ response }: any) => {
+      // const { data: { 0: { massage } } } = response;
+      console.log(response, 'response');
+    }
+  });
 
   const onDeleteSection = (): void => {
-    // if (sections.length > 1) {
-    //   setSections(
-    //     sections.filter((item: ISection): boolean => item.id !== section.id)
-    //   );
-    // }
+    deleteSectionById({ id: section?.id });
   };
 
   return (
     <SectionContainer>
       <SectionHeaderContainer>
         <SectionHeader>{section.title}</SectionHeader>
-        {section.length > (sectionsCount === 'Multi-Section' ? 2 : 1)
+        {data?.courseStructure !== 'ONE_SECTION' && data?.sections?.length > 2
           ? (
           <div style={{ position: 'absolute', right: '4%', top: 23 }}>
             <DeleteIcon
@@ -157,16 +163,16 @@ const LearningStatus: React.FC<ILearningStatus> = ({
           style={{
             display: 'flex',
             justifyContent:
-              requiredDocuments.length > 0 ? 'space-between' : 'flex-end',
+            section?.requiredDocuments?.length > 0 ? 'space-between' : 'flex-end',
             alignItems: 'flex-start',
             marginTop: '1rem'
           }}
         >
-          {requiredDocuments.length > 0
+          {section?.requiredDocuments?.length > 0
             ? (
             <AddedDocuments
-              requiredDocuments={requiredDocuments}
-              setRequiredDocuments={setRequiredDocuments}
+              requiredDocuments={section.requiredDocuments}
+              refetch={refetch}
             />
               )
             : null}
@@ -181,8 +187,8 @@ const LearningStatus: React.FC<ILearningStatus> = ({
       <AddRequiredDocumentModal
         isOpenAddDocumentsModal={isOpenAddDocumentsModal}
         setIsOpenAddDocumentsModal={setIsOpenAddDocumentsModal}
-        setRequiredDocuments={setRequiredDocuments}
-        requiredDocuments={requiredDocuments}
+        sectionId={section.id}
+        refetch={refetch}
       />
     </SectionContainer>
   );
