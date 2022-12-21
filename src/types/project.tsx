@@ -2,6 +2,7 @@ import { IUser } from './auth';
 import { Moment } from 'moment';
 import { FormListFieldData } from 'antd';
 import { Void } from './global';
+import { ReactElement } from 'react';
 
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
@@ -191,6 +192,75 @@ export interface IProjectDetailsProps {
 }
 
 export interface IResulAreaConfirmModal { open: boolean, onSave: Void, onCancel: Void, onNotSave: Void }
+export interface IHelpText {
+  id: string
+  value: string
+}
+
+export interface ICreateTemplateModal {
+  isOpenCreateActivityModal: boolean
+  setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+  activityId: string | undefined
+}
+
+export type AddManagerHandle = (values: unknown) => void
+
+export interface ISection {
+  [x: string]: number
+}
+
+export interface ILearningStatus {
+  section: any // ISection
+}
+
+export interface IRequiredDocuments {
+  documentName: string
+  documentCount: number
+  id: string
+}
+
+export interface IAddRequiredDocument {
+  isOpenAddDocumentsModal: boolean
+  setIsOpenAddDocumentsModal: React.Dispatch<React.SetStateAction<boolean>>
+  requiredDocuments: IRequiredDocuments[]
+  setRequiredDocuments: React.Dispatch<React.SetStateAction<IRequiredDocuments[]>>
+}
+
+export interface IAddedDocuments {
+  requiredDocuments: IRequiredDocuments[]
+  setRequiredDocuments: React.Dispatch<React.SetStateAction<IRequiredDocuments[]>>
+}
+
+export interface ICreateFieldsProps {
+  setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
+  questionType: string
+  form: any
+  setQuestionType: React.Dispatch<React.SetStateAction<string>>
+  templateId: string | undefined
+}
+
+export type ContentType = (id: string) => ReactElement
+
+export interface ITemplateData {
+  id: string
+  title: string
+  subTitle: string[] | []
+  option: string[] | []
+  switch: boolean
+  disabled: boolean
+  status: number
+}
+
+export interface IQuestionsRow {
+  item: any // ITemplateData
+  templateData: ITemplateData[]
+  setTemplateData: React.Dispatch<React.SetStateAction<ITemplateData[]>>
+  setQuestionType: React.Dispatch<React.SetStateAction<string>>
+  setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
+  helpTextValue: IHelpText[]
+  setHelpTextValue: React.Dispatch<React.SetStateAction<IHelpText[]>>
+  refetch: any
+}
 
 export type SetProjectId = (id: string) => void
 
