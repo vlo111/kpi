@@ -73,24 +73,29 @@ export const ProjectDetailComponent: React.FC = () => {
       const { deletedOrganizationIds, deletedRegionIds, deletedSectorIds, organizations, regions, sectors } = form.getFieldValue([]);
 
       const data = {
-        deletedSectorIds,
-        deletedOrganizationIds,
-        deletedRegionIds,
         organizations,
         regions,
-        sectors,
-        publish: true
+        sectors
       };
 
-      const requestData = {
-        id,
-        data
-      };
-
-      if (projectDetails?.sectors.length != null) {
-        updateProjectDetails({ ...requestData });
+      if (projectDetails?.sectors.length !== 0) {
+        updateProjectDetails({
+          id,
+          data: {
+            ...data,
+            deletedSectorIds,
+            deletedOrganizationIds,
+            deletedRegionIds
+          }
+        });
       } else {
-        createProjectDetails({ ...requestData });
+        createProjectDetails({
+          id,
+          data: {
+            ...data,
+            publish: true
+          }
+        });
       }
     }
   };
@@ -112,7 +117,7 @@ export const ProjectDetailComponent: React.FC = () => {
   useEffect(() => {
     if (resultAreas !== undefined && resultAreas.length === 0) {
       if (id !== undefined) {
-        navigate(`/project/${id}/steps/0`);
+        // navigate(`/project/${id}/steps/0`);
       }
     }
   }, [resultAreas, form]);

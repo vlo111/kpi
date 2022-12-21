@@ -172,7 +172,11 @@ export const ResultArea: React.FC = () => {
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
   const onSuccess: Void = () => {
+    const path = `/project/${PATHS.STEPS}`
+      .replace(':id', id ?? '')
+      .replace(':index', '1');
 
+    navigate(path);
   };
 
   const onError: ProjectErrorResponse = ({ response }) => {
@@ -191,12 +195,6 @@ export const ResultArea: React.FC = () => {
 
   const onFinish: Void = () => {
     createOrUpdate();
-
-    const path = `/project/${PATHS.STEPS}`
-      .replace(':id', id ?? '')
-      .replace(':index', '1');
-
-    navigate(path);
   };
 
   const onFinishFailed: FormFinish = (values: FormData) => {
