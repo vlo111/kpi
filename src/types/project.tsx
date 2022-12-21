@@ -238,10 +238,11 @@ export interface ICreateFieldsProps {
   questionType: string
   form: any
   setQuestionType: React.Dispatch<React.SetStateAction<string>>
-  templateId: string | undefined
+  item: any
+  setItem: any
 }
 
-export type ContentType = (id: string) => ReactElement
+export type ContentType = (item: any) => ReactElement
 
 export interface ITemplateData {
   id: string
@@ -255,8 +256,7 @@ export interface ITemplateData {
 
 export interface IQuestionsRow {
   item: any // ITemplateData
-  templateData: ITemplateData[]
-  setTemplateData: React.Dispatch<React.SetStateAction<ITemplateData[]>>
+  setItem: any
   setQuestionType: React.Dispatch<React.SetStateAction<string>>
   setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
   helpTextValue: IHelpText[]

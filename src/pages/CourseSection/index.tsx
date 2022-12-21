@@ -9,6 +9,7 @@ import { PATHS } from '../../helpers/constants';
 import { ReactComponent as SuccessfulIcon } from '../../assets/icons/successful.svg';
 import GetSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
 import useCreateNewSection from '../../api/Activity/Template/Sections/useCreateNewSection';
+import usePublishActivityTemplate from '../../api/Activity/Template/usePublishActivityTemplate';
 
 const CourseSectionContainer = styled.div`
   display: flex;
@@ -22,16 +23,33 @@ const CourseSection: React.FC = () => {
   const navigate = useNavigate();
   const [isSavedProjectModal, setIsSavedProjectModal] = useState(false);
   const [isSuccessPublishModal, setIsSuccessPublishModal] = useState(false);
-  const { id: templateId } = useParams();
+  const { id: templateId } = useParams<{ id: any }>();
 
   const { data, refetch } = GetSingleTemplate(templateId, {
     onSuccess: (data: { result: any, count: any }) =>
-      console.log('>>>>>>>>>>>>>')
+      console.log('')
   });
 
   const { mutate: createTemplateSection } = useCreateNewSection({
     onSuccess: (options: any) => {
       refetch();
+    },
+    onError: ({ response }: any) => {
+      // const { data: { 0: { massage } } } = response;
+      console.log(response, 'response');
+    }
+  });
+
+  const { mutate: publishTemplate } = usePublishActivityTemplate({
+    onSuccess: (options: any) => {
+      if (options.data.result === 'successfully published') {
+        setIsSavedProjectModal(false);
+        setIsSuccessPublishModal(true);
+        setTimeout(() => {
+          setIsSuccessPublishModal(false);
+          navigate(`/project/${PATHS.OVERVIEW.replace(':id', data?.projectId)}`);
+        }, 2000);
+      }
     },
     onError: ({ response }: any) => {
       // const { data: { 0: { massage } } } = response;
@@ -53,8 +71,7 @@ const CourseSection: React.FC = () => {
   };
 
   const onPublishSections = (): void => {
-    setIsSuccessPublishModal(true);
-    setIsSavedProjectModal(false);
+    publishTemplate({ id: templateId });
   };
 
   return (
@@ -107,7 +124,9 @@ const CourseSection: React.FC = () => {
       >
         <AsnButton
           className="default"
-          onClick={() => navigate(`/${PATHS.ACTIVITYTEMPLATE}`)}
+          onClick={() =>
+            navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', templateId)}`)
+          }
         >
           Cancel
         </AsnButton>

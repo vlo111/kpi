@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Col, Form, Radio, Row } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -12,8 +12,7 @@ import { PATHS, VALIDATE_MESSAGES } from '../../helpers/constants';
 import GetSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
 import useCreateNewSetting from '../../api/Activity/Template/Settings/useCreateSetting';
 import useCreateSecondStepTemplate from '../../api/Activity/Template/useCreateSecondStep';
-// import useUpdateSingleSetting from '../../api/Activity/Template/Settings/useUpdateSingleSetting';
-// import useUpdateSettingStatus from '../../api/Activity/Template/Settings/useUpdateSettingStatus';
+import useUpdateSingleSetting from '../../api/Activity/Template/Settings/useUpdateSingleSetting';
 
 const ActivityTemplateContainer = styled.div`
   display: flex;
@@ -120,20 +119,44 @@ const FormsStructureContainer = styled.div`
 
 const ActivityTemplate: React.FC = () => {
   const [isVisibleAddField, setIsVisibleAddField] = useState<boolean>(false);
-  const [templateData, setTemplateData] = useState<any[] | []>([]);
   const [questionType, setQuestionType] = useState('');
   const [helpTextValue, setHelpTextValue] = useState<IHelpText[] | []>([]);
+  const [item, setItem] = useState<any>(null);
 
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const { id: templateId } = useParams();
+  const { id: templateId } = useParams<{ id: any }>();
 
   const { data, refetch } = GetSingleTemplate(templateId, {
     onSuccess: (data: { result: any, count: any }) =>
-      console.log('>>>>>>>>>>>>>')
+      console.log('')
   });
 
   const { mutate: createTemplateSetting } = useCreateNewSetting({
+    onSuccess: (options: any) => {
+      refetch();
+    },
+    onError: ({ response }: any) => {
+      // const { data: { 0: { massage } } } = response;
+      console.log('');
+    }
+  });
+
+  const { mutate: createSecondStepTemplateFn } = useCreateSecondStepTemplate({
+    onSuccess: (options: any) => {
+      const {
+        data: { result }
+      } = options;
+
+      navigate(`/${PATHS.COURSESECTION.replace(':id', result?.id)}`);
+    },
+    onError: ({ response }: any) => {
+      // const { data: { 0: { massage } } } = response;
+      console.log(response, 'response');
+    }
+  });
+
+  const { mutate: updateTemplateSetting } = useUpdateSingleSetting({
     onSuccess: (options: any) => {
       refetch();
     },
@@ -143,75 +166,32 @@ const ActivityTemplate: React.FC = () => {
     }
   });
 
-  const { mutate: createSecondStepTemplateFn } = useCreateSecondStepTemplate({
-    onSuccess: (options: any) => {
-      const {
-        data: { result }
-      } = options;
-      console.log(result?.id);
-      if (templateId != null) {
-        navigate(`/${PATHS.COURSESECTION.replace(':id', templateId)}`);
-      }
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
-    }
-  });
-
-  // const { mutate: changeSingleSettingStatus } = useUpdateSettingStatus({
-  //   onSuccess: (options: any) => {
-  //     console.log(options);
-  //   },
-  //   onError: ({ response }: any) => {
-  //     // const { data: { 0: { massage } } } = response;
-  //     console.log(response, 'response');
-  //   }
-  // });
-
-  // const updateStatus = (): void => {
-  //   changeSingleSettingStatus({ id: 'b1dd4297-63ee-41d8-9843-2784a978fb75' });
-  // };
-
-  // const { mutate: updateTemplateSetting } = useUpdateSingleSetting({
-  //   onSuccess: (options: any) => {
-  //     console.log(options);
-  //   },
-  //   onError: ({ response }: any) => {
-  //     // const { data: { 0: { massage } } } = response;
-  //     console.log(response, 'response');
-  //   }
-  // });
-
-  // const updateSetting = (): void => {
-  //   updateTemplateSetting({
-  //     id: '41d1b333-711d-4d94-8312-068426d9d515',
-  //     data: {
-  //       answerType: 'DROPDOWN',
-  //       title: 'bbbbb',
-  //       data: ['as']
-  //     }
-  //   });
-  // };
-
-  useEffect(() => {
-    setTemplateData([]);
-  }, [setTemplateData]);
-
   const onOpenAddVisibleField: Void = () => {
     setIsVisibleAddField(true);
   };
 
   const onFinish: FormFinish = (values) => {
     if (templateId != null) {
-      createTemplateSetting({
-        id: templateId,
-        data: {
-          answerType: questionType,
-          title: values.question,
-          data: questionType === 'DROPDOWN' ? [...values.names] : []
-        }
-      });
+      if (item !== null) {
+        updateTemplateSetting({
+          id: item.id,
+          data: {
+            answerType: questionType,
+            title: values.question,
+            data: questionType === 'DROPDOWN' ? [...values.names] : []
+          }
+        });
+        form.resetFields();
+      } else {
+        createTemplateSetting({
+          id: templateId,
+          data: {
+            answerType: questionType,
+            title: values.question,
+            data: questionType === 'DROPDOWN' ? [...values.names] : []
+          }
+        });
+      }
     }
     setIsVisibleAddField(false);
     setQuestionType('');
@@ -219,34 +199,38 @@ const ActivityTemplate: React.FC = () => {
   };
 
   const onNextClick: Void = () => {
-    console.log(templateId, 'templateId');
-    createSecondStepTemplateFn({
-      id: templateId,
-      data: {
-        applicationForm: form.getFieldValue('includeForm'),
-        courseStructure: form.getFieldValue('courseStructure')
-      }
-    });
+    if (data?.sections?.length === 0) {
+      createSecondStepTemplateFn({
+        id: templateId,
+        data: {
+          applicationForm: form.getFieldValue('includeForm'),
+          courseStructure: form.getFieldValue('courseStructure')
+        }
+      });
+    } else {
+      navigate(`/${PATHS.COURSESECTION.replace(':id', templateId)}`);
+    }
   };
+
+  useEffect(() => {
+    if (item !== null) {
+      form.setFieldsValue({
+        question: item.title,
+        answerType: item.answerType === 'SHORT_TEXT'
+          ? 'Short Text'
+          : item.answerType === 'NUMBER'
+            ? 'Number'
+            : item.answerType === 'ATTACHMENT'
+              ? 'Attachment'
+              : 'Dropdown options'
+      });
+    };
+  }, [item]);
 
   const initFields = [
     {
-      name: ['question'],
-      value:
-        form.getFieldValue('question') === ''
-          ? ''
-          : form.getFieldValue('question')
-    },
-    {
-      name: 'answerType',
-      value:
-        form.getFieldValue('answerType') === ''
-          ? ''
-          : form.getFieldValue('answerType')
-    },
-    {
       name: ['names'],
-      value: ['']
+      value: item?.data?.length > 0 ? item?.data : ['']
     },
     {
       name: ['helpText'],
@@ -275,13 +259,12 @@ const ActivityTemplate: React.FC = () => {
           <QuestionsRow
             key={item.id}
             item={item}
-            setTemplateData={setTemplateData}
-            templateData={templateData}
             setQuestionType={setQuestionType}
             setIsVisibleAddField={setIsVisibleAddField}
             setHelpTextValue={setHelpTextValue}
             helpTextValue={helpTextValue}
             refetch={refetch}
+            setItem={setItem}
           />
         ))}
         {!isVisibleAddField
@@ -298,9 +281,10 @@ const ActivityTemplate: React.FC = () => {
           <CreateFields
             setIsVisibleAddField={setIsVisibleAddField}
             questionType={questionType}
+            item={item}
             form={form}
             setQuestionType={setQuestionType}
-            templateId={templateId}
+            setItem={setItem}
           />
             )}
         <FormsStructureContainer>

@@ -17,9 +17,9 @@ import {
 import {
   ContentType,
   IQuestionsRow
-  // ITemplateData
 } from '../../../types/project';
 import useDeleteSetting from '../../../api/Activity/Template/Settings/useDeleteSingleSetting';
+import useAddSettingHelpText from '../../../api/Activity/Template/Settings/useAddSettingHelpText';
 
 const CourseList = styled.div`
   display: flex;
@@ -45,12 +45,9 @@ const IconButton = styled.div`
 
 const QuestionsRow: React.FC<IQuestionsRow> = ({
   item,
-  templateData,
-  // setTemplateData,
+  setItem,
   setQuestionType,
   setIsVisibleAddField,
-  helpTextValue,
-  setHelpTextValue,
   refetch
 }) => {
   const [rowId, setRowId] = useState<string[]>([]);
@@ -58,11 +55,19 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
   const [isDeletedFieldModal, setIsDeletedFieldModal] =
     useState<boolean>(false);
   const [openPopover, setOpenPopover] = useState<boolean>(false);
-
   const { mutate: deleteSettingsById } = useDeleteSetting({
     onSuccess: (options: any) => {
       refetch();
-      console.log(options);
+    },
+    onError: ({ response }: any) => {
+      // const { data: { 0: { massage } } } = response;
+      console.log(response, 'response');
+    }
+  });
+
+  const { mutate: addedHelpText } = useAddSettingHelpText({
+    onSuccess: (options: any) => {
+      refetch();
     },
     onError: ({ response }: any) => {
       // const { data: { 0: { massage } } } = response;
@@ -90,17 +95,17 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
     setOpenPopover(false);
   };
 
-  const onEditedQuestion: StringVoidType = (id) => {
-    const item: any | undefined = templateData.find(
-      (elem: any) => elem.id === id
-    );
-    if (item?.subTitle[0] === 'Dropdown options') {
+  const onEditedQuestion = (item: any): void => {
+    if (item?.answerType === 'DROPDOWN') {
       setIsVisibleAddField(true);
-      setQuestionType('Dropdown options');
+      setQuestionType('DROPDOWN');
     } else {
       setIsVisibleAddField(true);
-      setQuestionType(item?.subTitle[0] ?? '');
+      setQuestionType(item?.answerType);
     }
+    setItem(item);
+    setIsVisibleAddField(true);
+
     setOpenPopover(false);
   };
 
@@ -108,25 +113,23 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
     setIsDeletedFieldModal(false);
   };
   const handleDelete: Void = () => {
-    console.log(itemId, '_________', item);
     deleteSettingsById({ id: itemId });
     setIsDeletedFieldModal(false);
   };
 
   const onHelpText: FormFinish = (event) => {
     if (event.key === 'Enter') {
-      setHelpTextValue([
-        ...helpTextValue,
-        {
-          id: item.id,
-          value: event.target.value
+      addedHelpText({
+        id: item.id,
+        data: {
+          text: event.target.value
         }
-      ]);
+      });
       event.preventDefault();
     }
   };
 
-  const content: ContentType = (id) => (
+  const content: ContentType = (item) => (
     <Row
       style={{
         fontSize: 'var(--font-size-small)',
@@ -135,13 +138,13 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
       }}
       gutter={[8, 8]}
     >
-      <Col onClick={() => onOpenInputClick(id)} span={24}>
+      <Col onClick={() => onOpenInputClick(item?.id)} span={24}>
         <HelperTextIcon /> Add help text
       </Col>
-      <Col onClick={() => onEditedQuestion(id)} span={24}>
+      <Col onClick={() => onEditedQuestion(item)} span={24}>
         <EditIcon /> Edit
       </Col>
-      <Col onClick={() => onDeletedQuestion(id)} span={24}>
+      <Col onClick={() => onDeletedQuestion(item?.id)} span={24}>
         <DeleteIcon /> Delete
       </Col>
     </Row>
@@ -163,9 +166,9 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
           <Row gutter={[5, 0]}>
             {item?.setting?.data?.length > 0
               ? (
-                  item?.setting?.data?.map((option: string) => (
+                  item?.setting?.data?.map((option: string, index: number) => (
                 <Col
-                  key={option}
+                  key={option + `${index}`}
                   style={{
                     color: 'var(--dark-2)',
                     fontSize: 'var(--font-size-small)'
@@ -211,7 +214,7 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
               : (
               <Popover
                 placement="topLeft"
-                content={() => content(item.setting.id)}
+                content={() => content(item.setting)}
                 trigger="click"
                 overlayClassName="menuPopover"
                 onOpenChange={handleOpenChange}
