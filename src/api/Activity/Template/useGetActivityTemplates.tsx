@@ -13,9 +13,12 @@ const GetTemplates: any = (activityId: string, options = { enabled: false }) => 
     }
   );
   const { data, isSuccess } = result;
+  console.log(data, 'datadata');
   return {
     ...result,
-    data: isSuccess ? data : []
+    data: isSuccess ? data?.result : [],
+    count: data?.count,
+    has_more: data?.count
   };
 };
 

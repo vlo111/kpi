@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Typography, Space, Badge, Row, Tooltip } from 'antd';
 import styled from 'styled-components';
 
+import { SubAndActive } from './SubActivites';
 import ProjectInformationHeader from '../../components/Menu/ProjectInformationHeader';
 import { AsnButton } from '../../components/Forms/Button';
 import { AsnTabs } from '../../components/Forms/Tabs';
@@ -10,6 +11,7 @@ import AsnSpin from '../../components/Forms/Spin';
 import { TVoid } from '../../types/global';
 import { IResultAreas, IInputActivities } from '../../types/project';
 import useGetProjectById from '../../api/Project/useGetProject';
+import GetTemplates from '../../api/Activity/Template/useGetActivityTemplates';
 import { ReactComponent as AddResultAreaSvg } from '../../assets/icons/project-overview.svg';
 import { ReactComponent as EditPublishSvg } from '../../assets/icons/edit-publish.svg';
 import { ReactComponent as CreateTemplateSvg } from '../../assets/icons/create-template.svg';
@@ -23,14 +25,15 @@ const AntRow = styled(Row)`
 `;
 
 const ProjectOverview: React.FC = () => {
-  const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
-    useState(false);
-  const [activityId, setActivityId] =
-    useState<string | undefined>('');
+  const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState(false);
+  const [activityId, setActivityId] = useState<string | undefined>('');
   const [active, setActive] = useState<number>(1);
+  // const [inputActivityId, setInputActivityId] = useState<string>('');
+  // console.log(inputActivityId);
   const { id } = useParams<string>();
-  const { data, isLoading } = useGetProjectById(id);
-  const { result: project } = data;
+  const { isLoading, data: { result: project }, inputActivityId: defaultInputActivityId } = useGetProjectById(id);
+  const { data: templates } = GetTemplates(defaultInputActivityId, { enabled: Boolean(defaultInputActivityId) });
+  console.log(templates, 'templates');
   const navigate = useNavigate();
   const handleDraft: TVoid = () => {
     if (id != null) {
@@ -101,6 +104,7 @@ const ProjectOverview: React.FC = () => {
       children: (
         <>
           <Tabs
+          defaultActiveKey='1'
             tabPosition={'left'}
             items={item?.inputActivities?.map(
               (item: IInputActivities, i: number) => {
@@ -111,7 +115,9 @@ const ProjectOverview: React.FC = () => {
                     </AntRow>
                   ),
                   key: `${item?.id ?? i}`,
-                  children: (
+                  children: templates?.length > 0
+                    ? (< SubAndActive templates={templates} />)
+                    : (
                     <Space
                       direction="vertical"
                       align="center"
@@ -148,7 +154,7 @@ const ProjectOverview: React.FC = () => {
                         </>
                           )}
                     </Space>
-                  )
+                      )
                 };
               }
             )}
@@ -167,9 +173,9 @@ const ProjectOverview: React.FC = () => {
         ? (
         <AsnTabs
           tabBarExtraContent={project?.status === 'DRAFT' && operations}
-          defaultActiveKey="1"
           type="card"
           items={items}
+          defaultActiveKey='1'
         />
           )
         : (

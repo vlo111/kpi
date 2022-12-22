@@ -265,3 +265,7 @@ export interface IQuestionsRow {
 export type SetProjectId = (id: string) => void
 
 export type ResultAreaOrder = (index: number) => number
+
+export interface IProjectTemplate {
+  title: string
+}
