@@ -6,7 +6,7 @@ import { AsnButton } from '../Forms/Button';
 import { AsnForm } from '../Forms/Form';
 import { AsnInput, AsnTextArea } from '../Forms/Input';
 import { ICreateTemplateModal, AddManagerHandle } from '../../types/project';
-import { PATHS, VALIDATE_MESSAGES } from '../../helpers/constants';
+import { PATHS } from '../../helpers/constants';
 import { ICreateTemplateResponse } from '../../types/api/activity/template';
 import useCreateActivityTemplate from '../../api/Activity/Template/useCreateActivityTemplate';
 
@@ -80,7 +80,6 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
           id="create-template-AsnForm"
           form={form}
           layout="vertical"
-          validateMessages={VALIDATE_MESSAGES}
           onFinish={onFinish}
           autoComplete="off"
         >
@@ -89,13 +88,13 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
           </AsnForm.Item>
           <AsnForm.Item
             name="templateName"
-            rules={[{ required: true }, { min: 3, max: 128 }]}
+            rules={[{ required: true, message: 'Please enter Template Name' }, { min: 2, max: 128, message: 'The field is required. Must be between 2 and 128 characters.' }]}
           >
             <AsnInput placeholder="One section course " />
           </AsnForm.Item>
           <AsnForm.Item
             name="description"
-            rules={[{ required: true }, { min: 3, max: 128 }]}
+            rules={[{ max: 256, message: 'Maximum 256 characters.' }]}
           >
             <AsnTextArea placeholder="Activity Template for long-term courses. The course has one section." />
           </AsnForm.Item>

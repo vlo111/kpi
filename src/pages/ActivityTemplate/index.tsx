@@ -135,10 +135,6 @@ const ActivityTemplate: React.FC = () => {
   const { mutate: createTemplateSetting } = useCreateNewSetting({
     onSuccess: (options: any) => {
       refetch();
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log('');
     }
   });
 
@@ -149,20 +145,12 @@ const ActivityTemplate: React.FC = () => {
       } = options;
 
       navigate(`/${PATHS.COURSESECTION.replace(':id', result?.id)}`);
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
     }
   });
 
   const { mutate: updateTemplateSetting } = useUpdateSingleSetting({
     onSuccess: (options: any) => {
       refetch();
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
     }
   });
 
@@ -227,6 +215,15 @@ const ActivityTemplate: React.FC = () => {
     };
   }, [item]);
 
+  useEffect(() => {
+    if (data?.courseStructure !== null && data?.applicationForm !== null) {
+      form.setFieldsValue({
+        includeForm: data?.applicationForm,
+        courseStructure: data?.courseStructure
+      });
+    };
+  }, [data]);
+
   const initFields = [
     {
       name: ['names'],
@@ -282,7 +279,6 @@ const ActivityTemplate: React.FC = () => {
             setIsVisibleAddField={setIsVisibleAddField}
             questionType={questionType}
             item={item}
-            form={form}
             setQuestionType={setQuestionType}
             setItem={setItem}
           />

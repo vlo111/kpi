@@ -9,6 +9,7 @@ import { AsnButton } from '../../Forms/Button';
 import { FormFinish, Void } from '../../../types/global';
 import { ICreateFieldsProps } from '../../../types/project';
 import { answerTypeOptions } from '../../../helpers/constants';
+import { AsnForm } from '../../Forms/Form';
 
 const { Option } = Select;
 
@@ -64,16 +65,19 @@ const TopField = styled.div`
 const CreateFields: React.FC<ICreateFieldsProps> = ({
   setIsVisibleAddField,
   questionType,
-  form,
   setQuestionType,
   item,
   setItem
 }) => {
+  const form = AsnForm.useFormInstance();
+
   const onClosedAddVisibleField: Void = () => {
     setIsVisibleAddField(false);
     setItem(null);
     form.resetFields();
   };
+
+  console.log(item, 'itemICreateFieldsProps');
 
   const onSelectChange: FormFinish = (value) => {
     switch (value) {

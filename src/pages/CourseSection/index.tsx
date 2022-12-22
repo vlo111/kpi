@@ -26,8 +26,7 @@ const CourseSection: React.FC = () => {
   const { id: templateId } = useParams<{ id: any }>();
 
   const { data, refetch } = GetSingleTemplate(templateId, {
-    onSuccess: (data: { result: any, count: any }) =>
-      console.log('')
+    onSuccess: (data: { result: any, count: any }) => console.log('')
   });
 
   const { mutate: createTemplateSection } = useCreateNewSection({
@@ -47,7 +46,9 @@ const CourseSection: React.FC = () => {
         setIsSuccessPublishModal(true);
         setTimeout(() => {
           setIsSuccessPublishModal(false);
-          navigate(`/project/${PATHS.OVERVIEW.replace(':id', data?.projectId)}`);
+          navigate(
+            `/project/${PATHS.OVERVIEW.replace(':id', data?.projectId)}`
+          );
         }, 2000);
       }
     },
@@ -128,8 +129,9 @@ const CourseSection: React.FC = () => {
             navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', templateId)}`)
           }
         >
-          Cancel
+          Previous
         </AsnButton>
+        <AsnButton className="default">Save as Draft</AsnButton>
         <AsnButton
           className="primary"
           onClick={() => setIsSavedProjectModal(true)}

@@ -205,13 +205,33 @@ export interface ICreateTemplateModal {
 
 export type AddManagerHandle = (values: unknown) => void
 
-export interface ISection {
-  [x: string]: number
+export interface ILearningStatusData {
+  applicationForm: string[]
+  category: string
+  courseSettingMap: object[]
+  courseStructure: string
+  description: string
+  id: string
+  inputActivityId: string
+  projectId: string
+  sections: object[]
+  status: string
+  title: string
+
 }
 
+export interface ISectionData {
+  activityTemplateId: string
+  id: string
+  projectId: string
+  requiredDocuments: []
+  sectionSettingMap: object[]
+  title: string
+  type: string
+}
 export interface ILearningStatus {
-  section: any // ISection
-  data: any
+  section: ISectionData // ISection
+  data: ILearningStatusData
   refetch: any
 }
 
@@ -233,16 +253,28 @@ export interface IAddedDocuments {
   refetch: any
 }
 
+export interface ICreatedFieldItem {
+  answerType: string
+  changeable: true
+  data: string[]
+  description: null | string
+  id: string
+  projectId: string
+  title: string
+  type: string
+  setting?: any
+  active?: boolean
+}
+
 export interface ICreateFieldsProps {
   setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
   questionType: string
-  form: any
   setQuestionType: React.Dispatch<React.SetStateAction<string>>
-  item: any
-  setItem: any
+  item: ICreatedFieldItem
+  setItem: React.Dispatch<React.SetStateAction<ICreatedFieldItem | null>>
 }
 
-export type ContentType = (item: any) => ReactElement
+export type ContentType = (item: ICreatedFieldItem) => ReactElement
 
 export interface ITemplateData {
   id: string
@@ -255,8 +287,8 @@ export interface ITemplateData {
 }
 
 export interface IQuestionsRow {
-  item: any // ITemplateData
-  setItem: any
+  item: ICreatedFieldItem // ITemplateData
+  setItem: React.Dispatch<React.SetStateAction<ICreatedFieldItem | null>>
   setQuestionType: React.Dispatch<React.SetStateAction<string>>
   setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
   helpTextValue: IHelpText[]
