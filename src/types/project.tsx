@@ -77,7 +77,7 @@ export interface IInputActivities {
   title: string
   order: number
   milestones: IResultBox[]
-  id?: string | undefined
+  id?: string
 }
 
 export interface IResultAreaData {
@@ -268,4 +268,10 @@ export type ResultAreaOrder = (index: number) => number
 
 export interface IProjectTemplate {
   title: string
+  id: string
+  description: string
+}
+
+export interface ISubActivityAndTemplates {
+  templates: IProjectTemplate[]
 }

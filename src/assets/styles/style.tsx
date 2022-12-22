@@ -202,7 +202,6 @@ const GlobalStyle = createGlobalStyle`
       background: var(--tooltip-color);
     }
   }
-
 `;
 
 export default GlobalStyle;

@@ -2,9 +2,9 @@ import React from 'react';
 import { Tabs } from 'antd';
 import styled from 'styled-components';
 
-import { IProjectTemplate } from '../../../types/project';
+import { ISubActivityAndTemplates } from '../../../types/project';
 import { ActiveTempalate } from './ActiveTemplate';
-import { SubActivity } from './SubActives';
+import { SubActivity } from './SubActivityAndTemplates';
 
 const Tab = styled.div`
 .ant-tabs-ink-bar{
@@ -39,8 +39,7 @@ const Tab = styled.div`
 }
 `;
 
-export const SubAndActive: React.FC<{ templates: IProjectTemplate[] }> = ({ templates }) => {
-  console.log(templates);
+const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({ templates }) => {
   return (
     <Tab>
       <Tabs
@@ -54,9 +53,11 @@ export const SubAndActive: React.FC<{ templates: IProjectTemplate[] }> = ({ temp
           <SubActivity />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Active Templates " key="2">
-          <ActiveTempalate />
+          <ActiveTempalate templates={templates} />
         </Tabs.TabPane>
       </Tabs>
     </Tab>
   );
 };
+
+export default SubActivityAndTemplates;

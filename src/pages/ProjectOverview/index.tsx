@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Typography, Space, Badge, Row, Tooltip } from 'antd';
 import styled from 'styled-components';
 
-import { SubAndActive } from './SubActivites';
+import SubActivityAndTemplates from './SubActivites';
 import ProjectInformationHeader from '../../components/Menu/ProjectInformationHeader';
 import { AsnButton } from '../../components/Forms/Button';
 import { AsnTabs } from '../../components/Forms/Tabs';
@@ -28,12 +28,10 @@ const ProjectOverview: React.FC = () => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState(false);
   const [activityId, setActivityId] = useState<string | undefined>('');
   const [active, setActive] = useState<number>(1);
-  // const [inputActivityId, setInputActivityId] = useState<string>('');
-  // console.log(inputActivityId);
+  const [inputActivityId, setInputActivityId] = useState<string | undefined>(undefined);
   const { id } = useParams<string>();
   const { isLoading, data: { result: project }, inputActivityId: defaultInputActivityId } = useGetProjectById(id);
-  const { data: templates } = GetTemplates(defaultInputActivityId, { enabled: Boolean(defaultInputActivityId) });
-  console.log(templates, 'templates');
+  const { data: templates } = GetTemplates(inputActivityId ?? defaultInputActivityId, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
   const navigate = useNavigate();
   const handleDraft: TVoid = () => {
     if (id != null) {
@@ -67,11 +65,11 @@ const ProjectOverview: React.FC = () => {
     </AsnButton>
   );
   const projectItems = project?.resultAreas.length;
-  const items = project?.resultAreas?.map((item: IResultAreas, i: number) => {
+  const items = project?.resultAreas?.map((resultArea: IResultAreas, i: number) => {
     return {
       label: (
         <Tooltip
-          title={item?.title}
+          title={resultArea?.title}
           color="var(--dark-6)"
           overlayInnerStyle={{
             color: 'var(--dark-border-ultramarine)',
@@ -94,29 +92,29 @@ const ProjectOverview: React.FC = () => {
                     : { width: '85%' }
                 }
               >
-                {item?.title}
+                {resultArea?.title}
               </Text>
             )}
           </AntRow>
         </Tooltip>
       ),
-      key: `${item?.id}`,
+      key: `${resultArea?.inputActivities[0]?.id ?? resultArea?.id}`,
       children: (
         <>
           <Tabs
-          defaultActiveKey='1'
+            activeKey={inputActivityId ?? resultArea?.inputActivities[0]?.id}
             tabPosition={'left'}
-            items={item?.inputActivities?.map(
-              (item: IInputActivities, i: number) => {
+            items={resultArea?.inputActivities?.map(
+              (inputActivity: IInputActivities, i: number) => {
                 return {
                   label: (
-                    <AntRow style={{ width: '18vw' }}>
-                      1.{i + 1} {item?.title}
+                    <AntRow align='middle' style={{ width: '18vw', minHeight: '80px' }} onClick={() => setInputActivityId(inputActivity?.id)}>
+                      1.{i + 1} {inputActivity?.title}
                     </AntRow>
                   ),
-                  key: `${item?.id ?? i}`,
+                  key: `${inputActivity?.id ?? i}`,
                   children: templates?.length > 0
-                    ? (< SubAndActive templates={templates} />)
+                    ? (< SubActivityAndTemplates templates={templates} />)
                     : (
                     <Space
                       direction="vertical"
@@ -145,7 +143,7 @@ const ProjectOverview: React.FC = () => {
                             style={{ marginTop: '12px' }}
                             className="primary"
                             onClick={() => {
-                              setActivityId(item.id);
+                              setActivityId(inputActivity.id);
                               setIsOpenCreateActivityModal(true);
                             }}
                           >
@@ -166,6 +164,7 @@ const ProjectOverview: React.FC = () => {
   if (isLoading === true) {
     return <AsnSpin />;
   }
+
   return (
     <>
       <ProjectInformationHeader overview={true} project={project} />
@@ -176,6 +175,7 @@ const ProjectOverview: React.FC = () => {
           type="card"
           items={items}
           defaultActiveKey='1'
+          onChange={(activeKey) => setInputActivityId(activeKey)}
         />
           )
         : (

@@ -12,13 +12,14 @@ const GetTemplates: any = (activityId: string, options = { enabled: false }) => 
       select: (data) => data.data
     }
   );
-  const { data, isSuccess } = result;
-  console.log(data, 'datadata');
+  const { data, isSuccess, refetch } = result;
+
   return {
     ...result,
     data: isSuccess ? data?.result : [],
     count: data?.count,
-    has_more: data?.count
+    has_more: data?.count,
+    refetch
   };
 };
 

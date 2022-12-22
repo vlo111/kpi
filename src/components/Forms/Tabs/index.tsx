@@ -30,7 +30,6 @@ margin: 16px !important
 .ant-tabs-left>.ant-tabs-nav .ant-tabs-tab{
 margin: 16px 16px 8px 16px !important;
 border-radius: 10px;
-min-height: 80px;
 text-align: start;
 }
 .ant-tabs-ink-bar{
@@ -52,7 +51,7 @@ translate: 16px 0px;
 border-radius: 10px 0px 0px 10px;
 }
 .ant-tabs-left>.ant-tabs-nav{
-height: 65vh;
+height: calc(100vh - 300px);
 }
 &.ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab{
 border-radius: 20px 20px 0px 0px !important;

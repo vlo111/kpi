@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Popconfirm, Card, Col, Row } from 'antd';
 import styled from 'styled-components';
 
+import { ISubActivityAndTemplates } from '../../../../types/project';
 import { ReactComponent as Eye } from '../../../../assets/icons/eye.svg';
 import { ReactComponent as TrashSvg } from '../../../../assets/icons/trash.svg';
 import { ReactComponent as EditSvg } from '../../../../assets/icons/edit.svg';
@@ -18,6 +19,17 @@ const Container = styled.div`
   box-shadow: rgba(255, 255, 255, 0.7);
   border-radius: 20px;
 }
+.ant-card-extra{
+    position: absolute;
+    top: 0;
+    background-color: rgba(0,0,0,0.2) !important;
+    height: 196px;
+    width: 100%;
+    left: 0;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+  }
 .ant-card-body {
   padding: 0 45px;
   display: flex;
@@ -27,6 +39,11 @@ const Container = styled.div`
   height: 100%;
   font-size: var(--base-font-size);
   text-align: center;
+  word-wrap: break-word;
+  white-space: initial;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+   display: -webkit-box;
 
 }
 .ant-card-head {
@@ -43,6 +60,13 @@ const Container = styled.div`
   right: 20px;
   color: var(--dark-1);
 }
+.ant-card-head-title{
+  word-wrap: break-word;
+  white-space: initial;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+   display: -webkit-box;
+  }
 `;
 const Popup = styled(Button)`
 display: grid;
@@ -55,14 +79,16 @@ align-items: baseline;
 &:hover {
   color: inherit;
 }
+
 `;
 
-export const ActiveTempalate: React.FC = () => {
+export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates }) => {
   // const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState<boolean>(false);
 
   // const handleOpen: AddManagerHandle = () => {
   //   setIsOpenCreateActivityModal(true);
   // };
+  const [show, setShow] = useState<string | boolean>(false);
 
   const title = (
     <Row>
@@ -84,7 +110,7 @@ export const ActiveTempalate: React.FC = () => {
           Duplicate
         </Popup>
         <Popup type="link">
-          <Plus/>Use
+          <Plus />Use
         </Popup>
       </Col>
     </Row>
@@ -95,51 +121,30 @@ export const ActiveTempalate: React.FC = () => {
         <Col style={{ cursor: 'pointer' }} >
           <Card className=" card">+Add Activity Template</Card>
         </Col>
-        <Col>
-          <Popconfirm
-            overlayClassName="popconFirm"
-            title={title}
-            okText
-            cancelText="X"
-            placement="bottom"
-            icon={false}
-          >
-            <Button type="link" className="cardClick">
-              ...
-            </Button>
-          </Popconfirm>
-          <Card className="card">Card content</Card>
-        </Col>
-        <Col>
-          <Popconfirm
-            overlayClassName="popconFirm"
-            title={title}
-            okText
-            cancelText="X"
-            placement="bottom"
-            icon={false}
-          >
-            <Button type="link" className="cardClick">
-              ...
-            </Button>
-          </Popconfirm>
-          <Card className="card">Card content</Card>
-        </Col>
-        <Col>
-          <Popconfirm
-            overlayClassName="popconFirm"
-            title={title}
-            okText
-            cancelText="X"
-            placement="bottom"
-            icon={false}
-          >
-            <Button type="link" className="cardClick">
-              ...
-            </Button>
-          </Popconfirm>
-          <Card className="card">Card content</Card>
-        </Col>
+        {templates?.map((template) => (
+          <Col key={template?.id}>
+            <Popconfirm
+              overlayClassName="popconFirm"
+              title={title}
+              okText
+              cancelText="X"
+              placement="bottom"
+              icon={false}
+            >
+              <Button type="link" className="cardClick">
+                ...
+              </Button>
+            </Popconfirm>
+            <Card
+              className="card"
+              extra={show === template?.id ? template?.description : null}
+              onMouseEnter={() => setShow(template?.id)}
+              onMouseLeave={() => setShow(false)}
+            >
+               {template?.title}
+            </Card>
+          </Col>
+        ))}
       </Row>
       {/* <CreateTemplate
           isOpenCreateActivityModal={isOpenCreateActivityModal}
