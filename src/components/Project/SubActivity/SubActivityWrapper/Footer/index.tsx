@@ -2,7 +2,7 @@ import React from 'react';
 import { Row } from 'antd';
 import styled from 'styled-components';
 
-import { AsnButton } from '../../Button';
+import { AsnButton } from '../../../../Forms/Button';
 
 const Footer = styled(Row)``;
 const SubActivityFooter: React.FC = () => {

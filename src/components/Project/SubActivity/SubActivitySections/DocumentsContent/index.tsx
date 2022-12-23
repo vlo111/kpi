@@ -1,8 +1,8 @@
 import React from 'react';
 import { Col, Row, Space } from 'antd';
 
-import FormWrapper from '../../../../Forms/SubActivityWrapper';
 import DraggerForm from '../SubActivityForms/Dragger';
+import FormWrapper from '../../SubActivityWrapper';
 
 const SubActivityDocuments: React.FC = () => {
   return (

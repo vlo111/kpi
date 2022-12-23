@@ -2,7 +2,7 @@ import React from 'react';
 import { Avatar, Col, Image, Row, Space, Typography } from 'antd';
 
 import { AsnButton } from '../../../../Forms/Button';
-import FormWrapper from '../../../../Forms/SubActivityWrapper';
+import FormWrapper from '../../SubActivityWrapper';
 
 const SubActivityUsersInfo: React.FC = () => {
   const { Title } = Typography;

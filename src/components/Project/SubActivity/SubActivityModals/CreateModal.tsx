@@ -7,10 +7,10 @@ import { AsnInput } from '../../../Forms/Input';
 import { AsnSelect } from '../../../Forms/Select';
 import { ReactComponent as ArrowSvg } from '../../../../assets/icons/arrow.svg';
 import { ReactComponent as UploadDocument } from '../../../../assets/icons/upload-docs.svg';
-import { AsnDatePicker } from '../../../Forms/DatePicker';
 import Duration from '../DurationForm';
 import { CreateSubActivity } from './CreateModalStyles';
 import { VALIDATE_MESSAGES } from '../../../../helpers/constants';
+import AsnPicker from '../../../Picker';
 
 const CreateSubActivityModal: React.FC<{}> = () => {
   const [form] = AsnForm.useForm();
@@ -71,7 +71,7 @@ const CreateSubActivityModal: React.FC<{}> = () => {
         <AsnForm.Item
           name="title"
           label="Title"
-          rules={[{ required: true, min: 2, max: 256 }]}
+          rules={[{ required: true, min: 2, max: 45 }]}
         >
           <AsnInput />
         </AsnForm.Item>
@@ -91,7 +91,7 @@ const CreateSubActivityModal: React.FC<{}> = () => {
         <AsnForm.Item
           name="description"
           label="Description"
-          rules={[{ required: true, min: 2, max: 256 }]}
+          rules={[{ required: true, min: 2, max: 1048 }]}
         >
           <AsnInput />
         </AsnForm.Item>
@@ -125,7 +125,7 @@ const CreateSubActivityModal: React.FC<{}> = () => {
             ))}
           </AsnSelect>
         </AsnForm.Item>
-        <AsnDatePicker />
+        <AsnPicker />
         <AsnForm.Item
           name="teaching_mode"
           label="Teaching Mode"

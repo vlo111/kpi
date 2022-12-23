@@ -1,9 +1,9 @@
 import React from 'react';
 import { Row, Space, Typography } from 'antd';
 
-import FormWrapper from '../../../../Forms/SubActivityWrapper';
 import DraggerForm from './Dragger';
-import SubActivityFooter from '../../../../Forms/SubActivityWrapper/Footer';
+import FormWrapper from '../../SubActivityWrapper';
+import SubActivityFooter from '../../SubActivityWrapper/Footer';
 
 const ParticipantForm: React.FC = () => {
   const { Title } = Typography;

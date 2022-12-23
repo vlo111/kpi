@@ -3,12 +3,12 @@ import { Col, Row, Space } from 'antd';
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/lib/table';
 
-import FormWrapper from '../../../../Forms/SubActivityWrapper';
 import { ReactComponent as NotFoundIcon } from '../../../../../assets/icons/not-users-found.svg';
 import { ReactComponent as ApplicantsIcon } from '../../../../../assets/icons/team-members.svg';
 import { ReactComponent as DownloadIcon } from '../../../../../assets/icons/download.svg';
 import { IUserListTypes } from '../../../../../types/subActivyty';
 import { AsnTable } from '../../../../Forms/Table';
+import FormWrapper from '../../SubActivityWrapper';
 
 const SubActivityUsersFullInfo: React.FC = () => {
   const notUsers = false;

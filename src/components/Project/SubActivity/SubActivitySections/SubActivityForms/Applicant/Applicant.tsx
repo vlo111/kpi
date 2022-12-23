@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Row, Space, Typography } from 'antd';
 
 import { AsnButton } from '../../../../../Forms/Button';
-import FormWrapper from '../../../../../Forms/SubActivityWrapper';
 import DraggerForm from '../Dragger';
 import ApplicantList from './ApplicantList';
-import SubActivityFooter from '../../../../../Forms/SubActivityWrapper/Footer';
+import FormWrapper from '../../../SubActivityWrapper';
+import SubActivityFooter from '../../../SubActivityWrapper/Footer';
 
 const ApplicantsForm: React.FC = () => {
   const { Title } = Typography;

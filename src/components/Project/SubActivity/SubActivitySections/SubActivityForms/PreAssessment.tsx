@@ -2,9 +2,9 @@ import React from 'react';
 import { Row, Space, Typography } from 'antd';
 
 import { AsnButton } from '../../../../Forms/Button';
-import FormWrapper from '../../../../Forms/SubActivityWrapper';
-import SubActivityFooter from '../../../../Forms/SubActivityWrapper/Footer';
 import DraggerForm from './Dragger';
+import FormWrapper from '../../SubActivityWrapper';
+import SubActivityFooter from '../../SubActivityWrapper/Footer';
 
 const PreAssessmentForm: React.FC = () => {
   const { Title } = Typography;

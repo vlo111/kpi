@@ -3,6 +3,7 @@ import { Badge, Breadcrumb, Col, Space, Typography } from 'antd';
 import styled from 'styled-components';
 
 import { ReactComponent as WarningSvg } from '../../../../assets/icons/project-warning.svg';
+import AsnBreadcrumb from '../../../Forms/Breadcrumb';
 
 const HeaderWrapper = styled(Col)`
   .ant-badge-status-dot {
@@ -27,11 +28,22 @@ const SubActivityHeader: React.FC = () => {
 
   return (
     <HeaderWrapper>
-      <Breadcrumb separator=">" style={{ marginBottom: '4vh' }}>
-        <Breadcrumb.Item>Objective 1</Breadcrumb.Item>
-        <Breadcrumb.Item>Activity 1.3</Breadcrumb.Item>
-        <Breadcrumb.Item>PYTHON COURSE</Breadcrumb.Item>
-      </Breadcrumb>
+      <AsnBreadcrumb
+        routes={[
+          {
+            path: 'Objective 1',
+            breadcrumbName: 'Activity 1.3'
+          },
+          {
+            path: '',
+            breadcrumbName: 'Activity 1.3'
+          },
+          {
+            path: '',
+            breadcrumbName: 'PYTHON COURSE'
+          }
+        ]}
+      />
       <Space direction="horizontal" align="baseline">
         <Title
           level={4}
