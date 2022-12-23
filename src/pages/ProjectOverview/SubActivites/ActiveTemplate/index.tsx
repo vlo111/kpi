@@ -52,7 +52,6 @@ const Container = styled.div`
 }
 .ant-row {
   row-gap: 16px !important;
-  height: 52vh;
   overflow: auto;
 }
 .cardClick {
