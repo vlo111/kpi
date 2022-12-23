@@ -274,4 +274,5 @@ export interface IProjectTemplate {
 
 export interface ISubActivityAndTemplates {
   templates: IProjectTemplate[]
+  refetch: any
 }

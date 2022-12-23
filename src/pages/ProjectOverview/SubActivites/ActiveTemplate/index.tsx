@@ -3,11 +3,13 @@ import { Button, Popconfirm, Card, Col, Row } from 'antd';
 import styled from 'styled-components';
 
 import { ISubActivityAndTemplates } from '../../../../types/project';
+import useDeleteActivityTemplate from '../../../../api/Activity/Template/useDeleteActivityTemplate';
 import { ReactComponent as Eye } from '../../../../assets/icons/eye.svg';
 import { ReactComponent as TrashSvg } from '../../../../assets/icons/trash.svg';
 import { ReactComponent as EditSvg } from '../../../../assets/icons/edit.svg';
 import { ReactComponent as Dublicat } from '../../../../assets/icons/duplicate.svg';
 import { ReactComponent as Plus } from '../../../../assets/icons/plus.svg';
+
 // import { AddManagerHandle } from '../../../../../../types/project';
 
 const Container = styled.div`
@@ -82,39 +84,53 @@ align-items: baseline;
 
 `;
 
-export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates }) => {
+export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates, refetch }) => {
   // const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState<boolean>(false);
 
   // const handleOpen: AddManagerHandle = () => {
   //   setIsOpenCreateActivityModal(true);
   // };
   const [show, setShow] = useState<string | boolean>(false);
-
-  const title = (
-    <Row>
-      <Col>
-        <Popup type="link">
-          <Eye />
-          View
-        </Popup>
-        <Popup type="link">
-          <EditSvg />
-          Edit
-        </Popup>
-        <Popup type="link">
-          <TrashSvg />
-          Delete
-        </Popup>
-        <Popup type="link">
-          <Dublicat />
-          Duplicate
-        </Popup>
-        <Popup type="link">
-          <Plus />Use
-        </Popup>
-      </Col>
-    </Row>
+  const { mutate: deleteActivityTemplate } = useDeleteActivityTemplate(
+    {
+      onSuccess: (options: any) => {
+        refetch();
+        console.log(options);
+      },
+      onError: ({ response }: any) => {
+        // const { data: { 0: { massage } } } = response;
+        console.log(response, 'response');
+      }
+    }
   );
+
+  const title = (id: string): any => {
+    return (
+      <Row>
+        <Col>
+          <Popup type="link">
+            <Eye />
+            View
+          </Popup>
+          <Popup type="link">
+            <EditSvg />
+            Edit
+          </Popup>
+          <Popup type="link" onClick={() => deleteActivityTemplate({ id })}>
+            <TrashSvg />
+            Delete
+          </Popup>
+          <Popup type="link">
+            <Dublicat />
+            Duplicate
+          </Popup>
+          <Popup type="link">
+            <Plus />Use
+          </Popup>
+        </Col>
+      </Row>
+    );
+  };
   return (
     <Container>
       <Row gutter={[32, 0]} style={{ width: '100%' }}>
@@ -125,7 +141,7 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates 
           <Col key={template?.id}>
             <Popconfirm
               overlayClassName="popconFirm"
-              title={title}
+              title={() => title(template?.id)}
               okText
               cancelText="X"
               placement="bottom"

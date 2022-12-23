@@ -31,7 +31,7 @@ const ProjectOverview: React.FC = () => {
   const [inputActivityId, setInputActivityId] = useState<string | undefined>(undefined);
   const { id } = useParams<string>();
   const { isLoading, data: { result: project }, inputActivityId: defaultInputActivityId } = useGetProjectById(id);
-  const { data: templates } = GetTemplates(inputActivityId ?? defaultInputActivityId, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
+  const { data: templates, isLoading: isLoadingTemplates, refetch } = GetTemplates(inputActivityId ?? defaultInputActivityId, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
   const navigate = useNavigate();
   const handleDraft: TVoid = () => {
     if (id != null) {
@@ -113,9 +113,11 @@ const ProjectOverview: React.FC = () => {
                     </AntRow>
                   ),
                   key: `${inputActivity?.id ?? i}`,
-                  children: templates?.length > 0
-                    ? (< SubActivityAndTemplates templates={templates} />)
-                    : (
+                  children: isLoadingTemplates === true
+                    ? <AsnSpin />
+                    : templates?.length > 0
+                      ? (< SubActivityAndTemplates templates={templates} refetch={refetch} />)
+                      : (
                     <Space
                       direction="vertical"
                       align="center"
@@ -152,7 +154,7 @@ const ProjectOverview: React.FC = () => {
                         </>
                           )}
                     </Space>
-                      )
+                        )
                 };
               }
             )}

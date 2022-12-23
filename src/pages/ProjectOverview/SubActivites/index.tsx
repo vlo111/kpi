@@ -39,7 +39,7 @@ const Tab = styled.div`
 }
 `;
 
-const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({ templates }) => {
+const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({ templates, refetch }) => {
   return (
     <Tab>
       <Tabs
@@ -53,7 +53,7 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({ templates
           <SubActivity />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Active Templates " key="2">
-          <ActiveTempalate templates={templates} />
+          <ActiveTempalate templates={templates} refetch={refetch} />
         </Tabs.TabPane>
       </Tabs>
     </Tab>
