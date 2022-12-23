@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import SubActivitySections from './SubActivitySections';
-import SubActivityHeader from './SubActivtyHeader';
+import SubActivitySections from '../../components/Project/SubActivity/SubActivitySections';
+import SubActivityHeader from '../../components/Project/SubActivity/SubActivtyHeader';
 
 const Wrapper = styled.div`
   padding: 40px 3.1vw 40px 3.1vw;

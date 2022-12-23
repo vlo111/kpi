@@ -1,9 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { Badge, Breadcrumb, Col, Space, Typography } from 'antd';
 import styled from 'styled-components';
 
 import { ReactComponent as WarningSvg } from '../../../../assets/icons/project-warning.svg';
 import AsnBreadcrumb from '../../../Forms/Breadcrumb';
+import { PATHS } from '../../../../helpers/constants';
 
 const HeaderWrapper = styled(Col)`
   .ant-badge-status-dot {
@@ -14,6 +17,9 @@ const HeaderWrapper = styled(Col)`
     display: flex;
     align-items: center;
     height: 100%;
+    &:hover{
+      cursor: pointer;
+    }
   }
   .active_badge {
     .ant-badge-status-text {
@@ -26,13 +32,15 @@ const HeaderWrapper = styled(Col)`
 const SubActivityHeader: React.FC = () => {
   const { Paragraph, Title } = Typography;
 
+  const navigate = useNavigate();
+
   return (
     <HeaderWrapper>
       <AsnBreadcrumb
         routes={[
           {
-            path: 'Objective 1',
-            breadcrumbName: 'Activity 1.3'
+            path: '',
+            breadcrumbName: 'Activity 1'
           },
           {
             path: '',
@@ -78,7 +86,7 @@ const SubActivityHeader: React.FC = () => {
             </Breadcrumb.Item>
             <Breadcrumb.Item>10/05/2022 - 10/05/2022</Breadcrumb.Item>
             <Breadcrumb.Item>Shirak marz</Breadcrumb.Item>
-            <Breadcrumb.Item className="info_icon">
+            <Breadcrumb.Item className="info_icon" onClick={() => navigate(`/${PATHS.COURSEINFORMATION}`.replace(':id', 'testId123344'))}>
               <WarningSvg />
             </Breadcrumb.Item>
           </Breadcrumb>
