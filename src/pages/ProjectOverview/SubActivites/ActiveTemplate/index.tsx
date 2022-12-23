@@ -6,7 +6,6 @@ import { ConfirmModal } from '../../../../components/Forms/Modal/Confirm';
 import { ISubActivityAndTemplates } from '../../../../types/project';
 import useDuplicateTemplate from '../../../../api/Activity/Template/useDuplicateTemplate';
 import useDeleteActivityTemplate from '../../../../api/Activity/Template/useDeleteActivityTemplate';
-import { ReactComponent as Eye } from '../../../../assets/icons/eye.svg';
 import { ReactComponent as TrashSvg } from '../../../../assets/icons/trash.svg';
 import { ReactComponent as EditSvg } from '../../../../assets/icons/edit.svg';
 import { ReactComponent as Dublicat } from '../../../../assets/icons/duplicate.svg';
@@ -39,15 +38,14 @@ const Container = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
-  align-items: center;
+  align-items: center !important;
   height: 100%;
   font-size: var(--base-font-size);
   text-align: center;
   word-wrap: break-word;
   white-space: initial;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;
-   display: -webkit-box;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 5 !important;
 
 }
 .ant-card-head {
@@ -55,7 +53,6 @@ const Container = styled.div`
 }
 .ant-row {
   row-gap: 16px !important;
-  height: 52vh;
   overflow: auto;
 }
 .cardClick {
@@ -72,11 +69,18 @@ const Container = styled.div`
    display: -webkit-box;
   }
   .ant-popover-inner-content{
-    height: 220px;
+    height: 180px;
     .ant-popover-buttons{
       position: absolute;
       top: 10px;
+      left: 95px;
+      button{
+        border: none;
+      }
     }
+  }
+  .ant-popover-message{
+    padding: 20px 0 12px ;
   }
 `;
 const Popup = styled(Button)`
@@ -90,7 +94,6 @@ align-items: baseline;
 &:hover {
   color: inherit;
 }
-
 `;
 
 export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates, refetch }) => {
@@ -128,9 +131,8 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
     return (
       <Row>
         <Col>
-          <Popup type="link">
-            <Eye />
-            View
+        <Popup type="link">
+            <Plus />Use
           </Popup>
           <Popup type="link">
             <EditSvg />
@@ -146,9 +148,6 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
           <Popup type="link" onClick={() => duplicateTemplate({ id })}>
             <Dublicat />
             Duplicate
-          </Popup>
-          <Popup type="link">
-            <Plus />Use
           </Popup>
         </Col>
       </Row>
