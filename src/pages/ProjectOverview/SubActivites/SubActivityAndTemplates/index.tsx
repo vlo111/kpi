@@ -2,7 +2,6 @@ import React from 'react';
 import { Row, Space, Button, Card, Col } from 'antd';
 import styled from 'styled-components';
 import { AsnCardSubActivity } from '../../../../components/Forms/Card/SubActivityCard';
-// import { AsnButton } from '../../../../components/Forms/Button';
 import { ReactComponent as Calendar } from '../../../../assets/icons/calendar.svg';
 import { ReactComponent as Location } from '../../../../assets/icons/location.svg';
 
@@ -15,16 +14,9 @@ const Container = styled.div`
 }
 `;
 export const SubActivity: React.FC = () => {
-  // const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
-  //   useState<boolean>(false);
-
-  // const onEditedPublishProject: AddManagerHandle = () => {
-  //   setIsOpenCreateActivityModal(true);
-  // };
   return (
     <Container>
       <Space align='baseline'>
-        {/* <AsnButton type="link" style={{ fontSize: 'var(--font-size-small', color: 'var(--dark-1)' }}>Reset</AsnButton> */}
       </Space>
       <Row>
         <AsnCardSubActivity >
@@ -39,7 +31,6 @@ export const SubActivity: React.FC = () => {
          <Button
            type="link"
            block
-          //  onClick={onEditedPublishProject}
            style={{ color: 'var(--dark-1)', fontSize: 'var(--base-font-size)' }}
          >
            + Add Activity
@@ -79,18 +70,11 @@ export const SubActivity: React.FC = () => {
                  </Col>
                  <Space size={[40, 16]} align="start">
                    <Col>IT </Col>
-                   {/* <Col>
-                     <User />
-                   </Col> */}
                  </Space>
                </Row>
              </Card>
            </>
          ))}
-         {/* <AddSubActivity
-           isOpenCreateActivityModal={isOpenCreateActivityModal}
-           setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
-         /> */}
        </Row>
         </AsnCardSubActivity>
       </Row>

@@ -18,7 +18,6 @@ const Tab = styled.div`
   border-bottom: none !important;
 }
   .ant-tabs {
-    /* padding: 0 67px !important; */
     .ant-tabs-nav,
     .ant-tabs > div > .ant-tabs-nav {
       position: inherit !important;

@@ -10,21 +10,19 @@ import { ReactComponent as EditSvg } from '../../../../assets/icons/edit.svg';
 import { ReactComponent as Dublicat } from '../../../../assets/icons/duplicate.svg';
 import { ReactComponent as Plus } from '../../../../assets/icons/plus.svg';
 
-// import { AddManagerHandle } from '../../../../../../types/project';
-
 const Container = styled.div`
 .card {
   height: 200px;
   width: 200px;
   background: var(--white);
-  border-top: 5px solid #EDF0F4;
+  border-top: 5px solid var(--dark-6);
   box-shadow: rgba(255, 255, 255, 0.7);
   border-radius: 20px;
 }
 .ant-card-extra{
     position: absolute;
     top: 0;
-    background-color: #263238 !important;
+    background-color: var(--dark-2) !important;
     height: 196px;
     width: 100%;
     left: 0;
@@ -32,7 +30,7 @@ const Container = styled.div`
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    color: white;
+    color: var(--white);
     z-index: 1 !important;
     opacity: 0.9;
   }
@@ -96,11 +94,6 @@ align-items: baseline;
 `;
 
 export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates, refetch }) => {
-  // const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState<boolean>(false);
-
-  // const handleOpen: AddManagerHandle = () => {
-  //   setIsOpenCreateActivityModal(true);
-  // };
   const [show, setShow] = useState<string | boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [templateId, setTemplateId] = useState<string>('');
@@ -146,7 +139,7 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
   return (
     <>
       <Container>
-        <Row gutter={[32, 0]} style={{ width: '100%' }}>
+        <Row gutter={[32, 0]} style={{ width: '100%', height: '50vh' }}>
           <Col style={{ cursor: 'pointer' }} >
             <Card className=" card">+Add Activity Template</Card>
           </Col>
@@ -176,10 +169,6 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
               </Col>
           ))}
         </Row>
-        {/* <CreateTemplate
-          isOpenCreateActivityModal={isOpenCreateActivityModal}
-          setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
-        /> */}
           <ConfirmModal
                 styles={{ gap: '3rem' }}
                 yes="Delete"
