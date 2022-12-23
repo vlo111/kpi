@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Popconfirm, Card, Col, Row } from 'antd';
+import { Button, Popconfirm, Card, Col, Row, message } from 'antd';
 import styled from 'styled-components';
 
+import { ConfirmModal } from '../../../../components/Forms/Modal/Confirm';
 import { ISubActivityAndTemplates } from '../../../../types/project';
 import useDeleteActivityTemplate from '../../../../api/Activity/Template/useDeleteActivityTemplate';
 import { ReactComponent as Eye } from '../../../../assets/icons/eye.svg';
@@ -69,13 +70,6 @@ const Container = styled.div`
   -webkit-line-clamp: 5;
    display: -webkit-box;
   }
-  .ant-popover-inner-content{
-    height: 220px;
-    .ant-popover-buttons{
-      position: absolute;
-      top: 10px;
-    }
-  }
 `;
 const Popup = styled(Button)`
 display: grid;
@@ -98,21 +92,20 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
   //   setIsOpenCreateActivityModal(true);
   // };
   const [show, setShow] = useState<string | boolean>(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const { mutate: deleteActivityTemplate } = useDeleteActivityTemplate(
     {
-      onSuccess: (options: any) => {
+      onSuccess: () => {
         refetch();
-        console.log(options);
       },
-      onError: ({ response }: any) => {
-        // const { data: { 0: { massage } } } = response;
-        console.log(response, 'response');
+      onError: () => {
+        void message.error('Something went wrong', 2);
       }
     }
   );
 
-  const title = (id: string): any => {
-    return (
+  const title =
+    (
       <Row>
         <Col>
           <Popup type="link">
@@ -123,7 +116,7 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
             <EditSvg />
             Edit
           </Popup>
-          <Popup type="link" onClick={() => deleteActivityTemplate({ id })}>
+          <Popup type="link" onClick={() => setOpenDeleteModal(true)}>
             <TrashSvg />
             Delete
           </Popup>
@@ -137,43 +130,54 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
         </Col>
       </Row>
     );
-  };
   return (
-    <Container>
-      <Row gutter={[32, 0]} style={{ width: '100%' }}>
-        <Col style={{ cursor: 'pointer' }} >
-          <Card className=" card">+Add Activity Template</Card>
-        </Col>
-        {templates?.map((template) => (
-          <Col key={template?.id}>
-            <Popconfirm
-              overlayClassName="popconFirm"
-              title={() => title(template?.id)}
-              okText
-              cancelText="X"
-              placement="bottom"
-              icon={false}
-              getPopupContainer={(trigger: HTMLElement) => trigger}
-            >
-              <Button type="link" className="cardClick">
-                ...
-              </Button>
-            </Popconfirm>
-            <Card
-              className="card"
-              extra={show === template?.id ? template?.description : null}
-              onMouseEnter={() => setShow(template?.id)}
-              onMouseLeave={() => setShow(false)}
-            >
-               {template?.title}
-            </Card>
+    <>
+      <Container>
+        <Row gutter={[32, 0]} style={{ width: '100%' }}>
+          <Col style={{ cursor: 'pointer' }} >
+            <Card className=" card">+Add Activity Template</Card>
           </Col>
-        ))}
-      </Row>
-      {/* <CreateTemplate
+          {templates?.map((template) => (
+            <>
+              <Col key={template?.id}>
+                <Popconfirm
+                  overlayClassName="popconFirm"
+                  title={title}
+                  okText
+                  cancelText="X"
+                  placement="bottom"
+                  icon={false}
+                >
+                  <Button type="link" className="cardClick">
+                    ...
+                  </Button>
+                </Popconfirm>
+                <Card
+                  className="card"
+                  extra={show === template?.id ? template?.description : null}
+                  onMouseEnter={() => setShow(template?.id)}
+                  onMouseLeave={() => setShow(false)}
+                >
+                  {template?.title}
+                </Card>
+              </Col>
+            </>
+          ))}
+        </Row>
+        {/* <CreateTemplate
           isOpenCreateActivityModal={isOpenCreateActivityModal}
           setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
         /> */}
-    </Container>
+          <ConfirmModal
+                styles={{ gap: '3rem' }}
+                yes="Delete"
+                no="Cancel"
+                open={openDeleteModal}
+                title="Are you sure you want to delete this template?"
+                onSubmit={() => deleteActivityTemplate({ id: 'fedfd' })}
+                onCancel={() => setOpenDeleteModal(false)}
+              />
+      </Container>
+    </>
   );
 };
