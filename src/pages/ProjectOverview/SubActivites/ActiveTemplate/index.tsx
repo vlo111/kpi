@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { ConfirmModal } from '../../../../components/Forms/Modal/Confirm';
 import { ISubActivityAndTemplates } from '../../../../types/project';
+import useDuplicateTemplate from '../../../../api/Activity/Template/useDuplicateTemplate';
 import useDeleteActivityTemplate from '../../../../api/Activity/Template/useDeleteActivityTemplate';
 import { ReactComponent as Eye } from '../../../../assets/icons/eye.svg';
 import { ReactComponent as TrashSvg } from '../../../../assets/icons/trash.svg';
@@ -112,6 +113,16 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
       }
     }
   );
+  const { mutate: duplicateTemplate } = useDuplicateTemplate(
+    {
+      onSuccess: () => {
+        refetch();
+      },
+      onError: () => {
+        void message.error('Something went wrong', 2);
+      }
+    }
+  );
 
   const title = (id: string): any => {
     return (
@@ -132,7 +143,7 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
             <TrashSvg />
             Delete
           </Popup>
-          <Popup type="link">
+          <Popup type="link" onClick={() => duplicateTemplate({ id })}>
             <Dublicat />
             Duplicate
           </Popup>
