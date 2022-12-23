@@ -70,6 +70,13 @@ const Container = styled.div`
   -webkit-line-clamp: 5;
    display: -webkit-box;
   }
+  .ant-popover-inner-content{
+    height: 220px;
+    .ant-popover-buttons{
+      position: absolute;
+      top: 10px;
+    }
+  }
 `;
 const Popup = styled(Button)`
 display: grid;
@@ -93,10 +100,12 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
   // };
   const [show, setShow] = useState<string | boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+  const [templateId, setTemplateId] = useState<string>('');
   const { mutate: deleteActivityTemplate } = useDeleteActivityTemplate(
     {
       onSuccess: () => {
         refetch();
+        setOpenDeleteModal(false);
       },
       onError: () => {
         void message.error('Something went wrong', 2);
@@ -104,8 +113,8 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
     }
   );
 
-  const title =
-    (
+  const title = (id: string): any => {
+    return (
       <Row>
         <Col>
           <Popup type="link">
@@ -116,7 +125,10 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
             <EditSvg />
             Edit
           </Popup>
-          <Popup type="link" onClick={() => setOpenDeleteModal(true)}>
+          <Popup type="link" onClick={() => {
+            setTemplateId(id);
+            setOpenDeleteModal(true);
+          }}>
             <TrashSvg />
             Delete
           </Popup>
@@ -130,6 +142,8 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
         </Col>
       </Row>
     );
+  };
+
   return (
     <>
       <Container>
@@ -138,15 +152,15 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
             <Card className=" card">+Add Activity Template</Card>
           </Col>
           {templates?.map((template) => (
-            <>
               <Col key={template?.id}>
                 <Popconfirm
                   overlayClassName="popconFirm"
-                  title={title}
+                  title={() => title(template?.id)}
                   okText
                   cancelText="X"
                   placement="bottom"
                   icon={false}
+                  getPopupContainer={(trigger: HTMLElement) => trigger}
                 >
                   <Button type="link" className="cardClick">
                     ...
@@ -161,7 +175,6 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
                   {template?.title}
                 </Card>
               </Col>
-            </>
           ))}
         </Row>
         {/* <CreateTemplate
@@ -174,7 +187,7 @@ export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates,
                 no="Cancel"
                 open={openDeleteModal}
                 title="Are you sure you want to delete this template?"
-                onSubmit={() => deleteActivityTemplate({ id: 'fedfd' })}
+                onSubmit={() => deleteActivityTemplate({ id: templateId })}
                 onCancel={() => setOpenDeleteModal(false)}
               />
       </Container>
