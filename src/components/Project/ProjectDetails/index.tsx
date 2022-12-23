@@ -85,7 +85,8 @@ export const ProjectDetailComponent: React.FC = () => {
             ...data,
             deletedSectorIds,
             deletedOrganizationIds,
-            deletedRegionIds
+            deletedRegionIds,
+            publish: true
           }
         });
       } else {
