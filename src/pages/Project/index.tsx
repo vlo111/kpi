@@ -5,11 +5,10 @@ import { Col, Row, Space, Typography } from 'antd';
 
 import { VALIDATE_MESSAGES } from '../../helpers/constants';
 import { AsnInput, AsnTextArea } from '../../components/Forms/Input';
-import { AsnDatePicker } from '../../components/Forms/DatePicker';
 import { AsnButton } from '../../components/Forms/Button';
 import { AsnAlert } from '../../components/Forms/Alert';
 import { AsnForm } from '../../components/Forms/Form';
-import { DisabledDate } from '../../types/project';
+import AsnPicker from '../../components/Picker';
 
 const { Title } = Typography;
 
@@ -85,23 +84,6 @@ export const FormProject: React.FC<{
 }> = ({ form, onFinish, isLoading, error }) => {
   const { id } = useParams();
 
-  const disabledDate: DisabledDate = (current, item) => {
-    const startDate = form.getFieldsValue().startDate;
-    const endDate = form.getFieldsValue().endDate;
-
-    let tomorrow = current;
-
-    if (startDate !== undefined) {
-      tomorrow = startDate.clone().add(1, 'days');
-    }
-
-    if (item === 'start') {
-      return current > (endDate ?? current);
-    } else {
-      return current < (tomorrow ?? current);
-    }
-  };
-
   return (
     <ProjectStyle>
       {error?.length > 0 && <AsnAlert type="error" message={error} />}
@@ -137,42 +119,7 @@ export const FormProject: React.FC<{
                 <AsnTextArea placeholder={PlaceHolderDescription} />
               </AsnForm.Item>
             </Col>
-            <PickerSpace size={24}>
-              <Col span={24}>
-                <AsnForm.Item
-                  name="startDate"
-                  label="Start Date"
-                  rules={[
-                    {
-                      required: true
-                    }
-                  ]}
-                >
-                  <AsnDatePicker
-                    format="DD/MM/YYYY"
-                    placeholder="10/22/21"
-                    disabledDate={(current) => disabledDate(current, 'start')}
-                  />
-                </AsnForm.Item>
-              </Col>
-              <Col span={24}>
-                <AsnForm.Item
-                  name="endDate"
-                  label="End Date"
-                  rules={[
-                    {
-                      required: true
-                    }
-                  ]}
-                >
-                  <AsnDatePicker
-                    placeholder="10/22/26"
-                    disabledDate={(current) => disabledDate(current, 'end')}
-                    format="DD/MM/YYYY"
-                  />
-                </AsnForm.Item>
-              </Col>
-            </PickerSpace>
+            <AsnPicker />
           </Row>
         </div>
         <Row justify={'space-evenly'} gutter={[0, 12]}>
