@@ -276,3 +276,22 @@ export interface ISubActivityAndTemplates {
   templates: IProjectTemplate[]
   refetch: any
 }
+
+export interface IResultAreasTitles {
+  title: string
+  projectItems: number
+  index: number
+}
+
+export interface ITabContent {
+  inputActivityId: string | undefined
+  resultArea: IResultAreas
+  isLoadingTemplates: boolean
+  templates: IProjectTemplate[]
+  refetch: any
+  setInputActivityId: React.Dispatch<React.SetStateAction<string | undefined>>
+  status: string
+  handleEdit: () => void
+  setActivityId: React.Dispatch<React.SetStateAction<string | undefined>>
+  setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+}
