@@ -12,6 +12,7 @@ export const PATHS = {
   PROJECT: 'project',
   PROJECTCREATE: 'create',
   OVERVIEW: 'overview/:id',
+  SUBACTIVITY: 'sub-activity/:id',
   PROJECTEDIT: ':id',
   PROJECTS: 'list',
   STEPS: ':id/steps/:index',
