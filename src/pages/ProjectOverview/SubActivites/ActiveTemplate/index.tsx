@@ -70,6 +70,13 @@ const Container = styled.div`
   -webkit-line-clamp: 5;
    display: -webkit-box;
   }
+  .ant-popover-inner-content{
+    height: 180px;
+    .ant-popover-buttons{
+      position: absolute;
+      top: 10px;
+    }
+  }
 `;
 const Popup = styled(Button)`
 display: grid;
