@@ -21,6 +21,7 @@ const ProjectOverview: React.FC = () => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState(false);
   const [activityId, setActivityId] = useState<string | undefined>('');
   const [inputActivityId, setInputActivityId] = useState<string | undefined>(undefined);
+  const [active, setActive] = useState<number>(1);
   const { id } = useParams<string>();
   const { isLoading, data: { result: project }, inputActivityId: defaultInputActivityId } = useGetProjectById(id);
   const { data: templates, isLoading: isLoadingTemplates, refetch } = GetTemplates(inputActivityId ?? defaultInputActivityId, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
@@ -53,6 +54,8 @@ const ProjectOverview: React.FC = () => {
           title={resultArea?.title}
           projectItems={project?.resultAreas.length}
           index={i}
+          active={active}
+          setActive={setActive}
         />
       ),
       key: `${resultArea?.inputActivities[0]?.id ?? resultArea?.id}`,

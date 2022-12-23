@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Tooltip, Typography, Row, Badge } from 'antd';
 import styled from 'styled-components';
 
@@ -11,8 +11,7 @@ const AntRow = styled(Row)`
   width: 16vw;
 `;
 
-const ResultAreasTitles: React.FC<IResultAreasTitles> = ({ title, projectItems, index }) => {
-  const [active, setActive] = useState<number>(1);
+const ResultAreasTitles: React.FC<IResultAreasTitles> = ({ title, projectItems, index, active, setActive }) => {
   const AntBadge = styled(Badge)`
     margin-right: 4px;
     .ant-badge-count {

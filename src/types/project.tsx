@@ -281,6 +281,8 @@ export interface IResultAreasTitles {
   title: string
   projectItems: number
   index: number
+  active: number
+  setActive: React.Dispatch<React.SetStateAction<number>>
 }
 
 export interface ITabContent {
