@@ -99,6 +99,34 @@ const GlobalStyle = createGlobalStyle`
     padding: 5px;
     width: 12px;
   }
+
+  .menuPopover {
+    .ant-popover-inner {
+      width: 9rem;
+      border-radius: 10px;
+      border: 1px solid var(--dark-2);
+    }
+
+    .ant-popover-arrow{
+      display: none;
+    }
+
+}
+
+.tooltipHelper{
+    .ant-tooltip-inner{
+      border-radius: 10px;
+      background-color: white;
+      border: 1px solid var(--dark-2);
+      color: var(--dark-2);
+      font-size: var( --font-size-small);
+      padding: 8px 16px 
+    }
+    .ant-tooltip-arrow{
+      display: none;
+    }
+  }
+
   
   .ant-picker-dropdown {
     .ant-picker-cell-inner {

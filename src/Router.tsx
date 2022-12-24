@@ -28,6 +28,8 @@ import { ProjectSteps } from './pages/ProjectSteps';
 import ProjectInformation from './pages/ProjectInformation';
 import SubActivity from './pages/SubActivityes';
 import CourseInformation from './pages/SubActivityes/CourseInformation';
+import ActivityTemplate from './pages/ActivityTemplate';
+import CourseSection from './pages/CourseSection';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -57,6 +59,8 @@ export const router = createBrowserRouter(
         <Route path={PATHS.COURSEINFORMATION} element={<CourseInformation />} />
         <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
         <Route path={PATHS.CHANGEPASSWORD} element={<ChangePassword />} />
+        <Route path={PATHS.ACTIVITYTEMPLATE} element={<ActivityTemplate />} />
+        <Route path={PATHS.COURSESECTION} element={<CourseSection />} />
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path={PATHS.ERROR_500} element={<ErrorBoundary />} />

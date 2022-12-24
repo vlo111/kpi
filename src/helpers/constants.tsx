@@ -20,7 +20,9 @@ export const PATHS = {
   USERPROFILE: 'user-profile',
   CHANGEPASSWORD: 'change-password',
   PROJECTINFORMATION: 'project-information/:id',
-  COURSEINFORMATION: 'course-information/:id'
+  COURSEINFORMATION: 'course-information/:id',
+  ACTIVITYTEMPLATE: 'activity-template/:id',
+  COURSESECTION: 'activity-template/:id/second-step'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -78,3 +80,10 @@ export const ProjectSteps = {
   First: 0,
   Last: 1
 };
+
+export const answerTypeOptions: string[] = [
+  'Short Text',
+  'Number',
+  'Attachment',
+  'Dropdown options'
+];
