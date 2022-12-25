@@ -36,7 +36,7 @@ const SubActivityUsersFullInfo: React.FC = () => {
   ];
 
   const data: IUserListTypes[] = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 0; i++) {
     data.push({
       key: i,
       name: `Edward King ${i}`,

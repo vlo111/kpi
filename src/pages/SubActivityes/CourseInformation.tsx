@@ -46,7 +46,7 @@ const CourseInformation: React.FC<{}> = () => {
       </Title>
       <AsnCard>
         <Space direction={'vertical'} size={[0, 16]} style={{ width: '100%' }}>
-          <CardTitle title={'General Info'} id={'12154assas'} />
+          <CardTitle title={'General Info'} id={'0dc9242a-7091-4b64-993b-aca6440c03cb'} />
           {/* <GeneralInfo
             title={project?.title}
             description={project?.description}

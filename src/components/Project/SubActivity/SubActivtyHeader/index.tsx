@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { ReactComponent as WarningSvg } from '../../../../assets/icons/project-warning.svg';
 import AsnBreadcrumb from '../../../Forms/Breadcrumb';
 import { PATHS } from '../../../../helpers/constants';
+import moment from 'moment';
 
 const HeaderWrapper = styled(Col)`
   .ant-badge-status-dot {
@@ -17,7 +18,7 @@ const HeaderWrapper = styled(Col)`
     display: flex;
     align-items: center;
     height: 100%;
-    &:hover{
+    &:hover {
       cursor: pointer;
     }
   }
@@ -29,7 +30,7 @@ const HeaderWrapper = styled(Col)`
   }
 `;
 
-const SubActivityHeader: React.FC = () => {
+const SubActivityHeader: React.FC<any> = ({ activity }) => {
   const { Paragraph, Title } = Typography;
 
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ const SubActivityHeader: React.FC = () => {
           },
           {
             path: '',
-            breadcrumbName: 'PYTHON COURSE'
+            breadcrumbName: 'It'
           }
         ]}
       />
@@ -61,7 +62,7 @@ const SubActivityHeader: React.FC = () => {
             marginRight: '8vw'
           }}
         >
-          PYTHON COURSE
+          {activity?.sector?.title}
         </Title>
         <Space direction="vertical">
           <Paragraph
@@ -84,9 +85,24 @@ const SubActivityHeader: React.FC = () => {
             <Breadcrumb.Item className="active_badge">
               <Badge color="var(--secondary-green)" text="Active" />
             </Breadcrumb.Item>
-            <Breadcrumb.Item>10/05/2022 - 10/05/2022</Breadcrumb.Item>
-            <Breadcrumb.Item>Shirak marz</Breadcrumb.Item>
-            <Breadcrumb.Item className="info_icon" onClick={() => navigate(`/${PATHS.COURSEINFORMATION}`.replace(':id', 'testId123344'))}>
+            <Breadcrumb.Item>
+              {moment(activity?.sectionsData[0].data?.startDate).format(
+                'DD/MM/YYYY'
+              )}{' '}
+              -{' '}
+              {moment(activity?.sectionsData[0].data?.endDate).format(
+                'DD/MM/YYYY'
+              )}
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>{activity?.region?.title}</Breadcrumb.Item>
+            <Breadcrumb.Item
+              className="info_icon"
+              onClick={() =>
+                navigate(
+                  `/${PATHS.COURSEINFORMATION}`.replace(':id', 'testId123344')
+                )
+              }
+            >
               <WarningSvg />
             </Breadcrumb.Item>
           </Breadcrumb>

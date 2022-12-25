@@ -74,7 +74,7 @@ const SectionsWrapper = styled.div`
   }
 `;
 
-const SubActivitySections: React.FC = () => {
+const SubActivitySections: React.FC<any> = ({ activity }) => {
   const { Title } = Typography;
   const { TabPane } = Tabs;
   const [tabDisable, setTabDisable] = useState(true);
@@ -109,7 +109,39 @@ const SubActivitySections: React.FC = () => {
             </Row>
             <DefaultContent />
           </TabPane>
-          <TabPane
+          {activity?.sectionsData[0]?.section?.sectionSettingMap?.map((item: any) => (
+            <TabPane
+             disabled={tabDisable}
+             key={item?.setting?.id}
+             tab={
+              <Space direction="vertical" align="center">
+                <Title level={4}>{item?.setting?.title}</Title>
+                <Badge color="var(--primary-light-orange)" />
+                <Title level={5}>{item?.setting?.title}</Title>
+              </Space>
+            }
+             >
+             {(() => {
+               switch (item?.setting?.title) {
+                 case 'Applicant':
+                   return <ApplicantsForm />;
+                 case 'Selection':
+                   return <SelectionForm />;
+                 case 'Pre-assessment of selected':
+                   return <PreAssessmentForm />;
+                 case 'Participant':
+                   return <ParticipantForm />;
+                 case 'Trained':
+                   return <DefaultContent />;
+                 case 'Post-assessment of selected':
+                   return <PostAssessmentForm />;
+                 default:
+                   return <DefaultContent manager={activity?.manager}/>;
+               }
+             })()}
+            </TabPane>
+          ))}
+          {/* <TabPane
             disabled={tabDisable}
             tab={
               <Space direction="vertical" align="center">
@@ -180,14 +212,14 @@ const SubActivitySections: React.FC = () => {
               <Space direction="vertical" align="center">
                 <Title level={4}>Trained</Title>
                 <Badge color="var(--primary-light-orange)" />
-                <Title level={5}>Test</Title>
+                <Title level={5}>Trained</Title>
               </Space>
             }
             className="test"
             key="6"
           >
             <DefaultContent />
-          </TabPane>
+          </TabPane> */}
         </Tabs>
       </Space>
     </SectionsWrapper>

@@ -1,10 +1,11 @@
 import React from 'react';
-import { Avatar, Col, Image, Row, Space, Typography } from 'antd';
+import { Col, Row, Space, Typography } from 'antd';
 
 import { AsnButton } from '../../../../Forms/Button';
 import FormWrapper from '../../SubActivityWrapper';
+// import AsnAvatar from '../../../../Forms/Avatar';
 
-const SubActivityUsersInfo: React.FC = () => {
+const SubActivityUsersInfo: React.FC<any> = ({ manager }) => {
   const { Title } = Typography;
   return (
     <FormWrapper className="users_list">
@@ -18,16 +19,7 @@ const SubActivityUsersInfo: React.FC = () => {
           style={{ borderBottom: '1px solid var(--dark-border-ultramarine)' }}
         >
           <Col span={12}>
-            <Avatar
-              style={{ width: '100%', display: 'flex', alignItems: 'center' }}
-              src={
-                <Image
-                  preview={false}
-                  src="https://joeschmoe.io/api/v1/random"
-                  style={{ width: 26, height: 26, borderRadius: '50%' }}
-                />
-              }
-            />
+            {/* <AsnAvatar letter={`${manager?.firstName?.charAt(0)}${manager?.lastName?.charAt(0)}`} /> */}
           </Col>
           <Col span={12} style={{ justifyContent: 'end', display: 'flex' }}>
             Sub-Activity manager
