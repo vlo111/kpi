@@ -7,9 +7,10 @@ import { AsnModal } from '../../components/Forms/Modal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PATHS } from '../../helpers/constants';
 import { ReactComponent as SuccessfulIcon } from '../../assets/icons/successful.svg';
-import GetSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
+import getSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
 import useCreateNewSection from '../../api/Activity/Template/Sections/useCreateNewSection';
 import usePublishActivityTemplate from '../../api/Activity/Template/usePublishActivityTemplate';
+import { ISectionData } from '../../types/project';
 
 const CourseSectionContainer = styled.div`
   display: flex;
@@ -25,17 +26,13 @@ const CourseSection: React.FC = () => {
   const [isSuccessPublishModal, setIsSuccessPublishModal] = useState(false);
   const { id: templateId } = useParams<{ id: any }>();
 
-  const { data, refetch } = GetSingleTemplate(templateId, {
+  const { data, refetch } = getSingleTemplate(templateId, {
     onSuccess: (data: { result: any, count: any }) => console.log('')
   });
 
   const { mutate: createTemplateSection } = useCreateNewSection({
-    onSuccess: (options: any) => {
+    onSuccess: () => {
       refetch();
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
     }
   });
 
@@ -51,10 +48,6 @@ const CourseSection: React.FC = () => {
           );
         }, 2000);
       }
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
     }
   });
 
@@ -93,13 +86,14 @@ const CourseSection: React.FC = () => {
         </span>
       </Space>
       <Space direction="vertical" size={32} style={{ width: '100%' }}>
-        {data?.sections?.map((section: any) => (
-          <LearningStatus
-            key={section.id}
-            section={section}
-            refetch={refetch}
-            data={data}
-          />
+        {data?.sections?.map((section: ISectionData, index: number) => (
+            <LearningStatus
+              key={section.id}
+              section={section}
+              refetch={refetch}
+              data={data}
+              index={index}
+            />
         ))}
       </Space>
       {data?.courseStructure !== 'ONE_SECTION' &&

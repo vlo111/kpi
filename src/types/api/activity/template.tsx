@@ -45,7 +45,7 @@ enum SectionEnum {
 
 type EnumTypes = keyof typeof SectionEnum;
 export interface ICreateSecondStepData {
-  id: string | undefined
+  id: string
   data: {
     applicationForm: FormEnum[]
     courseStructure: EnumTypes

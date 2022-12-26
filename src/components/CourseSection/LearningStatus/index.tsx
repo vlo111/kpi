@@ -7,8 +7,6 @@ import AddedDocuments from '../AddedDocuments';
 import { AsnButton } from '../../Forms/Button';
 import {
   ILearningStatus
-  // IRequiredDocuments
-  // ISection
 } from '../../../types/project';
 import useDeleteSection from '../../../api/Activity/Template/Sections/useDeleteSection';
 
@@ -109,18 +107,14 @@ const SectionRow = styled(Space)`
 const LearningStatus: React.FC<ILearningStatus> = ({
   section,
   data,
-  refetch
+  refetch,
+  index
 }) => {
   const [isOpenAddDocumentsModal, setIsOpenAddDocumentsModal] = useState(false);
 
   const { mutate: deleteSectionById } = useDeleteSection({
-    onSuccess: (options: any) => {
+    onSuccess: () => {
       refetch();
-      console.log(options);
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
     }
   });
 
@@ -131,7 +125,7 @@ const LearningStatus: React.FC<ILearningStatus> = ({
   return (
     <SectionContainer>
       <SectionHeaderContainer>
-        <SectionHeader>{section.title}</SectionHeader>
+        <SectionHeader>Section {+index + 1}:</SectionHeader>
         {data?.courseStructure !== 'ONE_SECTION' && data?.sections?.length > 2
           ? (
           <div style={{ position: 'absolute', right: '4%', top: 23 }}>

@@ -1,10 +1,11 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Col, Popover, Row, Switch, Tooltip } from 'antd';
 import { ReactComponent as HelperTextIcon } from '../../../assets/icons/helper-text.svg';
 import { ReactComponent as MenuIcon } from '../../../assets/icons/md-menu.svg';
 import { ReactComponent as EditIcon } from '../../../assets/icons/edit.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
+import { ReactComponent as DeleteHelpTextIcon } from '../../../assets/icons/closeIcon.svg';
 import { AsnInput } from '../../Forms/Input';
 import { AsnModal } from '../../Forms/Modal';
 import { AsnButton } from '../../Forms/Button';
@@ -14,10 +15,7 @@ import {
   StringVoidType,
   Void
 } from '../../../types/global';
-import {
-  ContentType,
-  IQuestionsRow
-} from '../../../types/project';
+import { ContentType, IQuestionsRow } from '../../../types/project';
 import useDeleteSetting from '../../../api/Activity/Template/Settings/useDeleteSingleSetting';
 import useAddSettingHelpText from '../../../api/Activity/Template/Settings/useAddSettingHelpText';
 
@@ -42,6 +40,17 @@ const IconButton = styled.div`
   cursor: pointer;
   width: 1rem;
 `;
+const InputHelpText = styled(AsnInput)`
+  cursor: pointer;
+  .ant-input-suffix {
+    display: none;
+  }
+  :hover {
+    .ant-input-suffix {
+      display: flex;
+    }
+  }
+`;
 
 const QuestionsRow: React.FC<IQuestionsRow> = ({
   item,
@@ -55,23 +64,16 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
   const [isDeletedFieldModal, setIsDeletedFieldModal] =
     useState<boolean>(false);
   const [openPopover, setOpenPopover] = useState<boolean>(false);
+  const [helpText, setHelpText] = useState<string>('');
   const { mutate: deleteSettingsById } = useDeleteSetting({
-    onSuccess: (options: any) => {
+    onSuccess: () => {
       refetch();
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
     }
   });
 
   const { mutate: addedHelpText } = useAddSettingHelpText({
-    onSuccess: (options: any) => {
+    onSuccess: () => {
       refetch();
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
     }
   });
 
@@ -79,6 +81,11 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
     setOpenPopover(newOpen);
   };
 
+  useEffect(() => {
+    if ((item?.helpText) != null) {
+      setHelpText(item?.helpText);
+    }
+  }, [item?.helpText]);
   const onOpenInputClick: StringVoidType = (id) => {
     if (!rowId.includes(id)) {
       setRowId([id, ...rowId]);
@@ -126,6 +133,17 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
         }
       });
       event.preventDefault();
+    }
+  };
+
+  const onDeleteHelpText: Void = () => {
+    if (item.helpText !== null && item.helpText !== '') {
+      addedHelpText({
+        id: item.id,
+        data: {
+          text: ''
+        }
+      });
     }
   };
 
@@ -230,10 +248,13 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
       </CourseList>
       {rowId.includes(item.id)
         ? (
-        <AsnInput
+        <InputHelpText
           onKeyPress={onHelpText}
           className="courseDescriptionInput"
           placeholder="Add help text"
+          suffix={<DeleteHelpTextIcon onClick={onDeleteHelpText} />}
+          onChange={(even) => setHelpText(even.target.value)}
+          value={helpText}
         />
           )
         : null}

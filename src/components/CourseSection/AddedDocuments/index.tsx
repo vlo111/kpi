@@ -18,13 +18,8 @@ const AddedDocuments: React.FC<IAddedDocuments> = ({
   refetch
 }) => {
   const { mutate: deleteDocumentById } = useDeleteRequiredDocs({
-    onSuccess: (options: any) => {
+    onSuccess: () => {
       refetch();
-      console.log(options);
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
     }
   });
 

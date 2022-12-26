@@ -23,13 +23,8 @@ const AddRequiredDocumentModal: React.FC<IAddRequiredDocument> = ({
 }) => {
   const [modalForm] = Form.useForm();
   const { mutate: createRequiredDocs } = useCreateRequiredDocs({
-    onSuccess: (options: any) => {
+    onSuccess: () => {
       refetch();
-      console.log(options);
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
     }
   });
 
@@ -39,7 +34,6 @@ const AddRequiredDocumentModal: React.FC<IAddRequiredDocument> = ({
   };
 
   const onFinish: FormFinish = (values) => {
-    console.log(values);
     createRequiredDocs({
       id: sectionId,
       data: {

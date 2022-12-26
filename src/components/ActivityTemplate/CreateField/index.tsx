@@ -77,8 +77,6 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
     form.resetFields();
   };
 
-  console.log(item, 'itemICreateFieldsProps');
-
   const onSelectChange: FormFinish = (value) => {
     switch (value) {
       case 'Short Text':
