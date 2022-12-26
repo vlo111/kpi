@@ -13,7 +13,7 @@ export const AsnCardSubActivity = styled(Card)`
     height: 200px;
     width: 200px;
     background: rgba(246, 151, 109, 0.05);
-    border-top: 2px solid var(--secondary-light-orage);
+    border-top: 2px solid var(--secondary-light-orage) !important;
     box-shadow: 0px 4px 4px rgba(246, 151, 109, 0.2);
     border-radius: 20px;
   }
