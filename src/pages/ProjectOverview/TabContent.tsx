@@ -6,14 +6,16 @@ import { AsnButton } from '../../components/Forms/Button';
 import AsnSpin from '../../components/Forms/Spin';
 import SubActivityAndTemplates from './SubActivitesAndTemplates';
 import { ITabContent } from '../../types/project';
-import { ReactComponent as EditPublishSvg } from '../../assets/icons/edit-publish.svg';
 import { ReactComponent as CreateTemplateSvg } from '../../assets/icons/create-template.svg';
 
 const { Text } = Typography;
 
 const AntRow = styled(Row)`
   padding: 8px 16px;
-  width: 16vw;
+  width: 18vw;
+  min-height: 80px;
+  word-break: break-word;
+;
 `;
 
 const TabContent: React.FC<ITabContent> = ({
@@ -23,10 +25,10 @@ const TabContent: React.FC<ITabContent> = ({
   templates,
   refetch,
   setInputActivityId,
-  status,
-  handleEdit,
   setActivityId,
-  setIsOpenCreateActivityModal
+  setIsOpenCreateActivityModal,
+  isLoadingSubActivity,
+  subActivities
 }) => {
   return (
         <Tabs
@@ -36,32 +38,21 @@ const TabContent: React.FC<ITabContent> = ({
           (inputActivity, i: number) => {
             return {
               label: (
-                <AntRow align='middle' style={{ width: '18vw', minHeight: '80px' }} onClick={() => setInputActivityId(inputActivity?.id)}>
+                <AntRow align='middle' onClick={() => setInputActivityId(inputActivity?.id)}>
                   1.{+i + 1} {inputActivity?.title}
                 </AntRow>
               ),
               key: `${inputActivity?.id ?? i}`,
-              children: isLoadingTemplates
+              children: (isLoadingTemplates || isLoadingSubActivity)
                 ? <AsnSpin />
-                : templates?.length > 0
-                  ? (< SubActivityAndTemplates templates={templates} refetch={refetch} />)
-                  : (
+                : (templates?.length > 0 || subActivities?.length > 0)
+                    ? (< SubActivityAndTemplates subActivities={subActivities} templates={templates} refetch={refetch} />)
+                    : (
                 <Space
                   direction="vertical"
                   align="center"
                   style={{ width: '100%', padding: '5vh 0 30px 0' }}
                 >
-                  {status === 'DRAFT'
-                    ? (
-                    <>
-                      <EditPublishSvg />
-                      <AsnButton className="primary" onClick={handleEdit}>
-                        Edit and Publish the project
-                      </AsnButton>
-                    </>
-                      )
-                    : (
-                    <>
                       <CreateTemplateSvg style={{ marginBottom: '20px' }} />
                       <Text
                         style={{ fontSize: 'var(--headline-font-size)' }}
@@ -79,10 +70,8 @@ const TabContent: React.FC<ITabContent> = ({
                       >
                         Create Activity Template
                       </AsnButton>
-                    </>
-                      )}
                 </Space>
-                    )
+                      )
             };
           }
         )}

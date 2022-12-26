@@ -1,6 +1,9 @@
 import React from 'react';
 import { Row, Space, Button, Card, Col } from 'antd';
 import styled from 'styled-components';
+import moment from 'moment';
+
+import { ISubActivitiesProps } from '../../../../types/project';
 import { AsnCardSubActivity } from '../../../../components/Forms/Card/SubActivityCard';
 import { ReactComponent as Calendar } from '../../../../assets/icons/calendar.svg';
 import { ReactComponent as Location } from '../../../../assets/icons/location.svg';
@@ -13,7 +16,7 @@ const Container = styled.div`
     border: none;
 }
 `;
-export const SubActivity: React.FC = () => {
+export const SubActivity: React.FC<ISubActivitiesProps> = ({ subActivities }) => {
   return (
     <Container>
       <Space align='baseline'>
@@ -35,45 +38,41 @@ export const SubActivity: React.FC = () => {
          >
            + Add Activity
          </Button>
-         {[].map((data: any) => (
-           <>
+         {subActivities?.map((item: any, i: number) => (
              <Card
-               key={1}
+               key={i}
                className={`card ${
-                 data.status === 'active'
+                 item?.subActivity?.status === 'active'
                    ? 'cardInactive'
-                   : data.status === 'done'
+                   : item?.subActivity?.status === 'done'
                    ? 'cardActive'
                    : ''
                }`}
              >
                <div
                  className={`cardRound ${
-                   data.status === 'active'
+                  item?.subActivity?.status === 'active'
                      ? 'cardRoundInactive'
-                     : data.status === 'done'
+                     : item?.subActivity?.status === 'done'
                      ? 'active'
                      : ''
                  }`}
                >
-                 {data.cardRound}
+                 {item.cardRound}
                </div>
                <Row gutter={[8, 16]} style={{ padding: '15px 0' }}>
-                 <Col style={{ color: 'var(--dark-1)', fontSize: 'var(--headline-font-size)', display: 'flex', gap: '5px' }}>{data.cardTitle}</Col>
+                 <Col style={{ color: 'var(--dark-1)', fontSize: 'var(--headline-font-size)', display: 'flex', gap: '5px' }}>{item?.title}</Col>
                  <Col style={ { display: 'flex', gap: '5px' }}>
-                   {' '}
-                   <Location /> {data.location}
+                   <Location /> {item?.subActivity?.region?.title}
                  </Col>
                  <Col style={ { display: 'flex', gap: '5px' }}>
-                   {' '}
-                   <Calendar /> {data.startDate} {data.endDate}
+                   <Calendar />{moment(item?.startDate).format('DD/MM/YYYY')} - {moment(item?.endDate).format('DD/MM/YYYY')}
                  </Col>
                  <Space size={[40, 16]} align="start">
-                   <Col>IT </Col>
+                   <Col>{item?.subActivity?.sector?.title} </Col>
                  </Space>
                </Row>
              </Card>
-           </>
          ))}
        </Row>
         </AsnCardSubActivity>

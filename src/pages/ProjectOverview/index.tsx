@@ -5,13 +5,13 @@ import { Typography, Space } from 'antd';
 import TabContent from './TabContent';
 import ResultAreasTitles from './ResultAreasTitles';
 import ProjectInformationHeader from '../../components/Menu/ProjectInformationHeader';
-import { AsnButton } from '../../components/Forms/Button';
 import { AsnTabs } from '../../components/Forms/Tabs';
 import AsnSpin from '../../components/Forms/Spin';
 import { TVoid } from '../../types/global';
 import { IResultAreas } from '../../types/project';
 import useGetProjectById from '../../api/Project/useGetProject';
 import GetTemplates from '../../api/Activity/Template/useGetActivityTemplates';
+import useGetSubActivities from '../../api/Activity/Template/SubActivity/useGetSubActivities';
 import { ReactComponent as AddResultAreaSvg } from '../../assets/icons/project-overview.svg';
 import CreateTemplate from '../../components/CreateTemplateModal';
 
@@ -25,28 +25,15 @@ const ProjectOverview: React.FC = () => {
   const { id } = useParams<string>();
   const { isLoading, data: { result: project }, inputActivityId: defaultInputActivityId } = useGetProjectById(id);
   const { data: templates, isLoading: isLoadingTemplates, refetch } = GetTemplates(inputActivityId ?? defaultInputActivityId, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
+  const { data: subActivities, isLoading: isLoadingSubActivity } = useGetSubActivities(inputActivityId ?? defaultInputActivityId, {}, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
+  console.log(subActivities, isLoadingSubActivity);
   const navigate = useNavigate();
-  const handleDraft: TVoid = () => {
-    if (id != null) {
-      navigate(`/project/${id}/steps/0`);
-    }
-  };
-  const handleEdit: TVoid = () => {
-    if (id != null) {
-      navigate(`/project/${id}/steps/1`);
-    }
-  };
   const addResultAreas: TVoid = () => {
     if (id != null) {
       navigate(`/project/${id}/steps/0`);
     }
   };
-
-  const operations = (
-    <AsnButton className="draft" onClick={handleDraft}>
-      Draft
-    </AsnButton>
-  );
+  console.log(project);
   const items = project?.resultAreas?.map((resultArea: IResultAreas, i: number) => {
     return {
       label: (
@@ -68,10 +55,10 @@ const ProjectOverview: React.FC = () => {
             templates={templates}
             refetch={refetch}
             setInputActivityId={setInputActivityId}
-            status={project?.status}
-            handleEdit={handleEdit}
             setActivityId={setActivityId}
             setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
+            subActivities={subActivities}
+            isLoadingSubActivity={isLoadingSubActivity}
           />
         </>
       )
@@ -80,14 +67,12 @@ const ProjectOverview: React.FC = () => {
   if (isLoading === true) {
     return <AsnSpin />;
   }
-
   return (
     <>
       <ProjectInformationHeader overview={true} project={project} />
       {project?.resultAreas.length !== 0
         ? (
           <AsnTabs
-            tabBarExtraContent={project?.status === 'DRAFT' && operations}
             type="card"
             items={items}
             defaultActiveKey='1'

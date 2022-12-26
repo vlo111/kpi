@@ -275,6 +275,7 @@ export interface IProjectTemplate {
 export interface ISubActivityAndTemplates {
   templates: IProjectTemplate[]
   refetch: any
+  subActivities?: ISubActivities[]
 }
 
 export interface IResultAreasTitles {
@@ -292,8 +293,26 @@ export interface ITabContent {
   templates: IProjectTemplate[]
   refetch: any
   setInputActivityId: React.Dispatch<React.SetStateAction<string | undefined>>
-  status: string
-  handleEdit: () => void
   setActivityId: React.Dispatch<React.SetStateAction<string | undefined>>
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+  isLoadingSubActivity: boolean
+  subActivities: ISubActivities[]
+}
+
+export interface ISubActivitiesProps {
+  subActivities: ISubActivities[] | undefined
+}
+export interface ISubActivities {
+  title: string
+  startDate: string
+  endDate: string
+  subActivity: {
+    status: string
+    region: {
+      title: string
+    }
+    sector: {
+      title: string
+    }
+  }
 }

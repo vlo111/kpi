@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { ISubActivityAndTemplates } from '../../../types/project';
 import { ActiveTempalate } from './ActiveTemplate';
-import { SubActivity } from './SubActivityAndTemplates';
+import { SubActivity } from './SubActivities';
 
 const Tab = styled.div`
 .ant-tabs-ink-bar{
@@ -38,7 +38,7 @@ const Tab = styled.div`
 }
 `;
 
-const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({ templates, refetch }) => {
+const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({ templates, refetch, subActivities }) => {
   return (
     <Tab>
       <Tabs
@@ -49,7 +49,7 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({ templates
         }}
       >
         <Tabs.TabPane tab="Sub Activities" key="1">
-          <SubActivity />
+          <SubActivity subActivities={subActivities} />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Active Templates " key="2">
           <ActiveTempalate templates={templates} refetch={refetch} />
