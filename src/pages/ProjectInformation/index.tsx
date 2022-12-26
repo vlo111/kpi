@@ -131,7 +131,10 @@ const ProjectInformation: React.FC = () => {
           title={'Regionas/Marzes'}
           details={project?.regions}
         />
-        <ProjectDetails title={'Sectors'} details={project?.sectors} />
+        <ProjectDetails
+          title={'Sectors'}
+          details={project?.sectors}
+        />
       </AsnCard>
       <Row justify="end">
         <AsnButton
