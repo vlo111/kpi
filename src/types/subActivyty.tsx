@@ -1,3 +1,4 @@
+
 export interface IDisableType {
   tabDisable?: boolean
   setTabDisable: React.Dispatch<React.SetStateAction<boolean>>
@@ -19,4 +20,13 @@ export interface IWrapperProps {
   children: React.ReactNode
   className?: string | undefined
   margin?: number | undefined
+}
+
+export interface IManagerType {
+  manager: {
+    email: string
+    firstName: string
+    id: string
+    lastName: string
+  }
 }

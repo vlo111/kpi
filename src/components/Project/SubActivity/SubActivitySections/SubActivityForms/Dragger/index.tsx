@@ -30,13 +30,27 @@ const AsnDragger = styled(Dragger)`
 
 const DraggerForm: React.FC<IDraggerProps> = ({ text, padding }) => {
   const { Title } = Typography;
+  const props: any = {
+    customRequest: (options: { file: any }) => {
+      const { file } = options;
+      console.log(file, 'options', options);
+    },
+    name: 'file',
+    accept: '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx',
+    beforeUpload: () => false
+  };
   return (
     <Col style={{ padding: padding ?? '0' }}>
       <AsnDragger
-        name="uploadFile"
-        multiple
-        beforeUpload={() => false}
-        accept=".doc,.docx"
+        // name="uploadFile"
+        // multiple
+        // beforeUpload={() => false}
+        // accept=".doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx"
+        // style={{ width: '100%', height: 'inherit' }}
+        // customRequest={(file: any) => {
+        //   console.log(file);
+        // }}
+        {...props}
         style={{ width: '100%', height: 'inherit' }}
       >
         <UploadDocument />

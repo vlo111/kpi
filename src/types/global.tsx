@@ -74,6 +74,8 @@ export interface IInfoHeader {
     endDate: string
     status: string
   }
+  padding?: string
+  activity?: any
 }
 
 export type Onchange = (newOpen: boolean) => void

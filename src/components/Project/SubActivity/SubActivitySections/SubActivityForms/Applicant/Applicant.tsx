@@ -7,7 +7,7 @@ import ApplicantList from './ApplicantList';
 import FormWrapper from '../../../SubActivityWrapper';
 import SubActivityFooter from '../../../SubActivityWrapper/Footer';
 
-const ApplicantsForm: React.FC = () => {
+const ApplicantsForm: React.FC<any> = ({ id, setActiveKey }) => {
   const { Title } = Typography;
   const [Published, setPublished] = useState(false);
 
@@ -42,7 +42,7 @@ const ApplicantsForm: React.FC = () => {
           <ApplicantList />
             )}
       </FormWrapper>
-      <SubActivityFooter />
+      <SubActivityFooter cancel={setActiveKey} />
     </Space>
   );
 };

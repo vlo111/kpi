@@ -1,14 +1,12 @@
 import React from 'react';
 import { Row } from 'antd';
-import styled from 'styled-components';
 
 import { AsnButton } from '../../../../Forms/Button';
 
-const Footer = styled(Row)``;
-const SubActivityFooter: React.FC = () => {
+const SubActivityFooter: React.FC<any> = ({ cancel }) => {
   return (
-    <Footer align="middle" justify="end">
-      <AsnButton className="default">Cancel</AsnButton>
+    <Row align="middle" justify="end">
+      <AsnButton className="default" onClick={() => cancel('1')}>Cancel</AsnButton>
       <AsnButton
         type="primary"
         className="primary"
@@ -16,7 +14,7 @@ const SubActivityFooter: React.FC = () => {
       >
         Save
       </AsnButton>
-    </Footer>
+    </Row>
   );
 };
 

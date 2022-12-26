@@ -5,7 +5,7 @@ import SubActivityDocuments from '../DocumentsContent';
 import SubActivityUsersInfo from '../UsersInfo';
 import SubActivityUsersFullInfo from '../ApplicantFullInfo';
 
-const DefaultContent: React.FC<any> = ({ manager }) => {
+const DefaultContent: React.FC<any> = ({ manager, status }) => {
   return (
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 32]}>
       <Row gutter={32}>
@@ -17,7 +17,7 @@ const DefaultContent: React.FC<any> = ({ manager }) => {
         </Col>
       </Row>
       <Col>
-        <SubActivityUsersFullInfo />
+        {status === 'ACTIVE' && <SubActivityUsersFullInfo />}
       </Col>
     </Space>
   );

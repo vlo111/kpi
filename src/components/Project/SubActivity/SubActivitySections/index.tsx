@@ -34,7 +34,7 @@ const SectionsWrapper = styled.div`
     border-bottom: 3px solid var(--primary-light-orange);
     bottom: auto;
     right: 2.9%;
-    left: 4.6%;
+    left: 3%;
   }
   .ant-tabs-top > .ant-tabs-nav {
     margin: 0 0 1.6vh;
@@ -77,7 +77,11 @@ const SectionsWrapper = styled.div`
 const SubActivitySections: React.FC<any> = ({ activity }) => {
   const { Title } = Typography;
   const { TabPane } = Tabs;
-  const [tabDisable, setTabDisable] = useState(true);
+  const [activeKey, setActiveKey] = useState<any>('1');
+
+  const handleTabChange: any = (key: string) => {
+    setActiveKey(key);
+  };
 
   return (
     <SectionsWrapper>
@@ -95,131 +99,69 @@ const SubActivitySections: React.FC<any> = ({ activity }) => {
           Course Roadmap
           <Settings className="settings_svg" />
         </Title>
-        <Tabs>
-          <TabPane forceRender key="7">
+        <Tabs activeKey={activeKey} onChange={handleTabChange}>
+          <TabPane forceRender key="1">
             <Row justify="center">
               <AsnButton
                 type="primary"
                 className="primary"
                 style={{ width: '35vw' }}
-                onClick={() => setTabDisable(false)}
+                onClick={() => {
+                  setActiveKey(
+                    activity?.sectionsData[0]?.section?.sectionSettingMap[0]
+                      ?.setting?.id
+                  );
+                }}
               >
                 Start Course
               </AsnButton>
             </Row>
-            <DefaultContent />
+            <DefaultContent manager={activity?.manager} />
           </TabPane>
-          {activity?.sectionsData[0]?.section?.sectionSettingMap?.map((item: any) => (
-            <TabPane
-             disabled={tabDisable}
-             key={item?.setting?.id}
-             tab={
-              <Space direction="vertical" align="center">
-                <Title level={4}>{item?.setting?.title}</Title>
-                <Badge color="var(--primary-light-orange)" />
-                <Title level={5}>{item?.setting?.title}</Title>
-              </Space>
-            }
-             >
-             {(() => {
-               switch (item?.setting?.title) {
-                 case 'Applicant':
-                   return <ApplicantsForm />;
-                 case 'Selection':
-                   return <SelectionForm />;
-                 case 'Pre-assessment of selected':
-                   return <PreAssessmentForm />;
-                 case 'Participant':
-                   return <ParticipantForm />;
-                 case 'Trained':
-                   return <DefaultContent />;
-                 case 'Post-assessment of selected':
-                   return <PostAssessmentForm />;
-                 default:
-                   return <DefaultContent manager={activity?.manager}/>;
-               }
-             })()}
-            </TabPane>
-          ))}
-          {/* <TabPane
-            disabled={tabDisable}
-            tab={
-              <Space direction="vertical" align="center">
-                <Title level={4}>Applicant</Title>
-                <Badge color="var(--primary-light-orange)" />
-                <Title level={5}>Application form</Title>
-              </Space>
-            }
-            key="1"
-          >
-            <ApplicantsForm />
-          </TabPane>
-          <TabPane
-            disabled={tabDisable}
-            tab={
-              <Space direction="vertical" align="center">
-                <Title level={4}>Selection</Title>
-                <Badge color="var(--primary-light-orange)" />
-                <Title level={5}>Selection interview</Title>
-              </Space>
-            }
-            key="2"
-          >
-            <SelectionForm />
-          </TabPane>
-          <TabPane
-            disabled={tabDisable}
-            tab={
-              <Space direction="vertical" align="center">
-                <Title level={4}>Pre-assessment</Title>
-                <Badge color="var(--primary-light-orange)" />
-                <Title level={5}>Pre-assessment form</Title>
-              </Space>
-            }
-            key="3"
-          >
-            <PreAssessmentForm />
-          </TabPane>
-          <TabPane
-            disabled={tabDisable}
-            tab={
-              <Space direction="vertical" align="center">
-                <Title level={4}>Participant</Title>
-                <Badge color="var(--primary-light-orange)" />
-                <Title level={5}>Attendance form</Title>
-              </Space>
-            }
-            key="4"
-          >
-            <ParticipantForm />
-          </TabPane>
-          <TabPane
-            disabled={tabDisable}
-            tab={
-              <Space direction="vertical" align="center">
-                <Title level={4}>Post-assessment</Title>
-                <Badge color="var(--primary-light-orange)" />
-                <Title level={5}>Post-assessment form</Title>
-              </Space>
-            }
-            key="5"
-          >
-            <PostAssessmentForm />
-          </TabPane>
-          <TabPane
-            disabled={tabDisable}
-            tab={
-              <Space direction="vertical" align="center">
-                <Title level={4}>Trained</Title>
-                <Badge color="var(--primary-light-orange)" />
-                <Title level={5}>Trained</Title>
-              </Space>
-            }
-            className="test"
-            key="6"
-          >
-            <DefaultContent />
-          </TabPane> */}
+          {activity?.sectionsData[0]?.section?.sectionSettingMap?.map(
+            (item: any) => (
+              <TabPane
+                disabled={activity?.sectionsData[0]?.status !== 'ACTIVE'}
+                key={item?.setting?.id}
+                tab={
+                  <Space direction="vertical" align="center">
+                    <Title level={4}>{item?.setting?.title}</Title>
+                    <Badge color="var(--primary-light-orange)" />
+                    <Title level={5}>{item?.setting?.title}</Title>
+                  </Space>
+                }
+              >
+                {(() => {
+                  switch (item?.setting?.title) {
+                    case 'Applicant':
+                      return <ApplicantsForm setActiveKey={setActiveKey} id={item?.setting?.id}/>;
+                    case 'Selection':
+                      return <SelectionForm />;
+                    case 'Pre-assessment of selected':
+                      return <PreAssessmentForm />;
+                    case 'Participant':
+                      return <ParticipantForm />;
+                    case 'Trained':
+                      return (
+                        <DefaultContent
+                          manager={activity?.manager}
+                          status={activity?.sectionsData[0]?.status}
+                        />
+                      );
+                    case 'Post-assessment of selected':
+                      return <PostAssessmentForm />;
+                    default:
+                      return (
+                        <DefaultContent
+                          manager={activity?.manager}
+                          status={activity?.sectionsData[0]?.status}
+                        />
+                      );
+                  }
+                })()}
+              </TabPane>
+            )
+          )}
         </Tabs>
       </Space>
     </SectionsWrapper>

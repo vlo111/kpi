@@ -5,6 +5,8 @@ import { AsnCard } from '../../components/Forms/Card';
 import CardTitle from '../ProjectInformation/CardTitle';
 import AsnBreadcrumb from '../../components/Forms/Breadcrumb';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import GetSingleSubActivity from '../../api/Activity/SubActivity/useGetSingleSubActivity';
 
 const CourseInfoWrapper = styled.div`
   padding: 40px 32px 60px 32px;
@@ -12,21 +14,28 @@ const CourseInfoWrapper = styled.div`
 
 const CourseInformation: React.FC<{}> = () => {
   const { Title } = Typography;
+  const { id: subActivityId } = useParams<{ id: any }>();
+  const { data } = GetSingleSubActivity(subActivityId, {
+    onSuccess: (data: { result: any, count: any }) => console.log('')
+  });
+
   return (
     <CourseInfoWrapper>
       <AsnBreadcrumb
         routes={[
           {
-            path: '/project/sub-activity/:id',
+            path: '/project/sub-activity/:id1',
             breadcrumbName: 'Activity 1.3'
           },
           {
-            path: '/project/sub-activity/:id',
+            path: '/project/sub-activity/:id2',
             breadcrumbName: 'Activity 1.3'
           },
           {
-            path: '/project/sub-activity/:id',
-            breadcrumbName: 'PYTHON COURSE'
+
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            path: `/project/sub-activity/${data?.sectionsData[0]?.id}`,
+            breadcrumbName: data?.sectionsData[0]?.title
           },
           {
             path: '',

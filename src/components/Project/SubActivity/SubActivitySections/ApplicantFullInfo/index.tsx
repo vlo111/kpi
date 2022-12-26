@@ -11,7 +11,7 @@ import { AsnTable } from '../../../../Forms/Table';
 import FormWrapper from '../../SubActivityWrapper';
 
 const SubActivityUsersFullInfo: React.FC = () => {
-  const notUsers = false;
+  const notUsers = true;
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const columns: ColumnsType<IUserListTypes> = [

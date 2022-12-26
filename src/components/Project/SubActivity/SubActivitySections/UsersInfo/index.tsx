@@ -3,9 +3,10 @@ import { Col, Row, Space, Typography } from 'antd';
 
 import { AsnButton } from '../../../../Forms/Button';
 import FormWrapper from '../../SubActivityWrapper';
-// import AsnAvatar from '../../../../Forms/Avatar';
+import AsnAvatar from '../../../../Forms/Avatar';
+import { IManagerType } from '../../../../../types/subActivyty';
 
-const SubActivityUsersInfo: React.FC<any> = ({ manager }) => {
+const SubActivityUsersInfo: React.FC<IManagerType> = ({ manager }) => {
   const { Title } = Typography;
   return (
     <FormWrapper className="users_list">
@@ -18,8 +19,11 @@ const SubActivityUsersInfo: React.FC<any> = ({ manager }) => {
           align="middle"
           style={{ borderBottom: '1px solid var(--dark-border-ultramarine)' }}
         >
-          <Col span={12}>
-            {/* <AsnAvatar letter={`${manager?.firstName?.charAt(0)}${manager?.lastName?.charAt(0)}`} /> */}
+          <Col span={12} style={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
+             <AsnAvatar letter={`${manager?.firstName?.charAt(0)}${manager?.lastName?.charAt(0)}`} />
+             <Title level={4}>
+              {manager?.firstName} {manager?.lastName}
+             </Title>
           </Col>
           <Col span={12} style={{ justifyContent: 'end', display: 'flex' }}>
             Sub-Activity manager
