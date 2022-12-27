@@ -1,10 +1,14 @@
 import React from 'react';
-import { Tabs } from 'antd';
+import { Tabs, Space } from 'antd';
 import styled from 'styled-components';
 
 import { ISubActivityAndTemplates } from '../../../types/project';
 import { ActiveTempalate } from './ActiveTemplate';
 import { SubActivity } from './SubActivities';
+import { AsnButton } from '../../../components/Forms/Button';
+import { StatusFilter } from './Filter/Status';
+import { AssingnesFilter } from './Filter/Assigned';
+import { DateFilterCards } from './Filter/DataPicker';
 
 const Tab = styled.div`
 .ant-tabs-ink-bar{
@@ -41,6 +45,12 @@ const Tab = styled.div`
 const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({ templates, refetch, subActivities }) => {
   return (
     <Tab>
+       <Space align='baseline'>
+           <StatusFilter />
+       <AssingnesFilter/>
+       <DateFilterCards />
+        <AsnButton type="link" style={{ fontSize: 'var(--font-size-small', color: 'var(--dark-1)' }}>Reset</AsnButton>
+      </Space>
       <Tabs
         defaultActiveKey="1"
         style={{

@@ -3,6 +3,7 @@ import { Button, Popover, Row, Col } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { AsnCheckbox, AsnCheckboxGroup } from '../../../../../components/Forms/Checkbox';
+import { Onchange } from '../../../../../types/global';
 
 const plainOptions = ['Done', 'Active', 'Inactive'];
 
@@ -24,7 +25,7 @@ export const StatusFilter: React.FC = () => {
     setCheckAll(e.target.checked);
   };
 
-  const handleOpenChange = (newOpen: any): any => {
+  const handleOpenChange: Onchange = (newOpen) => {
     setOpen(newOpen);
   };
   const content = (

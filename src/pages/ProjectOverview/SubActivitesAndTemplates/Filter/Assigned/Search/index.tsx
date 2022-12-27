@@ -1,6 +1,7 @@
 import React from 'react';
 import { AutoComplete } from 'antd';
 import styled from 'styled-components';
+import { Onchange } from '../../../../../../types/global';
 
 const Container = styled.div`
 .ant-select:not(.ant-select-customize-input) .ant-select-selector{
@@ -22,7 +23,7 @@ export const AssingnesSearch: React.FC = () => {
   //   // )
   // }
 
-  const onSelect = (data: any): any => {
+  const onSelect: Onchange = (data) => {
     console.log('onSelect', data);
   };
 

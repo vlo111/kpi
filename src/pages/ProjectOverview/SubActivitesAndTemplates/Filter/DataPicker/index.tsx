@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Popover } from 'antd';
 import { DateFilter } from './DataPackeFilter';
+import { Onchange } from '../../../../../types/global';
 
 export const DateFilterCards: React.FC = () => {
   const [open, setOpen] = useState(false);
 
-  const handleOpenChange = (newOpen: any): any => {
+  const handleOpenChange: Onchange = (newOpen) => {
     setOpen(newOpen);
   };
   const content = (
