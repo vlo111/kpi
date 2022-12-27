@@ -3,7 +3,7 @@ import { Button, Popconfirm, Card, Col, Row, message } from 'antd';
 import styled from 'styled-components';
 
 import { ConfirmModal } from '../../../../components/Forms/Modal/Confirm';
-import { ISubActivityAndTemplates } from '../../../../types/project';
+import { IActiveTemplate } from '../../../../types/project';
 import useDuplicateTemplate from '../../../../api/Activity/Template/useDuplicateTemplate';
 import useDeleteActivityTemplate from '../../../../api/Activity/Template/useDeleteActivityTemplate';
 import { ReactComponent as TrashSvg } from '../../../../assets/icons/trash.svg';
@@ -94,7 +94,7 @@ align-items: baseline;
 }
 `;
 
-export const ActiveTempalate: React.FC<ISubActivityAndTemplates> = ({ templates, refetch }) => {
+export const ActiveTempalate: React.FC<IActiveTemplate> = ({ templates, refetch }) => {
   const [show, setShow] = useState<string | boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [templateId, setTemplateId] = useState<string>('');

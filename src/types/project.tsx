@@ -3,6 +3,7 @@ import { Moment } from 'moment';
 import { FormListFieldData } from 'antd';
 import { Void } from './global';
 import { ReactElement } from 'react';
+import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
@@ -275,7 +276,13 @@ export interface IProjectTemplate {
 export interface ISubActivityAndTemplates {
   templates: IProjectTemplate[]
   refetch: any
-  subActivities?: ISubActivities[]
+  subActivities: ISubActivities[]
+  setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
+  setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
+  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[] | undefined>>
+  checkAll: boolean
+  indeterminate: boolean
+  checkedList: CheckboxValueType[] | undefined
 }
 
 export interface IResultAreasTitles {
@@ -289,14 +296,10 @@ export interface IResultAreasTitles {
 export interface ITabContent {
   inputActivityId: string | undefined
   resultArea: IResultAreas
-  isLoadingTemplates: boolean
-  templates: IProjectTemplate[]
-  refetch: any
   setInputActivityId: React.Dispatch<React.SetStateAction<string | undefined>>
   setActivityId: React.Dispatch<React.SetStateAction<string | undefined>>
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
-  isLoadingSubActivity: boolean
-  subActivities: ISubActivities[]
+  defaultInputActivityId: string
 }
 
 export interface ISubActivitiesProps {
@@ -315,4 +318,17 @@ export interface ISubActivities {
       title: string
     }
   }
+}
+
+export interface IStatusFilter {
+  setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
+  setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
+  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[] | undefined>>
+  checkAll: boolean
+  indeterminate: boolean
+  checkedList: CheckboxValueType[] | undefined
+}
+export interface IActiveTemplate {
+  templates: IProjectTemplate[]
+  refetch: any
 }

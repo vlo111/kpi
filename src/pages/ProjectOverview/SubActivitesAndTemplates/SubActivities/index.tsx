@@ -58,7 +58,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({ subActivities }) =>
                      : ''
                  }`}
                >
-                 {item.cardRound}
+                 {item?.cardRound}
                </div>
                <Row gutter={[8, 16]} style={{ padding: '15px 0' }}>
                  <Col style={{ color: 'var(--dark-1)', fontSize: 'var(--headline-font-size)', display: 'flex', gap: '5px' }}>{item?.title}</Col>

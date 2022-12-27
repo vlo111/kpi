@@ -10,8 +10,6 @@ import AsnSpin from '../../components/Forms/Spin';
 import { TVoid } from '../../types/global';
 import { IResultAreas } from '../../types/project';
 import useGetProjectById from '../../api/Project/useGetProject';
-import GetTemplates from '../../api/Activity/Template/useGetActivityTemplates';
-import useGetSubActivities from '../../api/Activity/Template/SubActivity/useGetSubActivities';
 import { ReactComponent as AddResultAreaSvg } from '../../assets/icons/project-overview.svg';
 import CreateTemplate from '../../components/CreateTemplateModal';
 
@@ -24,16 +22,12 @@ const ProjectOverview: React.FC = () => {
   const [active, setActive] = useState<number>(1);
   const { id } = useParams<string>();
   const { isLoading, data: { result: project }, inputActivityId: defaultInputActivityId } = useGetProjectById(id);
-  const { data: templates, isLoading: isLoadingTemplates, refetch } = GetTemplates(inputActivityId ?? defaultInputActivityId, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
-  const { data: subActivities, isLoading: isLoadingSubActivity } = useGetSubActivities(inputActivityId ?? defaultInputActivityId, {}, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
-  console.log(subActivities, isLoadingSubActivity);
   const navigate = useNavigate();
   const addResultAreas: TVoid = () => {
     if (id != null) {
       navigate(`/project/${id}/steps/0`);
     }
   };
-  console.log(project);
   const items = project?.resultAreas?.map((resultArea: IResultAreas, i: number) => {
     return {
       label: (
@@ -51,14 +45,10 @@ const ProjectOverview: React.FC = () => {
           <TabContent
             inputActivityId={inputActivityId}
             resultArea={resultArea}
-            isLoadingTemplates={isLoadingTemplates}
-            templates={templates}
-            refetch={refetch}
             setInputActivityId={setInputActivityId}
             setActivityId={setActivityId}
             setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
-            subActivities={subActivities}
-            isLoadingSubActivity={isLoadingSubActivity}
+            defaultInputActivityId={defaultInputActivityId}
           />
         </>
       )
