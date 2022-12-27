@@ -18,6 +18,7 @@ import {
 import { ContentType, IQuestionsRow } from '../../../types/project';
 import useDeleteSetting from '../../../api/Activity/Template/Settings/useDeleteSingleSetting';
 import useAddSettingHelpText from '../../../api/Activity/Template/Settings/useAddSettingHelpText';
+import useUpdateSettingStatus from '../../../api/Activity/Template/Settings/useUpdateSettingStatus';
 
 const CourseList = styled.div`
   display: flex;
@@ -71,6 +72,12 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
     }
   });
 
+  const { mutate: updateTemplateStatus } = useUpdateSettingStatus({
+    onSuccess: () => {
+      refetch();
+    }
+  });
+
   const { mutate: addedHelpText } = useAddSettingHelpText({
     onSuccess: () => {
       refetch();
@@ -86,6 +93,13 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
       setHelpText(item?.helpText);
     }
   }, [item?.helpText]);
+
+  const handleStatusChange: Void = () => {
+    updateTemplateStatus({
+      id: item.id
+    });
+  };
+
   const onOpenInputClick: StringVoidType = (id) => {
     if (!rowId.includes(id)) {
       setRowId([id, ...rowId]);
@@ -214,6 +228,7 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
             <Switch
               defaultChecked={item?.active}
               disabled={item?.setting?.changeable === false}
+              onChange={handleStatusChange}
             />
           </Col>
           <Col>

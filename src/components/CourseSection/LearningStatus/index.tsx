@@ -9,6 +9,8 @@ import {
   ILearningStatus
 } from '../../../types/project';
 import useDeleteSection from '../../../api/Activity/Template/Sections/useDeleteSection';
+import { Void } from '../../../types/global';
+import useUpdateSectionStatus from '../../../api/Activity/Template/Sections/useupdateSectionStatus';
 
 const SectionContainer = styled(Row)`
   width: 100% !important;
@@ -118,7 +120,19 @@ const LearningStatus: React.FC<ILearningStatus> = ({
     }
   });
 
-  const onDeleteSection = (): void => {
+  const { mutate: updateSectionStatus } = useUpdateSectionStatus({
+    onSuccess: () => {
+      refetch();
+    }
+  });
+
+  const handleSectionStatus = (settingId: string): void => {
+    updateSectionStatus({
+      id: settingId
+    });
+  };
+
+  const onDeleteSection: Void = () => {
     deleteSectionById({ id: section?.id });
   };
 
@@ -147,7 +161,7 @@ const LearningStatus: React.FC<ILearningStatus> = ({
               }}
               defaultChecked={item.active}
               disabled={item.active}
-              onChange={(value) => console.log(value.target.checked)}
+              onChange={() => handleSectionStatus(item.id)}
             ></Checkbox>
           </SectionRow>
         ))}

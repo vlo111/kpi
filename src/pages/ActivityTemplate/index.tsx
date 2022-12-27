@@ -128,7 +128,7 @@ const ActivityTemplate: React.FC = () => {
   const { id: templateId } = useParams<{ id: any }>();
 
   const { data, refetch } = getSingleTemplate(templateId, {
-    onSuccess: (data: { result: any, count: any }) =>
+    onSuccess: () =>
       console.log('')
   });
 
@@ -143,7 +143,6 @@ const ActivityTemplate: React.FC = () => {
       const {
         data: { result }
       } = options;
-
       navigate(`/${PATHS.COURSESECTION.replace(':id', result?.id)}`);
     }
   });
@@ -187,17 +186,13 @@ const ActivityTemplate: React.FC = () => {
   };
 
   const onNextClick: Void = () => {
-    if (data?.sections?.length === 0) {
-      createSecondStepTemplateFn({
-        id: templateId,
-        data: {
-          applicationForm: form.getFieldValue('includeForm'),
-          courseStructure: form.getFieldValue('courseStructure')
-        }
-      });
-    } else {
-      navigate(`/${PATHS.COURSESECTION.replace(':id', templateId)}`);
-    }
+    createSecondStepTemplateFn({
+      id: templateId,
+      data: {
+        applicationForm: form.getFieldValue('includeForm'),
+        courseStructure: form.getFieldValue('courseStructure')
+      }
+    });
   };
 
   useEffect(() => {

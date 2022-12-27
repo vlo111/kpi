@@ -27,7 +27,7 @@ const CourseSection: React.FC = () => {
   const { id: templateId } = useParams<{ id: any }>();
 
   const { data, refetch } = getSingleTemplate(templateId, {
-    onSuccess: (data: { result: any, count: any }) => console.log('')
+    onSuccess: () => console.log('')
   });
 
   const { mutate: createTemplateSection } = useCreateNewSection({
