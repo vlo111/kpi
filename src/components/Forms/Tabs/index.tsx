@@ -51,7 +51,7 @@ translate: 16px 0px;
 border-radius: 10px 0px 0px 10px;
 }
 .ant-tabs-left>.ant-tabs-nav{
-height: calc(100vh - 300px);
+height: calc(100vh - 40vh);
 }
 &.ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab{
 border-radius: 20px 20px 0px 0px !important;

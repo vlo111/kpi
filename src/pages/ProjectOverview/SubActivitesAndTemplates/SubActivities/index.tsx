@@ -27,8 +27,10 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({ subActivities }) =>
          gutter={24}
          style={{
            gridGap: '41px',
-           height: '50.5vh',
-           padding: '16px 0px'
+           padding: '16px 0px',
+           overflow: 'auto',
+           height: 'calc(100vh - 61vh)'
+
          }}
        >
          <Button
@@ -65,8 +67,8 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({ subActivities }) =>
                  <Col style={ { display: 'flex', gap: '5px' }}>
                    <Location /> {item?.subActivity?.region?.title}
                  </Col>
-                 <Col style={ { display: 'flex', gap: '5px' }}>
-                   <Calendar />{moment(item?.startDate).format('DD/MM/YYYY')} - {moment(item?.endDate).format('DD/MM/YYYY')}
+                 <Col style={ { display: 'flex', gap: '5px', fontSize: '12px' }}>
+                   <Calendar />{moment(item?.startDate).format('DD/MM/YY')} - {moment(item?.endDate).format('DD/MM/YY')}
                  </Col>
                  <Space size={[40, 16]} align="start">
                    <Col>{item?.subActivity?.sector?.title} </Col>
