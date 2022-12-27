@@ -42,13 +42,30 @@ const Tab = styled.div`
 }
 `;
 
-const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({ templates, refetch, subActivities }) => {
+const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
+  templates,
+  refetch,
+  subActivities,
+  setCheckAll,
+  setIndeterminate,
+  setCheckedList,
+  checkAll,
+  indeterminate,
+  checkedList
+}) => {
   return (
     <Tab>
-       <Space align='baseline'>
-           <StatusFilter />
-       <AssingnesFilter/>
-       <DateFilterCards />
+      <Space align='baseline'>
+        <StatusFilter
+          setCheckAll={setCheckAll}
+          setIndeterminate={setIndeterminate}
+          setCheckedList={setCheckedList}
+          checkAll={checkAll}
+          indeterminate={indeterminate}
+          checkedList={checkedList}
+        />
+        <AssingnesFilter />
+        <DateFilterCards />
         <AsnButton type="link" style={{ fontSize: 'var(--font-size-small', color: 'var(--dark-1)' }}>Reset</AsnButton>
       </Space>
       <Tabs

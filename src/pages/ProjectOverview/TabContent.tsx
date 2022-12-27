@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Tabs, Space, Typography, Row } from 'antd';
 import styled from 'styled-components';
+import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 
+import useGetSubActivities from '../../api/Activity/Template/SubActivity/useGetSubActivities';
+import GetTemplates from '../../api/Activity/Template/useGetActivityTemplates';
 import { AsnButton } from '../../components/Forms/Button';
 import AsnSpin from '../../components/Forms/Spin';
 import SubActivityAndTemplates from './SubActivitesAndTemplates';
@@ -21,61 +24,71 @@ const AntRow = styled(Row)`
 const TabContent: React.FC<ITabContent> = ({
   inputActivityId,
   resultArea,
-  isLoadingTemplates,
-  templates,
-  refetch,
   setInputActivityId,
   setActivityId,
   setIsOpenCreateActivityModal,
-  isLoadingSubActivity,
-  subActivities
+  defaultInputActivityId
 }) => {
+  const [checkedList, setCheckedList] = useState<CheckboxValueType[]>();
+  const [indeterminate, setIndeterminate] = useState(true);
+  const [checkAll, setCheckAll] = useState(false);
+  const { data: templates, isLoading: isLoadingTemplates, refetch } = GetTemplates(inputActivityId ?? defaultInputActivityId, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
+  const { data: subActivities, isLoading: isLoadingSubActivity } = useGetSubActivities(inputActivityId ?? defaultInputActivityId, ((checkedList?.length) !== 0) ? { status: checkedList } : {}, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
   return (
-        <Tabs
-        activeKey={inputActivityId ?? resultArea?.inputActivities[0]?.id}
-        tabPosition={'left'}
-        items={resultArea?.inputActivities?.map(
-          (inputActivity, i: number) => {
-            return {
-              label: (
-                <AntRow align='middle' onClick={() => setInputActivityId(inputActivity?.id)}>
-                  1.{+i + 1} {inputActivity?.title}
-                </AntRow>
-              ),
-              key: `${inputActivity?.id ?? i}`,
-              children: (isLoadingTemplates || isLoadingSubActivity)
-                ? <AsnSpin />
-                : (templates?.length > 0 || subActivities?.length > 0)
-                    ? (< SubActivityAndTemplates subActivities={subActivities} templates={templates} refetch={refetch} />)
-                    : (
-                <Space
-                  direction="vertical"
-                  align="center"
-                  style={{ width: '100%', padding: '5vh 0 30px 0' }}
-                >
-                      <CreateTemplateSvg style={{ marginBottom: '20px' }} />
-                      <Text
-                        style={{ fontSize: 'var(--headline-font-size)' }}
-                      >
-                        Create Activity Template
-                      </Text>
-                      <Text>Create activity templates to start</Text>
-                      <AsnButton
-                        style={{ marginTop: '12px' }}
-                        className="primary"
-                        onClick={() => {
-                          setActivityId(inputActivity.id);
-                          setIsOpenCreateActivityModal(true);
-                        }}
-                      >
-                        Create Activity Template
-                      </AsnButton>
-                </Space>
-                      )
-            };
-          }
-        )}
-      />
+    <Tabs
+      activeKey={inputActivityId ?? resultArea?.inputActivities[0]?.id}
+      tabPosition={'left'}
+      items={resultArea?.inputActivities?.map(
+        (inputActivity, i: number) => {
+          return {
+            label: (
+              <AntRow align='middle' onClick={() => setInputActivityId(inputActivity?.id)}>
+                1.{+i + 1} {inputActivity?.title}
+              </AntRow>
+            ),
+            key: `${inputActivity?.id ?? i}`,
+            children: ((Boolean(isLoadingTemplates)) || (Boolean(isLoadingSubActivity)))
+              ? <AsnSpin />
+              : (templates?.length > 0 || subActivities?.length > 0)
+                  ? (< SubActivityAndTemplates
+                  subActivities={subActivities}
+                  templates={templates} refetch={refetch}
+                  setCheckedList={setCheckedList}
+                  setIndeterminate={setIndeterminate}
+                  setCheckAll={setCheckAll}
+                  checkedList={checkedList}
+                  indeterminate={indeterminate}
+                  checkAll={checkAll}
+                />)
+                  : (
+                  <Space
+                    direction="vertical"
+                    align="center"
+                    style={{ width: '100%', padding: '5vh 0 30px 0' }}
+                  >
+                    <CreateTemplateSvg style={{ marginBottom: '20px' }} />
+                    <Text
+                      style={{ fontSize: 'var(--headline-font-size)' }}
+                    >
+                      Create Activity Template
+                    </Text>
+                    <Text>Create activity templates to start</Text>
+                    <AsnButton
+                      style={{ marginTop: '12px' }}
+                      className="primary"
+                      onClick={() => {
+                        setActivityId(inputActivity.id);
+                        setIsOpenCreateActivityModal(true);
+                      }}
+                    >
+                      Create Activity Template
+                    </AsnButton>
+                  </Space>
+                    )
+          };
+        }
+      )}
+    />
   );
 };
 

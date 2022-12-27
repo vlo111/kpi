@@ -2,16 +2,22 @@ import React, { useState } from 'react';
 import { Button, Popover, Row, Col } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
+
+import { IStatusFilter } from '../../../../../types/project';
 import { AsnCheckbox, AsnCheckboxGroup } from '../../../../../components/Forms/Checkbox';
 import { Onchange } from '../../../../../types/global';
 
-const plainOptions = ['Done', 'Active', 'Inactive'];
+const plainOptions = ['DONE', 'ACTIVE', 'INACTIVE'];
 
-export const StatusFilter: React.FC = () => {
+export const StatusFilter: React.FC<IStatusFilter> = ({
+  setCheckAll,
+  setIndeterminate,
+  setCheckedList,
+  checkAll,
+  indeterminate,
+  checkedList
+}) => {
   const [open, setOpen] = useState(false);
-  const [checkedList, setCheckedList] = useState<CheckboxValueType[]>();
-  const [indeterminate, setIndeterminate] = useState(true);
-  const [checkAll, setCheckAll] = useState(false);
 
   const onChange = (list: CheckboxValueType[]): void => {
     setCheckedList(list);
@@ -28,6 +34,7 @@ export const StatusFilter: React.FC = () => {
   const handleOpenChange: Onchange = (newOpen) => {
     setOpen(newOpen);
   };
+
   const content = (
     <Row gutter={[4, 3]} style={{ width: '92px', padding: '9px 5px' }}>
       <Col span={22}>
@@ -48,7 +55,6 @@ export const StatusFilter: React.FC = () => {
       </Col>
     </Row>
   );
-
   return (
     <Popover
       trigger="click"
