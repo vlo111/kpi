@@ -13,6 +13,7 @@ const useGetSubActivities: any = (id: string, params: object = {}, options = { e
     }
   );
   const { data, isSuccess, isLoading } = result;
+  console.log(result, 'res');
   return {
     ...result,
     data: isSuccess ? data?.result : [],

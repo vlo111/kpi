@@ -306,6 +306,14 @@ export interface ITabContent {
 
 export interface ISubActivitiesProps {
   subActivities: ISubActivities[] | undefined
+  setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
+  setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
+  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[] | undefined>>
+  checkAll: boolean
+  indeterminate: boolean
+  checkedList: CheckboxValueType[] | undefined
+  setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
+  dateSearch: IDataSearchchSubActivity
 }
 export interface ISubActivities {
   title: string

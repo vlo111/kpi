@@ -1,14 +1,10 @@
 import React from 'react';
-import { Tabs, Space } from 'antd';
+import { Tabs } from 'antd';
 import styled from 'styled-components';
 
 import { ISubActivityAndTemplates } from '../../../types/project';
 import { ActiveTempalate } from './ActiveTemplate';
 import { SubActivity } from './SubActivities';
-import { AsnButton } from '../../../components/Forms/Button';
-import { StatusFilter } from './Filter/Status';
-import { AssingnesFilter } from './Filter/Assigned';
-import { DateFilterCards } from './Filter/DataPicker';
 
 const Tab = styled.div`
 .ant-tabs-ink-bar{
@@ -57,19 +53,6 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
 }) => {
   return (
     <Tab>
-      <Space align='baseline'>
-        <StatusFilter
-          setCheckAll={setCheckAll}
-          setIndeterminate={setIndeterminate}
-          setCheckedList={setCheckedList}
-          checkAll={checkAll}
-          indeterminate={indeterminate}
-          checkedList={checkedList}
-        />
-        <AssingnesFilter />
-        <DateFilterCards setDateSearch={setDateSearch} dateSearch={dateSearch} />
-        <AsnButton type="link" style={{ fontSize: 'var(--font-size-small', color: 'var(--dark-1)' }}>Reset</AsnButton>
-      </Space>
       <Tabs
         defaultActiveKey="1"
         style={{
@@ -78,7 +61,17 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
         }}
       >
         <Tabs.TabPane tab="Sub Activities" key="1">
-          <SubActivity subActivities={subActivities} />
+          <SubActivity
+          subActivities={subActivities}
+          setCheckAll={setCheckAll}
+          setIndeterminate={setIndeterminate}
+          setCheckedList={setCheckedList}
+          checkAll={checkAll}
+          indeterminate={indeterminate}
+          checkedList={checkedList}
+          setDateSearch={setDateSearch}
+          dateSearch={dateSearch}
+          />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Active Templates " key="2">
           <ActiveTempalate templates={templates} refetch={refetch} />

@@ -34,13 +34,23 @@ export const DateFilter: React.FC<IDateFilterCards> = ({ setDateSearch, dateSear
   // useEffect(() => {
   //   console.log('aaaaaa');
   // }, [startDate, endDate]);
-
+  // const { from, to } = dateSearch;
   const onChange: TVoid = (e: RadioChangeEvent) => {
     setDateSearch({
       ...dateSearch,
       start: e.target.value
     });
   };
+  // console.log(dateSearch);
+  // useEffect(() => {
+  //   if (from !== '' && to !== '') {
+  //     setDateSearch({
+  //       start: true,
+  //       from: '',
+  //       to: ''
+  //     });
+  //   }
+  // }, [from, to]);
   return (
     <>
       <Radio.Group onChange={onChange} value={dateSearch?.start}>
@@ -52,6 +62,7 @@ export const DateFilter: React.FC<IDateFilterCards> = ({ setDateSearch, dateSear
           <AsnForm.Item
             name="startDate"
             label="from"
+            rules={[{ required: true }]}
           >
             <AsnDatePicker
               format="DD/MM/YYYY"
@@ -67,6 +78,7 @@ export const DateFilter: React.FC<IDateFilterCards> = ({ setDateSearch, dateSear
           <AsnForm.Item
             name="endDate"
             label="to"
+            rules={[{ required: true }]}
           >
             <AsnDatePicker
               placeholder="01/01/23"

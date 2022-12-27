@@ -37,8 +37,23 @@ const TabContent: React.FC<ITabContent> = ({
     from: '',
     to: ''
   });
+  console.log(dateSearch);
+  const { from, to } = dateSearch;
+  const filters = ((checkedList?.length) !== 0 && (from !== '') && (to !== '')) ? { status: checkedList, date: dateSearch } : (checkedList?.length) !== 0 ? { status: checkedList } : ((from !== '') && (to !== '')) ? { date: dateSearch } : {};
   const { data: templates, isLoading: isLoadingTemplates, refetch } = GetTemplates(inputActivityId ?? defaultInputActivityId, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
-  const { data: subActivities, isLoading: isLoadingSubActivity } = useGetSubActivities(inputActivityId ?? defaultInputActivityId, ((checkedList?.length) !== 0) ? { status: checkedList } : {}, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
+  const { data: subActivities, isLoading: isLoadingSubActivity } = useGetSubActivities(inputActivityId ?? defaultInputActivityId, filters, {
+    enabled: Boolean((inputActivityId ?? defaultInputActivityId)),
+    onSuccess: () => {
+      if (from !== '' && to !== '') {
+        setDateSearch({
+          start: true,
+          from: '',
+          to: ''
+        });
+      }
+    }
+  }
+  );
   return (
     <Tabs
       activeKey={inputActivityId ?? resultArea?.inputActivities[0]?.id}

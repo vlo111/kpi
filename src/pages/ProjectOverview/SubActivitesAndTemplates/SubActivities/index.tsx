@@ -7,6 +7,10 @@ import { ISubActivitiesProps } from '../../../../types/project';
 import { AsnCardSubActivity } from '../../../../components/Forms/Card/SubActivityCard';
 import { ReactComponent as Calendar } from '../../../../assets/icons/calendar.svg';
 import { ReactComponent as Location } from '../../../../assets/icons/location.svg';
+import { AsnButton } from '../../../../components/Forms/Button';
+import { AssingnesFilter } from '../Filter/Assigned';
+import { DateFilterCards } from '../Filter/DataPicker';
+import { StatusFilter } from '../Filter/Status';
 
 const Container = styled.div`
 .ant-select:not(.ant-select-customize-input) .ant-select-selector{
@@ -16,9 +20,32 @@ const Container = styled.div`
     border: none;
 }
 `;
-export const SubActivity: React.FC<ISubActivitiesProps> = ({ subActivities }) => {
+export const SubActivity: React.FC<ISubActivitiesProps> = ({
+  subActivities,
+  setCheckAll,
+  setIndeterminate,
+  setCheckedList,
+  checkAll,
+  indeterminate,
+  checkedList,
+  setDateSearch,
+  dateSearch
+}) => {
   return (
     <Container>
+          <Space align='baseline'>
+        <StatusFilter
+          setCheckAll={setCheckAll}
+          setIndeterminate={setIndeterminate}
+          setCheckedList={setCheckedList}
+          checkAll={checkAll}
+          indeterminate={indeterminate}
+          checkedList={checkedList}
+        />
+        <AssingnesFilter />
+        <DateFilterCards setDateSearch={setDateSearch} dateSearch={dateSearch} />
+        <AsnButton type="link" style={{ fontSize: 'var(--font-size-small', color: 'var(--dark-1)' }}>Reset</AsnButton>
+      </Space>
       <Space align='baseline'>
       </Space>
       <Row>
