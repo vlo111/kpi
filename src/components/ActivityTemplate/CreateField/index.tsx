@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Form, Select } from 'antd';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/closeIcon.svg';
-import DynamicForm from '../DynamicForm/Index';
+import DynamicForm from '../TemplateForm/Index';
 import { AsnInput } from '../../Forms/Input';
 import { AsnSelect } from '../../Forms/Select';
 import { AsnButton } from '../../Forms/Button';

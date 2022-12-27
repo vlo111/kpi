@@ -160,9 +160,9 @@ const LearningStatus: React.FC<ILearningStatus> = ({
                 color: 'var(--dark-2)'
               }}
               defaultChecked={item.active}
-              disabled={item.active}
+              disabled={item?.setting?.changeable === false}
               onChange={() => handleSectionStatus(item.id)}
-            ></Checkbox>
+            />
           </SectionRow>
         ))}
         <Space

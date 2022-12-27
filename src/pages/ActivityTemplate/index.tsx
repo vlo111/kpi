@@ -13,6 +13,7 @@ import getSingleTemplate from '../../api/Activity/Template/useGetSingleActivityT
 import useCreateNewSetting from '../../api/Activity/Template/Settings/useCreateSetting';
 import useCreateSecondStepTemplate from '../../api/Activity/Template/useCreateSecondStep';
 import useUpdateSingleSetting from '../../api/Activity/Template/Settings/useUpdateSingleSetting';
+import _ from 'lodash';
 
 const ActivityTemplateContainer = styled.div`
   display: flex;
@@ -125,12 +126,9 @@ const ActivityTemplate: React.FC = () => {
 
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const { id: templateId } = useParams<{ id: any }>();
+  const { id: templateId } = useParams<{ id: string | undefined }>();
 
-  const { data, refetch } = getSingleTemplate(templateId, {
-    onSuccess: () =>
-      console.log('')
-  });
+  const { data, refetch } = getSingleTemplate(templateId, {});
 
   const { mutate: createTemplateSetting } = useCreateNewSetting({
     onSuccess: () => {
@@ -186,28 +184,41 @@ const ActivityTemplate: React.FC = () => {
   };
 
   const onNextClick: Void = () => {
-    createSecondStepTemplateFn({
-      id: templateId,
-      data: {
-        applicationForm: form.getFieldValue('includeForm'),
-        courseStructure: form.getFieldValue('courseStructure')
+    if (
+      data?.sections?.length !== 0 &&
+      _.isEqual(form.getFieldValue('includeForm'), data?.applicationForm) &&
+      data?.courseStructure === form.getFieldValue('courseStructure')
+    ) {
+      if (templateId !== undefined) {
+        navigate(`/${PATHS.COURSESECTION.replace(':id', templateId)}`);
       }
-    });
+    } else {
+      if (templateId !== undefined) {
+        createSecondStepTemplateFn({
+          id: templateId,
+          data: {
+            applicationForm: form.getFieldValue('includeForm'),
+            courseStructure: form.getFieldValue('courseStructure')
+          }
+        });
+      }
+    }
   };
 
   useEffect(() => {
     if (item !== null) {
       form.setFieldsValue({
         question: item.title,
-        answerType: item.answerType === 'SHORT_TEXT'
-          ? 'Short Text'
-          : item.answerType === 'NUMBER'
-            ? 'Number'
-            : item.answerType === 'ATTACHMENT'
-              ? 'Attachment'
-              : 'Dropdown options'
+        answerType:
+          item.answerType === 'SHORT_TEXT'
+            ? 'Short Text'
+            : item.answerType === 'NUMBER'
+              ? 'Number'
+              : item.answerType === 'ATTACHMENT'
+                ? 'Attachment'
+                : 'Dropdown options'
       });
-    };
+    }
   }, [item]);
 
   useEffect(() => {
@@ -216,7 +227,7 @@ const ActivityTemplate: React.FC = () => {
         includeForm: data?.applicationForm,
         courseStructure: data?.courseStructure
       });
-    };
+    }
   }, [data]);
 
   const initFields = [
@@ -248,7 +259,7 @@ const ActivityTemplate: React.FC = () => {
         autoComplete="off"
       >
         {data?.courseSettingMap?.map((item: ICreatedFieldItem) => (
-         <QuestionsRow
+          <QuestionsRow
             key={item.id}
             item={item}
             setQuestionType={setQuestionType}

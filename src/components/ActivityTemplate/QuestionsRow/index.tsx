@@ -116,7 +116,7 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
     setOpenPopover(false);
   };
 
-  const onEditedQuestion = (item: any): void => {
+  const onEditedQuestion: FormFinish = (item) => {
     if (item?.answerType === 'DROPDOWN') {
       setIsVisibleAddField(true);
       setQuestionType('DROPDOWN');

@@ -11,6 +11,7 @@ import getSingleTemplate from '../../api/Activity/Template/useGetSingleActivityT
 import useCreateNewSection from '../../api/Activity/Template/Sections/useCreateNewSection';
 import usePublishActivityTemplate from '../../api/Activity/Template/usePublishActivityTemplate';
 import { ISectionData } from '../../types/project';
+import { Void } from '../../types/global';
 
 const CourseSectionContainer = styled.div`
   display: flex;
@@ -24,11 +25,9 @@ const CourseSection: React.FC = () => {
   const navigate = useNavigate();
   const [isSavedProjectModal, setIsSavedProjectModal] = useState(false);
   const [isSuccessPublishModal, setIsSuccessPublishModal] = useState(false);
-  const { id: templateId } = useParams<{ id: any }>();
+  const { id: templateId } = useParams<{ id: string | undefined }>();
 
-  const { data, refetch } = getSingleTemplate(templateId, {
-    onSuccess: () => console.log('')
-  });
+  const { data, refetch } = getSingleTemplate(templateId, {});
 
   const { mutate: createTemplateSection } = useCreateNewSection({
     onSuccess: () => {
@@ -51,21 +50,23 @@ const CourseSection: React.FC = () => {
     }
   });
 
-  const onAddSection = (): void => {
+  const onAddSection: Void = () => {
     if (templateId != null) {
       createTemplateSection({ id: templateId });
     }
   };
 
-  const handleCancel = (): void => {
+  const handleCancel: Void = () => {
     setIsSavedProjectModal(false);
   };
-  const handleSuccessModalCancel = (): void => {
+  const handleSuccessModalCancel: Void = () => {
     setIsSuccessPublishModal(false);
   };
 
-  const onPublishSections = (): void => {
-    publishTemplate({ id: templateId });
+  const onPublishSections: Void = () => {
+    if (templateId != null) {
+      publishTemplate({ id: templateId });
+    }
   };
 
   return (
@@ -75,14 +76,13 @@ const CourseSection: React.FC = () => {
         style={{
           display: 'flex',
           justifyContent: 'flex-start',
-          margin: '2rem 0px 2rem 6% ',
+          margin: '2rem 0px 2rem 0rem ',
           width: '88%',
           fontSize: 'var(--headline-font-size)'
         }}
       >
-        <span>Sections:</span>
         <span>
-          Input course sections name and choose their learning statuses
+          Section and learning statuses
         </span>
       </Space>
       <Space direction="vertical" size={32} style={{ width: '100%' }}>
@@ -119,13 +119,15 @@ const CourseSection: React.FC = () => {
       >
         <AsnButton
           className="default"
-          onClick={() =>
-            navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', templateId)}`)
+          onClick={() => {
+            if (templateId != null) {
+              navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', templateId)}`);
+            }
+          }
           }
         >
           Previous
         </AsnButton>
-        <AsnButton className="default">Save as Draft</AsnButton>
         <AsnButton
           className="primary"
           onClick={() => setIsSavedProjectModal(true)}

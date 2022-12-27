@@ -221,7 +221,8 @@ export interface ILearningStatusData {
 }
 
 export interface ISectionData {
-  activityTemplateId: string
+  active?: boolean | undefined
+  activityTemplateId?: string
   id: string
   projectId: string
   requiredDocuments: []
@@ -230,7 +231,7 @@ export interface ISectionData {
   type: string
 }
 export interface ILearningStatus {
-  section: ISectionData // ISection
+  section: ISectionData
   data: ILearningStatusData
   refetch: any
   index: number
