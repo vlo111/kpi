@@ -88,3 +88,7 @@ export interface IAsnCheckbox {
   checkHeight?: string
   borderSize?: string
 }
+export interface DataType {
+  key: React.Key
+  name: string
+}
