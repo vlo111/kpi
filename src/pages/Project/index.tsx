@@ -77,7 +77,7 @@ export const FormProject: React.FC<{
       {error?.length > 0 && <AsnAlert type="error" message={error} />}
 
       <Title level={4} className="title">
-        {(id !== undefined) ? 'Update the project, you can edit the following information' : 'To create a new project, please fill in the following information'}
+        {(id !== undefined) ? 'Edit project information' : 'To create a new project, please fill in the following information'}
       </Title>
 
       <AsnForm

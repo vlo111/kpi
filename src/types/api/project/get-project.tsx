@@ -21,13 +21,15 @@ export interface ICreateProjectData {
 }
 
 export interface ICreateResultArea {
-  result: { resultAreas: IResultAreaData }
+  result: { resultAreas: IResultAreaData[] }
 }
 
 export interface ICreateResultAreaData {
   id: string
-  data: IResultAreaData
+  data: IResultAreaData[]
 }
+
+export interface IUseGetResultArea { isLoading: boolean, resultAreas: IResultAreaData[] }
 
 export interface ICreateProjectDetails {
   id: string
@@ -64,7 +66,7 @@ export type UseGetProjectResultArea1 = (
 
 export type UseGetProjectResultArea = (
   id: string | undefined
-) => { resultAreas: IResultAreaData | undefined, isLoading: false | true } | undefined;
+) => { resultAreas: IResultAreaData[] | undefined, isLoading: boolean } | undefined;
 
 export interface ResponseErrorParam {
   message: string

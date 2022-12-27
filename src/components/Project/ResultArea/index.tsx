@@ -28,7 +28,7 @@ const initialResultArea: (order: number) => IResultAreaData = (order) => ({
   title: '',
   order,
   expectedResults: [{ measurement: 'NUMBER' }],
-  inputActivities: [{ title: '', order: order + 0.1, milestones: [{ measurement: 'NUMBER' }] }]
+  inputActivities: [{ title: '', order: 1, milestones: [{ measurement: 'NUMBER' }] }]
 });
 
 const InputResult: React.FC = () => {
