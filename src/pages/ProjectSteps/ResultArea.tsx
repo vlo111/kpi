@@ -254,10 +254,6 @@ export const ResultArea: React.FC = () => {
     return <AsnSpin />;
   }
 
-  const Cancel: Void = () => {
-    navigate(-1);
-  };
-
   return (
       <ProjectInputForm
         form={form}
@@ -275,19 +271,9 @@ export const ResultArea: React.FC = () => {
           onNotSave={onNotSaveModal}
         />
         <div className="footer">
-          {(resultAreas?.length > 0)
-            ? <>
-            <AsnButton className="default" onClick={Cancel}>
-              Cancel
-            </AsnButton>
-            <AsnButton className="primary" htmlType="submit">
-              Update
-            </AsnButton>
-          </>
-            : <AsnButton className="primary" htmlType="submit">
-              Next
-            </AsnButton>
-          }
+          <AsnButton className="primary" htmlType="submit">
+            Next
+          </AsnButton>
         </div>
       </ProjectInputForm>
   );
