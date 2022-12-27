@@ -283,6 +283,8 @@ export interface ISubActivityAndTemplates {
   checkAll: boolean
   indeterminate: boolean
   checkedList: CheckboxValueType[] | undefined
+  setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
+  dateSearch: IDataSearchchSubActivity
 }
 
 export interface IResultAreasTitles {
@@ -331,4 +333,15 @@ export interface IStatusFilter {
 export interface IActiveTemplate {
   templates: IProjectTemplate[]
   refetch: any
+}
+
+export interface IDataSearchchSubActivity {
+  from: string
+  to: string
+  start: boolean
+}
+
+export interface IDateFilterCards {
+  setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
+  dateSearch: IDataSearchchSubActivity
 }

@@ -51,7 +51,9 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
   setCheckedList,
   checkAll,
   indeterminate,
-  checkedList
+  checkedList,
+  setDateSearch,
+  dateSearch
 }) => {
   return (
     <Tab>
@@ -65,7 +67,7 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
           checkedList={checkedList}
         />
         <AssingnesFilter />
-        <DateFilterCards />
+        <DateFilterCards setDateSearch={setDateSearch} dateSearch={dateSearch} />
         <AsnButton type="link" style={{ fontSize: 'var(--font-size-small', color: 'var(--dark-1)' }}>Reset</AsnButton>
       </Space>
       <Tabs

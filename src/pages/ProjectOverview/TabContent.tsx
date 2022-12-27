@@ -32,6 +32,11 @@ const TabContent: React.FC<ITabContent> = ({
   const [checkedList, setCheckedList] = useState<CheckboxValueType[]>();
   const [indeterminate, setIndeterminate] = useState(true);
   const [checkAll, setCheckAll] = useState(false);
+  const [dateSearch, setDateSearch] = useState({
+    start: true,
+    from: '',
+    to: ''
+  });
   const { data: templates, isLoading: isLoadingTemplates, refetch } = GetTemplates(inputActivityId ?? defaultInputActivityId, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
   const { data: subActivities, isLoading: isLoadingSubActivity } = useGetSubActivities(inputActivityId ?? defaultInputActivityId, ((checkedList?.length) !== 0) ? { status: checkedList } : {}, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
   return (
@@ -59,6 +64,8 @@ const TabContent: React.FC<ITabContent> = ({
                   checkedList={checkedList}
                   indeterminate={indeterminate}
                   checkAll={checkAll}
+                  setDateSearch={setDateSearch}
+                  dateSearch={dateSearch}
                 />)
                   : (
                   <Space
