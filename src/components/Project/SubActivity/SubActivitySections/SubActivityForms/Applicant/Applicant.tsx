@@ -9,7 +9,7 @@ import SubActivityFooter from '../../../SubActivityWrapper/Footer';
 
 const ApplicantsForm: React.FC<any> = ({ id, setActiveKey }) => {
   const { Title } = Typography;
-  const [Published, setPublished] = useState(false);
+  const [Published] = useState(false);
 
   return (
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 64]}>
@@ -24,7 +24,7 @@ const ApplicantsForm: React.FC<any> = ({ id, setActiveKey }) => {
               <AsnButton
                 className="primary"
                 type="primary"
-                onClick={() => setPublished(true)}
+                // onClick={() => setPublished(true)}
               >
                 Publish Application form
               </AsnButton>

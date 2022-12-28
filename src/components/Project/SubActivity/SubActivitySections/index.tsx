@@ -101,6 +101,7 @@ const SubActivitySections: React.FC<any> = ({ activity }) => {
         </Title>
         <Tabs activeKey={activeKey} onChange={handleTabChange}>
           <TabPane forceRender key="1">
+            {activity?.sectionsData[0]?.status === 'INACTIVE' &&
             <Row justify="center">
               <AsnButton
                 type="primary"
@@ -116,6 +117,7 @@ const SubActivitySections: React.FC<any> = ({ activity }) => {
                 Start Course
               </AsnButton>
             </Row>
+            }
             <DefaultContent manager={activity?.manager} />
           </TabPane>
           {activity?.sectionsData[0]?.section?.sectionSettingMap?.map(
@@ -141,15 +143,15 @@ const SubActivitySections: React.FC<any> = ({ activity }) => {
                       return <PreAssessmentForm />;
                     case 'Participant':
                       return <ParticipantForm />;
+                    case 'Post-assessment':
+                      return <PostAssessmentForm />;
                     case 'Trained':
                       return (
-                        <DefaultContent
-                          manager={activity?.manager}
-                          status={activity?.sectionsData[0]?.status}
-                        />
+                          <DefaultContent
+                            manager={activity?.manager}
+                            status={activity?.sectionsData[0]?.status}
+                          />
                       );
-                    case 'Post-assessment of selected':
-                      return <PostAssessmentForm />;
                     default:
                       return (
                         <DefaultContent

@@ -12,11 +12,11 @@ const PostAssessmentForm: React.FC = () => {
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 64]}>
       <FormWrapper className="post_assessment_form">
         <Row justify="center" style={{ marginBottom: '3.2vh' }}>
-          <Title level={5}>Pre-assessment form</Title>
+          <Title level={5}>Post-assessment form</Title>
         </Row>
         <Row justify="center" style={{ width: '100%' }}>
           <AsnButton className="primary" type="primary">
-            Publish Pre-assessment form
+            Publish Post-assessment form
           </AsnButton>
         </Row>
         <Row

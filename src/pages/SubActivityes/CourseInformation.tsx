@@ -7,6 +7,7 @@ import AsnBreadcrumb from '../../components/Forms/Breadcrumb';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import GetSingleSubActivity from '../../api/Activity/SubActivity/useGetSingleSubActivity';
+import CourseInfo from '../../components/Project/SubActivity/CourseInformation';
 
 const CourseInfoWrapper = styled.div`
   padding: 40px 32px 60px 32px;
@@ -55,13 +56,8 @@ const CourseInformation: React.FC<{}> = () => {
       </Title>
       <AsnCard>
         <Space direction={'vertical'} size={[0, 16]} style={{ width: '100%' }}>
-          <CardTitle title={'General Info'} id={'0dc9242a-7091-4b64-993b-aca6440c03cb'} />
-          {/* <GeneralInfo
-            title={project?.title}
-            description={project?.description}
-            startDate={project?.startDate}
-            endDate={project?.endDate}
-          /> */}
+          <CardTitle title={'General Info'} id={data?.sectionsData[0]?.id} />
+          <CourseInfo courseData={data}/>
         </Space>
       </AsnCard>
     </CourseInfoWrapper>

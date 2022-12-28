@@ -1,10 +1,11 @@
 import React from 'react';
 import Dragger from 'antd/lib/upload/Dragger';
 import styled from 'styled-components';
-import { Col, Typography } from 'antd';
+import { Col, Typography, UploadProps } from 'antd';
 
 import { ReactComponent as UploadDocument } from '../../../../../../assets/icons/upload-docs.svg';
 import { IDraggerProps } from '../../../../../../types/subActivyty';
+import useFileUpload from '../../../../../../api/Activity/SubActivity/useUploadFile';
 
 const AsnDragger = styled(Dragger)`
   .ant-upload {
@@ -30,26 +31,26 @@ const AsnDragger = styled(Dragger)`
 
 const DraggerForm: React.FC<IDraggerProps> = ({ text, padding }) => {
   const { Title } = Typography;
-  const props: any = {
+  const { mutate: UploadDoc } = useFileUpload({
+    onSuccess: (options: any) => {
+      const {
+        data: { result }
+      } = options;
+      console.log(result);
+    }
+  });
+  const props: UploadProps = {
     customRequest: (options: { file: any }) => {
       const { file } = options;
+      UploadDoc(file);
       console.log(file, 'options', options);
     },
     name: 'file',
-    accept: '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx',
-    beforeUpload: () => false
+    accept: '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx'
   };
   return (
     <Col style={{ padding: padding ?? '0' }}>
       <AsnDragger
-        // name="uploadFile"
-        // multiple
-        // beforeUpload={() => false}
-        // accept=".doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx"
-        // style={{ width: '100%', height: 'inherit' }}
-        // customRequest={(file: any) => {
-        //   console.log(file);
-        // }}
         {...props}
         style={{ width: '100%', height: 'inherit' }}
       >

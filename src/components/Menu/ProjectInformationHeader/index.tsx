@@ -68,8 +68,6 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
           />
         )}
         <Row gutter={[16, 0]}>
-          {overview === true
-            ? (
             <Col
               span={4}
               style={{
@@ -77,26 +75,10 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
                 fontSize: 'var(--headline-font-size)'
               }}
             >
-              {' '}
-              {project?.title}
+              {project?.title ?? activity?.sectionsData[0]?.title}
             </Col>
-              )
-            : (
-            <Col
-              span={4}
-              style={{
-                color: 'var(--dark-border-ultramarine)',
-                fontSize: 'var(--headline-font-size)'
-              }}
-            >
-              {' '}
-              {activity?.sectionsData[0]?.title}
-            </Col>
-              )}
           <Col span={14} offset={1} style={{ color: 'var(--dark-1)' }}>
-            {overview === true
-              ? project?.description
-              : activity?.sectionsData[0]?.data?.description}
+            { project?.description ?? activity?.sectionsData[0]?.data?.description}
             <Row align="middle" style={{ marginTop: '20px' }}>
               <Col>
                 <AntBadge color="var(--secondary-green)" text="Active" />
@@ -106,7 +88,7 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
                 ? (
                 <>
                   <Col style={{ fontSize: 'var(--base-font-size)' }}>
-                    {moment(project?.startDate).format('DD/MM/YYYY')} -{' '}
+                    {moment(project?.startDate).format('DD/MM/YYYY')} -
                     {moment(project?.endDate).format('DD/MM/YYYY')}
                     <AntDivider type="vertical" />
                   </Col>
@@ -152,7 +134,9 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
                     )}
                     <AntDivider type="vertical" />
                   </Col>
-                  <Col style={{ marginRight: '8px' }}>{activity?.region?.title}</Col>
+                  <Col style={{ marginRight: '8px' }}>
+                    {activity?.region?.title}
+                  </Col>
                   <Col>
                     <AntIcon
                       component={WarningSvg}
