@@ -17,6 +17,7 @@ const Sider = styled(LayoutStyle.Sider)`
 
 const Content = styled(LayoutStyle.Content)`
   background: var(--background); 
+  overflow: auto;
 `;
 
 export const MainLayout: React.FC<IComponentChildren> = ({ children }) => {

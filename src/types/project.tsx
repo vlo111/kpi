@@ -338,6 +338,7 @@ export interface ISubActivityAndTemplates {
   checkedList: CheckboxValueType[] | undefined
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
+  setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface IResultAreasTitles {
@@ -352,7 +353,6 @@ export interface ITabContent {
   inputActivityId: string | undefined
   resultArea: IResultAreas
   setInputActivityId: React.Dispatch<React.SetStateAction<string | undefined>>
-  setActivityId: React.Dispatch<React.SetStateAction<string | undefined>>
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
   defaultInputActivityId: string
 }
@@ -394,6 +394,7 @@ export interface IStatusFilter {
 export interface IActiveTemplate {
   templates: IProjectTemplate[]
   refetch: any
+  setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface IDataSearchchSubActivity {

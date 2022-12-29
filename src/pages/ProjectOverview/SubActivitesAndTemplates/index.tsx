@@ -49,7 +49,8 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
   indeterminate,
   checkedList,
   setDateSearch,
-  dateSearch
+  dateSearch,
+  setIsOpenCreateActivityModal
 }) => {
   return (
     <Tab>
@@ -74,7 +75,7 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
           />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Active Templates " key="2">
-          <ActiveTempalate templates={templates} refetch={refetch} />
+          <ActiveTempalate templates={templates} refetch={refetch} setIsOpenCreateActivityModal={setIsOpenCreateActivityModal} />
         </Tabs.TabPane>
       </Tabs>
     </Tab>

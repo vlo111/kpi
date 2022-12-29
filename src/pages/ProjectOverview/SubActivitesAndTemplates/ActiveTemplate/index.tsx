@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, Popconfirm, Card, Col, Row, message } from 'antd';
 import styled from 'styled-components';
 
+import { PATHS } from '../../../../helpers/constants';
 import { ConfirmModal } from '../../../../components/Forms/Modal/Confirm';
 import { IActiveTemplate } from '../../../../types/project';
 import useDuplicateTemplate from '../../../../api/Activity/Template/useDuplicateTemplate';
@@ -94,7 +96,7 @@ align-items: baseline;
 }
 `;
 
-export const ActiveTempalate: React.FC<IActiveTemplate> = ({ templates, refetch }) => {
+export const ActiveTempalate: React.FC<IActiveTemplate> = ({ templates, refetch, setIsOpenCreateActivityModal }) => {
   const [show, setShow] = useState<string | boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [templateId, setTemplateId] = useState<string>('');
@@ -119,15 +121,16 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({ templates, refetch 
       }
     }
   );
+  const navigate = useNavigate();
 
   const title = (id: string): any => {
     return (
       <Row>
         <Col>
-        <Popup type="link">
+          <Popup type="link">
             <Plus />Use
           </Popup>
-          <Popup type="link">
+          <Popup type="link" onClick={() => navigate(`/${PATHS.ACTIVITYTEMPLATE}`.replace(':id', id))}>
             <EditSvg />
             Edit
           </Popup>
@@ -151,44 +154,44 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({ templates, refetch 
     <>
       <Container>
         <Row gutter={[32, 0]} style={{ width: '100%', height: '50vh' }}>
-          <Col style={{ cursor: 'pointer' }} >
+          <Col style={{ cursor: 'pointer' }} onClick={() => setIsOpenCreateActivityModal(true)} >
             <Card className=" card">+Add Activity Template</Card>
           </Col>
           {templates?.map((template) => (
-              <Col key={template?.id}>
-                <Popconfirm
-                  overlayClassName="popconFirm"
-                  title={() => title(template?.id)}
-                  okText
-                  cancelText="X"
-                  placement="bottom"
-                  icon={false}
-                  getPopupContainer={(trigger: HTMLElement) => trigger}
-                >
-                  <Button type="link" className="cardClick">
-                    ...
-                  </Button>
-                </Popconfirm>
-                <Card
-                  className="card"
-                  extra={show === template?.id ? template?.description : null}
-                  onMouseEnter={() => setShow(template?.id)}
-                  onMouseLeave={() => setShow(false)}
-                >
-                  {template?.title}
-                </Card>
-              </Col>
+            <Col key={template?.id}>
+              <Popconfirm
+                overlayClassName="popconFirm"
+                title={() => title(template?.id)}
+                okText
+                cancelText="X"
+                placement="bottom"
+                icon={false}
+                getPopupContainer={(trigger: HTMLElement) => trigger}
+              >
+                <Button type="link" className="cardClick">
+                  ...
+                </Button>
+              </Popconfirm>
+              <Card
+                className="card"
+                extra={show === template?.id ? template?.description : null}
+                onMouseEnter={() => setShow(template?.id)}
+                onMouseLeave={() => setShow(false)}
+              >
+                {template?.title}
+              </Card>
+            </Col>
           ))}
         </Row>
-          <ConfirmModal
-                styles={{ gap: '3rem' }}
-                yes="Delete"
-                no="Cancel"
-                open={openDeleteModal}
-                title="Are you sure you want to delete this template?"
-                onSubmit={() => deleteActivityTemplate({ id: templateId })}
-                onCancel={() => setOpenDeleteModal(false)}
-              />
+        <ConfirmModal
+          styles={{ gap: '3rem' }}
+          yes="Delete"
+          no="Cancel"
+          open={openDeleteModal}
+          title="Are you sure you want to delete this template?"
+          onSubmit={() => deleteActivityTemplate({ id: templateId })}
+          onCancel={() => setOpenDeleteModal(false)}
+        />
       </Container>
     </>
   );

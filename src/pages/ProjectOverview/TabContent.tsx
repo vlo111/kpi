@@ -25,7 +25,6 @@ const TabContent: React.FC<ITabContent> = ({
   inputActivityId,
   resultArea,
   setInputActivityId,
-  setActivityId,
   setIsOpenCreateActivityModal,
   defaultInputActivityId
 }) => {
@@ -68,6 +67,7 @@ const TabContent: React.FC<ITabContent> = ({
                   checkAll={checkAll}
                   setDateSearch={setDateSearch}
                   dateSearch={dateSearch}
+                  setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
                 />)
                   : (
                   <Space
@@ -86,7 +86,6 @@ const TabContent: React.FC<ITabContent> = ({
                       style={{ marginTop: '12px' }}
                       className="primary"
                       onClick={() => {
-                        setActivityId(inputActivity.id);
                         setIsOpenCreateActivityModal(true);
                       }}
                     >

@@ -17,7 +17,6 @@ const { Text } = Typography;
 
 const ProjectOverview: React.FC = () => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState(false);
-  const [activityId, setActivityId] = useState<string | undefined>('');
   const [inputActivityId, setInputActivityId] = useState<string | undefined>(undefined);
   const [active, setActive] = useState<number>(1);
 
@@ -47,7 +46,6 @@ const ProjectOverview: React.FC = () => {
             inputActivityId={inputActivityId}
             resultArea={resultArea}
             setInputActivityId={setInputActivityId}
-            setActivityId={setActivityId}
             setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
             defaultInputActivityId={defaultInputActivityId}
           />
@@ -72,7 +70,6 @@ const ProjectOverview: React.FC = () => {
   if (isLoading === true) {
     return <AsnSpin />;
   }
-
   return (
     <>
       <ProjectInformationHeader overview={true} project={project} />
@@ -106,7 +103,7 @@ const ProjectOverview: React.FC = () => {
       <CreateTemplate
         isOpenCreateActivityModal={isOpenCreateActivityModal}
         setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
-        activityId={activityId}
+        activityId={inputActivityId ?? defaultInputActivityId}
       />
     </>
   );
