@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ProjectDetailComponent } from '../../components/Project/ProjectDetails';
+import { IStepsUpdate } from '../../types/project';
 
 const ProjectDetailsStyle = styled.div`
   #dynamic_form_item > .ant-row {
@@ -48,10 +49,10 @@ const ProjectDetailsStyle = styled.div`
     gap: 5rem;
 `;
 
-export const ProjectDetails: React.FC = () => {
+export const ProjectDetails: React.FC<IStepsUpdate> = ({ isUpdate }) => {
   return (
     <ProjectDetailsStyle>
-      <ProjectDetailComponent />
+      <ProjectDetailComponent isUpdate={isUpdate} />
     </ProjectDetailsStyle>
   );
 };
