@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 const SubActivity: React.FC<{}> = () => {
   const { id: subActivityId } = useParams<{ id: any }>();
   console.log(subActivityId);
-  const { data } = GetSingleSubActivity('68c242e8-bb09-43ef-9934-2c010589e955', {
+  const { data } = GetSingleSubActivity('09590093-570a-43e8-b52e-3ebfd802b1cd', {
     onSuccess: (data: { result: any, count: any }) => console.log('')
   });
   return (

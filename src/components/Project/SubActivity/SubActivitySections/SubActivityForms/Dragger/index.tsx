@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Col, Typography, UploadProps } from 'antd';
 
 import { ReactComponent as UploadDocument } from '../../../../../../assets/icons/upload-docs.svg';
-import { IDraggerProps } from '../../../../../../types/subActivyty';
+import { IDraggerProps } from '../../../../../../types/subActivity';
 import useFileUpload from '../../../../../../api/Activity/SubActivity/useUploadFile';
 
 const AsnDragger = styled(Dragger)`
