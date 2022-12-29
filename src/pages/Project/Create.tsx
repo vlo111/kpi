@@ -11,9 +11,10 @@ import {
 } from '../../types/project';
 import useCreateProject from '../../api/Project/useCreateProject';
 import { ConfirmModal } from '../../components/Forms/Modal/Confirm';
-import { ICreateProjectData } from '../../types/api/project/get-project';
+import { ICreateProjectData, IUseCreateProject } from '../../types/api/project/get-project';
 import { useProject } from '../../hooks/useProject';
 import { PATHS } from '../../helpers/constants';
+import AsnSpin from '../../components/Forms/Spin1';
 
 export const CreateProject: React.FC = () => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ export const CreateProject: React.FC = () => {
     setModal('');
   };
 
-  const { mutate: createProject, isLoading } = useCreateProject({
+  const { mutate: createProject, isLoading }: IUseCreateProject = useCreateProject({
     onSuccess,
     onError
   });
@@ -68,7 +69,7 @@ export const CreateProject: React.FC = () => {
 
   const onSkipUser: Void = () => {
     if (openModal !== '') {
-      navigate(`../overview/${openModal}`, { replace: true });
+      navigate(`../${openModal}/steps/0`, { replace: true });
     }
   };
 
@@ -77,6 +78,10 @@ export const CreateProject: React.FC = () => {
       navigate(`/project/${PATHS.OVERVIEW}`.replace(':id', projectId));
     }
   }, []);
+
+  if (isLoading) {
+    return <AsnSpin />;
+  }
 
   return (
     <>

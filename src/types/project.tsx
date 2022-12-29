@@ -206,41 +206,95 @@ export interface ICreateTemplateModal {
 
 export type AddManagerHandle = (values: unknown) => void
 
-export interface ISection {
-  [x: string]: number
+export interface ILearningStatusData {
+  applicationForm: string[]
+  category: string
+  courseSettingMap: object[]
+  courseStructure: string
+  description: string
+  id: string
+  inputActivityId: string
+  projectId: string
+  sections: object[]
+  status: string
+  title: string
+
 }
 
+export interface ISetting {
+  changeable: boolean | undefined
+  id: string | undefined
+  projectId: string | undefined
+  title: string | undefined
+}
+export interface ISectionsSettingItem {
+  active: boolean
+  id: string
+  sectionId: string
+  sectionSettingId: string
+  setting: ISetting
+}
+
+export interface ISectionData {
+  active?: boolean | undefined
+  activityTemplateId?: string
+  id: string
+  projectId: string
+  requiredDocuments: []
+  sectionSettingMap: ISectionsSettingItem[]
+  title: string
+  type: string
+}
 export interface ILearningStatus {
-  section: any // ISection
+  section: ISectionData
+  data: ILearningStatusData
+  refetch: any
+  index: number
 }
 
 export interface IRequiredDocuments {
   documentName: string
   documentCount: number
   id: string
+  title?: string
+  count?: string
 }
 
 export interface IAddRequiredDocument {
   isOpenAddDocumentsModal: boolean
   setIsOpenAddDocumentsModal: React.Dispatch<React.SetStateAction<boolean>>
-  requiredDocuments: IRequiredDocuments[]
-  setRequiredDocuments: React.Dispatch<React.SetStateAction<IRequiredDocuments[]>>
+  sectionId: string
+  refetch: any
 }
 
 export interface IAddedDocuments {
   requiredDocuments: IRequiredDocuments[]
-  setRequiredDocuments: React.Dispatch<React.SetStateAction<IRequiredDocuments[]>>
+  refetch: any
+}
+
+export interface ICreatedFieldItem {
+  answerType: string
+  changeable: true
+  data: string[]
+  description: null | string
+  id: string
+  projectId: string
+  title: string
+  type: string
+  setting?: any
+  active?: boolean
+  helpText?: string
 }
 
 export interface ICreateFieldsProps {
   setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
   questionType: string
-  form: any
   setQuestionType: React.Dispatch<React.SetStateAction<string>>
-  templateId: string | undefined
+  item: ICreatedFieldItem | null
+  setItem: React.Dispatch<React.SetStateAction<ICreatedFieldItem | null>>
 }
 
-export type ContentType = (id: string) => ReactElement
+export type ContentType = (item: ICreatedFieldItem) => ReactElement
 
 export interface ITemplateData {
   id: string
@@ -253,9 +307,8 @@ export interface ITemplateData {
 }
 
 export interface IQuestionsRow {
-  item: any // ITemplateData
-  templateData: ITemplateData[]
-  setTemplateData: React.Dispatch<React.SetStateAction<ITemplateData[]>>
+  item: ICreatedFieldItem
+  setItem: React.Dispatch<React.SetStateAction<ICreatedFieldItem | null>>
   setQuestionType: React.Dispatch<React.SetStateAction<string>>
   setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
   helpTextValue: IHelpText[]
@@ -353,3 +406,8 @@ export interface IDateFilterCards {
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
 }
+export type StepsHeaderText = (mode: string) => string
+
+export interface IStepsUpdate { isUpdate: boolean }
+
+export interface IResultsUpdate { createOrUpdate: Void, isUpdate: boolean }

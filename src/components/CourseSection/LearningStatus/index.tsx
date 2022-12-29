@@ -5,11 +5,10 @@ import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
 import AddRequiredDocumentModal from '../AddRequiredDocumentModal';
 import AddedDocuments from '../AddedDocuments';
 import { AsnButton } from '../../Forms/Button';
-import {
-  ILearningStatus,
-  IRequiredDocuments
-  // ISection
-} from '../../../types/project';
+import { ILearningStatus, ISectionsSettingItem } from '../../../types/project';
+import useDeleteSection from '../../../api/Activity/Template/Sections/useDeleteSection';
+import { Void } from '../../../types/global';
+import useUpdateSectionStatus from '../../../api/Activity/Template/Sections/useupdateSectionStatus';
 
 const SectionContainer = styled(Row)`
   width: 100% !important;
@@ -106,27 +105,41 @@ const SectionRow = styled(Space)`
 `;
 
 const LearningStatus: React.FC<ILearningStatus> = ({
-  section
+  section,
+  data,
+  refetch,
+  index
 }) => {
-  const sectionsCount = 'Multi-Section';
   const [isOpenAddDocumentsModal, setIsOpenAddDocumentsModal] = useState(false);
-  const [requiredDocuments, setRequiredDocuments] = useState<
-  IRequiredDocuments[]
-  >([]);
 
-  const onDeleteSection = (): void => {
-    // if (sections.length > 1) {
-    //   setSections(
-    //     sections.filter((item: ISection): boolean => item.id !== section.id)
-    //   );
-    // }
+  const { mutate: deleteSectionById } = useDeleteSection({
+    onSuccess: () => {
+      refetch();
+    }
+  });
+
+  const { mutate: updateSectionStatus } = useUpdateSectionStatus({
+    onSuccess: () => {
+      refetch();
+    }
+  });
+
+  const handleSectionStatus = (settingId: string): void => {
+    updateSectionStatus({
+      id: settingId
+    });
+  };
+
+  const onDeleteSection: Void = () => {
+    deleteSectionById({ id: section?.id });
   };
 
   return (
     <SectionContainer>
       <SectionHeaderContainer>
-        <SectionHeader>{section.title}</SectionHeader>
-        {section.length > (sectionsCount === 'Multi-Section' ? 2 : 1)
+        <SectionHeader>Section {+index + 1}:</SectionHeader>
+        {data?.courseStructure !== 'ONE_SECTION' &&
+        data?.sections?.length > 2
           ? (
           <div style={{ position: 'absolute', right: '4%', top: 23 }}>
             <DeleteIcon
@@ -138,7 +151,7 @@ const LearningStatus: React.FC<ILearningStatus> = ({
           : null}
       </SectionHeaderContainer>
       <SectionContent>
-        {section?.sectionSettingMap.map((item: any) => (
+        {section?.sectionSettingMap.map((item: ISectionsSettingItem) => (
           <SectionRow key={item.id} direction="horizontal">
             {item.setting.title}
             <Checkbox
@@ -146,9 +159,9 @@ const LearningStatus: React.FC<ILearningStatus> = ({
                 color: 'var(--dark-2)'
               }}
               defaultChecked={item.active}
-              disabled={item.active}
-              onChange={(value) => console.log(value.target.checked)}
-            ></Checkbox>
+              disabled={(item?.setting?.changeable) === false}
+              onChange={() => handleSectionStatus(item.id)}
+            />
           </SectionRow>
         ))}
         <Space
@@ -157,16 +170,18 @@ const LearningStatus: React.FC<ILearningStatus> = ({
           style={{
             display: 'flex',
             justifyContent:
-              requiredDocuments.length > 0 ? 'space-between' : 'flex-end',
+              section?.requiredDocuments?.length > 0
+                ? 'space-between'
+                : 'flex-end',
             alignItems: 'flex-start',
             marginTop: '1rem'
           }}
         >
-          {requiredDocuments.length > 0
+          {section?.requiredDocuments?.length > 0
             ? (
             <AddedDocuments
-              requiredDocuments={requiredDocuments}
-              setRequiredDocuments={setRequiredDocuments}
+              requiredDocuments={section.requiredDocuments}
+              refetch={refetch}
             />
               )
             : null}
@@ -181,8 +196,8 @@ const LearningStatus: React.FC<ILearningStatus> = ({
       <AddRequiredDocumentModal
         isOpenAddDocumentsModal={isOpenAddDocumentsModal}
         setIsOpenAddDocumentsModal={setIsOpenAddDocumentsModal}
-        setRequiredDocuments={setRequiredDocuments}
-        requiredDocuments={requiredDocuments}
+        sectionId={section.id}
+        refetch={refetch}
       />
     </SectionContainer>
   );

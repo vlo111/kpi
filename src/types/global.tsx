@@ -92,3 +92,6 @@ export interface DataType {
   key: React.Key
   name: string
 }
+
+export interface IActivityResult<T> { data: { result: T } }
+export interface ISectionResult<T> { data: { result: T } }

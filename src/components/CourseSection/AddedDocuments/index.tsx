@@ -4,6 +4,7 @@ import { Space } from 'antd';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
 import { StringVoidType } from '../../../types/global';
 import { IAddedDocuments, IRequiredDocuments } from '../../../types/project';
+import useDeleteRequiredDocs from '../../../api/Activity/Template/Sections/useDeleteRequiredDoc';
 
 const DocumentsCountContainer = styled(Space)`
   background: var(--white);
@@ -14,14 +15,16 @@ const DocumentsCountContainer = styled(Space)`
 
 const AddedDocuments: React.FC<IAddedDocuments> = ({
   requiredDocuments,
-  setRequiredDocuments
+  refetch
 }) => {
+  const { mutate: deleteDocumentById } = useDeleteRequiredDocs({
+    onSuccess: () => {
+      refetch();
+    }
+  });
+
   const onDeleteDocument: StringVoidType = (id) => {
-    setRequiredDocuments(
-      requiredDocuments.filter((document: IRequiredDocuments) => {
-        return document.id !== id;
-      })
-    );
+    deleteDocumentById({ id });
   };
 
   return (
@@ -46,9 +49,9 @@ const AddedDocuments: React.FC<IAddedDocuments> = ({
             style={{ display: 'flex', justifyContent: 'space-between' }}
           >
             <Space style={{ fontSize: 'var(--headline-font-size)' }}>
-              {document.documentName}:
+              {document.title}:
               <Space style={{ color: 'var(--dark-4)' }}>
-                {document.documentCount}
+                ({document?.count})
               </Space>
             </Space>
             <Space style={{ marginRight: '1rem', cursor: 'pointer' }}>

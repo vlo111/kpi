@@ -3,7 +3,7 @@ import client from '../../client';
 
 export const url = 'api/activity';
 
-const GetSingleTemplate: any = (id: string, options = { enabled: false }) => {
+const getSingleTemplate: any = (id: string, options = { enabled: false }) => {
   const result = useQuery(
     [url, id],
     async () => await client.get(`${url}/template/${id}`),
@@ -20,4 +20,4 @@ const GetSingleTemplate: any = (id: string, options = { enabled: false }) => {
   };
 };
 
-export default GetSingleTemplate;
+export default getSingleTemplate;

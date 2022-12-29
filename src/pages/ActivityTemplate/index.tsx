@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Col, Form, Radio, Row } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -6,12 +6,14 @@ import { AsnButton } from '../../components/Forms/Button';
 import CreateFields from '../../components/ActivityTemplate/CreateField';
 import { AsnCheckbox } from '../../components/Forms/Checkbox';
 import QuestionsRow from '../../components/ActivityTemplate/QuestionsRow';
-import { FormFinish, Void } from '../../types/global';
-import { IHelpText } from '../../types/project';
+import { FormFinish, IActivityResult, Void } from '../../types/global';
+import { ICreatedFieldItem, IHelpText } from '../../types/project';
 import { PATHS, VALIDATE_MESSAGES } from '../../helpers/constants';
-import GetSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
+import getSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
 import useCreateNewSetting from '../../api/Activity/Template/Settings/useCreateSetting';
 import useCreateSecondStepTemplate from '../../api/Activity/Template/useCreateSecondStep';
+import useUpdateSingleSetting from '../../api/Activity/Template/Settings/useUpdateSingleSetting';
+import _ from 'lodash';
 
 const ActivityTemplateContainer = styled.div`
   display: flex;
@@ -118,66 +120,69 @@ const FormsStructureContainer = styled.div`
 
 const ActivityTemplate: React.FC = () => {
   const [isVisibleAddField, setIsVisibleAddField] = useState<boolean>(false);
-  const [templateData, setTemplateData] = useState<any[] | []>([]);
   const [questionType, setQuestionType] = useState('');
   const [helpTextValue, setHelpTextValue] = useState<IHelpText[] | []>([]);
+  const [item, setItem] = useState<ICreatedFieldItem | null>(null);
 
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const { id: templateId } = useParams();
+  const { id: templateId } = useParams<{ id: string | undefined }>();
 
-  const { data, refetch } = GetSingleTemplate(
-    templateId,
-    {
-      onSuccess: (data: { result: any, count: any }) =>
-        console.log('>>>>>>>>>>>>>')
-    }
-  );
+  const { data, refetch } = getSingleTemplate(templateId, {});
 
   const { mutate: createTemplateSetting } = useCreateNewSetting({
-    onSuccess: (options: any) => {
+    onSuccess: () => {
       refetch();
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
     }
   });
 
   const { mutate: createSecondStepTemplateFn } = useCreateSecondStepTemplate({
-    onSuccess: (options: any) => {
+    onSuccess: (options: IActivityResult<ICreatedFieldItem>) => {
       const {
         data: { result }
       } = options;
-      console.log(result?.id);
-      if (templateId != null) {
-        navigate(`/${PATHS.COURSESECTION.replace(':id', templateId)}`);
-      }
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
+      navigate(`/${PATHS.COURSESECTION.replace(':id', result?.id)}`);
     }
   });
 
-  useEffect(() => {
-    setTemplateData([]);
-  }, [setTemplateData]);
+  const { mutate: updateTemplateSetting } = useUpdateSingleSetting({
+    onSuccess: () => {
+      refetch();
+    }
+  });
 
   const onOpenAddVisibleField: Void = () => {
     setIsVisibleAddField(true);
   };
 
+  const onSaveDraft: Void = () => {
+    navigate(
+      `/${PATHS.PROJECT}/${PATHS.OVERVIEW.replace(':id', data?.projectId)}`
+    );
+  };
+
   const onFinish: FormFinish = (values) => {
     if (templateId != null) {
-      createTemplateSetting({
-        id: templateId,
-        data: {
-          answerType: questionType,
-          title: values.question,
-          data: questionType === 'DROPDOWN' ? [...values.names] : []
-        }
-      });
+      if (item !== null) {
+        updateTemplateSetting({
+          id: item.id,
+          data: {
+            answerType: questionType,
+            title: values.question,
+            data: questionType === 'DROPDOWN' ? [...values.names] : []
+          }
+        });
+        form.resetFields();
+      } else {
+        createTemplateSetting({
+          id: templateId,
+          data: {
+            answerType: questionType,
+            title: values.question,
+            data: questionType === 'DROPDOWN' ? [...values.names] : []
+          }
+        });
+      }
     }
     setIsVisibleAddField(false);
     setQuestionType('');
@@ -185,53 +190,67 @@ const ActivityTemplate: React.FC = () => {
   };
 
   const onNextClick: Void = () => {
-    createSecondStepTemplateFn({
-      id: templateId,
-      data: {
-        applicationForm: ['ASSESSMENT'],
-        courseStructure: 'MULTI_SECTION'
+    if (
+      data?.sections?.length !== 0 &&
+      _.isEqual(form.getFieldValue('includeForm'), data?.applicationForm) &&
+      data?.courseStructure === form.getFieldValue('courseStructure')
+    ) {
+      if (templateId !== undefined) {
+        navigate(`/${PATHS.COURSESECTION.replace(':id', templateId)}`);
       }
-    });
+    } else {
+      if (templateId !== undefined) {
+        createSecondStepTemplateFn({
+          id: templateId,
+          data: {
+            applicationForm: form.getFieldValue('includeForm'),
+            courseStructure: form.getFieldValue('courseStructure')
+          }
+        });
+      }
+    }
   };
+
+  useEffect(() => {
+    if (item !== null) {
+      form.setFieldsValue({
+        question: item.title,
+        answerType:
+          item.answerType === 'SHORT_TEXT'
+            ? 'Short Text'
+            : item.answerType === 'NUMBER'
+              ? 'Number'
+              : item.answerType === 'ATTACHMENT'
+                ? 'Attachment'
+                : 'Dropdown options'
+      });
+    }
+  }, [item]);
+
+  useEffect(() => {
+    if (data?.courseStructure !== null && data?.applicationForm !== null) {
+      form.setFieldsValue({
+        includeForm: data?.applicationForm,
+        courseStructure: data?.courseStructure
+      });
+    }
+  }, [data]);
 
   const initFields = [
     {
-      name: ['question'],
-      value:
-        form.getFieldValue('question') === ''
-          ? ''
-          : form.getFieldValue('question')
-    },
-    {
-      name: 'answerType',
-      value:
-        form.getFieldValue('answerType') === ''
-          ? ''
-          : form.getFieldValue('answerType')
-    },
-    {
       name: ['names'],
-      value: ['']
+      value: (item?.data as string[])?.length <= 0 ? [''] : item?.data
     },
     {
       name: ['helpText'],
       value: ['']
     },
-    // {
-    //   name: ['applicant'],
-    //   value: form.getFieldsValue().applicant
-    //     ? form.getFieldsValue().applicant
-    //     : false
-    // },
-    // {
-    //   name: ['assessment'],
-    //   value: form.getFieldsValue().assessment
-    //     ? form.getFieldsValue().assessment
-    //     : false
-    // },
     {
       name: ['courseStructure'],
-      value: form.getFieldValue('courseStructure') === 'One Section' ? 'One Section' : form.getFieldValue('courseStructure')
+      value:
+        form.getFieldValue('courseStructure') === undefined
+          ? 'ONE_SECTION'
+          : form.getFieldValue('courseStructure')
     }
   ];
 
@@ -245,17 +264,16 @@ const ActivityTemplate: React.FC = () => {
         onFinish={onFinish}
         autoComplete="off"
       >
-        {data?.courseSettingMap?.map((item: any) => (
+        {data?.courseSettingMap?.map((item: ICreatedFieldItem) => (
           <QuestionsRow
             key={item.id}
             item={item}
-            setTemplateData={setTemplateData}
-            templateData={templateData}
             setQuestionType={setQuestionType}
             setIsVisibleAddField={setIsVisibleAddField}
             setHelpTextValue={setHelpTextValue}
             helpTextValue={helpTextValue}
             refetch={refetch}
+            setItem={setItem}
           />
         ))}
         {!isVisibleAddField
@@ -272,9 +290,9 @@ const ActivityTemplate: React.FC = () => {
           <CreateFields
             setIsVisibleAddField={setIsVisibleAddField}
             questionType={questionType}
-            form={form}
+            item={item}
             setQuestionType={setQuestionType}
-            templateId={templateId}
+            setItem={setItem}
           />
             )}
         <FormsStructureContainer>
@@ -290,39 +308,39 @@ const ActivityTemplate: React.FC = () => {
               Include Forms
             </Col>
             <Col span={24}>
-              <Form.Item name="applicant">
-                <AsnCheckbox
-                  width="2rem"
-                  height="2rem"
-                  checkWidth="10px"
-                  checkHeight="18px"
-                  top="12px"
-                  left="7px"
-                  style={{
-                    fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
-                    color: 'var(--dark-2)'
-                  }}
-                  value='APPLICATION'
-                >
-                  Application Form
-                </AsnCheckbox>
-              </Form.Item>
-              <Form.Item name="assessment">
-                <AsnCheckbox
-                  width="2rem"
-                  height="2rem"
-                  checkWidth="10px"
-                  checkHeight="18px"
-                  top="12px"
-                  left="7px"
-                  style={{
-                    fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
-                    color: 'var(--dark-2)'
-                  }}
-                  value='ASSESSMENT'
-                >
-                  Assessment Form
-                </AsnCheckbox>
+              <Form.Item name="includeForm">
+                <AsnCheckbox.Group>
+                  <AsnCheckbox
+                    width="2rem"
+                    height="2rem"
+                    checkWidth="10px"
+                    checkHeight="18px"
+                    top="12px"
+                    left="7px"
+                    style={{
+                      fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
+                      color: 'var(--dark-2)'
+                    }}
+                    value="APPLICATION"
+                  >
+                    Application Form
+                  </AsnCheckbox>
+                  <AsnCheckbox
+                    width="2rem"
+                    height="2rem"
+                    checkWidth="10px"
+                    checkHeight="18px"
+                    top="12px"
+                    left="7px"
+                    style={{
+                      fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
+                      color: 'var(--dark-2)'
+                    }}
+                    value="ASSESSMENT"
+                  >
+                    Assessment Form
+                  </AsnCheckbox>
+                </AsnCheckbox.Group>
               </Form.Item>
             </Col>
           </Row>
@@ -341,7 +359,7 @@ const ActivityTemplate: React.FC = () => {
               <Form.Item name="courseStructure">
                 <Radio.Group>
                   <Radio
-                    value={'One Section'}
+                    value={'ONE_SECTION'}
                     style={{
                       fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
                       color: 'var(--dark-2)'
@@ -350,7 +368,7 @@ const ActivityTemplate: React.FC = () => {
                     One Section
                   </Radio>
                   <Radio
-                    value={'Multi-Section'}
+                    value={'MULTI_SECTION'}
                     style={{
                       fontSize: ' clamp(0.5rem, 2.5vw, 1.25rem)',
                       color: 'var(--dark-2)'
@@ -365,7 +383,9 @@ const ActivityTemplate: React.FC = () => {
         </FormsStructureContainer>
       </Form>
       <ButtonsContainer>
-        <AsnButton className="default">Cancel</AsnButton>
+        <AsnButton className="default" onClick={onSaveDraft}>
+          Save as Draft
+        </AsnButton>
         <AsnButton className="primary" onClick={onNextClick}>
           Next
         </AsnButton>

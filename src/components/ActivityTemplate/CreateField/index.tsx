@@ -2,13 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { Form, Select } from 'antd';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/closeIcon.svg';
-import DynamicForm from '../DynamicForm/Index';
+import DynamicForm from '../TemplateForm/Index';
 import { AsnInput } from '../../Forms/Input';
 import { AsnSelect } from '../../Forms/Select';
 import { AsnButton } from '../../Forms/Button';
 import { FormFinish, Void } from '../../../types/global';
 import { ICreateFieldsProps } from '../../../types/project';
 import { answerTypeOptions } from '../../../helpers/constants';
+import { AsnForm } from '../../Forms/Form';
 
 const { Option } = Select;
 
@@ -64,12 +65,15 @@ const TopField = styled.div`
 const CreateFields: React.FC<ICreateFieldsProps> = ({
   setIsVisibleAddField,
   questionType,
-  form,
   setQuestionType,
-  templateId
+  item,
+  setItem
 }) => {
+  const form = AsnForm.useFormInstance();
+
   const onClosedAddVisibleField: Void = () => {
     setIsVisibleAddField(false);
+    setItem(null);
     form.resetFields();
   };
 
@@ -100,11 +104,20 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
         </div>
         <Form.Item
           name="question"
-          rules={[{ required: true }, { min: 1 }, { max: 256 }]}
+          rules={[
+            { required: true, message: 'Please enter a valid Question' },
+            { min: 1 },
+            { max: 256 }
+          ]}
         >
           <AsnInput placeholder="Add question" />
         </Form.Item>
-        <Form.Item name="answerType">
+        <Form.Item
+          name="answerType"
+          rules={[
+            { required: true, message: 'Please enter a valid Answer Type' }
+          ]}
+        >
           <AsnSelect onChange={onSelectChange} placeholder="Choose answer type">
             {answerTypeOptions.map((option) => (
               <Option
@@ -120,13 +133,25 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
       </TopField>
       {questionType === 'DROPDOWN' ? <DynamicForm /> : null}
       <Form.Item>
-        <AsnButton
-          className="primary"
-          htmlType="submit"
-          style={{ width: '100%' }}
-        >
-          Add
-        </AsnButton>
+        {item !== null
+          ? (
+          <AsnButton
+            className="primary"
+            htmlType="submit"
+            style={{ width: '100%' }}
+          >
+            Update
+          </AsnButton>
+            )
+          : (
+          <AsnButton
+            className="primary"
+            htmlType="submit"
+            style={{ width: '100%' }}
+          >
+            Add
+          </AsnButton>
+            )}
       </Form.Item>
     </CreateField>
   );

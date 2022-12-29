@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Typography, Space } from 'antd';
 
@@ -20,6 +20,7 @@ const ProjectOverview: React.FC = () => {
   const [activityId, setActivityId] = useState<string | undefined>('');
   const [inputActivityId, setInputActivityId] = useState<string | undefined>(undefined);
   const [active, setActive] = useState<number>(1);
+
   const { id } = useParams<string>();
   const { isLoading, data: { result: project }, inputActivityId: defaultInputActivityId } = useGetProjectById(id);
   const navigate = useNavigate();
@@ -54,9 +55,24 @@ const ProjectOverview: React.FC = () => {
       )
     };
   });
+
+  useEffect(() => {
+    if (id !== undefined) {
+      if (project?.resultAreas.length === 0) {
+        navigate(`/project/${id}/steps/0`);
+      } else if (
+        project?.resultAreas.length > 0 &&
+        project?.sectors.length === 0
+      ) {
+        navigate(`/project/${id}/steps/1`);
+      }
+    }
+  }, [project, id]);
+
   if (isLoading === true) {
     return <AsnSpin />;
   }
+
   return (
     <>
       <ProjectInformationHeader overview={true} project={project} />

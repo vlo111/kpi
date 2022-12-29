@@ -1,10 +1,11 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Col, Popover, Row, Switch, Tooltip } from 'antd';
 import { ReactComponent as HelperTextIcon } from '../../../assets/icons/helper-text.svg';
 import { ReactComponent as MenuIcon } from '../../../assets/icons/md-menu.svg';
 import { ReactComponent as EditIcon } from '../../../assets/icons/edit.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
+import { ReactComponent as DeleteHelpTextIcon } from '../../../assets/icons/closeIcon.svg';
 import { AsnInput } from '../../Forms/Input';
 import { AsnModal } from '../../Forms/Modal';
 import { AsnButton } from '../../Forms/Button';
@@ -14,12 +15,10 @@ import {
   StringVoidType,
   Void
 } from '../../../types/global';
-import {
-  ContentType,
-  IQuestionsRow
-  // ITemplateData
-} from '../../../types/project';
+import { ContentType, IQuestionsRow } from '../../../types/project';
 import useDeleteSetting from '../../../api/Activity/Template/Settings/useDeleteSingleSetting';
+import useAddSettingHelpText from '../../../api/Activity/Template/Settings/useAddSettingHelpText';
+import useUpdateSettingStatus from '../../../api/Activity/Template/Settings/useUpdateSettingStatus';
 
 const CourseList = styled.div`
   display: flex;
@@ -42,15 +41,23 @@ const IconButton = styled.div`
   cursor: pointer;
   width: 1rem;
 `;
+const InputHelpText = styled(AsnInput)`
+  cursor: pointer;
+  .ant-input-suffix {
+    display: none;
+  }
+  :hover {
+    .ant-input-suffix {
+      display: flex;
+    }
+  }
+`;
 
 const QuestionsRow: React.FC<IQuestionsRow> = ({
   item,
-  templateData,
-  // setTemplateData,
+  setItem,
   setQuestionType,
   setIsVisibleAddField,
-  helpTextValue,
-  setHelpTextValue,
   refetch
 }) => {
   const [rowId, setRowId] = useState<string[]>([]);
@@ -58,20 +65,39 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
   const [isDeletedFieldModal, setIsDeletedFieldModal] =
     useState<boolean>(false);
   const [openPopover, setOpenPopover] = useState<boolean>(false);
-
+  const [helpText, setHelpText] = useState<string>('');
   const { mutate: deleteSettingsById } = useDeleteSetting({
-    onSuccess: (options: any) => {
+    onSuccess: () => {
       refetch();
-      console.log(options);
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
+    }
+  });
+
+  const { mutate: updateTemplateStatus } = useUpdateSettingStatus({
+    onSuccess: () => {
+      refetch();
+    }
+  });
+
+  const { mutate: addedHelpText } = useAddSettingHelpText({
+    onSuccess: () => {
+      refetch();
     }
   });
 
   const handleOpenChange: Onchange = (newOpen) => {
     setOpenPopover(newOpen);
+  };
+
+  useEffect(() => {
+    if (item?.helpText != null) {
+      setHelpText(item?.helpText);
+    }
+  }, [item?.helpText]);
+
+  const handleStatusChange: Void = () => {
+    updateTemplateStatus({
+      id: item.id
+    });
   };
 
   const onOpenInputClick: StringVoidType = (id) => {
@@ -90,17 +116,17 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
     setOpenPopover(false);
   };
 
-  const onEditedQuestion: StringVoidType = (id) => {
-    const item: any | undefined = templateData.find(
-      (elem: any) => elem.id === id
-    );
-    if (item?.subTitle[0] === 'Dropdown options') {
+  const onEditedQuestion: FormFinish = (item) => {
+    if (item?.answerType === 'DROPDOWN') {
       setIsVisibleAddField(true);
-      setQuestionType('Dropdown options');
+      setQuestionType('DROPDOWN');
     } else {
       setIsVisibleAddField(true);
-      setQuestionType(item?.subTitle[0] ?? '');
+      setQuestionType(item?.answerType);
     }
+    setItem(item);
+    setIsVisibleAddField(true);
+
     setOpenPopover(false);
   };
 
@@ -108,25 +134,34 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
     setIsDeletedFieldModal(false);
   };
   const handleDelete: Void = () => {
-    console.log(itemId, '_________', item);
     deleteSettingsById({ id: itemId });
     setIsDeletedFieldModal(false);
   };
 
   const onHelpText: FormFinish = (event) => {
     if (event.key === 'Enter') {
-      setHelpTextValue([
-        ...helpTextValue,
-        {
-          id: item.id,
-          value: event.target.value
+      addedHelpText({
+        id: item.id,
+        data: {
+          text: event.target.value
         }
-      ]);
+      });
       event.preventDefault();
     }
   };
 
-  const content: ContentType = (id) => (
+  const onDeleteHelpText: Void = () => {
+    if (item.helpText !== null && item.helpText !== '') {
+      addedHelpText({
+        id: item.id,
+        data: {
+          text: ''
+        }
+      });
+    }
+  };
+
+  const content: ContentType = (item) => (
     <Row
       style={{
         fontSize: 'var(--font-size-small)',
@@ -135,13 +170,13 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
       }}
       gutter={[8, 8]}
     >
-      <Col onClick={() => onOpenInputClick(id)} span={24}>
+      <Col onClick={() => onOpenInputClick(item?.id)} span={24}>
         <HelperTextIcon /> Add help text
       </Col>
-      <Col onClick={() => onEditedQuestion(id)} span={24}>
+      <Col onClick={() => onEditedQuestion(item)} span={24}>
         <EditIcon /> Edit
       </Col>
-      <Col onClick={() => onDeletedQuestion(id)} span={24}>
+      <Col onClick={() => onDeletedQuestion(item?.id)} span={24}>
         <DeleteIcon /> Delete
       </Col>
     </Row>
@@ -163,9 +198,9 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
           <Row gutter={[5, 0]}>
             {item?.setting?.data?.length > 0
               ? (
-                  item?.setting?.data?.map((option: string) => (
+                  item?.setting?.data?.map((option: string, index: number) => (
                 <Col
-                  key={option}
+                  key={option + `${index}`}
                   style={{
                     color: 'var(--dark-2)',
                     fontSize: 'var(--font-size-small)'
@@ -193,6 +228,7 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
             <Switch
               defaultChecked={item?.active}
               disabled={item?.setting?.changeable === false}
+              onChange={handleStatusChange}
             />
           </Col>
           <Col>
@@ -211,7 +247,7 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
               : (
               <Popover
                 placement="topLeft"
-                content={() => content(item.setting.id)}
+                content={() => content(item.setting)}
                 trigger="click"
                 overlayClassName="menuPopover"
                 onOpenChange={handleOpenChange}
@@ -227,10 +263,13 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
       </CourseList>
       {rowId.includes(item.id)
         ? (
-        <AsnInput
+        <InputHelpText
           onKeyPress={onHelpText}
           className="courseDescriptionInput"
           placeholder="Add help text"
+          suffix={<DeleteHelpTextIcon onClick={onDeleteHelpText} />}
+          onChange={(even) => setHelpText(even.target.value)}
+          value={helpText}
         />
           )
         : null}

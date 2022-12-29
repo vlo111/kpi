@@ -6,9 +6,10 @@ import { AsnButton } from '../Forms/Button';
 import { AsnForm } from '../Forms/Form';
 import { AsnInput, AsnTextArea } from '../Forms/Input';
 import { ICreateTemplateModal, AddManagerHandle } from '../../types/project';
-import { PATHS, VALIDATE_MESSAGES } from '../../helpers/constants';
+import { PATHS } from '../../helpers/constants';
 import { ICreateTemplateResponse } from '../../types/api/activity/template';
 import useCreateActivityTemplate from '../../api/Activity/Template/useCreateActivityTemplate';
+import { FormFinish } from '../../types/global';
 
 const CreateTemplateContainer = styled.div`
   .buttonContainer {
@@ -25,20 +26,12 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
 }) => {
   const [form] = AsnForm.useForm();
   const navigate = useNavigate();
-  // const { id: projectId } = useParams();
   const { mutate: createTemplateFn } = useCreateActivityTemplate({
     onSuccess: (options: ICreateTemplateResponse) => {
-      const {
-        data
-      } = options;
-      console.log(data);
+      const { data } = options;
       if ((data.result.id ?? '').length > 0) {
         navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', data.result.id)}`);
       }
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
     }
   });
 
@@ -51,7 +44,7 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
     setIsOpenCreateActivityModal(false);
   };
 
-  const onFinish: any = (values: any) => {
+  const onFinish: FormFinish = (values) => {
     createTemplateFn({
       id: activityId,
       data: {
@@ -80,7 +73,6 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
           id="create-template-AsnForm"
           form={form}
           layout="vertical"
-          validateMessages={VALIDATE_MESSAGES}
           onFinish={onFinish}
           autoComplete="off"
         >
@@ -89,13 +81,21 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
           </AsnForm.Item>
           <AsnForm.Item
             name="templateName"
-            rules={[{ required: true }, { min: 3, max: 128 }]}
+            rules={[
+              { required: true, message: 'Please enter Template Name' },
+              {
+                min: 2,
+                max: 128,
+                message:
+                  'The field is required. Must be between 2 and 128 characters.'
+              }
+            ]}
           >
             <AsnInput placeholder="One section course " />
           </AsnForm.Item>
           <AsnForm.Item
             name="description"
-            rules={[{ required: true }, { min: 3, max: 128 }]}
+            rules={[{ max: 256, message: 'Maximum 256 characters.' }]}
           >
             <AsnTextArea placeholder="Activity Template for long-term courses. The course has one section." />
           </AsnForm.Item>
