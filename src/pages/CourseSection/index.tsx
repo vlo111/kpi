@@ -81,19 +81,17 @@ const CourseSection: React.FC = () => {
           fontSize: 'var(--headline-font-size)'
         }}
       >
-        <span>
-          Section and learning statuses
-        </span>
+        <span>Section and learning statuses</span>
       </Space>
       <Space direction="vertical" size={32} style={{ width: '100%' }}>
         {data?.sections?.map((section: ISectionData, index: number) => (
-            <LearningStatus
-              key={section.id}
-              section={section}
-              refetch={refetch}
-              data={data}
-              index={index}
-            />
+          <LearningStatus
+            key={section.id}
+            section={section}
+            refetch={refetch}
+            data={data}
+            index={index}
+          />
         ))}
       </Space>
       {data?.courseStructure !== 'ONE_SECTION' &&
@@ -123,14 +121,20 @@ const CourseSection: React.FC = () => {
             if (templateId != null) {
               navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', templateId)}`);
             }
-          }
-          }
+          }}
         >
           Previous
         </AsnButton>
         <AsnButton
           className="default"
-          onClick={() => navigate(`/${PATHS.PROJECT}/${PATHS.OVERVIEW.replace(':id', data?.projectId)}`)}
+          onClick={() =>
+            navigate(
+              `/${PATHS.PROJECT}/${PATHS.OVERVIEW.replace(
+                ':id',
+                data?.projectId
+              )}`
+            )
+          }
         >
           Save as Draft
         </AsnButton>

@@ -156,9 +156,9 @@ const ActivityTemplate: React.FC = () => {
   };
 
   const onSaveDraft: Void = () => {
-    console.log(`/${PATHS.PROJECT}/${PATHS.OVERVIEW.replace(':id', data?.projectId)}`);
-
-    navigate(`/${PATHS.PROJECT}/${PATHS.OVERVIEW.replace(':id', data?.projectId)}`);
+    navigate(
+      `/${PATHS.PROJECT}/${PATHS.OVERVIEW.replace(':id', data?.projectId)}`
+    );
   };
 
   const onFinish: FormFinish = (values) => {
@@ -383,7 +383,9 @@ const ActivityTemplate: React.FC = () => {
         </FormsStructureContainer>
       </Form>
       <ButtonsContainer>
-        <AsnButton className="default" onClick={onSaveDraft}>Save as Draft</AsnButton>
+        <AsnButton className="default" onClick={onSaveDraft}>
+          Save as Draft
+        </AsnButton>
         <AsnButton className="primary" onClick={onNextClick}>
           Next
         </AsnButton>

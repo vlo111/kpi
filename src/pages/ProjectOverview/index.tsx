@@ -25,8 +25,7 @@ const AntRow = styled(Row)`
 const ProjectOverview: React.FC = () => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState(false);
-  const [activityId, setActivityId] =
-    useState<string | undefined>('');
+  const [activityId, setActivityId] = useState<string | undefined>('');
   const [active, setActive] = useState<number>(1);
 
   const { id } = useParams<string>();
@@ -171,7 +170,10 @@ const ProjectOverview: React.FC = () => {
     if (id !== undefined) {
       if (project?.resultAreas.length === 0) {
         navigate(`/project/${id}/steps/0`);
-      } else if (project?.resultAreas.length > 0 && project?.sectors.length === 0) {
+      } else if (
+        project?.resultAreas.length > 0 &&
+        project?.sectors.length === 0
+      ) {
         navigate(`/project/${id}/steps/1`);
       }
     }

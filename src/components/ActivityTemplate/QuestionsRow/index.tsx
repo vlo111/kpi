@@ -89,7 +89,7 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
   };
 
   useEffect(() => {
-    if ((item?.helpText) != null) {
+    if (item?.helpText != null) {
       setHelpText(item?.helpText);
     }
   }, [item?.helpText]);

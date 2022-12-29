@@ -27,9 +27,7 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
   const navigate = useNavigate();
   const { mutate: createTemplateFn } = useCreateActivityTemplate({
     onSuccess: (options: ICreateTemplateResponse) => {
-      const {
-        data
-      } = options;
+      const { data } = options;
       if ((data.result.id ?? '').length > 0) {
         navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', data.result.id)}`);
       }
@@ -82,7 +80,15 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
           </AsnForm.Item>
           <AsnForm.Item
             name="templateName"
-            rules={[{ required: true, message: 'Please enter Template Name' }, { min: 2, max: 128, message: 'The field is required. Must be between 2 and 128 characters.' }]}
+            rules={[
+              { required: true, message: 'Please enter Template Name' },
+              {
+                min: 2,
+                max: 128,
+                message:
+                  'The field is required. Must be between 2 and 128 characters.'
+              }
+            ]}
           >
             <AsnInput placeholder="One section course " />
           </AsnForm.Item>
