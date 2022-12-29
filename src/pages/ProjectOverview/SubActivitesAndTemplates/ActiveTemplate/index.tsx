@@ -68,8 +68,11 @@ const Container = styled.div`
   word-wrap: break-word;
   white-space: initial;
   }
+  .ant-popover{
+    top: 7px !important;
+  }
   .ant-popover-inner-content{
-    height: 180px;
+    height: 170px;
     .ant-popover-buttons{
       position: absolute;
       top: 10px;
@@ -81,6 +84,9 @@ const Container = styled.div`
   }
   .ant-popover-message{
     padding: 20px 0 12px ;
+  }
+  .ant-popover-arrow{
+    display: none;
   }
 `;
 const Popup = styled(Button)`
