@@ -5,9 +5,7 @@ import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
 import AddRequiredDocumentModal from '../AddRequiredDocumentModal';
 import AddedDocuments from '../AddedDocuments';
 import { AsnButton } from '../../Forms/Button';
-import {
-  ILearningStatus
-} from '../../../types/project';
+import { ILearningStatus, ISectionsSettingItem } from '../../../types/project';
 import useDeleteSection from '../../../api/Activity/Template/Sections/useDeleteSection';
 import { Void } from '../../../types/global';
 import useUpdateSectionStatus from '../../../api/Activity/Template/Sections/useupdateSectionStatus';
@@ -140,7 +138,8 @@ const LearningStatus: React.FC<ILearningStatus> = ({
     <SectionContainer>
       <SectionHeaderContainer>
         <SectionHeader>Section {+index + 1}:</SectionHeader>
-        {data?.courseStructure !== 'ONE_SECTION' && data?.sections?.length > 2
+        {data?.courseStructure !== 'ONE_SECTION' &&
+        data?.sections?.length > 2
           ? (
           <div style={{ position: 'absolute', right: '4%', top: 23 }}>
             <DeleteIcon
@@ -152,7 +151,7 @@ const LearningStatus: React.FC<ILearningStatus> = ({
           : null}
       </SectionHeaderContainer>
       <SectionContent>
-        {section?.sectionSettingMap.map((item: any) => (
+        {section?.sectionSettingMap.map((item: ISectionsSettingItem) => (
           <SectionRow key={item.id} direction="horizontal">
             {item.setting.title}
             <Checkbox
@@ -160,7 +159,7 @@ const LearningStatus: React.FC<ILearningStatus> = ({
                 color: 'var(--dark-2)'
               }}
               defaultChecked={item.active}
-              disabled={item?.setting?.changeable === false}
+              disabled={(item?.setting?.changeable) === false}
               onChange={() => handleSectionStatus(item.id)}
             />
           </SectionRow>
@@ -171,7 +170,9 @@ const LearningStatus: React.FC<ILearningStatus> = ({
           style={{
             display: 'flex',
             justifyContent:
-            section?.requiredDocuments?.length > 0 ? 'space-between' : 'flex-end',
+              section?.requiredDocuments?.length > 0
+                ? 'space-between'
+                : 'flex-end',
             alignItems: 'flex-start',
             marginTop: '1rem'
           }}

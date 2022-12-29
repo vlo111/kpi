@@ -1,38 +1,21 @@
-import _ from 'lodash';
 import styled from 'styled-components';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { FormFinish, Void } from '../../types/global';
 import { AsnForm } from '../../components/Forms/Form';
-import { AsnButton } from '../../components/Forms/Button';
-import InputResult from '../../components/Project/ResultArea';
 import useGetResultArea from '../../api/ResultArea/useGetResultArea';
 import useCreateResultArea from '../../api/ResultArea/useCreateResultArea';
 import {
-  ProjectErrorResponse,
-  SetResultArea,
-  SetTitleColor
+  IStepsUpdate,
+  ProjectErrorResponse
 } from '../../types/project';
 import useUpdateResultArea from '../../api/ResultArea/useUpdateResultArea';
 import { PATHS } from '../../helpers/constants';
-import { ConfirmSave } from '../../components/Project/ResultArea/Modal';
-import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
-
-const antIcon = <LoadingOutlined style={{ fontSize: 100, color: 'var(--dark-border-ultramarine)' }} spin />;
-
-const VALIDATE_MESSAGES_PROJECT_INPUT = {
-  // eslint-disable-next-line no-template-curly-in-string
-  required: '',
-  string: {
-    // eslint-disable-next-line no-template-curly-in-string
-    min: '',
-    max: '',
-    range: '',
-    len: ''
-  }
-};
+import AsnSpin from '../../components/Forms/Spin1';
+import { IUseGetResultArea } from '../../types/api/project/get-project';
+import { validateResultArea } from '../../helpers/utils';
+import { InputResultArea } from '../../components/Project/ResultArea';
 
 const ProjectInputForm = styled(AsnForm)`
   width: clamp(19rem, 73vw, 90rem);
@@ -102,40 +85,16 @@ const ProjectInputForm = styled(AsnForm)`
   }
 `;
 
-const setTitleColor: SetTitleColor = (element, color) => {
-  const titleElement = element.firstChild as HTMLElement;
-
-  const pathElement = element.lastChild?.firstChild as HTMLElement;
-
-  titleElement.style.color = color;
-
-  pathElement.style.fill = color;
-};
-
-const setError: SetResultArea = (values) => {
-  // @ts-expect-error
-  const errorsIndex = [...new Set(values.errorFields.map((r) => r.name[1]))];
-
-  const resultAreaElement: (id: string) => void = (id) => {
-    const resultAreaElement = document.getElementById(
-      `ans-title-${id}`
-    ) as HTMLElement;
-
-    setTitleColor(resultAreaElement, 'var(--error)');
-  };
-
-  const resultAreaElements: HTMLCollectionOf<HTMLElement> =
-    document.getElementsByClassName(
-      'result_area_title'
-    ) as HTMLCollectionOf<HTMLElement>;
-
-  if (!_.isEmpty(resultAreaElements)) {
-    Array.from(resultAreaElements).forEach((element) => {
-      setTitleColor(element, 'var(--dark-2)');
-    });
+const VALIDATE_MESSAGES_PROJECT_INPUT = {
+  // eslint-disable-next-line no-template-curly-in-string
+  required: '',
+  string: {
+    // eslint-disable-next-line no-template-curly-in-string
+    min: '',
+    max: '',
+    range: '',
+    len: ''
   }
-
-  errorsIndex.map((i) => resultAreaElement(i));
 };
 
 const initialResulArea = {
@@ -145,7 +104,7 @@ const initialResulArea = {
       order: 1,
       expectedResults: [{ measurement: 'NUMBER' }],
       inputActivities: [
-        { title: '', order: 1.1, milestones: [{ measurement: 'NUMBER' }] }
+        { title: '', order: 1, milestones: [{ measurement: 'NUMBER' }] }
       ]
     }
   ]
@@ -159,7 +118,7 @@ const initialValues = {
   resultAreas: { ...initialResulArea.resultAreas }
 };
 
-export const ResultArea: React.FC = () => {
+export const ResultArea: React.FC<IStepsUpdate> = ({ isUpdate }) => {
   const { id } = useParams();
 
   const [form] = AsnForm.useForm();
@@ -167,16 +126,20 @@ export const ResultArea: React.FC = () => {
   const navigate = useNavigate();
 
   // @ts-expect-error
-  const { resultAreas, isLoading } = useGetResultArea(id);
-
-  const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const { resultAreas, isLoading }: IUseGetResultArea = useGetResultArea(id);
 
   const onSuccess: Void = () => {
-    const path = `/project/${PATHS.STEPS}`
-      .replace(':id', id ?? '')
-      .replace(':index', '1');
+    if (id !== undefined) {
+      if (!isUpdate) {
+        const path = `/project/${PATHS.STEPS}`
+          .replace(':id', id)
+          .replace(':index', '1');
 
-    navigate(path);
+        navigate(path);
+      } else {
+        navigate(`/project/${PATHS.OVERVIEW}`.replace(':id', id));
+      }
+    }
   };
 
   const onError: ProjectErrorResponse = ({ response }) => {
@@ -198,7 +161,7 @@ export const ResultArea: React.FC = () => {
   };
 
   const onFinishFailed: FormFinish = (values: FormData) => {
-    setError(values);
+    validateResultArea(values);
   };
 
   useEffect(() => {
@@ -211,7 +174,7 @@ export const ResultArea: React.FC = () => {
 
   const createOrUpdate: Void = () => {
     if (id !== undefined) {
-      const isUpdate = resultAreas?.length != null;
+      const isUpdate = resultAreas?.length > 0;
 
       const requestData = {
         id,
@@ -221,50 +184,15 @@ export const ResultArea: React.FC = () => {
       if (isUpdate) {
         updateResultArea({ ...requestData });
       } else {
+        requestData.data = { resultAreas: form.getFieldValue([]).resultAreas };
+
         createResultArea({ ...requestData });
       }
     }
   };
 
-  const onSaveModal: Void = () => {
-    createOrUpdate();
-
-    if (id !== undefined) {
-      const path = `/project/${PATHS.OVERVIEW}`
-        .replace(':id', id);
-
-      navigate(path);
-    }
-  };
-
-  const onCancelModal: Void = () => {
-    setOpenConfirmModal(false);
-  };
-
-  const onNotSaveModal: Void = () => {
-    if (id !== undefined) {
-      const path = `/project/${PATHS.OVERVIEW}`
-        .replace(':id', id);
-
-      navigate(path);
-    }
-  };
-
-  const onRedirectOverview: Void = () => {
-    if (id !== undefined) {
-      if (resultAreas.length === 0 || _.isEqual(resultAreas, form.getFieldsValue().resultAreas)) {
-        const path = `/project/${PATHS.OVERVIEW}`
-          .replace(':id', id);
-
-        navigate(path);
-      } else {
-        setOpenConfirmModal(true);
-      }
-    }
-  };
-
-  if (isLoading === true) {
-    return <Spin indicator={antIcon} />;
+  if (isLoading) {
+    return <AsnSpin />;
   }
 
   return (
@@ -276,25 +204,7 @@ export const ResultArea: React.FC = () => {
         onFinishFailed={onFinishFailed}
         initialValues={initialValues}
       >
-        <InputResult />
-        <ConfirmSave
-          open={openConfirmModal}
-          onSave={onSaveModal}
-          onCancel={onCancelModal}
-          onNotSave={onNotSaveModal}
-        />
-        <div className="footer">
-          <AsnButton
-            onClick={onRedirectOverview}
-            className="default"
-          >
-            Cancel
-          </AsnButton>
-          {/* <AsnButton className="default" onClick={onRedirectOverview}>Save as Draft</AsnButton> */}
-          <AsnButton className="primary" htmlType="submit">
-            Next
-          </AsnButton>
-        </div>
+        <InputResultArea createOrUpdate={createOrUpdate} isUpdate={isUpdate}/>
       </ProjectInputForm>
   );
 };

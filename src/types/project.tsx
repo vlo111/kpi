@@ -2,7 +2,7 @@ import { IUser } from './auth';
 import { Moment } from 'moment';
 import { FormListFieldData } from 'antd';
 import { Void } from './global';
-import { ReactElement } from 'react';
+import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
@@ -77,7 +77,7 @@ export interface IInputActivities {
   title: string
   order: number
   milestones: IResultBox[]
-  id?: string | undefined
+  id?: string
 }
 
 export interface IResultAreaData {
@@ -220,13 +220,27 @@ export interface ILearningStatusData {
 
 }
 
+export interface ISetting {
+  changeable: boolean | undefined
+  id: string | undefined
+  projectId: string | undefined
+  title: string | undefined
+}
+export interface ISectionsSettingItem {
+  active: boolean
+  id: string
+  sectionId: string
+  sectionSettingId: string
+  setting: ISetting
+}
+
 export interface ISectionData {
   active?: boolean | undefined
   activityTemplateId?: string
   id: string
   projectId: string
   requiredDocuments: []
-  sectionSettingMap: object[]
+  sectionSettingMap: ISectionsSettingItem[]
   title: string
   type: string
 }
@@ -241,6 +255,8 @@ export interface IRequiredDocuments {
   documentName: string
   documentCount: number
   id: string
+  title?: string
+  count?: string
 }
 
 export interface IAddRequiredDocument {
@@ -273,11 +289,9 @@ export interface ICreateFieldsProps {
   setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
   questionType: string
   setQuestionType: React.Dispatch<React.SetStateAction<string>>
-  item: ICreatedFieldItem
+  item: ICreatedFieldItem | null
   setItem: React.Dispatch<React.SetStateAction<ICreatedFieldItem | null>>
 }
-
-export type ContentType = (item: ICreatedFieldItem) => ReactElement
 
 export interface ITemplateData {
   id: string
@@ -302,3 +316,96 @@ export interface IQuestionsRow {
 export type SetProjectId = (id: string) => void
 
 export type ResultAreaOrder = (index: number) => number
+
+export interface IProjectTemplate {
+  title: string
+  id: string
+  description: string
+}
+
+export interface ISubActivityAndTemplates {
+  templates: IProjectTemplate[]
+  refetch: any
+  subActivities: ISubActivities[]
+  setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
+  setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
+  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[] | undefined>>
+  checkAll: boolean
+  indeterminate: boolean
+  checkedList: CheckboxValueType[] | undefined
+  setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
+  dateSearch: IDataSearchchSubActivity
+  setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export interface IResultAreasTitles {
+  title: string
+  projectItems: number
+  index: number
+  active: number
+  setActive: React.Dispatch<React.SetStateAction<number>>
+}
+
+export interface ITabContent {
+  inputActivityId: string | undefined
+  resultArea: IResultAreas
+  setInputActivityId: React.Dispatch<React.SetStateAction<string | undefined>>
+  setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+  defaultInputActivityId: string
+}
+
+export interface ISubActivitiesProps {
+  subActivities: ISubActivities[] | undefined
+  setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
+  setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
+  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[] | undefined>>
+  checkAll: boolean
+  indeterminate: boolean
+  checkedList: CheckboxValueType[] | undefined
+  setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
+  dateSearch: IDataSearchchSubActivity
+}
+export interface ISubActivities {
+  title: string
+  startDate: string
+  endDate: string
+  subActivity: {
+    status: string
+    region: {
+      title: string
+    }
+    sector: {
+      title: string
+    }
+  }
+}
+
+export interface IStatusFilter {
+  setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
+  setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
+  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[] | undefined>>
+  checkAll: boolean
+  indeterminate: boolean
+  checkedList: CheckboxValueType[] | undefined
+}
+export interface IActiveTemplate {
+  templates: IProjectTemplate[]
+  refetch: any
+  setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export interface IDataSearchchSubActivity {
+  from: string
+  to: string
+  start: boolean
+}
+
+export interface IDateFilterCards {
+  setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
+  dateSearch: IDataSearchchSubActivity
+}
+export type StepsHeaderText = (mode: string) => string
+
+export interface IStepsUpdate { isUpdate: boolean }
+
+export interface IResultsUpdate { createOrUpdate: Void, isUpdate: boolean }

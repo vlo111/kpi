@@ -16,7 +16,8 @@ const useGetProjectById: any = (id: string, options = { enabled: true }) => {
   const { data, isSuccess } = result;
   return {
     ...result,
-    data: isSuccess ? data : []
+    data: isSuccess ? data : [],
+    inputActivityId: isSuccess ? data?.result?.resultAreas[0]?.inputActivities[0]?.id : undefined
   };
 };
 

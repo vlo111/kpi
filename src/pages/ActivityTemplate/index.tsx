@@ -6,7 +6,7 @@ import { AsnButton } from '../../components/Forms/Button';
 import CreateFields from '../../components/ActivityTemplate/CreateField';
 import { AsnCheckbox } from '../../components/Forms/Checkbox';
 import QuestionsRow from '../../components/ActivityTemplate/QuestionsRow';
-import { FormFinish, Void } from '../../types/global';
+import { FormFinish, IActivityResult, Void } from '../../types/global';
 import { ICreatedFieldItem, IHelpText } from '../../types/project';
 import { PATHS, VALIDATE_MESSAGES } from '../../helpers/constants';
 import getSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
@@ -122,7 +122,7 @@ const ActivityTemplate: React.FC = () => {
   const [isVisibleAddField, setIsVisibleAddField] = useState<boolean>(false);
   const [questionType, setQuestionType] = useState('');
   const [helpTextValue, setHelpTextValue] = useState<IHelpText[] | []>([]);
-  const [item, setItem] = useState<any>(null);
+  const [item, setItem] = useState<ICreatedFieldItem | null>(null);
 
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -137,7 +137,7 @@ const ActivityTemplate: React.FC = () => {
   });
 
   const { mutate: createSecondStepTemplateFn } = useCreateSecondStepTemplate({
-    onSuccess: (options: any) => {
+    onSuccess: (options: IActivityResult<ICreatedFieldItem>) => {
       const {
         data: { result }
       } = options;
@@ -153,6 +153,12 @@ const ActivityTemplate: React.FC = () => {
 
   const onOpenAddVisibleField: Void = () => {
     setIsVisibleAddField(true);
+  };
+
+  const onSaveDraft: Void = () => {
+    navigate(
+      `/${PATHS.PROJECT}/${PATHS.OVERVIEW.replace(':id', data?.projectId)}`
+    );
   };
 
   const onFinish: FormFinish = (values) => {
@@ -233,7 +239,7 @@ const ActivityTemplate: React.FC = () => {
   const initFields = [
     {
       name: ['names'],
-      value: item?.data?.length > 0 ? item?.data : ['']
+      value: (item?.data as string[])?.length <= 0 ? [''] : item?.data
     },
     {
       name: ['helpText'],
@@ -377,7 +383,9 @@ const ActivityTemplate: React.FC = () => {
         </FormsStructureContainer>
       </Form>
       <ButtonsContainer>
-        <AsnButton className="default">Save as Draft</AsnButton>
+        <AsnButton className="default" onClick={onSaveDraft}>
+          Save as Draft
+        </AsnButton>
         <AsnButton className="primary" onClick={onNextClick}>
           Next
         </AsnButton>

@@ -15,7 +15,7 @@ import {
   StringVoidType,
   Void
 } from '../../../types/global';
-import { ContentType, IQuestionsRow } from '../../../types/project';
+import { IQuestionsRow } from '../../../types/project';
 import useDeleteSetting from '../../../api/Activity/Template/Settings/useDeleteSingleSetting';
 import useAddSettingHelpText from '../../../api/Activity/Template/Settings/useAddSettingHelpText';
 import useUpdateSettingStatus from '../../../api/Activity/Template/Settings/useUpdateSettingStatus';
@@ -89,7 +89,7 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
   };
 
   useEffect(() => {
-    if ((item?.helpText) != null) {
+    if (item?.helpText != null) {
       setHelpText(item?.helpText);
     }
   }, [item?.helpText]);
@@ -161,31 +161,33 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
     }
   };
 
-  const content: ContentType = (item) => (
+  const content: (i: any) => JSX.Element = (item) => (
     <Row
-      style={{
-        fontSize: 'var(--font-size-small)',
-        color: 'var(--dark-2)',
-        cursor: 'pointer'
-      }}
-      gutter={[8, 8]}
-    >
-      <Col onClick={() => onOpenInputClick(item?.id)} span={24}>
-        <HelperTextIcon /> Add help text
-      </Col>
-      <Col onClick={() => onEditedQuestion(item)} span={24}>
-        <EditIcon /> Edit
-      </Col>
-      <Col onClick={() => onDeletedQuestion(item?.id)} span={24}>
-        <DeleteIcon /> Delete
-      </Col>
-    </Row>
+    style={{
+      fontSize: 'var(--font-size-small)',
+      color: 'var(--dark-2)',
+      cursor: 'pointer'
+    }}
+    gutter={[8, 8]}
+  >
+    <Col onClick={() => onOpenInputClick(item)} span={24}>
+      <HelperTextIcon /> Add help text
+    </Col>
+    <Col onClick={() => onEditedQuestion(item)} span={24}>
+      <EditIcon /> Edit
+    </Col>
+    <Col onClick={() => onDeletedQuestion(item)} span={24}>
+      <DeleteIcon /> Delete
+    </Col>
+  </Row>
   );
 
   return (
     <Fragment>
       <CourseList>
-        <Row>
+        <Row style={{
+          width: '90%'
+        }}>
           <Col
             span={24}
             style={{
@@ -202,23 +204,26 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
                 <Col
                   key={option + `${index}`}
                   style={{
-                    color: 'var(--dark-2)',
+                    color: 'var(--dark-4)',
                     fontSize: 'var(--font-size-small)'
                   }}
                 >
-                  {option}
+                  {option},
                 </Col>
                   ))
                 )
               : (
-              <Col>
+              <Col style={{
+                color: 'var(--dark-4)',
+                fontSize: 'var(--font-size-small)'
+              }}>
                 {item?.setting?.answerType === 'SHORT_TEXT'
                   ? 'Short Text'
                   : item?.setting?.answerType === 'NUMBER'
                     ? 'Number'
                     : item?.setting?.answerType === 'ATTACHMENT'
                       ? 'Attachment'
-                      : 'Dropdown options'}
+                      : item?.setting?.answerType === 'DROPDOWN' ? 'Dropdown options' : ''}
               </Col>
                 )}
           </Row>
@@ -247,7 +252,7 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
               : (
               <Popover
                 placement="topLeft"
-                content={() => content(item.setting)}
+                content={() => content(item.id)}
                 trigger="click"
                 overlayClassName="menuPopover"
                 onOpenChange={handleOpenChange}

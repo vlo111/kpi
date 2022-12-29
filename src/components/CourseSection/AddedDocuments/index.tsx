@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Space } from 'antd';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
 import { StringVoidType } from '../../../types/global';
-import { IAddedDocuments } from '../../../types/project';
+import { IAddedDocuments, IRequiredDocuments } from '../../../types/project';
 import useDeleteRequiredDocs from '../../../api/Activity/Template/Sections/useDeleteRequiredDoc';
 
 const DocumentsCountContainer = styled(Space)`
@@ -42,7 +42,7 @@ const AddedDocuments: React.FC<IAddedDocuments> = ({
         style={{ width: '100%', height: '130px', overflow: 'auto' }}
         size={0}
       >
-        {requiredDocuments.map((document: any) => (
+        {requiredDocuments.map((document: IRequiredDocuments) => (
           <Space
             key={document.id}
             direction="horizontal"
