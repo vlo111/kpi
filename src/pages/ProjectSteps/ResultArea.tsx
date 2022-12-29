@@ -17,10 +17,8 @@ import {
 import useUpdateResultArea from '../../api/ResultArea/useUpdateResultArea';
 import { PATHS } from '../../helpers/constants';
 import { ConfirmSave } from '../../components/Project/ResultArea/Modal';
-import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
-
-const antIcon = <LoadingOutlined style={{ fontSize: 100, color: 'var(--dark-border-ultramarine)' }} spin />;
+import AsnSpin from '../../components/Forms/Spin1';
+import { IUseGetResultArea } from '../../types/api/project/get-project';
 
 const VALIDATE_MESSAGES_PROJECT_INPUT = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -145,7 +143,7 @@ const initialResulArea = {
       order: 1,
       expectedResults: [{ measurement: 'NUMBER' }],
       inputActivities: [
-        { title: '', order: 1.1, milestones: [{ measurement: 'NUMBER' }] }
+        { title: '', order: 1, milestones: [{ measurement: 'NUMBER' }] }
       ]
     }
   ]
@@ -167,7 +165,7 @@ export const ResultArea: React.FC = () => {
   const navigate = useNavigate();
 
   // @ts-expect-error
-  const { resultAreas, isLoading } = useGetResultArea(id);
+  const { resultAreas, isLoading }: IUseGetResultArea = useGetResultArea(id);
 
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
@@ -211,7 +209,7 @@ export const ResultArea: React.FC = () => {
 
   const createOrUpdate: Void = () => {
     if (id !== undefined) {
-      const isUpdate = resultAreas?.length != null;
+      const isUpdate = resultAreas?.length > 0;
 
       const requestData = {
         id,
@@ -221,6 +219,8 @@ export const ResultArea: React.FC = () => {
       if (isUpdate) {
         updateResultArea({ ...requestData });
       } else {
+        requestData.data = { resultAreas: form.getFieldValue([]).resultAreas };
+
         createResultArea({ ...requestData });
       }
     }
@@ -250,21 +250,8 @@ export const ResultArea: React.FC = () => {
     }
   };
 
-  const onRedirectOverview: Void = () => {
-    if (id !== undefined) {
-      if (resultAreas.length === 0 || _.isEqual(resultAreas, form.getFieldsValue().resultAreas)) {
-        const path = `/project/${PATHS.OVERVIEW}`
-          .replace(':id', id);
-
-        navigate(path);
-      } else {
-        setOpenConfirmModal(true);
-      }
-    }
-  };
-
-  if (isLoading === true) {
-    return <Spin indicator={antIcon} />;
+  if (isLoading) {
+    return <AsnSpin />;
   }
 
   return (
@@ -284,13 +271,6 @@ export const ResultArea: React.FC = () => {
           onNotSave={onNotSaveModal}
         />
         <div className="footer">
-          <AsnButton
-            onClick={onRedirectOverview}
-            className="default"
-          >
-            Cancel
-          </AsnButton>
-          {/* <AsnButton className="default" onClick={onRedirectOverview}>Save as Draft</AsnButton> */}
           <AsnButton className="primary" htmlType="submit">
             Next
           </AsnButton>

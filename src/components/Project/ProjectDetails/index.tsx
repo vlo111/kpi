@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Col, Row, Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Col, Row } from 'antd';
 
 import { AsnForm } from '../../Forms/Form';
 import { ConfirmModal } from '../../Forms/Modal/Confirm';
@@ -16,8 +15,7 @@ import useGetProjectDetails from '../../../api/Details/useGetProjectDetails';
 import useGetResultArea from '../../../api/ResultArea/useGetResultArea';
 import useCreateProjectDetails from '../../../api/Details/useCreateProjectDetails';
 import useUpdateProjectDetails from '../../../api/Details/useUpdateProjectDetails';
-
-const antIcon = <LoadingOutlined style={{ fontSize: 100, color: 'var(--dark-border-ultramarine)' }} spin />;
+import AsnSpin from '../../Forms/Spin';
 
 export const VALIDATE_PROJECT_DETAILS_MESSAGES = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -149,7 +147,7 @@ export const ProjectDetailComponent: React.FC = () => {
   };
 
   if (isLoading === true) {
-    return <Spin indicator={antIcon} />;
+    return <AsnSpin />;
   }
 
   return (
