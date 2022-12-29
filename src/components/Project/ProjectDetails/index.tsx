@@ -9,7 +9,11 @@ import { Items } from './Items';
 
 import { PATHS } from '../../../helpers/constants';
 import { Void } from '../../../types/global';
-import { OpenDeleteResultModal, ProjectDetailsDelete, ProjectErrorResponse } from '../../../types/project';
+import {
+  IStepsUpdate,
+  OpenDeleteResultModal,
+  ProjectDetailsDelete
+} from '../../../types/project';
 
 import useGetProjectDetails from '../../../api/Details/useGetProjectDetails';
 import useGetResultArea from '../../../api/ResultArea/useGetResultArea';
@@ -24,7 +28,7 @@ export const VALIDATE_PROJECT_DETAILS_MESSAGES = {
   string: { range: 'The name must be between ${min} and ${max} characters' }
 };
 
-export const ProjectDetailComponent: React.FC = () => {
+export const ProjectDetailComponent: React.FC<IStepsUpdate> = ({ isUpdate }) => {
   const [form] = AsnForm.useForm();
 
   const { id } = useParams();
@@ -45,26 +49,9 @@ export const ProjectDetailComponent: React.FC = () => {
 
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<OpenDeleteResultModal>();
 
-  const onSuccess: Void = () => {
-    const path = `/project/${PATHS.OVERVIEW}`
-      .replace(':id', id ?? '');
+  const { mutate: createProjectDetails } = useCreateProjectDetails({});
 
-    navigate(path);
-  };
-
-  const onError: ProjectErrorResponse = ({ response }) => {
-    console.log('error', response);
-  };
-
-  const { mutate: createProjectDetails } = useCreateProjectDetails({
-    onSuccess,
-    onError
-  });
-
-  const { mutate: updateProjectDetails } = useUpdateProjectDetails({
-    onSuccess,
-    onError
-  });
+  const { mutate: updateProjectDetails } = useUpdateProjectDetails({});
 
   const onFinish: Void = () => {
     if (id !== undefined) {
@@ -96,6 +83,11 @@ export const ProjectDetailComponent: React.FC = () => {
           }
         });
       }
+
+      const path = `/project/${PATHS.OVERVIEW}`
+        .replace(':id', id);
+
+      navigate(path);
     }
   };
 
@@ -150,6 +142,10 @@ export const ProjectDetailComponent: React.FC = () => {
     return <AsnSpin />;
   }
 
+  const Cancel: Void = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       <AsnForm
@@ -163,28 +159,37 @@ export const ProjectDetailComponent: React.FC = () => {
         <Items name="regions" title='Regions' onDelete={onDeleteHandler}/>
         <Items name="sectors" title='Sectors' onDelete={onDeleteHandler}/>
         <Row className="accept-buttons">
-          <Col>
-            <AsnButton
-              className="default"
-              onClick={() => {
-                const path = `/project/${PATHS.STEPS}`
-                  .replace(':id', id ?? '')
-                  .replace(':index', '0');
+          {isUpdate
+            ? <>
+              <AsnButton className="default" onClick={Cancel}>
+                Cancel
+              </AsnButton>
+              <AsnButton className="primary" htmlType="submit">
+                Update
+              </AsnButton>
+            </>
+            : <>
+              <Col>
+                <AsnButton
+                  className="default"
+                  onClick={() => {
+                    const path = `/project/${PATHS.STEPS}`
+                      .replace(':id', id ?? '')
+                      .replace(':index', '0');
 
-                navigate(path);
-              }}
-            >
-              Previous
-            </AsnButton>
-          </Col>
-          {/* <Col> */}
-          {/*   <AsnButton className="default" htmlType="submit">Save as Draft</AsnButton> */}
-          {/* </Col> */}
-          <Col>
-            <AsnButton className="primary" htmlType="submit">
-              Publish
-            </AsnButton>
-          </Col>
+                    navigate(path);
+                  }}
+                >
+                  Previous
+                </AsnButton>
+              </Col>
+              <Col>
+                <AsnButton className="primary" htmlType="submit">
+                  Publish
+                </AsnButton>
+              </Col>
+            </>
+          }
         </Row>
       </AsnForm>
       <ConfirmModal

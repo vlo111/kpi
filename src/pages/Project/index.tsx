@@ -35,6 +35,7 @@ export const ProjectStyle = styled.div`
     font-size: var(--headline-font-size);
     color: var(--dark-2);
     font-weight: var(--font-normal);
+    text-align: center;
   }
 
   .main {

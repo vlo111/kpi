@@ -5,15 +5,17 @@ import React, { useEffect, useState } from 'react';
 import { ResultArea } from './ResultArea';
 import { ProjectDetails } from './ProjectDetails';
 import { useParams } from 'react-router-dom';
+import useGetProjectDetails from '../../api/Details/useGetProjectDetails';
+import { StepsHeaderText } from '../../types/project';
 
 const StepList = [
   {
     title: 'Project Input',
-    content: <ResultArea />
+    content: (isUpdate: boolean) => <ResultArea isUpdate={isUpdate} />
   },
   {
     title: 'Project details',
-    content: <ProjectDetails />
+    content: (isUpdate: boolean) => <ProjectDetails isUpdate={isUpdate} />
   }
 ];
 
@@ -93,8 +95,18 @@ const AsnStepsHeader = styled(Steps)`
   }
 `;
 
+const Mode = {
+  Create: 'create',
+  Update: 'update'
+};
+
 export const ProjectSteps: React.FC = () => {
-  const { index } = useParams();
+  const { index, id } = useParams();
+
+  // @ts-expect-error
+  const { projectDetails } = useGetProjectDetails(id);
+
+  const isUpdate = projectDetails?.sectors?.length > 0;
 
   const [current, setCurrent] = useState(parseInt(index ?? '0'));
 
@@ -102,19 +114,31 @@ export const ProjectSteps: React.FC = () => {
     return setCurrent(parseInt(index ?? '0'));
   }, [index]);
 
+  const headerText: StepsHeaderText = (mode) => {
+    if (Mode.Update === mode) {
+      return index === '0'
+        ? 'Update Result Area and Activities'
+        : 'Update Project details';
+    } else {
+      return index === '0'
+        ? 'To create a new project, please input at least one Result Area and at least one Activity'
+        : 'To create a new project, please input Project details';
+    }
+  };
+
   return (
     <ProjectContainer>
       <div className="project-header">
         <span className="project-title">
-          To create a new project, please fill in the following information
+          {isUpdate ? headerText(Mode.Update) : headerText(Mode.Create)}
         </span>
         <AsnStepsHeader current={current}>
           {StepList.map((item) => (
-            <Step key={item.title} title={item.title} />
+            !isUpdate ? <Step key={item.title} title={item.title} /> : ''
           ))}
         </AsnStepsHeader>
       </div>
-      <div className={`step_${current}`}>{StepList[current].content}</div>
+      <div className={`step_${current}`}>{StepList[current].content(isUpdate)}</div>
     </ProjectContainer>
   );
 };
