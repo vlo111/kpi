@@ -16,7 +16,6 @@ import {
 } from '../../../types/project';
 
 import useGetProjectDetails from '../../../api/Details/useGetProjectDetails';
-import useGetResultArea from '../../../api/ResultArea/useGetResultArea';
 import useCreateProjectDetails from '../../../api/Details/useCreateProjectDetails';
 import useUpdateProjectDetails from '../../../api/Details/useUpdateProjectDetails';
 import AsnSpin from '../../Forms/Spin';
@@ -44,14 +43,17 @@ export const ProjectDetailComponent: React.FC<IStepsUpdate> = ({ isUpdate }) => 
   // @ts-expect-error
   const { projectDetails, isLoading } = useGetProjectDetails(id);
 
-  // @ts-expect-error
-  const { resultAreas } = useGetResultArea(id);
-
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<OpenDeleteResultModal>();
 
-  const { mutate: createProjectDetails } = useCreateProjectDetails({});
+  const onSuccess: Void = () => {
+    if (id !== undefined) {
+      navigate(`/project/${PATHS.OVERVIEW}`.replace(':id', id));
+    }
+  };
 
-  const { mutate: updateProjectDetails } = useUpdateProjectDetails({});
+  const { mutate: createProjectDetails } = useCreateProjectDetails({ onSuccess });
+
+  const { mutate: updateProjectDetails } = useUpdateProjectDetails({ onSuccess });
 
   const onFinish: Void = () => {
     if (id !== undefined) {
@@ -83,11 +85,6 @@ export const ProjectDetailComponent: React.FC<IStepsUpdate> = ({ isUpdate }) => 
           }
         });
       }
-
-      const path = `/project/${PATHS.OVERVIEW}`
-        .replace(':id', id);
-
-      navigate(path);
     }
   };
 
@@ -104,14 +101,6 @@ export const ProjectDetailComponent: React.FC<IStepsUpdate> = ({ isUpdate }) => 
       });
     }
   }, [projectDetails, form]);
-
-  useEffect(() => {
-    if (resultAreas !== undefined && resultAreas.length === 0) {
-      if (id !== undefined) {
-        // navigate(`/project/${id}/steps/0`);
-      }
-    }
-  }, [resultAreas, form]);
 
   const onDeleteHandler: ProjectDetailsDelete = (remove, fieldName, title) => {
     setOpenDeleteResultModal({ remove, fields: fieldName, title });
