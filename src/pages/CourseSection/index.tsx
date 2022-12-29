@@ -7,9 +7,11 @@ import { AsnModal } from '../../components/Forms/Modal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PATHS } from '../../helpers/constants';
 import { ReactComponent as SuccessfulIcon } from '../../assets/icons/successful.svg';
-import GetSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
+import getSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
 import useCreateNewSection from '../../api/Activity/Template/Sections/useCreateNewSection';
 import usePublishActivityTemplate from '../../api/Activity/Template/usePublishActivityTemplate';
+import { ISectionData } from '../../types/project';
+import { Void } from '../../types/global';
 
 const CourseSectionContainer = styled.div`
   display: flex;
@@ -23,19 +25,13 @@ const CourseSection: React.FC = () => {
   const navigate = useNavigate();
   const [isSavedProjectModal, setIsSavedProjectModal] = useState(false);
   const [isSuccessPublishModal, setIsSuccessPublishModal] = useState(false);
-  const { id: templateId } = useParams<{ id: any }>();
+  const { id: templateId } = useParams<{ id: string | undefined }>();
 
-  const { data, refetch } = GetSingleTemplate(templateId, {
-    onSuccess: (data: { result: any, count: any }) => console.log('')
-  });
+  const { data, refetch } = getSingleTemplate(templateId, {});
 
   const { mutate: createTemplateSection } = useCreateNewSection({
-    onSuccess: (options: any) => {
+    onSuccess: () => {
       refetch();
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
     }
   });
 
@@ -51,28 +47,26 @@ const CourseSection: React.FC = () => {
           );
         }, 2000);
       }
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
     }
   });
 
-  const onAddSection = (): void => {
+  const onAddSection: Void = () => {
     if (templateId != null) {
       createTemplateSection({ id: templateId });
     }
   };
 
-  const handleCancel = (): void => {
+  const handleCancel: Void = () => {
     setIsSavedProjectModal(false);
   };
-  const handleSuccessModalCancel = (): void => {
+  const handleSuccessModalCancel: Void = () => {
     setIsSuccessPublishModal(false);
   };
 
-  const onPublishSections = (): void => {
-    publishTemplate({ id: templateId });
+  const onPublishSections: Void = () => {
+    if (templateId != null) {
+      publishTemplate({ id: templateId });
+    }
   };
 
   return (
@@ -82,24 +76,24 @@ const CourseSection: React.FC = () => {
         style={{
           display: 'flex',
           justifyContent: 'flex-start',
-          margin: '2rem 0px 2rem 6% ',
+          margin: '2rem 0px 2rem 0rem ',
           width: '88%',
           fontSize: 'var(--headline-font-size)'
         }}
       >
-        <span>Sections:</span>
         <span>
-          Input course sections name and choose their learning statuses
+          Section and learning statuses
         </span>
       </Space>
       <Space direction="vertical" size={32} style={{ width: '100%' }}>
-        {data?.sections?.map((section: any) => (
-          <LearningStatus
-            key={section.id}
-            section={section}
-            refetch={refetch}
-            data={data}
-          />
+        {data?.sections?.map((section: ISectionData, index: number) => (
+            <LearningStatus
+              key={section.id}
+              section={section}
+              refetch={refetch}
+              data={data}
+              index={index}
+            />
         ))}
       </Space>
       {data?.courseStructure !== 'ONE_SECTION' &&
@@ -125,13 +119,15 @@ const CourseSection: React.FC = () => {
       >
         <AsnButton
           className="default"
-          onClick={() =>
-            navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', templateId)}`)
+          onClick={() => {
+            if (templateId != null) {
+              navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', templateId)}`);
+            }
+          }
           }
         >
           Previous
         </AsnButton>
-        <AsnButton className="default">Save as Draft</AsnButton>
         <AsnButton
           className="primary"
           onClick={() => setIsSavedProjectModal(true)}

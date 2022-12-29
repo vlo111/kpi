@@ -221,7 +221,8 @@ export interface ILearningStatusData {
 }
 
 export interface ISectionData {
-  activityTemplateId: string
+  active?: boolean | undefined
+  activityTemplateId?: string
   id: string
   projectId: string
   requiredDocuments: []
@@ -230,9 +231,10 @@ export interface ISectionData {
   type: string
 }
 export interface ILearningStatus {
-  section: ISectionData // ISection
+  section: ISectionData
   data: ILearningStatusData
   refetch: any
+  index: number
 }
 
 export interface IRequiredDocuments {
@@ -264,6 +266,7 @@ export interface ICreatedFieldItem {
   type: string
   setting?: any
   active?: boolean
+  helpText?: string
 }
 
 export interface ICreateFieldsProps {
@@ -287,7 +290,7 @@ export interface ITemplateData {
 }
 
 export interface IQuestionsRow {
-  item: ICreatedFieldItem // ITemplateData
+  item: ICreatedFieldItem
   setItem: React.Dispatch<React.SetStateAction<ICreatedFieldItem | null>>
   setQuestionType: React.Dispatch<React.SetStateAction<string>>
   setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
