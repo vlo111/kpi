@@ -185,7 +185,9 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
   return (
     <Fragment>
       <CourseList>
-        <Row>
+        <Row style={{
+          width: '90%'
+        }}>
           <Col
             span={24}
             style={{
@@ -202,23 +204,26 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
                 <Col
                   key={option + `${index}`}
                   style={{
-                    color: 'var(--dark-2)',
+                    color: 'var(--dark-4)',
                     fontSize: 'var(--font-size-small)'
                   }}
                 >
-                  {option}
+                  {option},
                 </Col>
                   ))
                 )
               : (
-              <Col>
+              <Col style={{
+                color: 'var(--dark-4)',
+                fontSize: 'var(--font-size-small)'
+              }}>
                 {item?.setting?.answerType === 'SHORT_TEXT'
                   ? 'Short Text'
                   : item?.setting?.answerType === 'NUMBER'
                     ? 'Number'
                     : item?.setting?.answerType === 'ATTACHMENT'
                       ? 'Attachment'
-                      : 'Dropdown options'}
+                      : item?.setting?.answerType === 'DROPDOWN' ? 'Dropdown options' : ''}
               </Col>
                 )}
           </Row>
