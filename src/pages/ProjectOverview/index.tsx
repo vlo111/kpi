@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Tabs, Typography, Space, Badge, Row, Tooltip } from 'antd';
 import styled from 'styled-components';
@@ -23,25 +23,33 @@ const AntRow = styled(Row)`
 
 const ProjectOverview: React.FC = () => {
   const [active, setActive] = useState<number>(1);
+
   const { id } = useParams<string>();
+
   const { data, isLoading } = useGetProjectById(id);
+
   const { result: project } = data;
+
   const navigate = useNavigate();
+
   const handleDraft: TVoid = () => {
     if (id != null) {
       navigate(`/project/${id}/steps/0`);
     }
   };
+
   const handleEdit: TVoid = () => {
     if (id != null) {
       navigate(`/project/${id}/steps/1`);
     }
   };
+
   const addResultAreas: TVoid = () => {
     if (id != null) {
       navigate(`/project/${id}/steps/0`);
     }
   };
+
   const AntBadge = styled(Badge)`
    margin-right: 4px;
    .ant-badge-count{
@@ -52,8 +60,11 @@ const ProjectOverview: React.FC = () => {
    border-radius: 100%;
 }
 `;
+
   const operations = <AsnButton className='draft' onClick={handleDraft}>Draft</AsnButton>;
+
   const projectItems = project?.resultAreas.length;
+
   const items = project?.resultAreas?.map((item: IResultAreas, i: number) => {
     return {
       label:
@@ -117,9 +128,21 @@ const ProjectOverview: React.FC = () => {
       )
     };
   });
+
+  useEffect(() => {
+    if (id !== undefined) {
+      if (project?.resultAreas.length === 0) {
+        navigate(`/project/${id}/steps/0`);
+      } else if (project?.resultAreas.length > 0 && project?.sectors.length === 0) {
+        navigate(`/project/${id}/steps/1`);
+      }
+    }
+  }, [project, id]);
+
   if (isLoading === true) {
     return <AsnSpin />;
   }
+
   return (
     <>
       <ProjectInformationHeader overview={true} project={project} />
