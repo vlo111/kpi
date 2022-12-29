@@ -304,3 +304,9 @@ export interface IQuestionsRow {
 export type SetProjectId = (id: string) => void
 
 export type ResultAreaOrder = (index: number) => number
+
+export type StepsHeaderText = (mode: string) => string
+
+export interface IStepsUpdate { isUpdate: boolean }
+
+export interface IResultsUpdate { createOrUpdate: Void, isUpdate: boolean }
