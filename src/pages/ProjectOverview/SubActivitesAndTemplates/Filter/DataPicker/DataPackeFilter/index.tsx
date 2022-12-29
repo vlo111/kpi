@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Col, Space, Radio, RadioChangeEvent } from 'antd';
+import { Col, Space, Radio } from 'antd';
 
 import { TVoid } from '../../../../../../types/global';
 import { IDateFilterCards } from '../../../../../../types/project';
 import { AsnForm } from '../../../../../../components/Forms/Form';
 import { AsnDatePicker } from '../../../../../../components/Forms/DatePicker';
 import moment from 'moment';
+import { AsnButton } from '../../../../../../components/Forms/Button';
 
 export const PickerSpace = styled(Space)`
   width: 100%;
@@ -27,70 +28,55 @@ export const PickerSpace = styled(Space)`
 `;
 
 export const DateFilter: React.FC<IDateFilterCards> = ({ setDateSearch, dateSearch }) => {
-  // const [form] = AsnForm.useForm();
-  // const startDate = AsnForm.useWatch('startDate', form);
-  // const endDate = AsnForm.useWatch('endDate', form);
-  // // console.log(moment(startDate).format(), moment(endDate).format());
-  // useEffect(() => {
-  //   console.log('aaaaaa');
-  // }, [startDate, endDate]);
-  // const { from, to } = dateSearch;
-  const onChange: TVoid = (e: RadioChangeEvent) => {
+  const [form] = AsnForm.useForm();
+  const onFinish: TVoid = (values) => {
+    const { from, to, radio } = values;
     setDateSearch({
-      ...dateSearch,
-      start: e.target.value
+      start: radio,
+      from: moment(from).format(),
+      to: moment(to).format()
     });
   };
-  // console.log(dateSearch);
-  // useEffect(() => {
-  //   if (from !== '' && to !== '') {
-  //     setDateSearch({
-  //       start: true,
-  //       from: '',
-  //       to: ''
-  //     });
-  //   }
-  // }, [from, to]);
   return (
     <>
-      <Radio.Group onChange={onChange} value={dateSearch?.start}>
-        <Radio value={true}>Start Date Interval</Radio>
-        <Radio value={false}>End Date Interval</Radio>
-      </Radio.Group>
-      <PickerSpace size={18}>
-        <Col span={22}>
-          <AsnForm.Item
-            name="startDate"
-            label="from"
-            rules={[{ required: true }]}
-          >
-            <AsnDatePicker
-              format="DD/MM/YYYY"
-              placeholder="01/01/23"
-              onChange={(val) => setDateSearch({
-                ...dateSearch,
-                from: moment(val).format()
-              })}
-            />
-          </AsnForm.Item>
-        </Col>
-        <Col span={22}>
-          <AsnForm.Item
-            name="endDate"
-            label="to"
-            rules={[{ required: true }]}
-          >
-            <AsnDatePicker
-              placeholder="01/01/23"
-              format="DD/MM/YYYY"
-              onChange={(val) => setDateSearch({
-                ...dateSearch,
-                to: moment(val).format()
-              })}
-            />
-          </AsnForm.Item>
-        </Col>
-      </PickerSpace>
+      <AsnForm
+        onFinish={onFinish}
+        form={form}
+      >
+        <AsnForm.Item name="radio" rules={[{ required: true }]}>
+          <Radio.Group>
+            <Radio value={true}>Start Date Interval</Radio>
+            <Radio value={false}>End Date Interval</Radio>
+          </Radio.Group>
+        </AsnForm.Item>
+        <PickerSpace size={18}>
+          <Col span={22}>
+            <AsnForm.Item
+              name="from"
+              label="from"
+              rules={[{ required: true }]}
+            >
+              <AsnDatePicker
+                format="DD/MM/YYYY"
+                placeholder="01/01/23"
+              />
+            </AsnForm.Item>
+          </Col>
+          <Col span={22}>
+            <AsnForm.Item
+              name="to"
+              label="to"
+              rules={[{ required: true }]}
+            >
+              <AsnDatePicker
+                placeholder="01/01/23"
+                format="DD/MM/YYYY"
+              />
+            </AsnForm.Item>
+          </Col>
+        </PickerSpace>
+        <AsnButton htmlType="submit" className='primary' style={{ width: '30%' }}>Save</AsnButton>
+      </AsnForm>
     </>
   );
 };
