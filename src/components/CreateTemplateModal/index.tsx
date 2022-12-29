@@ -9,6 +9,7 @@ import { ICreateTemplateModal, AddManagerHandle } from '../../types/project';
 import { PATHS } from '../../helpers/constants';
 import { ICreateTemplateResponse } from '../../types/api/activity/template';
 import useCreateActivityTemplate from '../../api/Activity/Template/useCreateActivityTemplate';
+import { FormFinish } from '../../types/global';
 
 const CreateTemplateContainer = styled.div`
   .buttonContainer {
@@ -43,7 +44,7 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
     setIsOpenCreateActivityModal(false);
   };
 
-  const onFinish: any = (values: any) => {
+  const onFinish: FormFinish = (values) => {
     createTemplateFn({
       id: activityId,
       data: {

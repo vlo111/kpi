@@ -220,13 +220,27 @@ export interface ILearningStatusData {
 
 }
 
+export interface ISetting {
+  changeable: boolean | undefined
+  id: string | undefined
+  projectId: string | undefined
+  title: string | undefined
+}
+export interface ISectionsSettingItem {
+  active: boolean
+  id: string
+  sectionId: string
+  sectionSettingId: string
+  setting: ISetting
+}
+
 export interface ISectionData {
   active?: boolean | undefined
   activityTemplateId?: string
   id: string
   projectId: string
   requiredDocuments: []
-  sectionSettingMap: object[]
+  sectionSettingMap: ISectionsSettingItem[]
   title: string
   type: string
 }
