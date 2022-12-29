@@ -99,15 +99,12 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
       id: item.id
     });
   };
-  console.log(rowId, 'rowId');
 
   const onOpenInputClick: StringVoidType = (id) => {
     if (!rowId.includes(id)) {
-      console.log('>>>>>>>>');
       setRowId([id, ...rowId]);
     }
     if (rowId.length > 0 && rowId.includes(id)) {
-      console.log('???????????????');
       setRowId(rowId.filter((item) => item !== id));
     }
     setOpenPopover(false);
