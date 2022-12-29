@@ -11,7 +11,7 @@ import getSingleTemplate from '../../api/Activity/Template/useGetSingleActivityT
 import useCreateNewSection from '../../api/Activity/Template/Sections/useCreateNewSection';
 import usePublishActivityTemplate from '../../api/Activity/Template/usePublishActivityTemplate';
 import { ISectionData } from '../../types/project';
-import { Void } from '../../types/global';
+import { ISectionResult, Void } from '../../types/global';
 
 const CourseSectionContainer = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ const CourseSection: React.FC = () => {
   });
 
   const { mutate: publishTemplate } = usePublishActivityTemplate({
-    onSuccess: (options: any) => {
+    onSuccess: (options: ISectionResult<string>) => {
       if (options.data.result === 'successfully published') {
         setIsSavedProjectModal(false);
         setIsSuccessPublishModal(true);
@@ -127,6 +127,12 @@ const CourseSection: React.FC = () => {
           }
         >
           Previous
+        </AsnButton>
+        <AsnButton
+          className="default"
+          onClick={() => navigate(`/${PATHS.PROJECT}/${PATHS.OVERVIEW.replace(':id', data?.projectId)}`)}
+        >
+          Save as Draft
         </AsnButton>
         <AsnButton
           className="primary"

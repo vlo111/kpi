@@ -88,3 +88,6 @@ export interface IAsnCheckbox {
   checkHeight?: string
   borderSize?: string
 }
+
+export interface IActivityResult<T> { data: { result: T } }
+export interface ISectionResult<T> { data: { result: T } }

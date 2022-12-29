@@ -25,20 +25,14 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
 }) => {
   const [form] = AsnForm.useForm();
   const navigate = useNavigate();
-  // const { id: projectId } = useParams();
   const { mutate: createTemplateFn } = useCreateActivityTemplate({
     onSuccess: (options: ICreateTemplateResponse) => {
       const {
         data
       } = options;
-      console.log(data);
       if ((data.result.id ?? '').length > 0) {
         navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', data.result.id)}`);
       }
-    },
-    onError: ({ response }: any) => {
-      // const { data: { 0: { massage } } } = response;
-      console.log(response, 'response');
     }
   });
 

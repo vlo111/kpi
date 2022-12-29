@@ -241,6 +241,8 @@ export interface IRequiredDocuments {
   documentName: string
   documentCount: number
   id: string
+  title?: string
+  count?: string
 }
 
 export interface IAddRequiredDocument {
@@ -273,7 +275,7 @@ export interface ICreateFieldsProps {
   setIsVisibleAddField: React.Dispatch<React.SetStateAction<boolean>>
   questionType: string
   setQuestionType: React.Dispatch<React.SetStateAction<string>>
-  item: ICreatedFieldItem
+  item: ICreatedFieldItem | null
   setItem: React.Dispatch<React.SetStateAction<ICreatedFieldItem | null>>
 }
 
