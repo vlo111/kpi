@@ -2,7 +2,6 @@ import { IUser } from './auth';
 import { Moment } from 'moment';
 import { FormListFieldData } from 'antd';
 import { Void } from './global';
-import { ReactElement } from 'react';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 
 export interface ICreateTemplate {
@@ -293,8 +292,6 @@ export interface ICreateFieldsProps {
   item: ICreatedFieldItem | null
   setItem: React.Dispatch<React.SetStateAction<ICreatedFieldItem | null>>
 }
-
-export type ContentType = (item: ICreatedFieldItem) => ReactElement
 
 export interface ITemplateData {
   id: string
