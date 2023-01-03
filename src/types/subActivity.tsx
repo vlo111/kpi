@@ -30,3 +30,8 @@ export interface IManagerType {
     lastName: string
   }
 }
+
+export interface ICreateSubActivityProps {
+  templateId?: string | undefined
+  subActivityId?: string | undefined
+}

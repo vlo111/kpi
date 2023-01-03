@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { AsnModal } from '../../../Forms/Modal';
 
 export const CreateSubActivity = styled(AsnModal)`
+  top: 22px !important;
   #SubActivityForm {
     .duration_section
       > .ant-form-item-row

@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState } from 'react';
+
 import { Checkbox, Col, InputNumber, Row, Space } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
-import React, { useState } from 'react';
 import { ReactComponent as DurationSvg } from '../../../../assets/icons/duration.svg';
 import { AsnForm } from '../../../Forms/Form';
 
@@ -53,7 +53,7 @@ const Duration: React.FC = () => {
           className="skills"
           style={{ marginBottom: '8px' }}
         >
-          <AsnForm.Item name="duration_technical">
+          <AsnForm.Item>
             <Checkbox
               checked={checkTechnical}
               disabled={!checkTechnical}
@@ -97,7 +97,7 @@ const Duration: React.FC = () => {
           </AsnForm.Item>
         </Space>
         <Space direction="horizontal" align="center" className="skills">
-          <AsnForm.Item name="duration_soft">
+          <AsnForm.Item>
             <Checkbox
               checked={checkSkills}
               disabled={!checkSkills}

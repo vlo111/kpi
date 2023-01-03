@@ -1,5 +1,5 @@
-import React from 'react';
-import { Avatar, Col, Image, Row, Select, Upload } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Col, Row, Select, Upload } from 'antd';
 
 import { AsnButton } from '../../../Forms/Button';
 import { AsnForm } from '../../../Forms/Form';
@@ -11,12 +11,24 @@ import Duration from '../DurationForm';
 import { CreateSubActivity } from './CreateModalStyles';
 import { VALIDATE_MESSAGES } from '../../../../helpers/constants';
 import AsnPicker from '../../../Picker';
+import AsnAvatar from '../../../Forms/Avatar';
+import { FormFinish } from '../../../../types/global';
+import getSingleTemplate from '../../../../api/Activity/Template/useGetSingleActivityTemplate';
+import { ICreateSubActivityProps } from '../../../../types/subActivity';
+// import GetSingleSubActivity from '../../../../api/Activity/SubActivity/useGetSingleSubActivity';
 
-const CreateSubActivityModal: React.FC<{}> = () => {
+const CreateSubActivityModal: React.FC<ICreateSubActivityProps> = ({ templateId, subActivityId }) => {
   const [form] = AsnForm.useForm();
-  const handleOk = (values: any): void => {
-    console.log(values);
-  };
+  const [user, setUser] = useState<any>();
+
+  const options = ['Active', 'Online', 'Blended'];
+  const organizationOptions = ['Analysed', 'It', 'Test'];
+  const regionOptions = ['Aragacotn', 'Shirak', 'Armavir'];
+
+  const { data } = getSingleTemplate(templateId, {});
+  // const { data: ActivityData } = GetSingleSubActivity(subActivityId, {});
+
+  console.log(data, user);
 
   const initialValues = {
     duration_technical_number: 18,
@@ -24,7 +36,28 @@ const CreateSubActivityModal: React.FC<{}> = () => {
     duration: 36
   };
 
-  const options = ['Active', 'Online', 'Blended'];
+  const onFinish: FormFinish = (values) => {
+    console.log(values, 'values', new Date(values.startDate).toJSON(), new Date(values.endDate).toJSON());
+  };
+
+  const storageUser = localStorage.getItem('user');
+
+  useEffect(() => {
+    if (storageUser != null) {
+      setUser(JSON.parse(storageUser));
+    }
+  }, []);
+
+  useEffect(() => {
+    form.setFieldsValue({
+      title: 'First sub Activity 1',
+      organization: 'Analysed',
+      description: 'test description',
+      region: 'Armavir',
+      teaching_mode: 'Online',
+      partner_organization: 'organization'
+    });
+  }, [data]);
 
   const { Option } = Select;
   const { Dragger } = Upload;
@@ -64,7 +97,7 @@ const CreateSubActivityModal: React.FC<{}> = () => {
         layout="vertical"
         name="SubActivityForm"
         validateMessages={VALIDATE_MESSAGES}
-        onFinish={handleOk}
+        onFinish={onFinish}
         initialValues={initialValues}
         // fields={fields}
       >
@@ -81,7 +114,7 @@ const CreateSubActivityModal: React.FC<{}> = () => {
           rules={[{ required: true }]}
         >
           <AsnSelect suffixIcon={<ArrowSvg />}>
-            {options.map((i) => (
+            {organizationOptions.map((i) => (
               <Option key={i} value={i}>
                 {i}
               </Option>
@@ -102,23 +135,14 @@ const CreateSubActivityModal: React.FC<{}> = () => {
         >
           <Row justify="start" align="middle" style={{ padding: '4px 11px' }}>
             <Col>
-              <Avatar
-                style={{ width: '100%', display: 'flex', alignItems: 'center' }}
-                src={
-                  <Image
-                    preview={false}
-                    src="https://joeschmoe.io/api/v1/random"
-                    style={{ width: 24, height: 24, borderRadius: '50%' }}
-                  />
-                }
-              />
+              <AsnAvatar letter={`${'Armen'.charAt(0)}${'Davtyan'.charAt(0)}`}/>
             </Col>
-            <Col style={{ marginLeft: '8px' }}>Ani Hovhannisyan</Col>
+            <Col style={{ marginLeft: '8px' }}>{user?.firstName} {user?.lastName}</Col>
           </Row>
         </AsnForm.Item>
         <AsnForm.Item name="region" label="Region" rules={[{ required: true }]}>
           <AsnSelect suffixIcon={<ArrowSvg />}>
-            {options.map((i) => (
+            {regionOptions.map((i) => (
               <Option key={i} value={i}>
                 {i}
               </Option>
