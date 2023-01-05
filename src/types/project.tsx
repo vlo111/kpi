@@ -409,3 +409,59 @@ export type StepsHeaderText = (mode: string) => string
 export interface IStepsUpdate { isUpdate: boolean }
 
 export interface IResultsUpdate { createOrUpdate: Void, isUpdate: boolean }
+
+export interface IContent {
+  id: string
+  title: string
+  subtitle: string
+  checked: boolean
+  disabled: boolean
+}
+
+export interface ICardsData {
+  id: string
+  cardTitle: string
+  description: string
+  question: IContent[]
+}
+
+export interface IIsAddTermsConditions {
+  id: string
+  placeholder: string
+}
+
+export interface IAddQuestionCard {
+  setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
+  isQuestionCardVisible: string[]
+  cardId: string
+}
+
+export interface IApplicationCard extends IAddQuestionCard {
+  title: string
+  content: IContent[] | []
+  isQuestionCardVisible: string[]
+  setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
+  cardId: string
+}
+
+export interface ITermsAndCondition {
+  setTermsConditionsValue: React.Dispatch<React.SetStateAction<object>>
+  termsConditionsValue: object
+  setIsAddTermsConditions: React.Dispatch<React.SetStateAction<IIsAddTermsConditions[]>>
+  isAddTermsConditions: IIsAddTermsConditions[]
+}
+
+export interface IFontWeight {
+  fontWeight?: string
+}
+
+export interface IPreviewModal {
+  isOpenCreateActivityModal: boolean
+  setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export interface ICardContainer {
+  borderTop?: string
+  marginTop?: string
+  marginBottom?: string
+}
