@@ -321,6 +321,7 @@ export interface IProjectTemplate {
   title: string
   id: string
   description: string
+  status: string
 }
 
 export interface ISubActivityAndTemplates {
