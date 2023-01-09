@@ -2,7 +2,7 @@ import React from 'react';
 import { Col } from 'antd';
 import styled from 'styled-components';
 
-import { IWrapperProps } from '../../../../types/subActivity';
+import { IWrapperProps } from '../../../../types/api/activity/subActivity';
 
 const Wrapper = styled(Col)`
   width: 100%;

@@ -14,7 +14,7 @@ import AsnPicker from '../../../Picker';
 import AsnAvatar from '../../../Forms/Avatar';
 import { FormFinish } from '../../../../types/global';
 import getSingleTemplate from '../../../../api/Activity/Template/useGetSingleActivityTemplate';
-import { ICreateSubActivityProps } from '../../../../types/subActivity';
+import { ICreateSubActivityProps } from '../../../../types/api/activity/subActivity';
 // import GetSingleSubActivity from '../../../../api/Activity/SubActivity/useGetSingleSubActivity';
 
 const CreateSubActivityModal: React.FC<ICreateSubActivityProps> = ({ templateId, subActivityId }) => {

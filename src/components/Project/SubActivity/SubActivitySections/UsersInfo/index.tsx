@@ -4,7 +4,7 @@ import { Col, Row, Space, Typography } from 'antd';
 import { AsnButton } from '../../../../Forms/Button';
 import FormWrapper from '../../SubActivityWrapper';
 import AsnAvatar from '../../../../Forms/Avatar';
-import { IManagerType } from '../../../../../types/subActivity';
+import { IManagerType } from '../../../../../types/api/activity/subActivity';
 
 const SubActivityUsersInfo: React.FC<IManagerType> = ({ manager }) => {
   const { Title } = Typography;

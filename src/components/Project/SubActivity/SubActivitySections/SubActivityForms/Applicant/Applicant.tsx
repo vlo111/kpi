@@ -6,10 +6,34 @@ import DraggerForm from '../Dragger';
 import ApplicantList from './ApplicantList';
 import FormWrapper from '../../../SubActivityWrapper';
 import SubActivityFooter from '../../../SubActivityWrapper/Footer';
+import useAttacheFilesSubActivitySection from '../../../../../../api/Activity/SubActivity/useAttachFileCourseStting';
 
 const ApplicantsForm: React.FC<any> = ({ id, setActiveKey }) => {
   const { Title } = Typography;
   const [Published] = useState(false);
+  const [fileList, setFileList] = useState<any>([]);
+
+  const { mutate: AttachFile } = useAttacheFilesSubActivitySection(
+    {
+      onSuccess: () => {
+        console.log('aaa');
+      },
+      onError: () => {
+        console.log('aaa');
+      }
+    }
+  );
+
+  const add = (): any => {
+    console.log('iddddd', fileList);
+    AttachFile({
+      id: '0418e1eb-57f9-4ca9-a378-03ae0612a9b8',
+      data: {
+        files: fileList,
+        sectionSettingId: id
+      }
+    });
+  };
 
   return (
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 64]}>
@@ -35,14 +59,14 @@ const ApplicantsForm: React.FC<any> = ({ id, setActiveKey }) => {
             >
               <Title level={5}>Or</Title>
             </Row>
-            <DraggerForm text="Attach related document" padding="0 6.1vw" />
+            <DraggerForm text="Attach related document" padding="0 6.1vw" setFileList={setFileList} />
           </>
             )
           : (
           <ApplicantList />
             )}
       </FormWrapper>
-      <SubActivityFooter cancel={setActiveKey} />
+      <SubActivityFooter cancel={setActiveKey} add={add} />
     </Space>
   );
 };

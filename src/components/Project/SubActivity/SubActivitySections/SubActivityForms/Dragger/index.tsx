@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Col, Typography, UploadProps } from 'antd';
 
 import { ReactComponent as UploadDocument } from '../../../../../../assets/icons/upload-docs.svg';
-import { IDraggerProps } from '../../../../../../types/subActivity';
+import { IDraggerProps, UploadRequestOption } from '../../../../../../types/api/activity/subActivity';
 import useFileUpload from '../../../../../../api/Activity/SubActivity/useUploadFile';
 
 const AsnDragger = styled(Dragger)`
@@ -29,21 +29,21 @@ const AsnDragger = styled(Dragger)`
   }
 `;
 
-const DraggerForm: React.FC<IDraggerProps> = ({ text, padding }) => {
+const DraggerForm: React.FC<IDraggerProps> = ({ text, padding, setFileList }) => {
   const { Title } = Typography;
   const { mutate: UploadDoc } = useFileUpload({
     onSuccess: (options: any) => {
       const {
         data: { result }
       } = options;
-      console.log(result);
+      setFileList((prevState: any) => [...prevState, result[0]]);
     }
   });
   const props: UploadProps = {
-    customRequest: (options: { file: any }) => {
-      const { file } = options;
+    customRequest: (options: UploadRequestOption) => {
+      const { file, onSuccess } = options;
       UploadDoc(file);
-      console.log(file, 'options', options);
+      onSuccess('ok');
     },
     name: 'file',
     accept: '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx'

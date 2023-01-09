@@ -6,7 +6,7 @@ import { ColumnsType } from 'antd/lib/table';
 import { ReactComponent as NotFoundIcon } from '../../../../../assets/icons/not-users-found.svg';
 import { ReactComponent as ApplicantsIcon } from '../../../../../assets/icons/team-members.svg';
 import { ReactComponent as DownloadIcon } from '../../../../../assets/icons/download.svg';
-import { IUserListTypes } from '../../../../../types/subActivity';
+import { IUserListTypes } from '../../../../../types/api/activity/subActivity';
 import { AsnTable } from '../../../../Forms/Table';
 import FormWrapper from '../../SubActivityWrapper';
 
