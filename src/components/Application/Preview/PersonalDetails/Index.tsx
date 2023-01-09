@@ -18,7 +18,7 @@ const PersonalDetails: React.FC = () => {
     <DetailsContainer>
       <CardTitle>Personal details / Անձնական տվյալներ:</CardTitle>
       <ModalText style={{ marginTop: '0.5rem' }}>
-        {previewData.detailsDescription}
+        {'previewData.detailsDescription'}
       </ModalText>
       <ModalText style={{ marginTop: '1rem' }}>Full Name: / ԱԱՀ*</ModalText>
       <AsnInput value="" />

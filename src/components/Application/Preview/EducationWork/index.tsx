@@ -30,7 +30,7 @@ const EducationWork: React.FC = () => {
       </ModalText>
       <Radio.Group value="School / Դպրոց">
         <Space direction="vertical" style={{ width: '97%' }}>
-          {study.map((educationalInstitution) => (
+          {[].map((educationalInstitution) => (
             <Radio value={educationalInstitution} key={educationalInstitution}>
               {educationalInstitution}
             </Radio>
@@ -46,9 +46,9 @@ const EducationWork: React.FC = () => {
       <ModalText style={{ marginTop: '2rem' }}>
         Education level/Ի՞նչ մակարդակի կրթություն ունեք (ավարտած)*
       </ModalText>
-      <Radio.Group value={education[0]}>
+      <Radio.Group value={'education[0]'}>
         <Space direction="vertical" style={{ width: '97%' }}>
-          {education.map((education) => (
+          {[].map((education) => (
             <Radio value={education} key={education}>
               {education}
             </Radio>
@@ -60,7 +60,7 @@ const EducationWork: React.FC = () => {
           <ModalText>Your profession / Ի՞նչ մասնագիտություն ունեք*</ModalText>
         </Divider>
       </DividerLine>
-      <ModalText style={{ marginTop: '2rem' }}>{previewData.haveJob}</ModalText>
+      <ModalText style={{ marginTop: '2rem' }}>{'previewData.haveJob'}</ModalText>
       <Radio.Group value="Yes/Այո">
         <Space direction="vertical">
           <Radio value="Yes/Այո">Yes/Այո</Radio>

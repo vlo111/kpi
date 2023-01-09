@@ -70,14 +70,14 @@ const PreviewModal: React.FC<IPreviewModal> = ({
       <PreviewContainer>
         <ModalTitle fontWeight={'500'}>Preview of Application form</ModalTitle>
         <ModalTitle>Python course</ModalTitle>
-        <ModalText>{previewData.courseDescription}</ModalText>
+        <ModalText>{'previewData.courseDescription'}</ModalText>
         <PersonalDetails />
         <EducationWork />
         <OtherInformation />
         <DetailsContainer>
           <CardTitle>Terms & Conditions/ Պայմաններ և դրույթներ</CardTitle>
           <ModalText style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}>
-            {previewData.termsCondition}
+            {'previewData.termsCondition'}
           </ModalText>
           <AsnCheckbox defaultChecked={true}>I agree / Համաձայն եմ</AsnCheckbox>
           <ModalText style={{ marginTop: '2rem', marginBottom: '0.5rem' }}>

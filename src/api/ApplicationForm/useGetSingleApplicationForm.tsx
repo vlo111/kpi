@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import client from '../client';
 
-export const url = 'api/application-for';
+export const url = 'api/application-form';
 
-const getApplicationForm: any = (applicationId: string, options = { enabled: false }) => {
+const getSingleApplicationForm: any = (formId: string, options = { enabled: false }) => {
   const result = useQuery(
-    [url, applicationId],
-    async () => await client.get(`${url}/course/${applicationId}/default`),
+    [url, formId],
+    async () => await client.get(`${url}/${formId}`),
     {
       ...options,
       select: (data) => data.data
@@ -17,11 +17,9 @@ const getApplicationForm: any = (applicationId: string, options = { enabled: fal
   return {
     ...result,
     data: isSuccess ? data?.result : [],
-    count: data?.count,
-    has_more: data?.count,
     isLoading,
     refetch
   };
 };
 
-export default getApplicationForm;
+export default getSingleApplicationForm;

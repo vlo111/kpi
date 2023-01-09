@@ -129,10 +129,10 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
         <AnswerTypeSpace direction="horizontal" size={32} align="center">
           <AsnForm.Item name="answerType">
             <AnswerTypeSelect
-              defaultValue={answerType[0]}
+              defaultValue={'answerType[0]'}
               onChange={onAnswerTypeChange}
             >
-              {answerType.map((option: string) => (
+              {[].map((option: string) => (
                 <Option key={option} value={option}>
                   {option}
                 </Option>

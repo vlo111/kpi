@@ -33,7 +33,7 @@ const OtherInformation: React.FC = () => {
         Խնդրում ենք նշել, եթե ունեք խոցելիության հետևյալ տեսակներից որևէ մեկը*
       </ModalText>
       <Space direction="vertical" style={{ width: '97%' }}>
-        {otherInformation.map((info, idex) => (
+        {[].map((info, idex) => (
           <AsnCheckbox defaultChecked={idex === 0} key={info}>
             {info}
           </AsnCheckbox>
@@ -49,9 +49,9 @@ const OtherInformation: React.FC = () => {
         How did you find out about the course? / Որտեղից եք տեղեկացել դասընթացի
         մասին*
       </ModalText>
-      <Radio.Group value={didFindCourse[0]}>
+      <Radio.Group value={'didFindCourse[0]'}>
         <Space direction="vertical" style={{ width: '97%' }}>
-          {didFindCourse.map((course) => (
+          {[].map((course) => (
             <Radio value={course} key={course}>
               {course}
             </Radio>

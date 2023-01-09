@@ -75,11 +75,11 @@ const Application: React.FC = () => {
   >([
     {
       id: uuidv4(),
-      placeholder: applicationInputValues.terms
+      placeholder: ''
     },
     {
       id: uuidv4(),
-      placeholder: applicationInputValues.conditions
+      placeholder: ''
     }
   ]);
   const [isQuestionCardVisible, setIsQuestionCardVisible] = useState<string[]>(
@@ -90,7 +90,7 @@ const Application: React.FC = () => {
   const onlineSignature = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    setCardDataState([...cardsData]);
+    setCardDataState([]);
   }, []);
 
   const onPublishClick: Void = () => {
@@ -133,7 +133,7 @@ const Application: React.FC = () => {
       </Typography.Title>
       <CustomTextArea
         style={{ border: 'none', marginBottom: '2rem' }}
-        placeholder={applicationInputValues.description}
+        placeholder={''}
         ref={formDescription}
       />
       {cardDataState.map((data: ICardsData) => (
