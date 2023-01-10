@@ -5,11 +5,11 @@ import client from '../../client';
 
 const url = 'api/sub-activity/course';
 
-const useStartSubActivityCourseById: any = (options = {}) =>
+const useStartSubActivityCourse: any = (options = {}) =>
   useMutation(
     async (params: IOnlyId) => {
       await client.patch(`${url}/${params.id}/start`);
     },
     options
   );
-export default useStartSubActivityCourseById;
+export default useStartSubActivityCourse;

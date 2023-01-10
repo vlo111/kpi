@@ -29,7 +29,7 @@ const AsnDragger = styled(Dragger)`
   }
 `;
 
-const DraggerForm: React.FC<IDraggerProps> = ({ text, padding, setFileList }) => {
+const DraggerForm: React.FC<IDraggerProps> = ({ text, padding, setFileList, defaultFileList }) => {
   const { Title } = Typography;
   const { mutate: UploadDoc } = useFileUpload({
     onSuccess: (options: any) => {
@@ -52,6 +52,7 @@ const DraggerForm: React.FC<IDraggerProps> = ({ text, padding, setFileList }) =>
     <Col style={{ padding: padding ?? '0' }}>
       <AsnDragger
         {...props}
+        fileList={defaultFileList}
         style={{ width: '100%', height: 'inherit' }}
       >
         <UploadDocument />

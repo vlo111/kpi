@@ -10,6 +10,7 @@ export interface IDisableType {
 export interface IDraggerProps {
   text?: string | undefined
   padding?: string | undefined
+  defaultFileList?: any
   // setFileList?: React.Dispatch<React.SetStateAction<string[] | undefined>>
   setFileList?: any
 }

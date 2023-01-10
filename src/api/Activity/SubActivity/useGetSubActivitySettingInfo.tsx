@@ -14,7 +14,7 @@ const getSingleSubActivitySettingInfo: any = (courseId: string, settingId: strin
   );
   const { data, isSuccess, refetch } = result;
   return {
-    data: data?.result,
+    data,
     isSuccess,
     refetch
   };
