@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Popconfirm, Card, Col, Row, message } from 'antd';
@@ -12,6 +13,8 @@ import { ReactComponent as TrashSvg } from '../../../../assets/icons/trash.svg';
 import { ReactComponent as EditSvg } from '../../../../assets/icons/edit.svg';
 import { ReactComponent as Dublicat } from '../../../../assets/icons/duplicate.svg';
 import { ReactComponent as Plus } from '../../../../assets/icons/plus.svg';
+
+const { Meta } = Card;
 
 const Container = styled.div`
 .card {
@@ -68,8 +71,11 @@ const Container = styled.div`
   word-wrap: break-word;
   white-space: initial;
   }
+  .ant-popover{
+    top: 7px !important;
+  }
   .ant-popover-inner-content{
-    height: 180px;
+    height: 170px;
     .ant-popover-buttons{
       position: absolute;
       top: 10px;
@@ -81,6 +87,18 @@ const Container = styled.div`
   }
   .ant-popover-message{
     padding: 20px 0 12px ;
+  }
+  .ant-popover-arrow{
+    display: none;
+  }
+  .draft{
+    background-color: #D4DDE4;
+    width: 70px;
+    color: #2A5578;
+    font-size: 14px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
   }
 `;
 const Popup = styled(Button)`
@@ -121,8 +139,8 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({ templates, refetch,
       }
     }
   );
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const title = (id: string): any => {
     return (
       <Row>
@@ -155,7 +173,7 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({ templates, refetch,
       <Container>
         <Row gutter={[32, 0]} style={{ width: '100%', height: '50vh' }}>
           <Col style={{ cursor: 'pointer' }} onClick={() => setIsOpenCreateActivityModal(true)} >
-            <Card className=" card">+Add Activity Template</Card>
+            <Card className=" card">+Add Sub-Activity Template</Card>
           </Col>
           {templates?.map((template) => (
             <Col key={template?.id}>
@@ -178,6 +196,7 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({ templates, refetch,
                 onMouseEnter={() => setShow(template?.id)}
                 onMouseLeave={() => setShow(false)}
               >
+                  <Meta description={ template?.status === 'DRAFT' ? <div className='draft'>DRAFT</div> : ''} />
                 {template?.title}
               </Card>
             </Col>
