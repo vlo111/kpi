@@ -28,7 +28,7 @@ import { ProjectSteps } from './pages/ProjectSteps';
 import ProjectInformation from './pages/ProjectInformation';
 import ActivityTemplate from './pages/ActivityTemplate';
 import CourseSection from './pages/CourseSection';
-import { Files } from './pages/Files';
+import { FileHeader } from './pages/Files/Header';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -52,7 +52,7 @@ export const router = createBrowserRouter(
           <Route path={PATHS.PROJECTS} element={<ProjectList />} />
           <Route path={PATHS.STEPS} element={<ProjectSteps />} />
           <Route path={PATHS.OVERVIEW} element={<ProjectOverview />} />
-          <Route path={PATHS.FILES} element={<Files />} />
+          <Route path={PATHS.FILES} element={<FileHeader />} />
         </Route>
         <Route path={PATHS.PROJECTINFORMATION} element={<ProjectInformation />} />
         <Route path={PATHS.USERPROFILE} element={<UserProfile />} />

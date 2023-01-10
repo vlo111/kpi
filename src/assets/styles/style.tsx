@@ -202,6 +202,19 @@ const GlobalStyle = createGlobalStyle`
       background: var(--tooltip-color);
     }
   }
+  .documentPopover{
+  position: absolute;
+  .ant-popover-inner{
+   width: 190px;
+   button{
+    font-size: var(--base-font-size);
+    color: var(--dark-2);
+   }
+  }
+  .ant-popover-inner-content{
+    padding: 12px 10px;
+  }
+}
 `;
 
 export default GlobalStyle;
