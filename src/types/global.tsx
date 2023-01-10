@@ -97,3 +97,7 @@ export interface DataType {
 
 export interface IActivityResult<T> { data: { result: T } }
 export interface ISectionResult<T> { data: { result: T } }
+export interface IAsnPicker {
+  startDate?: string
+  endDate?: string
+}

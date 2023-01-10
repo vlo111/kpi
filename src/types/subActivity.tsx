@@ -32,6 +32,7 @@ export interface IManagerType {
 }
 
 export interface ICreateSubActivityProps {
-  templateId?: string | undefined
-  subActivityId?: string | undefined
+  setOpenCreateSubActivity: React.Dispatch<React.SetStateAction<boolean>>
+  openCreateSubActivity: boolean
+  templateId: string
 }

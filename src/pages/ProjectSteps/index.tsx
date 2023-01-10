@@ -103,7 +103,6 @@ const Mode = {
 export const ProjectSteps: React.FC = () => {
   const { index, id } = useParams();
 
-  // @ts-expect-error
   const { projectDetails } = useGetProjectDetails(id);
 
   const isUpdate = projectDetails?.sectors?.length > 0;

@@ -149,7 +149,6 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({ templates, refetch,
       </Row>
     );
   };
-
   return (
     <>
       <Container>

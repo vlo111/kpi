@@ -14,6 +14,10 @@ export const CreateSubActivity = styled(AsnModal)`
       border-radius: 5px !important;
     }
   }
+  .ant-modal-body{
+    max-height: 65vh;
+    overflow-y: auto;
+  }
   .ant-modal-content {
     padding: 32px;
     padding-right: 0;
@@ -22,9 +26,7 @@ export const CreateSubActivity = styled(AsnModal)`
     margin: 0 0 1.6vh;
   }
   .ant-form {
-    overflow-y: scroll;
     padding-right: 2.5vw;
-    max-height: 65vh;
     padding-bottom: 10vh;
   }
   #SubActivityForm_sub_activity_manager,

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Col, Space } from 'antd';
 
+import { IAsnPicker } from '../../types/global';
 import { DisabledDate } from '../../types/project';
 import { AsnForm } from '../Forms/Form';
 import { AsnDatePicker } from '../Forms/DatePicker';
@@ -24,7 +25,7 @@ export const PickerSpace = styled(Space)`
   }
 `;
 
-const AsnPicker: React.FC = () => {
+const AsnPicker: React.FC<IAsnPicker> = ({ startDate, endDate }) => {
   const form = AsnForm.useFormInstance();
 
   const disabledDate: DisabledDate = (current, item) => {
@@ -40,42 +41,42 @@ const AsnPicker: React.FC = () => {
   };
 
   return (
-            <PickerSpace size={24}>
-              <Col span={24}>
-                <AsnForm.Item
-                  name="startDate"
-                  label="Start Date"
-                  rules={[
-                    {
-                      required: true
-                    }
-                  ]}
-                >
-                  <AsnDatePicker
-                    format="DD/MM/YYYY"
-                    placeholder="01/01/23"
-                    disabledDate={(current) => disabledDate(current, 'start')}
-                  />
-                </AsnForm.Item>
-              </Col>
-              <Col span={24}>
-                <AsnForm.Item
-                  name="endDate"
-                  label="End Date"
-                  rules={[
-                    {
-                      required: true
-                    }
-                  ]}
-                >
-                  <AsnDatePicker
-                    placeholder="01/01/23"
-                    disabledDate={(current) => disabledDate(current, 'end')}
-                    format="DD/MM/YYYY"
-                  />
-                </AsnForm.Item>
-              </Col>
-            </PickerSpace>
+    <PickerSpace size={24}>
+      <Col span={24}>
+        <AsnForm.Item
+          name={startDate ?? 'startDate'}
+          label="Start Date"
+          rules={[
+            {
+              required: true
+            }
+          ]}
+        >
+          <AsnDatePicker
+            format="DD/MM/YYYY"
+            placeholder="01/01/23"
+            disabledDate={(current) => disabledDate(current, 'start')}
+          />
+        </AsnForm.Item>
+      </Col>
+      <Col span={24}>
+        <AsnForm.Item
+          name={endDate ?? 'endDate'}
+          label="End Date"
+          rules={[
+            {
+              required: true
+            }
+          ]}
+        >
+          <AsnDatePicker
+            placeholder="01/01/23"
+            disabledDate={(current) => disabledDate(current, 'end')}
+            format="DD/MM/YYYY"
+          />
+        </AsnForm.Item>
+      </Col>
+    </PickerSpace>
   );
 };
 

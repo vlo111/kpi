@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import GetSingleSubActivity from '../../api/Activity/SubActivity/useGetSingleSubActivity';
-// import CreateSubActivityModal from '../../components/Project/SubActivity/SubActivityModals/CreateModal';
 import SubActivitySections from '../../components/Project/SubActivity/SubActivitySections';
 import SubActivityHeader from '../../components/Project/SubActivity/SubActivtyHeader';
 
@@ -21,7 +20,6 @@ const SubActivity: React.FC<{}> = () => {
     <Wrapper>
       <SubActivityHeader activity={data}/>
       <SubActivitySections activity={data}/>
-      {/* <CreateSubActivityModal templateId={'def416fc-4fc0-46dc-a274-fe5a985f5248'}/> */}
     </Wrapper>
   );
 };

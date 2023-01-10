@@ -142,9 +142,21 @@ export type ProjectDetailsDelete = (remove: (name: string) => void, fields: stri
 export type DeleteResultArea = (remove: (name: number | number[]) => void, field: number) => void
 
 export interface ProjectDetails {
-  organizations: string[]
-  sectors: string[]
-  regions: string[]
+  organizations: IOrganizations[]
+  sectors: IRegions[]
+  regions: ISectors[]
+}
+export interface IOrganizations {
+  title: string
+  id?: string
+}
+export interface IRegions {
+  title: string
+  id?: string
+}
+export interface ISectors {
+  title: string
+  id?: string
 }
 
 export interface IProjectExpectedResults {
@@ -318,6 +330,7 @@ export type SetProjectId = (id: string) => void
 export type ResultAreaOrder = (index: number) => number
 
 export interface IProjectTemplate {
+  courseStructure: string
   title: string
   id: string
   description: string
@@ -364,6 +377,7 @@ export interface ISubActivitiesProps {
   checkedList: CheckboxValueType[] | undefined
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
+  templates: IProjectTemplate[]
 }
 export interface ISubActivities {
   title: string
@@ -409,3 +423,13 @@ export type StepsHeaderText = (mode: string) => string
 export interface IStepsUpdate { isUpdate: boolean }
 
 export interface IResultsUpdate { createOrUpdate: Void, isUpdate: boolean }
+
+export interface IAddActivity {
+  isOpenCreateActivityModal: boolean
+  setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+  templates: IProjectTemplate[]
+}
+
+export interface IAttachmentSetting {
+  setting: ISetting
+}
