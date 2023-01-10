@@ -2,8 +2,9 @@ import React from 'react';
 import { AsnForm } from '../components/Forms/Form';
 import { clearLocalStorage } from '../hooks/useLocalStorage';
 import { TVoid } from '../types/global';
-import { CollapseHeader } from '../types/project';
+import { CollapseHeader, SetResultArea, SetTitleColor } from '../types/project';
 import { AsnInput } from '../components/Forms/Input';
+import _ from 'lodash';
 
 /** Logout the user */
 export const logOut: TVoid = () => {
@@ -47,3 +48,39 @@ export const TollTipText: (
     </ul>
   </div>
 );
+
+const setTitleColor: SetTitleColor = (element, color) => {
+  const titleElement = element.firstChild as HTMLElement;
+
+  const pathElement = element.lastChild?.firstChild as HTMLElement;
+
+  titleElement.style.color = color;
+
+  pathElement.style.fill = color;
+};
+
+export const validateResultArea: SetResultArea = (values) => {
+  // @ts-expect-error
+  const errorsIndex = [...new Set(values.errorFields.map((r) => r.name[1]))];
+
+  const resultAreaElement: (id: string) => void = (id) => {
+    const resultAreaElement = document.getElementById(
+      `ans-title-${id}`
+    ) as HTMLElement;
+
+    setTitleColor(resultAreaElement, 'var(--error)');
+  };
+
+  const resultAreaElements: HTMLCollectionOf<HTMLElement> =
+    document.getElementsByClassName(
+      'result_area_title'
+    ) as HTMLCollectionOf<HTMLElement>;
+
+  if (!_.isEmpty(resultAreaElements)) {
+    Array.from(resultAreaElements).forEach((element) => {
+      setTitleColor(element, 'var(--dark-2)');
+    });
+  }
+
+  errorsIndex.map((i) => resultAreaElement(i));
+};

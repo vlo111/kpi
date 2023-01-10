@@ -9,6 +9,8 @@ import { AsnForm } from '../../components/Forms/Form';
 import { ProjectErrorResponse } from '../../types/project';
 import useEditProject from '../../api/Project/useEditProject';
 import useGetProjectById from '../../api/Project/useGetProject';
+import AsnSpin from '../../components/Forms/Spin1';
+import { IsLoading } from '../../types/api/project/get-project';
 
 export const EditProject: React.FC = () => {
   const navigate = useNavigate();
@@ -17,7 +19,7 @@ export const EditProject: React.FC = () => {
 
   const [error, setError] = useState<string>('');
 
-  const { isLoading } = useGetProjectById(id, {
+  const { isLoading }: IsLoading = useGetProjectById(id, {
     enabled: !(id === null),
     onSuccess: ({ ...data }) => {
       form.setFieldsValue({
@@ -68,6 +70,10 @@ export const EditProject: React.FC = () => {
     },
     [updateProject]
   );
+
+  if (isLoading) {
+    return <AsnSpin />;
+  }
 
   return (
     <FormProject

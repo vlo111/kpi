@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Menu as AntMenu } from 'antd';
 import { ReactComponent as DashboardSvg } from '../../assets/icons/dashboard.svg';
 import { ReactComponent as ProjectSvg } from '../../assets/icons/project.svg';
@@ -98,11 +98,14 @@ export const Menu: React.FC = () => {
 
   const { projectId } = useProject();
 
-  let { pathname } = useLocation();
+  const { pathname } = useLocation();
 
-  pathname = pathname.includes('project') ? menuItemsNavigate[1] : pathname;
+  const [currentItem, setCurrentItem] = useState(['1']);
 
-  const currentItem = [`${menuItemsNavigate.indexOf(pathname) + 1}`];
+  useEffect(() => {
+    const currenPath = [`${menuItemsNavigate.indexOf(pathname.includes('project') ? menuItemsNavigate[1] : pathname) + 1}`];
+    setCurrentItem(currenPath);
+  }, [pathname]);
 
   const onNavigateHandle: (ev: MenuInfo) => void = (ev) => {
     menuItemsNavigate.forEach((item, i) => {
@@ -129,7 +132,7 @@ export const Menu: React.FC = () => {
         mode="inline"
         inlineIndent={45}
         onClick={onNavigateHandle}
-        defaultSelectedKeys={currentItem}
+        selectedKeys={currentItem}
         items={[
           DashboardSvg,
           ProjectSvg,

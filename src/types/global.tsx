@@ -75,3 +75,23 @@ export interface IInfoHeader {
     status: string
   }
 }
+
+export type Onchange = (newOpen: boolean) => void
+export type StringVoidType = (id: string) => void
+
+export interface IAsnCheckbox {
+  width?: string
+  height?: string
+  top?: string
+  left?: string
+  checkWidth?: string
+  checkHeight?: string
+  borderSize?: string
+}
+export interface DataType {
+  key: React.Key
+  name: string
+}
+
+export interface IActivityResult<T> { data: { result: T } }
+export interface ISectionResult<T> { data: { result: T } }

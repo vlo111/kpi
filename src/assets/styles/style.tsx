@@ -68,10 +68,11 @@ const GlobalStyle = createGlobalStyle`
     --project-shadow: 0px 8px 8px rgba(17, 27, 35, 0.05);
     --header-box-shadow: 0px 4px 4px rgba(42, 85, 120, 0.1);
     --manu-box-shadow: 4px 0px 4px rgba(42, 85, 120, 0.1);
-    --overview-box-shadow: rgb(42 85 120 / 10%) -2px 4px 8px;
+    --overview-box-shadow: rgb(42 85 120 / 10%) -2px 6px 8px;
     /* Constants */
     --interval: clamp(15px, 5%, 50px)
   }
+  /* -4px -4px 8px rgba(17, 27, 35, 0.05), 4px 4px 8px rgba(17, 27, 35, 0.25) */
 
   * {
     margin: 0;
@@ -99,6 +100,34 @@ const GlobalStyle = createGlobalStyle`
     padding: 5px;
     width: 12px;
   }
+
+  .menuPopover {
+    .ant-popover-inner {
+      width: 9rem;
+      border-radius: 10px;
+      border: 1px solid var(--dark-2);
+    }
+
+    .ant-popover-arrow{
+      display: none;
+    }
+
+}
+
+.tooltipHelper{
+    .ant-tooltip-inner{
+      border-radius: 10px;
+      background-color: white;
+      border: 1px solid var(--dark-2);
+      color: var(--dark-2);
+      font-size: var( --font-size-small);
+      padding: 8px 16px 
+    }
+    .ant-tooltip-arrow{
+      display: none;
+    }
+  }
+
   
   .ant-picker-dropdown {
     .ant-picker-cell-inner {
@@ -173,7 +202,6 @@ const GlobalStyle = createGlobalStyle`
       background: var(--tooltip-color);
     }
   }
-
 `;
 
 export default GlobalStyle;

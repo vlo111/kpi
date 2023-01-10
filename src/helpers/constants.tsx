@@ -79,3 +79,10 @@ export const ProjectSteps = {
   First: 0,
   Last: 1
 };
+
+export const answerTypeOptions: string[] = [
+  'Short Text',
+  'Number',
+  'Attachment',
+  'Dropdown options'
+];

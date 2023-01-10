@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
-import { Col, Row, Space, Typography } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Col, Row, Typography } from 'antd';
 
 import { VALIDATE_MESSAGES } from '../../helpers/constants';
 import { AsnInput, AsnTextArea } from '../../components/Forms/Input';
@@ -9,6 +9,7 @@ import { AsnButton } from '../../components/Forms/Button';
 import { AsnAlert } from '../../components/Forms/Alert';
 import { AsnForm } from '../../components/Forms/Form';
 import AsnPicker from '../../components/Picker';
+import { Void } from '../../types/global';
 
 const { Title } = Typography;
 
@@ -34,6 +35,7 @@ export const ProjectStyle = styled.div`
     font-size: var(--headline-font-size);
     color: var(--dark-2);
     font-weight: var(--font-normal);
+    text-align: center;
   }
 
   .main {
@@ -58,24 +60,6 @@ export const ProjectStyle = styled.div`
   }
 `;
 
-export const PickerSpace = styled(Space)`
-  width: 100%;
-
-  > div {
-    font-size: var(--headline-font-size);
-  }
-
-  .ant-picker,
-  .ant-space-item {
-    width: 100%;
-  }
-
-  .ant-picker-input > input {
-    height: 30px;
-    font-size: var(--base-font-size);
-  }
-`;
-
 export const FormProject: React.FC<{
   form: any
   onFinish: any
@@ -83,13 +67,18 @@ export const FormProject: React.FC<{
   error: any
 }> = ({ form, onFinish, isLoading, error }) => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  const Cancel: Void = () => {
+    navigate(-1);
+  };
 
   return (
     <ProjectStyle>
       {error?.length > 0 && <AsnAlert type="error" message={error} />}
 
       <Title level={4} className="title">
-        To create a new project, please fill in the following information
+        {(id !== undefined) ? 'Edit project information' : 'To create a new project, please fill in the following information'}
       </Title>
 
       <AsnForm
@@ -124,7 +113,7 @@ export const FormProject: React.FC<{
         </div>
         <Row justify={'space-evenly'} gutter={[0, 12]}>
           <Col>
-            <AsnButton className="default">Cancel</AsnButton>
+            <AsnButton className="default" onClick={Cancel}>Cancel</AsnButton>
           </Col>
           <Col>
             <AsnButton

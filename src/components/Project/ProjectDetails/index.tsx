@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Col, Row, Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Col, Row } from 'antd';
 
 import { AsnForm } from '../../Forms/Form';
 import { ConfirmModal } from '../../Forms/Modal/Confirm';
@@ -10,14 +9,16 @@ import { Items } from './Items';
 
 import { PATHS } from '../../../helpers/constants';
 import { Void } from '../../../types/global';
-import { OpenDeleteResultModal, ProjectDetailsDelete, ProjectErrorResponse } from '../../../types/project';
+import {
+  IStepsUpdate,
+  OpenDeleteResultModal,
+  ProjectDetailsDelete
+} from '../../../types/project';
 
 import useGetProjectDetails from '../../../api/Details/useGetProjectDetails';
-import useGetResultArea from '../../../api/ResultArea/useGetResultArea';
 import useCreateProjectDetails from '../../../api/Details/useCreateProjectDetails';
 import useUpdateProjectDetails from '../../../api/Details/useUpdateProjectDetails';
-
-const antIcon = <LoadingOutlined style={{ fontSize: 100, color: 'var(--dark-border-ultramarine)' }} spin />;
+import AsnSpin from '../../Forms/Spin';
 
 export const VALIDATE_PROJECT_DETAILS_MESSAGES = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -26,7 +27,7 @@ export const VALIDATE_PROJECT_DETAILS_MESSAGES = {
   string: { range: 'The name must be between ${min} and ${max} characters' }
 };
 
-export const ProjectDetailComponent: React.FC = () => {
+export const ProjectDetailComponent: React.FC<IStepsUpdate> = ({ isUpdate }) => {
   const [form] = AsnForm.useForm();
 
   const { id } = useParams();
@@ -42,31 +43,17 @@ export const ProjectDetailComponent: React.FC = () => {
   // @ts-expect-error
   const { projectDetails, isLoading } = useGetProjectDetails(id);
 
-  // @ts-expect-error
-  const { resultAreas } = useGetResultArea(id);
-
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<OpenDeleteResultModal>();
 
   const onSuccess: Void = () => {
-    const path = `/project/${PATHS.OVERVIEW}`
-      .replace(':id', id ?? '');
-
-    navigate(path);
+    if (id !== undefined) {
+      navigate(`/project/${PATHS.OVERVIEW}`.replace(':id', id));
+    }
   };
 
-  const onError: ProjectErrorResponse = ({ response }) => {
-    console.log('error', response);
-  };
+  const { mutate: createProjectDetails } = useCreateProjectDetails({ onSuccess });
 
-  const { mutate: createProjectDetails } = useCreateProjectDetails({
-    onSuccess,
-    onError
-  });
-
-  const { mutate: updateProjectDetails } = useUpdateProjectDetails({
-    onSuccess,
-    onError
-  });
+  const { mutate: updateProjectDetails } = useUpdateProjectDetails({ onSuccess });
 
   const onFinish: Void = () => {
     if (id !== undefined) {
@@ -115,14 +102,6 @@ export const ProjectDetailComponent: React.FC = () => {
     }
   }, [projectDetails, form]);
 
-  useEffect(() => {
-    if (resultAreas !== undefined && resultAreas.length === 0) {
-      if (id !== undefined) {
-        // navigate(`/project/${id}/steps/0`);
-      }
-    }
-  }, [resultAreas, form]);
-
   const onDeleteHandler: ProjectDetailsDelete = (remove, fieldName, title) => {
     setOpenDeleteResultModal({ remove, fields: fieldName, title });
   };
@@ -149,8 +128,12 @@ export const ProjectDetailComponent: React.FC = () => {
   };
 
   if (isLoading === true) {
-    return <Spin indicator={antIcon} />;
+    return <AsnSpin />;
   }
+
+  const Cancel: Void = () => {
+    navigate(-1);
+  };
 
   return (
     <>
@@ -165,28 +148,37 @@ export const ProjectDetailComponent: React.FC = () => {
         <Items name="regions" title='Regions' onDelete={onDeleteHandler}/>
         <Items name="sectors" title='Sectors' onDelete={onDeleteHandler}/>
         <Row className="accept-buttons">
-          <Col>
-            <AsnButton
-              className="default"
-              onClick={() => {
-                const path = `/project/${PATHS.STEPS}`
-                  .replace(':id', id ?? '')
-                  .replace(':index', '0');
+          {isUpdate
+            ? <>
+              <AsnButton className="default" onClick={Cancel}>
+                Cancel
+              </AsnButton>
+              <AsnButton className="primary" htmlType="submit">
+                Update
+              </AsnButton>
+            </>
+            : <>
+              <Col>
+                <AsnButton
+                  className="default"
+                  onClick={() => {
+                    const path = `/project/${PATHS.STEPS}`
+                      .replace(':id', id ?? '')
+                      .replace(':index', '0');
 
-                navigate(path);
-              }}
-            >
-              Previous
-            </AsnButton>
-          </Col>
-          {/* <Col> */}
-          {/*   <AsnButton className="default" htmlType="submit">Save as Draft</AsnButton> */}
-          {/* </Col> */}
-          <Col>
-            <AsnButton className="primary" htmlType="submit">
-              Publish
-            </AsnButton>
-          </Col>
+                    navigate(path);
+                  }}
+                >
+                  Previous
+                </AsnButton>
+              </Col>
+              <Col>
+                <AsnButton className="primary" htmlType="submit">
+                  Publish
+                </AsnButton>
+              </Col>
+            </>
+          }
         </Row>
       </AsnForm>
       <ConfirmModal

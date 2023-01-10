@@ -55,6 +55,8 @@ export const router = createBrowserRouter(
         <Route path={PATHS.PROJECTINFORMATION} element={<ProjectInformation />} />
         <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
         <Route path={PATHS.CHANGEPASSWORD} element={<ChangePassword />} />
+        <Route path={PATHS.ACTIVITYTEMPLATE} element={<ActivityTemplate />} />
+        <Route path={PATHS.COURSESECTION} element={<CourseSection />} />
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path={PATHS.ERROR_500} element={<ErrorBoundary />} />

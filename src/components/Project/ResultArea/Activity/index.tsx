@@ -109,7 +109,7 @@ const InputActivity: React.FC<{ resultId: number }> = ({
                             header={HeaderElement(
                               `activity_${resultId}_${activity.key}`,
                               [activity.name, 'title'],
-                              `${order(index)}.`,
+                              `${resultId + 1}.${order(index)}.`,
                               'Individuals with improved soft skills',
                               'activity_header_'
                             )}
@@ -149,9 +149,7 @@ const InputActivity: React.FC<{ resultId: number }> = ({
                         className="transparent"
                         value="Create"
                         onClick={() => {
-                          const order = (resultId + 1) + (0.1 * (activities.length + 1));
-
-                          addActivity(initialActivity(order));
+                          addActivity(initialActivity(activities.length + 1));
                         }}
                       >
                         +Add Activity

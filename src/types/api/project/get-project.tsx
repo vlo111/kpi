@@ -6,7 +6,7 @@ import {
   IResultAreaData, ProjectDetails,
   ProjectErrorResponse
 } from '../../project';
-import { IQueryData, UseMutation, Void } from '../../global';
+import { IQueryData, Mutate, UseMutation, Void } from '../../global';
 import { Moment } from 'moment';
 
 export interface IProject {
@@ -21,13 +21,15 @@ export interface ICreateProjectData {
 }
 
 export interface ICreateResultArea {
-  result: { resultAreas: IResultAreaData }
+  result: { resultAreas: IResultAreaData[] }
 }
 
 export interface ICreateResultAreaData {
   id: string
-  data: IResultAreaData
+  data: IResultAreaData[]
 }
+
+export interface IUseGetResultArea { isLoading: boolean, resultAreas: IResultAreaData[] }
 
 export interface ICreateProjectDetails {
   id: string
@@ -64,7 +66,7 @@ export type UseGetProjectResultArea1 = (
 
 export type UseGetProjectResultArea = (
   id: string | undefined
-) => { resultAreas: IResultAreaData | undefined, isLoading: false | true } | undefined;
+) => { resultAreas: IResultAreaData[] | undefined, isLoading: boolean } | undefined;
 
 export interface ResponseErrorParam {
   message: string
@@ -98,16 +100,9 @@ ResponseErrorParam,
 ICreateProjectDetails
 >;
 
-export interface UseGetProjects {
-  isLoading: false | true
-  data: {
-    result: ICreateProject[] | undefined
-    has_more: boolean
-    count: number
-  }
-  error: unknown
-  status: 'error' | 'success' | 'loading'
-}
+export interface IUseCreateProject { mutate: Mutate<ICreateProjectData, ResponseErrorParam>, isLoading: boolean }
+
+export interface IsLoading { isLoading: boolean }
 
 interface ProjectDetailsData {
   projectDetails: ProjectDetails

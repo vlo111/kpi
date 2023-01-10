@@ -96,7 +96,7 @@ export const InputResultArea = styled.div`
 
             .ant-input-affix-wrapper {
               height: 60px;
-              width: 73vw;
+              width: calc(100% + 40px);
             }
 
             .ant-input-affix-wrapper-focused {
