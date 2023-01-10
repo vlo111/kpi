@@ -19,7 +19,7 @@ const Upload = styled.div`
 
 const Search = styled.div`
   background-color: var(--primary-light-3);
-    height: 70px;
+    height: 72px;
     width: 100%;
     display: flex;
     justify-content: end;
