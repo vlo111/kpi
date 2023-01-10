@@ -41,7 +41,6 @@ export const CustomButton = styled(AsnButton)`
 
 export const CustomTextArea = styled(AsnTextArea)`
   border: 0.5px solid var(--light-border);
-  border-radius: 10px;
 `;
 
 export const CustomInput = styled(AsnInput)`

@@ -1,13 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { InputRef, Space, Typography } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
-// import {
-//   applicationInputValues,
-//   cardsData
-// } from '../../../../helpers/fakeData';
+
 import ApplicationCard from '../../components/Application/ApplicationCard/Index';
-import { ReactComponent as SuccessIcon } from '../../../../assets/icons/success.svg';
+import { ReactComponent as SuccessIcon } from '../../assets/icons/success.svg';
 import {
   CardContainer,
   CardTitle,
@@ -23,6 +20,7 @@ import { Void } from '../../types/global';
 import { AsnDatePicker } from '../../components/Forms/DatePicker';
 import { AsnInput } from '../../components/Forms/Input';
 import { ICardsData, IIsAddTermsConditions } from '../../types/project';
+import getApplicationFormDefault from '../../api/ApplicationForm/useGetApplicationFormDefault';
 
 const ApplicationContainer = styled.div`
   margin: 0 auto;
@@ -65,7 +63,6 @@ const ConditionCard = styled(Space)`
 `;
 
 const Application: React.FC = () => {
-  const [cardDataState, setCardDataState] = useState<ICardsData[] | []>([]);
   const [isValidateMessage, setIsValidateMessage] = useState<boolean>(false);
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
@@ -89,9 +86,12 @@ const Application: React.FC = () => {
   const formDescription = useRef<HTMLTextAreaElement>(null);
   const onlineSignature = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    setCardDataState([]);
-  }, []);
+  const { data, refetch } = getApplicationFormDefault(
+    '0418e1eb-57f9-4ca9-a378-03ae0612a9b8',
+    {}
+  );
+
+  console.log(data, refetch);
 
   const onPublishClick: Void = () => {
     if (
@@ -116,10 +116,9 @@ const Application: React.FC = () => {
         style={{
           border: 'none',
           width: '100%',
-          marginBottom: isValidateMessage ? '0rem' : '1rem',
-          borderRadius: '10px'
+          marginBottom: isValidateMessage ? '0rem' : '1rem'
         }}
-        placeholder="Python course applciation form"
+        placeholder={data?.title}
       />
       {isValidateMessage
         ? (
@@ -133,17 +132,17 @@ const Application: React.FC = () => {
       </Typography.Title>
       <CustomTextArea
         style={{ border: 'none', marginBottom: '2rem' }}
-        placeholder={''}
+        placeholder={data?.description}
         ref={formDescription}
       />
-      {cardDataState.map((data: ICardsData) => (
+      {data?.applicationFormSections?.map((data: ICardsData) => (
         <ApplicationCard
-          key={data.id}
-          title={data.cardTitle}
-          content={data.question}
+          key={data?.keyName}
+          title={data?.title}
+          content={data?.questions}
           isQuestionCardVisible={isQuestionCardVisible}
           setIsQuestionCardVisible={setIsQuestionCardVisible}
-          cardId={data.id}
+          cardId={data?.keyName}
         />
       ))}
       <TermsAndCondition
@@ -160,7 +159,7 @@ const Application: React.FC = () => {
         >
           Online signature
         </span>
-        <AsnSwitch ref={onlineSignature} />
+        <AsnSwitch ref={onlineSignature} checked={data?.onlineSignature}/>
       </ConditionCard>
       <CardContainer
         borderTop={'3px solid var(--secondary-light-amber)'}
@@ -169,7 +168,7 @@ const Application: React.FC = () => {
         <Space direction="horizontal">
           <CardTitle>Success message: </CardTitle> <SuccessIcon />
         </Space>
-        <CustomInput value="Your form has been successfully submitted" />
+        <CustomInput value={data?.successMessage} />
       </CardContainer>
       <CardTitle>Set deadline (optional):</CardTitle>
       <ConditionCard>
@@ -187,8 +186,11 @@ const Application: React.FC = () => {
           margin: '3.75rem 0px'
         }}
       >
-        <AsnButton>Cancel</AsnButton>
-        <AsnButton className="default" onClick={() => setIsOpenCreateActivityModal(true)}>
+        <AsnButton className="default">Cancel</AsnButton>
+        <AsnButton
+          className="default"
+          onClick={() => setIsOpenCreateActivityModal(true)}
+        >
           Preview
         </AsnButton>
         <AsnButton className="primary" onClick={onPublishClick}>

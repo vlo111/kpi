@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Space } from 'antd';
-import { ReactComponent as EditIcon } from '../../../../../assets/icons/edit.svg';
+import { ReactComponent as EditIcon } from '../../../assets/icons/edit.svg';
 import {
   CardContainer,
   CardTitle,
@@ -21,7 +21,7 @@ const CardRow = styled(Space)`
   padding: 12px 12px 12px 8px;
 
   div:nth-child(1) {
-    width: 77%;
+    width: 70%;
   }
 `;
 
@@ -43,6 +43,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
   cardId
 }) => {
   const [cardTitle, setCardTitle] = useState(title);
+  console.log(isQuestionCardVisible, 'isQuestionCardVisible');
 
   return (
     <CardContainer
@@ -67,10 +68,20 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
             <CardRow key={item.id} direction="horizontal">
               <ChoseTitle>{item.title}</ChoseTitle>
               <span>
-                <ChoseType>{item.subtitle}</ChoseType>
+                <ChoseType>
+                  {item.answerType === 'SHORT_TEXT'
+                    ? 'Short text'
+                    : item.answerType === 'OPTION'
+                      ? 'Select one'
+                      : item.answerType === 'YES_NO'
+                        ? 'Yes/No'
+                        : item.answerType === 'CHECKBOX'
+                          ? 'Multiple answers'
+                          : 'DD/MM/YYYY'}
+                </ChoseType>
                 <AsnSwitch
-                  defaultChecked={item.checked}
-                  disabled={item.disabled}
+                  defaultChecked={item?.active}
+                  disabled={!item?.editable}
                 />
               </span>
             </CardRow>
@@ -88,6 +99,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
           )
         : (
         <CustomButton
+          className="default"
           onClick={() =>
             setIsQuestionCardVisible([...isQuestionCardVisible, cardId])
           }

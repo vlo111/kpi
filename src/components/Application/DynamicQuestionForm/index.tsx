@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as DeleteIcon } from '../../../../../assets/icons/delete.svg';
+import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
 import { Col } from 'antd';
 import { AsnForm } from '../../Forms/Form';
 import { AsnInput } from '../../Forms/Input';
@@ -89,7 +89,7 @@ const DynamicQuestionForm: React.FC = () => {
               ))}
             </Col>
             <AsnForm.Item>
-              <AsnButton onClick={() => add()}>+Add options</AsnButton>
+              <AsnButton className='default' onClick={() => add()}>+Add options</AsnButton>
               <AsnForm.ErrorList errors={errors} />
             </AsnForm.Item>
           </>

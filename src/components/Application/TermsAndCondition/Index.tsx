@@ -42,6 +42,7 @@ const TermsAndCondition: React.FC<ITermsAndCondition> = ({
         ? null
         : (
         <CustomButton
+        className='default'
           onClick={() => {
             if (isAddTermsConditions.length <= 5) {
               setIsAddTermsConditions([

@@ -413,18 +413,28 @@ export interface IStepsUpdate { isUpdate: boolean }
 export interface IResultsUpdate { createOrUpdate: Void, isUpdate: boolean }
 
 export interface IContent {
+  active: boolean
+  answerType: string
+  answers: []
+  description: string
+  editable: boolean
+  helpText: string
   id: string
+  keyName: string
+  otherOption: boolean
+  relatedQuestions: []
+  required: boolean
   title: string
-  subtitle: string
-  checked: boolean
-  disabled: boolean
 }
 
 export interface ICardsData {
-  id: string
-  cardTitle: string
+  allowedEmpty: boolean
   description: string
-  question: IContent[]
+  editable: boolean
+  keyName: string
+  questions: IContent[]
+  title: string
+
 }
 
 export interface IIsAddTermsConditions {

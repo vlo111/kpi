@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Space, Typography } from 'antd';
 import { CardContainer } from '../applicationStyle';
 import styled from 'styled-components';
-import DynamicQuestionForm from '../DinamikQuestionForm';
+import DynamicQuestionForm from '../DynamicQuestionForm';
 import { AsnButton } from '../../Forms/Button';
 import { AsnInput } from '../../Forms/Input';
 import { AsnSelect } from '../../Forms/Select';
@@ -10,6 +10,7 @@ import { AsnForm } from '../../Forms/Form';
 import { AsnSwitch } from '../../Forms/Switch';
 import { FormFinish, Void } from '../../../types/global';
 import { IAddQuestionCard } from '../../../types/project';
+import { answerType } from '../../../helpers/constants';
 
 const { Option } = AsnSelect;
 
@@ -71,7 +72,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
       question: '',
       answerType: answerTypeValue
     });
-  }, [answerTypeValue]);
+  }, []);
 
   const onFinishedForm: FormFinish = (value) => {
     form.resetFields();
@@ -132,7 +133,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
               defaultValue={'answerType[0]'}
               onChange={onAnswerTypeChange}
             >
-              {[].map((option: string) => (
+              {answerType.map((option: string) => (
                 <Option key={option} value={option}>
                   {option}
                 </Option>
@@ -173,8 +174,8 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
           }}
           size={60}
         >
-          <AsnButton onClick={onCancelAddQuestion}>Cancel</AsnButton>
-          <AsnButton type="primary" htmlType="submit">
+          <AsnButton className="default" onClick={onCancelAddQuestion}>Cancel</AsnButton>
+          <AsnButton className="primary" htmlType="submit">
             Add
           </AsnButton>
         </Space>
