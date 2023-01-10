@@ -27,7 +27,7 @@ export const PickerSpace = styled(Space)`
   }
 `;
 
-export const DateFilter: React.FC<IDateFilterCards> = ({ setDateSearch, dateSearch }) => {
+export const DateFilter: React.FC<IDateFilterCards> = ({ setDateSearch, setOpen }) => {
   const [form] = AsnForm.useForm();
   const onFinish: TVoid = (values) => {
     const { from, to, radio } = values;
@@ -37,6 +37,7 @@ export const DateFilter: React.FC<IDateFilterCards> = ({ setDateSearch, dateSear
       to: moment(to).format()
     });
   };
+
   return (
     <>
       <AsnForm
@@ -75,7 +76,9 @@ export const DateFilter: React.FC<IDateFilterCards> = ({ setDateSearch, dateSear
             </AsnForm.Item>
           </Col>
         </PickerSpace>
-        <AsnButton htmlType="submit" className='primary' style={{ width: '30%' }}>Save</AsnButton>
+        <Space direction='horizontal' align='center' style={{ justifyContent: 'space-around', width: '100%' }}>
+        <AsnButton htmlType="submit" className='primary'>Save</AsnButton>
+        <AsnButton className="default" onClick={() => setOpen(false) }>Cancel</AsnButton></Space>
       </AsnForm>
     </>
   );
