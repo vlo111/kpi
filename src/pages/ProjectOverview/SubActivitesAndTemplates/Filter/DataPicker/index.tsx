@@ -8,7 +8,7 @@ import { Onchange } from '../../../../../types/global';
 import moment from 'moment';
 
 export const DateFilterCards: React.FC<IDateFilterCards> = ({ setDateSearch, dateSearch }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleOpenChange: Onchange = (newOpen) => {
     setOpen(newOpen);
