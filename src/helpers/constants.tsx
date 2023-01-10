@@ -19,6 +19,8 @@ export const PATHS = {
   USERPROFILE: 'user-profile',
   CHANGEPASSWORD: 'change-password',
   PROJECTINFORMATION: 'project-information/:id',
+  ACTIVITYTEMPLATE: 'activity-template/:id',
+  COURSESECTION: 'activity-template/:id/second-step',
   FILES: 'files/:id'
 };
 

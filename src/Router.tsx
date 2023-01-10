@@ -26,6 +26,8 @@ import { ProjectList } from './pages/Project/List';
 import { EditProject } from './pages/Project/Edit';
 import { ProjectSteps } from './pages/ProjectSteps';
 import ProjectInformation from './pages/ProjectInformation';
+import ActivityTemplate from './pages/ActivityTemplate';
+import CourseSection from './pages/CourseSection';
 import { Files } from './pages/Files';
 
 export const router = createBrowserRouter(
