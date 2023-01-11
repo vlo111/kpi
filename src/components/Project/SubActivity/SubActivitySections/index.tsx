@@ -39,6 +39,9 @@ const SectionsWrapper = styled.div`
   .ant-tabs-top > .ant-tabs-nav {
     margin: 0 0 1.6vh;
   }
+  .ant-tabs-tab{
+    background: transparent !important;
+  }
   .settings_svg {
     margin-left: 0.5vw;
     path {
@@ -64,6 +67,12 @@ const SectionsWrapper = styled.div`
   .ant-tabs-tab-active {
     .ant-badge-status-dot {
       background: var(--primary-light-orange) !important;
+    }
+  }
+  .custom_section_tabs{
+    .ant-tabs-tab{
+      padding: 12px 0 !important;
+      background: transparent !important;
     }
   }
   .ant-space-item {
@@ -99,7 +108,7 @@ const SubActivitySections: React.FC<any> = ({ activity }) => {
           Course Roadmap
           <Settings className="settings_svg" />
         </Title>
-        <Tabs activeKey={activeKey} onChange={handleTabChange}>
+        <Tabs activeKey={activeKey} onChange={handleTabChange} className='custom_section_tabs'>
           <TabPane forceRender key="1">
             {activity?.status === 'INACTIVE' &&
             <Row justify="center">
