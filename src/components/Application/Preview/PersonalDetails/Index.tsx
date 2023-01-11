@@ -1,50 +1,85 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Radio, Space } from 'antd';
 import styled from 'styled-components';
 import { CardTitle, ModalText, DetailsContainer } from '../../applicationStyle';
 import { AsnInput } from '../../../Forms/Input';
 import { AsnSelect } from '../../../Forms/Select';
+import { AsnDatePicker } from '../../../Forms/DatePicker';
+import { IAnswers } from '../../../../types/project';
+import { AsnCheckbox } from '../../../Forms/Checkbox';
 
 const RegionSelect = styled(AsnSelect)`
-  border-radius: 5px;
-  border: 1px solid var(--dark-border-ultramarine) !important;
   .ant-select-selector {
+    border-radius: 5px !important;
+    border: 1px solid var(--dark-border-ultramarine) !important;
     height: 44px !important;
   }
 `;
 
-const PersonalDetails: React.FC = () => {
+const PersonalDetails: React.FC<any> = ({ personalDetailsData }) => {
   return (
     <DetailsContainer>
-      <CardTitle>Personal details / Անձնական տվյալներ:</CardTitle>
+      <CardTitle>{personalDetailsData.title}</CardTitle>
       <ModalText style={{ marginTop: '0.5rem' }}>
-        {'previewData.detailsDescription'}
+        {personalDetailsData?.description}
       </ModalText>
-      <ModalText style={{ marginTop: '1rem' }}>Full Name: / ԱԱՀ*</ModalText>
-      <AsnInput value="" />
-      <ModalText style={{ marginTop: '1rem' }}>
-        Birth Date: / Ծննդյան ամսաթիվ (DD/MM/YY)*
-      </ModalText>
-      <AsnInput value="" />
-      <ModalText style={{ marginTop: '1rem' }}>
-        Region: / Բնակության վայր*
-      </ModalText>
-      <RegionSelect />
-      <ModalText style={{ marginTop: '1rem' }}>Community / Համայնք*</ModalText>
-      <AsnInput value="" />
-      <ModalText style={{ marginTop: '1rem' }}>
-        Phone Number: / Հեռախոսահամար*
-      </ModalText>
-      <AsnInput value="" />
-      <ModalText style={{ marginTop: '1rem' }}>Email: / Էլ․հասցե*</ModalText>
-      <AsnInput value="" />
-      <ModalText style={{ marginTop: '1rem' }}>Gender/Սեռ:*</ModalText>
-      <Radio.Group value="Female/Իգական">
-        <Space direction="vertical">
-          <Radio value="Female/Իգական">Female/Իգական</Radio>
-          <Radio value="Male/Արական">Male/Արական</Radio>
-        </Space>
-      </Radio.Group>
+      {personalDetailsData?.questions?.map((question: any) => (
+        <Fragment key={question.id}>
+          <ModalText style={{ margin: '1rem 0rem 0.3rem' }}>
+            {question.title}
+          </ModalText>
+          {question?.answerType === 'OPTION' &&
+          question?.keyName === 'region'
+            ? (
+            <RegionSelect />
+              )
+            : question?.answerType === 'DATE'
+              ? (
+            <AsnDatePicker
+              style={{
+                height: '44px'
+              }}
+            />
+                )
+              : question?.answerType === 'OPTION'
+                ? (
+            <Radio.Group value="Female/Իգական">
+              <Space direction="vertical">
+                {question?.answers?.map((answer: IAnswers) => (
+                  <Radio key={answer.id} value={answer.title}>
+                    {answer.title}
+                  </Radio>
+                ))}
+              </Space>
+            </Radio.Group>
+                  )
+                : question?.answerType === 'YES_NO'
+                  ? (
+            <Radio.Group value="Yes/Այո">
+              <Space direction="vertical">
+                {question?.answers?.map((answer: IAnswers) => (
+                  <Radio key={answer.id} value={answer.title}>
+                    {answer.title}
+                  </Radio>
+                ))}
+              </Space>
+            </Radio.Group>
+                    )
+                  : question?.answerType === 'SHORT_TEXT'
+                    ? (
+            <AsnInput value="" />
+                      )
+                    : (
+            <Space direction="vertical">
+              {question?.answers?.map((answer: IAnswers, index: number) => (
+                <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
+                  {answer.title}
+                </AsnCheckbox>
+              ))}
+            </Space>
+                      )}
+        </Fragment>
+      ))}
     </DetailsContainer>
   );
 };

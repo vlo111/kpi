@@ -92,7 +92,6 @@ const Application: React.FC = () => {
   );
 
   console.log(data, refetch);
-
   const onPublishClick: Void = () => {
     if (
       formTitle?.current?.input?.value.length !== undefined &&
@@ -198,6 +197,7 @@ const Application: React.FC = () => {
         </AsnButton>
       </Space>
       <PreviewModal
+        questionData={data}
         isOpenCreateActivityModal={isOpenCreateActivityModal}
         setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
       />

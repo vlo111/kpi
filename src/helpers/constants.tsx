@@ -85,3 +85,24 @@ export const answerTypeOptions: string[] = [
   'Attachment',
   'Dropdown options'
 ];
+
+export const answerType: string[] = [
+  'Select one',
+  'Short text',
+  'Yes/No',
+  'Multiple answers'
+];
+
+export const regions: string[] = [
+  'Yerevan/Երևան',
+  'Aragatsotn/Արագածոտն',
+  'Ararat/Արարատ',
+  'Armavir/Արմավիր',
+  'Gegharkunik/Գեղարքունիք',
+  'Kotayk/Կոտայք',
+  'Lori/Լոռի',
+  'Shirak/Շիրակ',
+  'Syunik/Սյունիք',
+  'Tavush/Տավուշ',
+  'Vayots Dzor/Վայոց Ձոր'
+];

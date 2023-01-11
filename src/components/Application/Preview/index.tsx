@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import { Void } from '../../../types/global';
 import { IFontWeight, IPreviewModal } from '../../../types/project';
 import { AsnButton } from '../../Forms/Button';
-import { AsnCheckbox } from '../../Forms/Checkbox';
 import { AsnModal } from '../../Forms/Modal';
-import { CardTitle, DetailsContainer, ModalText } from '../applicationStyle';
+import { ModalText } from '../applicationStyle';
 import EducationWork from './EducationWork';
 import OtherInformation from './OtherInformation';
 import PersonalDetails from './PersonalDetails/Index';
+import TermsCondition from './TermsCondition';
 
 const PreviewModalContent = styled(AsnModal)`
   .ant-modal-content {
@@ -53,6 +53,7 @@ const Signature = styled.span`
 `;
 
 const PreviewModal: React.FC<IPreviewModal> = ({
+  questionData,
   isOpenCreateActivityModal,
   setIsOpenCreateActivityModal
 }) => {
@@ -69,23 +70,12 @@ const PreviewModal: React.FC<IPreviewModal> = ({
     >
       <PreviewContainer>
         <ModalTitle fontWeight={'500'}>Preview of Application form</ModalTitle>
-        <ModalTitle>Python course</ModalTitle>
-        <ModalText>{'previewData.courseDescription'}</ModalText>
-        <PersonalDetails />
-        <EducationWork />
-        <OtherInformation />
-        <DetailsContainer>
-          <CardTitle>Terms & Conditions/ Պայմաններ և դրույթներ</CardTitle>
-          <ModalText style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}>
-            {'previewData.termsCondition'}
-          </ModalText>
-          <AsnCheckbox defaultChecked={true}>I agree / Համաձայն եմ</AsnCheckbox>
-          <ModalText style={{ marginTop: '2rem', marginBottom: '0.5rem' }}>
-            Համաձայն եմ, որ իմ կողմից ներկայացված տեղեկություններն օգտագործվեն՝
-            ծրագրի նպատակներից ելնելով։
-          </ModalText>
-          <AsnCheckbox defaultChecked={true}>I agree / Համաձայն եմ</AsnCheckbox>
-        </DetailsContainer>
+        <ModalTitle>{questionData?.title}</ModalTitle>
+        <ModalText>{questionData?.description}</ModalText>
+        <PersonalDetails personalDetailsData={questionData?.applicationFormSections !== undefined ? questionData?.applicationFormSections[0] : {}}/>
+        <EducationWork educationWorkData={questionData?.applicationFormSections !== undefined ? questionData?.applicationFormSections[1] : {}}/>
+        <OtherInformation otherInformationData={questionData?.applicationFormSections !== undefined ? questionData?.applicationFormSections[2] : {}}/>
+        <TermsCondition termsConditionData={questionData?.termsAndConditions !== undefined ? questionData?.termsAndConditions : '[]'}/>
         <Signature>
           <Divider orientation="left" plain>
             Online signature / Առցանց ստորագրություն

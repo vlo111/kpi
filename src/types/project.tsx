@@ -467,7 +467,18 @@ export interface IFontWeight {
   fontWeight?: string
 }
 
+export interface IApplicationData {
+  applicationFormSections: ICardsData[]
+  deadline: string
+  description: string
+  onlineSignature: boolean
+  successMessage: string
+  termsAndConditions: string
+  title: string
+}
+
 export interface IPreviewModal {
+  questionData: IApplicationData
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -476,4 +487,23 @@ export interface ICardContainer {
   borderTop?: string
   marginTop?: string
   marginBottom?: string
+}
+
+export interface IAnswers {
+  id: string
+  title: string
+  type: string
+}
+export interface IEducationWorkQuestion {
+  answerType: string
+  answers: IAnswers[]
+  description: string | null
+  editable: boolean
+  helpText: string | null
+  id: string
+  keyName: string
+  otherOption: boolean
+  relatedQuestions: any
+  required: boolean
+  title: string
 }

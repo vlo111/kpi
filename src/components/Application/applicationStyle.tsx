@@ -21,7 +21,7 @@ export const CardTitle = styled(Typography.Title)`
 export const CardContainer = styled.div<ICardContainer>`
   width: 100%;
   border-top: ${(props) => props.borderTop};
-  margin-top: ${(props) => ((props.marginTop != null) ? props.marginTop : 0)};
+  margin-top: ${(props) => (props.marginTop != null ? props.marginTop : 0)};
   box-shadow: var(--base-box-shadow);
   border-radius: 20px;
   background-color: var(--white);
@@ -87,10 +87,12 @@ export const DividerLine = styled.span`
     }
     .ant-divider-inner-text {
       padding: 0rem 1rem 0rem 0rem;
+      margin-left: 8px;
     }
     ::after {
       border-top: 1px solid var(--dark-border-ultramarine);
       top: 6px;
+      width: 50%;
     }
   }
   .ant-divider-horizontal {

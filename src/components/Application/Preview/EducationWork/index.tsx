@@ -1,82 +1,75 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Divider, Radio, Space } from 'antd';
-// import {
-//   education,
-//   previewData,
-//   study
-// } from '../../../../../../helpers/fakeData';
 import {
   CardTitle,
   ModalText,
   DetailsContainer,
   DividerLine
 } from '../../applicationStyle';
+import { IAnswers, IEducationWorkQuestion } from '../../../../types/project';
+import { AsnInput } from '../../../Forms/Input';
+import { AsnCheckbox } from '../../../Forms/Checkbox';
 
-const EducationWork: React.FC = () => {
+const EducationWork: React.FC<any> = ({ educationWorkData }) => {
   return (
     <DetailsContainer>
-      <CardTitle>Education & Work / Կրթություն և աշխատանք</CardTitle>
+      <CardTitle>{educationWorkData?.title}</CardTitle>
       <ModalText style={{ marginTop: '0.5rem' }}>
-        Are you a student? / Ներկայումս սովորում ե՞ք*
+        {educationWorkData?.description}
       </ModalText>
-      <Radio.Group value="Yes/Այո">
-        <Space direction="vertical">
-          <Radio value="Yes/Այո">Yes/Այո</Radio>
-          <Radio value="No/Ոչ">No/Ոչ</Radio>
-        </Space>
-      </Radio.Group>
-      <ModalText style={{ marginTop: '2rem' }}>
-        Where do you study? / Որտե՞ղ եք սովորում *
-      </ModalText>
-      <Radio.Group value="School / Դպրոց">
-        <Space direction="vertical" style={{ width: '97%' }}>
-          {[].map((educationalInstitution) => (
-            <Radio value={educationalInstitution} key={educationalInstitution}>
-              {educationalInstitution}
-            </Radio>
-          ))}
-          <DividerLine>
-            <Radio />
-            <Divider orientation="left" plain>
-              Other/Այլ
-            </Divider>
-          </DividerLine>
-        </Space>
-      </Radio.Group>
-      <ModalText style={{ marginTop: '2rem' }}>
-        Education level/Ի՞նչ մակարդակի կրթություն ունեք (ավարտած)*
-      </ModalText>
-      <Radio.Group value={'education[0]'}>
-        <Space direction="vertical" style={{ width: '97%' }}>
-          {[].map((education) => (
-            <Radio value={education} key={education}>
-              {education}
-            </Radio>
-          ))}
-        </Space>
-      </Radio.Group>
-      <DividerLine style={{ marginTop: '2rem' }}>
-        <Divider orientation="left" plain>
-          <ModalText>Your profession / Ի՞նչ մասնագիտություն ունեք*</ModalText>
-        </Divider>
-      </DividerLine>
-      <ModalText style={{ marginTop: '2rem' }}>{'previewData.haveJob'}</ModalText>
-      <Radio.Group value="Yes/Այո">
-        <Space direction="vertical">
-          <Radio value="Yes/Այո">Yes/Այո</Radio>
-          <Radio value="No/Ոչ">No/Ոչ</Radio>
-        </Space>
-      </Radio.Group>
-      <DividerLine style={{ marginTop: '2rem' }}>
-        <Divider orientation="left" plain>
-          <ModalText>Your position / Ձեր պաշտոնը, հաստիքը*</ModalText>
-        </Divider>
-      </DividerLine>
-      <DividerLine style={{ marginTop: '2rem' }}>
-        <Divider orientation="left" plain>
-          <ModalText>Work organisation / Նշեք կազմակերպությունը*</ModalText>
-        </Divider>
-      </DividerLine>
+      {educationWorkData?.questions?.map((question: IEducationWorkQuestion) => (
+        <Fragment key={question?.id}>
+          <ModalText style={{ margin: '1rem 0 0.3rem' }}>{question?.title}</ModalText>
+          {question?.answerType === 'YES_NO'
+            ? (
+            <Radio.Group value="Yes/Այո">
+              <Space direction="vertical">
+                {question?.answers?.map((answer: IAnswers) => (
+                  <Radio key={answer.id} value={answer.title}>
+                    {answer.title}
+                  </Radio>
+                ))}
+              </Space>
+            </Radio.Group>
+              )
+            : question?.answerType === 'OPTION'
+              ? (
+            <Radio.Group value={question?.answers[0]?.title}>
+              <Space direction="vertical">
+                {question?.answers?.map((answer: IAnswers) => (
+                  <Fragment key={answer.id}>
+                    {answer.title?.includes('Other')
+                      ? (
+                      <DividerLine>
+                        <Radio />
+                        <Divider orientation="left" plain>
+                          {answer.title}
+                        </Divider>
+                      </DividerLine>
+                        )
+                      : (
+                      <Radio value={answer.title}>{answer.title}</Radio>
+                        )}
+                  </Fragment>
+                ))}
+              </Space>
+            </Radio.Group>
+                )
+              : question?.answerType === 'SHORT_TEXT'
+                ? (
+            <AsnInput value="" />
+                  )
+                : (
+            <Space direction="vertical">
+              {question?.answers?.map((answer: IAnswers, index: number) => (
+                <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
+                  {answer.title}
+                </AsnCheckbox>
+              ))}
+            </Space>
+                  )}
+        </Fragment>
+      ))}
     </DetailsContainer>
   );
 };

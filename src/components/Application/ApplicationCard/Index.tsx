@@ -43,7 +43,6 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
   cardId
 }) => {
   const [cardTitle, setCardTitle] = useState(title);
-  console.log(isQuestionCardVisible, 'isQuestionCardVisible');
 
   return (
     <CardContainer

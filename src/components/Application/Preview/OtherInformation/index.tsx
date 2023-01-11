@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Divider, Radio, Space } from 'antd';
 import {
   CardTitle,
@@ -7,63 +7,86 @@ import {
   ModalText
 } from '../../applicationStyle';
 import { AsnCheckbox } from '../../../Forms/Checkbox';
-// import {
-//   didFindCourse,
-//   otherInformation
-// } from '../../../../../../helpers/fakeData';
+import { IAnswers, IEducationWorkQuestion } from '../../../../types/project';
+import { AsnInput } from '../../../Forms/Input';
 
-const OtherInformation: React.FC = () => {
+const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
   return (
     <DetailsContainer>
-      <CardTitle style={{ marginTop: '' }}>
-        Other information / Այլ տեղեկություն
-      </CardTitle>
+      <CardTitle>{otherInformationData.title}</CardTitle>
       <ModalText style={{ marginTop: '0.5rem' }}>
-        Do you have a disability? / Ունեք որևէ տեսակի
-        խոցելիութուն,հաշմանդամություն*
+        {otherInformationData?.description}
       </ModalText>
-      <Radio.Group value="Yes/Այո">
-        <Space direction="vertical">
-          <Radio value="Yes/Այո">Yes/Այո</Radio>
-          <Radio value="No/Ոչ">No/Ոչ</Radio>
-        </Space>
-      </Radio.Group>
-      <ModalText style={{ marginTop: '2rem', marginBottom: '1rem' }}>
-        Indicate if you have any of the following types of vulnerabilities /
-        Խնդրում ենք նշել, եթե ունեք խոցելիության հետևյալ տեսակներից որևէ մեկը*
-      </ModalText>
-      <Space direction="vertical" style={{ width: '97%' }}>
-        {[].map((info, idex) => (
-          <AsnCheckbox defaultChecked={idex === 0} key={info}>
-            {info}
-          </AsnCheckbox>
-        ))}
-        <DividerLine>
-          <AsnCheckbox defaultChecked={true} style={{ marginRight: '8px' }} />
-          <Divider orientation="left" plain>
-            Other/Այլ
-          </Divider>
-        </DividerLine>
-      </Space>
-      <ModalText style={{ marginTop: '2rem' }}>
-        How did you find out about the course? / Որտեղից եք տեղեկացել դասընթացի
-        մասին*
-      </ModalText>
-      <Radio.Group value={'didFindCourse[0]'}>
-        <Space direction="vertical" style={{ width: '97%' }}>
-          {[].map((course) => (
-            <Radio value={course} key={course}>
-              {course}
-            </Radio>
-          ))}
-          <DividerLine>
-            <Radio />
-            <Divider orientation="left" plain>
-              Other (specify) /Այլ (նշել)
-            </Divider>
-          </DividerLine>
-        </Space>
-      </Radio.Group>
+      {otherInformationData?.questions?.map(
+        (question: IEducationWorkQuestion) => (
+          <Fragment key={question?.id}>
+            <ModalText style={{ margin: '1rem 0 0.3rem' }}>
+              {question?.title}
+            </ModalText>
+            {question?.answerType === 'YES_NO'
+              ? (
+              <Radio.Group value="Yes/Այո">
+                <Space direction="vertical">
+                  {question?.answers?.map((answer: IAnswers) => (
+                    <Radio key={answer.id} value={answer.title}>
+                      {answer.title}
+                    </Radio>
+                  ))}
+                </Space>
+              </Radio.Group>
+                )
+              : question?.answerType === 'OPTION'
+                ? (
+              <Radio.Group value={question?.answers[0]?.title}>
+                <Space direction="vertical">
+                  {question?.answers?.map((answer: IAnswers) => (
+                    <Fragment key={answer.id}>
+                      {answer.title?.includes('Other')
+                        ? (
+                        <DividerLine>
+                          <Radio />
+                          <Divider orientation="left" plain>
+                            {answer.title}
+                          </Divider>
+                        </DividerLine>
+                          )
+                        : (
+                        <Radio value={answer.title}>{answer.title}</Radio>
+                          )}
+                    </Fragment>
+                  ))}
+                </Space>
+              </Radio.Group>
+                  )
+                : question?.answerType === 'SHORT_TEXT'
+                  ? (
+              <AsnInput value="" />
+                    )
+                  : (
+              <Space direction="vertical">
+                {question?.answers?.map((answer: IAnswers, index: number) => (
+                  <Fragment key={answer.id}>
+                    {answer.title?.includes('Other')
+                      ? (
+                      <DividerLine>
+                        <AsnCheckbox />
+                        <Divider orientation="left" plain>
+                          {answer.title}
+                        </Divider>
+                      </DividerLine>
+                        )
+                      : (
+                      <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
+                        {answer.title}
+                      </AsnCheckbox>
+                        )}
+                  </Fragment>
+                ))}
+              </Space>
+                    )}
+          </Fragment>
+        )
+      )}
     </DetailsContainer>
   );
 };
