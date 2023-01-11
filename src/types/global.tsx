@@ -76,6 +76,7 @@ export interface IInfoHeader {
   }
   padding?: string
   activity?: any
+  region?: any
 }
 
 export type Onchange = (newOpen: boolean) => void

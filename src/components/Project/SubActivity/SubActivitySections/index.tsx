@@ -101,7 +101,7 @@ const SubActivitySections: React.FC<any> = ({ activity }) => {
         </Title>
         <Tabs activeKey={activeKey} onChange={handleTabChange}>
           <TabPane forceRender key="1">
-            {activity?.sectionsData[0]?.status === 'INACTIVE' &&
+            {activity?.status === 'INACTIVE' &&
             <Row justify="center">
               <AsnButton
                 type="primary"
@@ -109,7 +109,7 @@ const SubActivitySections: React.FC<any> = ({ activity }) => {
                 style={{ width: '35vw' }}
                 onClick={() => {
                   setActiveKey(
-                    activity?.sectionsData[0]?.section?.sectionSettingMap[0]
+                    activity?.section?.sectionSettingMap[0]
                       ?.setting?.id
                   );
                 }}
@@ -120,10 +120,10 @@ const SubActivitySections: React.FC<any> = ({ activity }) => {
             }
             <DefaultContent manager={activity?.manager} />
           </TabPane>
-          {activity?.sectionsData[0]?.section?.sectionSettingMap?.map(
+          {activity?.section?.sectionSettingMap?.map(
             (item: any) => (
               <TabPane
-                disabled={activity?.sectionsData[0]?.status !== 'ACTIVE'}
+                disabled={activity?.status !== 'ACTIVE'}
                 key={item?.setting?.id}
                 tab={
                   <Space direction="vertical" align="center">
@@ -149,15 +149,18 @@ const SubActivitySections: React.FC<any> = ({ activity }) => {
                       return (
                           <DefaultContent
                             manager={activity?.manager}
-                            status={activity?.sectionsData[0]?.status}
+                            status={activity}
+                            requIredDocs={activity?.sectionsData}
                           />
                       );
                     default:
                       return (
-                        <DefaultContent
-                          manager={activity?.manager}
-                          status={activity?.sectionsData[0]?.status}
-                        />
+                        // <DefaultContent
+                        //   manager={activity?.manager}
+                        //   status={activity?.sectionsData[0]?.status}
+                        //   requIredDocs={activity?.sectionsData}
+                        // />
+                        <></>
                       );
                   }
                 })()}

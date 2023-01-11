@@ -5,12 +5,12 @@ import SubActivityDocuments from '../DocumentsContent';
 import SubActivityUsersInfo from '../UsersInfo';
 import SubActivityUsersFullInfo from '../ApplicantFullInfo';
 
-const DefaultContent: React.FC<any> = ({ manager, status }) => {
+const DefaultContent: React.FC<any> = ({ manager, status, requIredDocs }) => {
   return (
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 32]}>
       <Row gutter={32}>
         <Col span={12}>
-          <SubActivityDocuments />
+          <SubActivityDocuments requIredDocs={requIredDocs}/>
         </Col>
         <Col span={12}>
           <SubActivityUsersInfo manager={manager} />
