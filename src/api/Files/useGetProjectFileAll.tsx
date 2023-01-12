@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import client from '../client';
 
-const url = '/api/file/input-activity/af503570-5946-4a2c-9abf-4329e3f90bd3';
+const url = '/api/file/project/e741d8ab-5161-4097-852c-35a934fe2f45/all';
 
-const useGetInputActivity: any = (id: string, options = { enabled: true }) => {
+const useGetAllFile: any = (id: string, options = { enabled: true }) => {
   const result = useQuery(
     [url, id],
     async () => await client.get(url.replace(':id', id)),
@@ -16,8 +16,8 @@ const useGetInputActivity: any = (id: string, options = { enabled: true }) => {
   const { data, isSuccess } = result;
   return {
     ...result,
-    data: isSuccess ? data : {}
+    data: isSuccess ? data : []
   };
 };
 
-export default useGetInputActivity;
+export default useGetAllFile;

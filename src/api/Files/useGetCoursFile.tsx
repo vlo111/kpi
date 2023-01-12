@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import client from '../client';
 
-const url = '/api/file/result-area/:id';
+const url = '/api/file/course/1f26eb84-bc0b-4ca9-a0c1-f6a5cad2f1fb';
 
-const useGetResultArea: any = (id: string, options = { enabled: true }) => {
+const useGetCoursFile: any = (id: string, options = { enabled: true }) => {
   const result = useQuery(
     [url, id],
     async () => await client.get(url.replace(':id', id)),
@@ -16,8 +16,8 @@ const useGetResultArea: any = (id: string, options = { enabled: true }) => {
   const { data, isSuccess } = result;
   return {
     ...result,
-    data: isSuccess ? data : []
+    data: isSuccess ? data : {}
   };
 };
 
-export default useGetResultArea;
+export default useGetCoursFile;

@@ -51,7 +51,7 @@ background-color: var(--primary-light-3);
   }
   .ant-tree .ant-tree-treenode {
     margin: 0 60px 4px;
-    height: 40px;
+    /* height: 40px; */
     font-size: var(--base-font-size);
 
 }
@@ -64,7 +64,7 @@ color: var(--dark-2) !important;
 }
 .ant-tree.ant-tree-directory .ant-tree-treenode .ant-tree-switcher{
   position: relative;
-    left: 70%;
+    /* left: 70%; */
     color: var(--dark-2) !important;
 }
 `;

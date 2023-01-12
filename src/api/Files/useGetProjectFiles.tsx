@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import client from '../client';
 
-const url = '/api/file/project/:id';
+const url = '/api/file/project/e741d8ab-5161-4097-852c-35a934fe2f45';
 
 const useGetProjectFiles: any = (id: string, options = { enabled: true }) => {
   const result = useQuery(
