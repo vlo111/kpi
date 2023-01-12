@@ -4,9 +4,9 @@ import { Col, Row, Space } from 'antd';
 import DraggerForm from '../SubActivityForms/Dragger';
 import FormWrapper from '../../SubActivityWrapper';
 
-const SubActivityDocuments: React.FC<any> = ({ requIredDocs }) => {
+const SubActivityDocuments: React.FC<any> = ({ requIredDocs, color }) => {
   return (
-    <FormWrapper className="documents_info">
+    <FormWrapper className="documents_info" color={color}>
       <DraggerForm text="File/Documents" />
       <Space
         direction="vertical"

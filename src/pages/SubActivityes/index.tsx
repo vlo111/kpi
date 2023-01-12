@@ -9,16 +9,15 @@ import SubActivitySections from '../../components/Project/SubActivity/SubActivit
 import SubActivityHeader from '../../components/Project/SubActivity/SubActivtyHeader';
 import ResultAreasTitles from '../ProjectOverview/ResultAreasTitles';
 
-const Wrapper = styled.div`
-  padding: 40px 3.1vw 40px 3.1vw;
-
+const Wrapper = styled.div<{ mode: boolean }>`
+  padding: ${(props) => props.mode ? '2vh 0 0 1.5vw' : '40px 3.1vw 40px 3.1vw'};
   .custom_tab_wrapper{
     .ant-tabs-tab.ant-tabs-tab-active
     .ant-tabs-tab-btn{
       color: var(--dark-border-ultramarine) !important;
     }
     .ant-tabs-tab-active{
-      background-color: white !important;
+      background-color: white ;
     }
     .ant-tabs-tab{
       border: none !important;
@@ -28,7 +27,7 @@ const Wrapper = styled.div`
     }
     .ant-tabs-content-holder{
       background: white;
-      padding: 12px 12px;
+      padding: 4vh 4.8vw 0 4.8vw;
     }
     .ant-tabs-nav{
       margin: 0 !important;
@@ -47,13 +46,9 @@ const SubActivity: React.FC<{}> = () => {
     'd890eefd-bb0f-4cc8-aa38-99224356c785',
     'c9ae6d05-7e68-4cce-b7fa-1ae6fb2b689d'
   );
-  const { data } = GetSingleSubActivity(
-    'd890eefd-bb0f-4cc8-aa38-99224356c785',
-    {
-      onSuccess: (data: { result: any, count: any }) => console.log('')
-    }
-  );
-  const onChange = (key: string): any => {
+  const { data } = GetSingleSubActivity('c9ae6d05-7e68-4cce-b7fa-1ae6fb2b689d', {});
+
+  const onChange = (key: string): void => {
     setItemTitle(key);
   };
 
@@ -62,7 +57,7 @@ const SubActivity: React.FC<{}> = () => {
   }, [data]);
 
   return (
-    <Wrapper>
+    <Wrapper mode={data?.sectionsData?.length > 1}>
       <AsnBreadcrumb
         routes={[
           {
@@ -74,7 +69,7 @@ const SubActivity: React.FC<{}> = () => {
             breadcrumbName: 'Activity 1.3'
           },
           {
-            path: '',
+            path: '/project/sub-activity/',
             breadcrumbName: itemTitle
           }
         ]}
@@ -95,7 +90,7 @@ const SubActivity: React.FC<{}> = () => {
               }
             >
               <SubActivityHeader activity={item} region={data.region} />
-              <SubActivitySections activity={item} />
+              <SubActivitySections activity={item} index={i} manager={data?.manager}/>
             </Tabs.TabPane>
           ))}
         </Tabs>

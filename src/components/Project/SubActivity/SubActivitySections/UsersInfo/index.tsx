@@ -6,10 +6,10 @@ import FormWrapper from '../../SubActivityWrapper';
 import AsnAvatar from '../../../../Forms/Avatar';
 import { IManagerType } from '../../../../../types/api/activity/subActivity';
 
-const SubActivityUsersInfo: React.FC<IManagerType> = ({ manager }) => {
+const SubActivityUsersInfo: React.FC<IManagerType> = ({ manager, color }) => {
   const { Title } = Typography;
   return (
-    <FormWrapper className="users_list">
+    <FormWrapper className="users_list" color={color}>
       <Title level={4} style={{ marginBottom: '2.4vh' }}>
         Assigned People
       </Title>

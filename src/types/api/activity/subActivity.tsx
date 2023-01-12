@@ -40,6 +40,7 @@ export interface IWrapperProps {
   children: React.ReactNode
   className?: string | undefined
   margin?: number | undefined
+  color?: string
 }
 
 export interface IAttachFileSubActivity {
@@ -57,6 +58,7 @@ export interface IManagerType {
     id: string
     lastName: string
   }
+  color: string | undefined
 }
 
 export interface ICreateSubActivityProps {

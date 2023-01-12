@@ -5,13 +5,20 @@ import styled from 'styled-components';
 import { AsnButton } from '../../../Forms/Button';
 import DefaultContent from './DefaultContent';
 import ApplicantsForm from './SubActivityForms/Applicant/Applicant';
-import SelectionForm from './SubActivityForms/Selection';
-import PreAssessmentForm from './SubActivityForms/PreAssessment';
-import ParticipantForm from './SubActivityForms/Participant';
-import PostAssessmentForm from './SubActivityForms/PostAssessment';
+// import SelectionForm from './SubActivityForms/Selection';
+// import PreAssessmentForm from './SubActivityForms/PreAssessment';
+// import ParticipantForm from './SubActivityForms/Participant';
+// import PostAssessmentForm from './SubActivityForms/PostAssessment';
 import { ReactComponent as Settings } from '../../../../assets/icons/setting.svg';
 
-const SectionsWrapper = styled.div`
+export const colors: Array<{ index: number, color: string }> = [
+  { index: 0, color: '--primary-light-orange' },
+  { index: 1, color: '--secondary-green' },
+  { index: 2, color: '--secondary-light-amber' },
+  { index: 3, color: '--dark-border-ultramarine' }
+];
+
+const SectionsWrapper = styled.div<{ color: string | undefined }>`
   h4.ant-typography {
     font-size: var(--base-font-size);
     color: var(--dark-2);
@@ -28,10 +35,18 @@ const SectionsWrapper = styled.div`
     width: 32px;
     height: 32px;
     background: var(--background) !important;
-    border: 1px solid var(--primary-light-orange);
+    /* border: 1px solid var(--primary-light-orange); */
+    border: ${(props) =>
+      `1px solid var(${
+        props.color != null ? props.color : '--primary-light-orange'
+      })`};
   }
   .ant-tabs-top > .ant-tabs-nav:before {
-    border-bottom: 3px solid var(--primary-light-orange);
+    border-bottom: ${(props) =>
+      `3px solid var(${
+        props.color != null ? props.color : '--primary-light-orange'
+      })`};
+    /* border-bottom: 3px solid var(--primary-light-orange); */
     bottom: auto;
     right: 2.9%;
     left: 3%;
@@ -39,7 +54,7 @@ const SectionsWrapper = styled.div`
   .ant-tabs-top > .ant-tabs-nav {
     margin: 0 0 1.6vh;
   }
-  .ant-tabs-tab{
+  .ant-tabs-tab {
     background: transparent !important;
   }
   .settings_svg {
@@ -66,11 +81,15 @@ const SectionsWrapper = styled.div`
   }
   .ant-tabs-tab-active {
     .ant-badge-status-dot {
-      background: var(--primary-light-orange) !important;
+      /* background: var(--primary-light-orange) !important; */
+      background: ${(props) =>
+        `var(${
+          props.color != null ? props.color : '--primary-light-orange'
+        }) !important`};
     }
   }
-  .custom_section_tabs{
-    .ant-tabs-tab{
+  .custom_section_tabs {
+    .ant-tabs-tab {
       padding: 12px 0 !important;
       background: transparent !important;
     }
@@ -83,7 +102,7 @@ const SectionsWrapper = styled.div`
   }
 `;
 
-const SubActivitySections: React.FC<any> = ({ activity }) => {
+const SubActivitySections: React.FC<any> = ({ activity, index, manager }) => {
   const { Title } = Typography;
   const { TabPane } = Tabs;
   const [activeKey, setActiveKey] = useState<any>('1');
@@ -92,8 +111,10 @@ const SubActivitySections: React.FC<any> = ({ activity }) => {
     setActiveKey(key);
   };
 
+  const filteredColor = colors.filter((item) => item.index === index);
+
   return (
-    <SectionsWrapper>
+    <SectionsWrapper color={filteredColor[0]?.color}>
       <Space direction="vertical" style={{ width: '100%' }}>
         <Title
           level={4}
@@ -108,44 +129,53 @@ const SubActivitySections: React.FC<any> = ({ activity }) => {
           Course Roadmap
           <Settings className="settings_svg" />
         </Title>
-        <Tabs activeKey={activeKey} onChange={handleTabChange} className='custom_section_tabs'>
+        <Tabs
+          activeKey={activeKey}
+          onChange={handleTabChange}
+          className="custom_section_tabs"
+        >
           <TabPane forceRender key="1">
-            {activity?.status === 'INACTIVE' &&
-            <Row justify="center">
-              <AsnButton
-                type="primary"
-                className="primary"
-                style={{ width: '35vw' }}
-                onClick={() => {
-                  setActiveKey(
-                    activity?.section?.sectionSettingMap[0]
-                      ?.setting?.id
-                  );
-                }}
-              >
-                Start Course
-              </AsnButton>
-            </Row>
-            }
-            <DefaultContent manager={activity?.manager} />
+            {activity?.status === 'INACTIVE' && (
+              <Row justify="center">
+                <AsnButton
+                  type="primary"
+                  className="primary"
+                  style={{ width: '35vw' }}
+                  onClick={() => {
+                    setActiveKey(
+                      activity?.section?.sectionSettingMap[0]?.setting?.id
+                    );
+                  }}
+                >
+                  Start Course
+                </AsnButton>
+              </Row>
+            )}
+            <DefaultContent manager={manager} color={filteredColor[0]?.color} />
           </TabPane>
-          {activity?.section?.sectionSettingMap?.map(
-            (item: any) => (
-              <TabPane
-                disabled={activity?.status !== 'ACTIVE'}
-                key={item?.setting?.id}
-                tab={
-                  <Space direction="vertical" align="center">
-                    <Title level={4}>{item?.setting?.title}</Title>
-                    <Badge color="var(--primary-light-orange)" />
-                    <Title level={5}>{item?.setting?.title}</Title>
-                  </Space>
-                }
-              >
-                {(() => {
+          {activity?.section?.sectionSettingMap?.map((item: any) => (
+            <TabPane
+              disabled={activity?.status !== 'ACTIVE'}
+              key={item?.setting?.id}
+              tab={
+                <Space direction="vertical" align="center">
+                  <Title level={4}>{item?.setting?.title}</Title>
+                  <Badge color="var(--primary-light-orange)" />
+                  <Title level={5}>{item?.setting?.title}</Title>
+                </Space>
+              }
+            >
+              <ApplicantsForm
+                setActiveKey={setActiveKey}
+                id={item?.setting?.id}
+                statusTitle={item?.setting?.title}
+                courseId={activity?.id}
+                color={filteredColor[0]?.color}
+              />
+              {/* {(() => {
                   switch (item?.setting?.title) {
                     case 'Applicant':
-                      return <ApplicantsForm setActiveKey={setActiveKey} id={item?.setting?.id}/>;
+                      return <ApplicantsForm setActiveKey={setActiveKey} id={item?.setting?.id} courseId={activity?.id}/>;
                     case 'Selection':
                       return <SelectionForm />;
                     case 'Pre-assessment of selected':
@@ -157,25 +187,15 @@ const SubActivitySections: React.FC<any> = ({ activity }) => {
                     case 'Trained':
                       return (
                           <DefaultContent
-                            manager={activity?.manager}
+                            manager={manager}
                             status={activity}
                             requIredDocs={activity?.sectionsData}
                           />
                       );
-                    default:
-                      return (
-                        // <DefaultContent
-                        //   manager={activity?.manager}
-                        //   status={activity?.sectionsData[0]?.status}
-                        //   requIredDocs={activity?.sectionsData}
-                        // />
-                        <></>
-                      );
                   }
-                })()}
-              </TabPane>
-            )
-          )}
+                })()} */}
+            </TabPane>
+          ))}
         </Tabs>
       </Space>
     </SectionsWrapper>

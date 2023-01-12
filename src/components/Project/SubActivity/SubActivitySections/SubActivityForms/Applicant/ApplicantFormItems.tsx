@@ -25,7 +25,7 @@ const StyledItems = styled(List)`
   }
 `;
 
-const ApplicantList: React.FC = () => {
+const ApplicationFormItem: React.FC = () => {
   const { Title } = Typography;
   const [items, setItems] = useState<Array<{ id: string, name: string }>>([
     {
@@ -122,4 +122,4 @@ const ApplicantList: React.FC = () => {
     />
   );
 };
-export default ApplicantList;
+export default ApplicationFormItem;

@@ -3,7 +3,7 @@ import ProjectInformationHeader from '../../../Menu/ProjectInformationHeader';
 
 const SubActivityHeader: React.FC<any> = ({ activity, region }) => {
   return (
-    <ProjectInformationHeader overview={false} padding={'0 0 40px 0'} activity={activity} region={region} />
+    <ProjectInformationHeader overview={false} padding={'0 0 4vh 0'} activity={activity} region={region} />
   );
 };
 
