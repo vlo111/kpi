@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useId } from 'react';
 import { Divider, Radio, Space } from 'antd';
 import {
   CardTitle,
@@ -25,7 +25,7 @@ const EducationWork: React.FC<any> = ({ educationWorkData }) => {
             <Radio.Group value="Yes/Այո">
               <Space direction="vertical">
                 {question?.answers?.map((answer: IAnswers) => (
-                  <Radio key={answer.id} value={answer.title}>
+                  <Radio key={answer.id !== undefined ? answer.id : useId() } value={answer.title}>
                     {answer.title}
                   </Radio>
                 ))}
@@ -37,7 +37,7 @@ const EducationWork: React.FC<any> = ({ educationWorkData }) => {
             <Radio.Group value={question?.answers[0]?.title}>
               <Space direction="vertical">
                 {question?.answers?.map((answer: IAnswers) => (
-                  <Fragment key={answer.id}>
+                  <Fragment key={answer.id !== undefined ? answer.id : useId() }>
                     {answer.title?.includes('Other')
                       ? (
                       <DividerLine>

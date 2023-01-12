@@ -7,7 +7,10 @@ import {
 } from '../applicationStyle';
 import { v4 as uuidv4 } from 'uuid';
 import { FormFinish } from '../../../types/global';
-import { IIsAddTermsConditions, ITermsAndCondition } from '../../../types/project';
+import {
+  IIsAddTermsConditions,
+  ITermsAndCondition
+} from '../../../types/project';
 
 const TermsAndCondition: React.FC<ITermsAndCondition> = ({
   setTermsConditionsValue,
@@ -42,7 +45,7 @@ const TermsAndCondition: React.FC<ITermsAndCondition> = ({
         ? null
         : (
         <CustomButton
-        className='default'
+          className="default"
           onClick={() => {
             if (isAddTermsConditions.length <= 5) {
               setIsAddTermsConditions([

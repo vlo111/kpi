@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useId } from 'react';
 import { Divider, Radio, Space } from 'antd';
 import {
   CardTitle,
@@ -28,7 +28,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
               <Radio.Group value="Yes/Այո">
                 <Space direction="vertical">
                   {question?.answers?.map((answer: IAnswers) => (
-                    <Radio key={answer.id} value={answer.title}>
+                    <Radio key={answer.id !== undefined ? answer.id : useId() } value={answer.title}>
                       {answer.title}
                     </Radio>
                   ))}
@@ -40,7 +40,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
               <Radio.Group value={question?.answers[0]?.title}>
                 <Space direction="vertical">
                   {question?.answers?.map((answer: IAnswers) => (
-                    <Fragment key={answer.id}>
+                    <Fragment key={answer.id !== undefined ? answer.id : useId() }>
                       {answer.title?.includes('Other')
                         ? (
                         <DividerLine>
@@ -65,7 +65,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
                   : (
               <Space direction="vertical">
                 {question?.answers?.map((answer: IAnswers, index: number) => (
-                  <Fragment key={answer.id}>
+                  <Fragment key={answer.id !== undefined ? answer.id : useId() }>
                     {answer.title?.includes('Other')
                       ? (
                       <DividerLine>
@@ -76,7 +76,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
                       </DividerLine>
                         )
                       : (
-                      <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
+                      <AsnCheckbox defaultChecked={index === 0} key={answer.id !== undefined ? answer.id : useId() }>
                         {answer.title}
                       </AsnCheckbox>
                         )}

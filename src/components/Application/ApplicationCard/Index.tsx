@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Space } from 'antd';
+import { v4 as uuidv4 } from 'uuid';
 import { ReactComponent as EditIcon } from '../../../assets/icons/edit.svg';
 import {
   CardContainer,
@@ -40,7 +41,9 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
   content,
   isQuestionCardVisible,
   setIsQuestionCardVisible,
-  cardId
+  cardId,
+  applicationData,
+  setApplicationData
 }) => {
   const [cardTitle, setCardTitle] = useState(title);
 
@@ -64,7 +67,10 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
         ? (
         <>
           {content.map((item: IContent) => (
-            <CardRow key={item.id} direction="horizontal">
+            <CardRow
+              key={item.id !== undefined ? item.id : uuidv4()}
+              direction="horizontal"
+            >
               <ChoseTitle>{item.title}</ChoseTitle>
               <span>
                 <ChoseType>
@@ -94,6 +100,8 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
           setIsQuestionCardVisible={setIsQuestionCardVisible}
           isQuestionCardVisible={isQuestionCardVisible}
           cardId={cardId}
+          applicationData={applicationData}
+          setApplicationData={setApplicationData}
         />
           )
         : (

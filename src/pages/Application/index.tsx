@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { InputRef, Space, Typography } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
@@ -67,6 +67,7 @@ const Application: React.FC = () => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
   const [termsConditionsValue, setTermsConditionsValue] = useState<object>({});
+  const [applicationData, setApplicationData] = useState<any>({});
   const [isAddTermsConditions, setIsAddTermsConditions] = useState<
   IIsAddTermsConditions[]
   >([
@@ -91,8 +92,11 @@ const Application: React.FC = () => {
     {}
   );
 
-  console.log(data, refetch);
+  useEffect(() => { setApplicationData(data); }, [data]);
+  console.log(applicationData);
+
   const onPublishClick: Void = () => {
+    console.log(refetch);
     if (
       formTitle?.current?.input?.value.length !== undefined &&
       (formTitle?.current?.input?.value.length < 1 ||
@@ -107,7 +111,7 @@ const Application: React.FC = () => {
   return (
     <ApplicationContainer>
       <ApplicationTitle>Application form</ApplicationTitle>
-      <Typography.Title level={5} style={{ fontWeight: 400 }}>
+      <Typography.Title level={5} style={{ fontWeight: 'var(--font-normal)' }}>
         Form Title
       </Typography.Title>
       <AsnInput
@@ -126,7 +130,7 @@ const Application: React.FC = () => {
         </ValidateMessage>
           )
         : null}
-      <Typography.Title level={5} style={{ fontWeight: 400 }}>
+      <Typography.Title level={5} style={{ fontWeight: 'var(--font-normal)' }}>
         Description
       </Typography.Title>
       <CustomTextArea
@@ -134,7 +138,7 @@ const Application: React.FC = () => {
         placeholder={data?.description}
         ref={formDescription}
       />
-      {data?.applicationFormSections?.map((data: ICardsData) => (
+      {applicationData?.applicationFormSections?.map((data: ICardsData) => (
         <ApplicationCard
           key={data?.keyName}
           title={data?.title}
@@ -142,6 +146,8 @@ const Application: React.FC = () => {
           isQuestionCardVisible={isQuestionCardVisible}
           setIsQuestionCardVisible={setIsQuestionCardVisible}
           cardId={data?.keyName}
+          applicationData={applicationData}
+          setApplicationData={setApplicationData}
         />
       ))}
       <TermsAndCondition
@@ -158,7 +164,7 @@ const Application: React.FC = () => {
         >
           Online signature
         </span>
-        <AsnSwitch ref={onlineSignature} checked={data?.onlineSignature}/>
+        <AsnSwitch ref={onlineSignature} checked={data?.onlineSignature} />
       </ConditionCard>
       <CardContainer
         borderTop={'3px solid var(--secondary-light-amber)'}

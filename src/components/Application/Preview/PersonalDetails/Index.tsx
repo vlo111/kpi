@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useId } from 'react';
 import { Radio, Space } from 'antd';
 import styled from 'styled-components';
 import { CardTitle, ModalText, DetailsContainer } from '../../applicationStyle';
@@ -46,7 +46,7 @@ const PersonalDetails: React.FC<any> = ({ personalDetailsData }) => {
             <Radio.Group value="Female/Իգական">
               <Space direction="vertical">
                 {question?.answers?.map((answer: IAnswers) => (
-                  <Radio key={answer.id} value={answer.title}>
+                  <Radio key={answer.id !== undefined ? answer.id : useId() } value={answer.title}>
                     {answer.title}
                   </Radio>
                 ))}
@@ -58,7 +58,7 @@ const PersonalDetails: React.FC<any> = ({ personalDetailsData }) => {
             <Radio.Group value="Yes/Այո">
               <Space direction="vertical">
                 {question?.answers?.map((answer: IAnswers) => (
-                  <Radio key={answer.id} value={answer.title}>
+                  <Radio key={answer.id !== undefined ? answer.id : useId() } value={answer.title}>
                     {answer.title}
                   </Radio>
                 ))}

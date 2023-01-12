@@ -446,6 +446,8 @@ export interface IAddQuestionCard {
   setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
   isQuestionCardVisible: string[]
   cardId: string
+  applicationData: any
+  setApplicationData: React.Dispatch<React.SetStateAction<any>>
 }
 
 export interface IApplicationCard extends IAddQuestionCard {
@@ -454,6 +456,8 @@ export interface IApplicationCard extends IAddQuestionCard {
   isQuestionCardVisible: string[]
   setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
   cardId: string
+  applicationData: any
+  setApplicationData: React.Dispatch<React.SetStateAction<any>>
 }
 
 export interface ITermsAndCondition {
