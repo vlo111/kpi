@@ -8,7 +8,6 @@ import useGetResultAreaFile from '../../api/Files/useGetResultAreFiles';
 import useGetInputActivity from '../../api/Files/useGetInputActivity';
 import useGetAllFile from '../../api/Files/useGetProjectFileAll';
 import useGetCourseFile from '../../api/Files/useGetCoursFile';
-import useGetCoursSectionFile from '../../api/Files/useGetCoursSectiondataFile';
 
 import { LeftOutlined } from '@ant-design/icons';
 
@@ -23,8 +22,6 @@ export const Files: React.FC = () => {
   const nameCours = useGetInputActivity(id);
   const allFile = useGetAllFile(id);
   const cors = useGetCourseFile(id);
-  const aaa = useGetCoursSectionFile(id);
-  console.log(aaa, 'aaaaaaaaaaaaaa');
 
   const defaultVal: DataNode[] = data?.result?.map(
     (item: any, i: string) => {

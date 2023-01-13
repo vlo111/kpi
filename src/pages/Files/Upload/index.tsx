@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Upload, Button, UploadFile, UploadProps } from 'antd';
-// import { DocumentModal } from '../Popover'
 import { UploadOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import DataResult from '../DataResult';
+import useGetAllFile from '../../../api/Files/useGetProjectFileAll';
+import { useParams } from 'react-router-dom';
 
 export interface projectFilesUploadFormProps {
   handleUpdateAndNext: (updateProjectDetails: () => void) => void
@@ -23,6 +24,9 @@ const UploadModal = styled.div`
 export const UploadDocument: React.FC = () => {
   const [open, setOpen] = useState<string>('');
   const [fileList, setFileList] = useState<UploadFile[] | []>([]);
+  const [fileListCours, setfileListCours] = useState([]);
+
+  const { id } = useParams();
 
   const draggerProps = (): UploadProps => {
     return {
@@ -43,6 +47,12 @@ export const UploadDocument: React.FC = () => {
     setOpen('');
   };
 
+  const info = useGetAllFile(id);
+  console.log(info);
+  if (info.status === 'success' && !fileListCours[0]) {
+    setfileListCours(info.data.result);
+  }
+
   return (
     <UploadModal>
       <Upload
@@ -55,8 +65,7 @@ export const UploadDocument: React.FC = () => {
       >
         <Button icon={<UploadOutlined />}>Upload</Button>
       </Upload>
-      <DataResult fileList={fileList} open={open} setOpen={setOpen} onRemoveFile={onRemoveFile}/>
-      {/* <DocumentModal open={open} setOpen={setOpen} draggerProps={draggerProps} onRemoveFile={onRemoveFile}/> */}
+      <DataResult fileList={fileListCours} open={open} setOpen={setOpen} onRemoveFile={onRemoveFile}/>
     </UploadModal>
   );
 };
