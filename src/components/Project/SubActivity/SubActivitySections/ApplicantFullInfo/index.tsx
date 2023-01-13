@@ -46,7 +46,6 @@ const SubActivityUsersFullInfo: React.FC = () => {
   }
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]): void => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
 

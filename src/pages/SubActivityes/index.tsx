@@ -27,7 +27,7 @@ const Wrapper = styled.div<{ mode: boolean }>`
     }
     .ant-tabs-content-holder{
       background: white;
-      padding: 4vh 4.8vw 0 4.8vw;
+      padding: 4vh 4.8vw 4vh 4.8vw;
     }
     .ant-tabs-nav{
       margin: 0 !important;
@@ -44,9 +44,10 @@ const SubActivity: React.FC<{}> = () => {
   console.log(
     subActivityId,
     'd890eefd-bb0f-4cc8-aa38-99224356c785',
+    '4ca2fc1f-4bce-4f71-8b86-d666edf55f74',
     'c9ae6d05-7e68-4cce-b7fa-1ae6fb2b689d'
   );
-  const { data } = GetSingleSubActivity('c9ae6d05-7e68-4cce-b7fa-1ae6fb2b689d', {});
+  const { data } = GetSingleSubActivity('4ca2fc1f-4bce-4f71-8b86-d666edf55f74', {});
 
   const onChange = (key: string): void => {
     setItemTitle(key);
@@ -90,7 +91,7 @@ const SubActivity: React.FC<{}> = () => {
               }
             >
               <SubActivityHeader activity={item} region={data.region} />
-              <SubActivitySections activity={item} index={i} manager={data?.manager}/>
+              <SubActivitySections activity={item} index={i} manager={data?.manager} applicationForm={data?.applicationForm}/>
             </Tabs.TabPane>
           ))}
         </Tabs>
@@ -101,7 +102,7 @@ const SubActivity: React.FC<{}> = () => {
             activity={data?.sectionsData[0]}
             region={data.region}
           />
-          <SubActivitySections activity={data?.sectionsData[0]} />
+          <SubActivitySections activity={data?.sectionsData[0]} manager={data?.manager} applicationForm={data?.applicationForm}/>
         </>
       )}
     </Wrapper>

@@ -4,12 +4,8 @@ import styled from 'styled-components';
 
 import { AsnButton } from '../../../Forms/Button';
 import DefaultContent from './DefaultContent';
-import ApplicantsForm from './SubActivityForms/Applicant/Applicant';
-// import SelectionForm from './SubActivityForms/Selection';
-// import PreAssessmentForm from './SubActivityForms/PreAssessment';
-// import ParticipantForm from './SubActivityForms/Participant';
-// import PostAssessmentForm from './SubActivityForms/PostAssessment';
 import { ReactComponent as Settings } from '../../../../assets/icons/setting.svg';
+import CourseStatusForm from './SubActivityForms/Applicant/CourseStatus';
 
 export const colors: Array<{ index: number, color: string }> = [
   { index: 0, color: '--primary-light-orange' },
@@ -102,9 +98,10 @@ const SectionsWrapper = styled.div<{ color: string | undefined }>`
   }
 `;
 
-const SubActivitySections: React.FC<any> = ({ activity, index, manager }) => {
+const SubActivitySections: React.FC<any> = ({ activity, index, manager, applicationForm }) => {
   const { Title } = Typography;
   const { TabPane } = Tabs;
+
   const [activeKey, setActiveKey] = useState<any>('1');
 
   const handleTabChange: any = (key: string) => {
@@ -151,7 +148,7 @@ const SubActivitySections: React.FC<any> = ({ activity, index, manager }) => {
                 </AsnButton>
               </Row>
             )}
-            <DefaultContent manager={manager} color={filteredColor[0]?.color} />
+            <DefaultContent manager={manager} color={filteredColor[0]?.color} status={activity?.status}/>
           </TabPane>
           {activity?.section?.sectionSettingMap?.map((item: any) => (
             <TabPane
@@ -165,35 +162,14 @@ const SubActivitySections: React.FC<any> = ({ activity, index, manager }) => {
                 </Space>
               }
             >
-              <ApplicantsForm
+              <CourseStatusForm
                 setActiveKey={setActiveKey}
                 id={item?.setting?.id}
                 statusTitle={item?.setting?.title}
                 courseId={activity?.id}
+                applicationForm={applicationForm}
                 color={filteredColor[0]?.color}
               />
-              {/* {(() => {
-                  switch (item?.setting?.title) {
-                    case 'Applicant':
-                      return <ApplicantsForm setActiveKey={setActiveKey} id={item?.setting?.id} courseId={activity?.id}/>;
-                    case 'Selection':
-                      return <SelectionForm />;
-                    case 'Pre-assessment of selected':
-                      return <PreAssessmentForm />;
-                    case 'Participant':
-                      return <ParticipantForm />;
-                    case 'Post-assessment':
-                      return <PostAssessmentForm />;
-                    case 'Trained':
-                      return (
-                          <DefaultContent
-                            manager={manager}
-                            status={activity}
-                            requIredDocs={activity?.sectionsData}
-                          />
-                      );
-                  }
-                })()} */}
             </TabPane>
           ))}
         </Tabs>

@@ -11,8 +11,6 @@ const AntCol = styled(Col)`
 `;
 
 const CourseInfo: React.FC<any> = ({ courseData }) => {
-  console.log(courseData, 'CourseInfoCourseInfo');
-
   return (
     <>
       <Space direction='vertical' style={{ width: '100%' }}>

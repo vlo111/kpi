@@ -9,16 +9,16 @@ import useStartSubActivityCourse from '../../../../../../api/Activity/SubActivit
 import getSingleSubActivitySettingInfo from '../../../../../../api/Activity/SubActivity/useGetSubActivitySettingInfo';
 import CourseHeaderStatus from './CourseStatusHeader';
 
-const ApplicantsForm: React.FC<any> = ({
+const CourseStatusForm: React.FC<any> = ({
   id,
   setActiveKey,
   courseId,
   color,
-  statusTitle
+  statusTitle,
+  applicationForm
 }) => {
   const [fileList, setFileList] = useState<any>([]);
   const [defaultFileList, setDefaultFileList] = useState<any>([]);
-  console.log(statusTitle);
   const { data } = getSingleSubActivitySettingInfo(courseId, id, {});
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const ApplicantsForm: React.FC<any> = ({
   return (
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 64]}>
       <FormWrapper className="applicant_form" color={color}>
-        <CourseHeaderStatus title={statusTitle} form={data?.form} />
+        <CourseHeaderStatus title={statusTitle} form={data?.form} applicationForm={applicationForm}/>
         <DraggerForm
           text="Attach related document"
           setFileList={setFileList}
@@ -73,4 +73,4 @@ const ApplicantsForm: React.FC<any> = ({
   );
 };
 
-export default ApplicantsForm;
+export default CourseStatusForm;
