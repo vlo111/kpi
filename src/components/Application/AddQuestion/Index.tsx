@@ -79,6 +79,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
   const onFinishedForm: FormFinish = (value) => {
     if (cardId === 'personal_info') {
       applicationData?.applicationFormSections[0].questions?.push({
+        relatedQuestions: [],
         answerType:
           value.answerType === 'Select one'
             ? 'OPTION'
@@ -93,7 +94,13 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
             ? value.names.map((item: string) => {
               return {
                 title: item,
-                type: value.answerType
+                type: value.answerType === 'Select one'
+                  ? 'OPTION'
+                  : value.answerType === 'Short text'
+                    ? 'SHORT_TEXT'
+                    : value.answerType === 'Yes/No'
+                      ? 'YES_NO'
+                      : 'CHECKBOX'
               };
             })
             : value.answerType === 'Yes/No'
@@ -110,6 +117,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
       });
     } else if (cardId === 'educational_info') {
       applicationData?.applicationFormSections[1].questions?.push({
+        relatedQuestions: [],
         answerType:
           value.answerType === 'Select one'
             ? 'OPTION'
@@ -124,7 +132,13 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
             ? value.names.map((item: string) => {
               return {
                 title: item,
-                type: value.answerType
+                type: value.answerType === 'Select one'
+                  ? 'OPTION'
+                  : value.answerType === 'Short text'
+                    ? 'SHORT_TEXT'
+                    : value.answerType === 'Yes/No'
+                      ? 'YES_NO'
+                      : 'CHECKBOX'
               };
             })
             : value.answerType === 'Yes/No'
@@ -141,6 +155,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
       });
     } else if (cardId === 'other_info') {
       applicationData?.applicationFormSections[2].questions?.push({
+        relatedQuestions: [],
         answerType:
           value.answerType === 'Select one'
             ? 'OPTION'
@@ -155,7 +170,13 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
             ? value.names.map((item: string) => {
               return {
                 title: item,
-                type: value.answerType
+                type: value.answerType === 'Select one'
+                  ? 'OPTION'
+                  : value.answerType === 'Short text'
+                    ? 'SHORT_TEXT'
+                    : value.answerType === 'Yes/No'
+                      ? 'YES_NO'
+                      : 'CHECKBOX'
               };
             })
             : value.answerType === 'Yes/No'
@@ -172,6 +193,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
       });
     } else {
       applicationData?.applicationFormSections[3].questions?.push({
+        relatedQuestions: [],
         answerType:
           value.answerType === 'Select one'
             ? 'OPTION'
@@ -186,7 +208,13 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
             ? value.names.map((item: string) => {
               return {
                 title: item,
-                type: value.answerType
+                type: value.answerType === 'Select one'
+                  ? 'OPTION'
+                  : value.answerType === 'Short text'
+                    ? 'SHORT_TEXT'
+                    : value.answerType === 'Yes/No'
+                      ? 'YES_NO'
+                      : 'CHECKBOX'
               };
             })
             : value.answerType === 'Yes/No'
@@ -260,6 +288,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
             <AnswerTypeSelect
               defaultValue={'answerType[0]'}
               onChange={onAnswerTypeChange}
+              getPopupContainer={(trigger) => trigger.parentNode}
             >
               {answerType.map((option: string) => (
                 <Option key={option} value={option}>

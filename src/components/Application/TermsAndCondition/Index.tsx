@@ -24,6 +24,7 @@ const TermsAndCondition: React.FC<ITermsAndCondition> = ({
       [event.target.name]: event.target.value
     });
   };
+
   return (
     <CardContainer
       borderTop={'3px solid var(--secondary-light-amber)'}
@@ -38,6 +39,7 @@ const TermsAndCondition: React.FC<ITermsAndCondition> = ({
             placeholder={item.placeholder}
             name={`condition${index}`}
             onChange={handleTermsConditions}
+            value={termsConditionsValue[`condition${index}`]}
           />
         )
       )}

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { InputRef, Space, Typography } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
@@ -21,6 +21,8 @@ import { AsnDatePicker } from '../../components/Forms/DatePicker';
 import { AsnInput } from '../../components/Forms/Input';
 import { ICardsData, IIsAddTermsConditions } from '../../types/project';
 import getApplicationFormDefault from '../../api/ApplicationForm/useGetApplicationFormDefault';
+import createApplicationForm from '../../api/ApplicationForm/useCreateApplicationForm';
+import { IApplicationsOption } from '../../types/api/application/applicationForm';
 
 const ApplicationContainer = styled.div`
   margin: 0 auto;
@@ -63,37 +65,69 @@ const ConditionCard = styled(Space)`
 `;
 
 const Application: React.FC = () => {
+  const { data, refetch } = getApplicationFormDefault(
+    '0418e1eb-57f9-4ca9-a378-03ae0612a9b8',
+    {}
+  );
+
+  const { mutate: createApplicationFn } = createApplicationForm({
+    onSuccess: (options: IApplicationsOption) => {
+      // const { data } = options;
+      console.log(options, 'dsssssssssssssssssss');
+    },
+    onError: (err: any) => {
+      console.log(err);
+    }
+  });
+
   const [isValidateMessage, setIsValidateMessage] = useState<boolean>(false);
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
-  const [termsConditionsValue, setTermsConditionsValue] = useState<object>({});
+  const [termsConditionsValue, setTermsConditionsValue] = useState<any>({});
   const [applicationData, setApplicationData] = useState<any>({});
+  const [onlineSignature, setOnlineSignature] = useState<boolean>(true);
+  const [deadlineDate, setDeadlineDate] = useState<any>('');
   const [isAddTermsConditions, setIsAddTermsConditions] = useState<
   IIsAddTermsConditions[]
   >([
     {
       id: uuidv4(),
-      placeholder: ''
+      placeholder: 'Type the agreement text'
     },
     {
       id: uuidv4(),
-      placeholder: ''
+      placeholder: 'Type the agreement text'
     }
   ]);
   const [isQuestionCardVisible, setIsQuestionCardVisible] = useState<string[]>(
     []
   );
   const formTitle = useRef<InputRef>(null);
-  const formDescription = useRef<HTMLTextAreaElement>(null);
-  const onlineSignature = useRef<HTMLButtonElement>(null);
+  const formDescription = useRef<any>(null);
+  const successMessage = useRef<any>(null);
 
-  const { data, refetch } = getApplicationFormDefault(
-    '0418e1eb-57f9-4ca9-a378-03ae0612a9b8',
-    {}
-  );
+  useEffect(() => {
+    setApplicationData(data);
+  }, [data]);
 
-  useEffect(() => { setApplicationData(data); }, [data]);
-  console.log(applicationData);
+  useEffect(() => {
+    const applicationDataParse =
+      applicationData?.termsAndConditions !== undefined
+        ? JSON.parse(applicationData?.termsAndConditions)
+        : [];
+    setTermsConditionsValue({
+      condition0: applicationDataParse[0],
+      condition1: applicationDataParse[1]
+    });
+  }, [applicationData]);
+
+  const termsConditionsValueArray = useCallback((): any => {
+    const termsConditionsArr = [];
+    for (const key in termsConditionsValue) {
+      termsConditionsArr.push(termsConditionsValue[key]);
+    }
+    return termsConditionsArr;
+  }, [termsConditionsValue]);
 
   const onPublishClick: Void = () => {
     console.log(refetch);
@@ -105,6 +139,23 @@ const Application: React.FC = () => {
       setIsValidateMessage(true);
     } else {
       setIsValidateMessage(false);
+      applicationData.description =
+        formDescription.current !== null
+          ? formDescription.current.resizableTextArea.textArea.value
+          : '';
+      applicationData.title =
+        formTitle !== null ? formTitle?.current?.input?.value : '';
+      applicationData.onlineSignature = onlineSignature;
+      applicationData.deadline = deadlineDate;
+      applicationData.termsAndConditions = JSON.stringify(termsConditionsValueArray());
+
+      createApplicationFn({
+        id: '0418e1eb-57f9-4ca9-a378-03ae0612a9b8',
+        data: {
+          ...applicationData
+        }
+
+      });
     }
   };
 
@@ -152,8 +203,8 @@ const Application: React.FC = () => {
       ))}
       <TermsAndCondition
         isAddTermsConditions={isAddTermsConditions}
-        setTermsConditionsValue={setTermsConditionsValue}
         termsConditionsValue={termsConditionsValue}
+        setTermsConditionsValue={setTermsConditionsValue}
         setIsAddTermsConditions={setIsAddTermsConditions}
       />
       <ConditionCard>
@@ -164,7 +215,10 @@ const Application: React.FC = () => {
         >
           Online signature
         </span>
-        <AsnSwitch ref={onlineSignature} checked={data?.onlineSignature} />
+        <AsnSwitch
+          onChange={(checked) => setOnlineSignature(checked)}
+          checked={onlineSignature}
+        />
       </ConditionCard>
       <CardContainer
         borderTop={'3px solid var(--secondary-light-amber)'}
@@ -173,12 +227,18 @@ const Application: React.FC = () => {
         <Space direction="horizontal">
           <CardTitle>Success message: </CardTitle> <SuccessIcon />
         </Space>
-        <CustomInput value={data?.successMessage} />
+        {applicationData?.successMessage !== undefined && (
+          <CustomInput
+            ref={successMessage}
+            defaultValue={applicationData?.successMessage}
+          />
+        )}
       </CardContainer>
       <CardTitle>Set deadline (optional):</CardTitle>
       <ConditionCard>
         <AsnDatePicker
           style={{ border: 'none', flexDirection: 'row-reverse' }}
+          onChange={(date, dateString) => setDeadlineDate(new Date(dateString).toJSON())}
           defaultValue={moment(new Date(), 'DD.MM.YYYY')}
         />
       </ConditionCard>

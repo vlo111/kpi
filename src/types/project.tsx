@@ -438,8 +438,8 @@ export interface ICardsData {
 }
 
 export interface IIsAddTermsConditions {
-  id: string
-  placeholder: string
+  id?: string
+  placeholder?: string
 }
 
 export interface IAddQuestionCard {
@@ -461,8 +461,8 @@ export interface IApplicationCard extends IAddQuestionCard {
 }
 
 export interface ITermsAndCondition {
-  setTermsConditionsValue: React.Dispatch<React.SetStateAction<object>>
-  termsConditionsValue: object
+  setTermsConditionsValue: React.Dispatch<React.SetStateAction<any>>
+  termsConditionsValue: any
   setIsAddTermsConditions: React.Dispatch<React.SetStateAction<IIsAddTermsConditions[]>>
   isAddTermsConditions: IIsAddTermsConditions[]
 }
