@@ -15,16 +15,17 @@ const CourseStatusForm: React.FC<any> = ({
   courseId,
   color,
   statusTitle,
-  applicationForm
+  applicationForm,
+  courseStatus
 }) => {
   const [fileList, setFileList] = useState<any>([]);
   const [defaultFileList, setDefaultFileList] = useState<any>([]);
-  const { data } = getSingleSubActivitySettingInfo(courseId, id, {});
+  const { data, refetch } = getSingleSubActivitySettingInfo(courseId, id, {});
 
   useEffect(() => {
     if (data?.files?.length !== 0) {
-      const newFile = data?.files?.map((file: any, i: any) => {
-        return { ...file, uid: `${i++}` };
+      const newFile = data?.files?.map((file: any, i: number) => {
+        return { uid: `${i++}`, name: file.originalName, fileName: file.name };
       });
       setDefaultFileList(newFile);
     }
@@ -41,7 +42,10 @@ const CourseStatusForm: React.FC<any> = ({
 
   const { mutate: AttachFile } = useAttacheFilesSubActivitySection({
     onSuccess: () => {
-      StartCourse({ id: courseId });
+      refetch();
+      if (courseStatus !== 'ACTIVE') {
+        StartCourse({ id: courseId });
+      }
     },
     onError: () => {
       console.log('aaa');
@@ -49,26 +53,45 @@ const CourseStatusForm: React.FC<any> = ({
   });
 
   const add = (): any => {
-    AttachFile({
-      id: courseId,
-      data: {
-        files: fileList,
-        sectionSettingId: id
-      }
-    });
+    if (fileList.length > 0) {
+      AttachFile({
+        id: courseId,
+        data: {
+          files: fileList,
+          sectionSettingId: id,
+          visible: true
+        }
+      });
+    }
+    setActiveKey('1');
   };
 
   return (
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 64]}>
       <FormWrapper className="applicant_form" color={color}>
-        <CourseHeaderStatus title={statusTitle} form={data?.form} applicationForm={applicationForm}/>
+        <CourseHeaderStatus
+          title={statusTitle}
+          form={data?.form}
+          applicationForm={applicationForm}
+        />
         <DraggerForm
           text="Attach related document"
           setFileList={setFileList}
+          setDefaultFileList={setDefaultFileList}
           defaultFileList={defaultFileList}
         />
       </FormWrapper>
-      <SubActivityFooter cancel={setActiveKey} add={add} />
+      <SubActivityFooter cancel={() => {
+        refetch();
+        setFileList([]);
+        if (data?.files?.length !== 0) {
+          const newFile = data?.files?.map((file: any, i: number) => {
+            return { uid: `${i++}`, name: file.originalName, fileName: file.name };
+          });
+          setDefaultFileList(newFile);
+        }
+        setActiveKey('1');
+      }} add={add} />
     </Space>
   );
 };

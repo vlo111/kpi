@@ -6,17 +6,18 @@ import { Col, Typography, UploadProps } from 'antd';
 import { ReactComponent as UploadDocument } from '../../../../../../assets/icons/upload-docs.svg';
 import { IDraggerProps, UploadRequestOption } from '../../../../../../types/api/activity/subActivity';
 import useFileUpload from '../../../../../../api/Activity/SubActivity/useUploadFile';
+import useDeleteFile from '../../../../../../api/Files/useDeleteFile';
 
 const AsnDragger = styled(Dragger)`
+  background: transparent !important;
+  border: 1px dashed var(--dark-border-ultramarine) !important;
+  border-radius: 4px;
   .ant-upload {
     padding: 2.4vh 0;
   }
   &:hover {
     border: 1px dashed var(--dark-border-ultramarine);
   }
-  background: transparent !important;
-  border: 1px dashed var(--dark-border-ultramarine) !important;
-  border-radius: 4px;
   h4.ant-typography {
     font-size: var(--headline-font-size) !important;
     color: var(--dark-border-ultramarine) !important;
@@ -29,7 +30,7 @@ const AsnDragger = styled(Dragger)`
   }
 `;
 
-const DraggerForm: React.FC<IDraggerProps> = ({ text, padding, setFileList, defaultFileList }) => {
+const DraggerForm: React.FC<IDraggerProps> = ({ text, padding, setFileList, defaultFileList, setDefaultFileList }) => {
   const { Title } = Typography;
   const { mutate: UploadDoc } = useFileUpload({
     onSuccess: (options: any) => {
@@ -39,15 +40,29 @@ const DraggerForm: React.FC<IDraggerProps> = ({ text, padding, setFileList, defa
       setFileList((prevState: any) => [...prevState, result[0]]);
     }
   });
+  const { mutate: DeleteFile } = useDeleteFile({});
+
+  const handleChange: UploadProps['onChange'] = (info) => {
+    const newFileList = [...info.fileList];
+    setDefaultFileList(newFileList);
+  };
   const props: UploadProps = {
     customRequest: (options: UploadRequestOption) => {
       const { file, onSuccess } = options;
       UploadDoc(file);
       onSuccess('ok');
     },
+    onRemove: (file) => {
+      if (file.originFileObj === undefined) {
+        DeleteFile(file.fileName);
+      }
+      setDefaultFileList((prevState: any) => [...prevState, defaultFileList.filter((d: any) => d.uid !== file.uid)]);
+    },
+    onChange: handleChange,
     name: 'file',
     accept: '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx'
   };
+
   return (
     <Col style={{ padding: padding ?? '0' }}>
       <AsnDragger

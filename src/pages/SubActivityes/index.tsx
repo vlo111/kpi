@@ -43,11 +43,9 @@ const SubActivity: React.FC<{}> = () => {
   const [itemTitle, setItemTitle] = useState('');
   console.log(
     subActivityId,
-    'd890eefd-bb0f-4cc8-aa38-99224356c785',
-    '4ca2fc1f-4bce-4f71-8b86-d666edf55f74',
-    'c9ae6d05-7e68-4cce-b7fa-1ae6fb2b689d'
+    'a15d15ce-258a-44bd-baa7-4b6582f56ac5 one', '9dfd16b0-ebff-4bcc-9ce4-e866f68e1d9f multi'
   );
-  const { data } = GetSingleSubActivity('4ca2fc1f-4bce-4f71-8b86-d666edf55f74', {});
+  const { data } = GetSingleSubActivity('9dfd16b0-ebff-4bcc-9ce4-e866f68e1d9f', {});
 
   const onChange = (key: string): void => {
     setItemTitle(key);

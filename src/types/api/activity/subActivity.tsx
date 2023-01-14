@@ -13,6 +13,8 @@ export interface IDraggerProps {
   defaultFileList?: any
   // setFileList?: React.Dispatch<React.SetStateAction<string[] | undefined>>
   setFileList?: any
+  onRemoveFile?: any
+  setDefaultFileList?: any
 }
 
 export interface UploadRequestError extends Error {
@@ -48,6 +50,7 @@ export interface IAttachFileSubActivity {
   data: {
     files: string[]
     sectionSettingId: string
+    visible: boolean
   }
 }
 

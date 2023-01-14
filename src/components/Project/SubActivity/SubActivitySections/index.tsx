@@ -103,13 +103,10 @@ const SubActivitySections: React.FC<any> = ({ activity, index, manager, applicat
   const { TabPane } = Tabs;
 
   const [activeKey, setActiveKey] = useState<any>('1');
-
   const handleTabChange: any = (key: string) => {
     setActiveKey(key);
   };
-
   const filteredColor = colors.filter((item) => item.index === index);
-
   return (
     <SectionsWrapper color={filteredColor[0]?.color}>
       <Space direction="vertical" style={{ width: '100%' }}>
@@ -165,6 +162,7 @@ const SubActivitySections: React.FC<any> = ({ activity, index, manager, applicat
               <CourseStatusForm
                 setActiveKey={setActiveKey}
                 id={item?.setting?.id}
+                courseStatus={activity?.status}
                 statusTitle={item?.setting?.title}
                 courseId={activity?.id}
                 applicationForm={applicationForm}
