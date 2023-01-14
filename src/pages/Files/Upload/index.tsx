@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import DataResult from '../DataResult';
 import useGetAllFile from '../../../api/Files/useGetProjectFileAll';
 import { useParams } from 'react-router-dom';
+import useDeleteFile from '../../../api/Files/useDeleteFile';
 
 export interface projectFilesUploadFormProps {
   handleUpdateAndNext: (updateProjectDetails: () => void) => void
@@ -27,6 +28,7 @@ export const UploadDocument: React.FC = () => {
   const [fileListCours, setfileListCours] = useState([]);
 
   const { id } = useParams();
+  const { mutate: DeleteFile } = useDeleteFile({});
 
   const draggerProps = (): UploadProps => {
     return {
@@ -42,13 +44,11 @@ export const UploadDocument: React.FC = () => {
     };
   };
 
-  const onRemoveFile = (id?: string): void => {
-    setFileList([...fileList.filter((item) => item?.uid !== id)]);
-    setOpen('');
+  const onRemoveFile = (name?: any): void => {
+    DeleteFile(name);
   };
 
   const info = useGetAllFile(id);
-  console.log(info);
   if (info.status === 'success' && !fileListCours[0]) {
     setfileListCours(info.data.result);
   }

@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import client from '../client';
 
-const url = '/api/file/result-area/5827581c-ba8a-447a-bdce-3559c386d359';
+const url = '/api/file/result-area/1798e2fd-9f7a-41e5-8774-da93f30ba6ea';
 
 const useGetResultAreaFile: any = (id: string, options = { enabled: true }) => {
   const result = useQuery(

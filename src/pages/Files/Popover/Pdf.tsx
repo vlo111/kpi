@@ -9,14 +9,13 @@ import {
   CloudDownloadOutlined
 } from '@ant-design/icons';
 
-const DocumentViever = () => {
+const DocumentDonload = ({ name, path }: any) => {
   const onButtonClick = () => {
-    fetch('SamplePDF.pdf').then(response => {
+    fetch(name).then(response => {
       response.blob().then(blob => {
-        const fileURL = window.URL.createObjectURL(blob);
         const alink = document.createElement('a');
-        alink.href = fileURL;
-        alink.download = 'SamplePDF.pdf';
+        alink.href = path;
+        alink.download = name;
         alink.click();
       });
     });
@@ -30,4 +29,4 @@ const DocumentViever = () => {
   );
 };
 
-export default DocumentViever;
+export default DocumentDonload;
