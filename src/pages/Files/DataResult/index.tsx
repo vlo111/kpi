@@ -10,11 +10,12 @@ import { ReactComponent as ImgSvg } from '../UploadImg/upload-img.svg';
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { IDataResult } from '../../../types/folder';
 
-import { Button, Col, Popover, Row } from 'antd';
+import { Button, Col, Modal, Popover, Row } from 'antd';
 import DocumentDonload from '../Popover/Pdf';
 import styled from 'styled-components';
 
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
+// import { AsnModal } from '../../../components/Forms/Modal';
 
 const DocumentCard = styled(Col)`
   .ant-col {
@@ -33,8 +34,7 @@ const DataResult: React.FC<IDataResult> = ({
 }) => {
   const [fileName, setFileName] = useState('');
   const [viewPdf, setViewPdf] = useState(null);
-
-  console.log(fileName, 'ddddddddddddddddddddddddd');
+  const [opens, setOpens] = useState(false);
 
   const uploadImgfile = (file: any): any => {
     const ext = file.name?.split('.').pop();
@@ -80,7 +80,12 @@ const DataResult: React.FC<IDataResult> = ({
   }
   ;
   const preview = (name: any): any => {
+    setOpens(true);
     setViewPdf(name);
+  };
+
+  const handleCancel = (e: any): any => {
+    setOpens(false);
   };
 
   return (
@@ -110,7 +115,7 @@ const DataResult: React.FC<IDataResult> = ({
           </Row>
         </>
       )}
-          <>
+          <Modal open={opens} onCancel={handleCancel} okText={''} title="Pdf NAme" >
           {viewPdf && <>
             <DocViewer
           pluginRenderers={DocViewerRenderers}
@@ -122,11 +127,11 @@ const DataResult: React.FC<IDataResult> = ({
               retainURLParams: false
             }
           }}
-          style={{ height: window.innerHeight - 200 }}
+          // style={{ height: window.innerHeight - 200 }}
         />
 
           </>}
-         </>
+         </Modal>
     </>
   );
 };
