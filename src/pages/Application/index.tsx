@@ -66,7 +66,7 @@ const ConditionCard = styled(Space)`
 
 const Application: React.FC = () => {
   const { data, refetch } = getApplicationFormDefault(
-    '0418e1eb-57f9-4ca9-a378-03ae0612a9b8',
+    '9d287886-177b-486d-b61c-2482d5373cca',
     {}
   );
 
@@ -150,11 +150,10 @@ const Application: React.FC = () => {
       applicationData.termsAndConditions = JSON.stringify(termsConditionsValueArray());
 
       createApplicationFn({
-        id: '0418e1eb-57f9-4ca9-a378-03ae0612a9b8',
+        id: '9d287886-177b-486d-b61c-2482d5373cca',
         data: {
           ...applicationData
         }
-
       });
     }
   };

@@ -147,7 +147,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
                   { type: 'OPTION', title: 'No/Ոչ' }
                 ]
               : [],
-        editable: false,
+        editable: true,
         otherOption:
           value.otherOption !== undefined ? value.otherOption : false,
         required: value.requiredFiled,
@@ -185,7 +185,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
                   { type: 'OPTION', title: 'No/Ոչ' }
                 ]
               : [],
-        editable: false,
+        editable: true,
         otherOption:
           value.otherOption !== undefined ? value.otherOption : false,
         required: value.requiredFiled,
@@ -223,7 +223,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
                   { type: 'OPTION', title: 'No/Ոչ' }
                 ]
               : [],
-        editable: false,
+        editable: true,
         otherOption:
           value.otherOption !== undefined ? value.otherOption : false,
         required: value.requiredFiled,

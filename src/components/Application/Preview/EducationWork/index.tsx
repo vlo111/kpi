@@ -19,25 +19,87 @@ const EducationWork: React.FC<any> = ({ educationWorkData }) => {
       </ModalText>
       {educationWorkData?.questions?.map((question: IEducationWorkQuestion) => (
         <Fragment key={question?.id}>
-          <ModalText style={{ margin: '1rem 0 0.3rem' }}>{question?.title}</ModalText>
+          <ModalText style={{ margin: '1rem 0 0.3rem' }}>
+            {question?.title}
+          </ModalText>
           {question?.answerType === 'YES_NO'
             ? (
-            <Radio.Group value="Yes/Այո">
-              <Space direction="vertical">
-                {question?.answers?.map((answer: IAnswers) => (
-                  <Radio key={answer.id !== undefined ? answer.id : useId() } value={answer.title}>
-                    {answer.title}
-                  </Radio>
-                ))}
-              </Space>
-            </Radio.Group>
+            <>
+              <Radio.Group value="Yes/Այո">
+                <Space direction="vertical">
+                  {question?.answers?.map((answer: IAnswers) => (
+                    <Radio
+                      key={answer.id !== undefined ? answer.id : useId()}
+                      value={answer.title}
+                    >
+                      {answer.title}
+                    </Radio>
+                  ))}
+                </Space>
+              </Radio.Group>
+              {/* {question.relatedQuestions?.length > 0
+                ? (
+                <>
+                  {question.relatedQuestions?.map((relatedQuestion: any) => (
+                    <Fragment key={relatedQuestion?.id}>
+                      <ModalText style={{ margin: '1rem 0 0.3rem' }}>
+                        {relatedQuestion?.title}
+                      </ModalText>
+                      {relatedQuestion.answerType === 'SHORT_TEXT'
+                        ? (
+                        <AsnInput value="" />
+                          )
+                        : relatedQuestion.answerType === 'OPTION'
+                          ? (
+                        <Radio.Group value={question?.answers[0]?.title}>
+                          <Space direction="vertical">
+                            {question?.answers?.map((answer: IAnswers) => (
+                              <Fragment
+                                key={
+                                  answer.id !== undefined ? answer.id : useId()
+                                }
+                              >
+                                {answer.title?.includes('Other')
+                                  ? (
+                                  <DividerLine>
+                                    <Radio />
+                                    <Divider orientation="left" plain>
+                                      {answer.title}
+                                    </Divider>
+                                  </DividerLine>
+                                    )
+                                  : (
+                                  <Radio value={answer.title}>
+                                    {answer.title}
+                                  </Radio>
+                                    )}
+                              </Fragment>
+                            ))}
+                          </Space>
+                        </Radio.Group>
+                            )
+                          : null}
+                    </Fragment>
+                  ))}
+                </>
+                  )
+                : (
+                <Space direction="vertical">
+                  {question?.answers?.map((answer: IAnswers, index: number) => (
+                    <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
+                      {answer.title}
+                    </AsnCheckbox>
+                  ))}
+                </Space>
+                  )} */}
+            </>
               )
             : question?.answerType === 'OPTION'
               ? (
             <Radio.Group value={question?.answers[0]?.title}>
               <Space direction="vertical">
                 {question?.answers?.map((answer: IAnswers) => (
-                  <Fragment key={answer.id !== undefined ? answer.id : useId() }>
+                  <Fragment key={answer.id !== undefined ? answer.id : useId()}>
                     {answer.title?.includes('Other')
                       ? (
                       <DividerLine>

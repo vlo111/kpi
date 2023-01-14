@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Space } from 'antd';
+import { Col, Popover, Row, Space } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactComponent as EditIcon } from '../../../assets/icons/edit.svg';
+import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
+import { ReactComponent as MenuIcon } from '../../../assets/icons/md-menu.svg';
 import {
   CardContainer,
   CardTitle,
@@ -12,6 +14,7 @@ import {
 import AddQuestionCard from '../AddQuestion/Index';
 import { AsnSwitch } from '../../Forms/Switch';
 import { IApplicationCard, IContent } from '../../../types/project';
+import { FormFinish, Onchange, StringVoidType } from '../../../types/global';
 
 const CardRow = styled(Space)`
   display: flex;
@@ -46,6 +49,33 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
   setApplicationData
 }) => {
   const [cardTitle, setCardTitle] = useState(title);
+  const [openPopover, setOpenPopover] = useState<boolean>(false);
+
+  const onEditedQuestion: FormFinish = (item) => {};
+
+  const onDeletedQuestion: StringVoidType = (id) => {};
+
+  const handleOpenChange: Onchange = (newOpen) => {
+    setOpenPopover(newOpen);
+  };
+
+  const contentPopover: (i: any) => JSX.Element = (item) => (
+    <Row
+      style={{
+        fontSize: 'var(--font-size-small)',
+        color: 'var(--dark-2)',
+        cursor: 'pointer'
+      }}
+      gutter={[8, 8]}
+    >
+      <Col onClick={() => onEditedQuestion(item)} span={24}>
+        <EditIcon /> Edit
+      </Col>
+      <Col onClick={() => onDeletedQuestion(item)} span={24}>
+        <DeleteIcon /> Delete
+      </Col>
+    </Row>
+  );
 
   return (
     <CardContainer
@@ -72,7 +102,13 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
               direction="horizontal"
             >
               <ChoseTitle>{item.title}</ChoseTitle>
-              <span>
+              <span
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center'
+                }}
+              >
                 <ChoseType>
                   {item.answerType === 'SHORT_TEXT'
                     ? 'Short text'
@@ -88,6 +124,22 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
                   defaultChecked={item?.active}
                   disabled={!item?.editable}
                 />
+                {item.editable
+                  ? (
+                  <Popover
+                    placement="topLeft"
+                    content={() => contentPopover(item.id)}
+                    trigger="click"
+                    overlayClassName="menuPopover"
+                    onOpenChange={handleOpenChange}
+                    open={openPopover}
+                  >
+                    <div style={{ marginLeft: '8px', cursor: 'pointer' }}>
+                      <MenuIcon />
+                    </div>
+                  </Popover>
+                    )
+                  : null}
               </span>
             </CardRow>
           ))}

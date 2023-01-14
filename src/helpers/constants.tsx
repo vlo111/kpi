@@ -20,7 +20,8 @@ export const PATHS = {
   CHANGEPASSWORD: 'change-password',
   PROJECTINFORMATION: 'project-information/:id',
   ACTIVITYTEMPLATE: 'activity-template/:id',
-  COURSESECTION: 'activity-template/:id/second-step'
+  COURSESECTION: 'activity-template/:id/second-step',
+  APPLICATION: 'application'
 };
 
 export const VALIDATE_MESSAGES = {
