@@ -12,11 +12,12 @@ const getSingleSubActivitySettingInfo: any = (courseId: string, settingId: strin
       select: (data) => data.data
     }
   );
-  const { data, isSuccess, refetch } = result;
+  const { data, isSuccess, refetch, isLoading } = result;
   return {
     data,
     isSuccess,
-    refetch
+    refetch,
+    isLoading
   };
 };
 

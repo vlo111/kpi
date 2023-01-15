@@ -33,6 +33,12 @@ export const AsnButton = styled(Button)`
     }
   }
 
+  &.ant-btn-primary[disabled]{
+    background: var(--primary-light-3);
+    border: 1px solid var(--dark-5);
+    color: var(--dark-5);
+  }
+
   &.transparent {
     border: 1px solid var(--dark-5) !important;
     color: var(--dark-2) !important;

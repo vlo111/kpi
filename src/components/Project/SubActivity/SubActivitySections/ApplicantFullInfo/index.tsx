@@ -10,7 +10,7 @@ import { IUserListTypes } from '../../../../../types/api/activity/subActivity';
 import { AsnTable } from '../../../../Forms/Table';
 import FormWrapper from '../../SubActivityWrapper';
 
-const SubActivityUsersFullInfo: React.FC = () => {
+const SubActivityUsersFullInfo: React.FC<any> = ({ color }) => {
   const notUsers = true;
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -55,7 +55,7 @@ const SubActivityUsersFullInfo: React.FC = () => {
   };
 
   return (
-    <FormWrapper className="users_full_list" margin={0}>
+    <FormWrapper className="users_full_list" margin={0} color={color}>
       <Space style={{ width: '100%' }} size={[0, 32]} direction="vertical">
         <Row gutter={[12, 12]} justify="space-between" align="middle">
           <Col>

@@ -4,7 +4,10 @@ import styled from 'styled-components';
 import { Col, Typography, UploadProps } from 'antd';
 
 import { ReactComponent as UploadDocument } from '../../../../../../assets/icons/upload-docs.svg';
-import { IDraggerProps, UploadRequestOption } from '../../../../../../types/api/activity/subActivity';
+import {
+  IDraggerProps,
+  UploadRequestOption
+} from '../../../../../../types/api/activity/subActivity';
 import useFileUpload from '../../../../../../api/Activity/SubActivity/useUploadFile';
 import useDeleteFile from '../../../../../../api/Files/useDeleteFile';
 
@@ -30,7 +33,14 @@ const AsnDragger = styled(Dragger)`
   }
 `;
 
-const DraggerForm: React.FC<IDraggerProps> = ({ text, padding, setFileList, defaultFileList, setDefaultFileList }) => {
+const DraggerForm: React.FC<IDraggerProps> = ({
+  text,
+  padding,
+  setFileList,
+  defaultFileList,
+  setDefaultFileList,
+  disabled
+}) => {
   const { Title } = Typography;
   const { mutate: UploadDoc } = useFileUpload({
     onSuccess: (options: any) => {
@@ -56,10 +66,14 @@ const DraggerForm: React.FC<IDraggerProps> = ({ text, padding, setFileList, defa
       if (file.originFileObj === undefined) {
         DeleteFile(file.fileName);
       }
-      setDefaultFileList((prevState: any) => [...prevState, defaultFileList.filter((d: any) => d.uid !== file.uid)]);
+      setDefaultFileList((prevState: any) => [
+        ...prevState,
+        defaultFileList.filter((d: any) => d.uid !== file.uid)
+      ]);
     },
     onChange: handleChange,
     name: 'file',
+    disabled,
     accept: '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx'
   };
 

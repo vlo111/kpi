@@ -7,6 +7,13 @@ export interface IDisableType {
   setTabDisable: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+export const colors: Array<{ index: number, color: string }> = [
+  { index: 0, color: '--primary-light-orange' },
+  { index: 1, color: '--secondary-green' },
+  { index: 2, color: '--secondary-light-amber' },
+  { index: 3, color: '--dark-border-ultramarine' }
+];
+
 export interface IDraggerProps {
   text?: string | undefined
   padding?: string | undefined
@@ -15,6 +22,7 @@ export interface IDraggerProps {
   setFileList?: any
   onRemoveFile?: any
   setDefaultFileList?: any
+  disabled?: boolean
 }
 
 export interface UploadRequestError extends Error {

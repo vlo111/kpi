@@ -6,13 +6,7 @@ import { AsnButton } from '../../../Forms/Button';
 import DefaultContent from './DefaultContent';
 import { ReactComponent as Settings } from '../../../../assets/icons/setting.svg';
 import CourseStatusForm from './SubActivityForms/Applicant/CourseStatus';
-
-export const colors: Array<{ index: number, color: string }> = [
-  { index: 0, color: '--primary-light-orange' },
-  { index: 1, color: '--secondary-green' },
-  { index: 2, color: '--secondary-light-amber' },
-  { index: 3, color: '--dark-border-ultramarine' }
-];
+import { colors } from '../../../../types/api/activity/subActivity';
 
 const SectionsWrapper = styled.div<{ color: string | undefined }>`
   h4.ant-typography {
@@ -31,7 +25,6 @@ const SectionsWrapper = styled.div<{ color: string | undefined }>`
     width: 32px;
     height: 32px;
     background: var(--background) !important;
-    /* border: 1px solid var(--primary-light-orange); */
     border: ${(props) =>
       `1px solid var(${
         props.color != null ? props.color : '--primary-light-orange'
@@ -42,7 +35,6 @@ const SectionsWrapper = styled.div<{ color: string | undefined }>`
       `3px solid var(${
         props.color != null ? props.color : '--primary-light-orange'
       })`};
-    /* border-bottom: 3px solid var(--primary-light-orange); */
     bottom: auto;
     right: 2.9%;
     left: 3%;
@@ -77,7 +69,6 @@ const SectionsWrapper = styled.div<{ color: string | undefined }>`
   }
   .ant-tabs-tab-active {
     .ant-badge-status-dot {
-      /* background: var(--primary-light-orange) !important; */
       background: ${(props) =>
         `var(${
           props.color != null ? props.color : '--primary-light-orange'
@@ -89,6 +80,9 @@ const SectionsWrapper = styled.div<{ color: string | undefined }>`
       padding: 12px 0 !important;
       background: transparent !important;
     }
+    .ant-tabs-nav-list .ant-tabs-tab-active {
+      background-color: transparent !important;
+    }
   }
   .ant-space-item {
     width: 100%;
@@ -98,15 +92,22 @@ const SectionsWrapper = styled.div<{ color: string | undefined }>`
   }
 `;
 
-const SubActivitySections: React.FC<any> = ({ activity, index, manager, applicationForm }) => {
+const SubActivitySections: React.FC<any> = ({
+  activity,
+  index,
+  manager,
+  applicationForm,
+  refetch
+}) => {
   const { Title } = Typography;
   const { TabPane } = Tabs;
 
   const [activeKey, setActiveKey] = useState<any>('1');
-  const handleTabChange: any = (key: string) => {
+  const handleTabChange = (key: string): void => {
     setActiveKey(key);
   };
   const filteredColor = colors.filter((item) => item.index === index);
+
   return (
     <SectionsWrapper color={filteredColor[0]?.color}>
       <Space direction="vertical" style={{ width: '100%' }}>
@@ -134,6 +135,7 @@ const SubActivitySections: React.FC<any> = ({ activity, index, manager, applicat
                 <AsnButton
                   type="primary"
                   className="primary"
+                  disabled={activity?.status === 'INACTIVE' && index !== 0}
                   style={{ width: '35vw' }}
                   onClick={() => {
                     setActiveKey(
@@ -145,7 +147,13 @@ const SubActivitySections: React.FC<any> = ({ activity, index, manager, applicat
                 </AsnButton>
               </Row>
             )}
-            <DefaultContent manager={manager} color={filteredColor[0]?.color} status={activity?.status}/>
+            <DefaultContent
+              manager={manager}
+              color={filteredColor[0]?.color}
+              status={activity?.status}
+              requIredDocs={activity?.section?.requiredDocuments
+              }
+            />
           </TabPane>
           {activity?.section?.sectionSettingMap?.map((item: any) => (
             <TabPane
@@ -167,6 +175,7 @@ const SubActivitySections: React.FC<any> = ({ activity, index, manager, applicat
                 courseId={activity?.id}
                 applicationForm={applicationForm}
                 color={filteredColor[0]?.color}
+                refetch={refetch}
               />
             </TabPane>
           ))}

@@ -16,11 +16,13 @@ const CourseStatusForm: React.FC<any> = ({
   color,
   statusTitle,
   applicationForm,
-  courseStatus
+  courseStatus,
+  refetch
 }) => {
   const [fileList, setFileList] = useState<any>([]);
   const [defaultFileList, setDefaultFileList] = useState<any>([]);
-  const { data, refetch } = getSingleSubActivitySettingInfo(courseId, id, {});
+  const { data, refetch: refetchSingleStatus } =
+    getSingleSubActivitySettingInfo(courseId, id, {});
 
   useEffect(() => {
     if (data?.files?.length !== 0) {
@@ -33,6 +35,7 @@ const CourseStatusForm: React.FC<any> = ({
 
   const { mutate: StartCourse } = useStartSubActivityCourse({
     onSuccess: () => {
+      refetch();
       setActiveKey('1');
     },
     onError: () => {
@@ -42,7 +45,7 @@ const CourseStatusForm: React.FC<any> = ({
 
   const { mutate: AttachFile } = useAttacheFilesSubActivitySection({
     onSuccess: () => {
-      refetch();
+      refetchSingleStatus();
       if (courseStatus !== 'ACTIVE') {
         StartCourse({ id: courseId });
       }
@@ -64,6 +67,7 @@ const CourseStatusForm: React.FC<any> = ({
       });
     }
     setActiveKey('1');
+    setFileList([]);
   };
 
   return (
@@ -81,17 +85,24 @@ const CourseStatusForm: React.FC<any> = ({
           defaultFileList={defaultFileList}
         />
       </FormWrapper>
-      <SubActivityFooter cancel={() => {
-        refetch();
-        setFileList([]);
-        if (data?.files?.length !== 0) {
-          const newFile = data?.files?.map((file: any, i: number) => {
-            return { uid: `${i++}`, name: file.originalName, fileName: file.name };
-          });
-          setDefaultFileList(newFile);
-        }
-        setActiveKey('1');
-      }} add={add} />
+      <SubActivityFooter
+        cancel={() => {
+          refetchSingleStatus();
+          setFileList([]);
+          if (data !== undefined) {
+            const newFile = data?.files?.map((file: any, i: number) => {
+              return {
+                uid: `${i++}`,
+                name: file.originalName,
+                fileName: file.name
+              };
+            });
+            setDefaultFileList(newFile);
+          }
+          setActiveKey('1');
+        }}
+        add={add}
+      />
     </Space>
   );
 };
