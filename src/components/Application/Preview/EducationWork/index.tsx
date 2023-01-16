@@ -37,7 +37,7 @@ const EducationWork: React.FC<any> = ({ educationWorkData }) => {
                   ))}
                 </Space>
               </Radio.Group>
-              {/* {question.relatedQuestions?.length > 0
+              {question.relatedQuestions?.length > 0
                 ? (
                 <>
                   {question.relatedQuestions?.map((relatedQuestion: any) => (
@@ -51,9 +51,9 @@ const EducationWork: React.FC<any> = ({ educationWorkData }) => {
                           )
                         : relatedQuestion.answerType === 'OPTION'
                           ? (
-                        <Radio.Group value={question?.answers[0]?.title}>
+                        <Radio.Group value={relatedQuestion?.answers[0]?.title}>
                           <Space direction="vertical">
-                            {question?.answers?.map((answer: IAnswers) => (
+                            {relatedQuestion?.answers?.map((answer: IAnswers) => (
                               <Fragment
                                 key={
                                   answer.id !== undefined ? answer.id : useId()
@@ -78,9 +78,18 @@ const EducationWork: React.FC<any> = ({ educationWorkData }) => {
                           </Space>
                         </Radio.Group>
                             )
-                          : null}
+                          : relatedQuestion.answerType === 'CHECKBOX'
+                            ? <Space direction="vertical">
+                          {relatedQuestion?.answers?.map((answer: IAnswers, index: number) => (
+                            <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
+                              {answer.title}
+                            </AsnCheckbox>
+                          ))}
+                        </Space>
+                            : null}
                     </Fragment>
-                  ))}
+                  )
+                  )}
                 </>
                   )
                 : (
@@ -91,7 +100,7 @@ const EducationWork: React.FC<any> = ({ educationWorkData }) => {
                     </AsnCheckbox>
                   ))}
                 </Space>
-                  )} */}
+                  )}
             </>
               )
             : question?.answerType === 'OPTION'

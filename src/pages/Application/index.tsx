@@ -65,8 +65,8 @@ const ConditionCard = styled(Space)`
 `;
 
 const Application: React.FC = () => {
-  const { data, refetch } = getApplicationFormDefault(
-    '9d287886-177b-486d-b61c-2482d5373cca',
+  const { data } = getApplicationFormDefault(
+    '73b3cb71-68fd-4f24-9fd0-4f7819bdfe2c',
     {}
   );
 
@@ -130,7 +130,6 @@ const Application: React.FC = () => {
   }, [termsConditionsValue]);
 
   const onPublishClick: Void = () => {
-    console.log(refetch);
     if (
       formTitle?.current?.input?.value.length !== undefined &&
       (formTitle?.current?.input?.value.length < 1 ||
@@ -147,8 +146,9 @@ const Application: React.FC = () => {
         formTitle !== null ? formTitle?.current?.input?.value : '';
       applicationData.onlineSignature = onlineSignature;
       applicationData.deadline = deadlineDate;
-      applicationData.termsAndConditions = JSON.stringify(termsConditionsValueArray());
-
+      applicationData.termsAndConditions = JSON.stringify(
+        termsConditionsValueArray()
+      );
       createApplicationFn({
         id: '9d287886-177b-486d-b61c-2482d5373cca',
         data: {
@@ -193,11 +193,17 @@ const Application: React.FC = () => {
           key={data?.keyName}
           title={data?.title}
           content={data?.questions}
+          cardId={data?.keyName}
           isQuestionCardVisible={isQuestionCardVisible}
           setIsQuestionCardVisible={setIsQuestionCardVisible}
-          cardId={data?.keyName}
           applicationData={applicationData}
           setApplicationData={setApplicationData}
+          answerTypeValue={''}
+          setAnswerTypeValue={function (
+            value: React.SetStateAction<string>
+          ): void {
+            throw new Error('Function not implemented.');
+          }}
         />
       ))}
       <TermsAndCondition
@@ -237,7 +243,9 @@ const Application: React.FC = () => {
       <ConditionCard>
         <AsnDatePicker
           style={{ border: 'none', flexDirection: 'row-reverse' }}
-          onChange={(date, dateString) => setDeadlineDate(new Date(dateString).toJSON())}
+          onChange={(date, dateString) =>
+            setDeadlineDate(new Date(dateString).toJSON())
+          }
           defaultValue={moment(new Date(), 'DD.MM.YYYY')}
         />
       </ConditionCard>

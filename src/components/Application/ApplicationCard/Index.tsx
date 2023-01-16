@@ -1,10 +1,5 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Col, Popover, Row, Space } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useState, useRef } from 'react';
 import { ReactComponent as EditIcon } from '../../../assets/icons/edit.svg';
-import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
-import { ReactComponent as MenuIcon } from '../../../assets/icons/md-menu.svg';
 import {
   CardContainer,
   CardTitle,
@@ -12,32 +7,9 @@ import {
   CustomInput
 } from '../applicationStyle';
 import AddQuestionCard from '../AddQuestion/Index';
-import { AsnSwitch } from '../../Forms/Switch';
 import { IApplicationCard, IContent } from '../../../types/project';
-import { FormFinish, Onchange, StringVoidType } from '../../../types/global';
-
-const CardRow = styled(Space)`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  border: 0.5px solid var(--light-border);
-  background-color: var(--white);
-  padding: 12px 12px 12px 8px;
-
-  div:nth-child(1) {
-    width: 70%;
-  }
-`;
-
-const ChoseType = styled.span`
-  font-size: var(--font-size-small);
-  color: var(--dark-5);
-  margin-right: 1rem;
-`;
-
-const ChoseTitle = styled.span`
-  font-size: var(--base-font-size);
-`;
+import QuestionRowContainer from '../QuestionRow/Index';
+import { FormFinish } from '../../../types/global';
 
 const ApplicationCard: React.FC<IApplicationCard> = ({
   title,
@@ -49,33 +21,35 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
   setApplicationData
 }) => {
   const [cardTitle, setCardTitle] = useState(title);
-  const [openPopover, setOpenPopover] = useState<boolean>(false);
+  const [answerTypeValue, setAnswerTypeValue] = useState('OPTION');
+  const descriptionRef = useRef<any>();
 
-  const onEditedQuestion: FormFinish = (item) => {};
-
-  const onDeletedQuestion: StringVoidType = (id) => {};
-
-  const handleOpenChange: Onchange = (newOpen) => {
-    setOpenPopover(newOpen);
+  const onAddDescription: FormFinish = (event) => {
+    if (event.key === 'Enter') {
+      if (cardId === 'personal_info') {
+        applicationData.applicationFormSections[0].description = descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
+      } else if (cardId === 'educational_info') {
+        applicationData.applicationFormSections[1].description = descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
+      } else if (cardId === 'other_info') {
+        applicationData.applicationFormSections[2].description = descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
+      } else {
+        applicationData.applicationFormSections[3].description = descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
+      }
+    }
   };
 
-  const contentPopover: (i: any) => JSX.Element = (item) => (
-    <Row
-      style={{
-        fontSize: 'var(--font-size-small)',
-        color: 'var(--dark-2)',
-        cursor: 'pointer'
-      }}
-      gutter={[8, 8]}
-    >
-      <Col onClick={() => onEditedQuestion(item)} span={24}>
-        <EditIcon /> Edit
-      </Col>
-      <Col onClick={() => onDeletedQuestion(item)} span={24}>
-        <DeleteIcon /> Delete
-      </Col>
-    </Row>
-  );
+  const onSaveTitle: any = (title: string) => {
+    setCardTitle(title);
+    if (cardId === 'personal_info') {
+      applicationData.applicationFormSections[0].title = title;
+    } else if (cardId === 'educational_info') {
+      applicationData.applicationFormSections[1].title = title;
+    } else if (cardId === 'other_info') {
+      applicationData.applicationFormSections[2].title = title;
+    } else {
+      applicationData.applicationFormSections[3].title = title;
+    }
+  };
 
   return (
     <CardContainer
@@ -86,62 +60,31 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
         editable={{
           icon: <EditIcon />,
           tooltip: false,
-          onChange: setCardTitle
+          onChange: onSaveTitle
+          // onEnd: onSaveTitle
         }}
         level={5}
       >
         {cardTitle}
       </CardTitle>
-      <CustomInput placeholder="Add description" />
+      <CustomInput placeholder="Add description" ref={descriptionRef} onKeyDown={onAddDescription}/>
       {content.length > 0
         ? (
         <>
-          {content.map((item: IContent) => (
-            <CardRow
-              key={item.id !== undefined ? item.id : uuidv4()}
-              direction="horizontal"
-            >
-              <ChoseTitle>{item.title}</ChoseTitle>
-              <span
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center'
-                }}
-              >
-                <ChoseType>
-                  {item.answerType === 'SHORT_TEXT'
-                    ? 'Short text'
-                    : item.answerType === 'OPTION'
-                      ? 'Select one'
-                      : item.answerType === 'YES_NO'
-                        ? 'Yes/No'
-                        : item.answerType === 'CHECKBOX'
-                          ? 'Multiple answers'
-                          : 'DD/MM/YYYY'}
-                </ChoseType>
-                <AsnSwitch
-                  defaultChecked={item?.active}
-                  disabled={!item?.editable}
-                />
-                {item.editable
-                  ? (
-                  <Popover
-                    placement="topLeft"
-                    content={() => contentPopover(item.id)}
-                    trigger="click"
-                    overlayClassName="menuPopover"
-                    onOpenChange={handleOpenChange}
-                    open={openPopover}
-                  >
-                    <div style={{ marginLeft: '8px', cursor: 'pointer' }}>
-                      <MenuIcon />
-                    </div>
-                  </Popover>
-                    )
-                  : null}
-              </span>
-            </CardRow>
+          {content.map((item: IContent, index: number) => (
+            <QuestionRowContainer
+              key={index}
+              question={item}
+              index={index}
+              content={content}
+              applicationData={applicationData}
+              setApplicationData={setApplicationData}
+              setIsQuestionCardVisible={setIsQuestionCardVisible}
+              isQuestionCardVisible={isQuestionCardVisible}
+              cardId={cardId}
+              answerTypeValue={answerTypeValue}
+              setAnswerTypeValue={setAnswerTypeValue}
+            />
           ))}
         </>
           )
@@ -154,6 +97,8 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
           cardId={cardId}
           applicationData={applicationData}
           setApplicationData={setApplicationData}
+          answerTypeValue={answerTypeValue}
+          setAnswerTypeValue={setAnswerTypeValue}
         />
           )
         : (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Space, Typography } from 'antd';
 import { CardContainer } from '../applicationStyle';
 import styled from 'styled-components';
@@ -58,10 +58,11 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
   isQuestionCardVisible,
   cardId,
   applicationData,
-  setApplicationData
+  setApplicationData,
+  answerTypeValue,
+  setAnswerTypeValue
 }) => {
   const [form] = AsnForm.useForm();
-  const [answerTypeValue, setAnswerTypeValue] = useState<string>('Select one');
 
   const onAnswerTypeChange: FormFinish = (value) => {
     setAnswerTypeValue(value);
@@ -80,30 +81,17 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
     if (cardId === 'personal_info') {
       applicationData?.applicationFormSections[0].questions?.push({
         relatedQuestions: [],
-        answerType:
-          value.answerType === 'Select one'
-            ? 'OPTION'
-            : value.answerType === 'Short text'
-              ? 'SHORT_TEXT'
-              : value.answerType === 'Yes/No'
-                ? 'YES_NO'
-                : 'CHECKBOX',
+        answerType: value.answerType,
         title: value.question,
         answers:
           value.names !== undefined
             ? value.names.map((item: string) => {
               return {
                 title: item,
-                type: value.answerType === 'Select one'
-                  ? 'OPTION'
-                  : value.answerType === 'Short text'
-                    ? 'SHORT_TEXT'
-                    : value.answerType === 'Yes/No'
-                      ? 'YES_NO'
-                      : 'CHECKBOX'
+                type: value.answerType
               };
             })
-            : value.answerType === 'Yes/No'
+            : value.answerType === 'YES_NO'
               ? [
                   { type: 'OPTION', title: 'Yes/Այո' },
                   { type: 'OPTION', title: 'No/Ոչ' }
@@ -118,30 +106,17 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
     } else if (cardId === 'educational_info') {
       applicationData?.applicationFormSections[1].questions?.push({
         relatedQuestions: [],
-        answerType:
-          value.answerType === 'Select one'
-            ? 'OPTION'
-            : value.answerType === 'Short text'
-              ? 'SHORT_TEXT'
-              : value.answerType === 'Yes/No'
-                ? 'YES_NO'
-                : 'CHECKBOX',
+        answerType: value.answerType,
         title: value.question,
         answers:
           value.names !== undefined
             ? value.names.map((item: string) => {
               return {
                 title: item,
-                type: value.answerType === 'Select one'
-                  ? 'OPTION'
-                  : value.answerType === 'Short text'
-                    ? 'SHORT_TEXT'
-                    : value.answerType === 'Yes/No'
-                      ? 'YES_NO'
-                      : 'CHECKBOX'
+                type: value.answerType
               };
             })
-            : value.answerType === 'Yes/No'
+            : value.answerType === 'YES_NO'
               ? [
                   { type: 'OPTION', title: 'Yes/Այո' },
                   { type: 'OPTION', title: 'No/Ոչ' }
@@ -156,30 +131,17 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
     } else if (cardId === 'other_info') {
       applicationData?.applicationFormSections[2].questions?.push({
         relatedQuestions: [],
-        answerType:
-          value.answerType === 'Select one'
-            ? 'OPTION'
-            : value.answerType === 'Short text'
-              ? 'SHORT_TEXT'
-              : value.answerType === 'Yes/No'
-                ? 'YES_NO'
-                : 'CHECKBOX',
+        answerType: value.answerType,
         title: value.question,
         answers:
           value.names !== undefined
             ? value.names.map((item: string) => {
               return {
                 title: item,
-                type: value.answerType === 'Select one'
-                  ? 'OPTION'
-                  : value.answerType === 'Short text'
-                    ? 'SHORT_TEXT'
-                    : value.answerType === 'Yes/No'
-                      ? 'YES_NO'
-                      : 'CHECKBOX'
+                type: value.answerType
               };
             })
-            : value.answerType === 'Yes/No'
+            : value.answerType === 'YES_NO'
               ? [
                   { type: 'OPTION', title: 'Yes/Այո' },
                   { type: 'OPTION', title: 'No/Ոչ' }
@@ -194,30 +156,17 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
     } else {
       applicationData?.applicationFormSections[3].questions?.push({
         relatedQuestions: [],
-        answerType:
-          value.answerType === 'Select one'
-            ? 'OPTION'
-            : value.answerType === 'Short text'
-              ? 'SHORT_TEXT'
-              : value.answerType === 'Yes/No'
-                ? 'YES_NO'
-                : 'CHECKBOX',
+        answerType: value.answerType,
         title: value.question,
         answers:
           value.names !== undefined
             ? value.names.map((item: string) => {
               return {
                 title: item,
-                type: value.answerType === 'Select one'
-                  ? 'OPTION'
-                  : value.answerType === 'Short text'
-                    ? 'SHORT_TEXT'
-                    : value.answerType === 'Yes/No'
-                      ? 'YES_NO'
-                      : 'CHECKBOX'
+                type: value.answerType
               };
             })
-            : value.answerType === 'Yes/No'
+            : value.answerType === 'YES_NO'
               ? [
                   { type: 'OPTION', title: 'Yes/Այո' },
                   { type: 'OPTION', title: 'No/Ոչ' }
@@ -235,6 +184,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
     setIsQuestionCardVisible(
       isQuestionCardVisible.filter((itemId) => itemId !== cardId)
     );
+    setAnswerTypeValue('OPTION');
   };
 
   const onCancelAddQuestion: Void = () => {
@@ -242,6 +192,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
       isQuestionCardVisible.filter((itemId) => itemId !== cardId)
     );
     form.resetFields();
+    setAnswerTypeValue('OPTION');
   };
 
   return (
@@ -291,7 +242,18 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
               getPopupContainer={(trigger) => trigger.parentNode}
             >
               {answerType.map((option: string) => (
-                <Option key={option} value={option}>
+                <Option
+                  key={option}
+                  value={
+                    option === 'Select one'
+                      ? 'OPTION'
+                      : option === 'Short text'
+                        ? 'SHORT_TEXT'
+                        : option === 'Yes/No'
+                          ? 'YES_NO'
+                          : 'CHECKBOX'
+                  }
+                >
                   {option}
                 </Option>
               ))}
@@ -303,8 +265,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
               <AsnSwitch defaultChecked={true} />
             </AsnForm.Item>
           </SwitchContainer>
-          {answerTypeValue === 'Multiple answers' ||
-          answerTypeValue === 'Select one'
+          {answerTypeValue === 'CHECKBOX' || answerTypeValue === 'OPTION'
             ? (
             <SwitchContainer>
               <span>{'"Other" option'}</span>
@@ -315,8 +276,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
               )
             : null}
         </AnswerTypeSpace>
-        {answerTypeValue === 'Multiple answers' ||
-        answerTypeValue === 'Select one'
+        {answerTypeValue === 'CHECKBOX' || answerTypeValue === 'OPTION'
           ? (
           <DynamicQuestionForm />
             )

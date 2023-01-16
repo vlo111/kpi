@@ -449,6 +449,8 @@ export interface IAddQuestionCard {
   cardId: string
   applicationData: any
   setApplicationData: React.Dispatch<React.SetStateAction<any>>
+  answerTypeValue: string
+  setAnswerTypeValue: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface IApplicationCard extends IAddQuestionCard {

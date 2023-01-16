@@ -25,6 +25,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
             </ModalText>
             {question?.answerType === 'YES_NO'
               ? (
+                <>
               <Radio.Group value="Yes/Այո">
                 <Space direction="vertical">
                   {question?.answers?.map((answer: IAnswers) => (
@@ -34,6 +35,71 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
                   ))}
                 </Space>
               </Radio.Group>
+              {question.relatedQuestions?.length > 0
+                ? (
+                <>
+                  {question.relatedQuestions?.map((relatedQuestion: any) => (
+                    <Fragment key={relatedQuestion?.id}>
+                      <ModalText style={{ margin: '1rem 0 0.3rem' }}>
+                        {relatedQuestion?.title}
+                      </ModalText>
+                      {relatedQuestion.answerType === 'SHORT_TEXT'
+                        ? (
+                        <AsnInput value="" />
+                          )
+                        : relatedQuestion.answerType === 'OPTION'
+                          ? (
+                        <Radio.Group value={relatedQuestion?.answers[0]?.title}>
+                          <Space direction="vertical">
+                            {relatedQuestion?.answers?.map((answer: IAnswers) => (
+                              <Fragment
+                                key={
+                                  answer.id !== undefined ? answer.id : useId()
+                                }
+                              >
+                                {answer.title?.includes('Other')
+                                  ? (
+                                  <DividerLine>
+                                    <Radio />
+                                    <Divider orientation="left" plain>
+                                      {answer.title}
+                                    </Divider>
+                                  </DividerLine>
+                                    )
+                                  : (
+                                  <Radio value={answer.title}>
+                                    {answer.title}
+                                  </Radio>
+                                    )}
+                              </Fragment>
+                            ))}
+                          </Space>
+                        </Radio.Group>
+                            )
+                          : relatedQuestion.answerType === 'CHECKBOX'
+                            ? <Space direction="vertical">
+                          {relatedQuestion?.answers?.map((answer: IAnswers, index: number) => (
+                            <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
+                              {answer.title}
+                            </AsnCheckbox>
+                          ))}
+                        </Space>
+                            : null}
+                    </Fragment>
+                  )
+                  )}
+                </>
+                  )
+                : (
+                <Space direction="vertical">
+                  {question?.answers?.map((answer: IAnswers, index: number) => (
+                    <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
+                      {answer.title}
+                    </AsnCheckbox>
+                  ))}
+                </Space>
+                  )}
+              </>
                 )
               : question?.answerType === 'OPTION'
                 ? (
