@@ -3,7 +3,7 @@ import Dragger from 'antd/lib/upload/Dragger';
 import styled from 'styled-components';
 import { Col, Typography, UploadProps } from 'antd';
 
-import { ReactComponent as UploadDocument } from '../../../../../../assets/icons/upload-docs.svg';
+import { ReactComponent as UploadDocument } from '../../../SubActivityIcons/upload-docs.svg';
 import {
   IDraggerProps
 } from '../../../../../../types/api/activity/subActivity';

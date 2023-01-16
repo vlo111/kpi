@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Checkbox, Col, InputNumber, Row, Space } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
-import { ReactComponent as DurationSvg } from '../../../../assets/icons/duration.svg';
+import { ReactComponent as DurationSvg } from '../SubActivityIcons/duration.svg';
 import { AsnForm } from '../../../Forms/Form';
 
 const Duration: React.FC = () => {

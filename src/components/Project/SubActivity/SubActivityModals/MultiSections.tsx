@@ -9,8 +9,8 @@ import { AsnSelect } from '../../../Forms/Select';
 import AsnPicker from '../../../Picker';
 import Duration from '../DurationForm';
 import { IAttachmentSetting } from '../../../../types/project';
-import { ReactComponent as ArrowSvg } from '../../../../assets/icons/arrow.svg';
-import { ReactComponent as UploadDocument } from '../../../../assets/icons/upload-docs.svg';
+import { ReactComponent as ArrowSvg } from '../SubActivityIcons/arrow.svg';
+import { ReactComponent as UploadDocument } from '../SubActivityIcons/upload-docs.svg';
 import { IMultiSections } from '../../../../types/api/activity/subActivity';
 
 const AsnTabs = styled(Tabs)`

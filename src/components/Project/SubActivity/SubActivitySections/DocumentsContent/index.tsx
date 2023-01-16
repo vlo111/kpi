@@ -3,6 +3,7 @@ import { Col, Row, Space } from 'antd';
 
 import DraggerForm from '../SubActivityForms/Dragger';
 import FormWrapper from '../../SubActivityWrapper';
+import { ReactComponent as NotUploaded } from '../../SubActivityIcons/not-uploaded-docs.svg';
 
 const SubActivityDocuments: React.FC<any> = ({
   requIredDocs,
@@ -60,9 +61,9 @@ const SubActivityDocuments: React.FC<any> = ({
         </Space>
       )}
       {requIredDocs.length === 0 &&
-        <Space direction='vertical' style={{ width: '100%' }}>
+        <Space direction='vertical' style={{ width: '100%', marginTop: '3vh' }} align="center">
           <Col style={{ width: '100%' }}>
-
+            <NotUploaded/>
           </Col>
           <Col style={{ width: '100%' }}>
             No files attached

@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import { ReactComponent as EditIcon } from '../../../../../../assets/icons/edit.svg';
 import { ReactComponent as DeleteIcon } from '../../../../../../assets/icons/delete.svg';
 import { ReactComponent as MenuIcon } from '../../../../../../assets/icons/md-menu.svg';
-import { ReactComponent as LinkIcon } from '../../../../../../assets/icons/link.svg';
+import { ReactComponent as LinkIcon } from '../../../SubActivityIcons/link.svg';
 import { ReactComponent as PreviewIcon } from '../../../../../../assets/icons/preview.svg';
-import { ReactComponent as DuplicateIcon } from '../../../../../../assets/icons/copy.svg';
+import { ReactComponent as DuplicateIcon } from '../../../SubActivityIcons/copy.svg';
 
 const StyledItems = styled(List)`
   .ant-list-item {

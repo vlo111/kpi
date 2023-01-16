@@ -23,8 +23,8 @@ import { VALIDATE_MESSAGES, PATHS } from '../../../../helpers/constants';
 import { FormFinish } from '../../../../types/global';
 import { IUser } from '../../../../types/auth';
 import { IAttachmentSetting } from '../../../../types/project';
-import { ReactComponent as ArrowSvg } from '../../../../assets/icons/arrow.svg';
-import { ReactComponent as UploadDocument } from '../../../../assets/icons/upload-docs.svg';
+import { ReactComponent as ArrowSvg } from '../SubActivityIcons/arrow.svg';
+import { ReactComponent as UploadDocument } from '../SubActivityIcons/upload-docs.svg';
 import { ICourseSettingMap, ICreateSubActivityProps } from '../../../../types/api/activity/subActivity';
 
 const CreateSubActivityModal: React.FC<ICreateSubActivityProps> = ({ templateId, openCreateSubActivity, setOpenCreateSubActivity }) => {
