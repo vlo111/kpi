@@ -41,7 +41,7 @@ export interface UploadRequestOption<T = any> {
 }
 
 export interface IUserListTypes {
-  key: React.Key
+  id: React.Key
   name: string
   email: string
   status: string

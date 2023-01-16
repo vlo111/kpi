@@ -27,7 +27,12 @@ const CourseStatusForm: React.FC<any> = ({
   useEffect(() => {
     if (data?.files?.length !== 0) {
       const newFile = data?.files?.map((file: any, i: number) => {
-        return { uid: `${i++}`, name: file.originalName, fileName: file.name };
+        return {
+          uid: `${i++}`,
+          name: file.originalName,
+          fileName: file.name,
+          thumbUrl: file.path
+        };
       });
       setDefaultFileList(newFile);
     }

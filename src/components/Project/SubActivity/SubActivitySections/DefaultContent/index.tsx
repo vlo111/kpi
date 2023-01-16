@@ -9,7 +9,8 @@ const DefaultContent: React.FC<any> = ({
   manager,
   status,
   requIredDocs,
-  color
+  color,
+  applicants
 }) => {
   return (
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 32]}>
@@ -26,7 +27,7 @@ const DefaultContent: React.FC<any> = ({
         </Col>
       </Row>
       <Col>
-        {status === 'ACTIVE' && <SubActivityUsersFullInfo color={color} />}
+        {status === 'ACTIVE' && <SubActivityUsersFullInfo color={color} applicants={applicants}/>}
       </Col>
     </Space>
   );

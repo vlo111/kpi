@@ -12,7 +12,7 @@ const SubActivityDocuments: React.FC<any> = ({
   return (
     <FormWrapper className="documents_info" color={color}>
       <DraggerForm text="File/Documents" disabled={status === 'INACTIVE'} />
-      {requIredDocs.length > 1 && (
+      {requIredDocs.length >= 1 && (
         <Space
           direction="vertical"
           style={{
@@ -59,6 +59,16 @@ const SubActivityDocuments: React.FC<any> = ({
           ))}
         </Space>
       )}
+      {requIredDocs.length === 0 &&
+        <Space direction='vertical' style={{ width: '100%' }}>
+          <Col style={{ width: '100%' }}>
+
+          </Col>
+          <Col style={{ width: '100%' }}>
+            No files attached
+          </Col>
+        </Space>
+      }
     </FormWrapper>
   );
 };

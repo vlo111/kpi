@@ -149,6 +149,7 @@ const SubActivitySections: React.FC<any> = ({
             )}
             <DefaultContent
               manager={manager}
+              applicants={activity?.applicants}
               color={filteredColor[0]?.color}
               status={activity?.status}
               requIredDocs={activity?.section?.requiredDocuments

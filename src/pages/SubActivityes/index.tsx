@@ -41,12 +41,6 @@ const Wrapper = styled.div<{ mode: boolean }>`
 const SubActivity: React.FC<{}> = () => {
   const { id: subActivityId } = useParams<{ id: string }>();
   const [itemTitle, setItemTitle] = useState('');
-  console.log(
-    subActivityId,
-    'bee8bb4f-3b24-4246-9305-95f611f36cfe one 52088e17-723a-47d6-9640-6b7cf13d7972 f06f3725-a1ed-4e23-bb50-08fc32435410',
-    'ac52307a-5ec1-4a0b-905d-0f921ca3e6e3 multi 08802614-0903-4aa4-a803-5bac3d49e9c9 34a7562f-5260-4111-869d-45b889000284',
-    'f33d3e0b-83a3-4cd4-aec5-630a2fc905e4 fix courses other id'
-  );
   const { data, refetch } = GetSingleSubActivity(subActivityId, {});
 
   const onChange = (key: string): void => {

@@ -5,8 +5,7 @@ import { Col, Typography, UploadProps } from 'antd';
 
 import { ReactComponent as UploadDocument } from '../../../../../../assets/icons/upload-docs.svg';
 import {
-  IDraggerProps,
-  UploadRequestOption
+  IDraggerProps
 } from '../../../../../../types/api/activity/subActivity';
 import useFileUpload from '../../../../../../api/Activity/SubActivity/useUploadFile';
 import useDeleteFile from '../../../../../../api/Files/useDeleteFile';
@@ -42,29 +41,37 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   disabled
 }) => {
   const { Title } = Typography;
-  const { mutate: UploadDoc } = useFileUpload({
-    onSuccess: (options: any) => {
-      const {
-        data: { result }
-      } = options;
-      setFileList((prevState: any) => [...prevState, result[0]]);
-    }
-  });
-  const { mutate: DeleteFile } = useDeleteFile({});
+  const { mutate: UploadDoc } = useFileUpload();
+  const { mutate: DeleteFile } = useDeleteFile();
 
   const handleChange: UploadProps['onChange'] = (info) => {
     const newFileList = [...info.fileList];
     setDefaultFileList(newFileList);
   };
   const props: UploadProps = {
-    customRequest: (options: UploadRequestOption) => {
-      const { file, onSuccess } = options;
-      UploadDoc(file);
-      onSuccess('ok');
+    customRequest: (options: any) => {
+      const { file, onSuccess, onError: errorStatus } = options;
+      UploadDoc(file, {
+        onSuccess: (options: any) => {
+          const {
+            data: { result }
+          } = options;
+          setFileList((prevState: any) => [...prevState, result[0]]);
+          onSuccess('ok');
+        },
+        onError: () => errorStatus()
+      });
     },
     onRemove: (file) => {
       if (file.originFileObj === undefined) {
-        DeleteFile(file.fileName);
+        console.log(file);
+        DeleteFile(file.fileName, {
+          onSuccess: () => {
+            // setFileList((prevState: any) => [
+            //   prevState.filter((d: any) => d === file.thumbUrl)
+            // ]);
+          }
+        });
       }
       setDefaultFileList((prevState: any) => [
         ...prevState,
@@ -76,6 +83,8 @@ const DraggerForm: React.FC<IDraggerProps> = ({
     disabled,
     accept: '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx'
   };
+
+  console.log(defaultFileList, 'defaultFileListdefaultFileListdefaultFileList');
 
   return (
     <Col style={{ padding: padding ?? '0' }}>

@@ -10,15 +10,13 @@ import { IUserListTypes } from '../../../../../types/api/activity/subActivity';
 import { AsnTable } from '../../../../Forms/Table';
 import FormWrapper from '../../SubActivityWrapper';
 
-const SubActivityUsersFullInfo: React.FC<any> = ({ color }) => {
-  const notUsers = true;
-
+const SubActivityUsersFullInfo: React.FC<any> = ({ color, applicants }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const columns: ColumnsType<IUserListTypes> = [
     {
       title: 'Name Surname',
-      key: 'name',
-      dataIndex: 'name'
+      key: 'fullName',
+      dataIndex: 'fullName'
     },
     {
       title: 'Email',
@@ -34,16 +32,6 @@ const SubActivityUsersFullInfo: React.FC<any> = ({ color }) => {
       title: 'Actions'
     }
   ];
-
-  const data: IUserListTypes[] = [];
-  for (let i = 0; i < 0; i++) {
-    data.push({
-      key: i,
-      name: `Edward King ${i}`,
-      status: 'APPROVED',
-      email: `user.email${i}@mail.ru`
-    });
-  }
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]): void => {
     setSelectedRowKeys(newSelectedRowKeys);
@@ -65,7 +53,7 @@ const SubActivityUsersFullInfo: React.FC<any> = ({ color }) => {
             Upload list of applicants <CloudDownloadOutlined />
           </Col>
         </Row>
-        {notUsers
+        {applicants.length === 0
           ? (
           <>
             <Row align="middle" justify="center">
@@ -80,8 +68,8 @@ const SubActivityUsersFullInfo: React.FC<any> = ({ color }) => {
           <AsnTable
             size="middle"
             columns={columns}
-            dataSource={data}
-            rowKey="key"
+            dataSource={applicants}
+            rowKey="id"
             pagination={false}
             rowSelection={rowSelection}
           />

@@ -13,6 +13,7 @@ import { AssingnesFilter } from '../Filter/Assigned';
 import { DateFilterCards } from '../Filter/DataPicker';
 import { StatusFilter } from '../Filter/Status';
 import AddSubActivity from '../AddActivity';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
 .ant-select:not(.ant-select-customize-input) .ant-select-selector{
@@ -43,6 +44,8 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
     });
     setCheckedList([]);
   };
+
+  const navigate = useNavigate();
   return (
     <>
       <Container>
@@ -101,7 +104,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                   >
                     {item?.cardRound}
                   </div>
-                  <Row gutter={[8, 16]} style={{ padding: '15px 0' }}>
+                  <Row gutter={[8, 16]} style={{ padding: '15px 0' }} onClick={() => navigate(`/project/sub-activity/${item?.subActivityId}`)}>
                     <Col style={{ color: 'var(--dark-1)', fontSize: 'var(--headline-font-size)', display: 'flex', gap: '5px' }}>{item?.title}</Col>
                     <Col style={{ display: 'flex', gap: '5px' }}>
                       <Location /> {item?.subActivity?.region?.title}
