@@ -15,7 +15,12 @@ import DocumentDonload from '../Popover/Pdf';
 import styled from 'styled-components';
 
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
-// import { AsnModal } from '../../../components/Forms/Modal';
+// import { Viewer } from '@react-pdf-viewer/core';
+
+// Plugins
+// import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+
+// const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
 const DocumentCard = styled(Col)`
   .ant-col {
@@ -92,7 +97,7 @@ const DataResult: React.FC<IDataResult> = ({
     <>
       {fileList.length > 0 && (
         <>
-          <Row gutter={[10, 50]} style={{ width: '100%' }}>
+          <Row gutter={[10, 50]} style={{ width: '100%' }} >
             {fileList.map((doc: any) => (
             <Popover
             key={doc.uid}
@@ -101,7 +106,7 @@ const DataResult: React.FC<IDataResult> = ({
             placement="bottom"
             overlayClassName="documentPopover"
           >
-            <DocumentCard sm={14} xxl={6} xl={8} md={12}>
+            <DocumentCard sm={14} xxl={6} xl={8} md={12} >
               <Col onClick={() => {
                 setOpen(doc.uid);
                 setFileName(doc?.path);
@@ -117,6 +122,12 @@ const DataResult: React.FC<IDataResult> = ({
       )}
           <Modal open={opens} onCancel={handleCancel} okText={''} title="Pdf NAme" >
           {viewPdf && <>
+          {/* <Viewer
+            fileUrl = { viewPdf }
+            // plugins={[
+            //   defaultLayoutPluginInstance
+            // ]}
+/> */}
             <DocViewer
           pluginRenderers={DocViewerRenderers}
           documents={[{ uri: viewPdf }]}

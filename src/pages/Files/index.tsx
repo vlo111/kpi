@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable array-callback-return */
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Tree, Typography } from 'antd';
@@ -8,7 +10,6 @@ import useGetResultAreaFile from '../../api/Files/useGetResultAreFiles';
 import useGetInputActivity from '../../api/Files/useGetInputActivity';
 import useGetAllFile from '../../api/Files/useGetProjectFileAll';
 import useGetCourseFile from '../../api/Files/useGetCoursFile';
-
 import { LeftOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
@@ -23,6 +24,9 @@ export const Files: React.FC = () => {
   const allFile = useGetAllFile(id);
   const cors = useGetCourseFile(id);
 
+  const openUpload = (course: any): any => {
+  };
+
   const defaultVal: DataNode[] = data?.result?.map(
     (item: any, i: string) => {
       return {
@@ -33,23 +37,28 @@ export const Files: React.FC = () => {
             title: name?.title,
             key: `${i}-${j}`,
             children: nameCours?.data?.result?.map((course: any, f: string) => {
-              return {
-                title: course?.title,
-                key: `${i}-${j}-${f}`,
-                children: cors?.data?.result?.folders.map((file: any, k: string) => {
-                  return {
-                    title: file?.title,
-                    key: `${i}-${j}-${f}-${k}`,
-                    isLeaf: true
-                  };
-                })
-              };
+              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+              if (course?.count > 0) {
+                return {
+
+                  title: <span onClick={(e) => openUpload(course)}>{course?.title}</span>,
+                  key: `${i}-${j}-${f}`,
+                  children: cors?.data?.result?.folders.map((file: any, k: string) => {
+                    return {
+                      title: file?.title,
+                      key: `${i}-${j}-${f}-${k}`,
+                      isLeaf: true
+                    };
+                  })
+                };
+              }
             })
           };
         })
       };
     }
   );
+  // console.log(modal);
 
   return (
     <>
@@ -58,6 +67,7 @@ export const Files: React.FC = () => {
         multiple
         treeData={defaultVal}
       />
+
       <Title
         style={{
           color: 'var(--dark-2)',

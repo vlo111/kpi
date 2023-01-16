@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import client from '../client';
 
-const url = '/api/file/course/9d287886-177b-486d-b61c-2482d5373cca/files';
+const url = '/api/file/course/15859194-7f43-41fd-a2ec-bc2a1a1591d8/files';
 
 const useGetCoursSectionFile: any = (id: string, options = { enabled: true }) => {
   const result = useQuery(
