@@ -25,6 +25,7 @@ export const Files: React.FC = () => {
   const cors = useGetCourseFile(id);
 
   const openUpload = (course: any): any => {
+    console.log(course?.id);
   };
 
   const defaultVal: DataNode[] = data?.result?.map(
