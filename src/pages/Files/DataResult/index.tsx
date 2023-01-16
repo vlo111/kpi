@@ -8,7 +8,7 @@ import { ReactComponent as WordSvg } from '../UploadImg/word.svg';
 import { ReactComponent as DocumentSvg } from '../UploadImg/document.svg';
 import { ReactComponent as ImgSvg } from '../UploadImg/upload-img.svg';
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import { IDataResult } from '../../../types/folder';
+import { IDataResult } from '../../../types/files';
 
 import { Button, Col, Modal, Popover, Row } from 'antd';
 import DocumentDonload from '../Popover/Pdf';
@@ -92,15 +92,15 @@ const DataResult: React.FC<IDataResult> = ({
   const handleCancel = (e: any): any => {
     setOpens(false);
   };
-
+  console.log(fileList);
   return (
     <>
-      {fileList.length > 0 && (
+      {fileList?.length > 0 && (
         <>
           <Row gutter={[10, 50]} style={{ width: '100%' }} >
-            {fileList.map((doc: any) => (
+            {fileList?.map((doc: any) => (
             <Popover
-            key={doc.uid}
+            key={doc?.path}
             trigger="click"
             content={content(doc?.name, doc?.path)}
             placement="bottom"
