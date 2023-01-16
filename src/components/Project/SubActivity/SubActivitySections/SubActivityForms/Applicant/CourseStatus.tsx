@@ -21,6 +21,7 @@ const CourseStatusForm: React.FC<any> = ({
 }) => {
   const [fileList, setFileList] = useState<any>([]);
   const [defaultFileList, setDefaultFileList] = useState<any>([]);
+
   const { data, refetch: refetchSingleStatus } =
     getSingleSubActivitySettingInfo(courseId, id, {});
 
@@ -65,7 +66,7 @@ const CourseStatusForm: React.FC<any> = ({
       AttachFile({
         id: courseId,
         data: {
-          files: fileList,
+          files: fileList.map((file: { url: string }) => file.url),
           sectionSettingId: id,
           visible: true
         }
@@ -85,6 +86,7 @@ const CourseStatusForm: React.FC<any> = ({
         />
         <DraggerForm
           text="Attach related document"
+          fileList={fileList}
           setFileList={setFileList}
           setDefaultFileList={setDefaultFileList}
           defaultFileList={defaultFileList}

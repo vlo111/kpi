@@ -22,6 +22,7 @@ export interface IDraggerProps {
   // setFileList?: React.Dispatch<React.SetStateAction<string[] | undefined>>
   setFileList?: any
   onRemoveFile?: any
+  fileList?: any
   setDefaultFileList?: any
   disabled?: boolean
 }

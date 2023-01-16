@@ -38,7 +38,8 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   setFileList,
   defaultFileList,
   setDefaultFileList,
-  disabled
+  disabled,
+  fileList
 }) => {
   const { Title } = Typography;
   const { mutate: UploadDoc } = useFileUpload();
@@ -56,7 +57,7 @@ const DraggerForm: React.FC<IDraggerProps> = ({
           const {
             data: { result }
           } = options;
-          setFileList((prevState: any) => [...prevState, result[0]]);
+          setFileList((prevState: any) => [...prevState, { url: result[0], id: file.uid }]);
           onSuccess('ok');
         },
         onError: () => errorStatus()
@@ -64,15 +65,10 @@ const DraggerForm: React.FC<IDraggerProps> = ({
     },
     onRemove: (file) => {
       if (file.originFileObj === undefined) {
-        console.log(file);
-        DeleteFile(file.fileName, {
-          onSuccess: () => {
-            // setFileList((prevState: any) => [
-            //   prevState.filter((d: any) => d === file.thumbUrl)
-            // ]);
-          }
-        });
+        DeleteFile(file.fileName);
       }
+      const newFileList = fileList.filter((item: { id: string }) => item.id !== file.uid);
+      setFileList([...newFileList]);
       setDefaultFileList((prevState: any) => [
         ...prevState,
         defaultFileList.filter((d: any) => d.uid !== file.uid)
@@ -83,8 +79,6 @@ const DraggerForm: React.FC<IDraggerProps> = ({
     disabled,
     accept: '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx'
   };
-
-  console.log(defaultFileList, 'defaultFileListdefaultFileListdefaultFileList');
 
   return (
     <Col style={{ padding: padding ?? '0' }}>
