@@ -334,6 +334,7 @@ export interface IProjectTemplate {
   title: string
   id: string
   description: string
+  status: string
 }
 
 export interface ISubActivityAndTemplates {
@@ -417,6 +418,7 @@ export interface IDataSearchchSubActivity {
 export interface IDateFilterCards {
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
+  setOpen?: any
 }
 export type StepsHeaderText = (mode: string) => string
 

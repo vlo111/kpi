@@ -4,7 +4,6 @@ import { Col, Row, Badge, Divider, Typography } from 'antd';
 import styled from 'styled-components';
 import moment from 'moment';
 
-import AsnBreadcrumb from '../../Forms/Breadcrumb';
 import { PATHS } from '../../../helpers/constants';
 import { IInfoHeader } from '../../../types/global';
 import { ReactComponent as WarningSvg } from '../../../assets/icons/project-warning.svg';
@@ -40,33 +39,13 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
   overview,
   project,
   padding,
-  activity
+  activity,
+  region
 }) => {
-  console.log(activity?.sectionsData[0]?.title);
   const navigate = useNavigate();
-  console.log(overview === true);
-
   return (
     <Row style={{ padding }}>
       <Col span={24}>
-        {overview === false && (
-          <AsnBreadcrumb
-            routes={[
-              {
-                path: '/project/sub-activity/:id1',
-                breadcrumbName: 'Activity 1'
-              },
-              {
-                path: '/project/sub-activity/:id2',
-                breadcrumbName: 'Activity 1.3'
-              },
-              {
-                path: '',
-                breadcrumbName: activity?.sectionsData[0]?.title
-              }
-            ]}
-          />
-        )}
         <Row gutter={[16, 0]}>
             <Col
               span={4}
@@ -75,10 +54,10 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
                 fontSize: 'var(--headline-font-size)'
               }}
             >
-              {project?.title ?? activity?.sectionsData[0]?.title}
+              {project?.title ?? activity?.title}
             </Col>
           <Col span={14} offset={1} style={{ color: 'var(--dark-1)' }}>
-            { project?.description ?? activity?.sectionsData[0]?.data?.description}
+            { project?.description ?? activity?.data?.description}
             <Row align="middle" style={{ marginTop: '20px' }}>
               <Col>
                 <AntBadge color="var(--secondary-green)" text="Active" />
@@ -125,17 +104,17 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
                 : (
                 <>
                   <Col style={{ fontSize: 'var(--base-font-size)' }}>
-                    {moment(activity?.sectionsData[0]?.data?.startDate).format(
+                    {moment(activity.data?.startDate).format(
                       'DD/MM/YYYY'
                     )}{' '}
                     -{' '}
-                    {moment(activity?.sectionsData[0]?.data?.endDate).format(
+                    {moment(activity?.data?.endDate).format(
                       'DD/MM/YYYY'
                     )}
                     <AntDivider type="vertical" />
                   </Col>
                   <Col style={{ marginRight: '8px' }}>
-                    {activity?.region?.title}
+                    {region?.title}
                   </Col>
                   <Col>
                     <AntIcon

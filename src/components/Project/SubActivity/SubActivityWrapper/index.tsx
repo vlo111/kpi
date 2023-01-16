@@ -2,14 +2,14 @@ import React from 'react';
 import { Col } from 'antd';
 import styled from 'styled-components';
 
-import { IWrapperProps } from '../../../../types/subActivity';
+import { IWrapperProps } from '../../../../types/api/activity/subActivity';
 
-const Wrapper = styled(Col)`
+const Wrapper = styled(Col)<{ color: string | undefined }>`
   width: 100%;
   height: auto;
   min-height: 35vh;
   background: var(--white);
-  border-top: 3px solid var(--primary-light-orange);
+  border-top: ${(props) => `3px solid var(${(props.color != null) ? props.color : '--primary-light-orange'})`};
   box-shadow: var(--base-box-shadow);
   border-radius: 20px;
   padding: 16px;
@@ -54,10 +54,11 @@ const Wrapper = styled(Col)`
 const FormWrapper: React.FC<IWrapperProps> = ({
   children,
   className,
-  margin
+  margin,
+  color
 }) => {
   return (
-    <Wrapper style={{ margin }}>
+    <Wrapper style={{ margin }} color={color}>
       <Col style={{ width: '100%' }} className={className}>
         {children}
       </Col>

@@ -4,14 +4,11 @@ import styled from 'styled-components';
 
 import { AsnButton } from '../../../Forms/Button';
 import DefaultContent from './DefaultContent';
-import ApplicantsForm from './SubActivityForms/Applicant/Applicant';
-import SelectionForm from './SubActivityForms/Selection';
-import PreAssessmentForm from './SubActivityForms/PreAssessment';
-import ParticipantForm from './SubActivityForms/Participant';
-import PostAssessmentForm from './SubActivityForms/PostAssessment';
 import { ReactComponent as Settings } from '../../../../assets/icons/setting.svg';
+import CourseStatusForm from './SubActivityForms/Applicant/CourseStatus';
+import { colors } from '../../../../types/api/activity/subActivity';
 
-const SectionsWrapper = styled.div`
+const SectionsWrapper = styled.div<{ color: string | undefined }>`
   h4.ant-typography {
     font-size: var(--base-font-size);
     color: var(--dark-2);
@@ -28,16 +25,25 @@ const SectionsWrapper = styled.div`
     width: 32px;
     height: 32px;
     background: var(--background) !important;
-    border: 1px solid var(--primary-light-orange);
+    border: ${(props) =>
+      `1px solid var(${
+        props.color != null ? props.color : '--primary-light-orange'
+      })`};
   }
   .ant-tabs-top > .ant-tabs-nav:before {
-    border-bottom: 3px solid var(--primary-light-orange);
+    border-bottom: ${(props) =>
+      `3px solid var(${
+        props.color != null ? props.color : '--primary-light-orange'
+      })`};
     bottom: auto;
     right: 2.9%;
     left: 3%;
   }
   .ant-tabs-top > .ant-tabs-nav {
     margin: 0 0 1.6vh;
+  }
+  .ant-tabs-tab {
+    background: transparent !important;
   }
   .settings_svg {
     margin-left: 0.5vw;
@@ -63,7 +69,19 @@ const SectionsWrapper = styled.div`
   }
   .ant-tabs-tab-active {
     .ant-badge-status-dot {
-      background: var(--primary-light-orange) !important;
+      background: ${(props) =>
+        `var(${
+          props.color != null ? props.color : '--primary-light-orange'
+        }) !important`};
+    }
+  }
+  .custom_section_tabs {
+    .ant-tabs-tab {
+      padding: 12px 0 !important;
+      background: transparent !important;
+    }
+    .ant-tabs-nav-list .ant-tabs-tab-active {
+      background-color: transparent !important;
     }
   }
   .ant-space-item {
@@ -74,17 +92,24 @@ const SectionsWrapper = styled.div`
   }
 `;
 
-const SubActivitySections: React.FC<any> = ({ activity }) => {
+const SubActivitySections: React.FC<any> = ({
+  activity,
+  index,
+  manager,
+  applicationForm,
+  refetch
+}) => {
   const { Title } = Typography;
   const { TabPane } = Tabs;
-  const [activeKey, setActiveKey] = useState<any>('1');
 
-  const handleTabChange: any = (key: string) => {
+  const [activeKey, setActiveKey] = useState<any>('1');
+  const handleTabChange = (key: string): void => {
     setActiveKey(key);
   };
+  const filteredColor = colors.filter((item) => item.index === index);
 
   return (
-    <SectionsWrapper>
+    <SectionsWrapper color={filteredColor[0]?.color}>
       <Space direction="vertical" style={{ width: '100%' }}>
         <Title
           level={4}
@@ -99,71 +124,61 @@ const SubActivitySections: React.FC<any> = ({ activity }) => {
           Course Roadmap
           <Settings className="settings_svg" />
         </Title>
-        <Tabs activeKey={activeKey} onChange={handleTabChange}>
+        <Tabs
+          activeKey={activeKey}
+          onChange={handleTabChange}
+          className="custom_section_tabs"
+        >
           <TabPane forceRender key="1">
-            {activity?.sectionsData[0]?.status === 'INACTIVE' &&
-            <Row justify="center">
-              <AsnButton
-                type="primary"
-                className="primary"
-                style={{ width: '35vw' }}
-                onClick={() => {
-                  setActiveKey(
-                    activity?.sectionsData[0]?.section?.sectionSettingMap[0]
-                      ?.setting?.id
-                  );
-                }}
-              >
-                Start Course
-              </AsnButton>
-            </Row>
-            }
-            <DefaultContent manager={activity?.manager} />
+            {activity?.status === 'INACTIVE' && (
+              <Row justify="center">
+                <AsnButton
+                  type="primary"
+                  className="primary"
+                  disabled={activity?.status === 'INACTIVE' && index !== 0}
+                  style={{ width: '35vw' }}
+                  onClick={() => {
+                    setActiveKey(
+                      activity?.section?.sectionSettingMap[0]?.setting?.id
+                    );
+                  }}
+                >
+                  Start Course
+                </AsnButton>
+              </Row>
+            )}
+            <DefaultContent
+              manager={manager}
+              color={filteredColor[0]?.color}
+              status={activity?.status}
+              requIredDocs={activity?.section?.requiredDocuments
+              }
+            />
           </TabPane>
-          {activity?.sectionsData[0]?.section?.sectionSettingMap?.map(
-            (item: any) => (
-              <TabPane
-                disabled={activity?.sectionsData[0]?.status !== 'ACTIVE'}
-                key={item?.setting?.id}
-                tab={
-                  <Space direction="vertical" align="center">
-                    <Title level={4}>{item?.setting?.title}</Title>
-                    <Badge color="var(--primary-light-orange)" />
-                    <Title level={5}>{item?.setting?.title}</Title>
-                  </Space>
-                }
-              >
-                {(() => {
-                  switch (item?.setting?.title) {
-                    case 'Applicant':
-                      return <ApplicantsForm setActiveKey={setActiveKey} id={item?.setting?.id}/>;
-                    case 'Selection':
-                      return <SelectionForm />;
-                    case 'Pre-assessment of selected':
-                      return <PreAssessmentForm />;
-                    case 'Participant':
-                      return <ParticipantForm />;
-                    case 'Post-assessment':
-                      return <PostAssessmentForm />;
-                    case 'Trained':
-                      return (
-                          <DefaultContent
-                            manager={activity?.manager}
-                            status={activity?.sectionsData[0]?.status}
-                          />
-                      );
-                    default:
-                      return (
-                        <DefaultContent
-                          manager={activity?.manager}
-                          status={activity?.sectionsData[0]?.status}
-                        />
-                      );
-                  }
-                })()}
-              </TabPane>
-            )
-          )}
+          {activity?.section?.sectionSettingMap?.map((item: any) => (
+            <TabPane
+              disabled={activity?.status !== 'ACTIVE'}
+              key={item?.setting?.id}
+              tab={
+                <Space direction="vertical" align="center">
+                  <Title level={4}>{item?.setting?.title}</Title>
+                  <Badge color="var(--primary-light-orange)" />
+                  <Title level={5}>{item?.setting?.title}</Title>
+                </Space>
+              }
+            >
+              <CourseStatusForm
+                setActiveKey={setActiveKey}
+                id={item?.setting?.id}
+                courseStatus={activity?.status}
+                statusTitle={item?.setting?.title}
+                courseId={activity?.id}
+                applicationForm={applicationForm}
+                color={filteredColor[0]?.color}
+                refetch={refetch}
+              />
+            </TabPane>
+          ))}
         </Tabs>
       </Space>
     </SectionsWrapper>

@@ -35,6 +35,7 @@ const Tab = styled.div`
   }
   .ant-tabs-content-holder{
   box-shadow: none !important;
+  padding-top: 10px !important;
 }
 `;
 

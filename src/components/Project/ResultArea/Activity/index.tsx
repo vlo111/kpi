@@ -152,7 +152,7 @@ const InputActivity: React.FC<{ resultId: number }> = ({
                           addActivity(initialActivity(activities.length + 1));
                         }}
                       >
-                        +Add Activity
+                        +Add Sub-Activity
                       </AsnButton>
                     </Row>
                   </>

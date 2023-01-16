@@ -1,7 +1,6 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 import { Col, List, Popover, Row, Switch, Typography } from 'antd';
 import styled from 'styled-components';
-import { v4 as uuidv4 } from 'uuid';
 
 import { ReactComponent as EditIcon } from '../../../../../../assets/icons/edit.svg';
 import { ReactComponent as DeleteIcon } from '../../../../../../assets/icons/delete.svg';
@@ -19,40 +18,15 @@ const StyledItems = styled(List)`
     display: flex;
     align-items: center;
     margin-top: 3.6vh;
+    margin-bottom: 3.6vh;
   }
   .ant-switch-checked {
     background-color: var(--secondary-green);
   }
 `;
 
-const ApplicantList: React.FC = () => {
+const ApplicationFormItem: React.FC<{ items: Array<{ id: string, title: string }> }> = ({ items }) => {
   const { Title } = Typography;
-  const [items, setItems] = useState<Array<{ id: string, name: string }>>([
-    {
-      id: uuidv4(),
-      name: 'Application form'
-    }
-  ]);
-  console.log(items);
-
-  const handleItemDuplicate = (id: string): void => {
-    const newList = items.map((item) => {
-      if (item.id === id) {
-        return {
-          id: uuidv4(),
-          name: item.name
-        };
-      } else {
-        return item;
-      }
-    });
-    setItems(items.concat(newList));
-  };
-
-  const handleDelete = (itemId: string): void => {
-    const newList = items.filter((item) => item.id !== itemId);
-    setItems(newList);
-  };
 
   const content = (id: string): ReactElement => (
     <Row
@@ -69,10 +43,10 @@ const ApplicantList: React.FC = () => {
       <Col span={24}>
         <PreviewIcon /> Preview
       </Col>
-      <Col span={24} onClick={() => handleItemDuplicate(id)}>
+      <Col span={24}>
         <DuplicateIcon /> Duplicate
       </Col>
-      <Col span={24} onClick={() => handleDelete(id)}>
+      <Col span={24}>
         <DeleteIcon /> Delete
       </Col>
     </Row>
@@ -86,7 +60,7 @@ const ApplicantList: React.FC = () => {
           <Row align="middle" style={{ width: '100%' }}>
             <Col span={16} xl={16} xxl={14}>
               <Row justify="end" align="middle" style={{ width: '100%' }}>
-                <Title level={5}>{item.name}</Title>
+                <Title level={5}>{item.title}</Title>
               </Row>
             </Col>
             <Col span={8} xl={8} xxl={10}>
@@ -122,4 +96,4 @@ const ApplicantList: React.FC = () => {
     />
   );
 };
-export default ApplicantList;
+export default ApplicationFormItem;
