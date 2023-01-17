@@ -66,7 +66,7 @@ const CourseStatusForm: React.FC<any> = ({
       AttachFile({
         id: courseId,
         data: {
-          files: fileList.map((file: { url: string }) => file.url),
+          files: fileList.map((file: { url: string }) => ({ file: file.url, keyname: 'status' })),
           sectionSettingId: id,
           visible: true
         }
@@ -87,6 +87,7 @@ const CourseStatusForm: React.FC<any> = ({
         <DraggerForm
           text="Attach related document"
           fileList={fileList}
+          docType='APPLICANT_DOCUMENT'
           setFileList={setFileList}
           setDefaultFileList={setDefaultFileList}
           defaultFileList={defaultFileList}

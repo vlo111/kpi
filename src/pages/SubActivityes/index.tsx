@@ -16,9 +16,9 @@ const Wrapper = styled.div<{ mode: boolean }>`
     .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
       color: var(--dark-border-ultramarine) !important;
     }
-    .ant-tabs-nav-list > .ant-tabs-tab-active {
+    /* .ant-tabs-nav-list > .ant-tabs-tab-active {
       background-color: var(--white) !important;
-    }
+    } */
     .ant-tabs-tab {
       border: none !important;
       background: var(--dark-6);

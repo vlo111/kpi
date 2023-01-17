@@ -152,6 +152,8 @@ const SubActivitySections: React.FC<any> = ({
               applicants={activity?.applicants}
               color={filteredColor[0]?.color}
               status={activity?.status}
+              courseId={activity?.id}
+              files={activity?.section?.files}
               requIredDocs={activity?.section?.requiredDocuments
               }
             />

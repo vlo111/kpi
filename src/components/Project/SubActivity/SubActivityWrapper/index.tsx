@@ -35,6 +35,13 @@ const Wrapper = styled(Col)<{ color: string | undefined }>`
   .users_list,
   .documents_info {
     padding: 0 !important;
+
+    .ant-upload-list{
+      position: absolute !important;
+      top: 240px !important;
+      width: 100% !important;
+      max-height: 50px !important;
+    }
   }
   .participant_form,
   .per_assessment_form,
