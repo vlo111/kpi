@@ -80,9 +80,34 @@ export const ProjectSteps = {
   Last: 1
 };
 
+export const ApplicantInfo = {
+  PersonalTitle: 'Personal details/Անձնական տվյալներ',
+  EducationTitle: 'Education & Work/Կրթություն և աշխատանք',
+  OtherInfoTitle: 'Other information / Այլ տեղեկություն',
+  Birthdate: 'Birthdate',
+  Region: 'Region',
+  Community: 'Community',
+  Gender: 'Gender',
+  Student: 'Student',
+  EducationLevel: 'Education level',
+  PaidJob: 'Paid job',
+  WorkOrganisation: 'Work Organisation',
+  VulnerabilityType: 'Vulnerability type',
+  CourseSource: 'Course Source'
+};
+
 export const answerTypeOptions: string[] = [
   'Short Text',
   'Number',
   'Attachment',
   'Dropdown options'
 ];
+
+export const ApplicantStatus = {
+  Applicant: 'Applicant',
+  Selection: 'Selection',
+  PreAssessment: 'Pre-assessment',
+  Participant: 'Participant',
+  PostAssessment: 'Post-assessment',
+  Trained: 'Trained'
+};

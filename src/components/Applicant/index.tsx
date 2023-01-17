@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Col,
-  Divider as AntDivider,
-  Row as AntRow,
-  Typography
-} from 'antd';
+import React from 'react';
+import { Col, Divider as AntDivider, Row as AntRow, Typography } from 'antd';
 import styled from 'styled-components';
 import AsnAvatar from '../../components/Forms/Avatar';
 import ApplicantTabs from './Status';
-import { IApplicant } from '../../types/applicant';
+import { useParams } from 'react-router-dom';
+import useGetApplicant from '../../api/Applicant/useGetApplicant';
+import { ApplicantInfo } from '../../helpers/constants';
+import moment from 'moment';
 
 interface ApplicantRow {
   children: React.ReactNode
@@ -71,7 +69,10 @@ const InfoRow = styled(Row)`
   }
 `;
 
-const setValue: (key: string, value: string) => JSX.Element = (key, value) => (
+const setValue: (key: string, value: string | undefined) => JSX.Element = (
+  key,
+  value = ''
+) => (
   <AntRow>
     <Col span={10}>
       <strong>{key}:</strong>
@@ -83,29 +84,30 @@ const setValue: (key: string, value: string) => JSX.Element = (key, value) => (
 );
 
 const Applicant: React.FC = () => {
-  const [applicant, setApplicant] = useState<IApplicant>();
+  const { id } = useParams();
 
-  useEffect(() => {
-    setApplicant({
-      id: '123456',
-      fullName: 'Volodya Vardanyan',
-      phone: '+374 95888888',
-      email: 'volodya.vardanyan.93i@gmail.com',
-      dob: 'string',
-      region: 'Shirak',
-      community: 'string',
-      gender: 'male',
-      student: 'yes',
-      studyType: 'string',
-      educationLevel: 'string',
-      profession: 'string',
-      position: 'developer',
-      income: 'string',
-      workOrganization: 'analysed',
-      vulnerabilities: 'string',
-      informedAboutUs: 'course training'
-    });
-  }, []);
+  const { applicant: { applicant, courses } = {} } = useGetApplicant(id);
+
+  const getApplicantInfo = (
+    <>
+      <AntTitle level={4}>{ApplicantInfo.PersonalTitle}</AntTitle>
+      {setValue(
+        ApplicantInfo.Birthdate,
+        moment(applicant?.dob).format('DD/MM/YYYY')
+      )}
+      {setValue(ApplicantInfo.Region, applicant?.region)}
+      {setValue(ApplicantInfo.Community, applicant?.community)}
+      {setValue(ApplicantInfo.Gender, applicant?.gender)}
+      <AntTitle level={4}>{ApplicantInfo.EducationTitle}</AntTitle>
+      {setValue(ApplicantInfo.Student, applicant?.student)}
+      {setValue(ApplicantInfo.EducationLevel, applicant?.educationLevel)}
+      {setValue(ApplicantInfo.PaidJob, '-')}
+      {setValue(ApplicantInfo.WorkOrganisation, applicant?.workOrganization)}
+      <AntTitle level={4}>{ApplicantInfo.OtherInfoTitle}</AntTitle>
+      {setValue(ApplicantInfo.VulnerabilityType, applicant?.vulnerabilities)}
+      {setValue(ApplicantInfo.CourseSource, '-')}
+    </>
+  );
 
   return (
     <Row height={100} style={{ padding: '2rem 4rem' }} gutter={[0, 32]}>
@@ -116,7 +118,7 @@ const Applicant: React.FC = () => {
               <p>
                 {'Objective 1 > Activity 1.3 > Python Course > Applicants >'}
               </p>
-              <p>{` ${applicant?.fullName ?? ''}`}</p>
+              <p>{applicant?.fullName}</p>
             </Col>
           </InfoRow>
         </Col>
@@ -141,31 +143,13 @@ const Applicant: React.FC = () => {
               </InfoRow>
             </Col>
             <Divider type={'vertical'} />
-            <Col span={12}>
-              <AntTitle level={4}>Personal details/Անձնական տվյալներ</AntTitle>
-              {setValue('Birthdate', '26.05.95')}
-              {setValue('Region', 'Shirak')}
-              {setValue('Community', 'Դրախտիկ/input area')}
-              {setValue('Gender', 'Female')}
-              <AntTitle level={4}>
-                Education & Work/Կրթություն և աշխատանք
-              </AntTitle>
-              {setValue('Student', 'Nonstudent')}
-              {setValue('Education level', 'Middle school')}
-              {setValue('Paid job', 'No')}
-              {setValue('Work Organisation', '-')}
-              <AntTitle level={4}>
-                Other information / Այլ տեղեկություն
-              </AntTitle>
-              {setValue('Vulnerability type', '-')}
-              {setValue('Course Source', 'Facebook')}
-            </Col>
+            <Col span={12}>{getApplicantInfo}</Col>
           </Row>
         </ApplicantProfile>
       </Row>
       <Row>
         <Col span={24}>
-          <ApplicantTabs />
+          <ApplicantTabs applicant={applicant?.fullName ?? ''} courses={courses} />
         </Col>
       </Row>
     </Row>

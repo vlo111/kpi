@@ -1,43 +1,63 @@
 import React, { useState } from 'react';
-import { Popover } from 'antd';
+import { Col, Popover, Row as AntRow, Typography } from 'antd';
 import { ReactComponent as NotesSvg } from '../icons/Notes.svg';
 import { Void } from '../../../../../types/global';
+import { ReactComponent as CloseIcon } from '../../../../../assets/icons/closeIcon.svg';
+import styled from 'styled-components';
 
-const Note: React.FC<{ index: string }> = ({ index }) => {
+const { Title } = Typography;
+
+const Row = styled(AntRow)`
+  width: 300px;
+
+  .title {
+    font-weight: var(--font-normal);
+    color: var(--dark-border-ultramarine);
+  }
+`;
+
+const Note: React.FC<{ index: string, inactive: boolean }> = ({
+  index,
+  inactive
+}) => {
   const [showNote, setShowNote] = useState<boolean | string>(false);
 
-  const content = <div style={{ width: '300px' }}>
-    <a onClick={() => setShowNote(false)}>X</a>
-    <span>Changed the status: Applicant</span>
-    <p>
-      Also, the applicant was... Lorem ipsum dolor sit
-      amet, consectetur adipiscing elit. Nibh volutpat
-      massa volutpat scelerisque sagittis sagittis vivamus
-      a.
-    </p>
-  </div>;
+  const content = (
+    <Row>
+      <Col span={22}>
+        <Title level={4} className="title">
+          Notes
+        </Title>
+      </Col>
+      <Col>
+        <a onClick={() => setShowNote(false)}>
+          <CloseIcon />
+        </a>
+      </Col>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis delectus expedita laborum libero officia, voluptatem. A, ad adipisci asperiores atque autem eaque eum eveniet ex hic illum impedit ipsam itaque iusto laudantium magni nihil quia repellat similique sint suscipit ut velit voluptate voluptates! Aliquam consequuntur ea eligendi eveniet hic illo inventore itaque laborum saepe temporibus! Adipisci asperiores deleniti distinctio doloribus excepturi fuga harum iure, minima natus necessitatibus nesciunt nobis odit pariatur provident quia vel voluptas. Delectus illum ipsam laudantium neque nihil, quia recusandae vero. Adipisci at beatae cumque esse expedita modi non omnis sequi. Illo libero nobis quos saepe ut!
+      </p>
+    </Row>
+  );
 
   const changeOpen: Void = () => {
-    setShowNote(showNote === `${index}` ? false : `${index}`);
+    if (!inactive) {
+      setShowNote(showNote === `${index}` ? false : `${index}`);
+    }
   };
 
   return (
-    <div>
-      <Popover
-        content={content}
-        trigger="click"
-        placement={'bottomLeft'}
-        getPopupContainer={(trigger) =>
-          trigger.parentNode as HTMLElement
-        }
-        open={
-          typeof showNote === 'string' && showNote === `${index}`
-        }
-        onOpenChange={changeOpen}
-      >
-        <NotesSvg />
-      </Popover>
-    </div>
+    <Popover
+      overlayClassName="applicant-popover"
+      content={content}
+      trigger="click"
+      placement={'bottomLeft'}
+      getPopupContainer={(trigger) => trigger.parentNode as HTMLElement}
+      open={typeof showNote === 'string' && showNote === `${index}`}
+      onOpenChange={changeOpen}
+    >
+      <NotesSvg />
+    </Popover>
   );
 };
 

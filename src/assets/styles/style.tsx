@@ -202,6 +202,14 @@ const GlobalStyle = createGlobalStyle`
       background: var(--tooltip-color);
     }
   }
+  
+  .applicant-popover {
+    .ant-popover-inner {
+      background: var(--white);
+      box-shadow: 4px 4px 4px rgba(42, 85, 120, 0.2), -4px -4px 4px rgba(42, 85, 120, 0.1);
+      border-radius: 20px;
+    }
+  }
 `;
 
 export default GlobalStyle;

@@ -8,6 +8,7 @@ import {
 } from '../../project';
 import { IQueryData, Mutate, UseMutation, Void } from '../../global';
 import { Moment } from 'moment';
+import { IApplicantData } from '../../applicant';
 
 export interface IProject {
   result: ICreateProject
