@@ -78,7 +78,7 @@ export const DateFilter: React.FC<IDateFilterCards> = ({ setDateSearch, setOpen 
         </PickerSpace>
         <Space direction='horizontal' align='center' style={{ justifyContent: 'space-around', width: '100%' }}>
         <AsnButton htmlType="submit" className='primary'>Save</AsnButton>
-        <AsnButton className="default" onClick={() => setOpen(false) }>Cancel</AsnButton></Space>
+        <AsnButton className="default" onClick={() => setOpen?.(false) }>Cancel</AsnButton></Space>
       </AsnForm>
     </>
   );
