@@ -4,9 +4,8 @@ import styled from 'styled-components';
 import { Col, Typography, UploadProps } from 'antd';
 
 import { ReactComponent as UploadDocument } from '../../../SubActivityIcons/upload-docs.svg';
-import {
-  IDraggerProps
-} from '../../../../../../types/api/activity/subActivity';
+import { ReactComponent as LinkIcon } from '../../../SubActivityIcons/link.svg';
+import { IDraggerProps } from '../../../../../../types/api/activity/subActivity';
 import useFileUpload from '../../../../../../api/Activity/SubActivity/useUploadFile';
 import useDeleteFile from '../../../../../../api/Files/useDeleteFile';
 
@@ -32,6 +31,22 @@ const AsnDragger = styled(Dragger)`
   }
 `;
 
+const AsnDragger2 = styled(Dragger)`
+  background: transparent !important;
+  border: none !important;
+  text-align: start !important;
+  margin-right: 10px;
+  .ant-upload {
+    padding: 0 !important;
+  }
+  svg {
+    rect,
+    path {
+      fill: var(--dark-4) !important;
+    }
+  }
+`;
+
 const DraggerForm: React.FC<IDraggerProps> = ({
   text,
   padding,
@@ -39,7 +54,10 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   defaultFileList,
   setDefaultFileList,
   disabled,
-  fileList
+  fileList,
+  docType,
+  setReqDocs,
+  keyName
 }) => {
   const { Title } = Typography;
   const { mutate: UploadDoc } = useFileUpload();
@@ -48,26 +66,44 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   const handleChange: UploadProps['onChange'] = (info) => {
     const newFileList = [...info.fileList];
     setDefaultFileList(newFileList);
+    console.log(info.fileList);
   };
   const props: UploadProps = {
     customRequest: (options: any) => {
       const { file, onSuccess, onError: errorStatus } = options;
-      UploadDoc(file, {
-        onSuccess: (options: any) => {
-          const {
-            data: { result }
-          } = options;
-          setFileList((prevState: any) => [...prevState, { url: result[0], id: file.uid }]);
-          onSuccess('ok');
-        },
-        onError: () => errorStatus()
-      });
+      UploadDoc(
+        { file, type: docType },
+        {
+          onSuccess: (options: any) => {
+            const {
+              data: { result }
+            } = options;
+            setFileList((prevState: any) => [
+              ...prevState,
+              { url: result[0], id: file.uid }
+            ]);
+            if (docType === 'GENERAL_DOCUMENT') {
+              setFileList([{ url: result[0], id: file.uid }]);
+            }
+            if (docType === 'REQUIRED_DOCUMENT') {
+              setReqDocs((prevState: any) => [
+                ...prevState,
+                { keyname: keyName }
+              ]);
+            }
+            onSuccess('ok');
+          },
+          onError: () => errorStatus()
+        }
+      );
     },
     onRemove: (file) => {
       if (file.originFileObj === undefined) {
         DeleteFile(file.fileName);
       }
-      const newFileList = fileList.filter((item: { id: string }) => item.id !== file.uid);
+      const newFileList = fileList.filter(
+        (item: { id: string }) => item.id !== file.uid
+      );
       setFileList([...newFileList]);
       setDefaultFileList((prevState: any) => [
         ...prevState,
@@ -82,14 +118,27 @@ const DraggerForm: React.FC<IDraggerProps> = ({
 
   return (
     <Col style={{ padding: padding ?? '0' }}>
-      <AsnDragger
-        {...props}
-        fileList={defaultFileList}
-        style={{ width: '100%', height: 'inherit' }}
-      >
-        <UploadDocument />
-        <Title level={4}>{text}</Title>
-      </AsnDragger>
+      {docType !== 'REQUIRED_DOCUMENT'
+        ? (
+        <AsnDragger
+          {...props}
+          fileList={defaultFileList}
+          style={{ width: '100%', height: 'inherit' }}
+        >
+          <UploadDocument />
+          <Title level={4}>{text}</Title>
+        </AsnDragger>
+          )
+        : (
+        <AsnDragger2
+          {...props}
+          fileList={defaultFileList}
+          style={{ width: '100%', height: 'inherit' }}
+          showUploadList={false}
+        >
+          <LinkIcon />
+        </AsnDragger2>
+          )}
     </Col>
   );
 };

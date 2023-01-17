@@ -10,7 +10,9 @@ const DefaultContent: React.FC<any> = ({
   status,
   requIredDocs,
   color,
-  applicants
+  applicants,
+  courseId,
+  files
 }) => {
   return (
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 32]}>
@@ -19,7 +21,9 @@ const DefaultContent: React.FC<any> = ({
           <SubActivityDocuments
             requIredDocs={requIredDocs}
             color={color}
+            courseId={courseId}
             status={status}
+            files={files}
           />
         </Col>
         <Col span={12}>
