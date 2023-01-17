@@ -215,6 +215,11 @@ const GlobalStyle = createGlobalStyle`
     padding: 12px 10px;
   }
 }
+
+  .ant-upload-list {
+    max-height: 12vh !important;
+    overflow-y: auto !important;
+  }
 `;
 
 export default GlobalStyle;

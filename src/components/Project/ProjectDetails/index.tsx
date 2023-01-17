@@ -40,7 +40,6 @@ export const ProjectDetailComponent: React.FC<IStepsUpdate> = ({ isUpdate }) => 
     deletedRegionIds: []
   };
 
-  // @ts-expect-error
   const { projectDetails, isLoading } = useGetProjectDetails(id);
 
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<OpenDeleteResultModal>();
@@ -127,7 +126,7 @@ export const ProjectDetailComponent: React.FC<IStepsUpdate> = ({ isUpdate }) => 
     setOpenDeleteResultModal(undefined);
   };
 
-  if (isLoading === true) {
+  if (isLoading) {
     return <AsnSpin />;
   }
 
