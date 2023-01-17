@@ -2,8 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import client from '../client';
 
-const url = '/api/file/course/15859194-7f43-41fd-a2ec-bc2a1a1591d8';
-// 15859194-7f43-41fd-a2ec-bc2a1a1591d8
+const url = '/api/file/course/:id';
 
 const useGetCoursFile: any = (id: string, options = { enabled: true }) => {
   const result = useQuery(
@@ -14,10 +13,15 @@ const useGetCoursFile: any = (id: string, options = { enabled: true }) => {
       ...options
     }
   );
-  const { data, isSuccess } = result;
+  const { data, isSuccess, isLoading, isFetched, isRefetching, isInitialLoading } = result;
+  console.log(result);
   return {
     ...result,
-    data: isSuccess ? data : {}
+    data: isSuccess ? data : {},
+    isLoading,
+    isFetched,
+    isRefetching,
+    isInitialLoading
   };
 };
 

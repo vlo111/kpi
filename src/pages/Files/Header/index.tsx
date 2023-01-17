@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 import { Tabs } from 'antd';
 import styled from 'styled-components';
 
-import { IFiles } from '../../../types/files';
 import { Files } from '..';
 import { SearchImport } from '../Search';
+import useGetCoursFile from '../../../api/Files/useGetCoursFile';
 import TabPane from 'antd/lib/tabs/TabPane';
 import { FolderOpenOutlined } from '@ant-design/icons';
 import useGetAllFile from '../../../api/Files/useGetProjectFileAll';
@@ -70,15 +70,14 @@ const Tab = styled.div`
 `;
 
 export const FileHeader: React.FC = () => {
+  const [courseId, setCourseId] = useState<string | null>(null);
   const { id } = useParams();
-  const [files, setFiles] = useState<IFiles[] | []>([]);
   const {
-    data
-  } = useGetAllFile(id, {
-    enabled: Boolean(id),
-    onSuccess: ({ result }: { result: IFiles[] }) => setFiles(result)
-  });
-
+    data: { result: files }
+  } = useGetAllFile(id, { enabled: Boolean(id) });
+  const {
+    data: { result: courseFiles }, refetch
+  } = useGetCoursFile(courseId, { enabled: Boolean(courseId) });
   return (
     <Tab>
       <Tabs>
@@ -90,10 +89,14 @@ export const FileHeader: React.FC = () => {
             </>
           }
         >
-          <Files allFilesCount={data?.result?.length} setFiles={setFiles} />
+          <Files
+            allFilesCount={files?.length}
+            setCourseId={setCourseId}
+            courseFiles={courseFiles}
+          />
         </TabPane>
       </Tabs>
-      <SearchImport files={files} />
+      <SearchImport refetch={refetch} courseId={courseId} files={files} courseFiles={courseFiles} />
     </Tab>
   );
 };

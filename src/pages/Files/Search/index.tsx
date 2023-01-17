@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Upload, Button, UploadFile, UploadProps, AutoComplete } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { AutoComplete } from 'antd';
 import DataResult from '../DataResult';
 import { ISearchImport } from '../../../types/files';
 import useDeleteFile from '../../../api/Files/useDeleteFile';
 import useGetAllSearchFile from '../../../api/Files/useGetSearchAllFile';
 import { useParams } from 'react-router-dom';
+import { isEmpty } from 'lodash';
 
 const SearchImportData = styled.div`
   width: 100%;
@@ -39,7 +39,7 @@ export interface projectFilesUploadFormProps {
   handleUpdateAndNext: (updateProjectDetails: () => void) => void
   handleBack: () => void
 }
-export const SearchImport: React.FC<ISearchImport> = ({ files }) => {
+export const SearchImport: React.FC<ISearchImport> = ({ files, courseFiles, courseId, refetch }) => {
   const [value, setValue] = useState('');
 
   const onChange = (data: string): void => {
@@ -52,23 +52,8 @@ export const SearchImport: React.FC<ISearchImport> = ({ files }) => {
   });
 
   const [open, setOpen] = useState<string>('');
-  const [fileList, setFileList] = useState<UploadFile[] | []>([]);
 
   const { mutate: DeleteFile } = useDeleteFile({});
-
-  const draggerProps = (): UploadProps => {
-    return {
-      name: 'file',
-      multiple: true,
-      onChange (info: { fileList: UploadFile[] }) {
-        const fileList = [...info.fileList];
-        setFileList(fileList);
-      },
-      beforeUpload: () => false,
-      accept: '.jpg,.pdf,.xlsx,.docx,.jpeg,.png',
-      fileList
-    };
-  };
 
   const onRemoveFile = (name?: any): void => {
     DeleteFile(name);
@@ -85,21 +70,13 @@ export const SearchImport: React.FC<ISearchImport> = ({ files }) => {
         />
       </Search>
       <UploadModal>
-        <Upload
-          listType="picture"
-          style={{ borderRadius: 0, width: '50%' }}
-          multiple
-          onRemove={() => onRemoveFile()}
-          {...draggerProps()}
-          showUploadList={false}
-        >
-          <Button icon={<UploadOutlined />}>Upload</Button>
-        </Upload>
         <DataResult
-          fileList={allfileSearch?.result?.length >= 0 ? allfileSearch?.result : files }
+          fileList={allfileSearch?.result?.length >= 0 ? allfileSearch?.result : !isEmpty(courseFiles) ? courseFiles : files }
           open={open}
           setOpen={setOpen}
           onRemoveFile={onRemoveFile}
+          courseId={courseId}
+          refetch={refetch}
         />
       </UploadModal>
     </SearchImportData>

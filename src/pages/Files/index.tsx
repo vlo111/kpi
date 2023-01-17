@@ -9,29 +9,25 @@ import { IFilesProps } from '../../types/files';
 import useGetProjectFiles from '../../api/Files/useGetProjectFiles';
 import useGetResultAreaFile from '../../api/Files/useGetResultAreFiles';
 import useGetInputActivity from '../../api/Files/useGetInputActivity';
-import useGetCourseFile from '../../api/Files/useGetCoursFile';
 import { LeftOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 
 const { DirectoryTree } = Tree;
 
-export const Files: React.FC<IFilesProps> = ({ allFilesCount, setFiles }) => {
-  // const [courseId, setCourseId] = useState<string | null>(null);
+export const Files: React.FC<IFilesProps> = ({
+  allFilesCount,
+  setCourseId,
+  courseFiles
+}) => {
   const { id } = useParams();
   const { data } = useGetProjectFiles(id);
   const title = useGetResultAreaFile(id);
-  // const { data: courseFiles } = useGetCoursSectionFile(courseId, { enabled: Boolean(courseId) });
   const { data: courseNames } = useGetInputActivity(id);
-  const cors = useGetCourseFile(id);
-  console.log(cors?.data?.result?.files?.GENERAL_DOCUMENT, 'corsssssssssssssssss');
-  console.log(cors?.data?.result?.files?.REQUIRED_DOCUMENT
-    , 'corsssssssssssssssss');
 
   const openUpload = (course: any): any => {
-    // setCourseId(course?.id);
+    setCourseId(course?.id);
   };
-
   const defaultVal: DataNode[] = data?.result?.map((item: any, i: string) => {
     return {
       title: item?.title,
@@ -41,7 +37,6 @@ export const Files: React.FC<IFilesProps> = ({ allFilesCount, setFiles }) => {
           title: name?.title,
           key: `${i}-${j}`,
           children: courseNames?.result?.map((course: any, f: string) => {
-            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             if (course?.count > 0) {
               return {
                 title: (
@@ -50,15 +45,13 @@ export const Files: React.FC<IFilesProps> = ({ allFilesCount, setFiles }) => {
                   </span>
                 ),
                 key: `${i}-${j}-${f}`,
-                children: cors?.data?.result?.folders.map(
-                  (file: any, k: string) => {
-                    return {
-                      title: file?.title,
-                      key: `${i}-${j}-${f}-${k}`,
-                      isLeaf: true
-                    };
-                  }
-                )
+                children: courseFiles?.folders.map((file, k: number) => {
+                  return {
+                    title: file?.title,
+                    key: `${i}-${j}-${f}-${k}`,
+                    isLeaf: true
+                  };
+                })
               };
             }
           })
@@ -66,13 +59,11 @@ export const Files: React.FC<IFilesProps> = ({ allFilesCount, setFiles }) => {
       })
     };
   });
-  // console.log(modal);
-
   return (
     <>
       <DirectoryTree
         switcherIcon={<LeftOutlined />}
-        multiple
+        multiple={false}
         treeData={defaultVal}
       />
 
