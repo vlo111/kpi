@@ -24,7 +24,7 @@ const PersonalDetails: React.FC<any> = ({ personalDetailsData }) => {
         {personalDetailsData?.description}
       </ModalText>
       {personalDetailsData?.questions?.map((question: any) => (
-        <Fragment key={question.id}>
+        <Fragment key={question.id !== undefined ? question.id : useId()}>
           <ModalText style={{ margin: '1rem 0rem 0.3rem' }}>
             {question.title}
           </ModalText>

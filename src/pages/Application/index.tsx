@@ -66,7 +66,7 @@ const ConditionCard = styled(Space)`
 
 const Application: React.FC = () => {
   const { data } = getApplicationFormDefault(
-    '73b3cb71-68fd-4f24-9fd0-4f7819bdfe2c',
+    '4f5849e6-202c-4438-a35a-1eb0c3bb7d93',
     {}
   );
 
@@ -150,7 +150,7 @@ const Application: React.FC = () => {
         termsConditionsValueArray()
       );
       createApplicationFn({
-        id: '9d287886-177b-486d-b61c-2482d5373cca',
+        id: '4f5849e6-202c-4438-a35a-1eb0c3bb7d93',
         data: {
           ...applicationData
         }
@@ -198,12 +198,6 @@ const Application: React.FC = () => {
           setIsQuestionCardVisible={setIsQuestionCardVisible}
           applicationData={applicationData}
           setApplicationData={setApplicationData}
-          answerTypeValue={''}
-          setAnswerTypeValue={function (
-            value: React.SetStateAction<string>
-          ): void {
-            throw new Error('Function not implemented.');
-          }}
         />
       ))}
       <TermsAndCondition
@@ -261,7 +255,12 @@ const Application: React.FC = () => {
         <AsnButton className="default">Cancel</AsnButton>
         <AsnButton
           className="default"
-          onClick={() => setIsOpenCreateActivityModal(true)}
+          onClick={() => {
+            applicationData.termsAndConditions = JSON.stringify(
+              termsConditionsValueArray()
+            );
+            setIsOpenCreateActivityModal(true);
+          }}
         >
           Preview
         </AsnButton>

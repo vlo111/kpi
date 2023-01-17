@@ -417,11 +417,11 @@ export interface IContent {
   active: boolean
   answerType: string
   answers: []
-  description: string
+  description?: string
   editable: boolean
-  helpText: string
-  id: string
-  keyName: string
+  helpText?: string
+  id?: string
+  keyName?: string
   otherOption: boolean
   relatedQuestions: []
   required: boolean
@@ -451,9 +451,13 @@ export interface IAddQuestionCard {
   setApplicationData: React.Dispatch<React.SetStateAction<any>>
   answerTypeValue: string
   setAnswerTypeValue: React.Dispatch<React.SetStateAction<string>>
+  singleQuestionData: IContent | undefined | any
+  setSingleQuestionData: React.Dispatch<React.SetStateAction< IContent | undefined | any>>
+  addOrUpdateQuestion: string
+  questionRowIndex: number | undefined
 }
 
-export interface IApplicationCard extends IAddQuestionCard {
+export interface IApplicationCard {
   title: string
   content: IContent[] | []
   isQuestionCardVisible: string[]

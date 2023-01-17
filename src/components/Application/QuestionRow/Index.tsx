@@ -41,15 +41,20 @@ const QuestionRowContainer: React.FC<any> = ({
   setIsQuestionCardVisible,
   isQuestionCardVisible,
   cardId,
-  answerTypeValue,
-  setAnswerTypeValue
+  setAnswerTypeValue,
+  setSingleQuestionData,
+  setAddOrUpdateQuestion,
+  setQuestionRowIndex
 }) => {
   const [openPopover, setOpenPopover] = useState<boolean>(false);
 
   const onEditedQuestion: FormFinish = (item) => {
+    setQuestionRowIndex(item);
+    setSingleQuestionData({ ...content[item] });
     setAnswerTypeValue(question?.answerType);
     setIsQuestionCardVisible([...isQuestionCardVisible, cardId]);
     setOpenPopover(!openPopover);
+    setAddOrUpdateQuestion('edit');
   };
 
   const onDeletedQuestion: StringVoidType = (item) => {
@@ -120,7 +125,7 @@ const QuestionRowContainer: React.FC<any> = ({
             </div>
           </Popover>
             )
-          : null}
+          : <div style={{ width: '11px' }}></div>}
       </span>
     </CardRow>
   );

@@ -22,18 +22,27 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
 }) => {
   const [cardTitle, setCardTitle] = useState(title);
   const [answerTypeValue, setAnswerTypeValue] = useState('OPTION');
+  const [addOrUpdateQuestion, setAddOrUpdateQuestion] = useState<string>('add');
+  const [questionRowIndex, setQuestionRowIndex] = useState<number | undefined>();
+  const [singleQuestionData, setSingleQuestionData] = useState<
+  IContent | undefined | {}
+  >();
   const descriptionRef = useRef<any>();
 
   const onAddDescription: FormFinish = (event) => {
     if (event.key === 'Enter') {
       if (cardId === 'personal_info') {
-        applicationData.applicationFormSections[0].description = descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
+        applicationData.applicationFormSections[0].description =
+          descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
       } else if (cardId === 'educational_info') {
-        applicationData.applicationFormSections[1].description = descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
+        applicationData.applicationFormSections[1].description =
+          descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
       } else if (cardId === 'other_info') {
-        applicationData.applicationFormSections[2].description = descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
+        applicationData.applicationFormSections[2].description =
+          descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
       } else {
-        applicationData.applicationFormSections[3].description = descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
+        applicationData.applicationFormSections[3].description =
+          descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
       }
     }
   };
@@ -61,13 +70,16 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
           icon: <EditIcon />,
           tooltip: false,
           onChange: onSaveTitle
-          // onEnd: onSaveTitle
         }}
         level={5}
       >
         {cardTitle}
       </CardTitle>
-      <CustomInput placeholder="Add description" ref={descriptionRef} onKeyDown={onAddDescription}/>
+      <CustomInput
+        placeholder="Add description"
+        ref={descriptionRef}
+        onKeyDown={onAddDescription}
+      />
       {content.length > 0
         ? (
         <>
@@ -82,8 +94,10 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
               setIsQuestionCardVisible={setIsQuestionCardVisible}
               isQuestionCardVisible={isQuestionCardVisible}
               cardId={cardId}
-              answerTypeValue={answerTypeValue}
               setAnswerTypeValue={setAnswerTypeValue}
+              setSingleQuestionData={setSingleQuestionData}
+              setAddOrUpdateQuestion={setAddOrUpdateQuestion}
+              setQuestionRowIndex={setQuestionRowIndex}
             />
           ))}
         </>
@@ -99,14 +113,19 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
           setApplicationData={setApplicationData}
           answerTypeValue={answerTypeValue}
           setAnswerTypeValue={setAnswerTypeValue}
+          singleQuestionData={singleQuestionData}
+          setSingleQuestionData={setSingleQuestionData}
+          addOrUpdateQuestion={addOrUpdateQuestion}
+          questionRowIndex={questionRowIndex}
         />
           )
         : (
         <CustomButton
           className="default"
-          onClick={() =>
-            setIsQuestionCardVisible([...isQuestionCardVisible, cardId])
-          }
+          onClick={() => {
+            setIsQuestionCardVisible([...isQuestionCardVisible, cardId]);
+            setAddOrUpdateQuestion('add');
+          }}
         >
           +Add question
         </CustomButton>
