@@ -37,6 +37,7 @@ export interface IFilesProps {
   setCourseId: React.Dispatch<React.SetStateAction<string | null>>
   courseFiles: ICourseFiles
   refetchAllFiles: any
+  isFetching: boolean
 }
 
 export interface ICourseFiles {

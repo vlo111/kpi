@@ -240,7 +240,8 @@ const DataResult: React.FC<IDataResult> = ({
         </div>
           )
         : (
-            fileList?.length > 0 && (
+            fileList?.length > 0
+              ? (
           <>
             <Row gutter={[10, 50]} style={{ height: 'calc(100vh - 21vh)', overflow: 'auto', width: '100%', padding: '30px 0', background: 'white' }}>
               {fileList?.map((doc: any) => (
@@ -266,7 +267,8 @@ const DataResult: React.FC<IDataResult> = ({
               ))}
             </Row>
           </>
-            )
+                )
+              : (<div>No Files</div>)
           )}
       <Modal open={opens} onCancel={handleCancel} okText={''} title="Pdf NAme">
         {viewPdf && (
