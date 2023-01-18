@@ -427,6 +427,113 @@ export interface IStepsUpdate { isUpdate: boolean }
 
 export interface IResultsUpdate { createOrUpdate: Void, isUpdate: boolean }
 
+export interface IContent {
+  active: boolean
+  answerType: string
+  answers: []
+  description?: string
+  editable: boolean
+  helpText?: string
+  id?: string
+  keyName?: string
+  otherOption: boolean
+  relatedQuestions: []
+  required: boolean
+  title: string
+}
+
+export interface ICardsData {
+  allowedEmpty: boolean
+  description: string
+  editable: boolean
+  keyName: string
+  questions: IContent[]
+  title: string
+
+}
+
+export interface IIsAddTermsConditions {
+  id?: string
+  placeholder?: string
+}
+
+export interface IAddQuestionCard {
+  setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
+  isQuestionCardVisible: string[]
+  cardId: string
+  applicationData: any
+  setApplicationData: React.Dispatch<React.SetStateAction<any>>
+  answerTypeValue: string
+  setAnswerTypeValue: React.Dispatch<React.SetStateAction<string>>
+  singleQuestionData: IContent | undefined | any
+  setSingleQuestionData: React.Dispatch<React.SetStateAction< IContent | undefined | any>>
+  addOrUpdateQuestion: string
+  questionRowIndex: number | undefined
+}
+
+export interface IApplicationCard {
+  title: string
+  content: IContent[] | []
+  isQuestionCardVisible: string[]
+  setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
+  cardId: string
+  applicationData: any
+  setApplicationData: React.Dispatch<React.SetStateAction<any>>
+}
+
+export interface ITermsAndCondition {
+  setTermsConditionsValue: React.Dispatch<React.SetStateAction<any>>
+  termsConditionsValue: any
+  setIsAddTermsConditions: React.Dispatch<React.SetStateAction<IIsAddTermsConditions[]>>
+  isAddTermsConditions: IIsAddTermsConditions[]
+}
+
+export interface IFontWeight {
+  fontWeight?: string
+}
+
+export interface IApplicationData {
+  applicationFormSections: ICardsData[]
+  deadline: string
+  description: string
+  onlineSignature: boolean
+  successMessage: string
+  termsAndConditions: string
+  title: string
+}
+
+export interface IPreviewModal {
+  questionData: IApplicationData
+  isOpenCreateActivityModal: boolean
+  setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+  createApplicationFn: any
+  courseId: string | undefined
+}
+
+export interface ICardContainer {
+  borderTop?: string
+  marginTop?: string
+  marginBottom?: string
+}
+
+export interface IAnswers {
+  id: string
+  title: string
+  type: string
+}
+export interface IEducationWorkQuestion {
+  answerType: string
+  answers: IAnswers[]
+  description: string | null
+  editable: boolean
+  helpText: string | null
+  id: string
+  keyName: string
+  otherOption: boolean
+  relatedQuestions: any
+  required: boolean
+  title: string
+}
 export interface IAddActivity {
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
@@ -435,4 +542,9 @@ export interface IAddActivity {
 
 export interface IAttachmentSetting {
   setting: ISetting
+}
+
+export interface IFormUrlModal {
+  formUrlModal: boolean
+  setFormUrlModal: React.Dispatch<React.SetStateAction<boolean>>
 }

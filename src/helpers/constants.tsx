@@ -24,6 +24,8 @@ export const PATHS = {
   ACTIVITYTEMPLATE: 'activity-template/:id',
   COURSESECTION: 'activity-template/:id/second-step',
   FILES: 'files/:id'
+  APPLICATION: 'application/:id',
+  APPLICATIONFORM: 'apply-form/:id'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -89,4 +91,25 @@ export const answerTypeOptions: string[] = [
   'Number',
   'Attachment',
   'Dropdown options'
+];
+
+export const answerType: string[] = [
+  'Select one',
+  'Short text',
+  'Yes/No',
+  'Multiple answers'
+];
+
+export const regions: string[] = [
+  'Yerevan/Երևան',
+  'Aragatsotn/Արագածոտն',
+  'Ararat/Արարատ',
+  'Armavir/Արմավիր',
+  'Gegharkunik/Գեղարքունիք',
+  'Kotayk/Կոտայք',
+  'Lori/Լոռի',
+  'Shirak/Շիրակ',
+  'Syunik/Սյունիք',
+  'Tavush/Տավուշ',
+  'Vayots Dzor/Վայոց Ձոր'
 ];

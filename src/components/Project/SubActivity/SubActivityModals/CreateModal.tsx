@@ -61,6 +61,7 @@ const CreateSubActivityModal: React.FC<ICreateSubActivityProps> = ({ templateId,
         setActiveTab(notCompletedField[0].sectionField);
         void message.error('Please fill all Sections data', 2);
       } else {
+        console.log(values);
         const requestBody = {
           activityTemplateId: templateId,
           organizationId: values?.organization,
@@ -75,7 +76,7 @@ const CreateSubActivityModal: React.FC<ICreateSubActivityProps> = ({ templateId,
               teachingMode: values.sectionsData[i].teaching_mode,
               startDate: moment(values.sectionsData[i].startDate).format(),
               endDate: moment(values.sectionsData[i].endDate).format(),
-              files: values.sectionsData[i].files.map((file: { url: string }) => file.url)
+              files: values.sectionsData[i].files.map((file: { url: string, keyName: string }) => ({ file: file.url, keyname: file.keyName }))
             };
           })
         };
@@ -97,7 +98,7 @@ const CreateSubActivityModal: React.FC<ICreateSubActivityProps> = ({ templateId,
             teachingMode: values.teaching_mode,
             startDate: moment(values.startDate).format(),
             endDate: moment(values.endDate).format(),
-            files: values.sectionsData[i].files.map((file: { url: string }) => file.url)
+            files: values.sectionsData[i].files.map((file: { url: string, keyName: string }) => ({ file: file.url, keyname: file.keyName }))
           };
         })
       };
@@ -286,13 +287,13 @@ const CreateSubActivityModal: React.FC<ICreateSubActivityProps> = ({ templateId,
                               maxCount={1}
                               customRequest={(options: any) => {
                                 const { file, onSuccess: successStatus, onError: errorStatus } = options;
-                                UploadDoc(file, {
+                                UploadDoc({ file, type: 'OTHER_DOCUMENT' }, {
                                   onSuccess: (response: any) => {
                                     successStatus();
                                     const url = response.data.result[0];
                                     const files = form.getFieldValue(['sectionsData', 0, 'files']);
                                     const removeDoubleFiles = files.filter((file: { name: string }) => file.name !== `attachment_${j}`);
-                                    form.setFieldValue(['sectionsData', 0, 'files'], [...removeDoubleFiles, { url, id: file.uid, name: `attachment_${j}` }]);
+                                    form.setFieldValue(['sectionsData', 0, 'files'], [...removeDoubleFiles, { url, id: file.uid, name: `attachment_${j}`, keyName: item?.setting?.title }]);
                                   },
                                   onError: () => errorStatus()
                                 });

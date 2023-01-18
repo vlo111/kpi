@@ -104,13 +104,13 @@ const MultiSections: React.FC<IMultiSections> = ({ subActivity, attachments, Upl
                             maxCount={1}
                             customRequest={(options: any) => {
                               const { file, onSuccess: successStatus, onError: errorStatus } = options;
-                              UploadDoc(file, {
+                              UploadDoc({ file, type: 'OTHER_DOCUMENT' }, {
                                 onSuccess: (response: any) => {
                                   successStatus();
                                   const url = response.data.result[0];
                                   const files = form.getFieldValue(['sectionsData', i, 'files']);
                                   const removeDoubleFiles = files.filter((file: { name: string }) => file.name !== `attachment_${j}`);
-                                  form.setFieldValue(['sectionsData', i, 'files'], [...removeDoubleFiles, { url, id: file.uid, name: `attachment_${j}` }]);
+                                  form.setFieldValue(['sectionsData', i, 'files'], [...removeDoubleFiles, { url, id: file.uid, name: `attachment_${j}`, keyName: item?.setting?.title }]);
                                 },
                                 onError: () => errorStatus()
                               });

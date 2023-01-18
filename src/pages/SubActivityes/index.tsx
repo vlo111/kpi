@@ -40,35 +40,43 @@ const Wrapper = styled.div<{ mode: boolean }>`
 
 const SubActivity: React.FC<{}> = () => {
   const { id: subActivityId } = useParams<{ id: string }>();
-  const [itemTitle, setItemTitle] = useState('');
+  const [courseTitle, setCourseTitle] = useState('');
+  const [activityTitle, setActivityTitle] = useState('');
+  const [resultAreaTitle, setResultAreaTitle] = useState('');
+  const [projectId, setProjectId] = useState('');
   const { data, refetch } = GetSingleSubActivity(subActivityId, {});
 
   const onChange = (key: string): void => {
-    setItemTitle(key);
+    setCourseTitle(key);
   };
 
   useEffect(() => {
-    setItemTitle(data?.sectionsData[0]?.title);
+    setCourseTitle(data?.sectionsData[0]?.title);
+    setActivityTitle(data?.inputActivity?.title);
+    setResultAreaTitle(data?.inputActivity?.resultArea?.title);
+    setProjectId(data?.inputActivity?.resultArea?.project?.id);
   }, [data]);
 
   return (
     <Wrapper mode={data?.sectionsData?.length > 1}>
+      {Boolean(projectId) &&
       <AsnBreadcrumb
         routes={[
           {
-            path: '/project/sub-activity/:id1',
-            breadcrumbName: 'Activity 1'
+            path: `/project/overview/${projectId}`,
+            breadcrumbName: resultAreaTitle
           },
           {
-            path: '/project/sub-activity/:id2',
-            breadcrumbName: 'Activity 1.3'
+            path: `/project/overview/${projectId}`,
+            breadcrumbName: activityTitle
           },
           {
-            path: '/project/sub-activity/',
-            breadcrumbName: itemTitle
+            path: '',
+            breadcrumbName: courseTitle
           }
         ]}
       />
+      }
       {data?.sectionsData?.length > 1 && (
         <Tabs type="card" onChange={onChange} className="custom_tab_wrapper">
           {data?.sectionsData?.map(

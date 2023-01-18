@@ -22,7 +22,7 @@ const SubActivityDocuments: React.FC<any> = ({
       console.log('bbb');
     },
     onError: () => {
-      console.log('aaa');
+      console.log('');
     }
   });
 
