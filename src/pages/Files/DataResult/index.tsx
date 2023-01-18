@@ -115,7 +115,7 @@ const DataResult: React.FC<IDataResult> = ({
     <Result>
       {fileList?.folders && fileList?.files
         ? (
-        <div style={{ height: 'calc(100vh - 20vh)', overflow: 'auto', width: '100%', padding: '30px 0', background: 'white' }}>
+        <div style={{ height: 'calc(100vh - 21vh)', overflow: 'auto', width: '100%', padding: '30px 0', background: 'var(--white)' }}>
           <Upload
             listType="picture"
             style={{ borderRadius: 0, width: '50%' }}
@@ -242,7 +242,7 @@ const DataResult: React.FC<IDataResult> = ({
         : (
             fileList?.length > 0 && (
           <>
-            <Row gutter={[10, 50]} style={{ height: 'calc(100vh - 20vh)', overflow: 'auto', width: '100%', padding: '30px 0', background: 'white' }}>
+            <Row gutter={[10, 50]} style={{ height: 'calc(100vh - 21vh)', overflow: 'auto', width: '100%', padding: '30px 0', background: 'white' }}>
               {fileList?.map((doc: any) => (
                 <Popover
                   key={doc?.path}
