@@ -119,14 +119,14 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
                   <Col>
                     <AntIcon
                       component={WarningSvg}
-                      onClick={() =>
-                        navigate(
-                          `/${PATHS.COURSEINFORMATION}`.replace(
-                            ':id',
-                            activity?.id
-                          )
-                        )
-                      }
+                      // onClick={() =>
+                      //   navigate(
+                      //     `/${PATHS.COURSEINFORMATION}`.replace(
+                      //       ':id',
+                      //       activity?.id
+                      //     )
+                      //   )
+                      // }
                     />
                   </Col>
                 </>

@@ -8,6 +8,8 @@ import { ReactComponent as MenuIcon } from '../../../../../../assets/icons/md-me
 import { ReactComponent as LinkIcon } from '../../../SubActivityIcons/link.svg';
 import { ReactComponent as PreviewIcon } from '../../../../../../assets/icons/preview.svg';
 import { ReactComponent as DuplicateIcon } from '../../../SubActivityIcons/copy.svg';
+import updateApplicationStatus from '../../../../../../api/ApplicationForm/updateApplicationStatus';
+import { IApplicationFormItem } from '../../../../../../types/api/activity/subActivity';
 
 const StyledItems = styled(List)`
   .ant-list-item {
@@ -25,8 +27,19 @@ const StyledItems = styled(List)`
   }
 `;
 
-const ApplicationFormItem: React.FC<{ items: Array<{ id: string, title: string }> }> = ({ items }) => {
+const ApplicationFormItem: React.FC<IApplicationFormItem> = ({ form, refetchSingleStatus }) => {
   const { Title } = Typography;
+
+  const { mutate: updateApplicationFormStatus } = updateApplicationStatus({
+    onSuccess: () => {
+      console.log('ekav');
+      refetchSingleStatus();
+    },
+    onError: () => {
+      console.log('err');
+    }
+
+  });
 
   const content = (id: string): ReactElement => (
     <Row
@@ -52,9 +65,13 @@ const ApplicationFormItem: React.FC<{ items: Array<{ id: string, title: string }
     </Row>
   );
 
+  const onChange = (id: string): void => {
+    updateApplicationFormStatus({ id });
+  };
+
   return (
     <StyledItems
-      dataSource={items}
+      dataSource={form}
       renderItem={(item: any) => (
         <List.Item>
           <Row align="middle" style={{ width: '100%' }}>
@@ -74,7 +91,7 @@ const ApplicationFormItem: React.FC<{ items: Array<{ id: string, title: string }
                   <LinkIcon />
                 </Col>
                 <Col>
-                  <Switch defaultChecked />
+                  <Switch defaultChecked={item.active} onChange={() => { onChange(item.id); }}/>
                 </Col>
                 <Popover
                   placement="bottomRight"

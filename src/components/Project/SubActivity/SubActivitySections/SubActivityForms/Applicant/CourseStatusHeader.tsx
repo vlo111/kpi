@@ -3,13 +3,13 @@ import { Row, Typography } from 'antd';
 
 import { AsnButton } from '../../../../../Forms/Button';
 import ApplicationFormItem from './ApplicantFormItems';
+import { useNavigate } from 'react-router-dom';
+import { PATHS } from '../../../../../../helpers/constants';
+import { ICourseStatusInfo } from '../../../../../../types/api/activity/subActivity';
 
-const CourseHeaderStatus: React.FC<{
-  title: string
-  applicationForm: string[]
-  form: Array<{ id: string, title: string }>
-}> = ({ title, form, applicationForm }) => {
+const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicationForm, courseId, refetchSingleStatus }) => {
   const { Title } = Typography;
+  const navigate = useNavigate();
 
   const renderCurrentSelectionTitle = (): any => {
     switch (title) {
@@ -25,7 +25,7 @@ const CourseHeaderStatus: React.FC<{
                 {applicationForm.includes('APPLICATION') && (
                   <>
                     <Row justify="center" style={{ width: '100%' }}>
-                      <AsnButton className="primary" type="primary">
+                      <AsnButton className="primary" type="primary" onClick={() => { navigate(`/${PATHS.APPLICATION.replace(':id', courseId)}`); }}>
                         Publish Application form
                       </AsnButton>
                     </Row>
@@ -40,7 +40,7 @@ const CourseHeaderStatus: React.FC<{
               </>
                 )
               : (
-              <ApplicationFormItem items={form} />
+              <ApplicationFormItem form={form} refetchSingleStatus={refetchSingleStatus} />
                 )}
           </>
         );
@@ -77,7 +77,7 @@ const CourseHeaderStatus: React.FC<{
               </>
                 )
               : (
-              <ApplicationFormItem items={form} />
+              <ApplicationFormItem form={form} refetchSingleStatus={refetchSingleStatus} />
                 )}
           </>
         );
@@ -114,7 +114,7 @@ const CourseHeaderStatus: React.FC<{
               </>
                 )
               : (
-              <ApplicationFormItem items={form} />
+              <ApplicationFormItem form={form} refetchSingleStatus={refetchSingleStatus} />
                 )}
           </>
         );

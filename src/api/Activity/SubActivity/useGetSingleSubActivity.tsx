@@ -3,10 +3,10 @@ import client from '../../client';
 
 export const url = '/api/sub-activity';
 
-const GetSingleSubActivity: any = (id: string, options = { enabled: false }) => {
+const GetSingleSubActivity: any = (id: string, params: object = {}, options = { enabled: false }) => {
   const result = useQuery(
-    [url, id],
-    async () => await client.get(`${url}/${id}`),
+    [url, id, params],
+    async () => await client.get(`${url}/${id}`, params),
     {
       ...options,
       select: (data) => data.data
