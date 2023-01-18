@@ -64,7 +64,6 @@ const Tab = styled.div`
   }
   .ant-tree.ant-tree-directory .ant-tree-treenode .ant-tree-switcher {
     position: relative;
-    /* left: 70%; */
     color: var(--dark-2) !important;
   }
 `;
@@ -80,7 +79,7 @@ export const FileHeader: React.FC = () => {
   const {
     data: { result: courseFiles }, refetch, isFetching
   } = useGetCoursFile(courseId, { enabled: Boolean(courseId) });
-  console.log(courseId, 'courseId');
+
   return (
     <Tab>
       <Tabs>
