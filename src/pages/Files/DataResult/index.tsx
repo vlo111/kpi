@@ -130,11 +130,12 @@ const DataResult: React.FC<IDataResult> = ({
             <Button icon={<UploadOutlined />}>Upload</Button>
           </Upload>
           <Collapse defaultActiveKey={['1']} ghost>
-            <Panel
+          <Panel
               header={`Required documents (${fileList?.files?.REQUIRED_DOCUMENT.length})`}
               key="1"
             >
-              <>
+              {fileList?.files?.REQUIRED_DOCUMENT.length > 0 && (
+                <Row gutter={[10, 50]} >
                   {fileList?.files?.REQUIRED_DOCUMENT.map((file: any) => (
                     <Popover
                       key={file?.path}
@@ -156,15 +157,15 @@ const DataResult: React.FC<IDataResult> = ({
                       </DocumentCard>
                     </Popover>
                   ))}
-
-              </>
+                </Row>
+              )}
             </Panel>
             <Panel
               header={`General documents (${fileList?.files?.GENERAL_DOCUMENT.length})`}
               key="2"
             >
               {fileList?.files?.GENERAL_DOCUMENT.length > 0 && (
-                <Row gutter={[10, 50]} style={{ width: '100%' }}>
+                <Row gutter={[10, 50]} >
                   {fileList?.files?.GENERAL_DOCUMENT.map((file: any) => (
                     <Popover
                       key={file?.path}
