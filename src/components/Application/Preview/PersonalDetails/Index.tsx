@@ -1,5 +1,6 @@
-import React, { Fragment, useId } from 'react';
+import React, { Fragment } from 'react';
 import { Radio, Space } from 'antd';
+import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 import { CardTitle, ModalText, DetailsContainer } from '../../applicationStyle';
 import { AsnInput } from '../../../Forms/Input';
@@ -24,7 +25,7 @@ const PersonalDetails: React.FC<any> = ({ personalDetailsData }) => {
         {personalDetailsData?.description}
       </ModalText>
       {personalDetailsData?.questions?.map((question: any) => (
-        <Fragment key={question.id !== undefined ? question.id : useId()}>
+        <Fragment key={question.id !== undefined ? question.id : uuidv4()}>
           <ModalText style={{ margin: '1rem 0rem 0.3rem' }}>
             {question.title}
           </ModalText>
@@ -46,7 +47,7 @@ const PersonalDetails: React.FC<any> = ({ personalDetailsData }) => {
             <Radio.Group value="Female/Իգական">
               <Space direction="vertical">
                 {question?.answers?.map((answer: IAnswers) => (
-                  <Radio key={answer.id !== undefined ? answer.id : useId() } value={answer.title}>
+                  <Radio key={answer.id !== undefined ? answer.id : uuidv4() } value={answer.title}>
                     {answer.title}
                   </Radio>
                 ))}
@@ -58,7 +59,7 @@ const PersonalDetails: React.FC<any> = ({ personalDetailsData }) => {
             <Radio.Group value="Yes/Այո">
               <Space direction="vertical">
                 {question?.answers?.map((answer: IAnswers) => (
-                  <Radio key={answer.id !== undefined ? answer.id : useId() } value={answer.title}>
+                  <Radio key={answer.id !== undefined ? answer.id : uuidv4() } value={answer.title}>
                     {answer.title}
                   </Radio>
                 ))}

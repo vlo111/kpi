@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { InputRef, Space, Typography } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
-
+// import { useNavigate, useParams } from 'react-router-dom';
 import ApplicationCard from '../../components/Application/ApplicationCard/Index';
 import { ReactComponent as SuccessIcon } from '../../assets/icons/success.svg';
 import {
@@ -65,8 +65,9 @@ const ConditionCard = styled(Space)`
 `;
 
 const Application: React.FC = () => {
+  // const { id: courseId } = useParams<{ id: string | undefined }>();
   const { data } = getApplicationFormDefault(
-    '4f5849e6-202c-4438-a35a-1eb0c3bb7d93',
+    '2248c6df-3770-4ca2-8407-31f2138612c8',
     {}
   );
 
@@ -150,7 +151,7 @@ const Application: React.FC = () => {
         termsConditionsValueArray()
       );
       createApplicationFn({
-        id: '4f5849e6-202c-4438-a35a-1eb0c3bb7d93',
+        id: '2248c6df-3770-4ca2-8407-31f2138612c8',
         data: {
           ...applicationData
         }
@@ -269,7 +270,8 @@ const Application: React.FC = () => {
         </AsnButton>
       </Space>
       <PreviewModal
-        questionData={data}
+        questionData={applicationData}
+        createApplicationFn={createApplicationFn}
         isOpenCreateActivityModal={isOpenCreateActivityModal}
         setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
       />

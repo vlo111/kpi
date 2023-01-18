@@ -1,5 +1,6 @@
-import React, { Fragment, useId } from 'react';
+import React, { Fragment } from 'react';
 import { Divider, Radio, Space } from 'antd';
+import { v4 as uuidv4 } from 'uuid';
 import {
   CardTitle,
   DetailsContainer,
@@ -19,7 +20,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
       </ModalText>
       {otherInformationData?.questions?.map(
         (question: IEducationWorkQuestion) => (
-          <Fragment key={question?.id !== undefined ? question.id : useId()}>
+          <Fragment key={question?.id !== undefined ? question.id : uuidv4()}>
             <ModalText style={{ margin: '1rem 0 0.3rem' }}>
               {question?.title}
             </ModalText>
@@ -29,7 +30,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
               <Radio.Group value="Yes/Այո">
                 <Space direction="vertical">
                   {question?.answers?.map((answer: IAnswers) => (
-                    <Radio key={answer.id !== undefined ? answer.id : useId() } value={answer.title}>
+                    <Radio key={answer.id !== undefined ? answer.id : uuidv4() } value={answer.title}>
                       {answer.title}
                     </Radio>
                   ))}
@@ -54,7 +55,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
                             {relatedQuestion?.answers?.map((answer: IAnswers) => (
                               <Fragment
                                 key={
-                                  answer.id !== undefined ? answer.id : useId()
+                                  answer.id !== undefined ? answer.id : uuidv4()
                                 }
                               >
                                 {answer.title?.includes('Other')
@@ -91,13 +92,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
                 </>
                   )
                 : (
-                <Space direction="vertical">
-                  {question?.answers?.map((answer: IAnswers, index: number) => (
-                    <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
-                      {answer.title}
-                    </AsnCheckbox>
-                  ))}
-                </Space>
+                    null
                   )}
               </>
                 )
@@ -106,7 +101,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
               <Radio.Group value={question?.answers[0]?.title}>
                 <Space direction="vertical">
                   {question?.answers?.map((answer: IAnswers) => (
-                    <Fragment key={answer.id !== undefined ? answer.id : useId() }>
+                    <Fragment key={answer.id !== undefined ? answer.id : uuidv4() }>
                       {answer.title?.includes('Other')
                         ? (
                         <DividerLine>
@@ -131,7 +126,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
                   : (
               <Space direction="vertical">
                 {question?.answers?.map((answer: IAnswers, index: number) => (
-                  <Fragment key={answer.id !== undefined ? answer.id : useId() }>
+                  <Fragment key={answer.id !== undefined ? answer.id : uuidv4() }>
                     {answer.title?.includes('Other')
                       ? (
                       <DividerLine>
@@ -142,7 +137,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
                       </DividerLine>
                         )
                       : (
-                      <AsnCheckbox defaultChecked={index === 0} key={answer.id !== undefined ? answer.id : useId() }>
+                      <AsnCheckbox defaultChecked={index === 0} key={answer.id !== undefined ? answer.id : uuidv4() }>
                         {answer.title}
                       </AsnCheckbox>
                         )}

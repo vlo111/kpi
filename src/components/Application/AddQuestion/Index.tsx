@@ -107,7 +107,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
           answerType: answerTypeValue,
           title: value.question,
           answers:
-            value.names !== undefined
+            value.names !== undefined && value.answerTypeName !== 'YES_NO'
               ? value.names.map((item: string) => {
                 return {
                   title: item,
@@ -132,7 +132,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
           answerType: answerTypeValue,
           title: value.question,
           answers:
-            value.names !== undefined
+            value.names !== undefined && value.answerTypeName !== 'YES_NO'
               ? value.names.map((item: string) => {
                 return {
                   title: item,
@@ -157,7 +157,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
           answerType: answerTypeValue,
           title: value.question,
           answers:
-            value.names !== undefined
+            value.names !== undefined && value.answerTypeName !== 'YES_NO'
               ? value.names.map((item: string) => {
                 return {
                   title: item,
@@ -182,7 +182,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
           answerType: answerTypeValue,
           title: value.question,
           answers:
-            value.names !== undefined
+            value.names !== undefined && value.answerTypeName !== 'YES_NO'
               ? value.names.map((item: string) => {
                 return {
                   title: item,
@@ -212,7 +212,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
             answerType: answerTypeValue,
             title: value.question,
             answers:
-              value.names !== undefined
+              value.names !== undefined && value.answerTypeName !== 'YES_NO'
                 ? value.names.map((item: string) => {
                   return {
                     title: item,
@@ -241,7 +241,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
             answerType: answerTypeValue,
             title: value.question,
             answers:
-              value.names !== undefined
+              value.names !== undefined && value.answerTypeName !== 'YES_NO'
                 ? value.names.map((item: string) => {
                   return {
                     title: item,
@@ -270,7 +270,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
             answerType: answerTypeValue,
             title: value.question,
             answers:
-              value.names !== undefined
+              value.names !== undefined && value.answerTypeName !== 'YES_NO'
                 ? value.names.map((item: string) => {
                   return {
                     title: item,
@@ -299,7 +299,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
             answerType: answerTypeValue,
             title: value.question,
             answers:
-              value.names !== undefined
+              value.names !== undefined && value.answerTypeName !== 'YES_NO'
                 ? value.names.map((item: string) => {
                   return {
                     title: item,

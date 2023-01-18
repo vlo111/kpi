@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Col, Popover, Row, Space } from 'antd';
-// import { v4 as uuidv4 } from 'uuid';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
 import { ReactComponent as MenuIcon } from '../../../assets/icons/md-menu.svg';
 import { ReactComponent as EditIcon } from '../../../assets/icons/edit.svg';
@@ -67,6 +66,10 @@ const QuestionRowContainer: React.FC<any> = ({
     setOpenPopover(newOpen);
   };
 
+  const handleIsRequiredQuestion: any = (check: any) => {
+    content[index].required = check;
+  };
+
   const contentPopover: (i: any) => JSX.Element = (item) => (
     <Row
       style={{
@@ -108,7 +111,8 @@ const QuestionRowContainer: React.FC<any> = ({
         </ChoseType>
         <AsnSwitch
           defaultChecked={question?.active}
-          disabled={question?.required === true}
+          disabled={question?.editable === false}
+          onChange={handleIsRequiredQuestion}
         />
         {question?.editable === true
           ? (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Divider, Space, Typography } from 'antd';
 import styled from 'styled-components';
+// import { useParams } from 'react-router-dom';
 import { Void } from '../../../types/global';
 import { IFontWeight, IPreviewModal } from '../../../types/project';
 import { AsnButton } from '../../Forms/Button';
@@ -10,6 +11,7 @@ import EducationWork from './EducationWork';
 import OtherInformation from './OtherInformation';
 import PersonalDetails from './PersonalDetails/Index';
 import TermsCondition from './TermsCondition';
+import ProfessionalSkills from './ProfessionalSkills/Index';
 
 const PreviewModalContent = styled(AsnModal)`
   .ant-modal-content {
@@ -55,12 +57,22 @@ const Signature = styled.span`
 const PreviewModal: React.FC<IPreviewModal> = ({
   questionData,
   isOpenCreateActivityModal,
-  setIsOpenCreateActivityModal
+  setIsOpenCreateActivityModal,
+  createApplicationFn
 }) => {
+  // const { id: courseId } = useParams<{ id: string | undefined }>();
   const handleCancel: Void = () => {
     setIsOpenCreateActivityModal(false);
   };
 
+  const onPublishClick: Void = () => {
+    createApplicationFn({
+      id: '2248c6df-3770-4ca2-8407-31f2138612c8',
+      data: {
+        ...questionData
+      }
+    });
+  };
   return (
     <PreviewModalContent
       footer={false}
@@ -72,10 +84,46 @@ const PreviewModal: React.FC<IPreviewModal> = ({
         <ModalTitle fontWeight={'500'}>Preview of Application form</ModalTitle>
         <ModalTitle>{questionData?.title}</ModalTitle>
         <ModalText>{questionData?.description}</ModalText>
-        <PersonalDetails personalDetailsData={questionData?.applicationFormSections !== undefined ? questionData?.applicationFormSections[0] : {}}/>
-        <EducationWork educationWorkData={questionData?.applicationFormSections !== undefined ? questionData?.applicationFormSections[1] : {}}/>
-        <OtherInformation otherInformationData={questionData?.applicationFormSections !== undefined ? questionData?.applicationFormSections[2] : {}}/>
-        <TermsCondition termsConditionData={questionData?.termsAndConditions !== undefined ? questionData?.termsAndConditions : '[]'}/>
+        <PersonalDetails
+          personalDetailsData={
+            questionData?.applicationFormSections !== undefined
+              ? questionData?.applicationFormSections[0]
+              : {}
+          }
+        />
+        <EducationWork
+          educationWorkData={
+            questionData?.applicationFormSections !== undefined
+              ? questionData?.applicationFormSections[1]
+              : {}
+          }
+        />
+        <OtherInformation
+          otherInformationData={
+            questionData?.applicationFormSections !== undefined
+              ? questionData?.applicationFormSections[2]
+              : {}
+          }
+        />
+        {questionData?.applicationFormSections !== undefined &&
+        questionData?.applicationFormSections[3]?.questions?.length > 0
+          ? (
+          <ProfessionalSkills
+            professionalSkills={
+              questionData?.applicationFormSections !== undefined
+                ? questionData?.applicationFormSections[3]
+                : {}
+            }
+          />
+            )
+          : null}
+        <TermsCondition
+          termsConditionData={
+            questionData?.termsAndConditions !== undefined
+              ? questionData?.termsAndConditions
+              : '[]'
+          }
+        />
         <Signature>
           <Divider orientation="left" plain>
             Online signature / Առցանց ստորագրություն
@@ -90,10 +138,15 @@ const PreviewModal: React.FC<IPreviewModal> = ({
           }}
           size={60}
         >
-          <AsnButton className='default' onClick={() => setIsOpenCreateActivityModal(false)}>
+          <AsnButton
+            className="default"
+            onClick={() => setIsOpenCreateActivityModal(false)}
+          >
             Back
           </AsnButton>
-          <AsnButton className="primary">Publish</AsnButton>
+          <AsnButton className="primary" onClick={onPublishClick}>
+            Publish
+          </AsnButton>
         </Space>
       </PreviewContainer>
     </PreviewModalContent>

@@ -492,6 +492,7 @@ export interface IPreviewModal {
   questionData: IApplicationData
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+  createApplicationFn: any
 }
 
 export interface ICardContainer {
