@@ -82,5 +82,5 @@ export const validateResultArea: SetResultArea = (values) => {
     });
   }
 
-  errorsIndex.map((i) => resultAreaElement(i));
+  errorsIndex.map((i: any) => resultAreaElement(i));
 };

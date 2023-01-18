@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Form, Space, Spin, Typography } from 'antd';
+import { Form, message, Space, Spin, Typography } from 'antd';
 import PersonalDetails from '../../components/FillApplicationForm/PersonalDetails';
 import { FormText } from '../../components/FillApplicationForm/style';
 import { FormFinish } from '../../types/global';
@@ -13,6 +13,8 @@ import { AsnForm } from '../../components/Forms/Form';
 import EducationsWork from '../../components/FillApplicationForm/EducationsWork';
 import OtherInformation from '../../components/FillApplicationForm/OtherInformation';
 import TermsConditions from '../../components/FillApplicationForm/TermsConditions';
+import { IApplicationsOption } from '../../types/api/application/applicationForm';
+import useCreateApplicant from '../../api/Applicant/useApplyApplicant';
 
 const FillApplicationFormContainer = styled.div`
   padding: 3rem 3.75rem 3.75rem;
@@ -38,7 +40,8 @@ const getDefaultAnswer: (key: any, item: any) => any = (key, item) => {
   if (item !== undefined) {
     if (key === 'gender' || key === 'student' ||
       key === 'educationLevel' || key === 'income' ||
-      key === 'studyType' || key === 'disability' || key === 'informedAboutUs'
+      key === 'studyType' || key === 'disability' ||
+      key === 'informedAboutUs' || key === 'vulnerabilities'
     ) {
       return {
         id: item[0].id,
@@ -58,7 +61,6 @@ const initForm: (personalInfo: any, educationQuestion: any, otherInfo: any) => a
       };
     })
   };
-  console.log('personalInfoQuestions', personalInfoQuestions);
 
   const educationQuestion = {
     [education.keyName]: education.questions.map((p: { id: any, answers: any, keyName: string }) => {
@@ -80,13 +82,11 @@ const initForm: (personalInfo: any, educationQuestion: any, otherInfo: any) => a
     })
   };
 
-  console.log('aaaaaaaaaaaaaaaaaaaaaaaaa', otherInfoQuestion);
-
   return {
     termsAndConditions: '',
     income: education.questions.find((e: any) => e.keyName === 'income').title,
     disability: otherInfo.questions.find((e: any) => e.keyName === 'disability').title,
-    vulnerabilities: otherInfo.questions.find((e: any) => e.keyName === 'vulnerabilities').title,
+    vulnerabilities: otherInfo.questions.find((e: any) => e.keyName === 'vulnerabilities')?.title ?? '',
     informedAboutUs: otherInfo.questions.find((e: any) => e.keyName === 'informedAboutUs').title,
     ...personalInfoQuestions,
     ...educationQuestion,
@@ -97,7 +97,7 @@ const initForm: (personalInfo: any, educationQuestion: any, otherInfo: any) => a
 const getAnswers: (item: any, key: string) => any = (item, key) => (
   item.questions.find(
     (q: { keyName: string }) => q.keyName === key
-  ).answers.map((a: any) => ({
+  )?.answers.map((a: any) => ({
     id: a.id,
     text: a.title
   }))
@@ -105,6 +105,16 @@ const getAnswers: (item: any, key: string) => any = (item, key) => (
 
 const FillApplicationForm: React.FC = () => {
   const [form] = Form.useForm();
+
+  const { mutate: createApplicat } = useCreateApplicant({
+    onSuccess: (options: IApplicationsOption) => {
+      form.resetFields();
+      void message.success('successfully applied', 2);
+    },
+    onError: (err: any) => {
+      console.log(err);
+    }
+  });
 
   const navigate = useNavigate();
 
@@ -132,14 +142,30 @@ const FillApplicationForm: React.FC = () => {
 
   const onFinish: FormFinish = (values) => {
     // eslint-disable-next-line no-debugger
-    console.table('form ------', form.getFieldValue([]));
     debugger;
+
+    const personalInfo = form.getFieldValue('personal_info');
+    const educationalInfo = form.getFieldValue('educational_info');
+    const otherInfo = form.getFieldValue('other_info');
+
+    personalInfo.forEach((p: any) => {
+      if (p.keyName === 'dob') {
+        p.answers[0].text = p.answers[0].text.toJSON();
+      }
+    });
+
+    const data = personalInfo.concat(educationalInfo, otherInfo);
+
+    createApplicat({
+      id,
+      data
+    });
   };
 
   const onFinishFail: FormFinish = (values) => {
     // eslint-disable-next-line no-debugger
-    console.table('form ------', form.getFieldValue([]));
     debugger;
+    console.table('form ------', form.getFieldValue([]));
   };
 
   useEffect(() => {
@@ -152,8 +178,6 @@ const FillApplicationForm: React.FC = () => {
       initStates(personalInfo, education, otherInfo);
 
       const initial = initForm(personalInfo, education, otherInfo);
-
-      console.log(initial);
 
       form.setFieldsValue({
         ...initial
