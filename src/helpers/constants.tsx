@@ -23,7 +23,7 @@ export const PATHS = {
   COURSEINFORMATION: 'course-information/:id',
   ACTIVITYTEMPLATE: 'activity-template/:id',
   COURSESECTION: 'activity-template/:id/second-step',
-  FILES: 'files/:id'
+  FILES: 'files/:id',
   APPLICATION: 'application/:id',
   APPLICATIONFORM: 'apply-form/:id'
 };
