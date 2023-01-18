@@ -8,7 +8,7 @@ const { Text } = Typography;
 
 const AntRow = styled(Row)`
   padding: 8px 16px;
-  width: 16vw;
+  width: 16vw !important;
 `;
 
 const ResultAreasTitles: React.FC<IResultAreasTitles> = ({ title, projectItems, index, active, setActive }) => {
@@ -39,7 +39,7 @@ const ResultAreasTitles: React.FC<IResultAreasTitles> = ({ title, projectItems, 
                 style={projectItems > 3 ? { width: '70px' } : {}}
             >
                 <AntBadge count={+index + 1} />
-                {projectItems <= 3 && (
+                {projectItems <= 4 && (
                     <Text
                         ellipsis={true}
                         style={

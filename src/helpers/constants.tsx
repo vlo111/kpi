@@ -12,6 +12,7 @@ export const PATHS = {
   PROJECT: 'project',
   PROJECTCREATE: 'create',
   OVERVIEW: 'overview/:id',
+  SUBACTIVITY: 'sub-activity/:id',
   PROJECTEDIT: ':id',
   PROJECTS: 'list',
   STEPS: ':id/steps/:index',
@@ -19,9 +20,10 @@ export const PATHS = {
   USERPROFILE: 'user-profile',
   CHANGEPASSWORD: 'change-password',
   PROJECTINFORMATION: 'project-information/:id',
+  COURSEINFORMATION: 'course-information/:id',
   ACTIVITYTEMPLATE: 'activity-template/:id',
   COURSESECTION: 'activity-template/:id/second-step',
-  APPLICATION: 'application',
+  APPLICATION: 'application/:id',
   APPLICATIONFORM: 'apply-form/:id'
 };
 

@@ -1,0 +1,69 @@
+import React from 'react';
+import { Typography } from 'antd';
+import styled from 'styled-components';
+import { Void } from '../../../types/global';
+import { IFontWeight, IFormUrlModal } from '../../../types/project';
+import { AsnButton } from '../../Forms/Button';
+import { AsnModal } from '../../Forms/Modal';
+import { ReactComponent as SuccessCreatedIcon } from '../../../assets/icons/success-created.svg.svg';
+import { PATHS } from '../../../helpers/constants';
+import { useNavigate } from 'react-router-dom';
+
+const PreviewModalContent = styled(AsnModal)`
+  .ant-modal-content {
+    padding: 3rem 0rem 1rem;
+  }
+`;
+const PreviewContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  overflow: auto;
+  padding: 0rem 6rem;
+`;
+
+const ModalTitle = styled(Typography.Title)<IFontWeight>`
+  font-size: 24px !important;
+  font-weight: ${(props) => props.fontWeight ?? 400} !important;
+  color: var(--dark-border-ultramarine) !important;
+  margin-top: 0px !important;
+`;
+const UrlContainer = styled(Typography.Title)`
+  margin: 2rem 0rem !important;
+  background-color: var(--primary-light-1);
+  padding: 1.5rem 1rem;
+  font-size: var(--base-font-siz) !important;
+  color: var(--dark-border-ultramarine) !important;
+`;
+
+const FormUrlModal: React.FC<IFormUrlModal> = ({ formUrlModal, setFormUrlModal }) => {
+  const navigate = useNavigate();
+  const handleCancel: Void = () => {
+    setFormUrlModal(false);
+  };
+
+  const onPublishClick: Void = () => {
+    navigate(`/${PATHS.APPLICATIONFORM.replace(':id', 'data.result.id')}`);
+    setFormUrlModal(false);
+  };
+  return (
+    <PreviewModalContent
+      footer={false}
+      open={formUrlModal}
+      onCancel={handleCancel}
+    >
+      <PreviewContainer>
+        <ModalTitle>Form saved</ModalTitle>
+        <SuccessCreatedIcon />
+        <UrlContainer copyable={{ text: `${process.env.REACT_APP_BASE_URL_HOST ?? ''}/${PATHS.APPLICATIONFORM.replace(':id', '')}` }}>
+        {`${process.env.REACT_APP_BASE_URL_HOST ?? ''}/${PATHS.APPLICATIONFORM.replace(':id', 'data.result.id')}`}
+        </UrlContainer>
+        <AsnButton className="primary" onClick={onPublishClick}>
+          Ok
+        </AsnButton>
+      </PreviewContainer>
+    </PreviewModalContent>
+  );
+};
+
+export default FormUrlModal;

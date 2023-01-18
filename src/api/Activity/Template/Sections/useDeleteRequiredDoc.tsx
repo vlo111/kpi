@@ -8,7 +8,6 @@ const url = 'api/activity/template/section/required-docs';
 const useDeleteRequiredDocs: DeleteRequiredDoc = (options = {}) =>
   useMutation(
     async (params: IOnlyId) => {
-      console.log(params, 'deleted idd');
       await client.delete(`${url}/${params.id}`);
     },
     options

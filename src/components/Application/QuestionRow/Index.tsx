@@ -66,10 +66,9 @@ const QuestionRowContainer: React.FC<any> = ({
     setOpenPopover(newOpen);
   };
 
-  const handleIsRequiredQuestion: any = (check: any) => {
+  const handleIsRequiredQuestion: FormFinish = (check) => {
     content[index].required = check;
   };
-
   const contentPopover: (i: any) => JSX.Element = (item) => (
     <Row
       style={{
