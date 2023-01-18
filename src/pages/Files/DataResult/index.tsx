@@ -6,10 +6,12 @@ import { ReactComponent as PdfSvg } from '../UploadImg/pdf.svg';
 import { ReactComponent as ExcelSvg } from '../UploadImg/excel.svg';
 import { ReactComponent as WordSvg } from '../UploadImg/word.svg';
 import { ReactComponent as DocumentSvg } from '../UploadImg/document.svg';
+import { ReactComponent as Folder } from '../UploadImg/folder.svg';
+
 import { ReactComponent as ImgSvg } from '../UploadImg/upload-img.svg';
 import { DeleteOutlined, EyeOutlined, UploadOutlined } from '@ant-design/icons';
 import { IDataResult } from '../../../types/files';
-import { Collapse, Button, Col, Modal, Popover, Row, Upload, message } from 'antd';
+import { Collapse, Button, Col, Modal, Popover, Row, Upload, message, Divider } from 'antd';
 import useFileUpload from '../../../api/Activity/Template/SubActivity/useUploadFile';
 import useAttacheFilesSubActivitySection from '../../../api/Activity/Template/SubActivity/useAttachFileCourseSetting';
 
@@ -25,6 +27,17 @@ const DocumentCard = styled(Col)`
     align-items: center;
     overflow-wrap: anywhere;
   }
+`;
+const Result = styled.div`
+ .ant-collapse>.ant-collapse-item>.ant-collapse-header{
+  align-items: center
+ }
+ .ant-divider{
+  span{
+    font-size: var(--base-font-size);
+    color: var(--dark-2)
+  }
+ }
 `;
 
 const DataResult: React.FC<IDataResult> = ({
@@ -46,7 +59,7 @@ const DataResult: React.FC<IDataResult> = ({
     },
     onError: () => message.error('Something went wrong')
   });
-
+  console.log(fileName, 'fffffffffffffffffff');
   const uploadImgfile = (file: any): any => {
     const ext = file.name?.split('.').pop();
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -100,7 +113,7 @@ const DataResult: React.FC<IDataResult> = ({
   const { Panel } = Collapse;
 
   return (
-    <>
+    <Result>
       {fileList?.folders && fileList?.files
         ? (
         <>
@@ -130,9 +143,13 @@ const DataResult: React.FC<IDataResult> = ({
           >
             <Button icon={<UploadOutlined />}>Upload</Button>
           </Upload>
-          <Collapse defaultActiveKey={['1']} ghost>
+          <Collapse defaultActiveKey={['1']} ghost bordered={false}>
           <Panel
-              header={`Required documents (${fileList?.files?.REQUIRED_DOCUMENT.length})`}
+              header={
+                <Divider orientation="left" plain >
+                {`Required documents (${fileList?.files?.REQUIRED_DOCUMENT.length})`}
+              </Divider>
+              }
               key="1"
             >
               {fileList?.files?.REQUIRED_DOCUMENT.length > 0 && (
@@ -162,7 +179,11 @@ const DataResult: React.FC<IDataResult> = ({
               )}
             </Panel>
             <Panel
-              header={`General documents (${fileList?.files?.GENERAL_DOCUMENT.length})`}
+              header={
+                <Divider orientation="left" plain>
+                {`General documents (${fileList?.files?.GENERAL_DOCUMENT.length})`}
+              </Divider>
+              }
               key="2"
             >
               {fileList?.files?.GENERAL_DOCUMENT.length > 0 && (
@@ -192,17 +213,21 @@ const DataResult: React.FC<IDataResult> = ({
               )}
             </Panel>
             <Panel
-              header={`Status folders (${fileList?.folders.length})`}
+              header={
+                <Divider orientation="left" plain>
+                {`Status folders (${fileList?.folders.length})`}
+              </Divider>
+              }
               key="3"
             >
               {fileList?.folders?.length > 0 && (
-                <Row gutter={[10, 50]} style={{ width: '100%' }}>
+                <Row gutter={[10, 50]}>
                   {fileList?.folders?.map((folder: any) => (
                     <>
                       <DocumentCard sm={14} xxl={6} xl={8} md={12}>
                         <Col>
                           <Col>
-                            <DocumentSvg />
+                            <Folder />
                             {folder?.title}
                           </Col>
                         </Col>
@@ -218,7 +243,7 @@ const DataResult: React.FC<IDataResult> = ({
         : (
             fileList?.length > 0 && (
           <>
-            <Row gutter={[10, 50]} style={{ width: '100%' }}>
+            <Row gutter={[10, 50]} style={{ height: 'calc(100vh - 22vh)', overflow: 'auto', width: '100%', padding: '30px 0' }}>
               {fileList?.map((doc: any) => (
                 <Popover
                   key={doc?.path}
@@ -268,7 +293,7 @@ const DataResult: React.FC<IDataResult> = ({
           </>
         )}
       </Modal>
-    </>
+    </Result>
   );
 };
 
