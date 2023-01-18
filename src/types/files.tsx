@@ -22,8 +22,11 @@ export interface ISearchImport {
   }
   courseId: string | null
   refetch: any
-  setValue: React.Dispatch<React.SetStateAction<string>>
-  value: string
+  setSearch: React.Dispatch<React.SetStateAction<string>>
+  search: string
+  folderFiles: IFiles[]
+  folderId: string
+  isFetchingFolderFiles: boolean
 }
 export interface IDataResult {
   fileList: IFiles[] | ICourseFiles | any
@@ -32,6 +35,8 @@ export interface IDataResult {
   onRemoveFile: (id?: string) => void
   courseId: string | null
   refetch: any
+  isFetchingFolderFiles: boolean
+  folderId: string
 }
 
 export interface IFilesProps {
@@ -40,8 +45,10 @@ export interface IFilesProps {
   courseFiles: ICourseFiles
   refetchAllFiles: any
   isFetching: boolean
-  setValue: React.Dispatch<React.SetStateAction<string>>
-  value: string
+  setSearch: React.Dispatch<React.SetStateAction<string>>
+  search: string
+  setFolderId: React.Dispatch<React.SetStateAction<string>>
+  isFetchingFolderFiles: boolean
 }
 
 export interface ICourseFiles {

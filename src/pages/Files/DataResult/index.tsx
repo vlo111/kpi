@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { useState } from 'react';
+import AsnSpin from '../../../components/Forms/Spin';
 import { ReactComponent as PdfSvg } from '../UploadImg/pdf.svg';
 import { ReactComponent as ExcelSvg } from '../UploadImg/excel.svg';
 import { ReactComponent as WordSvg } from '../UploadImg/word.svg';
@@ -47,8 +48,11 @@ const DataResult: React.FC<IDataResult> = ({
   open,
   onRemoveFile,
   courseId,
-  refetch
+  refetch,
+  isFetchingFolderFiles,
+  folderId
 }) => {
+  console.log(fileList);
   const [fileName, setFileName] = useState('');
   const [viewPdf, setViewPdf] = useState(null);
   const [opens, setOpens] = useState(false);
@@ -111,7 +115,9 @@ const DataResult: React.FC<IDataResult> = ({
     setOpens(false);
   };
   const { Panel } = Collapse;
-
+  if (isFetchingFolderFiles) {
+    return <AsnSpin />;
+  }
   return (
     <Result>
       {fileList?.folders && fileList?.files
@@ -241,7 +247,7 @@ const DataResult: React.FC<IDataResult> = ({
         </div>
           )
         : (
-            fileList?.length > 0
+            fileList?.length > 0 && folderId === ''
               ? (
           <>
             <Row gutter={[10, 50]} style={{ height: 'calc(100vh - 21vh)', overflow: 'auto', width: '100%', padding: '30px 0', background: 'white' }}>

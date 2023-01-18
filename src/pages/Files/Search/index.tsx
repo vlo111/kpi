@@ -39,13 +39,13 @@ export interface projectFilesUploadFormProps {
   handleUpdateAndNext: (updateProjectDetails: () => void) => void
   handleBack: () => void
 }
-export const SearchImport: React.FC<ISearchImport> = ({ files, courseFiles, courseId, refetch, value, setValue }) => {
+export const SearchImport: React.FC<ISearchImport> = ({ files, courseFiles, courseId, refetch, search, setSearch, folderFiles, folderId, isFetchingFolderFiles }) => {
   const onChange = (data: string): void => {
-    setValue(data);
+    setSearch(data);
   };
   const { id } = useParams();
-  const { data: allfileSearch } = useGetAllSearchFile(id, value, {
-    enabled: value.length > 2,
+  const { data: allfileSearch } = useGetAllSearchFile(id, search, {
+    enabled: search.length > 2,
     staleTime: 1000 * 60 * 5
   });
 
@@ -58,22 +58,25 @@ export const SearchImport: React.FC<ISearchImport> = ({ files, courseFiles, cour
   };
   return (
     <SearchImportData>
-      <Search>
+      {(folderId === '' && courseId === null) && <Search>
         <AutoComplete
-          value={value}
+          value={search}
           style={{ width: 300 }}
           onChange={onChange}
           placeholder="Search..."
         />
       </Search>
+      }
       <UploadModal>
         <DataResult
-          fileList={allfileSearch?.result?.length >= 0 ? allfileSearch?.result : !isEmpty(courseFiles) ? courseFiles : files }
+          fileList={allfileSearch?.result?.length >= 0 ? allfileSearch?.result : (!isEmpty(courseFiles) && folderId === '') ? courseFiles : folderId !== '' ? folderFiles : files }
           open={open}
           setOpen={setOpen}
           onRemoveFile={onRemoveFile}
           courseId={courseId}
           refetch={refetch}
+          isFetchingFolderFiles={isFetchingFolderFiles}
+          folderId={folderId}
         />
       </UploadModal>
     </SearchImportData>

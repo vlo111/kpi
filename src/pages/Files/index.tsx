@@ -44,8 +44,10 @@ export const Files: React.FC<IFilesProps> = ({
   courseFiles,
   refetchAllFiles,
   isFetching,
-  setValue,
-  value
+  setSearch,
+  search,
+  setFolderId,
+  isFetchingFolderFiles
 }) => {
   const { id } = useParams();
   const [expandedKeys, setExpandedKeys] = useState<any>([]);
@@ -53,7 +55,7 @@ export const Files: React.FC<IFilesProps> = ({
   const title = useGetResultAreaFile(id);
   const { data: courseNames } = useGetInputActivity(id);
 
-  if (isFetching) {
+  if (isFetching || isFetchingFolderFiles) {
     return <AsnSpin />;
   }
   const defaultVal: DataNode[] = data?.result?.map((item: any, i: string) => {
@@ -81,8 +83,9 @@ export const Files: React.FC<IFilesProps> = ({
                   <AsnRow onClick={(e) => {
                     setCourseId(course.id);
                     setExpandedKeys([i, `${i}-${j}`, `${i}-${j}-${f}`]);
-                    if (value !== '') {
-                      setValue('');
+                    setFolderId('');
+                    if (search !== '') {
+                      setSearch('');
                     }
                   }}>
                       {expandedKeys[2] === `${i}-${j}-${f}` ? <OpenFolder style={{ marginRight: '10px' }} /> : <CloseFolder style={{ marginRight: '10px', width: '24px', height: '15px' }} /> }
@@ -93,9 +96,9 @@ export const Files: React.FC<IFilesProps> = ({
                 // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
                 key: `${i}-${j}-${f}`,
                 icon: <></>,
-                children: courseFiles?.folders.map((file, k: number) => {
+                children: courseFiles?.folders?.map((file, k: number) => {
                   return {
-                    title: <AsnRow align={'middle'}>
+                    title: <AsnRow align={'middle'} onClick={() => setFolderId(file.id)}>
                       <Folder style={{ marginRight: '10px' }} />
                       <AsnCol>{file?.title}</AsnCol>
                       </AsnRow>,
@@ -134,8 +137,9 @@ export const Files: React.FC<IFilesProps> = ({
           style={{ color: 'var(--dark-border-ultramarine)', fontSize: 'var(--base-font-size)' }}
           onClick={() => {
             setCourseId(null);
-            if (value !== '') {
-              setValue('');
+            setFolderId('');
+            if (search !== '') {
+              setSearch('');
             }
             refetchAllFiles();
           }}

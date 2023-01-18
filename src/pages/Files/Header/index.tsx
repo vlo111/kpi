@@ -9,6 +9,7 @@ import useGetCoursFile from '../../../api/Files/useGetCoursFile';
 import TabPane from 'antd/lib/tabs/TabPane';
 import { FolderOpenOutlined } from '@ant-design/icons';
 import useGetAllFile from '../../../api/Files/useGetProjectFileAll';
+import useGetFolderFiles from '../../../api/Files/useGetFolderFiles';
 
 const Tab = styled.div`
   display: flex;
@@ -70,7 +71,8 @@ const Tab = styled.div`
 
 export const FileHeader: React.FC = () => {
   const [courseId, setCourseId] = useState<string | null>(null);
-  const [value, setValue] = useState<string>('');
+  const [folderId, setFolderId] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
   const { id } = useParams();
   const {
     data: { result: files },
@@ -80,6 +82,7 @@ export const FileHeader: React.FC = () => {
     data: { result: courseFiles }, refetch, isFetching
   } = useGetCoursFile(courseId, { enabled: Boolean(courseId) });
 
+  const { data: { result: folderFiles }, isFetching: isFetchingFolderFiles } = useGetFolderFiles(courseId, folderId, { enabled: (Boolean(folderId) && Boolean(courseId)) });
   return (
     <Tab>
       <Tabs>
@@ -97,18 +100,23 @@ export const FileHeader: React.FC = () => {
             courseFiles={courseFiles}
             refetchAllFiles={refetchAllFiles}
             isFetching={isFetching}
-            setValue={setValue}
-            value={value}
+            setSearch={setSearch}
+            search={search}
+            setFolderId={setFolderId}
+            isFetchingFolderFiles={isFetchingFolderFiles}
           />
         </TabPane>
       </Tabs>
       <SearchImport
-      setValue={setValue}
-      value={value}
+      setSearch={setSearch}
+      search={search}
       refetch={refetch}
       courseId={courseId}
       files={files}
       courseFiles={courseFiles}
+      folderFiles={folderFiles}
+      folderId={folderId}
+      isFetchingFolderFiles={isFetchingFolderFiles}
        />
     </Tab>
   );
