@@ -22,6 +22,8 @@ export interface ISearchImport {
   }
   courseId: string | null
   refetch: any
+  setValue: React.Dispatch<React.SetStateAction<string>>
+  value: string
 }
 export interface IDataResult {
   fileList: IFiles[] | ICourseFiles | any
@@ -38,6 +40,8 @@ export interface IFilesProps {
   courseFiles: ICourseFiles
   refetchAllFiles: any
   isFetching: boolean
+  setValue: React.Dispatch<React.SetStateAction<string>>
+  value: string
 }
 
 export interface ICourseFiles {

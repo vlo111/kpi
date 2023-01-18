@@ -39,9 +39,7 @@ export interface projectFilesUploadFormProps {
   handleUpdateAndNext: (updateProjectDetails: () => void) => void
   handleBack: () => void
 }
-export const SearchImport: React.FC<ISearchImport> = ({ files, courseFiles, courseId, refetch }) => {
-  const [value, setValue] = useState('');
-
+export const SearchImport: React.FC<ISearchImport> = ({ files, courseFiles, courseId, refetch, value, setValue }) => {
   const onChange = (data: string): void => {
     setValue(data);
   };

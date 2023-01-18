@@ -71,6 +71,7 @@ const Tab = styled.div`
 
 export const FileHeader: React.FC = () => {
   const [courseId, setCourseId] = useState<string | null>(null);
+  const [value, setValue] = useState<string>('');
   const { id } = useParams();
   const {
     data: { result: files },
@@ -79,7 +80,7 @@ export const FileHeader: React.FC = () => {
   const {
     data: { result: courseFiles }, refetch, isFetching
   } = useGetCoursFile(courseId, { enabled: Boolean(courseId) });
-
+  console.log(courseId, 'courseId');
   return (
     <Tab>
       <Tabs>
@@ -97,10 +98,19 @@ export const FileHeader: React.FC = () => {
             courseFiles={courseFiles}
             refetchAllFiles={refetchAllFiles}
             isFetching={isFetching}
+            setValue={setValue}
+            value={value}
           />
         </TabPane>
       </Tabs>
-      <SearchImport refetch={refetch} courseId={courseId} files={files} courseFiles={courseFiles} />
+      <SearchImport
+      setValue={setValue}
+      value={value}
+      refetch={refetch}
+      courseId={courseId}
+      files={files}
+      courseFiles={courseFiles}
+       />
     </Tab>
   );
 };

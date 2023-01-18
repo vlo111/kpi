@@ -43,7 +43,9 @@ export const Files: React.FC<IFilesProps> = ({
   setCourseId,
   courseFiles,
   refetchAllFiles,
-  isFetching
+  isFetching,
+  setValue,
+  value
 }) => {
   const { id } = useParams();
   const [expandedKeys, setExpandedKeys] = useState<any>([]);
@@ -79,6 +81,9 @@ export const Files: React.FC<IFilesProps> = ({
                   <AsnRow onClick={(e) => {
                     setCourseId(course.id);
                     setExpandedKeys([i, `${i}-${j}`, `${i}-${j}-${f}`]);
+                    if (value !== '') {
+                      setValue('');
+                    }
                   }}>
                       {expandedKeys[2] === `${i}-${j}-${f}` ? <OpenFolder style={{ marginRight: '10px' }} /> : <CloseFolder style={{ marginRight: '10px', width: '24px', height: '15px' }} /> }
                    <AsnCol>{course?.title}</AsnCol>
@@ -129,6 +134,9 @@ export const Files: React.FC<IFilesProps> = ({
           style={{ color: 'var(--dark-border-ultramarine)' }}
           onClick={() => {
             setCourseId(null);
+            if (value !== '') {
+              setValue('');
+            }
             refetchAllFiles();
           }}
         >
