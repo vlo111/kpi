@@ -1,25 +1,24 @@
 import { useQuery } from '@tanstack/react-query';
 import client from '../client';
 
-export const url = 'api/application-form';
+export const url = 'api/application-form/:id';
 
-const getSingleApplicationForm: any = (formId: string, options = { enabled: false }) => {
+const useSingleApplicationForm: any = (id: string, options = { enabled: false }) => {
   const result = useQuery(
-    [url, formId],
-    async () => await client.get(`${url}/${formId}`),
+    [url, id],
+    async () => await client.get(url.replace(':id', id)),
     {
-      ...options,
-      select: (data) => data.data
+      select: (data) => data?.data,
+      retry: false,
+      ...options
     }
   );
-  const { data, isSuccess, refetch, isLoading } = result;
+  const { data, isSuccess } = result;
 
   return {
     ...result,
-    data: isSuccess ? data?.result : [],
-    isLoading,
-    refetch
+    data: isSuccess ? data : {}
   };
 };
 
-export default getSingleApplicationForm;
+export default useSingleApplicationForm;

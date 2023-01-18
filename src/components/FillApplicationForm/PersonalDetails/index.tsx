@@ -13,6 +13,7 @@ const PersonalDetailsContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 const CustomSelect = styled(AsnSelect)`
   .ant-select-selector {
     border-radius: 5px !important;
@@ -23,30 +24,29 @@ const CustomSelect = styled(AsnSelect)`
   }
 `;
 
-const PersonalDetails: React.FC = () => {
+const PersonalDetails: React.FC<{ gender: any }> = ({ gender }) => {
   return (
     <PersonalDetailsContainer>
       <SectionTitle>Personal details / Անձնական տվյալներ:</SectionTitle>
-      <FormText>{'previewData.detailsDescription'}</FormText>
       <FormText style={{ margin: '1rem 0rem 0.5rem' }}>
         Full Name: / ԱԱՀ*
       </FormText>
       <Form.Item
-        name="fullName"
+        name={['personal_info', 0, 'answers', 0, 'text']}
         rules={[{ required: true, message: 'The field is required' }]}
       >
         <AsnInput />
       </Form.Item>
       <FormText>Birth Date: / Ծննդյան ամսաթիվ (DD/MM/YY)*</FormText>
       <Form.Item
-        name="birthDate"
+        name={['personal_info', 1, 'answers', 0, 'text']}
         rules={[{ required: true, message: 'The field is required' }]}
       >
         <AsnDatePicker style={{ height: '44px', width: '100%' }} />
       </Form.Item>
       <FormText>Region: / Բնակության վայր*</FormText>
       <Form.Item
-        name="region"
+        name={['personal_info', 2, 'answers', 0, 'text']}
         rules={[{ required: true, message: 'The field is required' }]}
       >
         <CustomSelect>
@@ -59,31 +59,35 @@ const PersonalDetails: React.FC = () => {
       </Form.Item>
       <FormText>Community / Համայնք*</FormText>
       <Form.Item
-        name="community"
+        name={['personal_info', 3, 'answers', 0, 'text']}
         rules={[{ required: true, message: 'The field is required' }]}
       >
         <AsnInput />
       </Form.Item>
       <FormText>Phone Number: / Հեռախոսահամար*</FormText>
       <Form.Item
-        name="phoneNumber"
+        name={['personal_info', 4, 'answers', 0, 'text']}
         rules={[{ required: true, message: 'The field is required' }]}
       >
         <AsnInput />
       </Form.Item>
       <FormText>Email: / Էլ․հասցե*</FormText>
       <Form.Item
-        name="email"
+        name={['personal_info', 5, 'answers', 0, 'text']}
         rules={[{ required: true, message: 'The field is required' }]}
       >
         <AsnInput />
       </Form.Item>
       <FormText style={{ marginBottom: '1rem' }}>Gender/Սեռ:*</FormText>
-      <Form.Item name="gender">
+      <Form.Item name={['personal_info', 6, 'answers', 0, 'id']}>
         <Radio.Group>
           <Space direction="vertical">
-            <CustomRadio value={'Female/Իգական'}>Female/Իգական</CustomRadio>
-            <CustomRadio value={'Male/Արական '}>Male/Արական </CustomRadio>
+            {gender?.map((g: any) => (
+              <CustomRadio
+                value={g.id}
+                key={g.id}
+              >{g.text}</CustomRadio>
+            ))}
           </Space>
         </Radio.Group>
       </Form.Item>

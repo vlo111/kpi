@@ -21,7 +21,8 @@ export const PATHS = {
   PROJECTINFORMATION: 'project-information/:id',
   ACTIVITYTEMPLATE: 'activity-template/:id',
   COURSESECTION: 'activity-template/:id/second-step',
-  APPLICATION: 'application'
+  APPLICATION: 'application',
+  APPLICATIONFORM: 'apply-form/:id'
 };
 
 export const VALIDATE_MESSAGES = {

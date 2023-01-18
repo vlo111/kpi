@@ -29,6 +29,7 @@ import ProjectInformation from './pages/ProjectInformation';
 import ActivityTemplate from './pages/ActivityTemplate';
 import CourseSection from './pages/CourseSection';
 import Application from './pages/Application';
+import FillApplicationForm from './pages/FillApplicationForm';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -60,6 +61,7 @@ export const router = createBrowserRouter(
         <Route path={PATHS.COURSESECTION} element={<CourseSection />} />
         <Route path={PATHS.APPLICATION} element={<Application />} />
       </Route>
+      <Route path={PATHS.APPLICATIONFORM} element={<FillApplicationForm />} />
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path={PATHS.ERROR_500} element={<ErrorBoundary />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />

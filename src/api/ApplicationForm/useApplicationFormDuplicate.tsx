@@ -7,6 +7,7 @@ const duplicateApplicationForm: any = (options = {}) =>
   useMutation(
     async (params: any) => {
       if (params.id !== undefined) {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         return await client.post(`${url}/${params.id}/duplicate`, params.data);
       }
     },

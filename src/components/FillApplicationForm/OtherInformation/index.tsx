@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Form, Radio, RadioChangeEvent, Space } from 'antd';
-// import {
-//   didFindCourse,
-//   otherInformation
-// } from '../../../../../helpers/fakeData';
-import { CustomRadio, FormText, SectionTitle } from '../style';
+import { BorderBottomInput, CustomRadio, FormText, SectionTitle } from '../style';
 import { AsnCheckbox, AsnCheckboxGroup } from '../../Forms/Checkbox';
 
 const OtherInformationContainer = styled.div`
@@ -13,19 +9,13 @@ const OtherInformationContainer = styled.div`
   flex-direction: column;
 `;
 
-const OtherInformation: React.FC = () => {
+const OtherInformation: React.FC<{
+  informedAboutUs: any
+  vulnerabilities: any
+  disability: any
+}> = ({ informedAboutUs, vulnerabilities, disability }) => {
   const oherInformationForm = Form.useFormInstance();
-  const [haveDisability, setHaveDisability] = useState('Yes/Այո');
-
-  const handleHaveDisability = (event: RadioChangeEvent): void => {
-    setHaveDisability(event.target.value);
-  };
-
-  useEffect(() => {
-    oherInformationForm.setFieldsValue({
-      disability: 'Yes/Այո'
-    });
-  }, []);
+  const [haveDisability, setHaveDisability] = useState(true);
 
   return (
     <OtherInformationContainer>
@@ -34,51 +24,49 @@ const OtherInformation: React.FC = () => {
         Do you have a disability? / Ունեք որևէ տեսակի
         խոցելիութուն,հաշմանդամություն*
       </FormText>
-      <Form.Item name="disability">
-        <Radio.Group onChange={handleHaveDisability}>
+      <Form.Item name={['other_info', 0, 'answers', 0, 'id']}>
+        <Radio.Group onChange={() => setHaveDisability(!haveDisability)}>
           <Space direction="vertical">
-            <CustomRadio value={'Yes/Այո'}>Yes/Այո</CustomRadio>
-            <CustomRadio value={'No/Ոչ'}>No/Ոչ</CustomRadio>
+            {disability?.map((g: any) => (
+              <CustomRadio
+                value={g.id}
+                key={g.id}
+              >{g.text}</CustomRadio>
+            ))}
           </Space>
         </Radio.Group>
       </Form.Item>
 
-      {haveDisability === 'Yes/Այո'
-        ? (
-        <>
-          <FormText style={{ marginBottom: '1rem' }}>
-            Indicate if you have any of the following types of vulnerabilities /
-            Խնդրում ենք նշել, եթե ունեք խոցելիության հետևյալ տեսակներից որևէ
-            մեկը*
-          </FormText>
-          <Form.Item name="followingTypes">
-            <AsnCheckboxGroup>
-              <Space direction="vertical">
-                {['otherInformation'].map((info) => (
-                  <AsnCheckbox value={info} key={info}>
-                    {info}
-                  </AsnCheckbox>
-                ))}
-              </Space>
-            </AsnCheckboxGroup>
-          </Form.Item>
-        </>
-          )
-        : null}
+      {haveDisability && <>
+        <FormText style={{ marginBottom: '1rem' }}>
+          {oherInformationForm.getFieldValue('disability')}
+        </FormText>
+        <Form.Item name="followingTypes">
+          <AsnCheckboxGroup>
+            <Space direction="vertical">
+              {vulnerabilities?.map((info: any) => (
+                <AsnCheckbox value={info.id} key={info.id}>
+                  {info.text}
+                  {info.text === 'Other (specify)/ Այլ (նշել)' && <BorderBottomInput />}
+                </AsnCheckbox>
+              ))}
+            </Space>
+          </AsnCheckboxGroup>
+        </Form.Item>
+      </>}
 
       <FormText style={{ margin: '1rem 0rem' }}>
-        How did you find out about the course? / Որտեղից եք տեղեկացել դասընթացի
-        մասին*
+        {oherInformationForm.getFieldValue('informedAboutUs')}
       </FormText>
-      <Form.Item name="findAboutCourse">
+      <Form.Item name={['other_info', 1, 'answers', 0, 'id']}>
         <Radio.Group>
           <Space direction="vertical">
-            {['didFindCourse'].map((course) => (
-              <CustomRadio value={course} key={course}>
-                {course}
+            {informedAboutUs?.map((course: any) => (
+              <CustomRadio value={course.id} key={course.id}>
+                {course.text}
+                {course.text === 'Other (specify)/ Այլ (նշել)' && <BorderBottomInput />}
               </CustomRadio>
             ))}
-            <CustomRadio>Other/Այլ</CustomRadio>
           </Space>
         </Radio.Group>
       </Form.Item>
