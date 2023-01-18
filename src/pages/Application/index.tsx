@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { InputRef, Space, Typography } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
-// import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ApplicationCard from '../../components/Application/ApplicationCard/Index';
 import { ReactComponent as SuccessIcon } from '../../assets/icons/success.svg';
 import {
@@ -23,6 +23,7 @@ import { ICardsData, IIsAddTermsConditions } from '../../types/project';
 import getApplicationFormDefault from '../../api/ApplicationForm/useGetApplicationFormDefault';
 import createApplicationForm from '../../api/ApplicationForm/useCreateApplicationForm';
 import { IApplicationsOption } from '../../types/api/application/applicationForm';
+import FormUrlModal from '../../components/Application/FormUrlModal/Index';
 
 const ApplicationContainer = styled.div`
   margin: 0 auto;
@@ -65,16 +66,17 @@ const ConditionCard = styled(Space)`
 `;
 
 const Application: React.FC = () => {
-  // const { id: courseId } = useParams<{ id: string | undefined }>();
+  const { id: courseId } = useParams<{ id: string | undefined }>();
   const { data } = getApplicationFormDefault(
-    '2248c6df-3770-4ca2-8407-31f2138612c8',
+    courseId,
     {}
   );
 
   const { mutate: createApplicationFn } = createApplicationForm({
     onSuccess: (options: IApplicationsOption) => {
-      // const { data } = options;
-      console.log(options, 'dsssssssssssssssssss');
+      const { data } = options;
+      setFormUrlModal(true);
+      setCreatedItemResponse(data);
     },
     onError: (err: any) => {
       console.log(err);
@@ -87,7 +89,9 @@ const Application: React.FC = () => {
   const [termsConditionsValue, setTermsConditionsValue] = useState<any>({});
   const [applicationData, setApplicationData] = useState<any>({});
   const [onlineSignature, setOnlineSignature] = useState<boolean>(true);
-  const [deadlineDate, setDeadlineDate] = useState<any>('');
+  const [formUrlModal, setFormUrlModal] = useState<boolean>(false);
+  const [createdItemInfo, setCreatedItemResponse] = useState<any>({});
+  const [deadlineDate, setDeadlineDate] = useState<string>('');
   const [isAddTermsConditions, setIsAddTermsConditions] = useState<
   IIsAddTermsConditions[]
   >([
@@ -105,7 +109,7 @@ const Application: React.FC = () => {
   );
   const formTitle = useRef<InputRef>(null);
   const formDescription = useRef<any>(null);
-  const successMessage = useRef<any>(null);
+  const successMessage = useRef<InputRef>(null);
 
   useEffect(() => {
     setApplicationData(data);
@@ -151,7 +155,7 @@ const Application: React.FC = () => {
         termsConditionsValueArray()
       );
       createApplicationFn({
-        id: '2248c6df-3770-4ca2-8407-31f2138612c8',
+        id: courseId,
         data: {
           ...applicationData
         }
@@ -260,6 +264,7 @@ const Application: React.FC = () => {
             applicationData.termsAndConditions = JSON.stringify(
               termsConditionsValueArray()
             );
+            applicationData.onlineSignature = onlineSignature;
             setIsOpenCreateActivityModal(true);
           }}
         >
@@ -274,7 +279,9 @@ const Application: React.FC = () => {
         createApplicationFn={createApplicationFn}
         isOpenCreateActivityModal={isOpenCreateActivityModal}
         setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
+        courseId={courseId}
       />
+      <FormUrlModal formUrlModal={formUrlModal} setFormUrlModal={setFormUrlModal} responseIds={createdItemInfo}/>
     </ApplicationContainer>
   );
 };

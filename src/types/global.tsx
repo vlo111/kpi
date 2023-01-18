@@ -74,6 +74,9 @@ export interface IInfoHeader {
     endDate: string
     status: string
   }
+  padding?: string
+  activity?: any
+  region?: any
 }
 
 export type Onchange = (newOpen: boolean) => void
@@ -95,3 +98,7 @@ export interface DataType {
 
 export interface IActivityResult<T> { data: { result: T } }
 export interface ISectionResult<T> { data: { result: T } }
+export interface IAsnPicker {
+  startDate?: [number, string]
+  endDate?: [number, string]
+}
