@@ -7,6 +7,7 @@ import { ReactComponent as ExcelSvg } from '../UploadImg/excel.svg';
 import { ReactComponent as WordSvg } from '../UploadImg/word.svg';
 import { ReactComponent as DocumentSvg } from '../UploadImg/document.svg';
 import { ReactComponent as Folder } from '../UploadImg/folder.svg';
+import { ReactComponent as NoResult } from '../UploadImg/noResult.svg';
 
 import { ReactComponent as ImgSvg } from '../UploadImg/upload-img.svg';
 import { DeleteOutlined, EyeOutlined, UploadOutlined } from '@ant-design/icons';
@@ -268,7 +269,16 @@ const DataResult: React.FC<IDataResult> = ({
             </Row>
           </>
                 )
-              : (<div>No Files</div>)
+              : (
+              <Row align="middle" justify="center" style={{ height: 'calc(100vh - 21vh)' }}>
+                <Col>
+                <Col>
+                <NoResult/>
+                </Col>
+                <Col>No attachments to show.</Col>
+                </Col>
+                </Row>
+                )
           )}
       <Modal open={opens} onCancel={handleCancel} okText={''} title="Pdf NAme">
         {viewPdf && (
