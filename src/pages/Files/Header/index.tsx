@@ -46,13 +46,13 @@ const Tab = styled.div`
     background: var(--white);
     border-right: 1px solid var(--primary-light-2);
     width: 366px;
+    z-index: 1;
   }
   .ant-tabs-nav-wrap {
     background-color: var(--primary-light-3);
   }
   .ant-tree .ant-tree-treenode {
     margin: 0 60px 4px;
-    /* height: 40px; */
     font-size: var(--base-font-size);
   }
   .ant-tree-treenode-selected:before {

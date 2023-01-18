@@ -59,7 +59,6 @@ const DataResult: React.FC<IDataResult> = ({
     },
     onError: () => message.error('Something went wrong')
   });
-  console.log(fileName, 'fffffffffffffffffff');
   const uploadImgfile = (file: any): any => {
     const ext = file.name?.split('.').pop();
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -116,7 +115,7 @@ const DataResult: React.FC<IDataResult> = ({
     <Result>
       {fileList?.folders && fileList?.files
         ? (
-        <>
+        <div style={{ height: 'calc(100vh - 20vh)', overflow: 'auto', width: '100%', padding: '30px 0', background: 'white' }}>
           <Upload
             listType="picture"
             style={{ borderRadius: 0, width: '50%' }}
@@ -238,12 +237,12 @@ const DataResult: React.FC<IDataResult> = ({
               )}
             </Panel>
           </Collapse>
-        </>
+        </div>
           )
         : (
             fileList?.length > 0 && (
           <>
-            <Row gutter={[10, 50]} style={{ height: 'calc(100vh - 22vh)', overflow: 'auto', width: '100%', padding: '30px 0' }}>
+            <Row gutter={[10, 50]} style={{ height: 'calc(100vh - 20vh)', overflow: 'auto', width: '100%', padding: '30px 0', background: 'white' }}>
               {fileList?.map((doc: any) => (
                 <Popover
                   key={doc?.path}
@@ -260,7 +259,7 @@ const DataResult: React.FC<IDataResult> = ({
                       }}
                     >
                       {uploadImgfile(doc)}
-                      <Col>{doc?.name}</Col>
+                      <Col>{doc?.originalName}</Col>
                     </Col>
                   </DocumentCard>
                 </Popover>

@@ -58,13 +58,12 @@ export const SearchImport: React.FC<ISearchImport> = ({ files, courseFiles, cour
   const onRemoveFile = (name?: any): void => {
     DeleteFile(name);
   };
-
   return (
     <SearchImportData>
       <Search>
         <AutoComplete
           value={value}
-          style={{ width: 200 }}
+          style={{ width: 300 }}
           onChange={onChange}
           placeholder="Search..."
         />
