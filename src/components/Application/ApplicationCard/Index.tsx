@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, Fragment } from 'react';
 import { ReactComponent as EditIcon } from '../../../assets/icons/edit.svg';
 import {
   CardContainer,
@@ -9,7 +9,8 @@ import {
 import AddQuestionCard from '../AddQuestion/Index';
 import { IApplicationCard, IContent } from '../../../types/project';
 import QuestionRowContainer from '../QuestionRow/Index';
-import { FormFinish } from '../../../types/global';
+import { FormFinish, StringVoidType } from '../../../types/global';
+import { InputRef } from 'antd';
 
 const ApplicationCard: React.FC<IApplicationCard> = ({
   title,
@@ -23,11 +24,13 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
   const [cardTitle, setCardTitle] = useState(title);
   const [answerTypeValue, setAnswerTypeValue] = useState('OPTION');
   const [addOrUpdateQuestion, setAddOrUpdateQuestion] = useState<string>('add');
-  const [questionRowIndex, setQuestionRowIndex] = useState<number | undefined>();
+  const [questionRowIndex, setQuestionRowIndex] = useState<
+  number | undefined
+  >();
   const [singleQuestionData, setSingleQuestionData] = useState<
   IContent | undefined | {}
   >();
-  const descriptionRef = useRef<any>();
+  const descriptionRef = useRef<InputRef>(null);
 
   const onAddDescription: FormFinish = (event) => {
     if (event.key === 'Enter') {
@@ -47,7 +50,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
     }
   };
 
-  const onSaveTitle: any = (title: string) => {
+  const onSaveTitle: StringVoidType = (title: string) => {
     setCardTitle(title);
     if (cardId === 'personal_info') {
       applicationData.applicationFormSections[0].title = title;
@@ -84,21 +87,42 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
         ? (
         <>
           {content.map((item: IContent, index: number) => (
-            <QuestionRowContainer
-              key={index}
-              question={item}
-              index={index}
-              content={content}
-              applicationData={applicationData}
-              setApplicationData={setApplicationData}
-              setIsQuestionCardVisible={setIsQuestionCardVisible}
-              isQuestionCardVisible={isQuestionCardVisible}
-              cardId={cardId}
-              setAnswerTypeValue={setAnswerTypeValue}
-              setSingleQuestionData={setSingleQuestionData}
-              setAddOrUpdateQuestion={setAddOrUpdateQuestion}
-              setQuestionRowIndex={setQuestionRowIndex}
-            />
+            <Fragment key={index}>
+              <QuestionRowContainer
+                key={index}
+                question={item}
+                index={index}
+                content={content}
+                applicationData={applicationData}
+                setApplicationData={setApplicationData}
+                setIsQuestionCardVisible={setIsQuestionCardVisible}
+                isQuestionCardVisible={isQuestionCardVisible}
+                cardId={cardId}
+                setAnswerTypeValue={setAnswerTypeValue}
+                setSingleQuestionData={setSingleQuestionData}
+                setAddOrUpdateQuestion={setAddOrUpdateQuestion}
+                setQuestionRowIndex={setQuestionRowIndex}
+              />
+              {item.answerType === 'YES_NO' && item.relatedQuestions.length > 0
+                ? item.relatedQuestions.map((item: IContent, index: number) => (
+                    <QuestionRowContainer
+                      key={index}
+                      question={item}
+                      index={index}
+                      content={content}
+                      applicationData={applicationData}
+                      setApplicationData={setApplicationData}
+                      setIsQuestionCardVisible={setIsQuestionCardVisible}
+                      isQuestionCardVisible={isQuestionCardVisible}
+                      cardId={cardId}
+                      setAnswerTypeValue={setAnswerTypeValue}
+                      setSingleQuestionData={setSingleQuestionData}
+                      setAddOrUpdateQuestion={setAddOrUpdateQuestion}
+                      setQuestionRowIndex={setQuestionRowIndex}
+                    />
+                ))
+                : null}
+            </Fragment>
           ))}
         </>
           )

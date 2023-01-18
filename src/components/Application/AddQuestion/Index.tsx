@@ -122,7 +122,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
                 : [],
           editable: true,
           otherOption:
-            value.otherOption !== undefined ? value.otherOption : true,
+            value.otherOption !== undefined ? value.otherOption : false,
           required: value.requiredFiled !== undefined ? value.requiredFiled : true,
           active: true
         });
@@ -147,7 +147,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
                 : [],
           editable: true,
           otherOption:
-            value.otherOption !== undefined ? value.otherOption : true,
+            value.otherOption !== undefined ? value.otherOption : false,
           required: value.requiredFiled !== undefined ? value.requiredFiled : true,
           active: true
         });
@@ -172,7 +172,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
                 : [],
           editable: true,
           otherOption:
-            value.otherOption !== undefined ? value.otherOption : true,
+            value.otherOption !== undefined ? value.otherOption : false,
           required: value.requiredFiled !== undefined ? value.requiredFiled : true,
           active: true
         });
@@ -197,7 +197,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
                 : [],
           editable: true,
           otherOption:
-            value.otherOption !== undefined ? value.otherOption : true,
+            value.otherOption !== undefined ? value.otherOption : false,
           required: value.requiredFiled !== undefined ? value.requiredFiled : true,
           active: true
         });
@@ -227,7 +227,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
                   : [],
             editable: true,
             otherOption:
-              value.otherOption !== undefined ? value.otherOption : true,
+              value.otherOption !== undefined ? value.otherOption : false,
             required: value.requiredFiled !== undefined ? value.requiredFiled : true,
             active: true
           }
@@ -256,7 +256,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
                   : [],
             editable: true,
             otherOption:
-              value.otherOption !== undefined ? value.otherOption : true,
+              value.otherOption !== undefined ? value.otherOption : false,
             required: value.requiredFiled !== undefined ? value.requiredFiled : true,
             active: true
           }
@@ -285,7 +285,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
                   : [],
             editable: true,
             otherOption:
-              value.otherOption !== undefined ? value.otherOption : true,
+              value.otherOption !== undefined ? value.otherOption : false,
             required: value.requiredFiled !== undefined ? value.requiredFiled : true,
             active: true
           }
@@ -314,7 +314,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
                   : [],
             editable: true,
             otherOption:
-              value.otherOption !== undefined ? value.otherOption : true,
+              value.otherOption !== undefined ? value.otherOption : false,
             required: value.requiredFiled !== undefined ? value.requiredFiled : true,
             active: true
           }

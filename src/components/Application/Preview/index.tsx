@@ -1,7 +1,6 @@
 import React from 'react';
 import { Divider, Space, Typography } from 'antd';
 import styled from 'styled-components';
-// import { useParams } from 'react-router-dom';
 import { Void } from '../../../types/global';
 import { IFontWeight, IPreviewModal } from '../../../types/project';
 import { AsnButton } from '../../Forms/Button';
@@ -58,16 +57,16 @@ const PreviewModal: React.FC<IPreviewModal> = ({
   questionData,
   isOpenCreateActivityModal,
   setIsOpenCreateActivityModal,
-  createApplicationFn
+  createApplicationFn,
+  courseId
 }) => {
-  // const { id: courseId } = useParams<{ id: string | undefined }>();
   const handleCancel: Void = () => {
     setIsOpenCreateActivityModal(false);
   };
 
   const onPublishClick: Void = () => {
     createApplicationFn({
-      id: '2248c6df-3770-4ca2-8407-31f2138612c8',
+      id: courseId,
       data: {
         ...questionData
       }
@@ -124,11 +123,15 @@ const PreviewModal: React.FC<IPreviewModal> = ({
               : '[]'
           }
         />
-        <Signature>
-          <Divider orientation="left" plain>
-            Online signature / Առցանց ստորագրություն
-          </Divider>
-        </Signature>
+        {questionData.onlineSignature
+          ? (
+          <Signature>
+            <Divider orientation="left" plain>
+              Online signature / Առցանց ստորագրություն
+            </Divider>
+          </Signature>
+            )
+          : null}
         <Space
           style={{
             width: '100%',

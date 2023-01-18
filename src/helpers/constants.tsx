@@ -23,7 +23,8 @@ export const PATHS = {
   COURSEINFORMATION: 'course-information/:id',
   ACTIVITYTEMPLATE: 'activity-template/:id',
   COURSESECTION: 'activity-template/:id/second-step',
-  APPLICATION: 'application'
+  APPLICATION: 'application/:id',
+  APPLICATIONFORM: 'apply-form/:id'
 };
 
 export const VALIDATE_MESSAGES = {

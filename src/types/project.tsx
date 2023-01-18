@@ -507,6 +507,7 @@ export interface IPreviewModal {
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
   createApplicationFn: any
+  courseId: string | undefined
 }
 
 export interface ICardContainer {
@@ -541,4 +542,9 @@ export interface IAddActivity {
 
 export interface IAttachmentSetting {
   setting: ISetting
+}
+
+export interface IFormUrlModal {
+  formUrlModal: boolean
+  setFormUrlModal: React.Dispatch<React.SetStateAction<boolean>>
 }
