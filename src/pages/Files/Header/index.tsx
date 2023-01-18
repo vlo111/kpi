@@ -73,6 +73,7 @@ export const FileHeader: React.FC = () => {
   const [courseId, setCourseId] = useState<string | null>(null);
   const [folderId, setFolderId] = useState<string>('');
   const [search, setSearch] = useState<string>('');
+  const [folderName, setFolderName] = useState<string>('');
   const { id } = useParams();
   const {
     data: { result: files },
@@ -82,7 +83,7 @@ export const FileHeader: React.FC = () => {
     data: { result: courseFiles }, refetch, isFetching
   } = useGetCoursFile(courseId, { enabled: Boolean(courseId) });
 
-  const { data: { result: folderFiles }, isFetching: isFetchingFolderFiles } = useGetFolderFiles(courseId, folderId, { enabled: (Boolean(folderId) && Boolean(courseId)) });
+  const { data: { result: folderFiles }, isFetching: isFetchingFolderFiles, refetch: refetchFolderFiles } = useGetFolderFiles(courseId, folderId, { enabled: (Boolean(folderId) && Boolean(courseId)) });
   return (
     <Tab>
       <Tabs>
@@ -104,6 +105,7 @@ export const FileHeader: React.FC = () => {
             search={search}
             setFolderId={setFolderId}
             isFetchingFolderFiles={isFetchingFolderFiles}
+            setFolderName={setFolderName}
           />
         </TabPane>
       </Tabs>
@@ -117,6 +119,10 @@ export const FileHeader: React.FC = () => {
       folderFiles={folderFiles}
       folderId={folderId}
       isFetchingFolderFiles={isFetchingFolderFiles}
+      folderName={folderName}
+      setFolderId={setFolderId}
+      setFolderName={setFolderName}
+      refetchFolderFiles={refetchFolderFiles}
        />
     </Tab>
   );

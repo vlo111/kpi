@@ -27,6 +27,10 @@ export interface ISearchImport {
   folderFiles: IFiles[]
   folderId: string
   isFetchingFolderFiles: boolean
+  folderName: string
+  setFolderId: React.Dispatch<React.SetStateAction<string>>
+  setFolderName: React.Dispatch<React.SetStateAction<string>>
+  refetchFolderFiles: any
 }
 export interface IDataResult {
   fileList: IFiles[] | ICourseFiles | any
@@ -37,6 +41,10 @@ export interface IDataResult {
   refetch: any
   isFetchingFolderFiles: boolean
   folderId: string
+  folderName: string
+  setFolderId: React.Dispatch<React.SetStateAction<string>>
+  setFolderName: React.Dispatch<React.SetStateAction<string>>
+  refetchFolderFiles: any
 }
 
 export interface IFilesProps {
@@ -49,6 +57,7 @@ export interface IFilesProps {
   search: string
   setFolderId: React.Dispatch<React.SetStateAction<string>>
   isFetchingFolderFiles: boolean
+  setFolderName: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface ICourseFiles {

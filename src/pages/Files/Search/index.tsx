@@ -39,7 +39,7 @@ export interface projectFilesUploadFormProps {
   handleUpdateAndNext: (updateProjectDetails: () => void) => void
   handleBack: () => void
 }
-export const SearchImport: React.FC<ISearchImport> = ({ files, courseFiles, courseId, refetch, search, setSearch, folderFiles, folderId, isFetchingFolderFiles }) => {
+export const SearchImport: React.FC<ISearchImport> = ({ files, courseFiles, courseId, refetch, search, setSearch, folderFiles, folderId, isFetchingFolderFiles, folderName, setFolderId, setFolderName, refetchFolderFiles }) => {
   const onChange = (data: string): void => {
     setSearch(data);
   };
@@ -77,6 +77,10 @@ export const SearchImport: React.FC<ISearchImport> = ({ files, courseFiles, cour
           refetch={refetch}
           isFetchingFolderFiles={isFetchingFolderFiles}
           folderId={folderId}
+          folderName={folderName}
+          setFolderId={setFolderId}
+          setFolderName={setFolderName}
+          refetchFolderFiles={refetchFolderFiles}
         />
       </UploadModal>
     </SearchImportData>

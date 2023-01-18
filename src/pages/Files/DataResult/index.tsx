@@ -50,9 +50,12 @@ const DataResult: React.FC<IDataResult> = ({
   courseId,
   refetch,
   isFetchingFolderFiles,
-  folderId
+  folderId,
+  folderName,
+  setFolderId,
+  setFolderName,
+  refetchFolderFiles
 }) => {
-  console.log(fileList);
   const [fileName, setFileName] = useState('');
   const [viewPdf, setViewPdf] = useState(null);
   const [opens, setOpens] = useState(false);
@@ -232,7 +235,10 @@ const DataResult: React.FC<IDataResult> = ({
                     <>
                       <DocumentCard sm={14} xxl={6} xl={8} md={12}>
                         <Col>
-                          <Col>
+                          <Col style={{ cursor: 'pointer' }} onClick={() => {
+                            setFolderName(folder?.title);
+                            setFolderId(folder?.id);
+                          }}>
                             <Folder />
                             {folder?.title}
                           </Col>
@@ -275,7 +281,77 @@ const DataResult: React.FC<IDataResult> = ({
             </Row>
           </>
                 )
-              : (
+              : fileList?.length >= 0 && folderId !== ''
+                ? (
+                <div>
+                      <Upload
+            listType="picture"
+            style={{ borderRadius: 0, width: '50%' }}
+            showUploadList={false}
+            accept='.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx'
+            customRequest={(options: { file: any }) => {
+              const { file } = options;
+              uploadFile({ file, type: 'SECTION_SETTING_DOCUMENT' },
+                {
+                  onSuccess: (data: any) => {
+                    addFileCourse({
+                      id: courseId,
+                      data: {
+                        files: [{
+                          file: data?.data?.result[0]
+                        }],
+                        sectionSettingId: folderId
+                      }
+                    },
+                    {
+                      onSuccess: () => refetchFolderFiles()
+                    });
+                  },
+                  onError: ({ response }: any) => message.error(response?.data?.message, 2)
+                });
+            }}
+            maxCount={1}
+          >
+            <Button icon={<UploadOutlined />}>Upload</Button>
+          </Upload>
+          <Collapse defaultActiveKey={['1']} ghost bordered={false}>
+          <Panel
+              header={
+                <Divider orientation="left" plain >
+                {`${folderName} (${fileList?.length})`}
+              </Divider>
+              }
+              key="1"
+            >
+
+                <Row gutter={[10, 50]} >
+                  {fileList?.map((file: any) => (
+                    <Popover
+                      key={file?.path}
+                      trigger="click"
+                      content={content(file?.name, file?.path)}
+                      placement="bottom"
+                      overlayClassName="documentPopover"
+                    >
+                      <DocumentCard sm={14} xxl={6} xl={8} md={12}>
+                        <Col
+                          onClick={() => {
+                            setOpen(file.uid);
+                            setFileName(file?.path);
+                          }}
+                        >
+                          {uploadImgfile(file)}
+                          <Col>{file?.name}</Col>
+                        </Col>
+                      </DocumentCard>
+                    </Popover>
+                  ))}
+                </Row>
+            </Panel>
+            </Collapse>
+                </div>
+                  )
+                : (
               <Row align="middle" justify="center" style={{ height: 'calc(100vh - 21vh)' }}>
                 <Col>
                 <Col>
@@ -284,7 +360,7 @@ const DataResult: React.FC<IDataResult> = ({
                 <Col>No attachments to show.</Col>
                 </Col>
                 </Row>
-                )
+                  )
           )}
       <Modal open={opens} onCancel={handleCancel} okText={''} title="Pdf NAme">
         {viewPdf && (

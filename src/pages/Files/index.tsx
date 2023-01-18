@@ -47,7 +47,8 @@ export const Files: React.FC<IFilesProps> = ({
   setSearch,
   search,
   setFolderId,
-  isFetchingFolderFiles
+  isFetchingFolderFiles,
+  setFolderName
 }) => {
   const { id } = useParams();
   const [expandedKeys, setExpandedKeys] = useState<any>([]);
@@ -98,7 +99,10 @@ export const Files: React.FC<IFilesProps> = ({
                 icon: <></>,
                 children: courseFiles?.folders?.map((file, k: number) => {
                   return {
-                    title: <AsnRow align={'middle'} onClick={() => setFolderId(file.id)}>
+                    title: <AsnRow align={'middle'} onClick={() => {
+                      setFolderName(file?.title);
+                      setFolderId(file.id);
+                    } }>
                       <Folder style={{ marginRight: '10px' }} />
                       <AsnCol>{file?.title}</AsnCol>
                       </AsnRow>,
