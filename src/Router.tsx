@@ -26,6 +26,8 @@ import { ProjectList } from './pages/Project/List';
 import { EditProject } from './pages/Project/Edit';
 import { ProjectSteps } from './pages/ProjectSteps';
 import ProjectInformation from './pages/ProjectInformation';
+import SubActivity from './pages/SubActivityes';
+import CourseInformation from './pages/SubActivityes/CourseInformation';
 import ActivityTemplate from './pages/ActivityTemplate';
 import CourseSection from './pages/CourseSection';
 import Application from './pages/Application';
@@ -52,8 +54,10 @@ export const router = createBrowserRouter(
           <Route path={PATHS.PROJECTS} element={<ProjectList />} />
           <Route path={PATHS.STEPS} element={<ProjectSteps />} />
           <Route path={PATHS.OVERVIEW} element={<ProjectOverview />} />
+          <Route path={PATHS.SUBACTIVITY} element={<SubActivity />} />
         </Route>
         <Route path={PATHS.PROJECTINFORMATION} element={<ProjectInformation />} />
+        <Route path={PATHS.COURSEINFORMATION} element={<CourseInformation />} />
         <Route path={PATHS.USERPROFILE} element={<UserProfile />} />
         <Route path={PATHS.CHANGEPASSWORD} element={<ChangePassword />} />
         <Route path={PATHS.ACTIVITYTEMPLATE} element={<ActivityTemplate />} />

@@ -47,10 +47,11 @@ export interface IUserUpload {
 }
 export interface IUploadProps {
   children?: ReactNode
-  customRequest: (options: { file: string | Blob | RcFile }) => void
+  customRequest?: (options: { file: string | Blob | RcFile }) => void
   name?: string
   accept?: string
   showUploadList?: boolean
+  onRemove?: (file: any) => void
 }
 
 export type UploadSuccessResponse = (response: {

@@ -202,6 +202,11 @@ const GlobalStyle = createGlobalStyle`
       background: var(--tooltip-color);
     }
   }
+
+  .ant-upload-list {
+    max-height: 12vh !important;
+    overflow-y: auto !important;
+  }
 `;
 
 export default GlobalStyle;
