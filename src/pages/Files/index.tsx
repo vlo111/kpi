@@ -131,7 +131,7 @@ export const Files: React.FC<IFilesProps> = ({
       >
         <Button
           type="link"
-          style={{ color: 'var(--dark-border-ultramarine)' }}
+          style={{ color: 'var(--dark-border-ultramarine)', fontSize: 'var(--base-font-size)' }}
           onClick={() => {
             setCourseId(null);
             if (value !== '') {
