@@ -126,6 +126,7 @@ const DataResult: React.FC<IDataResult> = ({
                   onError: ({ response }: any) => message.error(response?.data?.message, 2)
                 });
             }}
+            maxCount={1}
           >
             <Button icon={<UploadOutlined />}>Upload</Button>
           </Upload>

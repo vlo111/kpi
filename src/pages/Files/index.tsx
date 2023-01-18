@@ -2,7 +2,7 @@
 /* eslint-disable array-callback-return */
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Tree, Typography } from 'antd';
+import { Button, Tree, Typography } from 'antd';
 import type { DataNode } from 'antd/es/tree';
 
 import { IFilesProps } from '../../types/files';
@@ -18,7 +18,8 @@ const { DirectoryTree } = Tree;
 export const Files: React.FC<IFilesProps> = ({
   allFilesCount,
   setCourseId,
-  courseFiles
+  courseFiles,
+  refetchAllFiles
 }) => {
   const { id } = useParams();
   const { data } = useGetProjectFiles(id);
@@ -75,7 +76,12 @@ export const Files: React.FC<IFilesProps> = ({
           padding: '0 20px'
         }}
       >
-        All Files ({allFilesCount})
+        <Button type='link' style={{ color: 'var(--dark-border-ultramarine)' }} onClick={() => {
+          setCourseId(null);
+          refetchAllFiles();
+        }
+       }> All Files ({allFilesCount})</Button>
+
       </Title>
     </>
   );

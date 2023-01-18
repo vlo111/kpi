@@ -73,7 +73,8 @@ export const FileHeader: React.FC = () => {
   const [courseId, setCourseId] = useState<string | null>(null);
   const { id } = useParams();
   const {
-    data: { result: files }
+    data: { result: files },
+    refetch: refetchAllFiles
   } = useGetAllFile(id, { enabled: Boolean(id) });
   const {
     data: { result: courseFiles }, refetch
@@ -93,6 +94,7 @@ export const FileHeader: React.FC = () => {
             allFilesCount={files?.length}
             setCourseId={setCourseId}
             courseFiles={courseFiles}
+            refetchAllFiles={refetchAllFiles}
           />
         </TabPane>
       </Tabs>
