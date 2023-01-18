@@ -21,7 +21,7 @@ const SubActivityUsersInfo: React.FC<IManagerType> = ({ manager, color }) => {
         >
           <Col span={12} style={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
              <AsnAvatar letter={`${manager?.firstName?.charAt(0)}${manager?.lastName?.charAt(0)}`} />
-             <Title level={4}>
+             <Title level={4} style={{ marginLeft: '10px' }}>
               {manager?.firstName} {manager?.lastName}
              </Title>
           </Col>
@@ -30,7 +30,7 @@ const SubActivityUsersInfo: React.FC<IManagerType> = ({ manager, color }) => {
           </Col>
         </Row>
         <Row justify="center">
-          <AsnButton className="primary" type="primary">
+          <AsnButton className="primary" type="primary" disabled>
             Manage users
           </AsnButton>
         </Row>
