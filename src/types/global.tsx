@@ -81,6 +81,7 @@ export interface IInfoHeader {
 
 export type Onchange = (newOpen: boolean) => void
 export type StringVoidType = (id: string) => void
+export type NumberVoidType = (item: number) => void
 
 export interface IAsnCheckbox {
   width?: string

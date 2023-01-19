@@ -9,17 +9,23 @@ const ProjectContext = createContext();
 
 export const ProjectProvider: React.FC<IComponentChildren> = ({ children }) => {
   const [projectId, setId] = useLocalStorage('project', null);
+  const [projectName, setName] = useLocalStorage('projectName', null);
 
   const setProjectId: SetProjectId = (id) => {
     setId(id);
+  };
+  const setProjectName: SetProjectId = (name) => {
+    setName(name);
   };
 
   const value = useMemo(
     () => ({
       projectId,
-      setProjectId
+      projectName,
+      setProjectId,
+      setProjectName
     }),
-    [projectId]
+    [projectId, projectName]
   );
 
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;

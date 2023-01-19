@@ -6,7 +6,8 @@ import { ReactComponent as MenuIcon } from '../../../assets/icons/md-menu.svg';
 import { ReactComponent as EditIcon } from '../../../assets/icons/edit.svg';
 
 import { AsnSwitch } from '../../Forms/Switch';
-import { FormFinish, Onchange, StringVoidType } from '../../../types/global';
+import { FormFinish, NumberVoidType, Onchange } from '../../../types/global';
+import { IQuestionRowContainer } from '../../../types/project';
 
 const CardRow = styled(Space)`
   display: flex;
@@ -31,7 +32,7 @@ const ChoseTitle = styled.span`
   font-size: var(--base-font-size);
 `;
 
-const QuestionRowContainer: React.FC<any> = ({
+const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
   question,
   index,
   content,
@@ -56,7 +57,7 @@ const QuestionRowContainer: React.FC<any> = ({
     setAddOrUpdateQuestion('edit');
   };
 
-  const onDeletedQuestion: StringVoidType = (item) => {
+  const onDeletedQuestion: NumberVoidType = (item) => {
     content.splice(item, 1);
     setApplicationData({ ...applicationData });
     setOpenPopover(!openPopover);
@@ -110,10 +111,10 @@ const QuestionRowContainer: React.FC<any> = ({
         </ChoseType>
         <AsnSwitch
           defaultChecked={question?.active}
-          disabled={question?.editable === false}
+          disabled={!question?.editable}
           onChange={handleIsRequiredQuestion}
         />
-        {question?.editable === true
+        {question?.editable
           ? (
           <Popover
             placement="topLeft"

@@ -202,6 +202,19 @@ const GlobalStyle = createGlobalStyle`
       background: var(--tooltip-color);
     }
   }
+  .documentPopover{
+  position: absolute;
+  .ant-popover-inner{
+   width: 190px;
+   button{
+    font-size: var(--base-font-size);
+    color: var(--dark-2);
+   }
+  }
+  .ant-popover-inner-content{
+    padding: 12px 10px;
+  }
+}
   
   .applicant-popover {
     .ant-popover-inner {
@@ -214,6 +227,9 @@ const GlobalStyle = createGlobalStyle`
   .ant-upload-list {
     max-height: 12vh !important;
     overflow-y: auto !important;
+  }
+  .filePreviewModal{
+    width: auto!important;
   }
 `;
 
