@@ -44,7 +44,7 @@ const CreateSubActivityModal: React.FC<ICreateSubActivityProps> = ({ templateId,
 
   const { Option } = Select;
   const { Dragger } = Upload;
-  const options = ['Active', 'Online', 'Blended'];
+  const options = ['Offline', 'Online', 'Blended'];
   const attachments = subActivity?.courseSettingMap?.filter((item: ICourseSettingMap) => item.setting.type === 'CUSTOM' && item.setting.answerType === 'ATTACHMENT');
 
   const onFinish: FormFinish = (values) => {

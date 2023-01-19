@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { InputRef, Space, Typography } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ApplicationCard from '../../components/Application/ApplicationCard/Index';
 import { ReactComponent as SuccessIcon } from '../../assets/icons/success.svg';
 import {
@@ -24,6 +24,7 @@ import getApplicationFormDefault from '../../api/ApplicationForm/useGetApplicati
 import createApplicationForm from '../../api/ApplicationForm/useCreateApplicationForm';
 import { IApplicationsOption } from '../../types/api/application/applicationForm';
 import FormUrlModal from '../../components/Application/FormUrlModal/Index';
+import { PATHS } from '../../helpers/constants';
 
 const ApplicationContainer = styled.div`
   margin: 0 auto;
@@ -68,6 +69,8 @@ const ConditionCard = styled(Space)`
 const Application: React.FC = () => {
   const { id: courseId } = useParams<{ id: string | undefined }>();
   const { data } = getApplicationFormDefault(courseId, {});
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const { mutate: createApplicationFn } = createApplicationForm({
     onSuccess: (options: IApplicationsOption) => {
@@ -254,7 +257,11 @@ const Application: React.FC = () => {
           margin: '3.75rem 0px'
         }}
       >
-        <AsnButton className="default">Cancel</AsnButton>
+        <AsnButton className="default" onClick={() => {
+          if (location?.state?.SubActivityId !== undefined) {
+            navigate(`/project/${PATHS.SUBACTIVITY.replace(':id', location?.state?.SubActivityId)}`);
+          }
+        }}>Cancel</AsnButton>
         <AsnButton
           className="default"
           onClick={() => {

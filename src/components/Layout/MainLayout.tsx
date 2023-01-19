@@ -8,7 +8,7 @@ import { Header } from '../Header';
 const LayoutStyle = styled(Layout)`
   background-color: var(--background);
   overflow: hidden;
-  height: 100%;
+  height: 100vh;
 `;
 
 const Sider = styled(LayoutStyle.Sider)`
