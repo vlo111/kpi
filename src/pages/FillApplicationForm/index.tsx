@@ -134,7 +134,7 @@ const FillApplicationForm: React.FC = () => {
         top: 0,
         behavior: 'smooth'
       });
-      void message.success('successfully applied', 2);
+      void message.success('Request successfully sent', 2);
     },
     onError: (err: any) => {
       console.log(err);
