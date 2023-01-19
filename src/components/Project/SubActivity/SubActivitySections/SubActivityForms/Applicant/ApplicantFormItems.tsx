@@ -120,8 +120,18 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
                 gutter={[10, 10]}
               >
                 <Col>
-                  <Title level={4} copyable={{ text: `${process.env.REACT_APP_BASE_URL_HOST ?? ''}${PATHS.APPLICATIONFORM.replace(':id', item.id !== null ? item.id : '')}` }}>
-                   <LinkIcon />
+                  <Title
+                    level={4}
+                    copyable={{
+                      text: `${
+                        process.env.REACT_APP_BASE_URL_HOST ?? ''
+                      }${PATHS.APPLYAPPLICANTFORM.replace(
+                        ':id',
+                        item.id !== null ? item.id : ''
+                      )}`
+                    }}
+                  >
+                    <LinkIcon />
                   </Title>
                 </Col>
                 <Col>

@@ -36,14 +36,29 @@ const UrlContainer = styled(Typography.Title)`
   color: var(--dark-border-ultramarine) !important;
 `;
 
-const FormUrlModal: React.FC<IFormUrlModal> = ({ formUrlModal, setFormUrlModal, responseIds }) => {
+const FormUrlModal: React.FC<IFormUrlModal> = ({
+  formUrlModal,
+  setFormUrlModal,
+  responseIds
+}) => {
   const navigate = useNavigate();
   const handleCancel: Void = () => {
+    navigate(
+      `/project/${PATHS.SUBACTIVITY.replace(
+        ':id',
+        responseIds?.result?.subActivityId
+      )}`
+    );
     setFormUrlModal(false);
   };
 
   const onPublishClick: Void = () => {
-    navigate(`/project/${PATHS.SUBACTIVITY.replace(':id', responseIds?.result?.subActivityId)}`);
+    navigate(
+      `/project/${PATHS.SUBACTIVITY.replace(
+        ':id',
+        responseIds?.result?.subActivityId
+      )}`
+    );
     setFormUrlModal(false);
   };
   return (
@@ -55,8 +70,16 @@ const FormUrlModal: React.FC<IFormUrlModal> = ({ formUrlModal, setFormUrlModal, 
       <PreviewContainer>
         <ModalTitle>Form saved</ModalTitle>
         <SuccessCreatedIcon />
-        <UrlContainer copyable={{ text: `${process.env.REACT_APP_BASE_URL_HOST ?? ''}/${PATHS.APPLICATIONFORM.replace(':id', responseIds?.result?.id)}` }}>
-        {`${process.env.REACT_APP_BASE_URL_HOST ?? ''}/${PATHS.APPLICATIONFORM.replace(':id', responseIds?.result?.id)}`}
+        <UrlContainer
+          copyable={{
+            text: `${
+              process.env.REACT_APP_BASE_URL_HOST ?? ''
+            }${PATHS.APPLYAPPLICANTFORM.replace(':id', responseIds?.result?.id)}`
+          }}
+        >
+          {`${
+            process.env.REACT_APP_BASE_URL_HOST ?? ''
+          }${PATHS.APPLYAPPLICANTFORM.replace(':id', responseIds?.result?.id)}`}
         </UrlContainer>
         <AsnButton className="primary" onClick={onPublishClick}>
           Ok

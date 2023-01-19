@@ -67,10 +67,7 @@ const ConditionCard = styled(Space)`
 
 const Application: React.FC = () => {
   const { id: courseId } = useParams<{ id: string | undefined }>();
-  const { data } = getApplicationFormDefault(
-    courseId,
-    {}
-  );
+  const { data } = getApplicationFormDefault(courseId, {});
 
   const { mutate: createApplicationFn } = createApplicationForm({
     onSuccess: (options: IApplicationsOption) => {
@@ -90,7 +87,7 @@ const Application: React.FC = () => {
   const [applicationData, setApplicationData] = useState<any>({});
   const [onlineSignature, setOnlineSignature] = useState<boolean>(true);
   const [formUrlModal, setFormUrlModal] = useState<boolean>(false);
-  const [createdItemInfo, setCreatedItemResponse] = useState<any>({});
+  const [createdItemInfo, setCreatedItemResponse] = useState({});
   const [deadlineDate, setDeadlineDate] = useState<string>('');
   const [isAddTermsConditions, setIsAddTermsConditions] = useState<
   IIsAddTermsConditions[]
@@ -126,7 +123,7 @@ const Application: React.FC = () => {
     });
   }, [applicationData]);
 
-  const termsConditionsValueArray = useCallback((): any => {
+  const termsConditionsValueArray = useCallback((): string[] => {
     const termsConditionsArr = [];
     for (const key in termsConditionsValue) {
       termsConditionsArr.push(termsConditionsValue[key]);
@@ -266,6 +263,12 @@ const Application: React.FC = () => {
             );
             applicationData.onlineSignature = onlineSignature;
             setIsOpenCreateActivityModal(true);
+            applicationData.description =
+              formDescription.current !== null
+                ? formDescription.current.resizableTextArea.textArea.value
+                : '';
+            applicationData.title =
+              formTitle !== null ? formTitle?.current?.input?.value : '';
           }}
         >
           Preview
@@ -281,7 +284,11 @@ const Application: React.FC = () => {
         setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
         courseId={courseId}
       />
-      <FormUrlModal formUrlModal={formUrlModal} setFormUrlModal={setFormUrlModal} responseIds={createdItemInfo}/>
+      <FormUrlModal
+        formUrlModal={formUrlModal}
+        setFormUrlModal={setFormUrlModal}
+        responseIds={createdItemInfo}
+      />
     </ApplicationContainer>
   );
 };
