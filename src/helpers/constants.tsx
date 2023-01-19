@@ -12,6 +12,7 @@ export const PATHS = {
   PROJECT: 'project',
   PROJECTCREATE: 'create',
   OVERVIEW: 'overview/:id',
+  SUBACTIVITY: 'sub-activity/:id',
   PROJECTEDIT: ':id',
   PROJECTS: 'list',
   STEPS: ':id/steps/:index',
@@ -19,9 +20,12 @@ export const PATHS = {
   USERPROFILE: 'user-profile',
   CHANGEPASSWORD: 'change-password',
   PROJECTINFORMATION: 'project-information/:id',
+  COURSEINFORMATION: 'course-information/:id',
   ACTIVITYTEMPLATE: 'activity-template/:id',
   COURSESECTION: 'activity-template/:id/second-step',
-  APPLICANTS: 'applicant/:id'
+  APPLICANTS: 'applicant/:id',
+  APPLICATION: 'application/:id',
+  APPLICATIONFORM: 'apply-form/:id'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -111,3 +115,23 @@ export const ApplicantStatus = {
   PostAssessment: 'Post-assessment',
   Trained: 'Trained'
 };
+export const answerType: string[] = [
+  'Select one',
+  'Short text',
+  'Yes/No',
+  'Multiple answers'
+];
+
+export const regions: string[] = [
+  'Yerevan/Երևան',
+  'Aragatsotn/Արագածոտն',
+  'Ararat/Արարատ',
+  'Armavir/Արմավիր',
+  'Gegharkunik/Գեղարքունիք',
+  'Kotayk/Կոտայք',
+  'Lori/Լոռի',
+  'Shirak/Շիրակ',
+  'Syunik/Սյունիք',
+  'Tavush/Տավուշ',
+  'Vayots Dzor/Վայոց Ձոր'
+];

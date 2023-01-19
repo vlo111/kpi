@@ -73,6 +73,7 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
           checkedList={checkedList}
           setDateSearch={setDateSearch}
           dateSearch={dateSearch}
+          templates={templates}
           />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Active Templates " key="2">

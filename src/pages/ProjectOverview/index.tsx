@@ -72,7 +72,7 @@ const ProjectOverview: React.FC = () => {
   }
   return (
     <>
-      <ProjectInformationHeader overview={true} project={project} />
+      <ProjectInformationHeader overview={true} project={project} padding={'40px'} />
       {project?.resultAreas.length !== 0
         ? (
           <AsnTabs

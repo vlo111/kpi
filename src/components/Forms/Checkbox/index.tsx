@@ -13,7 +13,6 @@ const defaultStyle = css<IAsnCheckbox>`
         border-left: 0;
         top: ${(props) => props.top ?? '7px'};
         left: ${(props) => props.left ?? '4px'};
-        background-color: inherit !important;
       }
     }
 
