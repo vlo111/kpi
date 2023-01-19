@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Form, message, Space, Spin, Typography } from 'antd';
 import PersonalDetails from '../../components/FillApplicationForm/PersonalDetails';
 import { FormText } from '../../components/FillApplicationForm/style';
-import { FormFinish } from '../../types/global';
+import { FormFinish, Void } from '../../types/global';
 import { AsnButton } from '../../components/Forms/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import useSingleApplicationForm from '../../api/ApplicationForm/useGetSingleApplicationForm';
@@ -13,7 +13,6 @@ import { AsnForm } from '../../components/Forms/Form';
 import EducationsWork from '../../components/FillApplicationForm/EducationsWork';
 import OtherInformation from '../../components/FillApplicationForm/OtherInformation';
 import TermsConditions from '../../components/FillApplicationForm/TermsConditions';
-import { IApplicationsOption } from '../../types/api/application/applicationForm';
 import useCreateApplicant from '../../api/Applicant/useApplyApplicant';
 
 const FillApplicationFormContainer = styled.div`
@@ -75,7 +74,7 @@ const concatRelatedAnswers: (items: any, educationQuestion: any) => any = (items
   educationQuestion[key] = educationQuestion[key].concat(rq);
 };
 
-const initForm: (personalInfo: any, educationQuestion: any, otherInfo: any) => any = (personalInfo, education, otherInfo) => {
+const initFormData: (personalInfo: any, educationQuestion: any, otherInfo: any) => any = (personalInfo, education, otherInfo) => {
   const personalInfoQuestions = {
     [personalInfo.keyName]: getAnswers(personalInfo.questions)
   };
@@ -128,8 +127,13 @@ const FillApplicationForm: React.FC = () => {
   const [form] = Form.useForm();
 
   const { mutate: createApplicat } = useCreateApplicant({
-    onSuccess: (options: IApplicationsOption) => {
+    onSuccess: (options: any) => {
       form.resetFields();
+      initForm();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
       void message.success('successfully applied', 2);
     },
     onError: (err: any) => {
@@ -161,50 +165,48 @@ const FillApplicationForm: React.FC = () => {
   const [hasJobsIncome, setHasJobsIncome] = useState();
   const [disability, setDisability] = useState();
 
-  const onFinish: FormFinish = (values) => {
-    // eslint-disable-next-line no-debugger
-    debugger;
+  const onFinish: FormFinish = () => {
+    try {
+      const personalInfo = _.cloneDeep(form.getFieldValue('personal_info'));
+      const educationalInfo = _.cloneDeep(form.getFieldValue('educational_info'));
+      const otherInfo = _.cloneDeep(form.getFieldValue('other_info'));
 
-    const personalInfo = form.getFieldValue('personal_info');
-    const educationalInfo = form.getFieldValue('educational_info');
-    const otherInfo = form.getFieldValue('other_info');
+      personalInfo.forEach((p: any) => {
+        if (p.keyName === 'dob') {
+          p.answers[0].text = p.answers[0].text.toJSON();
+        }
+      });
 
-    personalInfo.forEach((p: any) => {
-      if (p.keyName === 'dob') {
-        p.answers[0].text = p.answers[0].text.toJSON();
-      }
-    });
+      const data = personalInfo.concat(educationalInfo, otherInfo);
 
-    const data = personalInfo.concat(educationalInfo, otherInfo);
-
-    createApplicat({
-      id,
-      data
-    });
-  };
-
-  const onFinishFail: FormFinish = (values) => {
-    // eslint-disable-next-line no-debugger
-    debugger;
-    console.table('form ------', form.getFieldValue([]));
+      createApplicat({
+        id,
+        data
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
     if (!_.isEmpty(data)) {
-      const { applicationFormSections } = data;
-
-      // const [personalInfo, education, otherInfo, skills] = applicationFormSections;
-      const [personalInfo, education, otherInfo] = applicationFormSections;
-
-      initStates(personalInfo, education, otherInfo);
-
-      const initial = initForm(personalInfo, education, otherInfo);
-
-      form.setFieldsValue({
-        ...initial
-      });
+      initForm();
     }
   }, [data, id, form]);
+
+  const initForm: Void = () => {
+    const { applicationFormSections } = data;
+
+    const [personalInfo, education, otherInfo] = applicationFormSections;
+
+    initStates(personalInfo, education, otherInfo);
+
+    const initial = initFormData(personalInfo, education, otherInfo);
+
+    form.setFieldsValue({
+      ...initial
+    });
+  };
 
   const initStates: (personalInfo: any, education: any, otherInfo: any) => void = (personalInfo, education, otherInfo) => {
     setGender(getAnswersByKey(personalInfo, 'gender'));
@@ -232,7 +234,6 @@ const FillApplicationForm: React.FC = () => {
       <AsnForm
         form={form}
         onFinish={onFinish}
-        onFinishFailed={onFinishFail}
         autoComplete="off"
       >
         <PersonalDetails gender={gender}/>
