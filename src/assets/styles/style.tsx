@@ -230,6 +230,7 @@ const GlobalStyle = createGlobalStyle`
   }
   .filePreviewModal{
     width: auto!important;
+    height: 500px !important;
   }
 `;
 

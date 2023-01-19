@@ -20,7 +20,7 @@ import useAttacheFilesSubActivitySection from '../../../api/Activity/Template/Su
 import DocumentDonload from '../Popover/Pdf';
 import styled from 'styled-components';
 
-import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
+// import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 
 const DocumentCard = styled(Col)`
   .ant-col {
@@ -400,18 +400,19 @@ const DataResult: React.FC<IDataResult> = ({
             //   defaultLayoutPluginInstance
             // ]}
 /> */}
-            <DocViewer
-              pluginRenderers={DocViewerRenderers}
-              documents={[{ uri: viewPdf }]}
-              config={{
-                header: {
-                  disableHeader: true,
-                  disableFileName: false,
-                  retainURLParams: false
-                }
-              }}
-              style={{ height: window.innerHeight - 332 }}
-            />
+            <iframe src={viewPdf} width={'100%'} height={'500px'} ></iframe>
+            {/* <DocViewer */}
+            {/*   pluginRenderers={DocViewerRenderers} */}
+            {/*   documents={[{ uri: viewPdf }]} */}
+            {/*   config={{ */}
+            {/*     header: { */}
+            {/*       disableHeader: true, */}
+            {/*       disableFileName: false, */}
+            {/*       retainURLParams: false */}
+            {/*     } */}
+            {/*   }} */}
+            {/*   style={{ height: window.innerHeight - 332 }} */}
+            {/* /> */}
           </>
         )}
       </Modal>
