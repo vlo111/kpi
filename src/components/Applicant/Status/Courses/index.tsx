@@ -10,7 +10,7 @@ import { AsnButton } from '../../../Forms/Button';
 import { AsnModal } from '../../../Forms/Modal';
 import { AsnTextArea } from '../../../Forms/Input';
 
-const courses = [...Array(6).keys()];
+const courses = Array.from(Array(6).keys());
 
 const pseudo = css`
   // content: "";
