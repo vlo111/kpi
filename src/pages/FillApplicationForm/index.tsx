@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Form, message, Space, Spin, Typography } from 'antd';
+import { Form, Row, Space, Spin, Typography } from 'antd';
 import PersonalDetails from '../../components/FillApplicationForm/PersonalDetails';
 import { FormText } from '../../components/FillApplicationForm/style';
 import { FormFinish, Void } from '../../types/global';
@@ -14,6 +14,8 @@ import EducationsWork from '../../components/FillApplicationForm/EducationsWork'
 import OtherInformation from '../../components/FillApplicationForm/OtherInformation';
 import TermsConditions from '../../components/FillApplicationForm/TermsConditions';
 import useCreateApplicant from '../../api/Applicant/useApplyApplicant';
+import { AsnModal } from '../../components/Forms/Modal';
+import { ReactComponent as SuccessfulIcon } from '../../assets/icons/successful.svg';
 
 const FillApplicationFormContainer = styled.div`
   padding: 3rem 3.75rem 3.75rem;
@@ -124,6 +126,8 @@ const getRelatedAnswersByKey: (item: any, key: string) => any = (item, key) => {
 };
 
 const FillApplicationForm: React.FC = () => {
+  const [isSuccessPublishModal, setIsSuccessPublishModal] = useState(false);
+
   const [form] = Form.useForm();
 
   const { mutate: createApplicat } = useCreateApplicant({
@@ -134,7 +138,7 @@ const FillApplicationForm: React.FC = () => {
         top: 0,
         behavior: 'smooth'
       });
-      void message.success('Request successfully sent', 2);
+      setIsSuccessPublishModal(true);
     },
     onError: (err: any) => {
       console.log(err);
@@ -256,6 +260,17 @@ const FillApplicationForm: React.FC = () => {
         </Space>
       </AsnForm>
     </FillApplicationFormContainer>
+    <AsnModal
+        footer={false}
+        open={isSuccessPublishModal}
+        title={data?.successMessage}
+        onCancel={() => setIsSuccessPublishModal(false)}
+        width="50%"
+      >
+        <Row justify="center">
+          <SuccessfulIcon />
+        </Row>
+      </AsnModal>
     </Spin>
   );
 };

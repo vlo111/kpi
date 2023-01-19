@@ -471,6 +471,20 @@ export interface IAddQuestionCard {
   addOrUpdateQuestion: string
   questionRowIndex: number | undefined
 }
+export interface IQuestionRowContainer {
+  question: IContent
+  index: number
+  content: IContent[]
+  applicationData: any
+  setApplicationData: React.Dispatch<React.SetStateAction<any>>
+  setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
+  isQuestionCardVisible: string[]
+  cardId: string
+  setAnswerTypeValue: React.Dispatch<React.SetStateAction<string>>
+  setSingleQuestionData: React.Dispatch<React.SetStateAction< IContent | undefined | any>>
+  setAddOrUpdateQuestion: React.Dispatch<React.SetStateAction<string>>
+  setQuestionRowIndex: React.Dispatch<React.SetStateAction<number | undefined>>
+}
 
 export interface IApplicationCard {
   title: string
