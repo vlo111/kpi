@@ -234,7 +234,12 @@ const DataResult: React.FC<IDataResult> = ({
                   {fileList?.folders?.map((folder: any) => (
                     <>
                       <DocumentCard sm={14} xxl={6} xl={8} md={12}>
-                        <Col>
+                      <Col
+                          onClick={() => {
+                            setOpen(folder?.uid);
+                            setFileName(folder?.path);
+                          }}
+                        >
                           <Col style={{ cursor: 'pointer' }} onClick={() => {
                             setFolderName(folder?.title);
                             setFolderId(folder?.id);
