@@ -2,19 +2,15 @@ import React, { ReactElement } from 'react';
 import { Col, List, Popover, Row, Switch, Typography } from 'antd';
 import styled from 'styled-components';
 
-import { ReactComponent as EditIcon } from '../../../../../../assets/icons/edit.svg';
 import { ReactComponent as DeleteIcon } from '../../../../../../assets/icons/delete.svg';
 import { ReactComponent as MenuIcon } from '../../../../../../assets/icons/md-menu.svg';
 import { ReactComponent as LinkIcon } from '../../../SubActivityIcons/link.svg';
-import { ReactComponent as PreviewIcon } from '../../../../../../assets/icons/preview.svg';
 import { ReactComponent as DuplicateIcon } from '../../../SubActivityIcons/copy.svg';
 import updateApplicationStatus from '../../../../../../api/ApplicationForm/updateApplicationStatus';
 import { IApplicationFormItem } from '../../../../../../types/api/activity/subActivity';
 import duplicateApplicationForm from '../../../../../../api/ApplicationForm/useApplicationFormDuplicate';
 import useDeleteApplicationForm from '../../../../../../api/ApplicationForm/useDeleteApplicationForm';
-import { useNavigate } from 'react-router-dom';
 import { PATHS } from '../../../../../../helpers/constants';
-// import { Onchange } from '../../../../../../types/global';
 
 const StyledItems = styled(List)`
   .ant-list-item {
@@ -37,9 +33,6 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
   refetchSingleStatus
 }) => {
   const { Title } = Typography;
-  const navigate = useNavigate();
-
-  // const [openPopover, setOpenPopover] = useState(false);
 
   const { mutate: updateApplicationFormStatus } = updateApplicationStatus({
     onSuccess: () => {
@@ -77,12 +70,12 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
       }}
       gutter={[8, 8]}
     >
-      <Col span={24} onClick={() => navigate(`/${PATHS.APPLICATION.replace(':id', id)}`)}>
-        <EditIcon /> Edit
-      </Col>
-      <Col span={24}>
-        <PreviewIcon /> Preview
-      </Col>
+      {/* <Col span={24} onClick={() => navigate(`/${PATHS.APPLICATIONFORM.replace(':id', id)}`)}> */}
+      {/*   <EditIcon /> Edit */}
+      {/* </Col> */}
+      {/* <Col span={24}> */}
+      {/*   <PreviewIcon /> Preview */}
+      {/* </Col> */}
       <Col span={24} onClick={() => duplicate(id)}>
         <DuplicateIcon /> Duplicate
       </Col>
@@ -127,7 +120,7 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
                 gutter={[10, 10]}
               >
                 <Col>
-                  <Title level={4} copyable={{ text: `${process.env.REACT_APP_BASE_URL_HOST ?? ''}/${PATHS.APPLICATIONFORM.replace(':id', item.id !== null ? item.id : '')}` }}>
+                  <Title level={4} copyable={{ text: `${process.env.REACT_APP_BASE_URL_HOST ?? ''}${PATHS.APPLICATIONFORM.replace(':id', item.id !== null ? item.id : '')}` }}>
                    <LinkIcon />
                   </Title>
                 </Col>

@@ -382,6 +382,8 @@ export interface ISubActivitiesProps {
 }
 export interface ISubActivities {
   title: string
+  cardRound: string
+  subActivityId: string
   startDate: string
   endDate: string
   subActivity: {
@@ -419,7 +421,6 @@ export interface IDateFilterCards {
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>
-
 }
 export type StepsHeaderText = (mode: string) => string
 

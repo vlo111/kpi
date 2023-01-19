@@ -26,6 +26,9 @@ export const PATHS = {
   FILES: 'files/:id',
   APPLICATION: 'application/:id',
   APPLICATIONFORM: 'apply-form/:id'
+  APPLICANT: 'applicant/:id',
+  APPLICATIONFORM: 'application/:id',
+  APPLYAPPLICANTFORM: 'apply-form/:id'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -86,6 +89,22 @@ export const ProjectSteps = {
   Last: 1
 };
 
+export const ApplicantInfo = {
+  PersonalTitle: 'Personal details/Անձնական տվյալներ',
+  EducationTitle: 'Education & Work/Կրթություն և աշխատանք',
+  OtherInfoTitle: 'Other information / Այլ տեղեկություն',
+  Birthdate: 'Birthdate',
+  Region: 'Region',
+  Community: 'Community',
+  Gender: 'Gender',
+  Student: 'Student',
+  EducationLevel: 'Education level',
+  PaidJob: 'Paid job',
+  WorkOrganisation: 'Work Organisation',
+  VulnerabilityType: 'Vulnerability type',
+  CourseSource: 'Course Source'
+};
+
 export const answerTypeOptions: string[] = [
   'Short Text',
   'Number',
@@ -93,6 +112,14 @@ export const answerTypeOptions: string[] = [
   'Dropdown options'
 ];
 
+export const ApplicantStatus = {
+  Applicant: 'Applicant',
+  Selection: 'Selection',
+  PreAssessment: 'Pre-assessment',
+  Participant: 'Participant',
+  PostAssessment: 'Post-assessment',
+  Trained: 'Trained'
+};
 export const answerType: string[] = [
   'Select one',
   'Short text',

@@ -15,7 +15,7 @@ import 'antd/dist/antd.min.css';
 // import { VALIDATE_MESSAGES } from './helpers/constants';
 
 const root: ReactDOM.Root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById('index') as HTMLElement
 );
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,7 +27,7 @@ const queryClient = new QueryClient({
 
 // eslint-disable-next-line no-template-curly-in-string
 root.render(
-  <>
+  <React.StrictMode>
     <ConfigProvider locale={locale}>
       <AuthProvider>
       <ProjectProvider>
@@ -38,7 +38,7 @@ root.render(
       </ProjectProvider>
       </AuthProvider>
     </ConfigProvider>
-  </>
+  </React.StrictMode>
 );
 
 reportWebVitals();

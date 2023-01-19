@@ -50,7 +50,7 @@ const GlobalStyle = createGlobalStyle`
     --base-font-size: 16px;
     --font-size-semismall: 14px;
     --font-size-small: 12px;
-    --font-size-base-medium: 17px
+    --font-size-base-medium: 17px;
     
     --font-normal: 400;
     --font-semibold: 500;
@@ -215,6 +215,14 @@ const GlobalStyle = createGlobalStyle`
     padding: 12px 10px;
   }
 }
+  
+  .applicant-popover {
+    .ant-popover-inner {
+      background: var(--white);
+      box-shadow: 4px 4px 4px rgba(42, 85, 120, 0.2), -4px -4px 4px rgba(42, 85, 120, 0.1);
+      border-radius: 20px;
+    }
+  }
 
   .ant-upload-list {
     max-height: 12vh !important;

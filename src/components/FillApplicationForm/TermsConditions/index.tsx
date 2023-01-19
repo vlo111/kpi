@@ -2,34 +2,58 @@ import { Form } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
 import { AsnCheckbox } from '../../Forms/Checkbox';
-import { BorderBottomInput, DividerLine, FormText, SectionTitle } from '../style';
+import {
+  BorderBottomInput,
+  DividerLine,
+  FormText,
+  SectionTitle
+} from '../style';
 
 const TermsConditionsContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const TermsConditions: React.FC = () => {
+const TermsConditions: React.FC<{ text: string, onlineSignature: boolean }> = ({
+  text,
+  onlineSignature
+}) => {
   return (
     <TermsConditionsContainer>
       <SectionTitle>Personal details / Անձնական տվյալներ:</SectionTitle>
-      <FormText> {'previewData.termsCondition'}</FormText>
-      <Form.Item name="community">
-        <AsnCheckbox>I agree / Համաձայն եմ</AsnCheckbox>
-      </Form.Item>
-      <FormText>
-        Համաձայն եմ, որ իմ կողմից ներկայացված տեղեկություններն օգտագործվեն՝
-        ծրագրի նպատակներից ելնելով։
-      </FormText>
-      <Form.Item name="community">
-        <AsnCheckbox>I agree / Համաձայն եմ</AsnCheckbox>
-      </Form.Item>
-      <Form.Item name="onlineSignature">
-        <DividerLine>
-          <FormText style={{ fontWeight: '700' }}>Online signature / Առցանց ստորագրություն</FormText>
-          <BorderBottomInput />
-        </DividerLine>
-      </Form.Item>
+
+      {text !== undefined &&
+        JSON.parse(text)?.map((p: any, i: number) => (
+          <div key={i}>
+            <FormText>{p}</FormText>
+            <Form.Item
+              name={`community${i}`}
+              valuePropName="checked"
+              rules={[
+                {
+                  validator: async (_, value: boolean) =>
+                    value
+                      ? await Promise.resolve()
+                      : await Promise.reject(
+                        new Error('The field is required')
+                      )
+                }
+              ]}
+            >
+              <AsnCheckbox>I agree / Համաձայն եմ</AsnCheckbox>
+            </Form.Item>
+          </div>
+        ))}
+      {onlineSignature && (
+        <Form.Item name="onlineSignature">
+          <DividerLine>
+            <FormText style={{ fontWeight: '700' }}>
+              Online signature / Առցանց ստորագրություն
+            </FormText>
+            <BorderBottomInput />
+          </DividerLine>
+        </Form.Item>
+      )}
     </TermsConditionsContainer>
   );
 };

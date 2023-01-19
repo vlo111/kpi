@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 
 import { Void } from '../../../../types/global';
-import { ISubActivitiesProps } from '../../../../types/project';
+import { ISubActivities, ISubActivitiesProps } from '../../../../types/project';
 import { AsnCardSubActivity } from '../../../../components/Forms/Card/SubActivityCard';
 import { ReactComponent as Calendar } from '../../../../assets/icons/calendar.svg';
 import { ReactComponent as Location } from '../../../../assets/icons/location.svg';
@@ -85,7 +85,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
               >
                 + Add Activity
               </Button>
-              {subActivities?.map((item: any, i: number) => (
+              {subActivities?.map((item: ISubActivities, i: number) => (
                 <Card
                   key={i}
                   className={`card ${item?.subActivity?.status === 'ACTIVE'
