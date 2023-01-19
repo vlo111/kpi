@@ -13,6 +13,7 @@ import useGetSearchCourseFile from '../../../api/Files/useGetSearchCourseFile';
 
 const SearchImportData = styled.div`
   width: 100%;
+  background-color: white;
   .ant-select-show-search.ant-select:not(.ant-select-customize-input)
     .ant-select-selector {
     border-radius: 10px;
