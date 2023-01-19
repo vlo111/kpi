@@ -30,6 +30,31 @@ export interface IDraggerProps {
   keyName?: string
 }
 
+export interface IApplicantsList {
+  id: string
+  email: string
+  status: string
+  fullName: string
+}
+
+export interface IApplicantsListFullInfo {
+  applicants: IApplicantsList []
+  color: string
+}
+
+export interface ICourseStatusInfo {
+  title: string
+  applicationForm: string[]
+  courseId: string
+  refetchSingleStatus: any
+  form: Array<{ id: string, title: string }>
+}
+
+export interface IApplicationFormItem {
+  refetchSingleStatus: any
+  form: Array<{ id: string, title: string }>
+}
+
 export interface UploadRequestError extends Error {
   status?: number
   url?: string

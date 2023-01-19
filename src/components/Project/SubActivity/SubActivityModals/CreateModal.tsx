@@ -287,7 +287,7 @@ const CreateSubActivityModal: React.FC<ICreateSubActivityProps> = ({ templateId,
                               maxCount={1}
                               customRequest={(options: any) => {
                                 const { file, onSuccess: successStatus, onError: errorStatus } = options;
-                                UploadDoc({ file, type: 'OTHER_DOCUMENT' }, {
+                                UploadDoc({ file, type: 'COURSE_INFO' }, {
                                   onSuccess: (response: any) => {
                                     successStatus();
                                     const url = response.data.result[0];

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Form, Radio, RadioChangeEvent, Space } from 'antd';
+import { Form, Radio, Space } from 'antd';
 import { BorderBottomInput, CustomRadio, FormText, SectionTitle } from '../style';
-import { AsnCheckbox, AsnCheckboxGroup } from '../../Forms/Checkbox';
 
 const OtherInformationContainer = styled.div`
   display: flex;
@@ -21,8 +20,7 @@ const OtherInformation: React.FC<{
     <OtherInformationContainer>
       <SectionTitle>Other information / Այլ տեղեկություն</SectionTitle>
       <FormText style={{ margin: '1rem 0rem' }}>
-        Do you have a disability? / Ունեք որևէ տեսակի
-        խոցելիութուն,հաշմանդամություն*
+        {oherInformationForm.getFieldValue('disability')}
       </FormText>
       <Form.Item name={['other_info', 0, 'answers', 0, 'id']}>
         <Radio.Group onChange={() => setHaveDisability(!haveDisability)}>
@@ -39,19 +37,19 @@ const OtherInformation: React.FC<{
 
       {haveDisability && <>
         <FormText style={{ marginBottom: '1rem' }}>
-          {oherInformationForm.getFieldValue('disability')}
+          {oherInformationForm.getFieldValue('vulnerabilities')}
         </FormText>
-        <Form.Item name="followingTypes">
-          <AsnCheckboxGroup>
+        <Form.Item name={['other_info', 2, 'answers', 0, 'id']}>
+          <Radio.Group>
             <Space direction="vertical">
               {vulnerabilities?.map((info: any) => (
-                <AsnCheckbox value={info.id} key={info.id}>
+                <CustomRadio value={info.id} key={info.id}>
                   {info.text}
                   {info.text === 'Other (specify)/ Այլ (նշել)' && <BorderBottomInput />}
-                </AsnCheckbox>
+                </CustomRadio>
               ))}
             </Space>
-          </AsnCheckboxGroup>
+          </Radio.Group>
         </Form.Item>
       </>}
 

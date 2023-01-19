@@ -4,6 +4,7 @@ import { Col, Row, Space } from 'antd';
 import DraggerForm from '../SubActivityForms/Dragger';
 import FormWrapper from '../../SubActivityWrapper';
 import { ReactComponent as NotUploaded } from '../../SubActivityIcons/not-uploaded-docs.svg';
+import { ReactComponent as DonneSvg } from '../../SubActivityIcons/done-all.svg';
 import useAttacheFilesSubActivitySection from '../../../../../api/Activity/SubActivity/useAttachFileCourseSetting';
 
 const SubActivityDocuments: React.FC<any> = ({
@@ -37,7 +38,9 @@ const SubActivityDocuments: React.FC<any> = ({
         };
       });
       setDefaultFileList(newFile);
-      const filteredFiles = files?.filter((item: { type: string }) => item.type === 'REQUIRED_DOCUMENT');
+      const filteredFiles = files?.filter(
+        (item: { type: string }) => item.type === 'REQUIRED_DOCUMENT'
+      );
       setReqDocs(filteredFiles);
     }
   }, [files]);
@@ -90,7 +93,7 @@ const SubActivityDocuments: React.FC<any> = ({
             <Col style={{ textAlign: 'center' }} span={8}>
               Number
             </Col>
-            <Col style={{ textAlign: 'end' }} span={8}>
+            <Col style={{ textAlign: 'center' }} span={8}>
               Downloaded
             </Col>
           </Row>
@@ -102,12 +105,21 @@ const SubActivityDocuments: React.FC<any> = ({
                 style={{ color: 'var(--dark-4)' }}
                 key={doc.title}
               >
-                <Col style={{ textAlign: 'start', display: 'flex' }} span={8} onClick={() => setKeyName(doc.title)}>
+                <Col
+                  style={{ textAlign: 'start', display: 'flex' }}
+                  span={8}
+                  onClick={() => setKeyName(doc.title)}
+                >
                   <DraggerForm
                     text="File/Documents"
                     setReqDocs={setReqDocs}
                     docType="REQUIRED_DOCUMENT"
-                    disabled={(status === 'INACTIVE' || reqDocs.filter((i: { keyname: string }) => i.keyname === doc.title).length === doc.count)}
+                    disabled={
+                      status === 'INACTIVE' ||
+                      reqDocs.filter(
+                        (i: { keyname: string }) => i.keyname === doc.title
+                      ).length === doc.count
+                    }
                     fileList={fileList}
                     setFileList={setFileList}
                     defaultFileList={defaultFileList}
@@ -120,7 +132,19 @@ const SubActivityDocuments: React.FC<any> = ({
                   {doc.count}
                 </Col>
                 <Col style={{ textAlign: 'center' }} span={8}>
-                  {`${doc.count}/${reqDocs.filter((i: { keyname: string }) => i.keyname === doc.title).length}`}
+                  {reqDocs.filter(
+                    (i: { keyname: string }) => i.keyname === doc.title
+                  ).length !== doc.count
+                    ? (
+                    `${doc.count}/${
+                      reqDocs.filter(
+                        (i: { keyname: string }) => i.keyname === doc.title
+                      ).length
+                    }`
+                      )
+                    : (
+                    <DonneSvg />
+                      )}
                 </Col>
               </Row>
             ))}

@@ -6,12 +6,15 @@ import { ColumnsType } from 'antd/lib/table';
 import { ReactComponent as NotFoundIcon } from '../../SubActivityIcons/not-users-found.svg';
 import { ReactComponent as ApplicantsIcon } from '../../../../../assets/icons/team-members.svg';
 import { ReactComponent as DownloadIcon } from '../../../../../assets/icons/download.svg';
-import { IUserListTypes } from '../../../../../types/api/activity/subActivity';
+import { IApplicantsListFullInfo, IUserListTypes } from '../../../../../types/api/activity/subActivity';
 import { AsnTable } from '../../../../Forms/Table';
 import FormWrapper from '../../SubActivityWrapper';
+import { useNavigate } from 'react-router-dom';
+import { PATHS } from '../../../../../helpers/constants';
 
-const SubActivityUsersFullInfo: React.FC<any> = ({ color, applicants }) => {
+const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({ color, applicants }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const navigate = useNavigate();
   const columns: ColumnsType<IUserListTypes> = [
     {
       title: 'Name Surname',
@@ -27,9 +30,6 @@ const SubActivityUsersFullInfo: React.FC<any> = ({ color, applicants }) => {
       title: 'Status',
       dataIndex: 'status',
       key: 'status'
-    },
-    {
-      title: 'Actions'
     }
   ];
 
@@ -67,6 +67,13 @@ const SubActivityUsersFullInfo: React.FC<any> = ({ color, applicants }) => {
           : (
           <AsnTable
             size="middle"
+            onRow={(record) => {
+              return {
+                onClick: () => {
+                  navigate(`/${PATHS.APPLICATION.replace(':id', record.id)}`);
+                }
+              };
+            }}
             columns={columns}
             dataSource={applicants}
             rowKey="id"

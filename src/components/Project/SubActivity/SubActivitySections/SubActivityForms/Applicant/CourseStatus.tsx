@@ -81,13 +81,15 @@ const CourseStatusForm: React.FC<any> = ({
       <FormWrapper className="applicant_form" color={color}>
         <CourseHeaderStatus
           title={statusTitle}
+          courseId={courseId}
+          refetchSingleStatus={refetchSingleStatus}
           form={data?.form}
           applicationForm={applicationForm}
         />
         <DraggerForm
           text="Attach related document"
           fileList={fileList}
-          docType='APPLICANT_DOCUMENT'
+          docType='SECTION_SETTING_DOCUMENT'
           setFileList={setFileList}
           setDefaultFileList={setDefaultFileList}
           defaultFileList={defaultFileList}
