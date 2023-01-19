@@ -70,7 +70,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({ color, ap
             onRow={(record) => {
               return {
                 onClick: () => {
-                  navigate(`/${PATHS.APPLICATION.replace(':id', record.id)}`);
+                  navigate(`/${PATHS.APPLICANT.replace(':id', record.id)}`);
                 }
               };
             }}

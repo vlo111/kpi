@@ -23,8 +23,9 @@ export const PATHS = {
   COURSEINFORMATION: 'course-information/:id',
   ACTIVITYTEMPLATE: 'activity-template/:id',
   COURSESECTION: 'activity-template/:id/second-step',
-  APPLICATION: 'application/:id',
-  APPLICATIONFORM: 'apply-form/:id'
+  APPLICANT: 'applicant/:id',
+  APPLICATIONFORM: 'application/:id',
+  APPLICATION: 'apply-form/:id'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -83,6 +84,22 @@ export const ProjectSteps = {
   Last: 1
 };
 
+export const ApplicantInfo = {
+  PersonalTitle: 'Personal details/Անձնական տվյալներ',
+  EducationTitle: 'Education & Work/Կրթություն և աշխատանք',
+  OtherInfoTitle: 'Other information / Այլ տեղեկություն',
+  Birthdate: 'Birthdate',
+  Region: 'Region',
+  Community: 'Community',
+  Gender: 'Gender',
+  Student: 'Student',
+  EducationLevel: 'Education level',
+  PaidJob: 'Paid job',
+  WorkOrganisation: 'Work Organisation',
+  VulnerabilityType: 'Vulnerability type',
+  CourseSource: 'Course Source'
+};
+
 export const answerTypeOptions: string[] = [
   'Short Text',
   'Number',
@@ -90,6 +107,14 @@ export const answerTypeOptions: string[] = [
   'Dropdown options'
 ];
 
+export const ApplicantStatus = {
+  Applicant: 'Applicant',
+  Selection: 'Selection',
+  PreAssessment: 'Pre-assessment',
+  Participant: 'Participant',
+  PostAssessment: 'Post-assessment',
+  Trained: 'Trained'
+};
 export const answerType: string[] = [
   'Select one',
   'Short text',

@@ -30,6 +30,7 @@ import SubActivity from './pages/SubActivityes';
 import CourseInformation from './pages/SubActivityes/CourseInformation';
 import ActivityTemplate from './pages/ActivityTemplate';
 import CourseSection from './pages/CourseSection';
+import Applicant from './pages/Applicant';
 import Application from './pages/Application';
 import FillApplicationForm from './pages/FillApplicationForm';
 
@@ -63,6 +64,7 @@ export const router = createBrowserRouter(
         <Route path={PATHS.CHANGEPASSWORD} element={<ChangePassword />} />
         <Route path={PATHS.ACTIVITYTEMPLATE} element={<ActivityTemplate />} />
         <Route path={PATHS.COURSESECTION} element={<CourseSection />} />
+        <Route path={PATHS.APPLICANT} element={<Applicant />} />
         <Route path={PATHS.APPLICATION} element={<Application />} />
       </Route>
       <Route path={PATHS.APPLICATIONFORM} element={<FillApplicationForm />} />

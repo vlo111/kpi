@@ -419,7 +419,6 @@ export interface IDateFilterCards {
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>
-
 }
 export type StepsHeaderText = (mode: string) => string
 
