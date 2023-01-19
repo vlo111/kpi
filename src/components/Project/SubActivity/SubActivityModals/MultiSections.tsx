@@ -36,7 +36,7 @@ const MultiSections: React.FC<IMultiSections> = ({ subActivity, attachments, Upl
 
   const { Option } = Select;
   const { Dragger } = Upload;
-  const options = ['Active', 'Online', 'Blended'];
+  const options = ['Offline', 'Online', 'Blended'];
 
   const items = subActivity?.sections?.map((section: { id: string }, i: number) => {
     return {

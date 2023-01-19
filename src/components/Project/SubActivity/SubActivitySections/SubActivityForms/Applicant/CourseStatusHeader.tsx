@@ -3,13 +3,32 @@ import { Row, Typography } from 'antd';
 
 import { AsnButton } from '../../../../../Forms/Button';
 import ApplicationFormItem from './ApplicantFormItems';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PATHS } from '../../../../../../helpers/constants';
 import { ICourseStatusInfo } from '../../../../../../types/api/activity/subActivity';
+import useStartSubActivityCourse from '../../../../../../api/Activity/SubActivity/useStartSubActivityCourse';
 
-const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicationForm, courseId, refetchSingleStatus }) => {
+const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicationForm, courseId, refetchSingleStatus, courseStatus }) => {
   const { Title } = Typography;
   const navigate = useNavigate();
+  const { id: SubActivityId } = useParams();
+
+  const { mutate: StartCourse } = useStartSubActivityCourse({
+    onSuccess: () => {
+      navigate(`/${PATHS.APPLICATIONFORM.replace(':id', courseId)}`, { state: { SubActivityId } });
+    },
+    onError: () => {
+      console.log('aaa');
+    }
+  });
+
+  const publicCourse = (): void => {
+    if (courseId !== undefined && courseStatus === 'INACTIVE') {
+      StartCourse({ id: courseId });
+    } else {
+      navigate(`/${PATHS.APPLICATIONFORM.replace(':id', courseId)}`, { state: { SubActivityId } });
+    }
+  };
 
   const renderCurrentSelectionTitle = (): any => {
     switch (title) {
@@ -25,7 +44,7 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
                 {applicationForm.includes('APPLICATION') && (
                   <>
                     <Row justify="center" style={{ width: '100%' }}>
-                      <AsnButton className="primary" type="primary" onClick={() => { navigate(`/${PATHS.APPLICATIONFORM.replace(':id', courseId)}`); }}>
+                      <AsnButton className="primary" type="primary" onClick={publicCourse}>
                         Publish Application form
                       </AsnButton>
                     </Row>

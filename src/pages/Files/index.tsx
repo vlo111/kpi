@@ -52,25 +52,40 @@ export const Files: React.FC<IFilesProps> = ({
 }) => {
   const { id } = useParams();
   const [expandedKeys, setExpandedKeys] = useState<any>([]);
-  const { data } = useGetProjectFiles(id);
-  const title = useGetResultAreaFile(id);
-  const { data: courseNames } = useGetInputActivity(id);
-
-  if (isFetching || isFetchingFolderFiles) {
+  const [resultAreaId, setResultAreaId] = useState<string>('');
+  const [inputActivityId, setInputActivityID] = useState<string>('');
+  const { data } = useGetProjectFiles(id, { enabled: Boolean(id) });
+  const { data: { result: resultAreas }, isFetching: isFetchingResultArea } = useGetResultAreaFile(resultAreaId, { enabled: Boolean(resultAreaId) });
+  const { data: courseNames, isFetching: isFetchingInputActivity } = useGetInputActivity(inputActivityId, { enabled: Boolean(inputActivityId) });
+  if (isFetching || isFetchingFolderFiles || isFetchingResultArea || isFetchingInputActivity) {
     return <AsnSpin />;
   }
   const defaultVal: DataNode[] = data?.result?.map((item: any, i: string) => {
     return {
-      title: <AsnRow onClick={() => setExpandedKeys([i]) }>
+      title: <AsnRow onClick={() => {
+        if (expandedKeys.length > 0 && expandedKeys[0] === i) {
+          setExpandedKeys([]);
+        } else {
+          setExpandedKeys([i]);
+        }
+        setResultAreaId(item.id);
+      } }>
         {expandedKeys[0] === i ? <OpenFolder style={{ marginRight: '10px' }} /> : <CloseFolder style={{ marginRight: '10px', width: '24px', height: '15px' }} /> }
         <AsnCol>{item?.title}</AsnCol>
         {expandedKeys[0] === i ? <Up style={{ marginLeft: '20px' }}/> : <Down style={{ marginLeft: '20px' }} /> }
       </AsnRow>,
       key: i,
       icon: <></>,
-      children: title?.data?.result?.map((name: any, j: string) => {
+      children: resultAreas?.map((name: any, j: string) => {
         return {
-          title: <AsnRow onClick={() => setExpandedKeys([i, `${i}-${j}`]) }>
+          title: <AsnRow onClick={() => {
+            if (expandedKeys.length > 1 && expandedKeys[1] === `${i}-${j}`) {
+              setExpandedKeys([i]);
+            } else {
+              setExpandedKeys([i, `${i}-${j}`]);
+            }
+            setInputActivityID(name.id);
+          } }>
               {expandedKeys[1] === `${i}-${j}` ? <OpenFolder style={{ marginRight: '10px' }} /> : <CloseFolder style={{ marginRight: '10px', width: '24px', height: '15px' }} /> }
             <AsnCol>{name?.title}</AsnCol>
             {expandedKeys[1] === `${i}-${j}` ? <Up style={{ marginLeft: '20px' }}/> : <Down style={{ marginLeft: '20px' }} /> }
@@ -83,7 +98,11 @@ export const Files: React.FC<IFilesProps> = ({
                 title: (
                   <AsnRow onClick={(e) => {
                     setCourseId(course.id);
-                    setExpandedKeys([i, `${i}-${j}`, `${i}-${j}-${f}`]);
+                    if (expandedKeys.length > 2 && expandedKeys[2] === `${i}-${j}-${f}`) {
+                      setExpandedKeys([i, `${i}-${j}`]);
+                    } else {
+                      setExpandedKeys([i, `${i}-${j}`, `${i}-${j}-${f}`]);
+                    }
                     setFolderId('');
                     if (search !== '') {
                       setSearch('');

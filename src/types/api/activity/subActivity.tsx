@@ -47,6 +47,7 @@ export interface ICourseStatusInfo {
   applicationForm: string[]
   courseId: string
   refetchSingleStatus: any
+  courseStatus: string
   form: Array<{ id: string, title: string }>
 }
 

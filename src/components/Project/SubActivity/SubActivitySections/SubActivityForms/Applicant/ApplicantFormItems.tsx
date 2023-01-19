@@ -123,6 +123,7 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
                   <Title
                     level={4}
                     copyable={{
+                      icon: [<LinkIcon key="copy-icon" />, <LinkIcon key="copied-icon" />],
                       text: `${
                         process.env.REACT_APP_BASE_URL_HOST ?? ''
                       }${PATHS.APPLYAPPLICANTFORM.replace(
@@ -130,9 +131,7 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
                         item.id !== null ? item.id : ''
                       )}`
                     }}
-                  >
-                    <LinkIcon />
-                  </Title>
+                  />
                 </Col>
                 <Col>
                   <Switch

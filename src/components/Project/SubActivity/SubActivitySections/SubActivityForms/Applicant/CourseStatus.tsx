@@ -81,6 +81,7 @@ const CourseStatusForm: React.FC<any> = ({
       <FormWrapper className="applicant_form" color={color}>
         <CourseHeaderStatus
           title={statusTitle}
+          courseStatus={courseStatus}
           courseId={courseId}
           refetchSingleStatus={refetchSingleStatus}
           form={data?.form}

@@ -13,10 +13,11 @@ const useGetInputActivity: any = (id: string, options = { enabled: true }) => {
       ...options
     }
   );
-  const { data, isSuccess } = result;
+  const { data, isSuccess, isFetching } = result;
   return {
     ...result,
-    data: isSuccess ? data : {}
+    data: isSuccess ? data : {},
+    isFetching
   };
 };
 
