@@ -3,7 +3,7 @@ import { DeleteSetting, IOnlyId } from '../../../../types/api/activity/template'
 
 import client from '../../../client';
 
-const url = 'api/file';
+const url = 'api/activity/template/setting';
 
 const useDeleteSetting: DeleteSetting = (options = {}) =>
   useMutation(
