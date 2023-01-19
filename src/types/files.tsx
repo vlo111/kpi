@@ -31,6 +31,7 @@ export interface ISearchImport {
   setFolderId: React.Dispatch<React.SetStateAction<string>>
   setFolderName: React.Dispatch<React.SetStateAction<string>>
   refetchFolderFiles: any
+  refetchAllFiles: any
 }
 export interface IDataResult {
   fileList: IFiles[] | ICourseFiles | any

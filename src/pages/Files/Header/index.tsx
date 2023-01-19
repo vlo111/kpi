@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { Tabs } from 'antd';
 import styled from 'styled-components';
 
+import { useProject } from '../../../hooks/useProject';
+import AsnSpin from '../../../components/Forms/Spin';
 import { Files } from '..';
 import { SearchImport } from '../Search';
 import useGetCoursFile from '../../../api/Files/useGetCoursFile';
@@ -70,6 +72,9 @@ const Tab = styled.div`
 `;
 
 export const FileHeader: React.FC = () => {
+  const { projectName } = useProject();
+  console.log(projectName);
+
   const [courseId, setCourseId] = useState<string | null>(null);
   const [folderId, setFolderId] = useState<string>('');
   const [search, setSearch] = useState<string>('');
@@ -77,21 +82,24 @@ export const FileHeader: React.FC = () => {
   const { id } = useParams();
   const {
     data: { result: files },
-    refetch: refetchAllFiles
+    refetch: refetchAllFiles, isLoading
   } = useGetAllFile(id, { enabled: Boolean(id) });
   const {
     data: { result: courseFiles }, refetch, isFetching
   } = useGetCoursFile(courseId, { enabled: Boolean(courseId) });
 
   const { data: { result: folderFiles }, isFetching: isFetchingFolderFiles, refetch: refetchFolderFiles } = useGetFolderFiles(courseId, folderId, { enabled: (Boolean(folderId) && Boolean(courseId)) });
+  if (isLoading === true) {
+    return <AsnSpin />;
+  }
   return (
     <Tab>
       <Tabs>
         <TabPane
           tab={
             <>
-              <FolderOpenOutlined />
-              AWDA folders
+               <FolderOpenOutlined />
+               {projectName} folders
             </>
           }
         >
@@ -123,6 +131,7 @@ export const FileHeader: React.FC = () => {
       setFolderId={setFolderId}
       setFolderName={setFolderName}
       refetchFolderFiles={refetchFolderFiles}
+      refetchAllFiles={refetchAllFiles}
        />
     </Tab>
   );

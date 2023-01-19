@@ -9,7 +9,7 @@ import {
   CloudDownloadOutlined
 } from '@ant-design/icons';
 
-const DocumentDonload = ({ name, path }: any) => {
+const DocumentDonload = ({ name, path, hide }: any) => {
   const onButtonClick = () => {
     fetch(name).then(response => {
       response.blob().then(blob => {
@@ -19,6 +19,7 @@ const DocumentDonload = ({ name, path }: any) => {
         alink.click();
       });
     });
+    hide();
   };
   return (
             <>

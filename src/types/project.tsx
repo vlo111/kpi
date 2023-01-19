@@ -34,7 +34,7 @@ export type ProjectErrorResponse = (data: {
 
 export type ProjectSuccessResponse = (response: {
   status: number
-  data: { id: string }
+  data: { id: string, title: string }
 }) => void;
 
 export type SetResultArea = (values: FormData) => void;

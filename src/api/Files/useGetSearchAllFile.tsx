@@ -2,12 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 
 import client from '../client';
 
-const url = '/api/file/project';
+const url = '/api/file/project/:id/all';
 
 const useGetAllSearchFile: any = (id: string, search: string, options = { enabled: true }) => {
   const result = useQuery(
     [url, id, search],
-    async () => await client.get(`${url}/b5f7ce3a-5ee0-4818-9d2d-a44b236c181f/all`, { params: { offset: 0, limit: 50, search } }),
+    async () => await client.get(url.replace(':id', id), { params: { offset: 0, limit: 50, search } }),
     {
       select: (data) => data?.data,
       ...options

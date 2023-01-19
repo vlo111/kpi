@@ -59,6 +59,10 @@ const DataResult: React.FC<IDataResult> = ({
   const [fileName, setFileName] = useState('');
   const [viewPdf, setViewPdf] = useState(null);
   const [opens, setOpens] = useState(false);
+  const [openPopOver, setOpenPopOver] = useState<{ id: string, show: boolean }>({
+    id: '',
+    show: false
+  });
   const { mutate: uploadFile } = useFileUpload();
   const { mutate: addFileCourse } = useAttacheFilesSubActivitySection({
     onSuccess: () => {
@@ -92,20 +96,39 @@ const DataResult: React.FC<IDataResult> = ({
       }
     }
   };
+  const hide = (): void => {
+    setOpenPopOver({
+      show: false,
+      id: ''
+    });
+  };
+
+  const handleOpenChange = (newOpen: boolean, fileId: string): void => {
+    setOpenPopOver({
+      show: newOpen,
+      id: fileId
+    });
+  };
   const content = (name: any, path: any): any => {
     return (
       <>
-        <Button type="link" onClick={(e) => preview(fileName)}>
+        <Button type="link" onClick={(e) => {
+          hide();
+          preview(fileName);
+        }}>
           {' '}
           <EyeOutlined />
           preview
         </Button>
-        <Button type="link" onClick={() => onRemoveFile(name)}>
+        <Button type="link" onClick={() => {
+          hide();
+          onRemoveFile(name);
+        } }>
           {' '}
           <DeleteOutlined />
           delete
         </Button>
-        <DocumentDonload name={name} path={path} />
+        <DocumentDonload hide={hide} name={name} path={path} />
       </>
     );
   };
@@ -164,12 +187,14 @@ const DataResult: React.FC<IDataResult> = ({
               {fileList?.files?.REQUIRED_DOCUMENT.length > 0 && (
                 <Row gutter={[10, 50]} >
                   {fileList?.files?.REQUIRED_DOCUMENT.map((file: any) => (
-                    <Popover
+                   <Popover
                       key={file?.path}
                       trigger="click"
                       content={content(file?.name, file?.path)}
                       placement="bottom"
                       overlayClassName="documentPopover"
+                      open={!!openPopOver.show && (openPopOver.id === file.path)}
+                      onOpenChange={(newOpen) => handleOpenChange(newOpen, file.path)}
                     >
                       <DocumentCard sm={14} xxl={6} xl={8} md={12}>
                         <Col
@@ -204,6 +229,8 @@ const DataResult: React.FC<IDataResult> = ({
                       content={content(file?.name, file?.path)}
                       placement="bottom"
                       overlayClassName="documentPopover"
+                      open={!!openPopOver.show && (openPopOver.id === file.path)}
+                      onOpenChange={(newOpen) => handleOpenChange(newOpen, file.path)}
                     >
                       <DocumentCard sm={14} xxl={6} xl={8} md={12}>
                         <Col
@@ -232,8 +259,7 @@ const DataResult: React.FC<IDataResult> = ({
               {fileList?.folders?.length > 0 && (
                 <Row gutter={[10, 50]}>
                   {fileList?.folders?.map((folder: any) => (
-                    <>
-                      <DocumentCard sm={14} xxl={6} xl={8} md={12}>
+                      <DocumentCard key={folder.id} sm={14} xxl={6} xl={8} md={12}>
                         <Col>
                           <Col style={{ cursor: 'pointer' }} onClick={() => {
                             setFolderName(folder?.title);
@@ -244,7 +270,6 @@ const DataResult: React.FC<IDataResult> = ({
                           </Col>
                         </Col>
                       </DocumentCard>
-                    </>
                   ))}
                 </Row>
               )}
@@ -264,6 +289,8 @@ const DataResult: React.FC<IDataResult> = ({
                   content={content(doc?.name, doc?.path)}
                   placement="bottom"
                   overlayClassName="documentPopover"
+                  open={!!openPopOver.show && (openPopOver.id === doc.path)}
+                  onOpenChange={(newOpen) => handleOpenChange(newOpen, doc.path)}
                 >
                   <DocumentCard sm={14} xxl={6} xl={8} md={12}>
                     <Col
@@ -332,6 +359,8 @@ const DataResult: React.FC<IDataResult> = ({
                       content={content(file?.name, file?.path)}
                       placement="bottom"
                       overlayClassName="documentPopover"
+                      open={!!openPopOver.show && (openPopOver.id === file.path)}
+                      onOpenChange={(newOpen) => handleOpenChange(newOpen, file.path)}
                     >
                       <DocumentCard sm={14} xxl={6} xl={8} md={12}>
                         <Col
@@ -362,7 +391,7 @@ const DataResult: React.FC<IDataResult> = ({
                 </Row>
                   )
           )}
-      <Modal open={opens} onCancel={handleCancel} okText={''} title="Pdf NAme">
+      <Modal open={opens} onCancel={handleCancel} okText={''} title="Pdf NAme" className="filePreviewModal">
         {viewPdf && (
           <>
             {/* <Viewer
@@ -381,7 +410,7 @@ const DataResult: React.FC<IDataResult> = ({
                   retainURLParams: false
                 }
               }}
-              // style={{ height: window.innerHeight - 200 }}
+              style={{ height: window.innerHeight - 332 }}
             />
           </>
         )}

@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import client from '../client';
 
-const url = '/api/file/input-activity/f57d30a1-7a40-4ac0-bdaa-17ce65591141';
+const url = '/api/file/input-activity/:id';
 
 const useGetInputActivity: any = (id: string, options = { enabled: true }) => {
   const result = useQuery(

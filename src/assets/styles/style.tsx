@@ -220,6 +220,9 @@ const GlobalStyle = createGlobalStyle`
     max-height: 12vh !important;
     overflow-y: auto !important;
   }
+  .filePreviewModal{
+    width: auto!important;
+  }
 `;
 
 export default GlobalStyle;

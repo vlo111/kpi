@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import client from '../client';
 
-const url = '/api/file/project/b5f7ce3a-5ee0-4818-9d2d-a44b236c181f/all';
+const url = '/api/file/project/:id/all';
 
 const useGetAllFile: any = (id: string, options = { enabled: true }) => {
   const result = useQuery(
@@ -13,10 +13,11 @@ const useGetAllFile: any = (id: string, options = { enabled: true }) => {
       ...options
     }
   );
-  const { data, isSuccess } = result;
+  const { data, isSuccess, isLoading } = result;
   return {
     ...result,
-    data: isSuccess ? data : []
+    data: isSuccess ? data : [],
+    isLoading
   };
 };
 
