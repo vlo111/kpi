@@ -25,7 +25,7 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
                 {applicationForm.includes('APPLICATION') && (
                   <>
                     <Row justify="center" style={{ width: '100%' }}>
-                      <AsnButton className="primary" type="primary" onClick={() => { navigate(`/${PATHS.APPLICATION.replace(':id', courseId)}`); }}>
+                      <AsnButton className="primary" type="primary" onClick={() => { navigate(`/${PATHS.APPLICATIONFORM.replace(':id', courseId)}`); }}>
                         Publish Application form
                       </AsnButton>
                     </Row>

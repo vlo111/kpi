@@ -382,6 +382,8 @@ export interface ISubActivitiesProps {
 }
 export interface ISubActivities {
   title: string
+  cardRound: string
+  subActivityId: string
   startDate: string
   endDate: string
   subActivity: {

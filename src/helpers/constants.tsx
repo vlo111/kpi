@@ -25,7 +25,7 @@ export const PATHS = {
   COURSESECTION: 'activity-template/:id/second-step',
   APPLICANT: 'applicant/:id',
   APPLICATIONFORM: 'application/:id',
-  APPLICATION: 'apply-form/:id'
+  APPLYAPPLICANTFORM: 'apply-form/:id'
 };
 
 export const VALIDATE_MESSAGES = {
