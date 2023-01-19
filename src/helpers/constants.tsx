@@ -23,9 +23,9 @@ export const PATHS = {
   COURSEINFORMATION: 'course-information/:id',
   ACTIVITYTEMPLATE: 'activity-template/:id',
   COURSESECTION: 'activity-template/:id/second-step',
-  APPLICANTS: 'applicant/:id',
-  APPLICATION: 'application/:id',
-  APPLICATIONFORM: 'apply-form/:id'
+  APPLICANT: 'applicant/:id',
+  APPLICATIONFORM: 'application/:id',
+  APPLICATION: 'apply-form/:id'
 };
 
 export const VALIDATE_MESSAGES = {

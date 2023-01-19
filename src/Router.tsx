@@ -63,7 +63,7 @@ export const router = createBrowserRouter(
         <Route path={PATHS.CHANGEPASSWORD} element={<ChangePassword />} />
         <Route path={PATHS.ACTIVITYTEMPLATE} element={<ActivityTemplate />} />
         <Route path={PATHS.COURSESECTION} element={<CourseSection />} />
-        <Route path={PATHS.APPLICANTS} element={<Applicant />} />
+        <Route path={PATHS.APPLICANT} element={<Applicant />} />
         <Route path={PATHS.APPLICATION} element={<Application />} />
       </Route>
       <Route path={PATHS.ERROR_403} element={<Error404 />} />

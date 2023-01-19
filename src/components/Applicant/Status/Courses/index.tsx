@@ -13,7 +13,7 @@ import { AsnTextArea } from '../../../Forms/Input';
 const courses = [...Array(6).keys()];
 
 const pseudo = css`
-  content: "";
+  // content: "";
   position: absolute;
   background: var(--white);
   height: 36px;
@@ -142,6 +142,7 @@ const Courses: React.FC<{ histories: IHistory[], applicant: string }> = ({
   histories,
   applicant
 }) => {
+  if (histories === undefined) { histories = []; }
   const [openApprove, setOpenApprove] = useState<string>('');
 
   return (
