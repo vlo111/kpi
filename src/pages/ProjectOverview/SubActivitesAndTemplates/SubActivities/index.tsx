@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState } from 'react';
 import { Row, Space, Button, Card, Col } from 'antd';
 import styled from 'styled-components';
