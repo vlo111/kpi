@@ -91,9 +91,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
                   )}
                 </>
                   )
-                : (
-                    null
-                  )}
+                : null}
               </>
                 )
               : question?.answerType === 'OPTION'

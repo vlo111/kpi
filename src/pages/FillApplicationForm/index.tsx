@@ -49,38 +49,48 @@ const getDefaultAnswer: (key: any, item: any) => any = (key, item) => {
       };
     }
   }
+
+  return {
+    text: ''
+  };
+};
+
+const getAnswers: (items: any) => any = (items) => (
+  items?.map((p: { id: any, answers: any, keyName: string }) => {
+    return {
+      questionId: p.id,
+      keyName: p.keyName,
+      answers: [getDefaultAnswer(p.keyName, p.answers)]
+    };
+  })
+);
+
+const concatRelatedAnswers: (items: any, educationQuestion: any) => any = (items, educationQuestion) => {
+  const relatedQuestions = items.questions.map((q: any) => q.relatedQuestions).filter((f: any) => f.length).flat();
+
+  const rq = getAnswers(relatedQuestions);
+
+  const key = Object.keys(educationQuestion)[0];
+
+  educationQuestion[key] = educationQuestion[key].concat(rq);
 };
 
 const initForm: (personalInfo: any, educationQuestion: any, otherInfo: any) => any = (personalInfo, education, otherInfo) => {
   const personalInfoQuestions = {
-    [personalInfo.keyName]: personalInfo.questions.map((p: { id: any, answers: any, keyName: string }) => {
-      return {
-        questionId: p.id,
-        keyName: p.keyName,
-        answers: [getDefaultAnswer(p.keyName, p.answers)]
-      };
-    })
+    [personalInfo.keyName]: getAnswers(personalInfo.questions)
   };
 
-  const educationQuestion = {
-    [education.keyName]: education.questions.map((p: { id: any, answers: any, keyName: string }) => {
-      return {
-        questionId: p.id,
-        keyName: p.keyName,
-        answers: [getDefaultAnswer(p.keyName, p.answers)]
-      };
-    })
+  const educationQuestion: any = {
+    [education.keyName]: getAnswers(education.questions)
   };
+
+  concatRelatedAnswers(education, educationQuestion);
 
   const otherInfoQuestion = {
-    [otherInfo.keyName]: otherInfo.questions.map((p: { id: any, answers: any, keyName: string }) => {
-      return {
-        questionId: p.id,
-        keyName: p.keyName,
-        answers: [getDefaultAnswer(p.keyName, p.answers)]
-      };
-    })
+    [otherInfo.keyName]: getAnswers(otherInfo.questions)
   };
+
+  concatRelatedAnswers(otherInfo, otherInfoQuestion);
 
   return {
     termsAndConditions: '',
@@ -94,7 +104,7 @@ const initForm: (personalInfo: any, educationQuestion: any, otherInfo: any) => a
   };
 };
 
-const getAnswers: (item: any, key: string) => any = (item, key) => (
+const getAnswersByKey: (item: any, key: string) => any = (item, key) => (
   item.questions.find(
     (q: { keyName: string }) => q.keyName === key
   )?.answers.map((a: any) => ({
@@ -102,6 +112,17 @@ const getAnswers: (item: any, key: string) => any = (item, key) => (
     text: a.title
   }))
 );
+
+const getRelatedAnswersByKey: (item: any, key: string) => any = (item, key) => {
+  const relatedQuestions = item.questions.map((q: any) => q.relatedQuestions).filter((f: any) => f.length).flat();
+
+  return relatedQuestions.find(
+    (q: { keyName: string }) => q.keyName === key
+  )?.answers.map((a: any) => ({
+    id: a.id,
+    text: a.title
+  }));
+};
 
 const FillApplicationForm: React.FC = () => {
   const [form] = Form.useForm();
@@ -186,21 +207,21 @@ const FillApplicationForm: React.FC = () => {
   }, [data, id, form]);
 
   const initStates: (personalInfo: any, education: any, otherInfo: any) => void = (personalInfo, education, otherInfo) => {
-    setGender(getAnswers(personalInfo, 'gender'));
+    setGender(getAnswersByKey(personalInfo, 'gender'));
 
-    setEducations(getAnswers(education, 'studyType'));
+    setEducations(getRelatedAnswersByKey(education, 'studyType'));
 
-    setEducationLevel(getAnswers(education, 'educationLevel'));
+    setEducationLevel(getAnswersByKey(education, 'educationLevel'));
 
-    setAreStudent(getAnswers(education, 'student'));
+    setAreStudent(getAnswersByKey(education, 'student'));
 
-    setHasJobsIncome(getAnswers(education, 'income'));
+    setHasJobsIncome(getAnswersByKey(education, 'income'));
 
-    setVulnerabilities(getAnswers(otherInfo, 'vulnerabilities'));
+    setVulnerabilities(getRelatedAnswersByKey(otherInfo, 'vulnerabilities'));
 
-    setInformedAboutUs(getAnswers(otherInfo, 'informedAboutUs'));
+    setInformedAboutUs(getAnswersByKey(otherInfo, 'informedAboutUs'));
 
-    setDisability(getAnswers(otherInfo, 'disability'));
+    setDisability(getAnswersByKey(otherInfo, 'disability'));
   };
 
   return (
