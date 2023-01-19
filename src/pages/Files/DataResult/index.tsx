@@ -204,7 +204,7 @@ const DataResult: React.FC<IDataResult> = ({
                           }}
                         >
                           {uploadImgfile(file)}
-                          <Col>{file?.name}</Col>
+                          <Col>{file?.originalName}</Col>
                         </Col>
                       </DocumentCard>
                     </Popover>
@@ -240,7 +240,7 @@ const DataResult: React.FC<IDataResult> = ({
                           }}
                         >
                           {uploadImgfile(file)}
-                          <Col>{file?.name}</Col>
+                          <Col>{file?.originalName}</Col>
                         </Col>
                       </DocumentCard>
                     </Popover>
@@ -370,7 +370,7 @@ const DataResult: React.FC<IDataResult> = ({
                           }}
                         >
                           {uploadImgfile(file)}
-                          <Col>{file?.name}</Col>
+                          <Col>{file?.originalName}</Col>
                         </Col>
                       </DocumentCard>
                     </Popover>
