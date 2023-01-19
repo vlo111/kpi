@@ -57,6 +57,22 @@ const Wrapper = styled(Col)<{ color: string | undefined }>`
   .selection_form {
     padding: 1.6vh 15.9vw;
   }
+  .ant-checkbox-inner{
+    border: 1px solid var(--dark-border-ultramarine) !important;
+  }
+  .ant-checkbox-checked{
+    .ant-checkbox-inner{
+     background-color: var(--dark-border-ultramarine) !important;
+    }
+  }
+  .ant-table-tbody>tr.ant-table-row-selected>td{
+    background: transparent !important;
+  }
+  .ant-table-thead{
+    .ant-checkbox-indeterminate .ant-checkbox-inner:after{
+      display: none !important;
+    }
+  }
 `;
 const FormWrapper: React.FC<IWrapperProps> = ({
   children,

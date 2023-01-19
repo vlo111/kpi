@@ -75,15 +75,6 @@ const SectionsWrapper = styled.div<{ color: string | undefined }>`
         }) !important`};
     }
   }
-  .custom_section_tabs {
-    .ant-tabs-tab {
-      padding: 12px 0 !important;
-      background: transparent !important;
-    }
-    .ant-tabs-nav-list .ant-tabs-tab-active {
-      background-color: transparent !important;
-    }
-  }
   .ant-space-item {
     width: 100%;
   }

@@ -74,8 +74,9 @@ const Application: React.FC = () => {
 
   const { mutate: createApplicationFn } = createApplicationForm({
     onSuccess: (options: IApplicationsOption) => {
-      // const { data } = options;
+      const { data } = options;
       setFormUrlModal(true);
+      setCreatedItemResponse(data);
     },
     onError: (err: any) => {
       console.log(err);
@@ -89,6 +90,7 @@ const Application: React.FC = () => {
   const [applicationData, setApplicationData] = useState<any>({});
   const [onlineSignature, setOnlineSignature] = useState<boolean>(true);
   const [formUrlModal, setFormUrlModal] = useState<boolean>(false);
+  const [createdItemInfo, setCreatedItemResponse] = useState<any>({});
   const [deadlineDate, setDeadlineDate] = useState<string>('');
   const [isAddTermsConditions, setIsAddTermsConditions] = useState<
   IIsAddTermsConditions[]
@@ -279,7 +281,7 @@ const Application: React.FC = () => {
         setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
         courseId={courseId}
       />
-      <FormUrlModal formUrlModal={formUrlModal} setFormUrlModal={setFormUrlModal}/>
+      <FormUrlModal formUrlModal={formUrlModal} setFormUrlModal={setFormUrlModal} responseIds={createdItemInfo}/>
     </ApplicationContainer>
   );
 };

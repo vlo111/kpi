@@ -8,6 +8,13 @@ import { ReactComponent as MenuIcon } from '../../../../../../assets/icons/md-me
 import { ReactComponent as LinkIcon } from '../../../SubActivityIcons/link.svg';
 import { ReactComponent as PreviewIcon } from '../../../../../../assets/icons/preview.svg';
 import { ReactComponent as DuplicateIcon } from '../../../SubActivityIcons/copy.svg';
+import updateApplicationStatus from '../../../../../../api/ApplicationForm/updateApplicationStatus';
+import { IApplicationFormItem } from '../../../../../../types/api/activity/subActivity';
+import duplicateApplicationForm from '../../../../../../api/ApplicationForm/useApplicationFormDuplicate';
+import useDeleteApplicationForm from '../../../../../../api/ApplicationForm/useDeleteApplicationForm';
+import { useNavigate } from 'react-router-dom';
+import { PATHS } from '../../../../../../helpers/constants';
+// import { Onchange } from '../../../../../../types/global';
 
 const StyledItems = styled(List)`
   .ant-list-item {
@@ -25,8 +32,41 @@ const StyledItems = styled(List)`
   }
 `;
 
-const ApplicationFormItem: React.FC<{ items: Array<{ id: string, title: string }> }> = ({ items }) => {
+const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
+  form,
+  refetchSingleStatus
+}) => {
   const { Title } = Typography;
+  const navigate = useNavigate();
+
+  // const [openPopover, setOpenPopover] = useState(false);
+
+  const { mutate: updateApplicationFormStatus } = updateApplicationStatus({
+    onSuccess: () => {
+      refetchSingleStatus();
+    },
+    onError: () => {
+      console.log('err');
+    }
+  });
+
+  const { mutate: deleteApplicationFormById } = useDeleteApplicationForm({
+    onSuccess: () => {
+      refetchSingleStatus();
+    },
+    onError: () => {
+      console.log('err');
+    }
+  });
+  const { mutate: duplicateApplicationFormById } = duplicateApplicationForm({
+    onSuccess: () => {
+      refetchSingleStatus();
+      // setOpenPopover(!openPopover);
+    },
+    onError: () => {
+      console.log('err');
+    }
+  });
 
   const content = (id: string): ReactElement => (
     <Row
@@ -37,24 +77,40 @@ const ApplicationFormItem: React.FC<{ items: Array<{ id: string, title: string }
       }}
       gutter={[8, 8]}
     >
-      <Col span={24}>
+      <Col span={24} onClick={() => navigate(`/${PATHS.APPLICATION.replace(':id', id)}`)}>
         <EditIcon /> Edit
       </Col>
       <Col span={24}>
         <PreviewIcon /> Preview
       </Col>
-      <Col span={24}>
+      <Col span={24} onClick={() => duplicate(id)}>
         <DuplicateIcon /> Duplicate
       </Col>
-      <Col span={24}>
+      <Col span={24} onClick={() => deleteForm(id)}>
         <DeleteIcon /> Delete
       </Col>
     </Row>
   );
 
+  const duplicate = (id: string): void => {
+    duplicateApplicationFormById({ id });
+  };
+
+  const deleteForm = (id: string): void => {
+    deleteApplicationFormById({ id });
+  };
+
+  const onChange = (id: string): void => {
+    updateApplicationFormStatus({ id });
+  };
+
+  // const handleOpenChange: Onchange = (newOpen) => {
+  //   setOpenPopover(newOpen);
+  // };
+
   return (
     <StyledItems
-      dataSource={items}
+      dataSource={form}
       renderItem={(item: any) => (
         <List.Item>
           <Row align="middle" style={{ width: '100%' }}>
@@ -71,18 +127,27 @@ const ApplicationFormItem: React.FC<{ items: Array<{ id: string, title: string }
                 gutter={[10, 10]}
               >
                 <Col>
-                  <LinkIcon />
+                  <Title level={4} copyable={{ text: `${process.env.REACT_APP_BASE_URL_HOST ?? ''}/${PATHS.APPLICATIONFORM.replace(':id', item.id !== null ? item.id : '')}` }}>
+                   <LinkIcon />
+                  </Title>
                 </Col>
                 <Col>
-                  <Switch defaultChecked />
+                  <Switch
+                    defaultChecked={item?.active}
+                    checked={item?.active}
+                    disabled={item?.active}
+                    onChange={() => onChange(item.id)}
+                  />
                 </Col>
                 <Popover
                   placement="bottomRight"
                   content={() => content(item.id)}
                   trigger="click"
                   overlayClassName="menuPopover"
+                  // onOpenChange={handleOpenChange}
+                  // open={openPopover}
                 >
-                  <Col>
+                  <Col style={{ cursor: 'pointer' }}>
                     <Row align="middle">
                       <MenuIcon />
                     </Row>

@@ -16,8 +16,7 @@ const CourseInfoWrapper = styled.div`
 const CourseInformation: React.FC<{}> = () => {
   const { Title } = Typography;
   const { id: subActivityId } = useParams<{ id: any }>();
-  console.log(subActivityId);
-  const { data } = GetSingleSubActivity(subActivityId, {});
+  const { data } = GetSingleSubActivity(subActivityId, { courseInfo: true }, {});
 
   return (
     <CourseInfoWrapper>

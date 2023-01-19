@@ -104,7 +104,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                   >
                     {item?.cardRound}
                   </div>
-                  <Row gutter={[8, 16]} style={{ padding: '15px 0' }} onClick={() => navigate(`/project/sub-activity/${item?.subActivityId}`)}>
+                  <Row gutter={[8, 16]} style={{ padding: '15px 0', cursor: 'pointer' }} onClick={() => navigate(`/project/sub-activity/${item?.subActivityId}`)}>
                     <Col style={{ color: 'var(--dark-1)', fontSize: 'var(--headline-font-size)', display: 'flex', gap: '5px' }}>{item?.title}</Col>
                     <Col style={{ display: 'flex', gap: '5px' }}>
                       <Location /> {item?.subActivity?.region?.title}

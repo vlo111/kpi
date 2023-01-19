@@ -63,10 +63,11 @@ export interface ICreateApplicationForm {
 }
 export interface IApplicationsOption {
   data: {
-    result?: string
-
+    result: {
+      id: string
+      subActivityId: string
+    }
   }
-
 }
 
 export interface IOnlyId {

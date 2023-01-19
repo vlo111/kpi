@@ -547,4 +547,5 @@ export interface IAttachmentSetting {
 export interface IFormUrlModal {
   formUrlModal: boolean
   setFormUrlModal: React.Dispatch<React.SetStateAction<boolean>>
+  responseIds: any
 }
