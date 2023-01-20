@@ -95,10 +95,10 @@ const initFormData: (personalInfo: any, educationQuestion: any, otherInfo: any) 
 
   return {
     termsAndConditions: '',
-    income: education.questions.find((e: any) => e.keyName === 'income').title,
-    disability: otherInfo.questions.find((e: any) => e.keyName === 'disability').title,
+    income: education.questions.find((e: any) => e.keyName === 'income')?.title,
+    disability: otherInfo.questions.find((e: any) => e.keyName === 'disability')?.title,
     vulnerabilities: otherInfo.questions.find((e: any) => e.keyName === 'vulnerabilities')?.title ?? '',
-    informedAboutUs: otherInfo.questions.find((e: any) => e.keyName === 'informedAboutUs').title,
+    informedAboutUs: otherInfo.questions.find((e: any) => e.keyName === 'informedAboutUs')?.title,
     ...personalInfoQuestions,
     ...educationQuestion,
     ...otherInfoQuestion
@@ -233,8 +233,8 @@ const FillApplicationForm: React.FC = () => {
   return (
     <Spin spinning={isLoading}>
     <FillApplicationFormContainer>
-      <FormTitle>{data.title}</FormTitle>
-      <FormText>{data.description}</FormText>
+      <FormTitle>{data?.title}</FormTitle>
+      <FormText>{data?.description}</FormText>
       <AsnForm
         form={form}
         onFinish={onFinish}
