@@ -40,7 +40,8 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
   project,
   padding,
   activity,
-  region
+  region,
+  inputActivityId
 }) => {
   const navigate = useNavigate();
   return (
@@ -119,14 +120,17 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
                   <Col>
                     <AntIcon
                       component={WarningSvg}
-                      // onClick={() =>
-                      //   navigate(
-                      //     `/${PATHS.COURSEINFORMATION}`.replace(
-                      //       ':id',
-                      //       activity?.id
-                      //     )
-                      //   )
-                      // }
+                      onClick={() => {
+                        if (inputActivityId != null) {
+                          navigate(
+                          `/${PATHS.COURSEINFORMATION}`.replace(
+                            ':id',
+                            inputActivityId
+                          )
+                          );
+                        }
+                      }
+                      }
                     />
                   </Col>
                 </>

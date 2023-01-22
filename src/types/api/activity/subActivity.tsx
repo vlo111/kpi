@@ -107,6 +107,7 @@ export interface ICreateSubActivityProps {
   setOpenCreateSubActivity: React.Dispatch<React.SetStateAction<boolean>>
   openCreateSubActivity: boolean
   templateId: string
+  inputActivityId?: string
 }
 
 export interface ICourseSettingMap {

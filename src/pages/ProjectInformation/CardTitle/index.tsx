@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Typography } from 'antd';
 import styled from 'styled-components';
 
 import { Void } from '../../../types/global';
 import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg';
+import CreateSubActivityModal from '../../../components/Project/SubActivity/SubActivityModals/CreateModal';
 
 const { Title } = Typography;
 const AntTitle = styled(Title)`
@@ -19,9 +20,14 @@ const AntTitle = styled(Title)`
 
 const CardTitle: React.FC<{ title: string, id: string | undefined }> = ({ title, id }) => {
   const navigate = useNavigate();
+  const [openCreateSubActivity, setOpenCreateSubActivity] = useState<boolean>(false);
+
   const handleEdit: Void = () => {
     if (title === 'General Info' && id != null) {
       navigate(`/project/${id}`);
+    }
+    if (title === 'Course General Info') {
+      setOpenCreateSubActivity(true);
     }
     if (title === 'Result areas and Activities' && id != null) {
       navigate(`/project/${id}/steps/0`);
@@ -38,6 +44,14 @@ const CardTitle: React.FC<{ title: string, id: string | undefined }> = ({ title,
       <Col>
         <EditSvg onClick={handleEdit} style={{ cursor: 'pointer' }} />
       </Col>
+      {(Boolean(openCreateSubActivity)) &&
+        <CreateSubActivityModal
+          openCreateSubActivity={openCreateSubActivity}
+          setOpenCreateSubActivity={setOpenCreateSubActivity}
+          templateId=''
+          // inputActivityId={id}
+        />
+      }
     </Row>
   );
 };
