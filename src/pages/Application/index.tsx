@@ -25,6 +25,8 @@ import createApplicationForm from '../../api/ApplicationForm/useCreateApplicatio
 import { IApplicationsOption } from '../../types/api/application/applicationForm';
 import FormUrlModal from '../../components/Application/FormUrlModal/Index';
 import { PATHS } from '../../helpers/constants';
+import useSingleApplicationForm from '../../api/ApplicationForm/useGetSingleApplicationForm';
+import useUpdateApplicationForm from '../../api/ApplicationForm/useUpdateApplicationForm';
 
 const ApplicationContainer = styled.div`
   margin: 0 auto;
@@ -68,9 +70,19 @@ const ConditionCard = styled(Space)`
 
 const Application: React.FC = () => {
   const { id: courseId } = useParams<{ id: string | undefined }>();
-  const { data } = getApplicationFormDefault(courseId, {});
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { data } = getApplicationFormDefault(courseId, {
+    enabled: location?.state?.edit !== true
+  });
+
+  const { data: singleApplicantData }: any = useSingleApplicationForm(
+    courseId,
+    {
+      enabled: location?.state?.edit === true
+    }
+  );
 
   const { mutate: createApplicationFn } = createApplicationForm({
     onSuccess: (options: IApplicationsOption) => {
@@ -80,6 +92,17 @@ const Application: React.FC = () => {
     },
     onError: (err: any) => {
       console.log(err);
+    }
+  });
+
+  const { mutate: updateApplicationForm }: any = useUpdateApplicationForm({
+    onSuccess: () => {
+      navigate(
+        `/project/${PATHS.SUBACTIVITY.replace(
+          ':id',
+          location?.state?.SubActivityId
+        )}`
+      );
     }
   });
 
@@ -107,23 +130,43 @@ const Application: React.FC = () => {
   const [isQuestionCardVisible, setIsQuestionCardVisible] = useState<string[]>(
     []
   );
-  const formTitle = useRef<InputRef>(null);
   const formDescription = useRef<any>(null);
   const successMessage = useRef<InputRef>(null);
+  const formTitle = useRef<InputRef>(null);
 
   useEffect(() => {
-    setApplicationData(data);
-  }, [data]);
+    if (location?.state?.edit === true) {
+      setApplicationData(singleApplicantData);
+    } else {
+      setApplicationData(data);
+    }
+  }, [singleApplicantData, data]);
+
+  useEffect(() => {
+    setOnlineSignature(applicationData.onlineSignature);
+  }, [singleApplicantData, data]);
 
   useEffect(() => {
     const applicationDataParse =
       applicationData?.termsAndConditions !== undefined
         ? JSON.parse(applicationData?.termsAndConditions)
         : [];
+    for (let i = 0; i < applicationDataParse.length; ++i) {
+      termsConditionsValue[`condition${i}`] = applicationDataParse[i];
+    }
+
     setTermsConditionsValue({
-      condition0: applicationDataParse[0],
-      condition1: applicationDataParse[1]
+      ...termsConditionsValue
     });
+
+    setIsAddTermsConditions(
+      applicationDataParse.map(() => {
+        return {
+          id: uuidv4(),
+          placeholder: 'Type the agreement text'
+        };
+      })
+    );
   }, [applicationData]);
 
   const termsConditionsValueArray = useCallback((): string[] => {
@@ -151,15 +194,33 @@ const Application: React.FC = () => {
         formTitle !== null ? formTitle?.current?.input?.value : '';
       applicationData.onlineSignature = onlineSignature;
       applicationData.deadline = deadlineDate;
+      applicationData.successMessage =
+        successMessage !== null ? successMessage?.current?.input?.value : '';
       applicationData.termsAndConditions = JSON.stringify(
         termsConditionsValueArray()
       );
-      createApplicationFn({
-        id: courseId,
-        data: {
-          ...applicationData
-        }
-      });
+      if (location?.state?.edit === true) {
+        delete applicationData.id;
+        delete applicationData.sectionDataId;
+        delete applicationData.publish;
+        delete applicationData.active;
+        delete applicationData.createdAt;
+        delete applicationData.updatedAt;
+        delete applicationData.deletedAt;
+        updateApplicationForm({
+          id: courseId,
+          data: {
+            ...applicationData
+          }
+        });
+      } else {
+        createApplicationFn({
+          id: courseId,
+          data: {
+            ...applicationData
+          }
+        });
+      }
     }
   };
 
@@ -169,15 +230,17 @@ const Application: React.FC = () => {
       <Typography.Title level={5} style={{ fontWeight: 'var(--font-normal)' }}>
         Form Title
       </Typography.Title>
-      <AsnInput
-        ref={formTitle}
-        style={{
-          border: 'none',
-          width: '100%',
-          marginBottom: isValidateMessage ? '0rem' : '1rem'
-        }}
-        placeholder={data?.title}
-      />
+      {applicationData?.title !== undefined && (
+        <AsnInput
+          ref={formTitle}
+          style={{
+            border: 'none',
+            width: '100%',
+            marginBottom: isValidateMessage ? '0rem' : '1rem'
+          }}
+          defaultValue={applicationData?.title}
+        />
+      )}
       {isValidateMessage
         ? (
         <ValidateMessage>
@@ -190,7 +253,7 @@ const Application: React.FC = () => {
       </Typography.Title>
       <CustomTextArea
         style={{ border: 'none', marginBottom: '2rem' }}
-        placeholder={data?.description}
+        placeholder={applicationData?.description}
         ref={formDescription}
       />
       {applicationData?.applicationFormSections?.map((data: ICardsData) => (
@@ -257,11 +320,21 @@ const Application: React.FC = () => {
           margin: '3.75rem 0px'
         }}
       >
-        <AsnButton className="default" onClick={() => {
-          if (location?.state?.SubActivityId !== undefined) {
-            navigate(`/project/${PATHS.SUBACTIVITY.replace(':id', location?.state?.SubActivityId)}`);
-          }
-        }}>Cancel</AsnButton>
+        <AsnButton
+          className="default"
+          onClick={() => {
+            if (location?.state?.SubActivityId !== undefined) {
+              navigate(
+                `/project/${PATHS.SUBACTIVITY.replace(
+                  ':id',
+                  location?.state?.SubActivityId
+                )}`
+              );
+            }
+          }}
+        >
+          Cancel
+        </AsnButton>
         <AsnButton
           className="default"
           onClick={() => {
@@ -274,14 +347,13 @@ const Application: React.FC = () => {
               formDescription.current !== null
                 ? formDescription.current.resizableTextArea.textArea.value
                 : '';
-            applicationData.title =
-              formTitle !== null ? formTitle?.current?.input?.value : '';
+            applicationData.title = formTitle !== null ? formTitle : '';
           }}
         >
           Preview
         </AsnButton>
         <AsnButton className="primary" onClick={onPublishClick}>
-          Publish
+          {location?.state?.edit !== true ? 'Publish' : 'Update'}
         </AsnButton>
       </Space>
       <PreviewModal

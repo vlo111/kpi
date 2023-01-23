@@ -3,7 +3,7 @@ import client from '../client';
 
 export const url = 'api/application-form';
 
-const getApplicationFormDefault: any = (applicationId: string, options = { enabled: false }) => {
+const getApplicationFormDefault: any = (applicationId: string, options = { enabled: true }) => {
   const result = useQuery(
     [url, applicationId],
     async () => await client.get(`${url}/course/${applicationId}/default`),
@@ -17,8 +17,6 @@ const getApplicationFormDefault: any = (applicationId: string, options = { enabl
   return {
     ...result,
     data: isSuccess ? data?.result : [],
-    // count: data?.count,
-    // has_more: data?.count,
     isLoading,
     refetch
   };
