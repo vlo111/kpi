@@ -16,6 +16,13 @@ const CreateTemplateContainer = styled.div`
     display: flex;
     justify-content: space-around;
     width: 100%;
+    margin-top: 2.8rem;
+  }
+`;
+
+const TemplateAsnModal = styled(AsnModal)`
+ .ant-modal-content {
+    padding: 5rem 4rem 3rem;
   }
 `;
 
@@ -62,7 +69,7 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
   }, []);
 
   return (
-    <AsnModal
+    <TemplateAsnModal
       footer={false}
       open={isOpenCreateActivityModal}
       title="Create activity Template"
@@ -76,11 +83,12 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
           onFinish={onFinish}
           autoComplete="off"
         >
-          <AsnForm.Item>
+          <AsnForm.Item label='Category'>
             <AsnInput value={'Courses'} disabled={true} />
           </AsnForm.Item>
           <AsnForm.Item
             name="templateName"
+            label='Template Name'
             rules={[
               { required: true, message: 'Please enter Template Name' },
               {
@@ -95,6 +103,7 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
           </AsnForm.Item>
           <AsnForm.Item
             name="description"
+            label='Description'
             rules={[{ max: 256, message: 'Maximum 256 characters.' }]}
           >
             <AsnTextArea placeholder="Activity Template for long-term courses. The course has one section." />
@@ -109,7 +118,7 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
           </div>
         </AsnForm>
       </CreateTemplateContainer>
-    </AsnModal>
+    </TemplateAsnModal>
   );
 };
 
