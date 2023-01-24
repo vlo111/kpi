@@ -109,12 +109,13 @@ export interface ICreateSubActivityProps {
   templateId?: string
   inputActivityId?: string
   form?: any
+  edit?: boolean
   initialValues?: any
   onFinish?: any
   onFinishFailed?: any
   attachments?: any
-  courseStructure?: any
-  projectId?: any
+  courseStructure?: string
+  projectId?: string
 }
 
 export interface ICourseSettingMap {

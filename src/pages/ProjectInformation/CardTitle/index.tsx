@@ -19,9 +19,10 @@ const AntTitle = styled(Title)`
   }
 `;
 
-const CardTitle: React.FC<{ title: string, id: string | undefined }> = ({
+const CardTitle: React.FC<{ title: string, id: string | undefined, refetch?: any }> = ({
   title,
-  id
+  id,
+  refetch
 }) => {
   const navigate = useNavigate();
   const [openCreateSubActivity, setOpenCreateSubActivity] =
@@ -54,6 +55,7 @@ const CardTitle: React.FC<{ title: string, id: string | undefined }> = ({
       {openCreateSubActivity &&
       <EditSubCourse
         projectId={id}
+        refetch={refetch}
         setOpenCreateSubActivity={setOpenCreateSubActivity}
         openCreateSubActivity={openCreateSubActivity}
         InputActivityId={InputActivityId}

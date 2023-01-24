@@ -1,14 +1,13 @@
 import { message } from 'antd';
 import React, { useEffect } from 'react';
-// import getSingleTemplate from '../../../../api/Activity/Template/useGetSingleActivityTemplate';
-// import useGetProjectDetails from '../../../../api/Details/useGetProjectDetails';
+import moment from 'moment';
+
 import { useAuth } from '../../../../hooks/useAuth';
 import { ICourseSettingMap } from '../../../../types/api/activity/subActivity';
 import { IUser } from '../../../../types/auth';
 import { FormFinish } from '../../../../types/global';
 import { AsnForm } from '../../../Forms/Form';
 import AsnSpin from '../../../Forms/Spin';
-import moment from 'moment';
 import SubActivityForm from './SubActivityiForms';
 import GetSingleSubActivity from '../../../../api/Activity/SubActivity/useGetSingleSubActivity';
 import useUpdateSubActivity from '../../../../api/Activity/SubActivity/useUpdateSubActivity';
@@ -16,6 +15,7 @@ import useUpdateSubActivity from '../../../../api/Activity/SubActivity/useUpdate
 const EditSubCourse: React.FC<any> = ({
   InputActivityId,
   projectId,
+  refetch,
   openCreateSubActivity,
   setOpenCreateSubActivity
 }) => {
@@ -24,10 +24,8 @@ const EditSubCourse: React.FC<any> = ({
 
   const { mutate: updateSubActivity } = useUpdateSubActivity({
     onSuccess: () => {
-      console.log('ekavv');
-    },
-    onError: () => {
-      console.log('errrr');
+      refetch();
+      setOpenCreateSubActivity(false);
     }
   });
 
@@ -37,17 +35,9 @@ const EditSubCourse: React.FC<any> = ({
     {}
   );
 
-  const { firstName, lastName, id: userId }: IUser = user;
-
-  console.log(
-    InputActivityId,
-    userId,
-    'InputActivityIdInputActivityIdInputActivityIdInputActivityId'
-  );
+  const { id: userId }: IUser = user;
 
   const onFinish: FormFinish = (values) => {
-    console.log(values);
-
     if (subActivity?.sectionsData.length > 1) {
       const checkFields = values.sectionsData.map((section: any, i: number) => {
         return {
@@ -65,10 +55,11 @@ const EditSubCourse: React.FC<any> = ({
           managerId: userId,
           sectorId: values?.sector,
           regionId: values?.region,
-          sectionsData: subActivity?.sectionsData?.map((section: { id: string }, i: number) => {
+          sectionsData: subActivity?.sectionsData?.map((section: { id: string, order: number }, i: number) => {
             return {
-              sectionId: section?.id,
+              id: section?.id,
               title: values.sectionsData[i].title,
+              order: section?.order,
               description: values.sectionsData[i].description,
               teachingMode: values.sectionsData[i].teaching_mode,
               startDate: moment(values.sectionsData[i].startDate).format(),
@@ -77,21 +68,20 @@ const EditSubCourse: React.FC<any> = ({
             };
           })
         };
-        updateSubActivity({ id: InputActivityId }, requestBody);
+        updateSubActivity({ id: InputActivityId, data: requestBody });
       }
     }
     if (subActivity?.sectionsData.length === 1) {
-      console.log('mtavvv');
-
       const requestBody = {
         organizationId: values?.organization,
         managerId: userId,
         sectorId: values?.sector,
         regionId: values?.region,
-        sectionsData: subActivity?.sectionsData.map((section: { id: string }, i: number) => {
+        sectionsData: subActivity?.sectionsData.map((section: { id: string, order: number }, i: number) => {
           return {
-            sectionId: section?.id,
+            id: section?.id,
             title: values.title,
+            order: section?.order,
             description: values.description,
             teachingMode: values.teaching_mode,
             startDate: moment(values.startDate).format(),
@@ -100,7 +90,7 @@ const EditSubCourse: React.FC<any> = ({
           };
         })
       };
-      updateSubActivity(requestBody);
+      updateSubActivity({ id: InputActivityId, data: requestBody });
     }
   };
 
@@ -120,23 +110,22 @@ const EditSubCourse: React.FC<any> = ({
 
   useEffect(() => {
     if (subActivity !== undefined) {
+      const initialData = subActivity?.sectionsData.map((item: any) => ({
+        files: item?.data?.files,
+        title: item?.data?.title,
+        description: item?.data?.description,
+        startDate: moment(item?.data?.startDate),
+        endDate: moment(item?.data?.endDate),
+        teaching_mode: item?.data?.teachingMode,
+        partner_organization: item?.data?.partnerOrganization
+      }));
+
       form.setFieldsValue({
-        // organization: organizations,
-        // region: regions,
-        // sector: sectors,
-        title: subActivity?.sectionsData.map(
-          (item: { title: string }) => item?.title
-        ),
-        sectionsData: subActivity?.sectionsData.map((item: any) => ({
-          files: item?.data?.files,
-          title: item?.data?.title,
-          description: item?.data?.description,
-          startDate: moment(item?.data?.startDate),
-          endDate: moment(item?.data?.endDate),
-          teaching_mode: item?.data?.teachingMode,
-          partner_organization: item?.data?.partnerOrganization
-        })),
-        sub_activity_manager: `${firstName} ${lastName}`
+        organization: subActivity?.organization?.id,
+        region: subActivity?.region?.id,
+        sector: subActivity?.sector?.id,
+        ...initialData[0],
+        sectionsData: initialData
       });
     }
   }, [user, subActivity]);
@@ -156,6 +145,7 @@ const EditSubCourse: React.FC<any> = ({
         subActivity?.sectionsData.length > 1 ? 'MULTI_SECTION' : 'ONE_SECTION'
       }
       projectId={projectId}
+      edit={true}
     />
   );
 };

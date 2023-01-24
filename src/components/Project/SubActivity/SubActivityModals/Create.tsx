@@ -28,11 +28,9 @@ const CreateSubCourse: React.FC<any> = ({ templateId, openCreateSubActivity, set
       )
   });
 
-  const { firstName, lastName, id: userId }: IUser = user;
+  const { id: userId }: IUser = user;
 
   const onFinish: FormFinish = (values) => {
-    console.log(values, userId);
-
     if (subActivity?.courseStructure === 'MULTI_SECTION') {
       const checkFields = values.sectionsData.map((section: any, i: number) => {
         return {
@@ -105,11 +103,7 @@ const CreateSubCourse: React.FC<any> = ({ templateId, openCreateSubActivity, set
   useEffect(() => {
     if (subActivity !== undefined) {
       form.setFieldsValue({
-        // organization: organizations,
-        // region: regions,
-        // sector: sectors,
-        sectionsData: Array(subActivity?.sections?.length).fill({ files: [] }),
-        sub_activity_manager: `${firstName} ${lastName}`
+        sectionsData: Array(subActivity?.sections?.length).fill({ files: [] })
       });
     }
   }, [subActivity]);
@@ -127,6 +121,7 @@ const CreateSubCourse: React.FC<any> = ({ templateId, openCreateSubActivity, set
          openCreateSubActivity={openCreateSubActivity}
          courseStructure={subActivity?.courseStructure}
          projectId={id}
+         edit={false}
         />
   );
 };

@@ -16,7 +16,7 @@ const CourseInfoWrapper = styled.div`
 const CourseInformation: React.FC<{}> = () => {
   const { Title } = Typography;
   const { id: subActivityId } = useParams<{ id: string }>();
-  const { data } = GetSingleSubActivity(subActivityId, { courseInfo: true }, {});
+  const { data, refetch } = GetSingleSubActivity(subActivityId, { courseInfo: true }, {});
   const [courseTitle, setCourseTitle] = useState('');
   const [activityTitle, setActivityTitle] = useState('');
   const [resultAreaTitle, setResultAreaTitle] = useState('');
@@ -68,7 +68,7 @@ const CourseInformation: React.FC<{}> = () => {
       </Title>
       <AsnCard>
         <Space direction={'vertical'} size={[0, 16]} style={{ width: '100%' }}>
-          <CardTitle title={'Course General Info'} id={projectId} />
+          <CardTitle title={'Course General Info'} id={projectId} refetch={refetch} />
           <CourseInfo courseData={data} onChange={onChange}/>
         </Space>
       </AsnCard>

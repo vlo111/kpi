@@ -1,10 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { IUpdateSubActivityData } from '../../../types/api/activity/subActivity';
-// import { CreateActivityTemplate, ICreateTemplateData } from '../../../types/api/activity/template';
 
 import client from '../../client';
 
-const url = 'api/sub-activity';
+const url = '/api/sub-activity';
 
 const useUpdateSubActivity: any = (options = {}) =>
   useMutation(
