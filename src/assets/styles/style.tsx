@@ -232,6 +232,29 @@ const GlobalStyle = createGlobalStyle`
     width: auto!important;
     height: 500px !important;
   }
+  .applicantsFilter{
+    .ant-popover-title{
+  font-size: 16px !important;
+  color: #263238;
+  border-bottom: none !important;
+  text-align-last: center;
+  padding: 16px 16px 10px;
+
+}
+.ant-popover-inner-content{
+  padding: 20px 0;
+  width: 350px;
+}
+  }
+  .filterIcon{
+    svg{
+    fill: #2A5578;
+    font-size: 16px;
+    }
+  }
+  .table-row-dark{
+    background-color: #F4F6F8;
+  }
 `;
 
 export default GlobalStyle;
