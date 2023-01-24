@@ -68,7 +68,7 @@ const CourseInformation: React.FC<{}> = () => {
       </Title>
       <AsnCard>
         <Space direction={'vertical'} size={[0, 16]} style={{ width: '100%' }}>
-          <CardTitle title={'Course General Info'} id={data?.id} />
+          <CardTitle title={'Course General Info'} id={projectId} />
           <CourseInfo courseData={data} onChange={onChange}/>
         </Space>
       </AsnCard>

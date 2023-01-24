@@ -105,9 +105,16 @@ export interface IManagerType {
 
 export interface ICreateSubActivityProps {
   setOpenCreateSubActivity: React.Dispatch<React.SetStateAction<boolean>>
-  openCreateSubActivity: boolean
-  templateId: string
+  openCreateSubActivity?: boolean
+  templateId?: string
   inputActivityId?: string
+  form?: any
+  initialValues?: any
+  onFinish?: any
+  onFinishFailed?: any
+  attachments?: any
+  courseStructure?: any
+  projectId?: any
 }
 
 export interface ICourseSettingMap {
@@ -118,10 +125,16 @@ export interface ISetting {
   answerType: string | null
 }
 
+export interface IUpdateSubActivityData {
+  id: string | undefined
+  data: any
+}
+
 export interface IMultiSections {
-  subActivity: {
-    sections: []
-  }
+  // subActivity: {
+  //   sections: []
+  // }
+  subActivity: any
   attachments: IAttachmentSetting[]
   UploadDoc: any
   setActiveTab: React.Dispatch<React.SetStateAction<string>>

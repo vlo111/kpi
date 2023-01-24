@@ -1,26 +1,33 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Row, Col, Typography } from 'antd';
 import styled from 'styled-components';
 
 import { Void } from '../../../types/global';
 import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg';
-import CreateSubActivityModal from '../../../components/Project/SubActivity/SubActivityModals/CreateModal';
+// import CreateSubActivityModal from '../../../components/Project/SubActivity/SubActivityModals/CreateModal';
+import EditSubCourse from '../../../components/Project/SubActivity/SubActivityModals/Edit';
 
 const { Title } = Typography;
 const AntTitle = styled(Title)`
   margin-bottom: 0 !important;
-&.ant-typography{
-  font-weight: var(--font-normal);
-  font-size: var(--headline-font-size);
-  line-height: 25px;
-  color: var(--dark-border-ultramarine);
-}
+  &.ant-typography {
+    font-weight: var(--font-normal);
+    font-size: var(--headline-font-size);
+    line-height: 25px;
+    color: var(--dark-border-ultramarine);
+  }
 `;
 
-const CardTitle: React.FC<{ title: string, id: string | undefined }> = ({ title, id }) => {
+const CardTitle: React.FC<{ title: string, id: string | undefined }> = ({
+  title,
+  id
+}) => {
   const navigate = useNavigate();
-  const [openCreateSubActivity, setOpenCreateSubActivity] = useState<boolean>(false);
+  const [openCreateSubActivity, setOpenCreateSubActivity] =
+    useState<boolean>(false);
+
+  const { id: InputActivityId } = useParams();
 
   const handleEdit: Void = () => {
     if (title === 'General Info' && id != null) {
@@ -44,14 +51,13 @@ const CardTitle: React.FC<{ title: string, id: string | undefined }> = ({ title,
       <Col>
         <EditSvg onClick={handleEdit} style={{ cursor: 'pointer' }} />
       </Col>
-      {(Boolean(openCreateSubActivity)) &&
-        <CreateSubActivityModal
-          openCreateSubActivity={openCreateSubActivity}
-          setOpenCreateSubActivity={setOpenCreateSubActivity}
-          templateId=''
-          // inputActivityId={id}
-        />
-      }
+      {openCreateSubActivity &&
+      <EditSubCourse
+        projectId={id}
+        setOpenCreateSubActivity={setOpenCreateSubActivity}
+        openCreateSubActivity={openCreateSubActivity}
+        InputActivityId={InputActivityId}
+      />}
     </Row>
   );
 };
