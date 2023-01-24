@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { AsnForm } from '../components/Forms/Form';
 import { clearLocalStorage } from '../hooks/useLocalStorage';
 import { TVoid } from '../types/global';
-import { CollapseHeader, SetResultArea, SetTitleColor } from '../types/project';
+import { CollapseHeader, IAnswers, SetResultArea, SetTitleColor } from '../types/project';
 import { AsnInput } from '../components/Forms/Input';
 import _ from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
+import { Divider, Radio, Space } from 'antd';
+import { DividerLine } from '../components/Application/applicationStyle';
+import RelatedQuestion from '../components/Application/Preview/RelatedQuestion';
+import { AsnCheckbox } from '../components/Forms/Checkbox';
 
 /** Logout the user */
 export const logOut: TVoid = () => {
@@ -83,4 +88,79 @@ export const validateResultArea: SetResultArea = (values) => {
   }
 
   errorsIndex.map((i: any) => resultAreaElement(i));
+};
+
+export const answerTypes = (type: string, question: any): JSX.Element => {
+  const option = (
+    <Radio.Group value={question?.answers[0]?.title}>
+      <Space direction="vertical">
+        {question?.answers?.map((answer: IAnswers) => (
+          <Fragment key={answer.id !== undefined ? answer.id : uuidv4()}>
+            {answer.title?.includes('Other')
+              ? (
+              <DividerLine>
+                <Radio value={answer.title} />
+                <Divider orientation="left" plain>
+                  {answer.title}
+                </Divider>
+              </DividerLine>
+                )
+              : (
+              <Radio value={answer.title}>{answer.title}</Radio>
+                )}
+          </Fragment>
+        ))}
+      </Space>
+    </Radio.Group>
+  );
+
+  const yesNo = (
+    <>
+      <Radio.Group value="Yes/Այո">
+        <Space direction="vertical">
+          {question?.answers?.map((answer: IAnswers) => (
+            <Radio
+              key={answer.id !== undefined ? answer.id : uuidv4()}
+              value={answer.title}
+            >
+              {answer.title}
+            </Radio>
+          ))}
+        </Space>
+      </Radio.Group>
+      {question.relatedQuestions?.length > 0
+        ? (
+        <>
+          {question.relatedQuestions?.map((relatedQuestion: any) => (
+            <RelatedQuestion
+              key={relatedQuestion?.id}
+              relatedQuestion={relatedQuestion}
+            />
+          ))}
+        </>
+          )
+        : null}
+    </>
+  );
+
+  const checkbox = (
+    <Space direction="vertical">
+      {question?.answers?.map((answer: IAnswers, index: number) => (
+        <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
+          {answer.title}
+        </AsnCheckbox>
+      ))}
+    </Space>
+  );
+
+  switch (type) {
+    case 'YES_NO':
+      return yesNo;
+    case 'OPTION':
+      return option;
+    case 'SHORT_TEXT':
+      return <AsnInput value="" />;
+    default:
+      return checkbox;
+  }
 };

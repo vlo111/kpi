@@ -70,6 +70,7 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
   const handleIsRequiredQuestion: FormFinish = (check) => {
     content[index].required = check;
   };
+
   const contentPopover: (i: any) => JSX.Element = (item) => (
     <Row
       style={{
@@ -109,11 +110,13 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
                   ? 'Multiple answers'
                   : 'DD/MM/YYYY'}
         </ChoseType>
-        <AsnSwitch
-          defaultChecked={question?.active}
-          disabled={!question?.editable}
-          onChange={handleIsRequiredQuestion}
-        />
+        {question?.required !== undefined && (
+          <AsnSwitch
+            defaultChecked={question?.required}
+            disabled={!question?.editable}
+            onChange={handleIsRequiredQuestion}
+          />
+        )}
         {question?.editable
           ? (
           <Popover
@@ -129,7 +132,9 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
             </div>
           </Popover>
             )
-          : <div style={{ width: '11px' }}></div>}
+          : (
+          <div style={{ width: '11px' }}></div>
+            )}
       </span>
     </CardRow>
   );

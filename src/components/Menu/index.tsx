@@ -104,7 +104,6 @@ export const Menu: React.FC = () => {
 
   useEffect(() => {
     let currenPath = [`${menuItemsNavigate.indexOf(pathname.includes('project') ? menuItemsNavigate[1] : pathname) + 1}`];
-    console.log(currenPath);
 
     if (pathname.includes('files')) {
       currenPath = ['5'];

@@ -259,6 +259,7 @@ const Application: React.FC = () => {
           key={data?.keyName}
           title={data?.title}
           content={data?.questions}
+          description={data?.description}
           cardId={data?.keyName}
           isQuestionCardVisible={isQuestionCardVisible}
           setIsQuestionCardVisible={setIsQuestionCardVisible}
@@ -349,6 +350,10 @@ const Application: React.FC = () => {
                 : '';
             applicationData.title =
               formTitle !== null ? formTitle?.current?.input?.value : '';
+            applicationData.successMessage =
+              successMessage !== null
+                ? successMessage?.current?.input?.value
+                : '';
           }}
         >
           Preview
@@ -359,10 +364,9 @@ const Application: React.FC = () => {
       </Space>
       <PreviewModal
         questionData={applicationData}
-        createApplicationFn={createApplicationFn}
         isOpenCreateActivityModal={isOpenCreateActivityModal}
         setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
-        courseId={courseId}
+        onPublishClick={onPublishClick}
       />
       <FormUrlModal
         formUrlModal={formUrlModal}

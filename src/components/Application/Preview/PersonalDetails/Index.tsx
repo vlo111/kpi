@@ -44,10 +44,13 @@ const PersonalDetails: React.FC<any> = ({ personalDetailsData }) => {
                 )
               : question?.answerType === 'OPTION'
                 ? (
-            <Radio.Group value="Female/Իգական">
+            <Radio.Group value={question?.answers[0]?.title}>
               <Space direction="vertical">
                 {question?.answers?.map((answer: IAnswers) => (
-                  <Radio key={answer.id !== undefined ? answer.id : uuidv4() } value={answer.title}>
+                  <Radio
+                    key={answer.id !== undefined ? answer.id : uuidv4()}
+                    value={answer.title}
+                  >
                     {answer.title}
                   </Radio>
                 ))}
@@ -59,7 +62,10 @@ const PersonalDetails: React.FC<any> = ({ personalDetailsData }) => {
             <Radio.Group value="Yes/Այո">
               <Space direction="vertical">
                 {question?.answers?.map((answer: IAnswers) => (
-                  <Radio key={answer.id !== undefined ? answer.id : uuidv4() } value={answer.title}>
+                  <Radio
+                    key={answer.id !== undefined ? answer.id : uuidv4()}
+                    value={answer.title}
+                  >
                     {answer.title}
                   </Radio>
                 ))}

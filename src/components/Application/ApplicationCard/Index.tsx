@@ -18,6 +18,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
   isQuestionCardVisible,
   setIsQuestionCardVisible,
   cardId,
+  description,
   applicationData,
   setApplicationData
 }) => {
@@ -81,6 +82,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
       <CustomInput
         placeholder="Add description"
         ref={descriptionRef}
+        defaultValue={description}
         onKeyDown={onAddDescription}
       />
       {content.length > 0

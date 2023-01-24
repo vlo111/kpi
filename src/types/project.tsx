@@ -431,7 +431,7 @@ export interface IResultsUpdate { createOrUpdate: Void, isUpdate: boolean }
 export interface IContent {
   active: boolean
   answerType: string
-  answers: []
+  answers: any | []
   description?: string
   editable: boolean
   helpText?: string
@@ -450,7 +450,6 @@ export interface ICardsData {
   keyName: string
   questions: IContent[]
   title: string
-
 }
 
 export interface IIsAddTermsConditions {
@@ -492,6 +491,7 @@ export interface IApplicationCard {
   isQuestionCardVisible: string[]
   setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
   cardId: string
+  description: string | undefined
   applicationData: any
   setApplicationData: React.Dispatch<React.SetStateAction<any>>
 }
@@ -521,8 +521,7 @@ export interface IPreviewModal {
   questionData: IApplicationData
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
-  createApplicationFn: any
-  courseId: string | undefined
+  onPublishClick: Void
 }
 
 export interface ICardContainer {

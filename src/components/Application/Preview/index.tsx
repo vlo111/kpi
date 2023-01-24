@@ -57,20 +57,10 @@ const PreviewModal: React.FC<IPreviewModal> = ({
   questionData,
   isOpenCreateActivityModal,
   setIsOpenCreateActivityModal,
-  createApplicationFn,
-  courseId
+  onPublishClick
 }) => {
   const handleCancel: Void = () => {
     setIsOpenCreateActivityModal(false);
-  };
-
-  const onPublishClick: Void = () => {
-    createApplicationFn({
-      id: courseId,
-      data: {
-        ...questionData
-      }
-    });
   };
 
   return (
