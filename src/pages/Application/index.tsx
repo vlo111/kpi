@@ -143,10 +143,6 @@ const Application: React.FC = () => {
   }, [singleApplicantData, data]);
 
   useEffect(() => {
-    setOnlineSignature(applicationData.onlineSignature);
-  }, [singleApplicantData, data]);
-
-  useEffect(() => {
     const applicationDataParse =
       applicationData?.termsAndConditions !== undefined
         ? JSON.parse(applicationData?.termsAndConditions)
@@ -251,11 +247,13 @@ const Application: React.FC = () => {
       <Typography.Title level={5} style={{ fontWeight: 'var(--font-normal)' }}>
         Description
       </Typography.Title>
-      <CustomTextArea
-        style={{ border: 'none', marginBottom: '2rem' }}
-        placeholder={applicationData?.description}
-        ref={formDescription}
-      />
+      {applicationData?.description !== undefined && (
+        <CustomTextArea
+          style={{ border: 'none', marginBottom: '2rem' }}
+          defaultValue={applicationData?.description}
+          ref={formDescription}
+        />
+      )}
       {applicationData?.applicationFormSections?.map((data: ICardsData) => (
         <ApplicationCard
           key={data?.keyName}
@@ -282,10 +280,12 @@ const Application: React.FC = () => {
         >
           Online signature
         </span>
-        <AsnSwitch
-          onChange={(checked) => setOnlineSignature(checked)}
-          checked={onlineSignature}
-        />
+        {applicationData?.onlineSignature !== undefined && (
+          <AsnSwitch
+            onChange={(checked) => setOnlineSignature(checked)}
+            defaultChecked={applicationData?.onlineSignature}
+          />
+        )}
       </ConditionCard>
       <CardContainer
         borderTop={'3px solid var(--secondary-light-amber)'}
@@ -345,9 +345,10 @@ const Application: React.FC = () => {
             setIsOpenCreateActivityModal(true);
             applicationData.description =
               formDescription.current !== null
-                ? formDescription.current.resizableTextArea.textArea.value
+                ? formDescription?.current?.resizableTextArea?.textArea?.value
                 : '';
-            applicationData.title = formTitle !== null ? formTitle : '';
+            applicationData.title =
+              formTitle !== null ? formTitle?.current?.input?.value : '';
           }}
         >
           Preview

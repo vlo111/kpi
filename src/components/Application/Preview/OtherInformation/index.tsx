@@ -40,7 +40,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
                 ? (
                 <>
                   {question.relatedQuestions?.map((relatedQuestion: any) => (
-                    <Fragment key={relatedQuestion?.id}>
+                    <Fragment key={relatedQuestion?.id !== undefined ? relatedQuestion.id : uuidv4()}>
                       <ModalText style={{ margin: '1rem 0 0.3rem' }}>
                         {relatedQuestion?.title}
                       </ModalText>

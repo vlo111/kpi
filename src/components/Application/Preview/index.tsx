@@ -72,6 +72,7 @@ const PreviewModal: React.FC<IPreviewModal> = ({
       }
     });
   };
+
   return (
     <PreviewModalContent
       footer={false}
