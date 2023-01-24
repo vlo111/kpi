@@ -17,6 +17,8 @@ import { ReactComponent as DocumentSvg } from '../UploadImg/document.svg';
 import { ReactComponent as Folder } from '../UploadImg/folder.svg';
 import { ReactComponent as NoResult } from '../UploadImg/noResult.svg';
 
+import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
+
 const DocumentCard = styled(Col)`
   .ant-col {
     display: flex;
@@ -445,30 +447,25 @@ const DataResult: React.FC<IDataResult> = ({
                 </Row>
                   )
           )}
-      <Modal open={opens} onCancel={handleCancel} okText={''} title="Pdf NAme" className="filePreviewModal">
+      <Modal open={opens} onCancel={handleCancel} okText={''} className="filePreviewModal">
         {viewPdf !== null && (
           <>
-            {/* <Viewer
-            fileUrl = { viewPdf }
-            // plugins={[
-            //   defaultLayoutPluginInstance
-            // ]}
-/> */}
-            <iframe src={viewPdf} width={'100%'} height={'500px'} ></iframe>
-            {/* <DocViewer */}
-            {/*   pluginRenderers={DocViewerRenderers} */}
-            {/*   documents={[{ uri: viewPdf }]} */}
-            {/*   config={{ */}
-            {/*     header: { */}
-            {/*       disableHeader: true, */}
-            {/*       disableFileName: false, */}
-            {/*       retainURLParams: false */}
-            {/*     } */}
-            {/*   }} */}
-            {/*   style={{ height: window.innerHeight - 332 }} */}
-            {/* /> */}
-          </>
-        )}
+          {console.log(viewPdf)
+          }
+          <DocViewer
+          documents={[{ uri: viewPdf }]}
+          pluginRenderers={DocViewerRenderers}
+          config={{
+            header: {
+              disableHeader: false,
+              disableFileName: false,
+              retainURLParams: false
+            }
+          }}
+            style={{ height: window.innerHeight - 332 }} />
+            </>
+        ) }
+
       </Modal>
     </Result>
   );
