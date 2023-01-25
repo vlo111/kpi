@@ -93,7 +93,7 @@ const DataResult: React.FC<IDataResult> = ({
   };
 
   const { Panel } = Collapse;
-  if (isFetchingFolderFiles || isFetchingSearchCourseFiles || isFetchingAllFilesSearch || Boolean(isFetchingAllFiles) || isFetchingCourseFiles) {
+  if (isFetchingFolderFiles || isFetchingSearchCourseFiles || isFetchingAllFilesSearch || isFetchingAllFiles || isFetchingCourseFiles) {
     return <AsnSpin />;
   }
 
