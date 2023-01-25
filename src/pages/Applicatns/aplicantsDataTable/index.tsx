@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/no-base-to-string */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable no-lone-blocks */
 import React, { useState } from 'react';
 import { Button, Table, Popover, Collapse, Space, Slider, Radio } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
@@ -7,22 +11,32 @@ import { AsnButton } from '../../../components/Forms/Button';
 import type { SliderMarks } from 'antd/es/slider';
 import { AsnCheckboxGroup } from '../../../components/Forms/Checkbox';
 import { ContentAssingersFilter } from '.././style';
+import moment from 'moment';
 
 interface DataType {
   key: React.Key
   name: string
   sector: string
-  tags: string[]
-  age: number
-  address: string
+  age: string
+  education: string
   course: string
   status: string
   region: string
   phoneNumber: string
   gender: string
+  student: string
+  vulnerability: string
+  workOrganisation: string
+  informedAboutUs: string
 
 }
-const ApplicantsDataList: React.FC = () => {
+interface ApplicatnList {
+  allApplicants: any
+  searchAplicant: any
+  search: any
+
+}
+const ApplicantsDataList: React.FC<ApplicatnList> = ({ allApplicants, searchAplicant, search }) => {
   // Age function
   const marks: SliderMarks = {
     0: '0',
@@ -172,71 +186,142 @@ const ApplicantsDataList: React.FC = () => {
     },
     {
       title: 'Name Surname',
-      dataIndex: 'Name Surname',
+      dataIndex: 'name',
       key: 1,
-      render: () => <p>dddddddddd</p>
+      ellipsis: true
     },
     {
       title: 'Sector',
       dataIndex: 'sector',
-      key: 2
+      key: 2,
+      ellipsis: true
     },
     {
       title: 'Course',
       dataIndex: 'course',
-      key: 3
+      key: 3,
+      ellipsis: true
     },
     {
       title: 'Status',
       key: 4,
-      dataIndex: 'status'
+      dataIndex: 'status',
+      ellipsis: true
     },
     {
       title: 'Region',
-      key: 'region',
-      dataIndex: 'region'
+      key: 5,
+      dataIndex: 'region',
+      ellipsis: true
     },
     {
       title: 'Phone number',
-      key: 5,
-      dataIndex: 'phoneNumber'
+      key: 6,
+      dataIndex: 'phoneNumber',
+      ellipsis: true
     },
     {
       title: 'Age',
-      key: 6,
-      dataIndex: 'age'
+      key: 7,
+      dataIndex: 'age',
+      ellipsis: true
     },
     {
       title: 'Gender',
-      key: 7,
-      dataIndex: 'gender'
+      key: 8,
+      dataIndex: 'gender',
+      ellipsis: true
+    },
+    {
+      title: 'Education',
+      key: 9,
+      dataIndex: 'education',
+      ellipsis: true
+    },
+    {
+      title: 'Student',
+      key: 1,
+      dataIndex: 'student',
+      ellipsis: true
+    },
+    {
+      title: 'Vulnerability',
+      key: 11,
+      dataIndex: 'vulnerability',
+      ellipsis: true
+    },
+    {
+      title: 'Paid job',
+      key: 12,
+      dataIndex: 'workOrganisation',
+      ellipsis: true
+    },
+    {
+      title: 'Course source ',
+      key: 13,
+      dataIndex: 'informedAboutUs',
+      ellipsis: true
     }
-    // {
-    //   title: 'ddd',
-    //   key: 'add'
-    // }
   ];
   const data: DataType[] = [];
-  for (let i = 0; i < 46; i++) {
-    data.push({
-      key: i,
-      name: `Edward King ${i}`,
-      age: 32,
-      address: `London, Park Lane no. ${i}`,
-      sector: 'secto',
-      tags: [],
-      course: 'ddd',
-      status: 'status',
-      region: 'aragacotn',
-      phoneNumber: '+37494098580',
-      gender: 'male'
-    });
-  }
+  const today = new Date();
 
+  {
+    allApplicants?.result && search.length < 2
+      ? (
+    <div>
+    { allApplicants?.result?.map((k: any) => (
+      data.push({
+        key: `${k?.id}`,
+        name: `${k?.fullName}`,
+        age: `${Number(moment?.(today)?.format('YYYY').valueOf()) - Number(moment(k?.dob).format('YYYY'))}`,
+        education: `${k?.educationLevel}`,
+        sector: `${k?.courseMap?.course?.sector?.title}`,
+        course: `${k?.courseMap?.course?.title}`,
+        status: `${k?.courseMap?.status}`,
+        region: `${k?.region}`,
+        phoneNumber: `${k?.phone}`,
+        gender: `${k?.gender}`,
+        student: `${k?.student}`,
+        vulnerability: `${k?.vulnerabilities}`,
+        workOrganisation: `${k?.workOrganisation}`,
+        informedAboutUs: `${k?.informedAboutUs}`
+      })
+    )
+
+    )
+}
+</div>
+        )
+      : (
+    <div>    {searchAplicant?.result?.map((s: any) => (
+      data.push({
+        key: `${s?.id}`,
+        name: `${s?.fullName}`,
+        age: `${Number(moment?.(today)?.format('YYYY').valueOf()) - Number(moment(s?.dob).format('YYYY'))}`,
+        education: `${s?.educationLevel}`,
+        sector: `${s?.courseMap?.course?.sector?.title}`,
+        course: `${s?.courseMap?.course?.title}`,
+        status: `${s?.courseMap?.status}`,
+        region: `${s?.region}`,
+        phoneNumber: `${s?.phone}`,
+        gender: `${s?.gender}`,
+        student: `${s?.student}`,
+        vulnerability: `${s?.vulnerabilities}`,
+        workOrganisation: `${s?.workOrganisation}`,
+        informedAboutUs: `${s?.informedAboutUs}`
+      })
+    )
+
+    )
+}
+</div>
+        );
+  }
   return (
     <>
+    <Table columns={columns} dataSource={ data } rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}/>
 
-    <Table columns={columns} dataSource={data} rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}/>
 </>
   );
 };

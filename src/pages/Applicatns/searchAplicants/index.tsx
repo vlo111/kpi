@@ -1,22 +1,28 @@
 import React from 'react';
-import { Input } from 'antd';
+import { AutoComplete, Space, Typography } from 'antd';
 
-const { Search } = Input;
+const { Title } = Typography;
+interface SearchApplicants {
+  search: any
+  setSearch: any
+}
 
-const onSearch = (value: any): any => {
-  console.log(value);
-};
+const SearchApplicantsList: React.FC<SearchApplicants> = ({ search, setSearch }) => {
+  const onChange = (data: string): void => {
+    setSearch(data);
+  };
 
-const SearchApplicantsList: React.FC = () => {
   return (
     <>
-    <Search
-      placeholder="input search text"
-      allowClear
-      enterButton="Search"
-      size="large"
-      onSearch={onSearch}
-    />
+    <Space size={[15, 0]} style={{ padding: '0 18px' }}>
+<Title level={4} style={{ color: '#2A5578' }}>Applicants</Title>
+<AutoComplete
+          value={search}
+          style={{ width: 300 }}
+          onChange={onChange}
+          placeholder="Search..."
+        />
+    </Space>
     </>
   );
 };
