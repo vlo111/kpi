@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
 
 import { defaultLimit } from '../../../helpers/constants';
 import DataResult from '../DataResult';
-import { ISearchImport, IPaginate } from '../../../types/files';
+import { ISearchImport, IPaginate, ICourseFiles, IFiles } from '../../../types/files';
 import useDeleteFile from '../../../api/Files/useDeleteFile';
 import useGetAllSearchFile from '../../../api/Files/useGetSearchAllFile';
 import useGetSearchCourseFile from '../../../api/Files/useGetSearchCourseFile';
@@ -64,17 +64,25 @@ export const SearchImport: React.FC<ISearchImport> =
     setPaginate,
     filesCount,
     currentPage,
-    isFetchingAllFiles
+    isFetchingAllFiles,
+    isFetchingCourseFiles
   }) => {
-    const [open, setOpen] = useState<string>('');
     const [searchPaginate, setSearchPaginate] = useState<IPaginate>(defaultLimit);
     const { id } = useParams();
     const { limit, offset, currentPage: searchCurrentPage } = searchPaginate;
+
     const { data: allfileSearch, isFetching: isFetchingAllFilesSearch, refetch: refetchAllFilesSearch } = useGetAllSearchFile(id, search, offset, limit, {
       enabled: ((search !== undefined) && search.length > 2 && (courseId === null || courseId === '')),
       staleTime: 1000 * 60 * 5
     });
-    const { data: { result: searchFilesCourse }, isFetching: isFetchingSearchCourseFiles } = useGetSearchCourseFile(courseId, search, { enabled: (Boolean(courseId) && (search !== undefined) && search.length > 2), staleTime: 1000 * 60 * 5 });
+    const { data: { result: searchFilesCourse }, isFetching: isFetchingSearchCourseFiles } =
+      useGetSearchCourseFile(
+        courseId,
+        search,
+        {
+          enabled: (Boolean(courseId) && (search !== undefined) && search.length > 2),
+          staleTime: 1000 * 60 * 5
+        });
 
     const { mutate: DeleteFile } = useDeleteFile({});
     const onChange = (data: string): void => {
@@ -87,26 +95,40 @@ export const SearchImport: React.FC<ISearchImport> =
         });
       }
     };
-    const onRemoveFile = (name: any): void => {
+    const onRemoveFile = (name: string | undefined): void => {
       DeleteFile(name, {
         onSuccess: () => {
           if (courseId !== null && folderId !== '') {
-            refetchFolderFiles();
-            refetchAllFiles();
+            void refetchFolderFiles();
+            void refetchAllFiles();
           }
           if (courseId !== null && folderId === '') {
-            refetch();
-            refetchAllFiles();
+            void refetch();
+            void refetchAllFiles();
           }
           if (courseId === null && folderId === '') {
-            refetchAllFiles();
+            void refetchAllFiles();
           }
         }
       });
     };
+    const filterSendingData = (): ICourseFiles | IFiles[] => {
+      if (allfileSearch?.result?.length >= 0 && (courseId === '' || courseId === null)) {
+        return allfileSearch?.result;
+      } else if ((!isEmpty(courseFiles) && folderId === '' && ((search !== undefined) && search.length <= 2))) {
+        return courseFiles;
+      } else if (folderId !== '') {
+        return folderFiles;
+      } else if (((search !== undefined) && search.length > 2)) {
+        return searchFilesCourse;
+      } else {
+        return files;
+      }
+    };
+
     useEffect(() => {
       if (search.length > 2 && courseId === null) {
-        refetchAllFilesSearch();
+        void refetchAllFilesSearch();
       }
     }, [offset, limit, search]);
     return (
@@ -122,9 +144,7 @@ export const SearchImport: React.FC<ISearchImport> =
         }
         <UploadModal>
           <DataResult
-            fileList={allfileSearch?.result?.length >= 0 && (courseId === '' || courseId === null) ? allfileSearch?.result : (!isEmpty(courseFiles) && folderId === '' && ((search !== undefined) && search.length <= 2)) ? courseFiles : folderId !== '' ? folderFiles : ((search !== undefined) && search.length > 2) ? searchFilesCourse : files}
-            open={open}
-            setOpen={setOpen}
+            fileList={filterSendingData()}
             onRemoveFile={onRemoveFile}
             courseId={courseId}
             refetch={refetch}
@@ -145,6 +165,7 @@ export const SearchImport: React.FC<ISearchImport> =
             currentPage={currentPage}
             searchCurrentPage={searchCurrentPage}
             isFetchingAllFiles={isFetchingAllFiles}
+            isFetchingCourseFiles={isFetchingCourseFiles}
           />
         </UploadModal>
       </SearchImportData>

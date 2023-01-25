@@ -89,10 +89,15 @@ const Files: React.FC = () => {
   } = useGetAllFile(id, offset, limit, { enabled: Boolean(id) });
 
   const {
-    data: { result: courseFiles }, refetch, isFetching
+    data: { result: courseFiles }, refetch, isFetching: isFetchingCourseFiles
   } = useGetCoursFile(courseId, { enabled: Boolean(courseId) });
 
-  const { data: { result: folderFiles }, isFetching: isFetchingFolderFiles, refetch: refetchFolderFiles } = useGetFolderFiles(courseId, folderId, { enabled: (Boolean(folderId) && Boolean(courseId)) });
+  const { data: { result: folderFiles }, isFetching: isFetchingFolderFiles, refetch: refetchFolderFiles } =
+    useGetFolderFiles(courseId,
+      folderId,
+      { enabled: (Boolean(folderId) && Boolean(courseId)) }
+    );
+
   useEffect(() => {
     refetchAllFiles();
   }, [limit, offset]);
@@ -100,6 +105,7 @@ const Files: React.FC = () => {
   if (isLoading === true) {
     return <AsnSpin />;
   }
+
   return (
     <Tab>
       <Tabs>
@@ -115,7 +121,7 @@ const Files: React.FC = () => {
             setCourseId={setCourseId}
             courseFiles={courseFiles}
             refetchAllFiles={refetchAllFiles}
-            isFetching={isFetching}
+            isFetching={isFetchingCourseFiles}
             setSearch={setSearch}
             search={search}
             setFolderId={setFolderId}
@@ -146,6 +152,7 @@ const Files: React.FC = () => {
         filesCount={filesCount}
         currentPage={currentPage}
         isFetchingAllFiles={isFetchingAllFiles}
+        isFetchingCourseFiles={isFetchingCourseFiles}
       />
     </Tab>
   );
