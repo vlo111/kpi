@@ -182,7 +182,7 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({ allApplicants, searchApli
       <Button type='link' style={{ padding: '0' }}><FilterOutlined className='filterIcon'/></Button>
     </Popover>,
       key: 'filter',
-      width: 10
+      width: 50
     },
     {
       title: 'Name Surname',
