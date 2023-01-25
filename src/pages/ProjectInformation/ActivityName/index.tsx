@@ -28,7 +28,7 @@ const ActivityName: React.FC<IActivityName> = ({ activityName, divider, count, o
   return (
     <Row gutter={[16, 0]}>
       <Col style={{ padding: '0' }} offset={1}>{divider && <DividerAnt type='vertical' style={count ? { borderLeft: 'none' } : {}} />}</Col>
-      <Col offset={1} style={!divider ? { ...noDivider } : { ...isDivider }}>
+      <Col offset={1} span={19} style={!divider ? { ...noDivider, wordBreak: 'break-all' } : { ...isDivider, wordBreak: 'break-all' }}>
        {order} {activityName}
       </Col>
     </Row>
