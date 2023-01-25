@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { InputRef, Space, Typography } from 'antd';
+import { InputRef, message, Space, Typography } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ApplicationCard from '../../components/Application/ApplicationCard/Index';
@@ -19,7 +19,10 @@ import { AsnSwitch } from '../../components/Forms/Switch';
 import { Void } from '../../types/global';
 import { AsnDatePicker } from '../../components/Forms/DatePicker';
 import { AsnInput } from '../../components/Forms/Input';
-import { ICardsData, IIsAddTermsConditions } from '../../types/project';
+import {
+  ICardsData,
+  IIsAddTermsConditions
+} from '../../types/project';
 import getApplicationFormDefault from '../../api/ApplicationForm/useGetApplicationFormDefault';
 import createApplicationForm from '../../api/ApplicationForm/useCreateApplicationForm';
 import { IApplicationsOption } from '../../types/api/application/applicationForm';
@@ -77,12 +80,9 @@ const Application: React.FC = () => {
     enabled: location?.state?.edit !== true
   });
 
-  const { data: singleApplicantData }: any = useSingleApplicationForm(
-    courseId,
-    {
-      enabled: location?.state?.edit === true
-    }
-  );
+  const { data: singleApplicantData } = useSingleApplicationForm(courseId, {
+    enabled: location?.state?.edit === true
+  });
 
   const { mutate: createApplicationFn } = createApplicationForm({
     onSuccess: (options: IApplicationsOption) => {
@@ -90,12 +90,12 @@ const Application: React.FC = () => {
       setFormUrlModal(true);
       setCreatedItemResponse(data);
     },
-    onError: (err: any) => {
-      console.log(err);
+    onError: () => {
+      void message.error('Publishing failed. Please try again.');
     }
   });
 
-  const { mutate: updateApplicationForm }: any = useUpdateApplicationForm({
+  const { mutate: updateApplicationForm } = useUpdateApplicationForm({
     onSuccess: () => {
       navigate(
         `/project/${PATHS.SUBACTIVITY.replace(
@@ -103,13 +103,17 @@ const Application: React.FC = () => {
           location?.state?.SubActivityId
         )}`
       );
+    },
+    onError: () => {
+      void message.error('Publishing failed. Please try again.');
     }
   });
 
   const [isValidateMessage, setIsValidateMessage] = useState<boolean>(false);
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
-  const [termsConditionsValue, setTermsConditionsValue] = useState<any>({});
+  const [termsConditionsValue, setTermsConditionsValue] =
+    useState<any>();
   const [applicationData, setApplicationData] = useState<any>({});
   const [onlineSignature, setOnlineSignature] = useState<boolean>(true);
   const [formUrlModal, setFormUrlModal] = useState<boolean>(false);
@@ -135,7 +139,7 @@ const Application: React.FC = () => {
   const formTitle = useRef<InputRef>(null);
 
   useEffect(() => {
-    if (location?.state?.edit === true) {
+    if (location?.state?.edit === true && singleApplicantData !== undefined) {
       setApplicationData(singleApplicantData);
     } else {
       setApplicationData(data);
@@ -267,12 +271,13 @@ const Application: React.FC = () => {
           setApplicationData={setApplicationData}
         />
       ))}
+      {termsConditionsValue !== undefined &&
       <TermsAndCondition
         isAddTermsConditions={isAddTermsConditions}
         termsConditionsValue={termsConditionsValue}
         setTermsConditionsValue={setTermsConditionsValue}
         setIsAddTermsConditions={setIsAddTermsConditions}
-      />
+      />}
       <ConditionCard>
         <span
           style={{
@@ -304,13 +309,19 @@ const Application: React.FC = () => {
       </CardContainer>
       <CardTitle>Set deadline (optional):</CardTitle>
       <ConditionCard>
-        <AsnDatePicker
-          style={{ border: 'none', flexDirection: 'row-reverse' }}
-          onChange={(date, dateString) =>
-            setDeadlineDate(new Date(dateString).toJSON())
-          }
-          defaultValue={moment(new Date(), 'DD.MM.YYYY')}
-        />
+        {applicationData.deadline !== undefined && (
+          <AsnDatePicker
+            style={{ border: 'none', flexDirection: 'row-reverse' }}
+            onChange={(date, dateString) =>
+              setDeadlineDate(new Date(dateString).toJSON())
+            }
+            defaultValue={
+              applicationData.deadline !== undefined
+                ? moment(new Date(applicationData.deadline), 'DD.MM.YYYY')
+                : moment(new Date(), 'DD.MM.YYYY')
+            }
+          />
+        )}
       </ConditionCard>
       <Space
         direction="horizontal"

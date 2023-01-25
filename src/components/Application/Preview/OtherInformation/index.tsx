@@ -5,10 +5,10 @@ import {
   DetailsContainer,
   ModalText
 } from '../../applicationStyle';
-import { IEducationWorkQuestion } from '../../../../types/project';
+import { IOtherInformation } from '../../../../types/project';
 import { answerTypes } from '../../../../helpers/utils';
 
-const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
+const OtherInformation: React.FC<IOtherInformation> = ({ otherInformationData }) => {
   return (
     <DetailsContainer>
       <CardTitle>{otherInformationData.title}</CardTitle>
@@ -16,7 +16,7 @@ const OtherInformation: React.FC<any> = ({ otherInformationData }) => {
         {otherInformationData?.description}
       </ModalText>
       {otherInformationData?.questions?.map(
-        (question: IEducationWorkQuestion) => (
+        (question) => (
           <Fragment key={question?.id !== undefined ? question.id : uuidv4()}>
             <ModalText style={{ margin: '1rem 0 0.3rem' }}>
               {question?.title}

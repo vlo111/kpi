@@ -2,7 +2,13 @@ import React, { Fragment } from 'react';
 import { AsnForm } from '../components/Forms/Form';
 import { clearLocalStorage } from '../hooks/useLocalStorage';
 import { TVoid } from '../types/global';
-import { CollapseHeader, IAnswers, SetResultArea, SetTitleColor } from '../types/project';
+import {
+  CollapseHeader,
+  IAnswers,
+  IContent,
+  SetResultArea,
+  SetTitleColor
+} from '../types/project';
 import { AsnInput } from '../components/Forms/Input';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
@@ -17,13 +23,19 @@ export const logOut: TVoid = () => {
   window.location.reload();
 };
 
-export const noop: TVoid = () => { };
+export const noop: TVoid = () => {};
 
 export const handleErrorMessage = (response: any): string => {
   return response?.data?.message;
 };
 
-export const HeaderElement: CollapseHeader = (key, name, index, placeholder, className) => (
+export const HeaderElement: CollapseHeader = (
+  key,
+  name,
+  index,
+  placeholder,
+  className
+) => (
   <div key={`${className}${key}`} onClick={(e) => e.stopPropagation()}>
     <AsnForm.Item name={name} rules={[{ required: true, min: 5, max: 256 }]}>
       <AsnInput prefix={index} placeholder={placeholder} />
@@ -31,9 +43,9 @@ export const HeaderElement: CollapseHeader = (key, name, index, placeholder, cla
   </div>
 );
 
-export const TollTipText: (
-  ...items: string[]
-) => React.ReactNode = (...items) => (
+export const TollTipText: (...items: string[]) => React.ReactNode = (
+  ...items
+) => (
   <div>
     <p style={{ marginBottom: '1rem' }}>
       Must include at least one result area and at least one expected result
@@ -90,12 +102,12 @@ export const validateResultArea: SetResultArea = (values) => {
   errorsIndex.map((i: any) => resultAreaElement(i));
 };
 
-export const answerTypes = (type: string, question: any): JSX.Element => {
+export const answerTypes = (type: string, question: IContent): JSX.Element => {
   const option = (
     <Radio.Group value={question?.answers[0]?.title}>
       <Space direction="vertical">
         {question?.answers?.map((answer: IAnswers) => (
-          <Fragment key={answer.id !== undefined ? answer.id : uuidv4()}>
+          <Fragment key={answer?.id !== undefined ? answer.id : uuidv4()}>
             {answer.title?.includes('Other')
               ? (
               <DividerLine>
@@ -120,7 +132,7 @@ export const answerTypes = (type: string, question: any): JSX.Element => {
         <Space direction="vertical">
           {question?.answers?.map((answer: IAnswers) => (
             <Radio
-              key={answer.id !== undefined ? answer.id : uuidv4()}
+              key={answer?.id !== undefined ? answer.id : uuidv4()}
               value={answer.title}
             >
               {answer.title}
@@ -133,7 +145,11 @@ export const answerTypes = (type: string, question: any): JSX.Element => {
         <>
           {question.relatedQuestions?.map((relatedQuestion: any) => (
             <RelatedQuestion
-              key={relatedQuestion?.id}
+              key={
+                relatedQuestion?.id !== undefined
+                  ? relatedQuestion?.id
+                  : uuidv4()
+              }
               relatedQuestion={relatedQuestion}
             />
           ))}
@@ -146,7 +162,10 @@ export const answerTypes = (type: string, question: any): JSX.Element => {
   const checkbox = (
     <Space direction="vertical">
       {question?.answers?.map((answer: IAnswers, index: number) => (
-        <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
+        <AsnCheckbox
+          defaultChecked={index === 0}
+          key={answer?.id !== undefined ? answer.id : uuidv4()}
+        >
           {answer.title}
         </AsnCheckbox>
       ))}

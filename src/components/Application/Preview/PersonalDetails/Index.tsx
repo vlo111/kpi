@@ -6,7 +6,7 @@ import { CardTitle, ModalText, DetailsContainer } from '../../applicationStyle';
 import { AsnInput } from '../../../Forms/Input';
 import { AsnSelect } from '../../../Forms/Select';
 import { AsnDatePicker } from '../../../Forms/DatePicker';
-import { IAnswers } from '../../../../types/project';
+import { IAnswers, IPersonalDetails } from '../../../../types/project';
 import { AsnCheckbox } from '../../../Forms/Checkbox';
 
 const RegionSelect = styled(AsnSelect)`
@@ -17,14 +17,14 @@ const RegionSelect = styled(AsnSelect)`
   }
 `;
 
-const PersonalDetails: React.FC<any> = ({ personalDetailsData }) => {
+const PersonalDetails: React.FC<IPersonalDetails> = ({ personalDetailsData }) => {
   return (
     <DetailsContainer>
       <CardTitle>{personalDetailsData.title}</CardTitle>
       <ModalText style={{ marginTop: '0.5rem' }}>
         {personalDetailsData?.description}
       </ModalText>
-      {personalDetailsData?.questions?.map((question: any) => (
+      {personalDetailsData?.questions?.map((question) => (
         <Fragment key={question.id !== undefined ? question.id : uuidv4()}>
           <ModalText style={{ margin: '1rem 0rem 0.3rem' }}>
             {question.title}

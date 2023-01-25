@@ -2,11 +2,14 @@ import React, { Fragment } from 'react';
 import { Divider, Radio, Space } from 'antd';
 import { ModalText, DividerLine } from '../../applicationStyle';
 import { v4 as uuidv4 } from 'uuid';
-import { IAnswers, IContent } from '../../../../types/project';
+import { IAnswers, IContent, IRelatedQuestion } from '../../../../types/project';
 import { AsnInput } from '../../../Forms/Input';
 import { AsnCheckbox } from '../../../Forms/Checkbox';
 
-export const answerTypes = (type: string, question: IContent): JSX.Element | null => {
+export const answerTypes = (
+  type: string,
+  question: IContent
+): JSX.Element | null => {
   const option = (
     <Radio.Group value={question?.answers[0]?.title}>
       <Space direction="vertical">
@@ -52,7 +55,7 @@ export const answerTypes = (type: string, question: IContent): JSX.Element | nul
   }
 };
 
-const RelatedQuestion: React.FC<any> = ({ relatedQuestion }) => {
+const RelatedQuestion: React.FC<IRelatedQuestion> = ({ relatedQuestion }) => {
   return (
     <Fragment>
       <ModalText style={{ margin: '1rem 0 0.3rem' }}>

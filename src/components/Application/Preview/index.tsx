@@ -75,35 +75,19 @@ const PreviewModal: React.FC<IPreviewModal> = ({
         <ModalTitle>{questionData?.title}</ModalTitle>
         <ModalText>{questionData?.description}</ModalText>
         <PersonalDetails
-          personalDetailsData={
-            questionData?.applicationFormSections !== undefined
-              ? questionData?.applicationFormSections[0]
-              : {}
-          }
+          personalDetailsData={questionData?.applicationFormSections?.[0]}
         />
         <EducationWork
-          educationWorkData={
-            questionData?.applicationFormSections !== undefined
-              ? questionData?.applicationFormSections[1]
-              : {}
-          }
+          educationWorkData={questionData?.applicationFormSections?.[1]}
         />
         <OtherInformation
-          otherInformationData={
-            questionData?.applicationFormSections !== undefined
-              ? questionData?.applicationFormSections[2]
-              : {}
-          }
+          otherInformationData={questionData?.applicationFormSections?.[2]}
         />
         {questionData?.applicationFormSections !== undefined &&
         questionData?.applicationFormSections[3]?.questions?.length > 0
           ? (
           <ProfessionalSkills
-            professionalSkills={
-              questionData?.applicationFormSections !== undefined
-                ? questionData?.applicationFormSections[3]
-                : {}
-            }
+            professionalSkills={questionData?.applicationFormSections?.[3]}
           />
             )
           : null}
