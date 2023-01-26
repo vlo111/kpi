@@ -19,10 +19,7 @@ import { AsnSwitch } from '../../components/Forms/Switch';
 import { Void } from '../../types/global';
 import { AsnDatePicker } from '../../components/Forms/DatePicker';
 import { AsnInput } from '../../components/Forms/Input';
-import {
-  ICardsData,
-  IIsAddTermsConditions
-} from '../../types/project';
+import { ICardsData, IIsAddTermsConditions } from '../../types/project';
 import getApplicationFormDefault from '../../api/ApplicationForm/useGetApplicationFormDefault';
 import createApplicationForm from '../../api/ApplicationForm/useCreateApplicationForm';
 import { IApplicationsOption } from '../../types/api/application/applicationForm';
@@ -112,8 +109,7 @@ const Application: React.FC = () => {
   const [isValidateMessage, setIsValidateMessage] = useState<boolean>(false);
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
-  const [termsConditionsValue, setTermsConditionsValue] =
-    useState<any>();
+  const [termsConditionsValue, setTermsConditionsValue] = useState<any>();
   const [applicationData, setApplicationData] = useState<any>({});
   const [onlineSignature, setOnlineSignature] = useState<boolean>(true);
   const [formUrlModal, setFormUrlModal] = useState<boolean>(false);
@@ -147,20 +143,19 @@ const Application: React.FC = () => {
   }, [singleApplicantData, data]);
 
   useEffect(() => {
-    const applicationDataParse =
+    const termsAndConditionsDataParse =
       applicationData?.termsAndConditions !== undefined
         ? JSON.parse(applicationData?.termsAndConditions)
         : [];
-    for (let i = 0; i < applicationDataParse.length; ++i) {
-      termsConditionsValue[`condition${i}`] = applicationDataParse[i];
+    for (let i = 0; i < termsAndConditionsDataParse.length; ++i) {
+      termsConditionsValue[`condition${i}`] = termsAndConditionsDataParse[i];
     }
-
     setTermsConditionsValue({
       ...termsConditionsValue
     });
 
     setIsAddTermsConditions(
-      applicationDataParse.map(() => {
+      termsAndConditionsDataParse.map(() => {
         return {
           id: uuidv4(),
           placeholder: 'Type the agreement text'
@@ -174,6 +169,7 @@ const Application: React.FC = () => {
     for (const key in termsConditionsValue) {
       termsConditionsArr.push(termsConditionsValue[key]);
     }
+
     return termsConditionsArr;
   }, [termsConditionsValue]);
 
@@ -271,13 +267,14 @@ const Application: React.FC = () => {
           setApplicationData={setApplicationData}
         />
       ))}
-      {termsConditionsValue !== undefined &&
-      <TermsAndCondition
-        isAddTermsConditions={isAddTermsConditions}
-        termsConditionsValue={termsConditionsValue}
-        setTermsConditionsValue={setTermsConditionsValue}
-        setIsAddTermsConditions={setIsAddTermsConditions}
-      />}
+      {termsConditionsValue !== undefined && (
+        <TermsAndCondition
+          isAddTermsConditions={isAddTermsConditions}
+          termsConditionsValue={termsConditionsValue}
+          setTermsConditionsValue={setTermsConditionsValue}
+          setIsAddTermsConditions={setIsAddTermsConditions}
+        />
+      )}
       <ConditionCard>
         <span
           style={{

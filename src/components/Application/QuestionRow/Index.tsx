@@ -61,6 +61,9 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
     content.splice(item, 1);
     setApplicationData({ ...applicationData });
     setOpenPopover(!openPopover);
+    setIsQuestionCardVisible(
+      isQuestionCardVisible.filter((itemId) => itemId !== cardId)
+    );
   };
 
   const handleOpenChange: Onchange = (newOpen) => {

@@ -83,7 +83,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
         otherOption:
           Object.keys(singleQuestionData).length > 0
             ? singleQuestionData?.otherOption
-            : true,
+            : false,
         question:
           Object.keys(singleQuestionData).length > 0
             ? singleQuestionData?.title
@@ -115,16 +115,39 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
       }
     } else if (addOrUpdateQuestion === 'edit') {
       if (cardId === 'personal_info') {
-        updateQuestion(value, 0, applicationData, questionRowIndex, answerTypeValue);
+        updateQuestion(
+          value,
+          0,
+          applicationData,
+          questionRowIndex,
+          answerTypeValue
+        );
       } else if (cardId === 'educational_info') {
-        updateQuestion(value, 1, applicationData, questionRowIndex, answerTypeValue);
+        updateQuestion(
+          value,
+          1,
+          applicationData,
+          questionRowIndex,
+          answerTypeValue
+        );
       } else if (cardId === 'other_info') {
-        updateQuestion(value, 2, applicationData, questionRowIndex, answerTypeValue);
+        updateQuestion(
+          value,
+          2,
+          applicationData,
+          questionRowIndex,
+          answerTypeValue
+        );
       } else {
-        updateQuestion(value, 3, applicationData, questionRowIndex, answerTypeValue);
+        updateQuestion(
+          value,
+          3,
+          applicationData,
+          questionRowIndex,
+          answerTypeValue
+        );
       }
     }
-    setApplicationData({ ...applicationData });
     form.resetFields();
     setIsQuestionCardVisible(
       isQuestionCardVisible.filter((itemId) => itemId !== cardId)
@@ -221,7 +244,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
             <SwitchContainer>
               <span>{'"Other" option'}</span>
               <AsnForm.Item name="otherOption" valuePropName="checked">
-                <AsnSwitch defaultChecked={true} />
+                <AsnSwitch />
               </AsnForm.Item>
             </SwitchContainer>
               )
