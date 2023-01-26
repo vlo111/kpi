@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import {
   CardContainer,
   CardTitle,
@@ -7,10 +8,21 @@ import {
 } from '../applicationStyle';
 import { v4 as uuidv4 } from 'uuid';
 import { FormFinish } from '../../../types/global';
+import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
 import {
   IIsAddTermsConditions,
   ITermsAndCondition
 } from '../../../types/project';
+
+export const TextAreaContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  svg {
+    margin-left: 8px;
+    cursor: pointer;
+  }
+`;
 
 const TermsAndCondition: React.FC<ITermsAndCondition> = ({
   setTermsConditionsValue,
@@ -24,6 +36,13 @@ const TermsAndCondition: React.FC<ITermsAndCondition> = ({
       [event.target.name]: event.target.value
     });
   };
+  console.log(isAddTermsConditions, 'isAddTermsConditions', termsConditionsValue);
+
+  const onDeleteCondition = (id: string | undefined): void => {
+    setIsAddTermsConditions(
+      isAddTermsConditions.filter((condition) => condition.id !== id)
+    );
+  };
 
   return (
     <CardContainer
@@ -33,14 +52,16 @@ const TermsAndCondition: React.FC<ITermsAndCondition> = ({
       <CardTitle>Terms and Conditions / Պայմաններ և դրույթներ</CardTitle>
       {isAddTermsConditions.map(
         (item: IIsAddTermsConditions, index: number) => (
-          <CustomTextArea
-            key={item.id}
-            style={{ borderRadius: '0px' }}
-            placeholder={item.placeholder}
-            name={`condition${index}`}
-            onChange={handleTermsConditions}
-            value={termsConditionsValue[`condition${index}`]}
-          />
+          <TextAreaContainer key={item.id}>
+            <CustomTextArea
+              style={{ borderRadius: '0px' }}
+              placeholder={item.placeholder}
+              name={`condition${index}`}
+              onChange={handleTermsConditions}
+              value={termsConditionsValue[`condition${index}`]}
+            />
+            <DeleteIcon onClick={() => onDeleteCondition(item.id)} />
+          </TextAreaContainer>
         )
       )}
       {isAddTermsConditions.length === 5
