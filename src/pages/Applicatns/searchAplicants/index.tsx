@@ -1,11 +1,8 @@
 import React from 'react';
 import { AutoComplete, Space, Typography } from 'antd';
+import { SearchApplicants } from '../applicantsTypes';
 
 const { Title } = Typography;
-interface SearchApplicants {
-  search: any
-  setSearch: any
-}
 
 const SearchApplicantsList: React.FC<SearchApplicants> = ({ search, setSearch }) => {
   const onChange = (data: string): void => {
@@ -15,7 +12,7 @@ const SearchApplicantsList: React.FC<SearchApplicants> = ({ search, setSearch })
   return (
     <>
     <Space size={[15, 0]} style={{ padding: '0 18px' }}>
-<Title level={4} style={{ color: '#2A5578' }}>Applicants</Title>
+<Title level={4} style={{ color: 'var(--dark-border-ultramarine)' }}>Applicants</Title>
 <AutoComplete
           value={search}
           style={{ width: 300 }}

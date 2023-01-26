@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-base-to-string */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable no-lone-blocks */
 import React, { useState } from 'react';
@@ -10,32 +8,10 @@ import { Panel } from '../../../components/Forms/Collapse';
 import { AsnButton } from '../../../components/Forms/Button';
 import type { SliderMarks } from 'antd/es/slider';
 import { AsnCheckboxGroup } from '../../../components/Forms/Checkbox';
-import { ContentAssingersFilter } from '.././style';
+import { ContentAssingersFilter } from '../applicantsStyle';
 import moment from 'moment';
+import { ApplicatnList, DataType } from '../applicantsTypes';
 
-interface DataType {
-  key: React.Key
-  name: string
-  sector: string
-  age: string
-  education: string
-  course: string
-  status: string
-  region: string
-  phoneNumber: string
-  gender: string
-  student: string
-  vulnerability: string
-  workOrganisation: string
-  informedAboutUs: string
-
-}
-interface ApplicatnList {
-  allApplicants: any
-  searchAplicant: any
-  search: any
-
-}
 const ApplicantsDataList: React.FC<ApplicatnList> = ({ allApplicants, searchAplicant, search }) => {
   // Age function
   const marks: SliderMarks = {
@@ -267,7 +243,7 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({ allApplicants, searchApli
   const today = new Date();
 
   {
-    allApplicants?.result && search.length < 2
+    (Boolean((allApplicants?.result))) && search.length < 2
       ? (
     <div>
     { allApplicants?.result?.map((k: any) => (
