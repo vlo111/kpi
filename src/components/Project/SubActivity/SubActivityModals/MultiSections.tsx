@@ -31,14 +31,14 @@ font-size: var( --base-font-size);
 color: var( --dark-2);
 `;
 
-const MultiSections: React.FC<IMultiSections> = ({ subActivity, attachments, UploadDoc, setActiveTab, activeTab }) => {
+const MultiSections: React.FC<IMultiSections> = ({ sectionsCount, attachments, UploadDoc, setActiveTab, activeTab }) => {
   const form = AsnForm.useFormInstance();
 
   const { Option } = Select;
   const { Dragger } = Upload;
   const options = ['Offline', 'Online', 'Blended'];
 
-  const items = subActivity?.sections?.map((section: { id: string }, i: number) => {
+  const items = new Array(sectionsCount).fill(null).map((_, i) => {
     return {
       label: <AsnRow>{i + 1} Section</AsnRow>,
       key: `${i}`,

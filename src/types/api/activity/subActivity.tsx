@@ -116,6 +116,7 @@ export interface ICreateSubActivityProps {
   attachments?: any
   courseStructure?: string
   projectId?: string
+  sectionsCount: number
 }
 
 export interface ICourseSettingMap {
@@ -123,6 +124,7 @@ export interface ICourseSettingMap {
 }
 export interface ISetting {
   type: string
+  title: string
   answerType: string | null
 }
 
@@ -135,7 +137,8 @@ export interface IMultiSections {
   // subActivity: {
   //   sections: []
   // }
-  subActivity: any
+  subActivity?: any
+  sectionsCount?: number
   attachments: IAttachmentSetting[]
   UploadDoc: any
   setActiveTab: React.Dispatch<React.SetStateAction<string>>

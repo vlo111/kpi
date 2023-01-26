@@ -13,13 +13,19 @@ import AsnSpin from '../../../Forms/Spin';
 import moment from 'moment';
 import SubActivityForm from './SubActivityiForms';
 
-const CreateSubCourse: React.FC<any> = ({ templateId, openCreateSubActivity, setOpenCreateSubActivity }) => {
+const CreateSubCourse: React.FC<any> = ({
+  templateId,
+  openCreateSubActivity,
+  setOpenCreateSubActivity
+}) => {
   const [form] = AsnForm.useForm();
   const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useAuth();
 
-  const { data: subActivity, isLoading } = getSingleTemplate(templateId, { enabled: Boolean(templateId) });
+  const { data: subActivity, isLoading } = getSingleTemplate(templateId, {
+    enabled: Boolean(templateId)
+  });
 
   const { mutate: createSubActivity } = useCreateSubActivity({
     onSuccess: (response: any) =>
@@ -31,6 +37,8 @@ const CreateSubCourse: React.FC<any> = ({ templateId, openCreateSubActivity, set
   const { id: userId }: IUser = user;
 
   const onFinish: FormFinish = (values) => {
+    console.log(values, 'finished Values');
+
     if (subActivity?.courseStructure === 'MULTI_SECTION') {
       const checkFields = values.sectionsData.map((section: any, i: number) => {
         return {
@@ -38,8 +46,15 @@ const CreateSubCourse: React.FC<any> = ({ templateId, openCreateSubActivity, set
           sectionField: `${i}`
         };
       });
-      const requiredFieldsCount = Math.max(...checkFields.map((field: { requiredFields: number }) => field.requiredFields));
-      const notCompletedField = checkFields.filter((field: { requiredFields: number }) => field.requiredFields < requiredFieldsCount);
+      const requiredFieldsCount = Math.max(
+        ...checkFields.map(
+          (field: { requiredFields: number }) => field.requiredFields
+        )
+      );
+      const notCompletedField = checkFields.filter(
+        (field: { requiredFields: number }) =>
+          field.requiredFields < requiredFieldsCount
+      );
       if (notCompletedField.length > 0) {
         // setActiveTab(notCompletedField[0].sectionField);
       } else {
@@ -49,17 +64,26 @@ const CreateSubCourse: React.FC<any> = ({ templateId, openCreateSubActivity, set
           managerId: userId,
           sectorId: values?.sector,
           regionId: values?.region,
-          sectionsData: subActivity?.sections?.map((section: { id: string }, i: number) => {
-            return {
-              sectionId: section?.id,
-              title: values.sectionsData[i].title,
-              description: values.sectionsData[i].description,
-              teachingMode: values.sectionsData[i].teaching_mode,
-              startDate: moment(values.sectionsData[i].startDate).format(),
-              endDate: moment(values.sectionsData[i].endDate).format(),
-              files: values.sectionsData[i].files.map((file: { url: string, keyName: string }) => ({ file: file.url, keyname: file.keyName }))
-            };
-          })
+          sectionsData: subActivity?.sections?.map(
+            (section: { id: string }, i: number) => {
+              return {
+                sectionId: section?.id,
+                title: values.sectionsData[i].title,
+                partner_organization:
+                  values.sectionsData[i].partner_organization,
+                description: values.sectionsData[i].description,
+                teachingMode: values.sectionsData[i].teaching_mode,
+                startDate: moment(values.sectionsData[i].startDate).format(),
+                endDate: moment(values.sectionsData[i].endDate).format(),
+                files: values.sectionsData[i].files.map(
+                  (file: { url: string, keyName: string }) => ({
+                    file: file.url,
+                    keyname: file.keyName
+                  })
+                )
+              };
+            }
+          )
         };
         createSubActivity(requestBody);
       }
@@ -71,39 +95,59 @@ const CreateSubCourse: React.FC<any> = ({ templateId, openCreateSubActivity, set
         managerId: userId,
         sectorId: values?.sector,
         regionId: values?.region,
-        sectionsData: subActivity?.sections.map((section: { id: string }, i: number) => {
-          return {
-            sectionId: section?.id,
-            title: values.title,
-            description: values.description,
-            teachingMode: values.teaching_mode,
-            startDate: moment(values.startDate).format(),
-            endDate: moment(values.endDate).format(),
-            files: values.sectionsData[i].files.map((file: { url: string, keyName: string }) => ({ file: file.url, keyname: file.keyName }))
-          };
-        })
+        sectionsData: subActivity?.sections.map(
+          (section: { id: string }, i: number) => {
+            return {
+              sectionId: section?.id,
+              title: values.title,
+              description: values.description,
+              teachingMode: values.teaching_mode,
+              startDate: moment(values.startDate).format(),
+              endDate: moment(values.endDate).format(),
+              files: values.sectionsData.filter((item: { setting: { answerType: string }, ATTACHMENT: string }) => (item?.setting?.answerType === 'ATTACHMENT' && item?.ATTACHMENT !== undefined)).map((item: any) => ({
+                file: item?.ATTACHMENT[0]?.url,
+                keyname: item?.ATTACHMENT[0]?.keyName
+              })),
+              customInputs: values.sectionsData
+            };
+          }
+        )
       };
       createSubActivity(requestBody);
     }
   };
   const onFinishFailed: FormFinish = (values) => {
     if (subActivity?.courseStructure === 'MULTI_SECTION') {
-    //   const { errorFields } = values;
-    //   const notCompletedField = errorFields[0].name;
+      //   const { errorFields } = values;
+      //   const notCompletedField = errorFields[0].name;
       void message.error('Please fill all Sections data', 2);
-    //   setActiveTab(notCompletedField[1].toString());
+      //   setActiveTab(notCompletedField[1].toString());
     }
   };
 
   const attachments = subActivity?.courseSettingMap?.filter(
     (item: ICourseSettingMap) =>
-      item.setting.type === 'CUSTOM' && item.setting.answerType === 'ATTACHMENT'
+      item.setting.type === 'CUSTOM' || item.setting.title === 'Partner Organization'
   );
 
   useEffect(() => {
     if (subActivity !== undefined) {
       form.setFieldsValue({
-        sectionsData: Array(subActivity?.sections?.length).fill({ files: [] })
+        duration_soft_number: 18,
+        duration_technical_number: 18,
+        duration: 36,
+        files: [],
+        sectionsData: attachments.map((item: any) => (
+          {
+            active: item?.active,
+            setting: {
+              id: item?.setting?.id,
+              answerType: item?.setting?.answerType,
+              title: item?.setting?.title,
+              data: item?.setting?.data
+            }
+          }
+        ))
       });
     }
   }, [subActivity]);
@@ -112,17 +156,18 @@ const CreateSubCourse: React.FC<any> = ({ templateId, openCreateSubActivity, set
     return <AsnSpin />;
   }
   return (
-        <SubActivityForm
-         form={form}
-         attachments={attachments}
-         onFinish={onFinish}
-         onFinishFailed={onFinishFailed}
-         setOpenCreateSubActivity={setOpenCreateSubActivity}
-         openCreateSubActivity={openCreateSubActivity}
-         courseStructure={subActivity?.courseStructure}
-         projectId={id}
-         edit={false}
-        />
+    <SubActivityForm
+      form={form}
+      attachments={attachments}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      setOpenCreateSubActivity={setOpenCreateSubActivity}
+      openCreateSubActivity={openCreateSubActivity}
+      courseStructure={subActivity?.courseStructure}
+      sectionsCount={subActivity?.sections?.length}
+      projectId={id}
+      edit={false}
+    />
   );
 };
 

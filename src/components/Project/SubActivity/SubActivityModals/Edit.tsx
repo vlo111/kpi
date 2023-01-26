@@ -1,9 +1,9 @@
-import { message } from 'antd';
+import { message, notification } from 'antd';
 import React, { useEffect } from 'react';
 import moment from 'moment';
 
 import { useAuth } from '../../../../hooks/useAuth';
-import { ICourseSettingMap } from '../../../../types/api/activity/subActivity';
+// import { ICourseSettingMap } from '../../../../types/api/activity/subActivity';
 import { IUser } from '../../../../types/auth';
 import { FormFinish } from '../../../../types/global';
 import { AsnForm } from '../../../Forms/Form';
@@ -25,6 +25,12 @@ const EditSubCourse: React.FC<any> = ({
   const { mutate: updateSubActivity } = useUpdateSubActivity({
     onSuccess: () => {
       refetch();
+      notification.success({
+        bottom: 50,
+        placement: 'topRight',
+        message: 'The Course saved successfully',
+        duration: 3
+      });
       setOpenCreateSubActivity(false);
     }
   });
@@ -60,6 +66,7 @@ const EditSubCourse: React.FC<any> = ({
               id: section?.id,
               title: values.sectionsData[i].title,
               order: section?.order,
+              partner_organization: values.sectionsData[i].partner_organization,
               description: values.sectionsData[i].description,
               teachingMode: values.sectionsData[i].teaching_mode,
               startDate: moment(values.sectionsData[i].startDate).format(),
@@ -86,11 +93,13 @@ const EditSubCourse: React.FC<any> = ({
             teachingMode: values.teaching_mode,
             startDate: moment(values.startDate).format(),
             endDate: moment(values.endDate).format(),
-            files: values.sectionsData[i].files.map((file: { url: string, keyName: string }) => ({ file: file.url, keyname: file.keyName }))
+            customInputs: values.sectionsData
+            // files: values.sectionsData[i].files.map((file: { url: string, keyName: string }) => ({ file: file.url, keyname: file.keyName }))
           };
         })
       };
-      updateSubActivity({ id: InputActivityId, data: requestBody });
+      console.log(requestBody);
+      // updateSubActivity({ id: InputActivityId, data: requestBody });
     }
   };
 
@@ -103,10 +112,12 @@ const EditSubCourse: React.FC<any> = ({
     }
   };
 
-  const attachments = subActivity?.courseSettingMap?.filter(
-    (item: ICourseSettingMap) =>
-      item.setting.type === 'CUSTOM' && item.setting.answerType === 'ATTACHMENT'
-  );
+  // const attachments = subActivity?.courseSettingMap?.filter(
+  //   (item: ICourseSettingMap) =>
+  //     item.setting.type === 'CUSTOM' && item.setting.answerType === 'Partner Organization'
+  // );
+
+  const attachments = subActivity?.sectionsData[0].data.customInputs;
 
   useEffect(() => {
     if (subActivity !== undefined) {
@@ -116,8 +127,7 @@ const EditSubCourse: React.FC<any> = ({
         description: item?.data?.description,
         startDate: moment(item?.data?.startDate),
         endDate: moment(item?.data?.endDate),
-        teaching_mode: item?.data?.teachingMode,
-        partner_organization: item?.data?.partnerOrganization
+        teaching_mode: item?.data?.teachingMode
       }));
 
       form.setFieldsValue({
@@ -125,7 +135,7 @@ const EditSubCourse: React.FC<any> = ({
         region: subActivity?.region?.id,
         sector: subActivity?.sector?.id,
         ...initialData[0],
-        sectionsData: initialData
+        sectionsData: subActivity?.sectionsData[0].data.customInputs
       });
     }
   }, [user, subActivity]);
@@ -144,6 +154,7 @@ const EditSubCourse: React.FC<any> = ({
       courseStructure={
         subActivity?.sectionsData.length > 1 ? 'MULTI_SECTION' : 'ONE_SECTION'
       }
+      sectionsCount={subActivity?.sectionsData.length}
       projectId={projectId}
       edit={true}
     />
