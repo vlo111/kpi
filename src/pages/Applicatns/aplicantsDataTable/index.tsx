@@ -95,6 +95,7 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
 
     };
     applicantsFilter(requestBody);
+    hide();
   };
 
   const hide = (): any => {
