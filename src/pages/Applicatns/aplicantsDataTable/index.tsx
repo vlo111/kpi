@@ -22,6 +22,8 @@ import { ContentAssingersFilter } from '../applicantsStyle';
 import moment from 'moment';
 import { ApplicatnList, DataType } from '../applicantsTypes';
 import useGetApplicantsFilter from '../../../api/Applicants/useGetApplicantsFilter';
+// import { useNavigate } from 'react-router-dom';
+// import { PATHS } from '../../../helpers/constants';
 
 const ApplicantsDataList: React.FC<ApplicatnList> = ({
   allApplicants,
@@ -31,6 +33,7 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
   const [form] = Form.useForm();
   const [showNote, setShowNote] = useState<any>();
   const [open, setOpen] = useState(false);
+  // const navigate = useNavigate();
   const { mutate: applicantsFilter } = useGetApplicantsFilter({
     onSuccess: (options: any) => {
       const { data } = options;
@@ -372,7 +375,7 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
                  )}
           </div>
             )
-          : (<div></div>);
+          : (<></>);
   }
   return (
     <>
@@ -382,6 +385,15 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
         rowClassName={(record, index) =>
           index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
         }
+        // onRow={(record, rowIndex) => {
+        //   return {
+        //     onClick: event => {
+        //       navigate(
+        //         `/applicant/${PATHS.APPLICANT.replace(':id', record?.key)}`
+        //       );
+        //     }
+        //   };
+        // }}
       />
     </>
   );
