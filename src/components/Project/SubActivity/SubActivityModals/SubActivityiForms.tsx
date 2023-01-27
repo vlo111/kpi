@@ -47,27 +47,8 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
   const { Dragger } = Upload;
   const options = ['Offline', 'Online', 'Blended'];
 
-  // const getFile: any = (e: any) => {
-  //   console.log('Upload event:', e);
-  //   if (Array.isArray(e)) {
-  //     return e;
-  //   }
-  //   return (Boolean(e)) && e.fileList;
-  // }
+  console.log(form.getFieldsValue(), 'getFieldsValuegetFieldsValuegetFieldsValuegetFieldsValue');
 
-  console.log(
-    form.getFieldsValue(),
-    form
-      .getFieldValue('sectionsData')
-      ?.filter(
-        (item: any, l: number) => l === 5
-      )
-      ?.map((item: any) => (item?.ATTACHMENT?.map((t: { name: string }) => ({
-        name: t?.name,
-        uid: 'aaa'
-      })))),
-    'getFieldsValuegetFieldsValuegetFieldsValuegetFieldsValue'
-  );
   return (
     <CreateSubActivity
       open={openCreateSubActivity}
@@ -275,7 +256,6 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
                                                 [
                                                   // ...removeDoubleFiles,
                                                   {
-                                                    url,
                                                     id: file.uid,
                                                     name: url,
                                                     keyName:
@@ -303,15 +283,11 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
                                           [...filteredFiles]
                                         );
                                       }}
-                                      // defaultFileList={form
-                                      //   .getFieldValue('sectionsData')
-                                      //   ?.filter(
-                                      //     (item: any, l: number) => l === j
-                                      //   )
-                                      //   ?.map((item: any) => (item?.ATTACHMENT?.map((t: { name: string }) => ({
-                                      //     name: t?.name,
-                                      //     uid: 'aaa'
-                                      //   }))))}
+                                      defaultFileList={form.getFieldValue([
+                                        'sectionsData',
+                                        j,
+                                        'ATTACHMENT'
+                                      ])}
                                       name={'ATTACHMENT'}
                                       accept={
                                         '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx'

@@ -74,18 +74,20 @@ const CreateSubCourse: React.FC<any> = ({
                 description: values.sectionsData[i].description,
                 teachingMode: values.sectionsData[i].teaching_mode,
                 startDate: moment(values.sectionsData[i].startDate).format(),
-                endDate: moment(values.sectionsData[i].endDate).format(),
-                files: values.sectionsData[i].files.map(
-                  (file: { url: string, keyName: string }) => ({
-                    file: file.url,
-                    keyname: file.keyName
-                  })
-                )
+                endDate: moment(values.sectionsData[i].endDate).format()
+                // files: values.sectionsData[i].files.map(
+                //   (file: { url: string, keyName: string }) => ({
+                //     file: file.url,
+                //     keyname: file.keyName
+                //   })
+                // )
               };
             }
           )
         };
-        createSubActivity(requestBody);
+        console.log(requestBody, 'multi create data');
+
+        // createSubActivity(requestBody);
       }
     }
     if (subActivity?.courseStructure === 'ONE_SECTION') {
@@ -105,7 +107,7 @@ const CreateSubCourse: React.FC<any> = ({
               startDate: moment(values.startDate).format(),
               endDate: moment(values.endDate).format(),
               files: values.sectionsData.filter((item: { setting: { answerType: string }, ATTACHMENT: string }) => (item?.setting?.answerType === 'ATTACHMENT' && item?.ATTACHMENT !== undefined)).map((item: any) => ({
-                file: item?.ATTACHMENT[0]?.url,
+                file: item?.ATTACHMENT[0]?.name,
                 keyname: item?.ATTACHMENT[0]?.keyName
               })),
               customInputs: values.sectionsData
