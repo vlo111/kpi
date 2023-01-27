@@ -4,8 +4,8 @@ import client from '../client';
 const url = '/api/applicant';
 
 const useGetApplicantsFilter = (options = {}): any => {
-  const mutation = useMutation((data): any => {
-    return client.post(url, data);
+  const mutation = useMutation((list): any => {
+    return client.post(url, list);
   }, options);
   return mutation;
 };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable no-lone-blocks */
 import React, { useState } from 'react';
@@ -28,36 +29,21 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
   search
 }) => {
   const [form] = Form.useForm();
-  const { mutate: applicantsFilter } = useGetApplicantsFilter({});
+  const [showNote, setShowNote] = useState<any>();
+  const [open, setOpen] = useState(false);
+  const { mutate: applicantsFilter } = useGetApplicantsFilter({
+    onSuccess: (options: any) => {
+      const { data } = options;
+      setShowNote(data);
+    }
+  });
 
   // Age function
   const marks: SliderMarks = {
     0: '0',
-    100: {
-      label: <strong>100</strong>
-    }
+    100: '100'
   };
-  //
-  // gender function
-  const [value, setValue] = useState();
-
-  const onChange = (e: any): any => {
-    console.log(e.target.value);
-    setValue(e.target.value);
-  };
-  ///
-  // student function
-  const [valueStudent, setValueStudent] = useState();
-
-  const onChangeStudent = (e: any): any => {
-    console.log(e.target.value);
-    setValueStudent(e.target.value);
-  };
-  ///
-  // Status fanction
-  const onChangeStatus = (checkedValues: any): any => {
-    console.log(checkedValues);
-  };
+  // Status data
   const optionsStatus = [
     { label: 'Applicant', value: 'APPLICANT' },
     { label: 'Selection', value: 'SELECTION' },
@@ -66,29 +52,7 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
     { label: 'Post-Assessment ', value: 'POST_ASSESSMENT' },
     { label: 'Trained', value: 'TRAINED' }
   ];
-  //
-
-  // Paid function
-  const [valuePaid, setValuePaid] = useState();
-
-  const onChangePaid = (e: any): any => {
-    console.log(e.target.value);
-    setValuePaid(e.target.value);
-  };
-  ///
-
-  // Vulnerability function
-  const [valueVulnerability, setValueVulnerability] = useState();
-
-  const onChangeVulnerability = (e: any): any => {
-    console.log(e.target.value);
-    setValueVulnerability(e.target.value);
-  };
-  ///
-  // Region fanction
-  const onChangeRegion = (checkedValues: any): any => {
-    console.log(checkedValues);
-  };
+  // Region data
   const optionsRegion = [
     { label: 'Yerevan', value: 'Yerevan/Երևան,' },
     { label: 'Aragatsotn', value: 'Aragatsotn/Արագածոտն,' },
@@ -102,9 +66,7 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
     { label: 'Tavush', value: 'Tavush/Տավուշ,' },
     { label: 'Vayots Dzor', value: 'Vayots Dzor/Վայոց Ձոր,' }
   ];
-  //
   const onFinish = (values: any): any => {
-    console.log(values, 'values');
     const requestBody = {
       statuses:
         values?.status?.map((s: any) => {
@@ -113,10 +75,10 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
           );
         }),
       age:
-      {
-        from: values?.age[0],
-        to: values?.age[1]
-      },
+    {
+      from: values?.age?.[0] ?? 18,
+      to: values?.age?.[1] ?? 50
+    },
       regions:
         values?.region?.map((i: any) => {
           return (
@@ -134,6 +96,14 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
     };
     applicantsFilter(requestBody);
   };
+
+  const hide = (): any => {
+    setOpen(false);
+  };
+
+  const handleOpenChange = (newOpen: boolean): any => {
+    setOpen(newOpen);
+  };
   const content = (
     <ContentAssingersFilter>
       <Form form={form} onFinish={onFinish} >
@@ -143,14 +113,14 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
           accordion
           expandIcon={({ isActive }) => (isActive ?? false ? '-' : '+')}
         >
-          <Panel header="Age" key="1" className="fffffffffff">
-            <Form.Item name='age' rules={[{ required: true }]}>
-              <Slider range marks={marks} defaultValue={[16, 27]} />
+          <Panel header="Age" key="1">
+            <Form.Item name='age' >
+              <Slider range marks={marks} defaultValue={[18, 50]} />
             </Form.Item>
           </Panel>
           <Panel header="Gender" key="2">
             <Form.Item name='gender'>
-              <Radio.Group onChange={onChange} value={value}>
+              <Radio.Group >
                 <Space direction="vertical">
                   <Radio value={'FEMALE'}>Female</Radio>
                   <Radio value={'MALE'}>Male</Radio>
@@ -160,7 +130,7 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
           </Panel>
           <Panel header="Student" key="3">
             <Form.Item name='student'>
-              <Radio.Group onChange={onChangeStudent} value={valueStudent}>
+              <Radio.Group>
                 <Space direction="vertical">
                   <Radio value={true}>Nonstudent</Radio>
                   <Radio value={false}>Student</Radio>
@@ -173,13 +143,12 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
               <AsnCheckboxGroup
                 style={{ width: '200px' }}
                 options={optionsStatus}
-                onChange={onChangeStatus}
               />
             </Form.Item>
           </Panel>
           <Panel header="Paid job" key="5">
             <Form.Item name='paid_job'>
-              <Radio.Group onChange={onChangePaid} value={valuePaid}>
+              <Radio.Group>
                 <Space direction="vertical">
                   <Radio value={true}>Paid job</Radio>
                   <Radio value={false}>Unemployed</Radio>
@@ -189,10 +158,7 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
           </Panel>
           <Panel header="Vulnerability" key="6">
             <Form.Item name='vulnerability'>
-              <Radio.Group
-                onChange={onChangeVulnerability}
-                value={valueVulnerability}
-              >
+              <Radio.Group>
                 <Space direction="vertical">
                   <Radio value={true}>NA</Radio>
                   <Radio value={false}>Vulnerable group member</Radio>
@@ -203,9 +169,8 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
           <Panel header="Region" key="7">
             <Form.Item name='region'>
               <AsnCheckboxGroup
-                style={{ width: '160px' }}
+                style={{ width: '158px' }}
                 options={optionsRegion}
-                onChange={onChangeRegion}
               />
             </Form.Item>
           </Panel>
@@ -220,13 +185,14 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
               padding: '30px 0 0px 0px'
             }}
           >
-            <AsnButton className="default">Close</AsnButton>
+            <AsnButton className="default" onClick={hide}>Close</AsnButton>
             <AsnButton className="primary" htmlType="submit">Add Filter</AsnButton>
           </Space>{' '}
         </Form.Item>
       </Form>
     </ContentAssingersFilter>
   );
+
   const columns: ColumnsType<DataType> = [
     {
       title: (
@@ -235,6 +201,8 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
           title="Filter your results"
           trigger="click"
           overlayClassName="applicantsFilter"
+          open={open}
+          onOpenChange={handleOpenChange}
         >
           <Button type="link" style={{ padding: '0' }}>
             <FilterOutlined className="filterIcon" />
@@ -325,9 +293,8 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
   ];
   const data: DataType[] = [];
   const today = new Date();
-
   {
-    Boolean(allApplicants?.result) && search.length < 2
+    Boolean(allApplicants?.result) && search.length < 2 && (showNote?.result === undefined || searchAplicant?.result)
       ? (
       <div>
         {allApplicants?.result?.map((k: any) =>
@@ -354,8 +321,8 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
       </div>
         )
       : (
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       <div>
-        {' '}
         {searchAplicant?.result?.map((s: any) =>
           data.push({
             key: `${s?.id}`,
@@ -378,7 +345,33 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
           })
         )}
       </div>
-        );
+        )
+          ? (
+          <div>
+                 {showNote?.result?.map((f: any) =>
+                   data.push({
+                     key: `${f?.id}`,
+                     name: `${f?.fullName}`,
+                     age: `${
+              Number(moment?.(today)?.format('YYYY').valueOf()) -
+              Number(moment(f?.dob).format('YYYY'))
+            }`,
+                     education: `${f?.educationLevel}`,
+                     sector: `${f?.courseMap?.course?.sector?.title}`,
+                     course: `${f?.courseMap?.course?.title}`,
+                     status: `${f?.courseMap?.status}`,
+                     region: `${f?.region}`,
+                     phoneNumber: `${f?.phone}`,
+                     gender: `${f?.gender}`,
+                     student: `${f?.student}`,
+                     vulnerability: `${f?.vulnerabilities}`,
+                     workOrganisation: `${f?.workOrganisation}`,
+                     informedAboutUs: `${f?.informedAboutUs}`
+                   })
+                 )}
+          </div>
+            )
+          : (<div></div>);
   }
   return (
     <>

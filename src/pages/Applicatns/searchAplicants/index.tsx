@@ -11,7 +11,7 @@ const SearchApplicantsList: React.FC<SearchApplicants> = ({ search, setSearch })
 
   return (
     <>
-    <Space size={[15, 0]} style={{ padding: '0 18px' }}>
+    <Space size={[15, 0]} style={{ padding: '40px 18px' }}>
 <Title level={4} style={{ color: 'var(--dark-border-ultramarine)' }}>Applicants</Title>
 <AutoComplete
           value={search}
