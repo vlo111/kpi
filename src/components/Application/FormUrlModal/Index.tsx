@@ -2,12 +2,12 @@ import React from 'react';
 import { Typography } from 'antd';
 import styled from 'styled-components';
 import { Void } from '../../../types/global';
-import { IFontWeight, IFormUrlModal } from '../../../types/project';
 import { AsnButton } from '../../Forms/Button';
 import { AsnModal } from '../../Forms/Modal';
 import { ReactComponent as SuccessCreatedIcon } from '../../../assets/icons/success-created.svg.svg';
 import { PATHS } from '../../../helpers/constants';
 import { useNavigate } from 'react-router-dom';
+import { IFormUrlModal } from '../../../types/api/application/applicationForm';
 
 const PreviewModalContent = styled(AsnModal)`
   .ant-modal-content {
@@ -22,9 +22,9 @@ const PreviewContainer = styled.div`
   padding: 0rem 6rem;
 `;
 
-const ModalTitle = styled(Typography.Title)<IFontWeight>`
+const ModalTitle = styled(Typography.Title)`
   font-size: 24px !important;
-  font-weight: ${(props) => props.fontWeight ?? 400} !important;
+  font-weight: 400 !important;
   color: var(--dark-border-ultramarine) !important;
   margin-top: 0px !important;
 `;
@@ -43,22 +43,26 @@ const FormUrlModal: React.FC<IFormUrlModal> = ({
 }) => {
   const navigate = useNavigate();
   const handleCancel: Void = () => {
-    navigate(
-      `/project/${PATHS.SUBACTIVITY.replace(
-        ':id',
-        responseIds?.result?.subActivityId
-      )}`
-    );
+    if (responseIds !== undefined) {
+      navigate(
+        `/project/${PATHS.SUBACTIVITY.replace(
+          ':id',
+          responseIds?.result?.subActivityId
+        )}`
+      );
+    }
     setFormUrlModal(false);
   };
 
   const onPublishClick: Void = () => {
-    navigate(
-      `/project/${PATHS.SUBACTIVITY.replace(
-        ':id',
-        responseIds?.result?.subActivityId
-      )}`
-    );
+    if (responseIds !== undefined) {
+      navigate(
+        `/project/${PATHS.SUBACTIVITY.replace(
+          ':id',
+          responseIds?.result?.subActivityId
+        )}`
+      );
+    }
     setFormUrlModal(false);
   };
   return (
@@ -74,12 +78,15 @@ const FormUrlModal: React.FC<IFormUrlModal> = ({
           copyable={{
             text: `${
               process.env.REACT_APP_BASE_URL_HOST ?? ''
-            }${PATHS.APPLYAPPLICANTFORM.replace(':id', responseIds?.result?.id)}`
+            }${PATHS.APPLYAPPLICANTFORM.replace(
+              ':id',
+              responseIds !== undefined ? responseIds?.result?.id : ''
+            )}`
           }}
         >
           {`${
             process.env.REACT_APP_BASE_URL_HOST ?? ''
-          }${PATHS.APPLYAPPLICANTFORM.replace(':id', responseIds?.result?.id)}`}
+          }${PATHS.APPLYAPPLICANTFORM.replace(':id', responseIds !== undefined ? responseIds?.result?.id : '')}`}
         </UrlContainer>
         <AsnButton className="primary" onClick={onPublishClick}>
           Ok

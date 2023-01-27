@@ -2,18 +2,22 @@ import React, { Fragment } from 'react';
 import { Divider, Radio, Space } from 'antd';
 import { ModalText, DividerLine } from '../../applicationStyle';
 import { v4 as uuidv4 } from 'uuid';
-import { IAnswers, IContent, IRelatedQuestion } from '../../../../types/project';
 import { AsnInput } from '../../../Forms/Input';
 import { AsnCheckbox } from '../../../Forms/Checkbox';
+import {
+  IAnswer,
+  IQuestion,
+  IRelatedQuestionProps
+} from '../../../../types/api/application/applicationForm';
 
 export const answerTypes = (
   type: string,
-  question: IContent
+  question: IQuestion
 ): JSX.Element | null => {
   const option = (
     <Radio.Group value={question?.answers[0]?.title}>
       <Space direction="vertical">
-        {question?.answers?.map((answer: IAnswers) => (
+        {question?.answers?.map((answer: IAnswer) => (
           <Fragment key={answer.id !== undefined ? answer.id : uuidv4()}>
             {answer.title?.includes('Other')
               ? (
@@ -35,7 +39,7 @@ export const answerTypes = (
 
   const checkbox = (
     <Space direction="vertical">
-      {question?.answers?.map((answer: IAnswers, index: number) => (
+      {question?.answers?.map((answer: IAnswer, index: number) => (
         <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
           {answer.title}
         </AsnCheckbox>
@@ -55,7 +59,9 @@ export const answerTypes = (
   }
 };
 
-const RelatedQuestion: React.FC<IRelatedQuestion> = ({ relatedQuestion }) => {
+const RelatedQuestion: React.FC<IRelatedQuestionProps> = ({
+  relatedQuestion
+}) => {
   return (
     <Fragment>
       <ModalText style={{ margin: '1rem 0 0.3rem' }}>

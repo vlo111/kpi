@@ -1,6 +1,6 @@
 import { Typography } from 'antd';
 import styled from 'styled-components';
-import { ICardContainer } from '../../types/project';
+import { ICardContainer } from '../../types/api/application/applicationForm';
 import { AsnButton } from '../Forms/Button';
 import { AsnInput, AsnTextArea } from '../Forms/Input';
 

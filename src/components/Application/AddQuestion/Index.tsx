@@ -9,9 +9,12 @@ import { AsnSelect } from '../../Forms/Select';
 import { AsnForm } from '../../Forms/Form';
 import { AsnSwitch } from '../../Forms/Switch';
 import { FormFinish, Void } from '../../../types/global';
-import { IAddQuestionCard, IAnswers } from '../../../types/project';
 import { answerType } from '../../../helpers/constants';
 import { addQuestion, updateQuestion } from '../../../helpers/questionList';
+import {
+  IAddQuestionCard,
+  IAnswer
+} from '../../../types/api/application/applicationForm';
 
 const { Option } = AsnSelect;
 
@@ -59,7 +62,6 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
   isQuestionCardVisible,
   cardId,
   applicationData,
-  setApplicationData,
   answerTypeValue,
   setAnswerTypeValue,
   singleQuestionData,
@@ -72,6 +74,8 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
   const onAnswerTypeChange: FormFinish = (value) => {
     setAnswerTypeValue(value);
   };
+
+  console.log(singleQuestionData, 'singleQuestionData');
 
   useEffect(() => {
     if (singleQuestionData !== undefined) {
@@ -95,7 +99,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
         names:
           Object.keys(singleQuestionData).length > 0
             ? singleQuestionData?.answers?.map(
-              (answer: IAnswers) => answer.title
+              (answer: IAnswer) => answer.title
             )
             : ['', '']
       });
@@ -161,7 +165,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
     );
     form.resetFields();
     setAnswerTypeValue('OPTION');
-    setSingleQuestionData({});
+    setSingleQuestionData(undefined);
   };
 
   return (

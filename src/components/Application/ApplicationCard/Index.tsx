@@ -7,10 +7,14 @@ import {
   CustomInput
 } from '../applicationStyle';
 import AddQuestionCard from '../AddQuestion/Index';
-import { IApplicationCard, IContent } from '../../../types/project';
 import QuestionRowContainer from '../QuestionRow/Index';
 import { FormFinish, StringVoidType } from '../../../types/global';
 import { InputRef } from 'antd';
+import {
+  IApplicationCard,
+  IQuestion
+} from '../../../types/api/application/applicationForm';
+import { addDescription } from '../../../helpers/questionList';
 
 const ApplicationCard: React.FC<IApplicationCard> = ({
   title,
@@ -28,30 +32,24 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
   const [questionRowIndex, setQuestionRowIndex] = useState<
   number | undefined
   >();
-  const [singleQuestionData, setSingleQuestionData] = useState<
-  IContent | undefined | {}
-  >();
+  const [singleQuestionData, setSingleQuestionData] = useState<IQuestion>();
   const descriptionRef = useRef<InputRef>(null);
 
   const onAddDescription: FormFinish = (event) => {
     if (event.key === 'Enter') {
       if (cardId === 'personal_info') {
-        applicationData.applicationFormSections[0].description =
-          descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
+        addDescription(applicationData, 0, descriptionRef);
       } else if (cardId === 'educational_info') {
-        applicationData.applicationFormSections[1].description =
-          descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
+        addDescription(applicationData, 1, descriptionRef);
       } else if (cardId === 'other_info') {
-        applicationData.applicationFormSections[2].description =
-          descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
+        addDescription(applicationData, 2, descriptionRef);
       } else {
-        applicationData.applicationFormSections[3].description =
-          descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
+        addDescription(applicationData, 3, descriptionRef);
       }
     }
   };
 
-  const onSaveTitle: StringVoidType = (title: string) => {
+  const onSaveTitle: StringVoidType = (title) => {
     setCardTitle(title);
     if (cardId === 'personal_info') {
       applicationData.applicationFormSections[0].title = title;
@@ -88,7 +86,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
       {content.length > 0
         ? (
         <>
-          {content.map((item: IContent, index: number) => (
+          {content.map((item: IQuestion, index: number) => (
             <Fragment key={index}>
               <QuestionRowContainer
                 key={index}
@@ -106,7 +104,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
                 setQuestionRowIndex={setQuestionRowIndex}
               />
               {item.answerType === 'YES_NO' && item.relatedQuestions.length > 0
-                ? item.relatedQuestions.map((item: IContent, index: number) => (
+                ? item.relatedQuestions.map((item, index) => (
                     <QuestionRowContainer
                       key={index}
                       question={item}
@@ -136,7 +134,6 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
           isQuestionCardVisible={isQuestionCardVisible}
           cardId={cardId}
           applicationData={applicationData}
-          setApplicationData={setApplicationData}
           answerTypeValue={answerTypeValue}
           setAnswerTypeValue={setAnswerTypeValue}
           singleQuestionData={singleQuestionData}

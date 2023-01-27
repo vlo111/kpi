@@ -1,12 +1,8 @@
 import React, { Fragment } from 'react';
-import {
-  CardTitle,
-  ModalText,
-  DetailsContainer
-} from '../../applicationStyle';
+import { CardTitle, ModalText, DetailsContainer } from '../../applicationStyle';
 import { v4 as uuidv4 } from 'uuid';
-import { IEducationWork } from '../../../../types/project';
 import { answerTypes } from '../../../../helpers/utils';
+import { IEducationWork } from '../../../../types/api/application/applicationForm';
 
 const EducationWork: React.FC<IEducationWork> = ({ educationWorkData }) => {
   return (

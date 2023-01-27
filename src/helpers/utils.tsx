@@ -4,8 +4,6 @@ import { clearLocalStorage } from '../hooks/useLocalStorage';
 import { TVoid } from '../types/global';
 import {
   CollapseHeader,
-  IAnswers,
-  IContent,
   SetResultArea,
   SetTitleColor
 } from '../types/project';
@@ -16,6 +14,7 @@ import { Divider, Radio, Space } from 'antd';
 import { DividerLine } from '../components/Application/applicationStyle';
 import RelatedQuestion from '../components/Application/Preview/RelatedQuestion';
 import { AsnCheckbox } from '../components/Forms/Checkbox';
+import { IAnswer, IQuestion } from '../types/api/application/applicationForm';
 
 /** Logout the user */
 export const logOut: TVoid = () => {
@@ -102,11 +101,11 @@ export const validateResultArea: SetResultArea = (values) => {
   errorsIndex.map((i: any) => resultAreaElement(i));
 };
 
-export const answerTypes = (type: string, question: IContent): JSX.Element => {
+export const answerTypes = (type: string, question: IQuestion): JSX.Element => {
   const option = (
     <Radio.Group value={question?.answers[0]?.title}>
       <Space direction="vertical">
-        {question?.answers?.map((answer: IAnswers) => (
+        {question?.answers?.map((answer: IAnswer) => (
           <Fragment key={answer?.id !== undefined ? answer.id : uuidv4()}>
             {answer.title?.includes('Other')
               ? (
@@ -130,7 +129,7 @@ export const answerTypes = (type: string, question: IContent): JSX.Element => {
     <>
       <Radio.Group value="Yes/Այո">
         <Space direction="vertical">
-          {question?.answers?.map((answer: IAnswers) => (
+          {question?.answers?.map((answer: IAnswer) => (
             <Radio
               key={answer?.id !== undefined ? answer.id : uuidv4()}
               value={answer.title}
@@ -161,7 +160,7 @@ export const answerTypes = (type: string, question: IContent): JSX.Element => {
 
   const checkbox = (
     <Space direction="vertical">
-      {question?.answers?.map((answer: IAnswers, index: number) => (
+      {question?.answers?.map((answer: IAnswer, index: number) => (
         <AsnCheckbox
           defaultChecked={index === 0}
           key={answer?.id !== undefined ? answer.id : uuidv4()}

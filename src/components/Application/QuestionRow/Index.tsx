@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Col, Popover, Row, Space } from 'antd';
-import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
+import { Popover, Space } from 'antd';
 import { ReactComponent as MenuIcon } from '../../../assets/icons/md-menu.svg';
-import { ReactComponent as EditIcon } from '../../../assets/icons/edit.svg';
 
 import { AsnSwitch } from '../../Forms/Switch';
 import { FormFinish, NumberVoidType, Onchange } from '../../../types/global';
-import { IQuestionRowContainer } from '../../../types/project';
+import { IQuestionRowContainer } from '../../../types/api/application/applicationForm';
+import { contentPopover } from '../../../helpers/questionList';
 
 const CardRow = styled(Space)`
   display: flex;
@@ -74,24 +73,6 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
     content[index].required = check;
   };
 
-  const contentPopover: (i: any) => JSX.Element = (item) => (
-    <Row
-      style={{
-        fontSize: 'var(--font-size-small)',
-        color: 'var(--dark-2)',
-        cursor: 'pointer'
-      }}
-      gutter={[8, 8]}
-    >
-      <Col onClick={() => onEditedQuestion(item)} span={24}>
-        <EditIcon /> Edit
-      </Col>
-      <Col onClick={() => onDeletedQuestion(item)} span={24}>
-        <DeleteIcon /> Delete
-      </Col>
-    </Row>
-  );
-
   return (
     <CardRow direction="horizontal">
       <ChoseTitle>{question.title}</ChoseTitle>
@@ -124,7 +105,7 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
           ? (
           <Popover
             placement="topLeft"
-            content={() => contentPopover(index)}
+            content={() => contentPopover(index, onEditedQuestion, onDeletedQuestion)}
             trigger="click"
             overlayClassName="menuPopover"
             onOpenChange={handleOpenChange}

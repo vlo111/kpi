@@ -10,7 +10,7 @@ import { FormFinish } from '../../../types/global';
 import {
   IIsAddTermsConditions,
   ITermsAndCondition
-} from '../../../types/project';
+} from '../../../types/api/application/applicationForm';
 
 const TermsAndCondition: React.FC<ITermsAndCondition> = ({
   setTermsConditionsValue,

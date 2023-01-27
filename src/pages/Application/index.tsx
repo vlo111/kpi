@@ -19,10 +19,15 @@ import { AsnSwitch } from '../../components/Forms/Switch';
 import { Void } from '../../types/global';
 import { AsnDatePicker } from '../../components/Forms/DatePicker';
 import { AsnInput } from '../../components/Forms/Input';
-import { ICardsData, IIsAddTermsConditions } from '../../types/project';
 import getApplicationFormDefault from '../../api/ApplicationForm/useGetApplicationFormDefault';
 import createApplicationForm from '../../api/ApplicationForm/useCreateApplicationForm';
-import { IApplicationsOption } from '../../types/api/application/applicationForm';
+import {
+  IApplicant,
+  IApplicationFormSections,
+  IApplicationsOption,
+  IIsAddTermsConditions,
+  IResult
+} from '../../types/api/application/applicationForm';
 import FormUrlModal from '../../components/Application/FormUrlModal/Index';
 import { PATHS } from '../../helpers/constants';
 import useSingleApplicationForm from '../../api/ApplicationForm/useGetSingleApplicationForm';
@@ -110,10 +115,10 @@ const Application: React.FC = () => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
   const [termsConditionsValue, setTermsConditionsValue] = useState<any>();
-  const [applicationData, setApplicationData] = useState<any>({});
+  const [applicationData, setApplicationData] = useState<IApplicant>();
   const [onlineSignature, setOnlineSignature] = useState<boolean>(true);
   const [formUrlModal, setFormUrlModal] = useState<boolean>(false);
-  const [createdItemInfo, setCreatedItemResponse] = useState({});
+  const [createdItemInfo, setCreatedItemResponse] = useState<IResult | undefined>();
   const [deadlineDate, setDeadlineDate] = useState<string>('');
   const [isAddTermsConditions, setIsAddTermsConditions] = useState<
   IIsAddTermsConditions[]
@@ -136,6 +141,13 @@ const Application: React.FC = () => {
 
   useEffect(() => {
     if (location?.state?.edit === true && singleApplicantData !== undefined) {
+      delete singleApplicantData.id;
+      delete singleApplicantData.sectionDataId;
+      delete singleApplicantData.publish;
+      delete singleApplicantData.active;
+      delete singleApplicantData.createdAt;
+      delete singleApplicantData.updatedAt;
+      delete singleApplicantData.deletedAt;
       setApplicationData(singleApplicantData);
     } else {
       setApplicationData(data);
@@ -174,48 +186,43 @@ const Application: React.FC = () => {
   }, [termsConditionsValue]);
 
   const onPublishClick: Void = () => {
-    if (
-      formTitle?.current?.input?.value.length !== undefined &&
-      (formTitle?.current?.input?.value.length < 1 ||
-        formTitle?.current?.input?.value.length > 255)
-    ) {
-      setIsValidateMessage(true);
-    } else {
-      setIsValidateMessage(false);
-      applicationData.description =
-        formDescription.current !== null
-          ? formDescription.current.resizableTextArea.textArea.value
-          : '';
-      applicationData.title =
-        formTitle !== null ? formTitle?.current?.input?.value : '';
-      applicationData.onlineSignature = onlineSignature;
-      applicationData.deadline = deadlineDate;
-      applicationData.successMessage =
-        successMessage !== null ? successMessage?.current?.input?.value : '';
-      applicationData.termsAndConditions = JSON.stringify(
-        termsConditionsValueArray()
-      );
-      if (location?.state?.edit === true) {
-        delete applicationData.id;
-        delete applicationData.sectionDataId;
-        delete applicationData.publish;
-        delete applicationData.active;
-        delete applicationData.createdAt;
-        delete applicationData.updatedAt;
-        delete applicationData.deletedAt;
-        updateApplicationForm({
-          id: courseId,
-          data: {
-            ...applicationData
-          }
-        });
+    if (applicationData !== undefined) {
+      if (
+        formTitle?.current?.input?.value.length !== undefined &&
+        (formTitle?.current?.input?.value.length < 1 ||
+          formTitle?.current?.input?.value.length > 255)
+      ) {
+        setIsValidateMessage(true);
       } else {
-        createApplicationFn({
-          id: courseId,
-          data: {
-            ...applicationData
-          }
-        });
+        setIsValidateMessage(false);
+        applicationData.description =
+          formDescription.current !== null
+            ? formDescription.current.resizableTextArea.textArea.value
+            : '';
+        applicationData.title =
+          formTitle !== null ? formTitle?.current?.input?.value : '';
+        applicationData.onlineSignature = onlineSignature;
+        applicationData.deadline = deadlineDate;
+        applicationData.successMessage =
+          successMessage !== null ? successMessage?.current?.input?.value : '';
+        applicationData.termsAndConditions = JSON.stringify(
+          termsConditionsValueArray()
+        );
+        if (location?.state?.edit === true) {
+          updateApplicationForm({
+            id: courseId,
+            data: {
+              ...applicationData
+            }
+          });
+        } else {
+          createApplicationFn({
+            id: courseId,
+            data: {
+              ...applicationData
+            }
+          });
+        }
       }
     }
   };
@@ -254,19 +261,21 @@ const Application: React.FC = () => {
           ref={formDescription}
         />
       )}
-      {applicationData?.applicationFormSections?.map((data: ICardsData) => (
-        <ApplicationCard
-          key={data?.keyName}
-          title={data?.title}
-          content={data?.questions}
-          description={data?.description}
-          cardId={data?.keyName}
-          isQuestionCardVisible={isQuestionCardVisible}
-          setIsQuestionCardVisible={setIsQuestionCardVisible}
-          applicationData={applicationData}
-          setApplicationData={setApplicationData}
-        />
-      ))}
+      {applicationData?.applicationFormSections?.map(
+        (data: IApplicationFormSections) => (
+          <ApplicationCard
+            key={data?.keyName}
+            title={data?.title}
+            content={data?.questions}
+            description={data?.description}
+            cardId={data?.keyName}
+            isQuestionCardVisible={isQuestionCardVisible}
+            setIsQuestionCardVisible={setIsQuestionCardVisible}
+            applicationData={applicationData}
+            setApplicationData={setApplicationData}
+          />
+        )
+      )}
       {termsConditionsValue !== undefined && (
         <TermsAndCondition
           isAddTermsConditions={isAddTermsConditions}
@@ -306,7 +315,7 @@ const Application: React.FC = () => {
       </CardContainer>
       <CardTitle>Set deadline (optional):</CardTitle>
       <ConditionCard>
-        {applicationData.deadline !== undefined && (
+        {applicationData !== undefined && (
           <AsnDatePicker
             style={{ border: 'none', flexDirection: 'row-reverse' }}
             onChange={(date, dateString) =>
@@ -347,21 +356,23 @@ const Application: React.FC = () => {
         <AsnButton
           className="default"
           onClick={() => {
-            applicationData.termsAndConditions = JSON.stringify(
-              termsConditionsValueArray()
-            );
-            applicationData.onlineSignature = onlineSignature;
-            setIsOpenCreateActivityModal(true);
-            applicationData.description =
-              formDescription.current !== null
-                ? formDescription?.current?.resizableTextArea?.textArea?.value
-                : '';
-            applicationData.title =
-              formTitle !== null ? formTitle?.current?.input?.value : '';
-            applicationData.successMessage =
-              successMessage !== null
-                ? successMessage?.current?.input?.value
-                : '';
+            if (applicationData !== undefined) {
+              applicationData.termsAndConditions = JSON.stringify(
+                termsConditionsValueArray()
+              );
+              applicationData.onlineSignature = onlineSignature;
+              setIsOpenCreateActivityModal(true);
+              applicationData.description =
+                formDescription.current !== null
+                  ? formDescription?.current?.resizableTextArea?.textArea?.value
+                  : '';
+              applicationData.title =
+                formTitle !== null ? formTitle?.current?.input?.value : '';
+              applicationData.successMessage =
+                successMessage !== null
+                  ? successMessage?.current?.input?.value
+                  : '';
+            }
           }}
         >
           Preview

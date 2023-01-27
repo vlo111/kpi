@@ -6,8 +6,11 @@ import { CardTitle, ModalText, DetailsContainer } from '../../applicationStyle';
 import { AsnInput } from '../../../Forms/Input';
 import { AsnSelect } from '../../../Forms/Select';
 import { AsnDatePicker } from '../../../Forms/DatePicker';
-import { IAnswers, IPersonalDetails } from '../../../../types/project';
 import { AsnCheckbox } from '../../../Forms/Checkbox';
+import {
+  IAnswer,
+  IPersonalDetails
+} from '../../../../types/api/application/applicationForm';
 
 const RegionSelect = styled(AsnSelect)`
   .ant-select-selector {
@@ -17,7 +20,9 @@ const RegionSelect = styled(AsnSelect)`
   }
 `;
 
-const PersonalDetails: React.FC<IPersonalDetails> = ({ personalDetailsData }) => {
+const PersonalDetails: React.FC<IPersonalDetails> = ({
+  personalDetailsData
+}) => {
   return (
     <DetailsContainer>
       <CardTitle>{personalDetailsData.title}</CardTitle>
@@ -46,7 +51,7 @@ const PersonalDetails: React.FC<IPersonalDetails> = ({ personalDetailsData }) =>
                 ? (
             <Radio.Group value={question?.answers[0]?.title}>
               <Space direction="vertical">
-                {question?.answers?.map((answer: IAnswers) => (
+                {question?.answers?.map((answer: IAnswer) => (
                   <Radio
                     key={answer.id !== undefined ? answer.id : uuidv4()}
                     value={answer.title}
@@ -61,7 +66,7 @@ const PersonalDetails: React.FC<IPersonalDetails> = ({ personalDetailsData }) =>
                   ? (
             <Radio.Group value="Yes/Այո">
               <Space direction="vertical">
-                {question?.answers?.map((answer: IAnswers) => (
+                {question?.answers?.map((answer: IAnswer) => (
                   <Radio
                     key={answer.id !== undefined ? answer.id : uuidv4()}
                     value={answer.title}
@@ -78,7 +83,7 @@ const PersonalDetails: React.FC<IPersonalDetails> = ({ personalDetailsData }) =>
                       )
                     : (
             <Space direction="vertical">
-              {question?.answers?.map((answer: IAnswers, index: number) => (
+              {question?.answers?.map((answer: IAnswer, index: number) => (
                 <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
                   {answer.title}
                 </AsnCheckbox>
