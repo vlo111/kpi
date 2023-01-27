@@ -13,9 +13,10 @@ const useAllAplicants: any = (options = { enabled: true }) => {
       ...options
     }
   );
-  const { data, isSuccess } = result;
+  const { data, isSuccess, refetch } = result;
   return {
     ...result,
+    refetch,
     data: isSuccess ? data : []
   };
 };

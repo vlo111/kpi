@@ -22,6 +22,7 @@ export interface DataType {
 }
 export interface ApplicatnList {
   allApplicants: any
+  refetch: any
   searchAplicant: any
   search: string
 

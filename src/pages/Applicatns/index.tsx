@@ -7,7 +7,7 @@ import { Container } from './applicantsStyle';
 
 const ApplicantsData: React.FC = () => {
   const [search, setSearch] = useState<string>('');
-  const { data: allApplicants } = useAllAplicants({
+  const { data: allApplicants, refetch } = useAllAplicants({
     staleTime: 1000 * 60 * 5
   });
   const { data: searchAplicant } = useAllAplicantsSearch(search, {
@@ -18,7 +18,7 @@ const ApplicantsData: React.FC = () => {
     <Container>
 <SearchApplicantsList setSearch={setSearch}
             search={search}/>
-<ApplicantsDataList search={search} allApplicants={allApplicants} searchAplicant={searchAplicant}/>
+<ApplicantsDataList search={search} allApplicants={allApplicants} searchAplicant={searchAplicant} refetch={refetch}/>
 </Container>
   );
 };

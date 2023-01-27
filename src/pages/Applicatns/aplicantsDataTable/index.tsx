@@ -10,7 +10,8 @@ import {
   Space,
   Slider,
   Radio,
-  Form
+  Form,
+  Tag
 } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { FilterOutlined } from '@ant-design/icons';
@@ -22,18 +23,23 @@ import { ContentAssingersFilter } from '../applicantsStyle';
 import moment from 'moment';
 import { ApplicatnList, DataType } from '../applicantsTypes';
 import useGetApplicantsFilter from '../../../api/Applicants/useGetApplicantsFilter';
-// import { useNavigate } from 'react-router-dom';
-// import { PATHS } from '../../../helpers/constants';
+import { useNavigate } from 'react-router-dom';
 
 const ApplicantsDataList: React.FC<ApplicatnList> = ({
   allApplicants,
   searchAplicant,
-  search
+  search,
+  refetch
+
 }) => {
+  console.log(allApplicants);
+
   const [form] = Form.useForm();
   const [showNote, setShowNote] = useState<any>();
   const [open, setOpen] = useState(false);
-  // const navigate = useNavigate();
+  const [valueFilter, setValueFilter] = useState<any>('');
+
+  const navigate = useNavigate();
   const { mutate: applicantsFilter } = useGetApplicantsFilter({
     onSuccess: (options: any) => {
       const { data } = options;
@@ -99,6 +105,7 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
     };
     applicantsFilter(requestBody);
     hide();
+    setValueFilter(values);
   };
 
   const hide = (): any => {
@@ -377,24 +384,48 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
             )
           : (<></>);
   }
+  const handleClose = (allApplicants: any): any => {
+    refetch();
+  };
   return (
     <>
+     <div>
+     {valueFilter
+       ? (
+        <>
+        {valueFilter?.gender !== undefined && <Tag closable> { `Gender:${valueFilter?.gender}`}</Tag> }
+        {valueFilter?.student !== undefined && <Tag closable> { `Student:${valueFilter?.student}`}</Tag> }
+        {valueFilter?.status !== undefined && <Tag closable> { `Status:${valueFilter?.status}`}</Tag>}
+        {valueFilter?.paid_job !== undefined && <Tag closable> { `Paid job:${valueFilter?.paid_job}`}</Tag>}
+        {valueFilter?.vulnerability !== undefined && <Tag closable> { `Vulnerability:${valueFilter?.vulnerability}`}</Tag>}
+        {valueFilter?.region !== undefined && <Tag closable> { `Region:${valueFilter?.region}`}</Tag>}
+        <Tag closable onClose={(e) => {
+          handleClose('');
+        }}> { 'Clear All'}</Tag>
+
+        </>
+         )
+       : (
+           <div></div>
+         )}
+    </div>
       <Table
         columns={columns}
         dataSource={data}
         rowClassName={(record, index) =>
           index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
         }
-        // onRow={(record, rowIndex) => {
-        //   return {
-        //     onClick: event => {
-        //       navigate(
-        //         `/applicant/${PATHS.APPLICANT.replace(':id', record?.key)}`
-        //       );
-        //     }
-        //   };
-        // }}
+        onRow={(record) => {
+          return {
+            onClick: event => {
+              navigate(
+                `/applicant/${record?.key}`
+              );
+            }
+          };
+        }}
       />
+
     </>
   );
 };
