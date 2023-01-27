@@ -138,3 +138,18 @@ export const regions: string[] = [
   'Tavush/Տավուշ',
   'Vayots Dzor/Վայոց Ձոր'
 ];
+
+export enum AnswerTypes {
+  shortText = 'SHORT_TEXT',
+  options = 'OPTION',
+  checkbox = 'CHECKBOX',
+  yesNo = 'YES_NO',
+  region = 'region',
+}
+
+export enum SectionName {
+  personalInfo = 'personal_info',
+  educationalInfo = 'educational_info',
+  otherInfo = 'other_info',
+  professionalInfo = 'professional_info',
+}

@@ -5,6 +5,9 @@ import { TVoid } from '../types/global';
 import { CollapseHeader, SetResultArea, SetTitleColor } from '../types/project';
 import { AsnInput } from '../components/Forms/Input';
 import _ from 'lodash';
+import { ConvertAnswerForm, GetAnswers, InitAnswer } from '../types/application';
+import { IQuestion } from '../types/api/application/applicationForm';
+import { AnswerTypes } from './constants';
 
 /** Logout the user */
 export const logOut: TVoid = () => {
@@ -84,3 +87,29 @@ export const validateResultArea: SetResultArea = (values) => {
 
   errorsIndex.map((i: any) => resultAreaElement(i));
 };
+
+const initAnswers: InitAnswer = (keyName, answerType, answers) => {
+  if (keyName === AnswerTypes.region || answerType === AnswerTypes.checkbox) {
+    return [];
+  }
+  return [convertAnswerForm(keyName, answers)];
+};
+
+const convertAnswerForm: ConvertAnswerForm = (key, answers) => ({
+  id: answers[0]?.id,
+  text: answers[0]?.title
+});
+
+/**
+ * Init Applicant Form Answers
+ * Get Form answers array
+ * @param items
+ */
+export const getAnswers: GetAnswers = (items) =>
+  items?.map((p: IQuestion) => ({
+    id: p.id,
+    keyName: p.keyName,
+    answerType: p.answerType,
+    title: p.title,
+    answers: initAnswers(p.keyName, p.answerType, p.answers)
+  }));

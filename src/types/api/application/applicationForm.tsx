@@ -8,59 +8,59 @@ export interface IApplicationFormSections {
   keyName: string
   allowedEmpty: boolean
   editable: boolean
-  questions: [
-    {
-      title: string
-      description: string
-      helpText: string
-      editable: boolean
-      required: boolean
-      otherOption: boolean
-      keyName: string
-      active: boolean
-      answerType: string
-      answers: [
-        {
-          title: string
-          type: string
-        }
-      ]
-      relatedQuestions: [
-        {
-          title: string
-          description: string
-          helpText: string
-          editable: boolean
-          keyName: string
-          required: boolean
-          otherOption: boolean
-          active: boolean
-          answerType: string
-          answers: [
-            {
-              title: string
-              type: string
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  questions: IQuestion[]
+}
+
+export interface IAnswer {
+  id: string
+  title: string
+  type: string
+}
+
+export interface IQuestion {
+  id: string
+  title: string
+  description: string
+  helpText: string
+  editable: boolean
+  required: boolean
+  otherOption: boolean
+  keyName: string
+  active: boolean
+  answerType: string
+  answers: IAnswer[]
+  relatedQuestions: IRelatedQuestion[]
+}
+
+export interface IRelatedQuestion {
+  title: string
+  description: string
+  helpText: string
+  editable: boolean
+  keyName: string
+  required: boolean
+  otherOption: boolean
+  active: boolean
+  answerType: string
+  answers: IAnswer[]
+}
+
+export interface IApplicant {
+  result?: string
+  title: string
+  description: string
+  successMessage: string
+  termsAndConditions: string
+  onlineSignature: boolean
+  deadline: string
+  applicationFormSections: IApplicationFormSections[]
 }
 
 export interface ICreateApplicationForm {
   id: string | undefined
-  data: {
-    result?: string
-    title: string
-    description: string
-    successMessage: string
-    termsAndConditions: string
-    onlineSignature: boolean
-    deadline: string
-    applicationFormSections: IApplicationFormSections[]
-  }
+  data: IApplicant
 }
+
 export interface IApplicationsOption {
   data: {
     result: {

@@ -1,0 +1,22 @@
+import React from 'react';
+import { AsnForm } from '../../../Forms/Form';
+import { ISection } from '../../../../types/application';
+import { AsnDatePicker } from '../../../Forms/DatePicker';
+
+const SectionDate: React.FC<ISection> = ({ index, title }) => {
+  return (
+    <AsnForm.Item
+      key={index}
+      name={[index, 'answers', 0, 'text']}
+      label={title}
+      rules={[{ required: true, message: 'The field is required' }]}
+    >
+      <AsnDatePicker
+        format="DD/MM/YYYY"
+        style={{ height: '44px', width: '100%' }}
+      />
+    </AsnForm.Item>
+  );
+};
+
+export default SectionDate;
