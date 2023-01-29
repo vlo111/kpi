@@ -24,6 +24,7 @@ import moment from 'moment';
 import { ApplicatnList, DataType } from '../applicantsTypes';
 import useGetApplicantsFilter from '../../../api/Applicants/useGetApplicantsFilter';
 import { useNavigate } from 'react-router-dom';
+import _ from 'lodash';
 
 const ApplicantsDataList: React.FC<ApplicatnList> = ({
   allApplicants,
@@ -76,6 +77,7 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
     { label: 'Vayots Dzor', value: 'Vayots Dzor/Վայոց Ձոր,' }
   ];
   const onFinish = (values: any): any => {
+    console.log(values, 'valuesvaluesvalues');
     const requestBody = {
       statuses:
         values?.status?.map((s: any) => {
@@ -83,11 +85,11 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
             s
           );
         }),
-      age:
-    {
-      from: values?.age?.[0] ?? 18,
-      to: values?.age?.[1] ?? 50
-    },
+      //   age:
+      // {
+      //   from: values?.age?.[0] ?? 18,
+      //   to: values?.age?.[1] ?? 50
+      // },
       regions:
         values?.region?.map((i: any) => {
           return (
@@ -99,7 +101,7 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
       gender: values?.gender,
       disability: values?.vulnerability,
       income: values?.paid_job,
-      limit: 50,
+      limit: 100,
       offset: 0
 
     };
@@ -386,14 +388,19 @@ const ApplicantsDataList: React.FC<ApplicatnList> = ({
   }
   const handleClose = (allApplicants: any): any => {
     refetch();
+    _.omit(valueFilter, []);
   };
+
   return (
     <>
      <div>
      {valueFilter
        ? (
         <>
-        {valueFilter?.gender !== undefined && <Tag closable> { `Gender:${valueFilter?.gender}`}</Tag> }
+        {valueFilter?.gender !== undefined && <Tag onClose={() => {
+          const newAs = _.omit(valueFilter, ['gender']);
+          onFinish(newAs);
+        }} closable> { `Gender:${valueFilter?.gender}`}</Tag> }
         {valueFilter?.student !== undefined && <Tag closable> { `Student:${valueFilter?.student}`}</Tag> }
         {valueFilter?.status !== undefined && <Tag closable> { `Status:${valueFilter?.status}`}</Tag>}
         {valueFilter?.paid_job !== undefined && <Tag closable> { `Paid job:${valueFilter?.paid_job}`}</Tag>}
