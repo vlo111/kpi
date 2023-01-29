@@ -14,37 +14,43 @@ const ApplicationFormList: React.FC<IApplicationFormProps> = ({ name, section })
   const form = AsnForm.useFormInstance();
 
   const getSectionItem: GetSectionItem = (index) => {
-    const { questions: { [index]: { answers, otherOption, required } } } = section;
+    try {
+      if (index < section.questions.length) {
+        const { questions: { [index]: { answers, otherOption, required } } } = section;
 
-    const { answerType, keyName, title } = form.getFieldValue(name)[index];
+        const { answerType, keyName, title } = form.getFieldValue(name)[index];
 
-    const props = {
-      index,
-      title,
-      otherOption,
-      answers,
-      required
-    };
+        const props = {
+          index,
+          title,
+          otherOption,
+          answers,
+          required
+        };
 
-    switch (answerType) {
-      case AnswerTypes.checkbox: {
-        return <SectionCheckBox {...props} />;
-      }
-      case AnswerTypes.options: {
-        if (keyName === AnswerTypes.region) {
-          return <SectionSelect {...props} />;
+        switch (answerType) {
+          case AnswerTypes.checkbox: {
+            return <SectionCheckBox key={index} {...props} />;
+          }
+          case AnswerTypes.options: {
+            if (keyName === AnswerTypes.region) {
+              return <SectionSelect key={index} {...props} />;
+            }
+            return <SectionRadio key={index} {...props} />;
+          }
+          case AnswerTypes.shortText: {
+            return <SectionText key={index} {...props} />;
+          }
+          case AnswerTypes.yesNo: {
+            return <SectionRadio key={index} {...props} />;
+          }
+          default: {
+            return <SectionDate key={index} {...props} />;
+          }
         }
-        return <SectionRadio {...props} />;
       }
-      case AnswerTypes.shortText: {
-        return <SectionText {...props} />;
-      }
-      case AnswerTypes.yesNo: {
-        return <SectionRadio {...props} />;
-      }
-      default: {
-        return <SectionDate {...props} />;
-      }
+    } catch (e) {
+      console.log(e);
     }
   };
 

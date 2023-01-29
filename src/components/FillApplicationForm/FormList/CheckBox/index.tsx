@@ -31,9 +31,12 @@ const SectionCheckBox: React.FC<ISectionCheckProps> = ({
     <Fragment key={index}>
       <p>{title}</p>
       {answers?.map((item: IAnswer, i) => (
-        <AsnForm.Item key={i} name={[index, 'answers', i, 'id']}>
+        <AsnForm.Item
+          style={{ marginBottom: '8px' }}
+          key={i} name={[index, 'answers', i, 'id']}
+        >
           <Space direction="vertical">
-            <AsnCheckbox value={item.id} key={item.id}>
+            <AsnCheckbox key={item.id}>
               {item.title}
             </AsnCheckbox>
           </Space>

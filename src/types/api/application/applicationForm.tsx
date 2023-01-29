@@ -17,22 +17,12 @@ export interface IAnswer {
   type: string
 }
 
-export interface IQuestion {
-  id: string
-  title: string
-  description: string
-  helpText: string
-  editable: boolean
-  required: boolean
-  otherOption: boolean
-  keyName: string
-  active: boolean
-  answerType: string
-  answers: IAnswer[]
+export interface IQuestion extends IRelatedQuestion {
   relatedQuestions: IRelatedQuestion[]
 }
 
 export interface IRelatedQuestion {
+  id: string
   title: string
   description: string
   helpText: string

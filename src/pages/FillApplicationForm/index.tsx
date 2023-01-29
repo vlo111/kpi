@@ -1,25 +1,55 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Form } from 'antd';
+import { Form, Typography } from 'antd';
 
 import { AsnForm } from '../../components/Forms/Form';
 import { AsnButton } from '../../components/Forms/Button';
 import { FormFinish } from '../../types/global';
-import { IParse } from '../../types/application';
-import { IApplicant } from '../../types/api/application/applicationForm';
+import {
+  IApplicant,
+  IQuestion,
+  IRelatedQuestion
+} from '../../types/api/application/applicationForm';
 
 import useSingleApplicationForm from '../../api/ApplicationForm/useGetSingleApplicationForm';
 import ApplicationForm from '../../components/FillApplicationForm';
 import { getAnswers } from '../../helpers/utils';
 import { PATHS } from '../../helpers/constants';
+import styled from 'styled-components';
+import { ConcatAnswers, IFormQuestion } from '../../types/application';
 
-const Terms: React.FC<IParse> = ({ str }) => {
-  if (str !== undefined) {
-    return JSON.parse(str)?.map((p: string, i: number) => (
-      <div key={i}>{p}</div>
-    ));
-  }
-  return <></>;
+const FillApplicationFormContainer = styled.div`
+  padding: 3rem 3.75rem 3.75rem;
+  width: 55%;
+  background-color: var(--white);
+  box-shadow: 0px 4px 30px rgba(113, 103, 246, 0.2);
+  border-radius: 10px;
+  margin: 3rem auto;
+  display: flex;
+  flex-direction: column;
+`;
+
+const FormTitle = styled(Typography.Title)`
+  font-size: var(--font-size-semilarge);
+  color: var(--dark-border-ultramarine) !important;
+  font-weight: 400;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+const FormText = styled.span`
+  font-size: var(--base-font-size);
+`;
+
+const concatRelatedAnswers: ConcatAnswers = (items, educationQuestion) => {
+  const relatedQuestions: IRelatedQuestion[] = items.questions.map((q: IQuestion) => q.relatedQuestions).filter((f: IRelatedQuestion[]) => f.length).flat();
+
+  const rq = getAnswers(relatedQuestions);
+
+  const key = Object.keys(educationQuestion)[0];
+
+  educationQuestion[key] = educationQuestion[key].concat(rq);
 };
 
 const FillApplicationForm: React.FC = () => {
@@ -40,23 +70,38 @@ const FillApplicationForm: React.FC = () => {
     applicationFormSections = [],
     title,
     description,
-    termsAndConditions
+    termsAndConditions,
+    onlineSignature
   } = data ?? {};
 
   useEffect(() => {
-    const [personalDetails, education, otherInfo, personalInfo] =
-      applicationFormSections;
-
     if (data?.applicationFormSections !== undefined) {
-      const personalInfoQuestions = {
-        [personalDetails.keyName]: getAnswers(personalDetails.questions),
-        [education.keyName]: getAnswers(education.questions),
-        [otherInfo.keyName]: getAnswers(otherInfo.questions),
-        [personalInfo.keyName]: getAnswers(personalInfo.questions)
+      const [personalDetails, education, otherInfo, personalInfo] =
+        applicationFormSections;
+
+      const educationQuestion: IFormQuestion = {
+        [education.keyName]: getAnswers(education.questions)
       };
 
+      concatRelatedAnswers(education, educationQuestion);
+
+      const otherInfoQuestion: IFormQuestion = {
+        [otherInfo.keyName]: getAnswers(otherInfo.questions)
+      };
+
+      concatRelatedAnswers(otherInfo, otherInfoQuestion);
+
+      const questions = {
+        // [personalDetails.keyName]: getAnswers(personalDetails.questions),
+        ...educationQuestion
+        // ...otherInfoQuestion,
+        // [personalInfo.keyName]: getAnswers(personalInfo.questions)
+      };
+
+      console.log(questions);
+
       form.setFieldsValue({
-        ...personalInfoQuestions
+        ...questions
       });
     }
   }, [data]);
@@ -72,19 +117,20 @@ const FillApplicationForm: React.FC = () => {
   };
 
   return (
-    <AsnForm form={form} onFinish={onFinish} autoComplete="off">
-      <h1>{title}</h1>
-      <h3>{description}</h3>
-      <ApplicationForm sections={applicationFormSections} />
-      <Terms str={termsAndConditions} />
-      <AsnButton
-        className="primary"
-        htmlType="submit"
-        style={{ width: 'clamp(12.5rem,12vw,24rem)' }}
-      >
-        Publish
-      </AsnButton>
-    </AsnForm>
+    <FillApplicationFormContainer>
+      <AsnForm form={form} onFinish={onFinish} autoComplete="off">
+        <FormTitle>{title}</FormTitle>
+        <FormText>{description}</FormText>
+        <ApplicationForm sections={applicationFormSections} terms={termsAndConditions} online={onlineSignature} />
+        <AsnButton
+          className="primary"
+          htmlType="submit"
+          style={{ width: 'clamp(12.5rem,12vw,24rem)' }}
+        >
+          Publish
+        </AsnButton>
+      </AsnForm>
+    </FillApplicationFormContainer>
   );
 };
 

@@ -14,13 +14,18 @@ const TermsConditionsContainer = styled.div`
   flex-direction: column;
 `;
 
-const TermsConditions: React.FC<{ text: string, onlineSignature: boolean }> = ({
+interface ITermsConditionsProps {
+  text: string | undefined
+  onlineSignature: boolean | undefined
+}
+
+const TermsConditions: React.FC<ITermsConditionsProps> = ({
   text,
   onlineSignature
 }) => {
   return (
     <TermsConditionsContainer>
-      <SectionTitle>Personal details / Անձնական տվյալներ:</SectionTitle>
+      <SectionTitle>Terms & Conditions/ Պայմաններ և դրույթներ</SectionTitle>
 
       {text !== undefined &&
         JSON.parse(text)?.map((p: any, i: number) => (
@@ -44,7 +49,7 @@ const TermsConditions: React.FC<{ text: string, onlineSignature: boolean }> = ({
             </Form.Item>
           </div>
         ))}
-      {onlineSignature && (
+      {onlineSignature !== undefined && (
         <Form.Item name="onlineSignature">
           <DividerLine>
             <FormText style={{ fontWeight: '700' }}>

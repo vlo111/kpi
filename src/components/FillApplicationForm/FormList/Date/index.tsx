@@ -9,6 +9,7 @@ const SectionDate: React.FC<ISection> = ({ index, title }) => {
       key={index}
       name={[index, 'answers', 0, 'text']}
       label={title}
+      labelCol={ { span: 24 }}
       rules={[{ required: true, message: 'The field is required' }]}
     >
       <AsnDatePicker

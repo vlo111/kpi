@@ -6,7 +6,7 @@ import { CollapseHeader, SetResultArea, SetTitleColor } from '../types/project';
 import { AsnInput } from '../components/Forms/Input';
 import _ from 'lodash';
 import { ConvertAnswerForm, GetAnswers, InitAnswer } from '../types/application';
-import { IQuestion } from '../types/api/application/applicationForm';
+import { IQuestion, IRelatedQuestion } from '../types/api/application/applicationForm';
 import { AnswerTypes } from './constants';
 
 /** Logout the user */
@@ -106,7 +106,7 @@ const convertAnswerForm: ConvertAnswerForm = (key, answers) => ({
  * @param items
  */
 export const getAnswers: GetAnswers = (items) =>
-  items?.map((p: IQuestion) => ({
+  items?.map((p: IQuestion | IRelatedQuestion) => ({
     id: p.id,
     keyName: p.keyName,
     answerType: p.answerType,

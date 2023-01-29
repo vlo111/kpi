@@ -25,6 +25,7 @@ const SectionSelect: React.FC<ISectionProps> = ({
   return (<AsnForm.Item
     key={index}
     label={title}
+    labelCol={ { span: 24 }}
     name={[index, 'answers', 0, 'id']}
     rules={[{ required: true, message: 'The field is required' }]}
   >
