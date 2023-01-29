@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useCreateSubActivity from '../../../../api/Activity/SubActivity/useCreateSubActivity';
 import getSingleTemplate from '../../../../api/Activity/Template/useGetSingleActivityTemplate';
@@ -19,6 +19,7 @@ const CreateSubCourse: React.FC<any> = ({
   setOpenCreateSubActivity
 }) => {
   const [form] = AsnForm.useForm();
+  const [activeTab, setActiveTab] = useState<string>('0');
   const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useAuth();
@@ -37,8 +38,6 @@ const CreateSubCourse: React.FC<any> = ({
   const { id: userId }: IUser = user;
 
   const onFinish: FormFinish = (values) => {
-    console.log(values, 'finished Values');
-
     if (subActivity?.courseStructure === 'MULTI_SECTION') {
       const checkFields = values.sectionsData.map((section: any, i: number) => {
         return {
@@ -56,7 +55,7 @@ const CreateSubCourse: React.FC<any> = ({
           field.requiredFields < requiredFieldsCount
       );
       if (notCompletedField.length > 0) {
-        // setActiveTab(notCompletedField[0].sectionField);
+        setActiveTab(notCompletedField[0].sectionField);
       } else {
         const requestBody = {
           activityTemplateId: templateId,
@@ -74,20 +73,28 @@ const CreateSubCourse: React.FC<any> = ({
                 description: values.sectionsData[i].description,
                 teachingMode: values.sectionsData[i].teaching_mode,
                 startDate: moment(values.sectionsData[i].startDate).format(),
-                endDate: moment(values.sectionsData[i].endDate).format()
-                // files: values.sectionsData[i].files.map(
-                //   (file: { url: string, keyName: string }) => ({
-                //     file: file.url,
-                //     keyname: file.keyName
-                //   })
-                // )
+                endDate: moment(values.sectionsData[i].endDate).format(),
+                customInputs: values.sectionsData[i].customInputs,
+                files: values.sectionsData[i].customInputs
+                  .filter(
+                    (item: {
+                      setting: { answerType: string }
+                      ATTACHMENT: string
+                    }) =>
+                      item?.setting?.answerType === 'ATTACHMENT' &&
+                      item?.ATTACHMENT !== undefined
+                  )
+                  .map((item: any) => ({
+                    file: item?.ATTACHMENT[0]?.name,
+                    keyname: item?.ATTACHMENT[0]?.keyName
+                  }))
               };
             }
           )
         };
         console.log(requestBody, 'multi create data');
 
-        // createSubActivity(requestBody);
+        createSubActivity(requestBody);
       }
     }
     if (subActivity?.courseStructure === 'ONE_SECTION') {
@@ -106,11 +113,20 @@ const CreateSubCourse: React.FC<any> = ({
               teachingMode: values.teaching_mode,
               startDate: moment(values.startDate).format(),
               endDate: moment(values.endDate).format(),
-              files: values.sectionsData.filter((item: { setting: { answerType: string }, ATTACHMENT: string }) => (item?.setting?.answerType === 'ATTACHMENT' && item?.ATTACHMENT !== undefined)).map((item: any) => ({
-                file: item?.ATTACHMENT[0]?.name,
-                keyname: item?.ATTACHMENT[0]?.keyName
-              })),
-              customInputs: values.sectionsData
+              files: values.sectionsData[i].customInputs
+                .filter(
+                  (item: {
+                    setting: { answerType: string }
+                    ATTACHMENT: string
+                  }) =>
+                    item?.setting?.answerType === 'ATTACHMENT' &&
+                    item?.ATTACHMENT !== undefined
+                )
+                .map((item: any) => ({
+                  file: item?.ATTACHMENT[0]?.name,
+                  keyname: item?.ATTACHMENT[0]?.keyName
+                })),
+              customInputs: values.sectionsData[i].customInputs
             };
           }
         )
@@ -120,16 +136,17 @@ const CreateSubCourse: React.FC<any> = ({
   };
   const onFinishFailed: FormFinish = (values) => {
     if (subActivity?.courseStructure === 'MULTI_SECTION') {
-      //   const { errorFields } = values;
-      //   const notCompletedField = errorFields[0].name;
+      const { errorFields } = values;
+      const notCompletedField = errorFields[0].name;
       void message.error('Please fill all Sections data', 2);
-      //   setActiveTab(notCompletedField[1].toString());
+      setActiveTab(notCompletedField[1].toString());
     }
   };
 
   const attachments = subActivity?.courseSettingMap?.filter(
     (item: ICourseSettingMap) =>
-      item.setting.type === 'CUSTOM' || item.setting.title === 'Partner Organization'
+      item.setting.type === 'CUSTOM' ||
+      item.setting.title === 'Partner Organization'
   );
 
   useEffect(() => {
@@ -139,8 +156,8 @@ const CreateSubCourse: React.FC<any> = ({
         duration_technical_number: 18,
         duration: 36,
         files: [],
-        sectionsData: attachments.map((item: any) => (
-          {
+        sectionsData: Array(subActivity?.sections?.length).fill({
+          customInputs: attachments.map((item: any) => ({
             active: item?.active,
             setting: {
               id: item?.setting?.id,
@@ -148,8 +165,8 @@ const CreateSubCourse: React.FC<any> = ({
               title: item?.setting?.title,
               data: item?.setting?.data
             }
-          }
-        ))
+          }))
+        })
       });
     }
   }, [subActivity]);
@@ -168,6 +185,8 @@ const CreateSubCourse: React.FC<any> = ({
       courseStructure={subActivity?.courseStructure}
       sectionsCount={subActivity?.sections?.length}
       projectId={id}
+      activeTab={activeTab}
+      setActiveTab={setActiveTab}
       edit={false}
     />
   );

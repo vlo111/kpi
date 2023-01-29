@@ -110,6 +110,8 @@ export interface ICreateSubActivityProps {
   inputActivityId?: string
   form?: any
   edit?: boolean
+  activeTab: string
+  setActiveTab: React.Dispatch<React.SetStateAction<string>>
   initialValues?: any
   onFinish?: any
   onFinishFailed?: any
@@ -134,15 +136,18 @@ export interface IUpdateSubActivityData {
 }
 
 export interface IMultiSections {
-  // subActivity: {
-  //   sections: []
-  // }
   subActivity?: any
   sectionsCount?: number
   attachments: IAttachmentSetting[]
   UploadDoc: any
   setActiveTab: React.Dispatch<React.SetStateAction<string>>
   activeTab: string
+}
+
+export interface ICustomInputs {
+  name: string | number | Array<string | number>
+  UploadDoc: any
+  attachments: IAttachmentSetting[]
 }
 
 export type AttachFileSubActivity = UseMutation<Void, any, ResponseErrorParam, IAttachFileSubActivity>;

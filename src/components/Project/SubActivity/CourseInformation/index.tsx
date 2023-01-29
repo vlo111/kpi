@@ -12,6 +12,30 @@ const AntCol = styled(Col)`
 
 const WrapperSpace = styled(Space)`
   width: 100%;
+  .course_tabs {
+    .ant-tabs-nav {
+      margin-left: 20.8%;
+    }
+    .ant-tabs-tab {
+      background: var(--dark-6);
+      border: 1px solid #f0f0f0;
+      border-radius: 6px !important;
+      font-size: var(--base-font-size);
+      font-weight: var(--font-normal);
+      color: var(--dark-2);
+    }
+    .ant-tabs-tab-active {
+      background: var(--white);
+      border-top: 1px solid var(--dark-border-ultramarine);
+
+      .ant-tabs-tab-btn {
+        color: var(--dark-border-ultramarine) !important;
+        &:focus {
+          color: var(--dark-border-ultramarine) !important;
+        }
+      }
+    }
+  }
 `;
 
 const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
@@ -64,7 +88,12 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
         </Row>
         {courseData?.sectionsData.length > 1
           ? (
-          <Tabs type="card" size="middle" onChange={onChange}>
+          <Tabs
+            type="card"
+            size="middle"
+            onChange={onChange}
+            className="course_tabs"
+          >
             {courseData?.sectionsData.map((course: any) => (
               <Tabs.TabPane key={course.title} tab={<>{course.title}</>}>
                 <Row style={{ marginBottom: '1.2vh' }}>
@@ -110,18 +139,28 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
                 </Row>
                 <Row style={{ marginBottom: '1.2vh' }}>
                   <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>
-                    Partner organization
-                  </AntCol>
-                  <AntCol span={12}>CIVITTA</AntCol>
-                </Row>
-                <Row style={{ marginBottom: '1.2vh' }}>
-                  <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>
                     Duration
                   </AntCol>
                   <AntCol span={12}>
                     36(Technical skills 30 hr/Soft skills 6 hr)
                   </AntCol>
                 </Row>
+                {course?.data.customInputs.map((inputs: any) => (
+                  <Row
+                    key={inputs.setting.id}
+                    style={{ marginBottom: '1.2vh' }}
+                  >
+                    <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>
+                      {inputs.setting.title}
+                    </AntCol>
+                    <AntCol span={12}>
+                      {inputs?.SHORT_TEXT ??
+                        inputs?.partner_organization ??
+                        inputs?.NUMBER ??
+                        inputs?.DROPDOWN}
+                    </AntCol>
+                  </Row>
+                ))}
               </Tabs.TabPane>
             ))}
           </Tabs>
@@ -163,18 +202,32 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
             </Row>
             <Row>
               <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>
-                Partner organization
-              </AntCol>
-              <AntCol span={12}>CIVITTA</AntCol>
-            </Row>
-            <Row>
-              <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>
                 Duration
               </AntCol>
               <AntCol span={12}>
                 36(Technical skills 30 hr/Soft skills 6 hr)
               </AntCol>
             </Row>
+            {courseData?.sectionsData.map((item: any) => (
+              <div key={item.id}>
+                {item?.data.customInputs.map((inputs: any) => (
+                  <Row
+                    key={inputs.setting.id}
+                    style={{ marginBottom: '1.2vh' }}
+                  >
+                    <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>
+                      {inputs.setting.title}
+                    </AntCol>
+                    <AntCol span={12}>
+                      {inputs?.SHORT_TEXT ??
+                        inputs?.partner_organization ??
+                        inputs?.NUMBER ??
+                        inputs?.DROPDOWN}
+                    </AntCol>
+                  </Row>
+                ))}
+              </div>
+            ))}
           </>
             )}
       </WrapperSpace>

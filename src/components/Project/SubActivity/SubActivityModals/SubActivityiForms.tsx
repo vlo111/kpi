@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
-import { Col, Row, Select, Upload, UploadFile } from 'antd';
-// import { isEmpty } from 'lodash';
+import { Col, Row, Select } from 'antd';
 
 import MultiSections from './MultiSections';
 import { AsnButton } from '../../../Forms/Button';
 import { AsnForm } from '../../../Forms/Form';
-import { AsnInput, AsnInputNumber } from '../../../Forms/Input';
+import { AsnInput } from '../../../Forms/Input';
 import { AsnSelect } from '../../../Forms/Select';
 import AsnPicker from '../../../Picker';
 import Duration from '../DurationForm';
 import useFileUpload from '../../../../api/Activity/SubActivity/useUploadFile';
-import { ReactComponent as UploadDocument } from '../SubActivityIcons/upload-docs.svg';
 import { ReactComponent as ArrowSvg } from '../SubActivityIcons/arrow.svg';
 import { CreateSubActivity } from './CreateModalStyles';
 import { VALIDATE_MESSAGES } from '../../../../helpers/constants';
 import { ICreateSubActivityProps } from '../../../../types/api/activity/subActivity';
-import { IAttachmentSetting } from '../../../../types/project';
 import useGetProjectDetails from '../../../../api/Details/useGetProjectDetails';
 import { useAuth } from '../../../../hooks/useAuth';
 import AsnAvatar from '../../../Forms/Avatar';
 import { IUser } from '../../../../types/auth';
+import CustomInputs from './CustomInputsList';
 
 const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
   openCreateSubActivity,
@@ -44,10 +42,12 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
   const { organizations, regions, sectors } = projectDetails;
 
   const { Option } = Select;
-  const { Dragger } = Upload;
   const options = ['Offline', 'Online', 'Blended'];
 
-  console.log(form.getFieldsValue(), 'getFieldsValuegetFieldsValuegetFieldsValuegetFieldsValue');
+  console.log(
+    form.getFieldsValue(),
+    'getFieldsValuegetFieldsValuegetFieldsValuegetFieldsValue'
+  );
 
   return (
     <CreateSubActivity
@@ -157,7 +157,6 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
             ))}
           </AsnSelect>
         </AsnForm.Item>
-
         {courseStructure === 'MULTI_SECTION' && (
           <MultiSections
             sectionsCount={sectionsCount}
@@ -190,174 +189,18 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
             <AsnForm.List name="sectionsData">
               {(fields) => (
                 <>
-                  {fields.map((field, i) => (
-                    <div key={i}>
-                      {attachments?.length > 0 &&
-                        attachments?.map(
-                          (item: IAttachmentSetting, j: number) =>
-                            j === field.key && (
-                              <div key={i}>
-                                {item?.setting?.answerType === 'ATTACHMENT' && (
-                                  <AsnForm.Item
-                                    name={[field.name, 'ATTACHMENT']}
-                                    label={item?.setting?.title}
-                                    className="upload_section"
-                                    // getValueFromEvent={getFile}
-                                    key={item?.setting.id}
-                                    // rules={[
-                                    //   {
-                                    //     validator: async (_, file) => {
-                                    //       if (
-                                    //         isEmpty(file) ||
-                                    //         file.file.status === 'removed' ||
-                                    //         file.file.status === 'error'
-                                    //       ) {
-                                    //         return await Promise.reject(
-                                    //           new Error(
-                                    //             'Please enter valid Document'
-                                    //           )
-                                    //         );
-                                    //       }
-                                    //     }
-                                    //   }
-                                    // ]}
-                                    validateTrigger={['onChange', 'onBlur']}
-                                  >
-                                    <Dragger
-                                      maxCount={1}
-                                      customRequest={(options: any) => {
-                                        const {
-                                          file,
-                                          onSuccess: successStatus,
-                                          onError: errorStatus
-                                        } = options;
-                                        UploadDoc(
-                                          { file, type: 'COURSE_INFO' },
-                                          {
-                                            onSuccess: (response: any) => {
-                                              successStatus();
-                                              const url =
-                                                response.data.result[0];
-                                              // const files = form.getFieldValue('sectionsData').filter((item: any, l: number) => l === j);
-                                              // console.log(files.map((item: any) => item?.ATTACHMENT));
-
-                                              // const removeDoubleFiles =
-                                              //   files.filter(
-                                              //     (file: { name: string }) =>
-                                              //       file.name !==
-                                              //       `attachment_${j}`
-                                              //   );
-                                              form.setFieldValue(
-                                                [
-                                                  'sectionsData',
-                                                  j,
-                                                  'ATTACHMENT'
-                                                ],
-                                                [
-                                                  // ...removeDoubleFiles,
-                                                  {
-                                                    id: file.uid,
-                                                    name: url,
-                                                    keyName:
-                                                      item?.setting?.title
-                                                  }
-                                                ]
-                                              );
-                                            },
-                                            onError: () => errorStatus()
-                                          }
-                                        );
-                                      }}
-                                      onRemove={(file: UploadFile) => {
-                                        const files = form.getFieldValue([
-                                          'sectionsData',
-                                          j,
-                                          'ATTACHMENT'
-                                        ]);
-                                        const filteredFiles = files.filter(
-                                          (item: { id: string }) =>
-                                            item.id !== file.uid
-                                        );
-                                        form.setFieldValue(
-                                          ['sectionsData', j, 'ATTACHMENT'],
-                                          [...filteredFiles]
-                                        );
-                                      }}
-                                      defaultFileList={form.getFieldValue([
-                                        'sectionsData',
-                                        j,
-                                        'ATTACHMENT'
-                                      ])}
-                                      name={'ATTACHMENT'}
-                                      accept={
-                                        '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx'
-                                      }
-                                    >
-                                      <UploadDocument />
-                                      <p>File/Documents</p>
-                                    </Dragger>
-                                  </AsnForm.Item>
-                                )}
-                                {item?.setting?.answerType === 'SHORT_TEXT' && (
-                                  <AsnForm.Item
-                                    name={[field.name, 'SHORT_TEXT']}
-                                    label={item?.setting?.title}
-                                    key={item?.setting.id}
-                                    rules={[{ required: item?.active }]}
-                                  >
-                                    <AsnInput />
-                                  </AsnForm.Item>
-                                )}
-                                {item?.setting?.answerType === 'NUMBER' && (
-                                  <AsnForm.Item
-                                    name={[field.name, 'NUMBER']}
-                                    label={item?.setting?.title}
-                                    key={item?.setting.id}
-                                    rules={[{ required: item?.active }]}
-                                  >
-                                    <AsnInputNumber
-                                      className="primary"
-                                      style={{ width: '100%' }}
-                                    />
-                                  </AsnForm.Item>
-                                )}
-                                {item?.setting?.answerType === 'DROPDOWN' && (
-                                  <AsnForm.Item
-                                    name={[field.name, 'DROPDOWN']}
-                                    label={item?.setting?.title}
-                                    key={item?.setting.id}
-                                    rules={[{ required: item?.active }]}
-                                  >
-                                    <AsnSelect suffixIcon={<ArrowSvg />}>
-                                      {item?.setting?.data?.map((i) => (
-                                        <Option key={i} value={i}>
-                                          {i}
-                                        </Option>
-                                      ))}
-                                    </AsnSelect>
-                                  </AsnForm.Item>
-                                )}
-                                {item?.setting?.title ===
-                                  'Partner Organization' && (
-                                  <AsnForm.Item
-                                    name={[field.name, 'partner_organization']}
-                                    label="Partner Organization"
-                                    rules={[
-                                      {
-                                        required: item?.active,
-                                        min: 2,
-                                        max: 256
-                                      }
-                                    ]}
-                                  >
-                                    <AsnInput />
-                                  </AsnForm.Item>
-                                )}
-                              </div>
-                            )
-                        )}
-                    </div>
-                  ))}
+                  {fields.map(
+                    (field) =>
+                      field.key === 0 && (
+                        <div key={0}>
+                          <CustomInputs
+                            name={[0, 'customInputs']}
+                            attachments={attachments}
+                            UploadDoc={UploadDoc}
+                          />
+                        </div>
+                      )
+                  )}
                 </>
               )}
             </AsnForm.List>
