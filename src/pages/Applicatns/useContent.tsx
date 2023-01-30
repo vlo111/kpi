@@ -6,27 +6,11 @@ import { Panel } from '../../components/Forms/Collapse';
 import { marks, optionsRegion, optionsStatus } from './applicantsListFilterData';
 import { ContentAssingersFilter } from './applicantsStyle';
 
-export const useContent = ({ setOpen, filterData }: any): any => {
-  const [form] = Form.useForm();
+export const useContent = ({ setOpen, filterData, onFinish, form }: any): any => {
   const hide = (): any => {
     setOpen(false);
   };
-  const onFinish = (values: any): any => {
-    filterData({
-      age: (Boolean((values?.age))) &&
-        {
-          from: values?.age?.[0],
-          to: values?.age?.[1]
-        },
-      regions: values?.region?.map,
-      statuses: values?.status,
-      student: values?.student,
-      gender: values?.gender,
-      disability: values?.vulnerability,
-      income: values?.paid_job
 
-    });
-  };
   return (
     <ContentAssingersFilter>
     <Form form={form} onFinish={onFinish}>

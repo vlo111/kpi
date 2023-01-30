@@ -34,8 +34,7 @@ export interface IListeApplicants {
 
 }
 export interface filterApplicants {
-  valueFilter: any
-  refetch: any
+  filters: any
   onFinish: any
 
 }

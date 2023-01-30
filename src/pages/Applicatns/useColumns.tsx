@@ -6,8 +6,7 @@ import { useContent } from './useContent';
 
 const today = new Date();
 
-export const useColumn = ({ filterData }: any): any => {
-  const [open, setOpen] = useState(false);
+export const useColumn = ({ filterData, onFinish, form, setOpen, open }: any): any => {
   const handleOpenChange = (newOpen: boolean): any => {
     setOpen(newOpen);
   };
@@ -15,7 +14,7 @@ export const useColumn = ({ filterData }: any): any => {
     {
       title: (
              <Popover
-               content={useContent({ setOpen, filterData })}
+               content={useContent({ setOpen, filterData, onFinish, form })}
                title="Filter your results"
                trigger="click"
                overlayClassName="applicantsFilter"
