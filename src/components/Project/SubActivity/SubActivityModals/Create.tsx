@@ -85,15 +85,13 @@ const CreateSubCourse: React.FC<any> = ({
                       item?.ATTACHMENT !== undefined
                   )
                   .map((item: any) => ({
-                    file: item?.ATTACHMENT[0]?.name,
+                    file: item?.ATTACHMENT[0]?.type,
                     keyname: item?.ATTACHMENT[0]?.keyName
                   }))
               };
             }
           )
         };
-        console.log(requestBody, 'multi create data');
-
         createSubActivity(requestBody);
       }
     }
@@ -123,7 +121,7 @@ const CreateSubCourse: React.FC<any> = ({
                     item?.ATTACHMENT !== undefined
                 )
                 .map((item: any) => ({
-                  file: item?.ATTACHMENT[0]?.name,
+                  file: item?.ATTACHMENT[0]?.type,
                   keyname: item?.ATTACHMENT[0]?.keyName
                 })),
               customInputs: values.sectionsData[i].customInputs

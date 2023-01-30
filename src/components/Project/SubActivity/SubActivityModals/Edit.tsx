@@ -75,18 +75,31 @@ const EditSubCourse: React.FC<any> = ({
                 title: values.sectionsData[i].title,
                 order: section?.order,
                 partner_organization:
-                  values.sectionsData[i].partner_organization,
+                values.sectionsData[i].partner_organization,
                 description: values.sectionsData[i].description,
                 teachingMode: values.sectionsData[i].teaching_mode,
                 startDate: moment(values.sectionsData[i].startDate).format(),
                 endDate: moment(values.sectionsData[i].endDate).format(),
                 customInputs: values.sectionsData[i].customInputs,
-                files: values.sectionsData[i].files.map(
-                  (file: { url: string, keyName: string }) => ({
-                    file: file.url,
-                    keyname: file.keyName
+                files: values.sectionsData[i].customInputs
+                  .filter(
+                    (item: {
+                      setting: { answerType: string }
+                      ATTACHMENT: string
+                    }) =>
+                      item?.setting?.answerType === 'ATTACHMENT' &&
+                    item?.ATTACHMENT !== undefined
+                  )
+                  .map((item: any) => {
+                    if (item?.ATTACHMENT.length > 0) {
+                      return {
+                        file: item?.ATTACHMENT[0]?.type,
+                        keyname: item?.ATTACHMENT[0]?.keyName
+                      };
+                    } else {
+                      return [];
+                    }
                   })
-                )
               };
             }
           )
@@ -111,12 +124,38 @@ const EditSubCourse: React.FC<any> = ({
               startDate: moment(values.startDate).format(),
               endDate: moment(values.endDate).format(),
               customInputs: values.sectionsData[i].customInputs,
-              files: values.sectionsData[i].files.map(
-                (file: { url: string, keyName: string }) => ({
-                  file: file.url,
-                  keyname: file.keyName
-                })
-              )
+              // files: values.sectionsData[i].customInputs
+              //   .filter(
+              //     (item: {
+              //       setting: { answerType: string }
+              //       ATTACHMENT: string
+              //     }) =>
+              //       item?.setting?.answerType === 'ATTACHMENT' &&
+              //   item?.ATTACHMENT !== undefined
+              //   )
+              //   .map((item: any) => {
+              //     if (item?.ATTACHMENT.length > 0) {
+              //       return {
+              //         file: item?.ATTACHMENT[0]?.type,
+              //         keyname: item?.ATTACHMENT[0]?.keyName
+              //       };
+              //     } else {
+              //       return [];
+              //     }
+              //   })
+              files: values.sectionsData[i].customInputs
+                .filter(
+                  (item: {
+                    setting: { answerType: string }
+                    ATTACHMENT: string
+                  }) =>
+                    item?.setting?.answerType === 'ATTACHMENT' &&
+                  item?.ATTACHMENT !== undefined
+                )
+                .map((item: any) => ({
+                  file: item?.ATTACHMENT[0]?.type,
+                  keyname: item?.ATTACHMENT[0]?.keyName
+                }))
             };
           }
         )
@@ -126,7 +165,7 @@ const EditSubCourse: React.FC<any> = ({
   };
 
   const onFinishFailed: FormFinish = (values) => {
-    if (subActivity?.courseStructure === 'MULTI_SECTION') {
+    if (subActivity?.sectionsData.length > 1) {
       const { errorFields } = values;
       const notCompletedField = errorFields[0].name;
       void message.error('Please fill all Sections data', 2);

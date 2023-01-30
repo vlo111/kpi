@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Col, Row, Select } from 'antd';
 
 import MultiSections from './MultiSections';
@@ -29,10 +29,10 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
   attachments,
   courseStructure,
   projectId,
-  sectionsCount
+  sectionsCount,
+  setActiveTab,
+  activeTab
 }) => {
-  const [activeTab, setActiveTab] = useState<string>('0');
-
   const { mutate: UploadDoc } = useFileUpload();
   const { projectDetails } = useGetProjectDetails(projectId);
   const { user } = useAuth();

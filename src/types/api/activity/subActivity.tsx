@@ -145,7 +145,7 @@ export interface IMultiSections {
 }
 
 export interface ICustomInputs {
-  name: string | number | Array<string | number>
+  name: Array<string | number>
   UploadDoc: any
   attachments: IAttachmentSetting[]
 }

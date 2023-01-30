@@ -36,6 +36,19 @@ const CustomInputs: React.FC<ICustomInputs> = ({
                           className="upload_section"
                           key={item?.setting?.id}
                           rules={[
+                            {
+                              validator: async (_, file) => {
+                                if (
+                                  (file?.file?.status === 'removed' ||
+                                    file?.file?.status === 'error') &&
+                                  item?.active
+                                ) {
+                                  return await Promise.reject(
+                                    new Error('Please enter valid Document')
+                                  );
+                                }
+                              }
+                            },
                             { required: item?.active }
                           ]}
                           validateTrigger={['onChange', 'onBlur']}
@@ -57,16 +70,20 @@ const CustomInputs: React.FC<ICustomInputs> = ({
                                     const uploadedFile = [
                                       {
                                         id: file.uid,
-                                        name: url,
+                                        name: file.name,
+                                        type: url,
                                         keyName: item?.setting?.title
                                       }
                                     ];
-                                    const value = form.getFieldValue(input.key);
-                                    console.log(value, 'value');
-
                                     form.setFieldValue(
-                                      ['customInputs', j, 'ATTACHMENT'],
-                                      [uploadedFile]
+                                      [
+                                        'sectionsData',
+                                        name[0],
+                                        name[1],
+                                        input.name,
+                                        'ATTACHMENT'
+                                      ],
+                                      [...uploadedFile]
                                     );
                                   },
                                   onError: () => errorStatus()
@@ -75,21 +92,45 @@ const CustomInputs: React.FC<ICustomInputs> = ({
                             }}
                             onRemove={(file: UploadFile) => {
                               const files = form.getFieldValue([
-                                'customInputs',
-                                j,
+                                'sectionsData',
+                                name[0],
+                                name[1],
+                                input.name,
                                 'ATTACHMENT'
                               ]);
                               const filteredFiles = files.filter(
                                 (item: { id: string }) => item.id !== file.uid
                               );
-                              form.setFieldValue(
-                                ['customInputs', j, 'ATTACHMENT'],
-                                [...filteredFiles]
-                              );
+                              if (file.originFileObj === undefined) {
+                                form.setFieldValue(
+                                  [
+                                    'sectionsData',
+                                    name[0],
+                                    name[1],
+                                    input.name,
+                                    'ATTACHMENT'
+                                  ],
+                                  [...[]]
+                                );
+                              } else {
+                                form.setFieldValue(
+                                  [
+                                    'sectionsData',
+                                    name[0],
+                                    name[1],
+                                    input.name,
+                                    'ATTACHMENT',
+                                    0
+                                  ],
+                                  [...filteredFiles]
+                                );
+                              }
                             }}
                             defaultFileList={form.getFieldValue([
-                              'customInputs',
-                              j,
+                              'sectionsData',
+                              name[0],
+                              name[1],
+                              input.name,
                               'ATTACHMENT'
                             ])}
                             name={'uploadFile'}
