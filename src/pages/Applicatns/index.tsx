@@ -18,7 +18,6 @@ const ApplicantsData: React.FC = () => {
       setResult(data);
     }
   });
-  const column = useColumn();
   useEffect(() => {
     refetch();
   }, [refetch, filters]);
@@ -30,9 +29,20 @@ const ApplicantsData: React.FC = () => {
     }));
   }, [filters]);
 
+  const filterData = useCallback((data: any) => {
+    console.log(data, 'datadaatfat');
+
+    setFilters((prevState: any) => ({
+      ...prevState,
+      ...data
+    }));
+  }, [filters]);
+
+  const column = useColumn({ filterData });
+
   return (
     <Container>
-<ApplicantsSearch filters={filters} serachData={serachData}/>
+<ApplicantsSearch filters={filters} serachData={serachData} />
 <Table
         columns={column}
         dataSource={result?.result}

@@ -5,42 +5,27 @@ import { AsnCheckboxGroup } from '../../components/Forms/Checkbox';
 import { Panel } from '../../components/Forms/Collapse';
 import { marks, optionsRegion, optionsStatus } from './applicantsListFilterData';
 import { ContentAssingersFilter } from './applicantsStyle';
-import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
 
-export const useContent = ({ setOpen }: any): any => {
+export const useContent = ({ setOpen, filterData }: any): any => {
   const [form] = Form.useForm();
   const hide = (): any => {
     setOpen(false);
   };
   const onFinish = (values: any): any => {
-    console.log(values);
-
-    const requestBody = {
-      statuses:
-        values?.status?.map((s: any) => {
-          return (
-            s
-          );
-        }),
-      age:
-      {
-        from: values?.age?.[0] ?? 18,
-        to: values?.age?.[1] ?? 50
-      },
-      regions:
-        values?.region?.map((i: any) => {
-          return (
-            i
-          );
-        }),
+    filterData({
+      age: (Boolean((values?.age))) &&
+        {
+          from: values?.age?.[0],
+          to: values?.age?.[1]
+        },
+      regions: values?.region?.map,
+      statuses: values?.status,
       student: values?.student,
       gender: values?.gender,
       disability: values?.vulnerability,
-      income: values?.paid_job,
-      limit: 100,
-      offset: 0
-    };
-    useAllAplicants(requestBody);
+      income: values?.paid_job
+
+    });
   };
   return (
     <ContentAssingersFilter>
