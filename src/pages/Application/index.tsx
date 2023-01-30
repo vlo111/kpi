@@ -147,12 +147,14 @@ const Application: React.FC = () => {
   }, [applicationData]);
 
   useEffect(() => {
-    const termsAndConditionsDataParse =
-      applicationData?.termsAndConditions !== undefined &&
-      JSON.parse(applicationData?.termsAndConditions);
-    form.setFieldsValue({
-      conditions: termsAndConditionsDataParse
-    });
+    if (applicationData !== undefined) {
+      const termsAndConditionsDataParse =
+        applicationData?.termsAndConditions !== undefined &&
+        JSON.parse(applicationData?.termsAndConditions);
+      form.setFieldsValue({
+        conditions: termsAndConditionsDataParse
+      });
+    }
   }, [applicationData]);
 
   const onPublishClick: Void = () => {
@@ -268,11 +270,7 @@ const Application: React.FC = () => {
           />
         )
       )}
-      <AsnForm
-        name="dynamic_form_nest_item"
-        form={form}
-        autoComplete="off"
-      >
+      <AsnForm name="dynamic_form_nest_item" form={form} autoComplete="off">
         <TermsAndCondition />
       </AsnForm>
       <ConditionCard>

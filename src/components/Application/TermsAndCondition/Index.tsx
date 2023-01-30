@@ -26,6 +26,9 @@ export const FormSpace = styled.div`
     margin: 0px 8px 0px 0px;
     width: 100%;
   }
+  svg {
+    cursor: pointer;
+  }
 `;
 
 const TermsAndCondition: React.FC = () => {
