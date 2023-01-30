@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { AsnForm } from '../components/Forms/Form';
 import { clearLocalStorage } from '../hooks/useLocalStorage';
 import { TVoid } from '../types/global';
-import { CollapseHeader, SetResultArea, SetTitleColor } from '../types/project';
+import {
+  CollapseHeader,
+  SetResultArea,
+  SetTitleColor
+} from '../types/project';
 import { AsnInput } from '../components/Forms/Input';
 import _ from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
+import { Divider, Radio, Space } from 'antd';
+import { DividerLine } from '../components/Application/applicationStyle';
+import RelatedQuestion from '../components/Application/Preview/RelatedQuestion';
+import { AsnCheckbox } from '../components/Forms/Checkbox';
+import { IAnswer, IQuestion } from '../types/api/application/applicationForm';
 
 /** Logout the user */
 export const logOut: TVoid = () => {
@@ -12,13 +22,19 @@ export const logOut: TVoid = () => {
   window.location.reload();
 };
 
-export const noop: TVoid = () => { };
+export const noop: TVoid = () => {};
 
 export const handleErrorMessage = (response: any): string => {
   return response?.data?.message;
 };
 
-export const HeaderElement: CollapseHeader = (key, name, index, placeholder, className) => (
+export const HeaderElement: CollapseHeader = (
+  key,
+  name,
+  index,
+  placeholder,
+  className
+) => (
   <div key={`${className}${key}`} onClick={(e) => e.stopPropagation()}>
     <AsnForm.Item name={name} rules={[{ required: true, min: 5, max: 256 }]}>
       <AsnInput prefix={index} placeholder={placeholder} />
@@ -26,9 +42,9 @@ export const HeaderElement: CollapseHeader = (key, name, index, placeholder, cla
   </div>
 );
 
-export const TollTipText: (
-  ...items: string[]
-) => React.ReactNode = (...items) => (
+export const TollTipText: (...items: string[]) => React.ReactNode = (
+  ...items
+) => (
   <div>
     <p style={{ marginBottom: '1rem' }}>
       Must include at least one result area and at least one expected result
@@ -83,4 +99,86 @@ export const validateResultArea: SetResultArea = (values) => {
   }
 
   errorsIndex.map((i: any) => resultAreaElement(i));
+};
+
+export const answerTypes = (type: string, question: IQuestion): JSX.Element => {
+  const option = (
+    <Radio.Group value={question?.answers[0]?.title}>
+      <Space direction="vertical">
+        {question?.answers?.map((answer: IAnswer) => (
+          <Fragment key={answer?.id !== undefined ? answer.id : uuidv4()}>
+            {answer.title?.includes('Other')
+              ? (
+              <DividerLine>
+                <Radio value={answer.title} />
+                <Divider orientation="left" plain>
+                  {answer.title}
+                </Divider>
+              </DividerLine>
+                )
+              : (
+              <Radio value={answer.title}>{answer.title}</Radio>
+                )}
+          </Fragment>
+        ))}
+      </Space>
+    </Radio.Group>
+  );
+
+  const yesNo = (
+    <>
+      <Radio.Group value="Yes/Այո">
+        <Space direction="vertical">
+          {question?.answers?.map((answer: IAnswer) => (
+            <Radio
+              key={answer?.id !== undefined ? answer.id : uuidv4()}
+              value={answer.title}
+            >
+              {answer.title}
+            </Radio>
+          ))}
+        </Space>
+      </Radio.Group>
+      {question.relatedQuestions?.length > 0
+        ? (
+        <>
+          {question.relatedQuestions?.map((relatedQuestion: any) => (
+            <RelatedQuestion
+              key={
+                relatedQuestion?.id !== undefined
+                  ? relatedQuestion?.id
+                  : uuidv4()
+              }
+              relatedQuestion={relatedQuestion}
+            />
+          ))}
+        </>
+          )
+        : null}
+    </>
+  );
+
+  const checkbox = (
+    <Space direction="vertical">
+      {question?.answers?.map((answer: IAnswer, index: number) => (
+        <AsnCheckbox
+          defaultChecked={index === 0}
+          key={answer?.id !== undefined ? answer.id : uuidv4()}
+        >
+          {answer.title}
+        </AsnCheckbox>
+      ))}
+    </Space>
+  );
+
+  switch (type) {
+    case 'YES_NO':
+      return yesNo;
+    case 'OPTION':
+      return option;
+    case 'SHORT_TEXT':
+      return <AsnInput value="" />;
+    default:
+      return checkbox;
+  }
 };

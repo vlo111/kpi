@@ -12,7 +12,7 @@ import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
 import {
   IIsAddTermsConditions,
   ITermsAndCondition
-} from '../../../types/project';
+} from '../../../types/api/application/applicationForm';
 
 export const TextAreaContainer = styled.div`
   display: flex;

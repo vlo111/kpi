@@ -7,6 +7,7 @@ import { ReactComponent as ApplicantsSvg } from '../../assets/icons/aplicants.sv
 import { ReactComponent as ProductGuideSvg } from '../../assets/icons/product-guide.svg';
 import { ReactComponent as ShortcutsSvg } from '../../assets/icons/shortcuts.svg';
 import { ReactComponent as LogoSvg } from '../../assets/icons/menu-logo.svg';
+import { ReactComponent as FolderSvg } from '../../assets/icons/folder.svg';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MenuItems, menuItemsNavigate, PATHS } from '../../helpers/constants';
@@ -102,7 +103,12 @@ export const Menu: React.FC = () => {
   const [currentItem, setCurrentItem] = useState(['1']);
 
   useEffect(() => {
-    const currenPath = [`${menuItemsNavigate.indexOf(pathname.includes('project') ? menuItemsNavigate[1] : pathname) + 1}`];
+    let currenPath = [`${menuItemsNavigate.indexOf(pathname.includes('project') ? menuItemsNavigate[1] : pathname) + 1}`];
+
+    if (pathname.includes('files')) {
+      currenPath = ['5'];
+    }
+
     setCurrentItem(currenPath);
   }, [pathname]);
 
@@ -111,6 +117,9 @@ export const Menu: React.FC = () => {
       if (+ev.key === i + 1) {
         if (projectId !== null && item === menuItemsNavigate[1]) {
           navigate(`/project/${PATHS.OVERVIEW}`.replace(':id', projectId));
+        }
+        if (projectId !== null && item === menuItemsNavigate[4]) {
+          navigate(`/project/${PATHS.FILES}`.replace(':id', projectId));
         } else {
           navigate(item);
         }
@@ -134,6 +143,7 @@ export const Menu: React.FC = () => {
           ProjectSvg,
           TeamSvg,
           ApplicantsSvg,
+          FolderSvg,
           ProductGuideSvg,
           ShortcutsSvg
         ].map((icon, index) => ({

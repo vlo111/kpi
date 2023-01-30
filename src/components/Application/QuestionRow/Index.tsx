@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Col, Popover, Row, Space } from 'antd';
-import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
+import { Popover, Space } from 'antd';
 import { ReactComponent as MenuIcon } from '../../../assets/icons/md-menu.svg';
-import { ReactComponent as EditIcon } from '../../../assets/icons/edit.svg';
 
 import { AsnSwitch } from '../../Forms/Switch';
 import { FormFinish, NumberVoidType, Onchange } from '../../../types/global';
-import { IQuestionRowContainer } from '../../../types/project';
+import { IQuestionRowContainer } from '../../../types/api/application/applicationForm';
+import { contentPopover } from '../../../helpers/questionList';
 
 const CardRow = styled(Space)`
   display: flex;
@@ -61,6 +60,9 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
     content.splice(item, 1);
     setApplicationData({ ...applicationData });
     setOpenPopover(!openPopover);
+    setIsQuestionCardVisible(
+      isQuestionCardVisible.filter((itemId) => itemId !== cardId)
+    );
   };
 
   const handleOpenChange: Onchange = (newOpen) => {
@@ -70,23 +72,6 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
   const handleIsRequiredQuestion: FormFinish = (check) => {
     content[index].required = check;
   };
-  const contentPopover: (i: any) => JSX.Element = (item) => (
-    <Row
-      style={{
-        fontSize: 'var(--font-size-small)',
-        color: 'var(--dark-2)',
-        cursor: 'pointer'
-      }}
-      gutter={[8, 8]}
-    >
-      <Col onClick={() => onEditedQuestion(item)} span={24}>
-        <EditIcon /> Edit
-      </Col>
-      <Col onClick={() => onDeletedQuestion(item)} span={24}>
-        <DeleteIcon /> Delete
-      </Col>
-    </Row>
-  );
 
   return (
     <CardRow direction="horizontal">
@@ -109,16 +94,18 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
                   ? 'Multiple answers'
                   : 'DD/MM/YYYY'}
         </ChoseType>
-        <AsnSwitch
-          defaultChecked={question?.active}
-          disabled={!question?.editable}
-          onChange={handleIsRequiredQuestion}
-        />
+        {question?.required !== undefined && (
+          <AsnSwitch
+            defaultChecked={question?.required}
+            disabled={!question?.editable}
+            onChange={handleIsRequiredQuestion}
+          />
+        )}
         {question?.editable
           ? (
           <Popover
             placement="topLeft"
-            content={() => contentPopover(index)}
+            content={() => contentPopover(index, onEditedQuestion, onDeletedQuestion)}
             trigger="click"
             overlayClassName="menuPopover"
             onOpenChange={handleOpenChange}
@@ -129,7 +116,9 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
             </div>
           </Popover>
             )
-          : <div style={{ width: '11px' }}></div>}
+          : (
+          <div style={{ width: '11px' }}></div>
+            )}
       </span>
     </CardRow>
   );

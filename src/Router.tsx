@@ -30,6 +30,7 @@ import SubActivity from './pages/SubActivityes';
 import CourseInformation from './pages/SubActivityes/CourseInformation';
 import ActivityTemplate from './pages/ActivityTemplate';
 import CourseSection from './pages/CourseSection';
+import { FileHeader } from './pages/Files/Header';
 import Applicant from './pages/Applicant';
 import Application from './pages/Application';
 import FillApplicationForm from './pages/FillApplicationForm';
@@ -56,6 +57,7 @@ export const router = createBrowserRouter(
           <Route path={PATHS.PROJECTS} element={<ProjectList />} />
           <Route path={PATHS.STEPS} element={<ProjectSteps />} />
           <Route path={PATHS.OVERVIEW} element={<ProjectOverview />} />
+          <Route path={PATHS.FILES} element={<FileHeader />} />
           <Route path={PATHS.SUBACTIVITY} element={<SubActivity />} />
         </Route>
         <Route path={PATHS.PROJECTINFORMATION} element={<ProjectInformation />} />

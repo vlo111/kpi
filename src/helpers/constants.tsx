@@ -22,6 +22,7 @@ export const PATHS = {
   PROJECTINFORMATION: 'project-information/:id',
   COURSEINFORMATION: 'course-information/:id',
   ACTIVITYTEMPLATE: 'activity-template/:id',
+  FILES: 'files/:id',
   COURSESECTION: 'activity-template/:id/second-step',
   APPLICANT: 'applicant/:id',
   APPLICATIONFORM: 'application/:id',
@@ -47,6 +48,7 @@ export const MenuItems = [
   'Project',
   'Team',
   'Applicants',
+  'Files',
   'Product Guide',
   'Keyboard Shortcuts'
 ];
@@ -54,7 +56,8 @@ export const menuItemsNavigate = [
   '/dashboard',
   '/project/create',
   '/teams',
-  '/applicants'
+  '/applicants',
+  '/files'
 ];
 
 export const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$/;

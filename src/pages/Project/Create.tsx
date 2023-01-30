@@ -21,7 +21,7 @@ export const CreateProject: React.FC = () => {
 
   const [form] = AsnForm.useForm<ICreateProjectData>();
 
-  const { setProjectId, projectId } = useProject();
+  const { setProjectId, projectId, setProjectName } = useProject();
 
   const [openModal, setModal] = useState<string>('');
 
@@ -29,6 +29,7 @@ export const CreateProject: React.FC = () => {
 
   const onSuccess: ProjectSuccessResponse = (response) => {
     setProjectId(response?.data?.id);
+    setProjectName(response?.data?.title);
     notification.success({
       bottom: 50,
       placement: 'topRight',

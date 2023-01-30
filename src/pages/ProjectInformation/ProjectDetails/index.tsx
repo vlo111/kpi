@@ -6,6 +6,7 @@ import { IProjectDetailsProps } from '../../../types/project';
 
 const AntCol = styled(Col)`
   font-size: var(--base-font-size);
+  word-break: break-all;
 `;
 
 const ProjectDetails: React.FC<IProjectDetailsProps> = ({ title, details }) => {

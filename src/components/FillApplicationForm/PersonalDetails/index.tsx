@@ -42,7 +42,7 @@ const PersonalDetails: React.FC<{ gender: any }> = ({ gender }) => {
         name={['personal_info', 1, 'answers', 0, 'text']}
         rules={[{ required: true, message: 'The field is required' }]}
       >
-        <AsnDatePicker style={{ height: '44px', width: '100%' }} />
+        <AsnDatePicker format="DD/MM/YYYY" style={{ height: '44px', width: '100%' }} />
       </Form.Item>
       <FormText>Region: / Բնակության վայր*</FormText>
       <Form.Item
