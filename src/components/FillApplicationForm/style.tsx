@@ -1,4 +1,3 @@
-// import React from 'react'
 import { Radio, Typography } from 'antd';
 import styled from 'styled-components';
 import { AsnInput } from '../Forms/Input';
@@ -6,10 +5,11 @@ import { AsnInput } from '../Forms/Input';
 export const FormText = styled.span`
   font-size: var(--base-font-size);
 `;
+
 export const SectionTitle = styled(Typography.Title)`
   font-size: var(--headline-font-size) !important;
   color: var(--dark-border-ultramarine) !important;
-  margin: 2rem 0rem 1rem;
+  margin: 2rem 0 1rem;
   display: flex;
   justify-content: space-between;
 `;
@@ -36,16 +36,19 @@ export const DividerLine = styled.span`
   align-items: flex-end;
   width: 100%;
 `;
+
 export const BorderBottomInput = styled(AsnInput)`
   width: auto;
   border: none;
-  border-radius: 0px;
+  border-radius: 0;
   border-bottom: 1px solid var(--dark-border-ultramarine) !important;
   height: 30px;
+
   :hover {
     border: none !important;
     border-bottom: 1px solid var(--dark-border-ultramarine) !important;
   }
+
   :focus {
     border: none !important;
     border-bottom: 1px solid var(--dark-border-ultramarine) !important;
