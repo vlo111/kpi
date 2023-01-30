@@ -72,6 +72,7 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
   const form = AsnForm.useFormInstance();
 
   const onClosedAddVisibleField: Void = () => {
+    setQuestionType('');
     setIsVisibleAddField(false);
     setItem(null);
     form.resetFields();

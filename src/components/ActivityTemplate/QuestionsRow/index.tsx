@@ -12,10 +12,9 @@ import { AsnButton } from '../../Forms/Button';
 import {
   FormFinish,
   Onchange,
-  StringVoidType,
   Void
 } from '../../../types/global';
-import { IQuestionsRow } from '../../../types/project';
+import { ICreatedFieldItem, IQuestionsRow } from '../../../types/project';
 import useDeleteSetting from '../../../api/Activity/Template/Settings/useDeleteSingleSetting';
 import useAddSettingHelpText from '../../../api/Activity/Template/Settings/useAddSettingHelpText';
 import useUpdateSettingStatus from '../../../api/Activity/Template/Settings/useUpdateSettingStatus';
@@ -100,24 +99,24 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
     });
   };
 
-  const onOpenInputClick: StringVoidType = (id) => {
-    if (!rowId.includes(id)) {
-      setRowId([id, ...rowId]);
+  const onOpenInputClick = (item: ICreatedFieldItem): void => {
+    if (!rowId.includes(item.id)) {
+      setRowId([item.id, ...rowId]);
     }
-    if (rowId.length > 0 && rowId.includes(id)) {
-      setRowId(rowId.filter((item) => item !== id));
+    if (rowId.length > 0 && rowId.includes(item.id)) {
+      setRowId(rowId.filter((id) => id !== item.id));
     }
     setOpenPopover(false);
   };
 
-  const onDeletedQuestion: StringVoidType = (id) => {
-    setItemId(id);
+  const onDeletedQuestion = (item: ICreatedFieldItem): void => {
+    setItemId(item.setting.id);
     setIsDeletedFieldModal(true);
     setOpenPopover(false);
   };
 
   const onEditedQuestion: FormFinish = (item) => {
-    if (item?.answerType === 'DROPDOWN') {
+    if (item?.setting.answerType === 'DROPDOWN') {
       setIsVisibleAddField(true);
       setQuestionType('DROPDOWN');
     } else {
@@ -133,6 +132,7 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
   const handleCancel: Void = () => {
     setIsDeletedFieldModal(false);
   };
+
   const handleDelete: Void = () => {
     deleteSettingsById({ id: itemId });
     setIsDeletedFieldModal(false);
@@ -161,33 +161,36 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
     }
   };
 
-  const content: (i: any) => JSX.Element = (item) => (
+  const content: (i: ICreatedFieldItem) => JSX.Element = (item) => {
+    return (
     <Row
-    style={{
-      fontSize: 'var(--font-size-small)',
-      color: 'var(--dark-2)',
-      cursor: 'pointer'
-    }}
-    gutter={[8, 8]}
-  >
-    <Col onClick={() => onOpenInputClick(item)} span={24}>
-      <HelperTextIcon /> Add help text
-    </Col>
-    <Col onClick={() => onEditedQuestion(item)} span={24}>
-      <EditIcon /> Edit
-    </Col>
-    <Col onClick={() => onDeletedQuestion(item)} span={24}>
-      <DeleteIcon /> Delete
-    </Col>
-  </Row>
-  );
-
+      style={{
+        fontSize: 'var(--font-size-small)',
+        color: 'var(--dark-2)',
+        cursor: 'pointer'
+      }}
+      gutter={[8, 8]}
+    >
+      <Col onClick={() => onOpenInputClick(item)} span={24}>
+        <HelperTextIcon /> Add help text
+      </Col>
+      <Col onClick={() => onEditedQuestion(item)} span={24}>
+        <EditIcon /> Edit
+      </Col>
+      <Col onClick={() => onDeletedQuestion(item)} span={24}>
+        <DeleteIcon /> Delete
+      </Col>
+    </Row>
+    );
+  };
   return (
     <Fragment>
       <CourseList>
-        <Row style={{
-          width: '90%'
-        }}>
+        <Row
+          style={{
+            width: '90%'
+          }}
+        >
           <Col
             span={24}
             style={{
@@ -213,17 +216,21 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
                   ))
                 )
               : (
-              <Col style={{
-                color: 'var(--dark-4)',
-                fontSize: 'var(--font-size-small)'
-              }}>
+              <Col
+                style={{
+                  color: 'var(--dark-4)',
+                  fontSize: 'var(--font-size-small)'
+                }}
+              >
                 {item?.setting?.answerType === 'SHORT_TEXT'
                   ? 'Short Text'
                   : item?.setting?.answerType === 'NUMBER'
                     ? 'Number'
                     : item?.setting?.answerType === 'ATTACHMENT'
                       ? 'Attachment'
-                      : item?.setting?.answerType === 'DROPDOWN' ? 'Dropdown options' : ''}
+                      : item?.setting?.answerType === 'DROPDOWN'
+                        ? 'Dropdown options'
+                        : ''}
               </Col>
                 )}
           </Row>
@@ -244,7 +251,7 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
                 title={<span>Add help text</span>}
                 overlayClassName="tooltipHelper"
               >
-                <IconButton onClick={() => onOpenInputClick(item.id)}>
+                <IconButton onClick={() => onOpenInputClick(item)}>
                   <HelperTextIcon />
                 </IconButton>
               </Tooltip>
@@ -252,7 +259,7 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
               : (
               <Popover
                 placement="topLeft"
-                content={() => content(item.id)}
+                content={() => content(item)}
                 trigger="click"
                 overlayClassName="menuPopover"
                 onOpenChange={handleOpenChange}
