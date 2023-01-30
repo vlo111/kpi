@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { InputRef, message, Space, Typography } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ApplicationCard from '../../components/Application/ApplicationCard/Index';
 import { ReactComponent as SuccessIcon } from '../../assets/icons/success.svg';
@@ -25,13 +24,13 @@ import {
   IApplicant,
   IApplicationFormSections,
   IApplicationsOption,
-  IIsAddTermsConditions,
   IResult
 } from '../../types/api/application/applicationForm';
 import FormUrlModal from '../../components/Application/FormUrlModal/Index';
 import { PATHS } from '../../helpers/constants';
 import useSingleApplicationForm from '../../api/ApplicationForm/useGetSingleApplicationForm';
 import useUpdateApplicationForm from '../../api/ApplicationForm/useUpdateApplicationForm';
+import { AsnForm } from '../../components/Forms/Form';
 
 const ApplicationContainer = styled.div`
   margin: 0 auto;
@@ -111,27 +110,20 @@ const Application: React.FC = () => {
     }
   });
 
+  const [form] = AsnForm.useForm();
+
   const [isValidateMessage, setIsValidateMessage] = useState<boolean>(false);
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
-  const [termsConditionsValue, setTermsConditionsValue] = useState<any>();
-  const [applicationData, setApplicationData] = useState<IApplicant>();
+  const [applicationData, setApplicationData] = useState<
+  IApplicant | undefined
+  >();
   const [onlineSignature, setOnlineSignature] = useState<boolean>(true);
   const [formUrlModal, setFormUrlModal] = useState<boolean>(false);
-  const [createdItemInfo, setCreatedItemResponse] = useState<IResult | undefined>();
+  const [createdItemInfo, setCreatedItemResponse] = useState<
+  IResult | undefined
+  >();
   const [deadlineDate, setDeadlineDate] = useState<string>('');
-  const [isAddTermsConditions, setIsAddTermsConditions] = useState<
-  IIsAddTermsConditions[]
-  >([
-    {
-      id: uuidv4(),
-      placeholder: 'Type the agreement text'
-    },
-    {
-      id: uuidv4(),
-      placeholder: 'Type the agreement text'
-    }
-  ]);
   const [isQuestionCardVisible, setIsQuestionCardVisible] = useState<string[]>(
     []
   );
@@ -152,38 +144,16 @@ const Application: React.FC = () => {
     } else {
       setApplicationData(data);
     }
-  }, [singleApplicantData, data]);
+  }, [applicationData]);
 
   useEffect(() => {
     const termsAndConditionsDataParse =
-      applicationData?.termsAndConditions !== undefined
-        ? JSON.parse(applicationData?.termsAndConditions)
-        : [];
-    for (let i = 0; i < termsAndConditionsDataParse.length; ++i) {
-      termsConditionsValue[`condition${i}`] = termsAndConditionsDataParse[i];
-    }
-    setTermsConditionsValue({
-      ...termsConditionsValue
+      applicationData?.termsAndConditions !== undefined &&
+      JSON.parse(applicationData?.termsAndConditions);
+    form.setFieldsValue({
+      conditions: termsAndConditionsDataParse
     });
-
-    setIsAddTermsConditions(
-      termsAndConditionsDataParse.map(() => {
-        return {
-          id: uuidv4(),
-          placeholder: 'Type the agreement text'
-        };
-      })
-    );
   }, [applicationData]);
-
-  const termsConditionsValueArray = useCallback((): string[] => {
-    const termsConditionsArr = [];
-    for (const key in termsConditionsValue) {
-      termsConditionsArr.push(termsConditionsValue[key]);
-    }
-
-    return termsConditionsArr;
-  }, [termsConditionsValue]);
 
   const onPublishClick: Void = () => {
     if (applicationData !== undefined) {
@@ -206,7 +176,9 @@ const Application: React.FC = () => {
         applicationData.successMessage =
           successMessage !== null ? successMessage?.current?.input?.value : '';
         applicationData.termsAndConditions = JSON.stringify(
-          termsConditionsValueArray()
+          form.getFieldValue('conditions') !== undefined
+            ? form.getFieldValue('conditions')
+            : ['', '']
         );
         if (location?.state?.edit === true) {
           updateApplicationForm({
@@ -224,6 +196,26 @@ const Application: React.FC = () => {
           });
         }
       }
+    }
+  };
+
+  const onPreviewClick: Void = () => {
+    if (applicationData !== undefined) {
+      applicationData.termsAndConditions = JSON.stringify(
+        form.getFieldValue('conditions') !== undefined
+          ? form.getFieldValue('conditions')
+          : ['', '']
+      );
+      applicationData.onlineSignature = onlineSignature;
+      setIsOpenCreateActivityModal(true);
+      applicationData.description =
+        formDescription.current !== null
+          ? formDescription?.current?.resizableTextArea?.textArea?.value
+          : '';
+      applicationData.title =
+        formTitle !== null ? formTitle?.current?.input?.value : '';
+      applicationData.successMessage =
+        successMessage !== null ? successMessage?.current?.input?.value : '';
     }
   };
 
@@ -276,14 +268,13 @@ const Application: React.FC = () => {
           />
         )
       )}
-      {termsConditionsValue !== undefined && (
-        <TermsAndCondition
-          isAddTermsConditions={isAddTermsConditions}
-          termsConditionsValue={termsConditionsValue}
-          setTermsConditionsValue={setTermsConditionsValue}
-          setIsAddTermsConditions={setIsAddTermsConditions}
-        />
-      )}
+      <AsnForm
+        name="dynamic_form_nest_item"
+        form={form}
+        autoComplete="off"
+      >
+        <TermsAndCondition />
+      </AsnForm>
       <ConditionCard>
         <span
           style={{
@@ -353,28 +344,7 @@ const Application: React.FC = () => {
         >
           Cancel
         </AsnButton>
-        <AsnButton
-          className="default"
-          onClick={() => {
-            if (applicationData !== undefined) {
-              applicationData.termsAndConditions = JSON.stringify(
-                termsConditionsValueArray()
-              );
-              applicationData.onlineSignature = onlineSignature;
-              setIsOpenCreateActivityModal(true);
-              applicationData.description =
-                formDescription.current !== null
-                  ? formDescription?.current?.resizableTextArea?.textArea?.value
-                  : '';
-              applicationData.title =
-                formTitle !== null ? formTitle?.current?.input?.value : '';
-              applicationData.successMessage =
-                successMessage !== null
-                  ? successMessage?.current?.input?.value
-                  : '';
-            }
-          }}
-        >
+        <AsnButton className="default" onClick={onPreviewClick}>
           Preview
         </AsnButton>
         <AsnButton className="primary" onClick={onPublishClick}>

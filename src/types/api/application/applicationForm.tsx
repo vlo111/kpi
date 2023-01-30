@@ -185,20 +185,6 @@ export interface IFormUrlModal {
   responseIds: IResult | undefined
 }
 
-export interface IIsAddTermsConditions {
-  id?: string
-  placeholder?: string
-}
-
-export interface ITermsAndCondition {
-  setTermsConditionsValue: React.Dispatch<React.SetStateAction<any>>
-  termsConditionsValue: any
-  setIsAddTermsConditions: React.Dispatch<
-  React.SetStateAction<IIsAddTermsConditions[]>
-  >
-  isAddTermsConditions: IIsAddTermsConditions[]
-}
-
 export interface ICardContainer {
   borderTop?: string
   marginTop?: string
