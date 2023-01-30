@@ -1,7 +1,7 @@
 
 export interface SearchApplicants {
-  search: string
-  setSearch: React.Dispatch<React.SetStateAction<string>>
+  filter: string
+  serachData: React.Dispatch<React.SetStateAction<string>>
 }
 export interface DataType {
   key: React.Key
@@ -25,9 +25,17 @@ export interface ApplicatnList {
   refetch: any
   searchAplicant: any
   search: string
+  showNote: any
+  applicantsFilter: any
 
 }
 export interface IListeApplicants {
   data: DataType[]
+
+}
+export interface filterApplicants {
+  valueFilter: any
+  refetch: any
+  onFinish: any
 
 }

@@ -1,12 +1,12 @@
 import React from 'react';
 import { AutoComplete, Space, Typography } from 'antd';
-import { SearchApplicants } from '../applicantsTypes';
+import { SearchApplicants } from './applicantsTypes';
 
 const { Title } = Typography;
 
-const SearchApplicantsList: React.FC<SearchApplicants> = ({ search, setSearch }) => {
-  const onChange = (data: string): void => {
-    setSearch(data);
+const ApplicantsSearch: React.FC<SearchApplicants> = ({ filter, serachData }) => {
+  const onChange = (data: any): void => {
+    serachData(data);
   };
 
   return (
@@ -14,7 +14,7 @@ const SearchApplicantsList: React.FC<SearchApplicants> = ({ search, setSearch })
     <Space size={[15, 0]} style={{ padding: '40px 18px' }}>
 <Title level={4} style={{ color: 'var(--dark-border-ultramarine)' }}>Applicants</Title>
 <AutoComplete
-          value={search}
+          value={filter?.search}
           style={{ width: 300 }}
           onChange={onChange}
           placeholder="Search..."
@@ -24,4 +24,4 @@ const SearchApplicantsList: React.FC<SearchApplicants> = ({ search, setSearch })
   );
 };
 
-export default SearchApplicantsList;
+export default ApplicantsSearch;

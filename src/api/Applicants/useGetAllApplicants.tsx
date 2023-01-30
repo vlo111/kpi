@@ -4,10 +4,10 @@ import client from '../client';
 
 const url = '/api/applicant';
 
-const useAllAplicants: any = (options = { enabled: true }) => {
+const useAllAplicants: any = (params: any, options = { enabled: false }) => {
   const result = useQuery(
     [url],
-    async () => await client.post(url, { limit: 50, offset: 0 }),
+    async () => await client.post(url, params),
     {
       select: (data) => data?.data,
       ...options

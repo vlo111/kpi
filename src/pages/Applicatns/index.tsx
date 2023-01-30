@@ -1,24 +1,56 @@
-import React, { useState } from 'react';
-import ApplicantsDataList from './aplicantsDataTable';
-import SearchApplicantsList from './searchAplicants';
+import React, { useCallback, useEffect, useState } from 'react';
+import ApplicantsSearch from './ApplicantsSearch';
 import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
-import useAllAplicantsSearch from '../../api/Applicants/aseGetApplicantsSearch';
 import { Container } from './applicantsStyle';
+import { useColumn } from './useColumns';
+import { Table } from 'antd';
 
 const ApplicantsData: React.FC = () => {
-  const [search, setSearch] = useState<string>('');
-  const { data: allApplicants, refetch } = useAllAplicants({
-    staleTime: 1000 * 60 * 5
+  const [filter, setFilter] = useState<any>({
+    search: '',
+    limit: 50,
+    offset: 0
   });
-  const { data: searchAplicant } = useAllAplicantsSearch(search, {
-    enabled: (search.length > 2),
-    staleTime: 1000 * 60 * 5
+  const [result, setResult] = useState<any>({ data: [], totalRecords: 0 });
+
+  const { refetch } = useAllAplicants(filter, {
+    onSuccess: (data: any) => {
+      setResult(data);
+    }
   });
+  const column = useColumn();
+  useEffect(() => {
+    refetch();
+  }, [refetch, filter]);
+
+  const serachData = useCallback((val: any) => {
+    setFilter((prevState: any) => ({
+      ...prevState,
+      search: val
+    }));
+  }, [filter]);
+
   return (
     <Container>
-<SearchApplicantsList setSearch={setSearch}
-            search={search}/>
-<ApplicantsDataList search={search} allApplicants={allApplicants} searchAplicant={searchAplicant} refetch={refetch}/>
+<ApplicantsSearch filter={filter} serachData={serachData}/>
+<Table
+        columns={column}
+        dataSource={result?.result}
+        rowClassName={(record, index) =>
+          index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
+        }
+        onRow={(record) => {
+          return {
+            onClick: event => {
+              // showDrawer(record?.key);
+              // navigate(
+              //    `/applicant/${record?.key}`
+              // );
+            }
+          };
+        }}
+      />
+
 </Container>
   );
 };
