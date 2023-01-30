@@ -80,12 +80,21 @@ any,
 ResponseErrorParam,
 ICreateApplicationForm
 >;
+
+export type DuplicateApplicationFormType = UseMutation<
+Void,
+any,
+ResponseErrorParam,
+IOnlyId
+>;
+
 export type DeleteApplicationForm = UseMutation<
 Void,
 any,
 ResponseErrorParam,
 IOnlyId
 >;
+
 export type UpdateApplicationStatus = UseMutation<
 Void,
 any,

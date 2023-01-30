@@ -75,8 +75,6 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
     setAnswerTypeValue(value);
   };
 
-  console.log(singleQuestionData, 'singleQuestionData');
-
   useEffect(() => {
     if (singleQuestionData !== undefined) {
       form.setFieldsValue({
