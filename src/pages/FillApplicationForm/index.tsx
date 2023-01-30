@@ -43,13 +43,16 @@ const FormText = styled.span`
 `;
 
 const concatRelatedAnswers: ConcatAnswers = (items, educationQuestion) => {
-  const relatedQuestions: IRelatedQuestion[] = items.questions.map((q: IQuestion) => q.relatedQuestions).filter((f: IRelatedQuestion[]) => f.length).flat();
+  const relatedQuestions: IRelatedQuestion[] = items.questions
+    .map((q: IQuestion) => q.relatedQuestions)
+    .filter((f: IRelatedQuestion[]) => f.length)
+    .flat();
 
-  const rq = getAnswers(relatedQuestions);
+  const relatedQuestionAnswer = getAnswers(relatedQuestions);
 
   const key = Object.keys(educationQuestion)[0];
 
-  educationQuestion[key] = educationQuestion[key].concat(rq);
+  educationQuestion[key] = educationQuestion[key].concat(relatedQuestionAnswer);
 };
 
 const FillApplicationForm: React.FC = () => {
@@ -92,10 +95,10 @@ const FillApplicationForm: React.FC = () => {
       concatRelatedAnswers(otherInfo, otherInfoQuestion);
 
       const questions = {
-        // [personalDetails.keyName]: getAnswers(personalDetails.questions),
-        ...educationQuestion
-        // ...otherInfoQuestion,
-        // [personalInfo.keyName]: getAnswers(personalInfo.questions)
+        [personalDetails.keyName]: getAnswers(personalDetails.questions),
+        ...educationQuestion,
+        ...otherInfoQuestion,
+        [personalInfo.keyName]: getAnswers(personalInfo.questions)
       };
 
       console.log(questions);
@@ -121,11 +124,15 @@ const FillApplicationForm: React.FC = () => {
       <AsnForm form={form} onFinish={onFinish} autoComplete="off">
         <FormTitle>{title}</FormTitle>
         <FormText>{description}</FormText>
-        <ApplicationForm sections={applicationFormSections} terms={termsAndConditions} online={onlineSignature} />
+        <ApplicationForm
+          sections={applicationFormSections}
+          terms={termsAndConditions}
+          online={onlineSignature}
+        />
         <AsnButton
           className="primary"
           htmlType="submit"
-          style={{ width: 'clamp(12.5rem,12vw,24rem)' }}
+          style={{ width: 'clamp(8.5rem, 7vw, 24rem)', float: 'right' }}
         >
           Publish
         </AsnButton>

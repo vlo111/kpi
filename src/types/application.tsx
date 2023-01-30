@@ -1,4 +1,5 @@
 import { IAnswer, IApplicationFormSections, IQuestion, IRelatedQuestion } from './api/application/applicationForm';
+import { Rule } from 'eslint';
 
 export interface IFormAnswer {
   id: string
@@ -33,7 +34,7 @@ export interface IApplicationFormProps {
 export interface ISection {
   title: string
   index: number
-  required: boolean
+  rules: Array<{ required: boolean, message: string }>
 }
 
 export interface ISectionProps extends ISection {
@@ -42,8 +43,30 @@ export interface ISectionProps extends ISection {
 
 export interface ISectionCheckProps extends ISectionProps {
   otherOption: boolean
+  formName?: string
+  relatedQuestions?: IRelatedQuestion[]
 }
 
 export interface IFormQuestion { [p: string]: IAnswerProps[] }
 
 export type ConcatAnswers = (items: IApplicationFormSections, educationQuestion: IFormQuestion) => void
+
+export interface IApplicationForm {
+  sections: IApplicationFormSections[]
+  terms: string | undefined
+  online: boolean | undefined
+}
+
+export interface IApplicationFormItems {
+  name: string
+  title: string
+  description: string
+  section: IApplicationFormSections
+}
+
+export type RenderQuestionForm = (
+  keyName: string,
+  answerType: string,
+  index: number,
+  props: any
+) => JSX.Element;
