@@ -4,20 +4,21 @@ import client from '../client';
 
 const url = '/api/file/project/:id/all';
 
-const useGetAllFile: any = (id: string, options = { enabled: true }) => {
+const useGetAllFile: any = (id: string, offset: number, limit: number, options = { enabled: true }) => {
   const result = useQuery(
     [url, id],
-    async () => await client.get(url.replace(':id', id)),
+    async () => await client.get(url.replace(':id', id), { params: { offset, limit } }),
     {
       select: (data) => data?.data,
       ...options
     }
   );
-  const { data, isSuccess, isLoading } = result;
+  const { data, isSuccess, isLoading, isFetching } = result;
   return {
     ...result,
     data: isSuccess ? data : [],
-    isLoading
+    isLoading,
+    isFetching
   };
 };
 
