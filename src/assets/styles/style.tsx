@@ -27,6 +27,8 @@ const GlobalStyle = createGlobalStyle`
     --white: #FFFFFF;
     --background: #F9FCFF;
     --background-auth: rgb(249, 252, 255);
+    --background-active-pagination: rgba(0, 0, 0, 0.09);
+    --active-pagination: rgba(0, 0, 0, 0.87);
     
     --tooltip-color: #2C5477;
     
