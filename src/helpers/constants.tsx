@@ -153,3 +153,9 @@ export enum SectionName {
   otherInfo = 'other_info',
   professionalInfo = 'professional_info',
 }
+
+export const defaultLimit = {
+  offset: 0,
+  limit: 24,
+  currentPage: 1
+};
