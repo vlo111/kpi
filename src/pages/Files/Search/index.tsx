@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AutoComplete } from 'antd';
 import styled from 'styled-components';
 import { isEmpty } from 'lodash';
 
-import AsnSpin from '../../../components/Forms/Spin';
+import { defaultLimit } from '../../../helpers/constants';
 import DataResult from '../DataResult';
-import { ISearchImport } from '../../../types/files';
+import { ISearchImport, IPaginate, ICourseFiles, IFiles } from '../../../types/files';
 import useDeleteFile from '../../../api/Files/useDeleteFile';
 import useGetAllSearchFile from '../../../api/Files/useGetSearchAllFile';
 import useGetSearchCourseFile from '../../../api/Files/useGetSearchCourseFile';
@@ -14,6 +14,8 @@ import useGetSearchCourseFile from '../../../api/Files/useGetSearchCourseFile';
 const SearchImportData = styled.div`
   width: 100%;
   background-color: white;
+  position: relative;
+  padding-bottom: 50px;
   .ant-select-show-search.ant-select:not(.ant-select-customize-input)
     .ant-select-selector {
     border-radius: 10px;
@@ -43,66 +45,129 @@ export interface projectFilesUploadFormProps {
   handleUpdateAndNext: (updateProjectDetails: () => void) => void
   handleBack: () => void
 }
-export const SearchImport: React.FC<ISearchImport> = ({ files, courseFiles, courseId, refetch, search, setSearch, folderFiles, folderId, isFetchingFolderFiles, folderName, setFolderId, setFolderName, refetchFolderFiles, refetchAllFiles }) => {
-  const onChange = (data: string): void => {
-    setSearch(data);
-  };
-  const { id } = useParams();
-  const { data: allfileSearch } = useGetAllSearchFile(id, search, {
-    enabled: (search.length > 2 && (courseId === null || courseId === '')),
-    staleTime: 1000 * 60 * 5
-  });
-  const { data: { result: searchFilesCourse }, isFetching: isFetchingSearchCourseFiles } = useGetSearchCourseFile(courseId, search, { enabled: (Boolean(courseId) && search.length > 2), staleTime: 1000 * 60 * 5 });
+export const SearchImport: React.FC<ISearchImport> =
+  ({
+    files,
+    courseFiles,
+    courseId,
+    refetch,
+    search,
+    setSearch,
+    folderFiles,
+    folderId,
+    isFetchingFolderFiles,
+    folderName,
+    setFolderId,
+    setFolderName,
+    refetchFolderFiles,
+    refetchAllFiles,
+    setPaginate,
+    filesCount,
+    currentPage,
+    isFetchingAllFiles,
+    isFetchingCourseFiles
+  }) => {
+    const [searchPaginate, setSearchPaginate] = useState<IPaginate>(defaultLimit);
+    const { id } = useParams();
+    const { limit, offset, currentPage: searchCurrentPage } = searchPaginate;
 
-  const [open, setOpen] = useState<string>('');
-
-  const { mutate: DeleteFile } = useDeleteFile({});
-
-  const onRemoveFile = (name: any): void => {
-    DeleteFile(name, {
-      onSuccess: () => {
-        if (courseId !== null && folderId !== '') {
-          refetchFolderFiles();
-        }
-        if (courseId !== null && folderId === '') {
-          refetch();
-        }
-        if (courseId === null && folderId === '') {
-          refetchAllFiles();
-        }
-      }
+    const { data: allfileSearch, isFetching: isFetchingAllFilesSearch, refetch: refetchAllFilesSearch } = useGetAllSearchFile(id, search, offset, limit, {
+      enabled: ((search !== undefined) && search.length > 2 && (courseId === null || courseId === '')),
+      staleTime: 1000 * 60 * 5
     });
-  };
-  if (isFetchingSearchCourseFiles === true) {
-    return <AsnSpin />;
-  }
-  return (
-    <SearchImportData>
-      {(folderId === '') && <Search>
-        <AutoComplete
-          value={search}
-          style={{ width: 300 }}
-          onChange={onChange}
-          placeholder="Search..."
-        />
-      </Search>
+    const { data: { result: searchFilesCourse }, isFetching: isFetchingSearchCourseFiles } =
+      useGetSearchCourseFile(
+        courseId,
+        search,
+        {
+          enabled: (Boolean(courseId) && (search !== undefined) && search.length > 2),
+          staleTime: 1000 * 60 * 5
+        });
+
+    const { mutate: DeleteFile } = useDeleteFile({});
+    const onChange = (data: string): void => {
+      setSearch(data);
+      if (courseId === null) {
+        setSearchPaginate({
+          offset: 0,
+          limit: 24,
+          currentPage: 1
+        });
       }
-      <UploadModal>
-        <DataResult
-          fileList={allfileSearch?.result?.length >= 0 ? allfileSearch?.result : (!isEmpty(courseFiles) && folderId === '' && (search.length <= 2)) ? courseFiles : folderId !== '' ? folderFiles : (search.length > 2) ? searchFilesCourse : files }
-          open={open}
-          setOpen={setOpen}
-          onRemoveFile={onRemoveFile}
-          courseId={courseId}
-          refetch={refetch}
-          isFetchingFolderFiles={isFetchingFolderFiles}
-          folderId={folderId}
-          folderName={folderName}
-          setFolderId={setFolderId}
-          setFolderName={setFolderName}
-          refetchFolderFiles={refetchFolderFiles}
-        />
-      </UploadModal>
-    </SearchImportData>
-  );
-};
+    };
+    const onRemoveFile = (name: string | undefined): void => {
+      DeleteFile(name, {
+        onSuccess: () => {
+          if (courseId !== null && folderId !== '') {
+            void refetchFolderFiles();
+            void refetchAllFiles();
+          }
+          if (courseId !== null && folderId === '') {
+            void refetch();
+            void refetchAllFiles();
+          }
+          if (courseId === null && folderId === '') {
+            void refetchAllFiles();
+          }
+        }
+      });
+    };
+    const filterSendingData = (): ICourseFiles | IFiles[] => {
+      if (allfileSearch?.result?.length >= 0 && (courseId === '' || courseId === null)) {
+        return allfileSearch?.result;
+      } else if ((!isEmpty(courseFiles) && folderId === '' && ((search !== undefined) && search.length <= 2))) {
+        return courseFiles;
+      } else if (folderId !== '') {
+        return folderFiles;
+      } else if (((search !== undefined) && search.length > 2)) {
+        return searchFilesCourse;
+      } else {
+        return files;
+      }
+    };
+
+    useEffect(() => {
+      if (search.length > 2 && courseId === null) {
+        void refetchAllFilesSearch();
+      }
+    }, [offset, limit, search]);
+    return (
+      <SearchImportData>
+        {(folderId === '') && <Search>
+          <AutoComplete
+            value={search}
+            style={{ width: 300 }}
+            onChange={onChange}
+            placeholder="Search..."
+          />
+        </Search>
+        }
+        <UploadModal>
+          <DataResult
+            fileList={filterSendingData()}
+            onRemoveFile={onRemoveFile}
+            courseId={courseId}
+            refetch={refetch}
+            isFetchingFolderFiles={isFetchingFolderFiles}
+            folderId={folderId}
+            folderName={folderName}
+            setFolderId={setFolderId}
+            setFolderName={setFolderName}
+            refetchFolderFiles={refetchFolderFiles}
+            isFetchingAllFilesSearch={isFetchingAllFilesSearch}
+            isFetchingSearchCourseFiles={isFetchingSearchCourseFiles}
+            setPaginate={setPaginate}
+            filesCount={filesCount}
+            refetchAllFiles={refetchAllFiles}
+            setSearchPaginate={setSearchPaginate}
+            search={search}
+            allFilesSearchCount={allfileSearch?.count}
+            currentPage={currentPage}
+            searchCurrentPage={searchCurrentPage}
+            isFetchingAllFiles={isFetchingAllFiles}
+            isFetchingCourseFiles={isFetchingCourseFiles}
+          />
+        </UploadModal>
+      </SearchImportData>
+    );
+  };

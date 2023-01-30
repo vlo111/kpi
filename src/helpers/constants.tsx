@@ -138,3 +138,9 @@ export const regions: string[] = [
   'Tavush/Տավուշ',
   'Vayots Dzor/Վայոց Ձոր'
 ];
+
+export const defaultLimit = {
+  offset: 0,
+  limit: 24,
+  currentPage: 1
+};

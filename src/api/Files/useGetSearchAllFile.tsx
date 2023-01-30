@@ -4,19 +4,20 @@ import client from '../client';
 
 const url = '/api/file/project/:id/all';
 
-const useGetAllSearchFile: any = (id: string, search: string, options = { enabled: true }) => {
+const useGetAllSearchFile: any = (id: string, search: string, offset: number, limit: number, options = { enabled: true }) => {
   const result = useQuery(
     [url, id, search],
-    async () => await client.get(url.replace(':id', id), { params: { offset: 0, limit: 50, search } }),
+    async () => await client.get(url.replace(':id', id), { params: { offset, limit, search } }),
     {
       select: (data) => data?.data,
       ...options
     }
   );
-  const { data, isSuccess } = result;
+  const { data, isSuccess, isFetching } = result;
   return {
     ...result,
-    data: isSuccess ? data : []
+    data: isSuccess ? data : [],
+    isFetching
   };
 };
 
