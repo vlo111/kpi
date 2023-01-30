@@ -1,6 +1,6 @@
 
 export interface SearchApplicants {
-  filter: string
+  filters: string
   serachData: React.Dispatch<React.SetStateAction<string>>
 }
 export interface DataType {

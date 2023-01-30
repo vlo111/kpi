@@ -4,7 +4,7 @@ import { SearchApplicants } from './applicantsTypes';
 
 const { Title } = Typography;
 
-const ApplicantsSearch: React.FC<SearchApplicants> = ({ filter, serachData }) => {
+const ApplicantsSearch: React.FC<SearchApplicants> = ({ filters, serachData }) => {
   const onChange = (data: any): void => {
     serachData(data);
   };
@@ -14,7 +14,7 @@ const ApplicantsSearch: React.FC<SearchApplicants> = ({ filter, serachData }) =>
     <Space size={[15, 0]} style={{ padding: '40px 18px' }}>
 <Title level={4} style={{ color: 'var(--dark-border-ultramarine)' }}>Applicants</Title>
 <AutoComplete
-          value={filter?.search}
+          value={filters?.search}
           style={{ width: 300 }}
           onChange={onChange}
           placeholder="Search..."

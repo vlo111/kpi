@@ -6,14 +6,14 @@ import { useColumn } from './useColumns';
 import { Table } from 'antd';
 
 const ApplicantsData: React.FC = () => {
-  const [filter, setFilter] = useState<any>({
+  const [filters, setFilter] = useState<any>({
     search: '',
     limit: 50,
     offset: 0
   });
   const [result, setResult] = useState<any>({ data: [], totalRecords: 0 });
 
-  const { refetch } = useAllAplicants(filter, {
+  const { refetch } = useAllAplicants(filters, {
     onSuccess: (data: any) => {
       setResult(data);
     }
@@ -21,18 +21,18 @@ const ApplicantsData: React.FC = () => {
   const column = useColumn();
   useEffect(() => {
     refetch();
-  }, [refetch, filter]);
+  }, [refetch, filters]);
 
-  const serachData = useCallback((val: any) => {
+  const serachData = useCallback((search: any) => {
     setFilter((prevState: any) => ({
       ...prevState,
-      search: val
+      search
     }));
-  }, [filter]);
+  }, [filters]);
 
   return (
     <Container>
-<ApplicantsSearch filter={filter} serachData={serachData}/>
+<ApplicantsSearch filters={filters} serachData={serachData}/>
 <Table
         columns={column}
         dataSource={result?.result}
