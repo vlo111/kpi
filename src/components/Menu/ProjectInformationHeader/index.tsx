@@ -34,6 +34,15 @@ const AntIcon = styled(Icon)`
     font-size: var(--font-size-base-medium);
   }
 `;
+const AntCol = styled(Col)`
+  color: var(--dark-border-ultramarine);
+  font-size : var(--headline-font-size);
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 const { Text } = Typography;
 const ProjectInformationHeader: React.FC<IInfoHeader> = ({
   overview,
@@ -48,15 +57,11 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
     <Row style={{ padding }}>
       <Col span={24}>
         <Row gutter={[16, 0]}>
-            <Col
+            <AntCol
               span={4}
-              style={{
-                color: 'var(--dark-border-ultramarine)',
-                fontSize: 'var(--headline-font-size)'
-              }}
             >
               {project?.title ?? activity?.title}
-            </Col>
+            </AntCol>
           <Col span={14} offset={1} style={{ color: 'var(--dark-1)' }}>
             { project?.description ?? activity?.data?.description}
             <Row align="middle" style={{ marginTop: '20px' }}>

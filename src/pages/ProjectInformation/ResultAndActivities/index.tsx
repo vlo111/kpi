@@ -15,6 +15,7 @@ const DividerAnt = styled(Divider)`
 
 const AntCol = styled(Col)`
   font-size: var(--base-font-size);
+  word-break: break-all;
 `;
 
 const ResultAndActivities: React.FC<IProjectExpectedResults> = ({ code, statement, target, divider }) => {
