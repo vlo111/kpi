@@ -19,7 +19,6 @@ export interface IDraggerProps {
   text?: string | undefined
   padding?: string | undefined
   defaultFileList?: any
-  // setFileList?: React.Dispatch<React.SetStateAction<string[] | undefined>>
   setFileList?: any
   docType?: string
   onRemoveFile?: any
@@ -93,6 +92,15 @@ export interface IAttachFileSubActivity {
   }
 }
 
+export interface ICreateSubActivityTypes {
+  InputActivityId?: string | undefined
+  templateId?: string
+  projectId?: string | undefined
+  refetch?: any
+  openCreateSubActivity: boolean
+  setOpenCreateSubActivity: React.Dispatch<React.SetStateAction<boolean>>
+}
+
 export interface IManagerType {
   manager: {
     email: string
@@ -112,7 +120,6 @@ export interface ICreateSubActivityProps {
   edit?: boolean
   activeTab: string
   setActiveTab: React.Dispatch<React.SetStateAction<string>>
-  initialValues?: any
   onFinish?: any
   onFinishFailed?: any
   attachments?: any
@@ -148,6 +155,12 @@ export interface ICustomInputs {
   name: Array<string | number>
   UploadDoc: any
   attachments: IAttachmentSetting[]
+}
+
+export interface ICourseInfoCardTypes {
+  title: string
+  id: string | undefined
+  refetch?: any
 }
 
 export type AttachFileSubActivity = UseMutation<Void, any, ResponseErrorParam, IAttachFileSubActivity>;

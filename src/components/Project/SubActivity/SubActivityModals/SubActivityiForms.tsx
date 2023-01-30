@@ -44,11 +44,6 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
   const { Option } = Select;
   const options = ['Offline', 'Online', 'Blended'];
 
-  console.log(
-    form.getFieldsValue(),
-    'getFieldsValuegetFieldsValuegetFieldsValuegetFieldsValue'
-  );
-
   return (
     <CreateSubActivity
       open={openCreateSubActivity}
@@ -141,7 +136,7 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
         </AsnForm.Item>
         <AsnForm.Item name="sector" label="Sector" rules={[{ required: true }]}>
           <AsnSelect suffixIcon={<ArrowSvg />}>
-            {sectors?.map((sector: any, i: number) => (
+            {sectors?.map((sector, i: number) => (
               <Option key={i} value={sector?.id}>
                 {sector?.title}
               </Option>
@@ -150,7 +145,7 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
         </AsnForm.Item>
         <AsnForm.Item name="region" label="Region" rules={[{ required: true }]}>
           <AsnSelect suffixIcon={<ArrowSvg />}>
-            {regions?.map((region: any, i: number) => (
+            {regions?.map((region, i: number) => (
               <Option key={i} value={region?.id}>
                 {region?.title}
               </Option>

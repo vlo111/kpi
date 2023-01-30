@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select, Upload, UploadFile } from 'antd';
+import { Select, Upload } from 'antd';
 
 import { ReactComponent as UploadDocument } from '../SubActivityIcons/upload-docs.svg';
 import { ReactComponent as ArrowSvg } from '../SubActivityIcons/arrow.svg';
@@ -90,18 +90,8 @@ const CustomInputs: React.FC<ICustomInputs> = ({
                                 }
                               );
                             }}
-                            onRemove={(file: UploadFile) => {
-                              const files = form.getFieldValue([
-                                'sectionsData',
-                                name[0],
-                                name[1],
-                                input.name,
-                                'ATTACHMENT'
-                              ]);
-                              const filteredFiles = files.filter(
-                                (item: { id: string }) => item.id !== file.uid
-                              );
-                              if (file.originFileObj === undefined) {
+                            onChange={(info) => {
+                              if (info.file.originFileObj === undefined && info.file.status === 'removed') {
                                 form.setFieldValue(
                                   [
                                     'sectionsData',
@@ -110,19 +100,7 @@ const CustomInputs: React.FC<ICustomInputs> = ({
                                     input.name,
                                     'ATTACHMENT'
                                   ],
-                                  [...[]]
-                                );
-                              } else {
-                                form.setFieldValue(
-                                  [
-                                    'sectionsData',
-                                    name[0],
-                                    name[1],
-                                    input.name,
-                                    'ATTACHMENT',
-                                    0
-                                  ],
-                                  [...filteredFiles]
+                                  undefined
                                 );
                               }
                             }}

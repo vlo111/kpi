@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 import { Void } from '../../../types/global';
 import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg';
-// import CreateSubActivityModal from '../../../components/Project/SubActivity/SubActivityModals/CreateModal';
 import EditSubCourse from '../../../components/Project/SubActivity/SubActivityModals/Edit';
+import { ICourseInfoCardTypes } from '../../../types/api/activity/subActivity';
 
 const { Title } = Typography;
 const AntTitle = styled(Title)`
@@ -19,7 +19,7 @@ const AntTitle = styled(Title)`
   }
 `;
 
-const CardTitle: React.FC<{ title: string, id: string | undefined, refetch?: any }> = ({
+const CardTitle: React.FC<ICourseInfoCardTypes> = ({
   title,
   id,
   refetch

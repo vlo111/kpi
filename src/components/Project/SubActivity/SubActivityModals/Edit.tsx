@@ -10,8 +10,9 @@ import AsnSpin from '../../../Forms/Spin';
 import SubActivityForm from './SubActivityiForms';
 import GetSingleSubActivity from '../../../../api/Activity/SubActivity/useGetSingleSubActivity';
 import useUpdateSubActivity from '../../../../api/Activity/SubActivity/useUpdateSubActivity';
+import { ICreateSubActivityTypes } from '../../../../types/api/activity/subActivity';
 
-const EditSubCourse: React.FC<any> = ({
+const EditSubCourse: React.FC<ICreateSubActivityTypes> = ({
   InputActivityId,
   projectId,
   refetch,
@@ -75,7 +76,7 @@ const EditSubCourse: React.FC<any> = ({
                 title: values.sectionsData[i].title,
                 order: section?.order,
                 partner_organization:
-                values.sectionsData[i].partner_organization,
+                  values.sectionsData[i].partner_organization,
                 description: values.sectionsData[i].description,
                 teachingMode: values.sectionsData[i].teaching_mode,
                 startDate: moment(values.sectionsData[i].startDate).format(),
@@ -88,18 +89,12 @@ const EditSubCourse: React.FC<any> = ({
                       ATTACHMENT: string
                     }) =>
                       item?.setting?.answerType === 'ATTACHMENT' &&
-                    item?.ATTACHMENT !== undefined
+                      item?.ATTACHMENT !== undefined
                   )
-                  .map((item: any) => {
-                    if (item?.ATTACHMENT.length > 0) {
-                      return {
-                        file: item?.ATTACHMENT[0]?.type,
-                        keyname: item?.ATTACHMENT[0]?.keyName
-                      };
-                    } else {
-                      return [];
-                    }
-                  })
+                  .map((item: any) => ({
+                    file: item?.ATTACHMENT[0]?.type,
+                    keyname: item?.ATTACHMENT[0]?.keyName
+                  }))
               };
             }
           )
@@ -124,25 +119,6 @@ const EditSubCourse: React.FC<any> = ({
               startDate: moment(values.startDate).format(),
               endDate: moment(values.endDate).format(),
               customInputs: values.sectionsData[i].customInputs,
-              // files: values.sectionsData[i].customInputs
-              //   .filter(
-              //     (item: {
-              //       setting: { answerType: string }
-              //       ATTACHMENT: string
-              //     }) =>
-              //       item?.setting?.answerType === 'ATTACHMENT' &&
-              //   item?.ATTACHMENT !== undefined
-              //   )
-              //   .map((item: any) => {
-              //     if (item?.ATTACHMENT.length > 0) {
-              //       return {
-              //         file: item?.ATTACHMENT[0]?.type,
-              //         keyname: item?.ATTACHMENT[0]?.keyName
-              //       };
-              //     } else {
-              //       return [];
-              //     }
-              //   })
               files: values.sectionsData[i].customInputs
                 .filter(
                   (item: {
@@ -150,7 +126,7 @@ const EditSubCourse: React.FC<any> = ({
                     ATTACHMENT: string
                   }) =>
                     item?.setting?.answerType === 'ATTACHMENT' &&
-                  item?.ATTACHMENT !== undefined
+                    item?.ATTACHMENT !== undefined
                 )
                 .map((item: any) => ({
                   file: item?.ATTACHMENT[0]?.type,

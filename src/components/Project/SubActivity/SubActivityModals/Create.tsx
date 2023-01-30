@@ -5,7 +5,7 @@ import useCreateSubActivity from '../../../../api/Activity/SubActivity/useCreate
 import getSingleTemplate from '../../../../api/Activity/Template/useGetSingleActivityTemplate';
 import { PATHS } from '../../../../helpers/constants';
 import { useAuth } from '../../../../hooks/useAuth';
-import { ICourseSettingMap } from '../../../../types/api/activity/subActivity';
+import { ICourseSettingMap, ICreateSubActivityTypes } from '../../../../types/api/activity/subActivity';
 import { IUser } from '../../../../types/auth';
 import { FormFinish } from '../../../../types/global';
 import { AsnForm } from '../../../Forms/Form';
@@ -13,7 +13,7 @@ import AsnSpin from '../../../Forms/Spin';
 import moment from 'moment';
 import SubActivityForm from './SubActivityiForms';
 
-const CreateSubCourse: React.FC<any> = ({
+const CreateSubCourse: React.FC<ICreateSubActivityTypes> = ({
   templateId,
   openCreateSubActivity,
   setOpenCreateSubActivity
@@ -129,6 +129,8 @@ const CreateSubCourse: React.FC<any> = ({
           }
         )
       };
+      console.log(requestBody, 'requestBody one');
+
       createSubActivity(requestBody);
     }
   };
