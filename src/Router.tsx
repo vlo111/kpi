@@ -34,6 +34,7 @@ import { FileHeader } from './pages/Files/Header';
 import Applicant from './pages/Applicant';
 import Application from './pages/Application';
 import FillApplicationForm from './pages/FillApplicationForm';
+import AssessMentForm from './pages/FillAssessmentForm';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -74,6 +75,7 @@ export const router = createBrowserRouter(
       <Route path={PATHS.ERROR_500} element={<ErrorBoundary />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
       <Route path={PATHS.CONFIRMATION} element={<Confirmation />} />
+      <Route path={PATHS.ASSESSMENTFORM} element={<AssessMentForm />} />
     </>
   )
 );
