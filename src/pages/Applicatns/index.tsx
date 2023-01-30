@@ -6,7 +6,7 @@ import { useColumn } from './useColumns';
 import { Table } from 'antd';
 
 const ApplicantsData: React.FC = () => {
-  const [filters, setFilter] = useState<any>({
+  const [filters, setFilters] = useState<any>({
     search: '',
     limit: 50,
     offset: 0
@@ -24,7 +24,7 @@ const ApplicantsData: React.FC = () => {
   }, [refetch, filters]);
 
   const serachData = useCallback((search: any) => {
-    setFilter((prevState: any) => ({
+    setFilters((prevState: any) => ({
       ...prevState,
       search
     }));
