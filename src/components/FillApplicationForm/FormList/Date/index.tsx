@@ -3,14 +3,14 @@ import { AsnForm } from '../../../Forms/Form';
 import { ISection } from '../../../../types/application';
 import { AsnDatePicker } from '../../../Forms/DatePicker';
 
-const SectionDate: React.FC<ISection> = ({ index, title }) => {
+const SectionDate: React.FC<ISection> = ({ index, title, rules }) => {
   return (
     <AsnForm.Item
       key={index}
       name={[index, 'answers', 0, 'text']}
       label={title}
       labelCol={ { span: 24 }}
-      rules={[{ required: true, message: 'The field is required' }]}
+      rules={rules}
     >
       <AsnDatePicker
         format="DD/MM/YYYY"

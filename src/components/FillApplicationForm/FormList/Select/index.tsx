@@ -20,14 +20,15 @@ const AntSelect = styled(AsnSelect)`
 const SectionSelect: React.FC<ISectionProps> = ({
   title,
   answers,
-  index
+  index,
+  rules
 }) => {
   return (<AsnForm.Item
     key={index}
     label={title}
     labelCol={ { span: 24 }}
     name={[index, 'answers', 0, 'id']}
-    rules={[{ required: true, message: 'The field is required' }]}
+    rules={rules}
   >
     <AntSelect>
       {answers.map((item: IAnswer) => (
