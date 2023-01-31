@@ -229,7 +229,6 @@ export interface ILearningStatusData {
   sections: object[]
   status: string
   title: string
-
 }
 
 export interface ISetting {

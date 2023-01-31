@@ -1,6 +1,8 @@
 import { message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import moment from 'moment';
+
 import useCreateSubActivity from '../../../../api/Activity/SubActivity/useCreateSubActivity';
 import getSingleTemplate from '../../../../api/Activity/Template/useGetSingleActivityTemplate';
 import { PATHS } from '../../../../helpers/constants';
@@ -10,7 +12,6 @@ import { IUser } from '../../../../types/auth';
 import { FormFinish } from '../../../../types/global';
 import { AsnForm } from '../../../Forms/Form';
 import AsnSpin from '../../../Forms/Spin';
-import moment from 'moment';
 import SubActivityForm from './SubActivityiForms';
 
 const CreateSubCourse: React.FC<ICreateSubActivityTypes> = ({
@@ -69,7 +70,7 @@ const CreateSubCourse: React.FC<ICreateSubActivityTypes> = ({
                 sectionId: section?.id,
                 title: values.sectionsData[i].title,
                 partner_organization:
-                  values.sectionsData[i].partner_organization,
+                values.sectionsData[i].partner_organization,
                 description: values.sectionsData[i].description,
                 teachingMode: values.sectionsData[i].teaching_mode,
                 startDate: moment(values.sectionsData[i].startDate).format(),
@@ -87,7 +88,12 @@ const CreateSubCourse: React.FC<ICreateSubActivityTypes> = ({
                   .map((item: any) => ({
                     file: item?.ATTACHMENT[0]?.type,
                     keyname: item?.ATTACHMENT[0]?.keyName
-                  }))
+                  })),
+                durationInfo: {
+                  duration: values.sectionsData[i]?.duration,
+                  duration_soft_number: values.sectionsData[i]?.duration_soft_number ?? 0,
+                  duration_technical_number: values.sectionsData[i]?.duration_technical_number ?? 0
+                }
               };
             }
           )
@@ -124,13 +130,16 @@ const CreateSubCourse: React.FC<ICreateSubActivityTypes> = ({
                   file: item?.ATTACHMENT[0]?.type,
                   keyname: item?.ATTACHMENT[0]?.keyName
                 })),
-              customInputs: values.sectionsData[i].customInputs
+              customInputs: values.sectionsData[i].customInputs,
+              durationInfo: {
+                duration: values.sectionsData[i]?.duration,
+                duration_soft_number: values.sectionsData[i]?.duration_soft_number ?? 0,
+                duration_technical_number: values.sectionsData[i]?.duration_technical_number ?? 0
+              }
             };
           }
         )
       };
-      console.log(requestBody, 'requestBody one');
-
       createSubActivity(requestBody);
     }
   };
@@ -152,9 +161,6 @@ const CreateSubCourse: React.FC<ICreateSubActivityTypes> = ({
   useEffect(() => {
     if (subActivity !== undefined) {
       form.setFieldsValue({
-        duration_soft_number: 18,
-        duration_technical_number: 18,
-        duration: 36,
         files: [],
         sectionsData: Array(subActivity?.sections?.length).fill({
           customInputs: attachments.map((item: any) => ({
@@ -165,7 +171,10 @@ const CreateSubCourse: React.FC<ICreateSubActivityTypes> = ({
               title: item?.setting?.title,
               data: item?.setting?.data
             }
-          }))
+          })),
+          duration_soft_number: 18,
+          duration_technical_number: 18,
+          duration: 36
         })
       });
     }

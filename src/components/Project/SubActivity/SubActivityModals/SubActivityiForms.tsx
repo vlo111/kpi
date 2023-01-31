@@ -180,7 +180,6 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
                 ))}
               </AsnSelect>
             </AsnForm.Item>
-            <Duration />
             <AsnForm.List name="sectionsData">
               {(fields) => (
                 <>
@@ -188,6 +187,7 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
                     (field) =>
                       field.key === 0 && (
                         <div key={0}>
+                          <Duration sectionIndex={field.key}/>
                           <CustomInputs
                             name={[0, 'customInputs']}
                             attachments={attachments}

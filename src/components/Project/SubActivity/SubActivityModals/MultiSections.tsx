@@ -85,7 +85,7 @@ const MultiSections: React.FC<IMultiSections> = ({
                           ))}
                         </AsnSelect>
                       </AsnForm.Item>
-                      <Duration />
+                      <Duration sectionIndex={i} />
                       <CustomInputs
                         name={[field.key, 'customInputs']}
                         attachments={attachments}

@@ -82,8 +82,8 @@ const EditSubCourse: React.FC<ICreateSubActivityTypes> = ({
                 startDate: moment(values.sectionsData[i].startDate).format(),
                 endDate: moment(values.sectionsData[i].endDate).format(),
                 customInputs: values.sectionsData[i].customInputs,
-                files: values.sectionsData[i].customInputs
-                  .filter(
+                files: values.sectionsData[i]?.customInputs
+                  ?.filter(
                     (item: {
                       setting: { answerType: string }
                       ATTACHMENT: string
@@ -94,7 +94,12 @@ const EditSubCourse: React.FC<ICreateSubActivityTypes> = ({
                   .map((item: any) => ({
                     file: item?.ATTACHMENT[0]?.type,
                     keyname: item?.ATTACHMENT[0]?.keyName
-                  }))
+                  })),
+                durationInfo: {
+                  duration: values.sectionsData[i]?.duration,
+                  duration_soft_number: values.sectionsData[i]?.duration_soft_number ?? 0,
+                  duration_technical_number: values.sectionsData[i]?.duration_technical_number ?? 0
+                }
               };
             }
           )
@@ -119,8 +124,8 @@ const EditSubCourse: React.FC<ICreateSubActivityTypes> = ({
               startDate: moment(values.startDate).format(),
               endDate: moment(values.endDate).format(),
               customInputs: values.sectionsData[i].customInputs,
-              files: values.sectionsData[i].customInputs
-                .filter(
+              files: values.sectionsData[i]?.customInputs
+                ?.filter(
                   (item: {
                     setting: { answerType: string }
                     ATTACHMENT: string
@@ -131,7 +136,12 @@ const EditSubCourse: React.FC<ICreateSubActivityTypes> = ({
                 .map((item: any) => ({
                   file: item?.ATTACHMENT[0]?.type,
                   keyname: item?.ATTACHMENT[0]?.keyName
-                }))
+                })),
+              durationInfo: {
+                duration: values.sectionsData[i]?.duration,
+                duration_soft_number: values.sectionsData[i]?.duration_soft_number ?? 0,
+                duration_technical_number: values.sectionsData[i]?.duration_technical_number ?? 0
+              }
             };
           }
         )
@@ -160,7 +170,8 @@ const EditSubCourse: React.FC<ICreateSubActivityTypes> = ({
         description: item?.data?.description,
         startDate: moment(item?.data?.startDate),
         endDate: moment(item?.data?.endDate),
-        teaching_mode: item?.data?.teachingMode
+        teaching_mode: item?.data?.teachingMode,
+        ...item?.data?.durationInfo
       }));
       form.setFieldsValue({
         organization: subActivity?.organization?.id,

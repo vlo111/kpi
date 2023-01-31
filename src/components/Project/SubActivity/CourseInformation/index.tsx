@@ -142,10 +142,21 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
                     Duration
                   </AntCol>
                   <AntCol span={12}>
-                    36(Technical skills 30 hr/Soft skills 6 hr)
+                    {course?.data?.durationInfo?.duration}
+                    (Technical skills{' '}
+                    {
+                      course?.data?.durationInfo
+                        ?.duration_technical_number
+                    }{' '}
+                    hr/ Soft skills{' '}
+                    {
+                      course?.data?.durationInfo
+                        ?.duration_soft_number
+                    }{' '}
+                    hr)
                   </AntCol>
                 </Row>
-                {course?.data.customInputs.map((inputs: any) => (
+                {course?.data?.customInputs.map((inputs: any) => (
                   <Row
                     key={inputs.setting.id}
                     style={{ marginBottom: '1.2vh' }}
@@ -205,14 +216,25 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
                 Duration
               </AntCol>
               <AntCol span={12}>
-                36(Technical skills 30 hr/Soft skills 6 hr)
+                {courseData?.sectionsData[0]?.data?.durationInfo?.duration}
+                (Technical skills{' '}
+                {
+                  courseData?.sectionsData[0]?.data?.durationInfo
+                    ?.duration_technical_number
+                }{' '}
+                hr/ Soft skills{' '}
+                {
+                  courseData?.sectionsData[0]?.data?.durationInfo
+                    ?.duration_soft_number
+                }{' '}
+                hr)
               </AntCol>
             </Row>
-            {courseData?.sectionsData.map((item: any) => (
-              <div key={item.id}>
-                {item?.data.customInputs.map((inputs: any) => (
+            {courseData?.sectionsData?.map((item: any) => (
+              <div key={item?.id}>
+                {item?.data?.customInputs?.map((inputs: any) => (
                   <Row
-                    key={inputs.setting.id}
+                    key={inputs?.setting.id}
                     style={{ marginBottom: '1.2vh' }}
                   >
                     <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>
