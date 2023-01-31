@@ -2,11 +2,7 @@ import React, { Fragment } from 'react';
 import { AsnForm } from '../components/Forms/Form';
 import { clearLocalStorage } from '../hooks/useLocalStorage';
 import { TVoid } from '../types/global';
-import {
-  CollapseHeader,
-  SetResultArea,
-  SetTitleColor
-} from '../types/project';
+import { CollapseHeader, SetResultArea, SetTitleColor } from '../types/project';
 import { AsnInput } from '../components/Forms/Input';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,7 +10,12 @@ import { Divider, Radio, Space } from 'antd';
 import { DividerLine } from '../components/Application/applicationStyle';
 import RelatedQuestion from '../components/Application/Preview/RelatedQuestion';
 import { AsnCheckbox } from '../components/Forms/Checkbox';
-import { IAnswer, IQuestion } from '../types/api/application/applicationForm';
+import {
+  GetApplicationData,
+  IAnswer,
+  IApplicant,
+  IQuestion
+} from '../types/api/application/applicationForm';
 
 /** Logout the user */
 export const logOut: TVoid = () => {
@@ -161,12 +162,22 @@ export const answerTypes = (type: string, question: IQuestion): JSX.Element => {
   const checkbox = (
     <Space direction="vertical">
       {question?.answers?.map((answer: IAnswer, index: number) => (
-        <AsnCheckbox
-          defaultChecked={index === 0}
-          key={answer?.id !== undefined ? answer.id : uuidv4()}
-        >
-          {answer.title}
-        </AsnCheckbox>
+        <Fragment key={answer?.id !== undefined ? answer.id : uuidv4()}>
+          {answer.title?.includes('Other')
+            ? (
+            <DividerLine>
+              <AsnCheckbox value={answer.title} />
+              <Divider orientation="left" plain>
+                {answer.title}
+              </Divider>
+            </DividerLine>
+              )
+            : (
+            <AsnCheckbox defaultChecked={index === 0}>
+              {answer.title}
+            </AsnCheckbox>
+              )}
+        </Fragment>
       ))}
     </Space>
   );
@@ -182,3 +193,15 @@ export const answerTypes = (type: string, question: IQuestion): JSX.Element => {
       return checkbox;
   }
 };
+
+export const getApplicationData: GetApplicationData = (data) =>
+  _.pick(
+    data,
+    'applicationFormSections',
+    'title',
+    'description',
+    'successMessage',
+    'termsAndConditions',
+    'onlineSignature',
+    'deadline'
+  ) as IApplicant;

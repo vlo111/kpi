@@ -190,3 +190,5 @@ export interface ICardContainer {
   marginTop?: string
   marginBottom?: string
 }
+
+export type GetApplicationData = (data: IApplicant) => IApplicant

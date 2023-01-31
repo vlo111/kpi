@@ -12,11 +12,12 @@ const getApplicationFormDefault: any = (applicationId: string, options = { enabl
       select: (data) => data.data
     }
   );
+
   const { data, isSuccess, refetch, isLoading } = result;
 
   return {
     ...result,
-    data: isSuccess ? data?.result : [],
+    data: isSuccess ? data?.result : {},
     isLoading,
     refetch
   };

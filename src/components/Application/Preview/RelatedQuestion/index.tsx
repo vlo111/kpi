@@ -40,9 +40,22 @@ export const answerTypes = (
   const checkbox = (
     <Space direction="vertical">
       {question?.answers?.map((answer: IAnswer, index: number) => (
-        <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
-          {answer.title}
-        </AsnCheckbox>
+        <Fragment key={answer?.id !== undefined ? answer.id : uuidv4()}>
+          {answer.title?.includes('Other')
+            ? (
+            <DividerLine>
+              <AsnCheckbox value={answer.title} />
+              <Divider orientation="left" plain>
+                {answer.title}
+              </Divider>
+            </DividerLine>
+              )
+            : (
+            <AsnCheckbox defaultChecked={index === 0}>
+              {answer.title}
+            </AsnCheckbox>
+              )}
+        </Fragment>
       ))}
     </Space>
   );

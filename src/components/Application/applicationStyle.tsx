@@ -73,9 +73,7 @@ export const DetailsContainer = styled.div`
       background-color: var(--dark-border-ultramarine);
     }
   }
-  .ant-radio-group {
-    margin-top: 1rem;
-  }
+
 `;
 
 export const DividerLine = styled.span`
