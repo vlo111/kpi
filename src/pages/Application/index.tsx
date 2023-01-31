@@ -76,13 +76,16 @@ const Application: React.FC = () => {
   const { id: courseId } = useParams<{ id: string | undefined }>();
   const location = useLocation();
   const navigate = useNavigate();
+  const [form] = AsnForm.useForm();
 
   const { data } = getApplicationFormDefault(courseId, {
-    enabled: location?.state?.edit !== true
+    enabled: location?.state?.edit !== true,
+    staleTime: 1000 * 60 * 5
   });
 
   const { data: singleApplicantData } = useSingleApplicationForm(courseId, {
-    enabled: location?.state?.edit === true
+    enabled: location?.state?.edit === true,
+    staleTime: 1000 * 60 * 5
   });
 
   const { mutate: createApplicationFn } = createApplicationForm({
@@ -109,8 +112,6 @@ const Application: React.FC = () => {
       void message.error('Publishing failed. Please try again.');
     }
   });
-
-  const [form] = AsnForm.useForm();
 
   const [isValidateMessage, setIsValidateMessage] = useState<boolean>(false);
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
@@ -144,7 +145,7 @@ const Application: React.FC = () => {
     } else {
       setApplicationData(data);
     }
-  }, [applicationData]);
+  }, [data, singleApplicantData]);
 
   useEffect(() => {
     if (applicationData !== undefined) {
