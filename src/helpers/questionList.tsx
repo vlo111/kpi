@@ -3,20 +3,56 @@ import { Col, Row } from 'antd';
 import { ReactComponent as DeleteIcon } from '../assets/icons/delete.svg';
 import { ReactComponent as EditIcon } from '../assets/icons/edit.svg';
 import { FormFinish, NumberVoidType } from '../types/global';
-import { IApplicant } from '../types/api/application/applicationForm';
+import { IApplicant, IFormValue } from '../types/api/application/applicationForm';
 
 export const addQuestion = (
-  value: any,
+  value: IFormValue,
   section: number,
-  applicationData: any,
+  applicationData: IApplicant,
   answerTypeValue: string
 ): void => {
   applicationData?.applicationFormSections[section].questions?.push({
     relatedQuestions: [],
     answerType: answerTypeValue,
     title: value.question,
-    answers:
-      value.names !== undefined && value.answerTypeName !== 'YES_NO'
+    answers: value.names !== undefined && value.answerTypeName !== 'YES_NO'
+      ? value.names.map((item: string) => {
+        return {
+          title: item,
+          type: answerTypeValue
+        };
+      })
+      : value.answerTypeName === 'YES_NO'
+        ? [
+            { type: 'OPTION', title: 'Yes/Այո' },
+            { type: 'OPTION', title: 'No/Ոչ' }
+          ]
+        : [],
+    editable: true,
+    otherOption: value.otherOption !== undefined ? value.otherOption : false,
+    required: value.requiredFiled !== undefined ? value.requiredFiled : true,
+    active: true,
+    description: '',
+    helpText: '',
+    keyName: ''
+  });
+};
+
+export const updateQuestion = (
+  value: IFormValue,
+  sectionNumber: number,
+  applicationData: IApplicant,
+  questionRowIndex: number,
+  answerTypeValue: string
+): void => {
+  applicationData?.applicationFormSections[sectionNumber].questions?.splice(
+    questionRowIndex,
+    1,
+    {
+      relatedQuestions: [],
+      answerType: answerTypeValue,
+      title: value.question,
+      answers: value.names !== undefined && value.answerTypeName !== 'YES_NO'
         ? value.names.map((item: string) => {
           return {
             title: item,
@@ -29,45 +65,13 @@ export const addQuestion = (
               { type: 'OPTION', title: 'No/Ոչ' }
             ]
           : [],
-    editable: true,
-    otherOption: value.otherOption !== undefined ? value.otherOption : false,
-    required: value.requiredFiled !== undefined ? value.requiredFiled : true,
-    active: true
-  });
-};
-
-export const updateQuestion = (
-  value: any,
-  sectionNumber: number,
-  applicationData: any,
-  questionRowIndex: number | undefined,
-  answerTypeValue: string
-): void => {
-  applicationData?.applicationFormSections[sectionNumber].questions?.splice(
-    questionRowIndex,
-    1,
-    {
-      relatedQuestions: [],
-      answerType: answerTypeValue,
-      title: value.question,
-      answers:
-        value.names !== undefined && value.answerTypeName !== 'YES_NO'
-          ? value.names.map((item: string) => {
-            return {
-              title: item,
-              type: answerTypeValue
-            };
-          })
-          : value.answerTypeName === 'YES_NO'
-            ? [
-                { type: 'OPTION', title: 'Yes/Այո' },
-                { type: 'OPTION', title: 'No/Ոչ' }
-              ]
-            : [],
       editable: true,
       otherOption: value.otherOption !== undefined ? value.otherOption : false,
       required: value.requiredFiled !== undefined ? value.requiredFiled : true,
-      active: true
+      active: true,
+      description: '',
+      helpText: '',
+      keyName: ''
     }
   );
 };

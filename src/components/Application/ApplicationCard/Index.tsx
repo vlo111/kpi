@@ -29,9 +29,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
   const [cardTitle, setCardTitle] = useState(title);
   const [answerTypeValue, setAnswerTypeValue] = useState('OPTION');
   const [addOrUpdateQuestion, setAddOrUpdateQuestion] = useState<string>('add');
-  const [questionRowIndex, setQuestionRowIndex] = useState<
-  number | undefined
-  >();
+  const [questionRowIndex, setQuestionRowIndex] = useState<number>(0);
   const [singleQuestionData, setSingleQuestionData] = useState<IQuestion>();
   const descriptionRef = useRef<InputRef>(null);
 

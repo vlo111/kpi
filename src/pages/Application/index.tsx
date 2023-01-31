@@ -147,8 +147,8 @@ const Application: React.FC = () => {
   useEffect(() => {
     if (applicationData !== undefined) {
       const termsAndConditionsDataParse =
-        applicationData?.termsAndConditions !== undefined &&
-        JSON.parse(applicationData?.termsAndConditions);
+      applicationData?.termsAndConditions !== undefined &&
+      JSON.parse(applicationData?.termsAndConditions);
       form.setFieldsValue({
         conditions: termsAndConditionsDataParse
       });
@@ -180,6 +180,7 @@ const Application: React.FC = () => {
             ? form.getFieldValue('conditions')
             : ['', '']
         );
+        form.resetFields();
         if (location?.state?.edit === true) {
           updateApplicationForm({
             id: courseId,

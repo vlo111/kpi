@@ -12,7 +12,7 @@ export interface IApplicationFormSections {
 }
 
 export interface IAnswer {
-  id: string
+  id?: string
   title: string
   type: string
 }
@@ -156,7 +156,7 @@ export interface IQuestionRowContainer {
   setAnswerTypeValue: React.Dispatch<React.SetStateAction<string>>
   setSingleQuestionData: React.Dispatch<React.SetStateAction<IQuestion | undefined>>
   setAddOrUpdateQuestion: React.Dispatch<React.SetStateAction<string>>
-  setQuestionRowIndex: React.Dispatch<React.SetStateAction<number | undefined>>
+  setQuestionRowIndex: React.Dispatch<React.SetStateAction<number>>
 }
 
 export interface IAddQuestionCard {
@@ -169,7 +169,7 @@ export interface IAddQuestionCard {
   singleQuestionData: IQuestion | undefined
   setSingleQuestionData: React.Dispatch<React.SetStateAction<IQuestion | undefined>>
   addOrUpdateQuestion: string
-  questionRowIndex: number | undefined
+  questionRowIndex: number
 }
 
 export interface IResult {
@@ -189,6 +189,13 @@ export interface ICardContainer {
   borderTop?: string
   marginTop?: string
   marginBottom?: string
+}
+export interface IFormValue {
+  answerTypeName: string
+  names?: string[]
+  otherOption?: boolean
+  question: string
+  requiredFiled: boolean
 }
 
 export type GetApplicationData = (data: IApplicant) => IApplicant
