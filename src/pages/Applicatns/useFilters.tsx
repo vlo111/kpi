@@ -3,17 +3,22 @@ import React from 'react';
 import { AsnButton } from '../../components/Forms/Button';
 import { AsnCheckboxGroup } from '../../components/Forms/Checkbox';
 import { Panel } from '../../components/Forms/Collapse';
-import { marks, optionsRegion, optionsStatus } from './applicantsListFilterData';
+import { marks, optionsRegion, optionsStatus } from '../../helpers/constants';
+// import { marks, optionsRegion, optionsStatus } from './applicantsListFilterData';
 import { ContentAssingersFilter } from './applicantsStyle';
 
-export const useContent = ({ setOpen, filterData, onFinish, form }: any): any => {
+export const UseFilters = ({ setOpen, filterData, onFinish, form }: any): any => {
   const hide = (): any => {
     setOpen(false);
   };
 
   return (
     <ContentAssingersFilter>
-    <Form form={form} onFinish={onFinish}>
+    <Form
+     form={form}
+     onFinish={onFinish}
+
+     >
       <Collapse
         collapsible="icon"
         bordered={false}

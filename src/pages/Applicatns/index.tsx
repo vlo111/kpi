@@ -1,18 +1,31 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import ApplicantsSearch from './ApplicantsSearch';
-import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
+import { Table, Form } from 'antd';
+
+import UseSearch from './useSearch';
 import { Container } from './applicantsStyle';
 import { useColumn } from './useColumns';
-import { Table, Tag, Form } from 'antd';
-import _ from 'lodash';
+import { UseFiltersReset } from './useGetFilterrReset';
+
+import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
 
 const ApplicantsData: React.FC = () => {
+  const [result, setResult] = useState<any>({ data: [], count: 0 });
+  // const [tableParams, setTableParams] = useState<any>({
+  //   pagination: {
+  //     current: 1,
+  //     total: 66,
+  //     showSizeChanger: false
+  //   }
+  // });
+
   const [filters, setFilters] = useState<any>({
     search: '',
-    limit: 50,
+    limit: 10,
     offset: 0
   });
-  const [result, setResult] = useState<any>({ data: [], totalRecords: 0 });
+
+  // console.log(tableParams);
+
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
 
@@ -20,6 +33,7 @@ const ApplicantsData: React.FC = () => {
     onSuccess: (data: any) => {
       setResult(data);
     }
+
   });
   useEffect(() => {
     refetch();
@@ -38,11 +52,10 @@ const ApplicantsData: React.FC = () => {
       ...data
     }));
   }, [filters]);
-  console.log(filters);
 
   const onFinish = (values: any): any => {
     filterData({
-      age: (Boolean((values?.age))) &&
+      age: values?.age &&
         {
           from: values?.age?.[0],
           to: values?.age?.[1]
@@ -59,43 +72,24 @@ const ApplicantsData: React.FC = () => {
   };
 
   const column = useColumn({ filterData, onFinish, form, setOpen, open });
-  const closeFilter = (filter: string): any => {
-    const newAs = _.omit(filters, [filter]);
-    onFinish(newAs);
-    form.setFieldValue([], filter);
-  };
-  const closeAllFilter = (): any => {
-    const arr = ['gender', 'age', 'student', 'statuses', 'income', 'disability', 'regions'];
-    for (let i = 0; i <= arr.length; i++) {
-      closeFilter(arr[i]);
-    }
-    form.resetFields();
-  };
+  // const onHandleChange = useCallback((pagination: any) => {
+  //   setTableParams({
+  //     pagination
+  //   });
+  //   setTableParams((prevState: any) => ({
+  //     pagination: {
+  //       current: 1,
+  //       total: 10,
+  //       showSizeChanger: false
+  //     }
+  //   }));
+  // }, []);
 
   return (
     <Container>
-<ApplicantsSearch filters={filters} serachData={serachData} />
+<UseSearch filters={filters} serachData={serachData} />
 <>
-   {(filters)
-     ? (
-         <>
-         {filters?.age !== undefined && <Tag onClose={() => closeFilter('age')} closable> { `Age:${filters?.age?.from} - ${filters?.age?.to}`}</Tag> }
-         {filters?.gender !== undefined && <Tag onClose={() => closeFilter('gender')} closable> { `Gender:${filters?.gender}`}</Tag> }
-         {filters?.student !== undefined && <Tag closable onClose={() => closeFilter('student')}> { `Student:${filters?.student}`}</Tag> }
-         {filters?.statuses !== undefined && <Tag closable onClose={() => closeFilter('statuses')}> { `Status:${filters?.statuses}`}</Tag>}
-         {filters?.income !== undefined && <Tag closable onClose={() => closeFilter('income')}> { `Paid job:${filters?.income}`}</Tag>}
-         {filters?.disability !== undefined && <Tag closable onClose={() => closeFilter('disability')}> { `Vulnerability:${filters?.disability}`}</Tag>}
-         {filters?.regions !== undefined && <Tag closable onClose={() => closeFilter('regions')}> { `Region:${filters?.regions}`}</Tag>}
-       { filters && <Tag closable onClose={() => {
-         closeAllFilter();
-       }}> { 'Clear All'}</Tag>}
-         </>
-       )
-     : (
-            <></>
-       )}
- </>
-
+<UseFiltersReset filters={filters} onFinish={onFinish} form={form} setFilters={setFilters}/>
 <Table
         columns={column}
         dataSource={result?.result}
@@ -112,8 +106,16 @@ const ApplicantsData: React.FC = () => {
             }
           };
         }}
-      />
+        // pagination={tableParams.pagination}
+        // onChange={handleTableChange}
+        // onChange={onHandleChange}
+        // pagination={{
+        //   total: result.count,
+        //   showSizeChanger: false
 
+        // }}
+      />
+</>
 </Container>
   );
 };

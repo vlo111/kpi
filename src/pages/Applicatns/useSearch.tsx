@@ -4,14 +4,14 @@ import { SearchApplicants } from './applicantsTypes';
 
 const { Title } = Typography;
 
-const ApplicantsSearch: React.FC<SearchApplicants> = ({ filters, serachData }) => {
+const UseSearch: React.FC<SearchApplicants> = ({ filters, serachData }) => {
   const onChange = (data: any): void => {
     serachData(data);
   };
 
   return (
     <>
-    <Space size={[15, 0]} style={{ padding: '40px 18px' }}>
+    <Space size={[15, 0]} style={{ padding: '30px 18px 4px', display: 'flex' }}>
 <Title level={4} style={{ color: 'var(--dark-border-ultramarine)' }}>Applicants</Title>
 <AutoComplete
           value={filters?.search}
@@ -24,4 +24,4 @@ const ApplicantsSearch: React.FC<SearchApplicants> = ({ filters, serachData }) =
   );
 };
 
-export default ApplicantsSearch;
+export default UseSearch;

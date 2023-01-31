@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Popover } from 'antd';
 import moment from 'moment';
 import { FilterOutlined } from '@ant-design/icons';
-import { useContent } from './useContent';
+import { UseFilters } from './useFilters';
 
 const today = new Date();
 
@@ -14,7 +14,7 @@ export const useColumn = ({ filterData, onFinish, form, setOpen, open }: any): a
     {
       title: (
              <Popover
-               content={useContent({ setOpen, filterData, onFinish, form })}
+               content={UseFilters({ setOpen, filterData, onFinish, form })}
                title="Filter your results"
                trigger="click"
                overlayClassName="applicantsFilter"
