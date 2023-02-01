@@ -8,23 +8,23 @@ import { UseFilterTags } from './useFilterTags';
 
 import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
 import { AsnForm } from '../../components/Forms/Form';
-import { iFinishApplicant, IPagination, IprevState } from './applicantsTypes';
+import { iFinishApplicant, IprevState } from './applicantsTypes';
 
 const ApplicantsData: React.FC = () => {
   const [result, setResult] = useState<any>({ data: [], count: null });
-  const [tableParams, setTableParams] = useState<any>({
-    pagination: {
-      current: 1,
-      total: 55,
-      showSizeChanger: false
-    }
-  });
 
   const [filters, setFilters] = useState<any>({
     search: '',
-    limit: 10,
+    limit: 100,
     offset: 0
   });
+
+  const tableParams = {
+    position: 'bottomCenter',
+    pagination: {
+      showSizeChanger: false
+    }
+  };
 
   const [form] = AsnForm.useForm();
   const [open, setOpen] = useState(false);
@@ -62,12 +62,13 @@ const ApplicantsData: React.FC = () => {
 
   const onFinish = (values: iFinishApplicant): void => {
     filterData({
-      age: values?.age !== undefined
-        ? {
-            from: values?.age?.[0],
-            to: values?.age?.[1]
-          }
-        : undefined,
+      age:
+        values?.age !== undefined
+          ? {
+              from: values?.age?.[0],
+              to: values?.age?.[1]
+            }
+          : undefined,
       regions: values?.regions,
       statuses: values?.statuses,
       student: values?.student,
@@ -81,20 +82,9 @@ const ApplicantsData: React.FC = () => {
   };
 
   const column = useColumn({ filterData, onFinish, form, setOpen, open });
-  const handleTableChange: any = (pagination: IPagination) => {
-    console.log(pagination, 'dds');
-
-    setTableParams({
-      pagination
-    });
-    setFilters((prevState: []) => ({
-      ...prevState,
-      offset: pagination.current
-    }));
-  };
 
   return (
-    <Container >
+    <Container>
       <UseSearch filters={filters} serachData={serachData} />
       <>
         <UseFilterTags
@@ -122,7 +112,6 @@ const ApplicantsData: React.FC = () => {
           //   };
           // }}
           pagination={tableParams.pagination}
-          onChange={handleTableChange}
         />
       </>
     </Container>

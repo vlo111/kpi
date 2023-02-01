@@ -17,7 +17,12 @@ export const UseFilterTags: React.FC<any> = ({
     });
 
     const isNotEmpty = Object.keys(newAs).some((name: any) => {
-      if ((newAs[name] !== undefined) && name !== 'limit' && name !== 'offset' && name !== 'search') {
+      if (
+        newAs[name] !== undefined &&
+        name !== 'limit' &&
+        name !== 'offset' &&
+        name !== 'search'
+      ) {
         return true;
       }
       return false;
@@ -38,8 +43,7 @@ export const UseFilterTags: React.FC<any> = ({
 
   return (
     <div>
-
-      {(Boolean(filters)) && (
+      {Boolean(filters) && (
         <>
           {filters?.age !== undefined && (
             <Tag onClose={() => closeFilter('age')} closable>
@@ -76,7 +80,7 @@ export const UseFilterTags: React.FC<any> = ({
               {`Region:${filters?.regions}`}
             </Tag>
           )}
-          {(Boolean(form.getFieldValue('clearAll'))) && (
+          {Boolean(form.getFieldValue('clearAll')) && (
             <Tag
               closable
               onClose={() => {

@@ -19,7 +19,6 @@ export interface DataType {
   vulnerability: string
   workOrganisation: string
   informedAboutUs: string
-
 }
 export interface ApplicatnList {
   allApplicants: string
@@ -28,16 +27,13 @@ export interface ApplicatnList {
   search: string
   showNote: boolean
   applicantsFilter: string
-
 }
 export interface IListeApplicants {
   data: DataType[]
-
 }
 export interface filterApplicants {
   filters: string
   onFinish: iFinishApplicant
-
 }
 export interface iFinishApplicant {
   gender: string

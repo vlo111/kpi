@@ -6,25 +6,31 @@ import { UseFilters } from './useFilters';
 
 const today = new Date();
 
-export const useColumn = ({ filterData, onFinish, form, setOpen, open }: any): any => {
+export const useColumn = ({
+  filterData,
+  onFinish,
+  form,
+  setOpen,
+  open
+}: any): any => {
   const handleOpenChange = (newOpen: boolean): any => {
     setOpen(newOpen);
   };
   return [
     {
       title: (
-             <Popover
-               content={UseFilters({ setOpen, filterData, onFinish, form })}
-               title="Filter your results"
-               trigger="click"
-               overlayClassName="applicantsFilter"
-               open={open}
-               onOpenChange={handleOpenChange}
-             >
-               <Button type="link" style={{ padding: '0' }}>
-                 <FilterOutlined className="filterIcon" />
-               </Button>
-             </Popover>
+        <Popover
+          content={UseFilters({ setOpen, filterData, onFinish, form })}
+          title="Filter your results"
+          trigger="click"
+          overlayClassName="applicantsFilter"
+          open={open}
+          onOpenChange={handleOpenChange}
+        >
+          <Button type="link" style={{ padding: '0' }}>
+            <FilterOutlined className="filterIcon" />
+          </Button>
+        </Popover>
       ),
       key: 'filter',
       width: 50
@@ -84,9 +90,9 @@ export const useColumn = ({ filterData, onFinish, form, setOpen, open }: any): a
       ellipsis: true,
       render: (text: any, record: any) => {
         return `${
-                       Number(moment?.(today)?.format('YYYY').valueOf()) -
-                       Number(moment(record?.dob).format('YYYY'))
-                     }`;
+          Number(moment?.(today)?.format('YYYY').valueOf()) -
+          Number(moment(record?.dob).format('YYYY'))
+        }`;
       }
     },
     {
@@ -127,7 +133,6 @@ export const useColumn = ({ filterData, onFinish, form, setOpen, open }: any): a
       render: (text: any, record: any) => {
         return record?.workOrganisation;
       }
-
     },
     {
       title: 'Course source ',
