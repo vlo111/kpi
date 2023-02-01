@@ -4,7 +4,6 @@ import { AsnButton } from '../../components/Forms/Button';
 import { AsnCheckboxGroup } from '../../components/Forms/Checkbox';
 import { Panel } from '../../components/Forms/Collapse';
 import { marks, optionsRegion, optionsStatus } from '../../helpers/constants';
-// import { marks, optionsRegion, optionsStatus } from './applicantsListFilterData';
 import { ContentAssingersFilter } from './applicantsStyle';
 
 export const UseFilters = ({ setOpen, filterData, onFinish, form }: any): any => {
