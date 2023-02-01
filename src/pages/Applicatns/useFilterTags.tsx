@@ -18,6 +18,15 @@ export const UseFilterTags = ({
     form.setFieldsValue({
       [filter]: undefined
     });
+
+    const isNotEmpty = Object.keys(newAs).some((name: any) => {
+      if ((newAs[name] !== undefined) && name !== 'limit' && name !== 'offset' && name !== 'search') {
+        return true;
+      }
+      return false;
+    });
+
+    form.setFieldValue('clearAll', isNotEmpty);
   };
 
   const resetFilters = useCallback(() => {
@@ -27,6 +36,7 @@ export const UseFilterTags = ({
       limit: 10,
       offset: 0
     });
+    form.setFieldValue('clearAll', false);
   }, [form, filters]);
 
   return (
@@ -69,7 +79,7 @@ export const UseFilterTags = ({
               {`Region:${filters?.regions}`}
             </Tag>
           )}
-          {!_.isEmpty(form.getFieldsValue()) && (
+          {form.getFieldValue('clearAll') && (
             <Tag
               closable
               onClose={() => {

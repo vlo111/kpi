@@ -16,7 +16,6 @@ export const UseFilters = ({ setOpen, filterData, onFinish, form }: any): any =>
     <Form
      form={form}
      onFinish={onFinish}
-
      >
       <Collapse
         collapsible="icon"

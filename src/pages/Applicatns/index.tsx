@@ -61,23 +61,21 @@ const ApplicantsData: React.FC = () => {
   );
 
   const onFinish = (values: any): any => {
-    console.log(values, 'valuesvaluesvalues');
-
     filterData({
       age: values?.age && {
         from: values?.age?.[0],
         to: values?.age?.[1]
       },
       regions: values?.regions,
-      // ...values
-      statuses: values?.status,
+      statuses: values?.statuses,
       student: values?.student,
       gender: values?.gender,
-      disability: values?.vulnerability,
+      disability: values?.disability,
       income: values?.income
     });
 
     setOpen(false);
+    form.setFieldValue('clearAll', true);
   };
 
   const column = useColumn({ filterData, onFinish, form, setOpen, open });
