@@ -14,7 +14,7 @@ export const UseFiltersReset = ({
   const closeFilter = (filter: string): any => {
     const newAs = _.omit(filters, [filter]);
     onFinish(newAs);
-    form.setFieldValue(newAs);
+    form.getFieldsValue();
   };
 
   const resetFilters = useCallback(() => {

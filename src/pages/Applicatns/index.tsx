@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Table, Form } from 'antd';
+import { Table } from 'antd';
 
 import UseSearch from './useSearch';
 import { Container } from './applicantsStyle';
@@ -7,6 +7,7 @@ import { useColumn } from './useColumns';
 import { UseFiltersReset } from './useGetFilterrReset';
 
 import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
+import { AsnForm } from '../../components/Forms/Form';
 
 const ApplicantsData: React.FC = () => {
   const [result, setResult] = useState<any>({ data: [], count: null });
@@ -24,7 +25,7 @@ const ApplicantsData: React.FC = () => {
     offset: 0
   });
 
-  const [form] = Form.useForm();
+  const [form] = AsnForm.useForm();
   const [open, setOpen] = useState(false);
 
   const { refetch } = useAllAplicants(filters, {
@@ -48,7 +49,6 @@ const ApplicantsData: React.FC = () => {
 
   const filterData = useCallback(
     (data: any) => {
-      console.log(data, result, form.getFieldsValue());
       if (data !== undefined) {
         setFilters((prevState: any) => ({
           ...prevState,
@@ -76,18 +76,6 @@ const ApplicantsData: React.FC = () => {
   };
 
   const column = useColumn({ filterData, onFinish, form, setOpen, open });
-  // const onHandleChange = useCallback((pagination: any) => {
-  //   setTableParams({
-  //     pagination
-  //   });
-  //   setTableParams((prevState: any) => ({
-  //     pagination: {
-  //       current: 1,
-  //       total: 10,
-  //       showSizeChanger: false
-  //     }
-  //   }));
-  // }, []);
   const handleTableChange: any = (
     pagination: any
   ) => {
