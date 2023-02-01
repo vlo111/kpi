@@ -84,9 +84,10 @@ const Application: React.FC = () => {
     enabled: location?.state?.edit !== true
   });
 
-  const { data: singleApplicantData, isLoading: singleApplicantLoading } = useSingleApplicationForm(courseId, {
-    enabled: location?.state?.edit === true
-  });
+  const { data: singleApplicantData } =
+    useSingleApplicationForm(courseId, {
+      enabled: location?.state?.edit === true
+    });
 
   const { mutate: createApplicationFn } = createApplicationForm({
     onSuccess: (options: IApplicationsOption) => {
@@ -139,20 +140,17 @@ const Application: React.FC = () => {
       }
     } else {
       if (!_.isEmpty(data)) {
-        setApplicationData(getApplicationData(data));
+        setApplicationData(data);
       }
     }
-  }, [isLoading, singleApplicantLoading]);
+  }, [isLoading, singleApplicantData]);
 
   useEffect(() => {
-    if (applicationData !== undefined) {
-      const termsAndConditionsDataParse =
+    form.setFieldsValue({
+      conditions:
       applicationData?.termsAndConditions !== undefined &&
-      JSON.parse(applicationData?.termsAndConditions);
-      form.setFieldsValue({
-        conditions: termsAndConditionsDataParse
-      });
-    }
+        JSON.parse(applicationData?.termsAndConditions)
+    });
   }, [applicationData]);
 
   const onPublishClick: Void = () => {
@@ -221,145 +219,145 @@ const Application: React.FC = () => {
   };
 
   return (
-  <ApplicationContainer>
-    <ApplicationTitle>Application form</ApplicationTitle>
-    <Typography.Title level={5} style={{ fontWeight: 'var(--font-normal)' }}>
-      Form Title
-    </Typography.Title>
-    {applicationData?.title !== undefined && (
-      <AsnInput
-        ref={formTitle}
-        style={{
-          border: 'none',
-          width: '100%',
-          marginBottom: isValidateMessage ? '0rem' : '1rem'
-        }}
-        defaultValue={applicationData?.title}
-      />
-    )}
-    {isValidateMessage
-      ? (
-      <ValidateMessage>
-        Field must have at least 1 character and maximum 255 characters.
-      </ValidateMessage>
+    <ApplicationContainer>
+      <ApplicationTitle>Application form</ApplicationTitle>
+      <Typography.Title level={5} style={{ fontWeight: 'var(--font-normal)' }}>
+        Form Title
+      </Typography.Title>
+      {applicationData?.title !== undefined && (
+        <AsnInput
+          ref={formTitle}
+          style={{
+            border: 'none',
+            width: '100%',
+            marginBottom: isValidateMessage ? '0rem' : '1rem'
+          }}
+          defaultValue={applicationData?.title}
+        />
+      )}
+      {isValidateMessage
+        ? (
+        <ValidateMessage>
+          Field must have at least 1 character and maximum 255 characters.
+        </ValidateMessage>
+          )
+        : null}
+      <Typography.Title level={5} style={{ fontWeight: 'var(--font-normal)' }}>
+        Description
+      </Typography.Title>
+      {applicationData?.description !== undefined && (
+        <CustomTextArea
+          style={{ border: 'none', marginBottom: '2rem' }}
+          defaultValue={applicationData?.description}
+          ref={formDescription}
+        />
+      )}
+      {applicationData?.applicationFormSections?.map(
+        (data: IApplicationFormSections) => (
+          <ApplicationCard
+            key={data?.keyName}
+            title={data?.title}
+            content={data?.questions}
+            description={data?.description}
+            cardId={data?.keyName}
+            isQuestionCardVisible={isQuestionCardVisible}
+            setIsQuestionCardVisible={setIsQuestionCardVisible}
+            applicationData={applicationData}
+            setApplicationData={setApplicationData}
+          />
         )
-      : null}
-    <Typography.Title level={5} style={{ fontWeight: 'var(--font-normal)' }}>
-      Description
-    </Typography.Title>
-    {applicationData?.description !== undefined && (
-      <CustomTextArea
-        style={{ border: 'none', marginBottom: '2rem' }}
-        defaultValue={applicationData?.description}
-        ref={formDescription}
-      />
-    )}
-    {applicationData?.applicationFormSections?.map(
-      (data: IApplicationFormSections) => (
-        <ApplicationCard
-          key={data?.keyName}
-          title={data?.title}
-          content={data?.questions}
-          description={data?.description}
-          cardId={data?.keyName}
-          isQuestionCardVisible={isQuestionCardVisible}
-          setIsQuestionCardVisible={setIsQuestionCardVisible}
-          applicationData={applicationData}
-          setApplicationData={setApplicationData}
-        />
-      )
-    )}
-    <AsnForm name="dynamic_form_nest_item" form={form} autoComplete="off">
-      <TermsAndCondition />
-    </AsnForm>
-    <ConditionCard>
-      <span
+      )}
+      <AsnForm name="dynamic_form_nest_item" form={form} autoComplete="off">
+        <TermsAndCondition />
+      </AsnForm>
+      <ConditionCard>
+        <span
+          style={{
+            fontSize: 'var(--base-font-size )'
+          }}
+        >
+          Online signature
+        </span>
+        {applicationData?.onlineSignature !== undefined && (
+          <AsnSwitch
+            onChange={(checked) => setOnlineSignature(checked)}
+            defaultChecked={applicationData?.onlineSignature}
+          />
+        )}
+      </ConditionCard>
+      <CardContainer
+        borderTop={'3px solid var(--secondary-light-amber)'}
+        marginBottom={'2rem'}
+      >
+        <Space direction="horizontal">
+          <CardTitle>Success message: </CardTitle> <SuccessIcon />
+        </Space>
+        {applicationData?.successMessage !== undefined && (
+          <CustomInput
+            ref={successMessage}
+            defaultValue={applicationData?.successMessage}
+          />
+        )}
+      </CardContainer>
+      <CardTitle>Set deadline (optional):</CardTitle>
+      <ConditionCard>
+        {applicationData !== undefined && (
+          <AsnDatePicker
+            style={{ border: 'none', flexDirection: 'row-reverse' }}
+            onChange={(date, dateString) =>
+              setDeadlineDate(new Date(dateString).toJSON())
+            }
+            defaultValue={
+              applicationData.deadline !== undefined
+                ? moment(new Date(applicationData.deadline), 'DD.MM.YYYY')
+                : moment(new Date(), 'DD.MM.YYYY')
+            }
+          />
+        )}
+      </ConditionCard>
+      <Space
+        direction="horizontal"
+        size={60}
         style={{
-          fontSize: 'var(--base-font-size )'
+          display: 'flex',
+          justifyContent: 'flex-end',
+          margin: '3.75rem 0px'
         }}
       >
-        Online signature
-      </span>
-      {applicationData?.onlineSignature !== undefined && (
-        <AsnSwitch
-          onChange={(checked) => setOnlineSignature(checked)}
-          defaultChecked={applicationData?.onlineSignature}
-        />
-      )}
-    </ConditionCard>
-    <CardContainer
-      borderTop={'3px solid var(--secondary-light-amber)'}
-      marginBottom={'2rem'}
-    >
-      <Space direction="horizontal">
-        <CardTitle>Success message: </CardTitle> <SuccessIcon />
+        <AsnButton
+          className="default"
+          onClick={() => {
+            if (location?.state?.SubActivityId !== undefined) {
+              navigate(
+                `/project/${PATHS.SUBACTIVITY.replace(
+                  ':id',
+                  location?.state?.SubActivityId
+                )}`
+              );
+            }
+          }}
+        >
+          Cancel
+        </AsnButton>
+        <AsnButton className="default" onClick={onPreviewClick}>
+          Preview
+        </AsnButton>
+        <AsnButton className="primary" onClick={onPublishClick}>
+          {location?.state?.edit !== true ? 'Publish' : 'Update'}
+        </AsnButton>
       </Space>
-      {applicationData?.successMessage !== undefined && (
-        <CustomInput
-          ref={successMessage}
-          defaultValue={applicationData?.successMessage}
-        />
-      )}
-    </CardContainer>
-    <CardTitle>Set deadline (optional):</CardTitle>
-    <ConditionCard>
-      {applicationData !== undefined && (
-        <AsnDatePicker
-          style={{ border: 'none', flexDirection: 'row-reverse' }}
-          onChange={(date, dateString) =>
-            setDeadlineDate(new Date(dateString).toJSON())
-          }
-          defaultValue={
-            applicationData.deadline !== undefined
-              ? moment(new Date(applicationData.deadline), 'DD.MM.YYYY')
-              : moment(new Date(), 'DD.MM.YYYY')
-          }
-        />
-      )}
-    </ConditionCard>
-    <Space
-      direction="horizontal"
-      size={60}
-      style={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        margin: '3.75rem 0px'
-      }}
-    >
-      <AsnButton
-        className="default"
-        onClick={() => {
-          if (location?.state?.SubActivityId !== undefined) {
-            navigate(
-              `/project/${PATHS.SUBACTIVITY.replace(
-                ':id',
-                location?.state?.SubActivityId
-              )}`
-            );
-          }
-        }}
-      >
-        Cancel
-      </AsnButton>
-      <AsnButton className="default" onClick={onPreviewClick}>
-        Preview
-      </AsnButton>
-      <AsnButton className="primary" onClick={onPublishClick}>
-        {location?.state?.edit !== true ? 'Publish' : 'Update'}
-      </AsnButton>
-    </Space>
-    <PreviewModal
-      questionData={applicationData}
-      isOpenCreateActivityModal={isOpenCreateActivityModal}
-      setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
-      onPublishClick={onPublishClick}
-    />
-    <FormUrlModal
-      formUrlModal={formUrlModal}
-      setFormUrlModal={setFormUrlModal}
-      responseIds={createdItemInfo}
-    />
-  </ApplicationContainer>
+      <PreviewModal
+        questionData={applicationData}
+        isOpenCreateActivityModal={isOpenCreateActivityModal}
+        setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
+        onPublishClick={onPublishClick}
+      />
+      <FormUrlModal
+        formUrlModal={formUrlModal}
+        setFormUrlModal={setFormUrlModal}
+        responseIds={createdItemInfo}
+      />
+    </ApplicationContainer>
   );
 };
 
