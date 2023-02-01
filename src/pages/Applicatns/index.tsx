@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { useCallback, useEffect, useState } from 'react';
 import { Table } from 'antd';
 
 import UseSearch from './useSearch';
 import { Container } from './applicantsStyle';
 import { useColumn } from './useColumns';
-import { UseFiltersReset } from './useGetFilterrReset';
+import { UseFilterTags } from './useFilterTags';
 
 import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
 import { AsnForm } from '../../components/Forms/Form';
@@ -60,18 +61,22 @@ const ApplicantsData: React.FC = () => {
   );
 
   const onFinish = (values: any): any => {
+    console.log(values, 'valuesvaluesvalues');
+
     filterData({
       age: values?.age && {
         from: values?.age?.[0],
         to: values?.age?.[1]
       },
-      regions: values?.region,
+      regions: values?.regions,
+      // ...values
       statuses: values?.status,
       student: values?.student,
       gender: values?.gender,
       disability: values?.vulnerability,
-      income: values?.paid_job
+      income: values?.income
     });
+
     setOpen(false);
   };
 
@@ -87,18 +92,18 @@ const ApplicantsData: React.FC = () => {
       offset: pagination.current
     }));
   };
-  console.log(tableParams.pagination);
 
   return (
-    <Container>
+    <Container >
       <UseSearch filters={filters} serachData={serachData} />
       <>
-        <UseFiltersReset
+        <UseFilterTags
           filters={filters}
           onFinish={onFinish}
           form={form}
           setFilters={setFilters}
           filterData={filterData}
+          refetch={refetch}
         />
         <Table
           columns={column}

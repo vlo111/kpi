@@ -50,7 +50,7 @@ export const UseFilters = ({ setOpen, filterData, onFinish, form }: any): any =>
           </Form.Item>
         </Panel>
         <Panel header="Status" key="4">
-          <Form.Item name='status'>
+          <Form.Item name='statuses'>
             <AsnCheckboxGroup
               style={{ width: '200px' }}
               options={optionsStatus}
@@ -58,7 +58,7 @@ export const UseFilters = ({ setOpen, filterData, onFinish, form }: any): any =>
           </Form.Item>
         </Panel>
         <Panel header="Paid job" key="5">
-          <Form.Item name='paid_job'>
+          <Form.Item name='income'>
             <Radio.Group>
               <Space direction="vertical">
                 <Radio value={true}>Paid job</Radio>
@@ -67,8 +67,8 @@ export const UseFilters = ({ setOpen, filterData, onFinish, form }: any): any =>
             </Radio.Group>
           </Form.Item>
         </Panel>
-        <Panel header="Vulnerability" key="6">
-          <Form.Item name='vulnerability'>
+        <Panel header="disability" key="6">
+          <Form.Item name='disability'>
             <Radio.Group>
               <Space direction="vertical">
                 <Radio value={true}>NA</Radio>
@@ -78,7 +78,7 @@ export const UseFilters = ({ setOpen, filterData, onFinish, form }: any): any =>
           </Form.Item>
         </Panel>
         <Panel header="Region" key="7">
-          <Form.Item name='region'>
+          <Form.Item name='regions'>
             <AsnCheckboxGroup
               style={{ width: '158px' }}
               options={optionsRegion}

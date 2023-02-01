@@ -11,7 +11,7 @@ export interface DataType {
   education: string
   course: string
   status: string
-  region: string
+  regions: string
   phoneNumber: string
   gender: string
   student: string

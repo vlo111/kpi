@@ -65,7 +65,7 @@ export const useColumn = ({ filterData, onFinish, form, setOpen, open }: any): a
     {
       title: 'Region',
       key: 5,
-      dataIndex: 'region',
+      dataIndex: 'regions',
       ellipsis: true
     },
     {

@@ -4,17 +4,20 @@ import { Tag } from 'antd';
 import _ from 'lodash';
 import React, { useCallback } from 'react';
 
-export const UseFiltersReset = ({
+export const UseFilterTags = ({
   filters,
   onFinish,
   form,
   setFilters,
-  filterData
+  filterData,
+  refetch
 }: any): any => {
   const closeFilter = (filter: string): any => {
     const newAs = _.omit(filters, [filter]);
     onFinish(newAs);
-    form.getFieldsValue();
+    form.setFieldsValue({
+      [filter]: undefined
+    });
   };
 
   const resetFilters = useCallback(() => {
@@ -26,10 +29,9 @@ export const UseFiltersReset = ({
     });
   }, [form, filters]);
 
-  console.log(filters, 'fffffffffff');
-
   return (
     <div>
+
       {filters && (
         <>
           {filters?.age !== undefined && (
@@ -48,7 +50,7 @@ export const UseFiltersReset = ({
             </Tag>
           )}
           {filters?.statuses !== undefined && (
-            <Tag closable onClose={() => closeFilter('statuses')}>
+            <Tag closable onClose={() => closeFilter('status')}>
               {`Status:${filters?.statuses}`}
             </Tag>
           )}
@@ -67,7 +69,7 @@ export const UseFiltersReset = ({
               {`Region:${filters?.regions}`}
             </Tag>
           )}
-          {Boolean(filters) && (
+          {!_.isEmpty(form.getFieldsValue()) && (
             <Tag
               closable
               onClose={() => {
