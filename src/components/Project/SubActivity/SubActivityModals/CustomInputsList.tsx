@@ -91,7 +91,7 @@ const CustomInputs: React.FC<ICustomInputs> = ({
                               );
                             }}
                             onChange={(info) => {
-                              if (info.file.originFileObj === undefined && info.file.status === 'removed') {
+                              if (info.file.originFileObj === undefined || info.file.status === 'removed') {
                                 form.setFieldValue(
                                   [
                                     'sectionsData',

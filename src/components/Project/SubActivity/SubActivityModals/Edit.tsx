@@ -91,7 +91,7 @@ const EditSubCourse: React.FC<ICreateSubActivityTypes> = ({
                       item?.setting?.answerType === 'ATTACHMENT' &&
                       item?.ATTACHMENT !== undefined
                   )
-                  .map((item: any) => ({
+                  ?.map((item: any) => ({
                     file: item?.ATTACHMENT[0]?.type,
                     keyname: item?.ATTACHMENT[0]?.keyName
                   })),
@@ -133,7 +133,7 @@ const EditSubCourse: React.FC<ICreateSubActivityTypes> = ({
                     item?.setting?.answerType === 'ATTACHMENT' &&
                     item?.ATTACHMENT !== undefined
                 )
-                .map((item: any) => ({
+                ?.map((item: any) => ({
                   file: item?.ATTACHMENT[0]?.type,
                   keyname: item?.ATTACHMENT[0]?.keyName
                 })),
