@@ -1,17 +1,14 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { Tag } from 'antd';
 import _ from 'lodash';
 import React, { useCallback } from 'react';
 
-export const UseFilterTags = ({
+export const UseFilterTags: React.FC<any> = ({
   filters,
   onFinish,
   form,
-  setFilters,
-  filterData,
-  refetch
-}: any): any => {
+  setFilters
+}) => {
   const closeFilter = (filter: string): any => {
     const newAs = _.omit(filters, [filter]);
     onFinish(newAs);
@@ -42,7 +39,7 @@ export const UseFilterTags = ({
   return (
     <div>
 
-      {filters && (
+      {(Boolean(filters)) && (
         <>
           {filters?.age !== undefined && (
             <Tag onClose={() => closeFilter('age')} closable>
@@ -79,7 +76,7 @@ export const UseFilterTags = ({
               {`Region:${filters?.regions}`}
             </Tag>
           )}
-          {form.getFieldValue('clearAll') && (
+          {(Boolean(form.getFieldValue('clearAll'))) && (
             <Tag
               closable
               onClose={() => {

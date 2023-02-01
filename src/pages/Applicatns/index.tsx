@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { useCallback, useEffect, useState } from 'react';
 import { Table } from 'antd';
 
@@ -9,6 +8,7 @@ import { UseFilterTags } from './useFilterTags';
 
 import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
 import { AsnForm } from '../../components/Forms/Form';
+import { iFinishApplicant, IPagination, IprevState } from './applicantsTypes';
 
 const ApplicantsData: React.FC = () => {
   const [result, setResult] = useState<any>({ data: [], count: null });
@@ -30,7 +30,7 @@ const ApplicantsData: React.FC = () => {
   const [open, setOpen] = useState(false);
 
   const { refetch } = useAllAplicants(filters, {
-    onSuccess: (data: any) => {
+    onSuccess: (data: []) => {
       setResult(data);
     }
   });
@@ -40,7 +40,7 @@ const ApplicantsData: React.FC = () => {
 
   const serachData = useCallback(
     (search: any) => {
-      setFilters((prevState: any) => ({
+      setFilters((prevState: IprevState) => ({
         ...prevState,
         search
       }));
@@ -49,9 +49,9 @@ const ApplicantsData: React.FC = () => {
   );
 
   const filterData = useCallback(
-    (data: any) => {
+    (data: IprevState) => {
       if (data !== undefined) {
-        setFilters((prevState: any) => ({
+        setFilters((prevState: IprevState) => ({
           ...prevState,
           ...data
         }));
@@ -60,12 +60,14 @@ const ApplicantsData: React.FC = () => {
     [filters]
   );
 
-  const onFinish = (values: any): any => {
+  const onFinish = (values: iFinishApplicant): void => {
     filterData({
-      age: values?.age && {
-        from: values?.age?.[0],
-        to: values?.age?.[1]
-      },
+      age: values?.age !== undefined
+        ? {
+            from: values?.age?.[0],
+            to: values?.age?.[1]
+          }
+        : undefined,
       regions: values?.regions,
       statuses: values?.statuses,
       student: values?.student,
@@ -79,13 +81,13 @@ const ApplicantsData: React.FC = () => {
   };
 
   const column = useColumn({ filterData, onFinish, form, setOpen, open });
-  const handleTableChange: any = (
-    pagination: any
-  ) => {
+  const handleTableChange: any = (pagination: IPagination) => {
+    console.log(pagination, 'dds');
+
     setTableParams({
       pagination
     });
-    setFilters((prevState: any) => ({
+    setFilters((prevState: []) => ({
       ...prevState,
       offset: pagination.current
     }));

@@ -1,3 +1,4 @@
+import { UseQueryResult } from '@tanstack/react-query';
 
 export interface SearchApplicants {
   filters: string
@@ -21,12 +22,12 @@ export interface DataType {
 
 }
 export interface ApplicatnList {
-  allApplicants: any
-  refetch: any
-  searchAplicant: any
+  allApplicants: string
+  refetch: () => Promise<UseQueryResult>
+  searchAplicant: string
   search: string
-  showNote: any
-  applicantsFilter: any
+  showNote: boolean
+  applicantsFilter: string
 
 }
 export interface IListeApplicants {
@@ -34,7 +35,32 @@ export interface IListeApplicants {
 
 }
 export interface filterApplicants {
-  filters: any
-  onFinish: any
+  filters: string
+  onFinish: iFinishApplicant
 
+}
+export interface iFinishApplicant {
+  gender: string
+  age: number[]
+  student: boolean
+  statuses: string[]
+  income: boolean
+  disability: boolean
+  regions: string[]
+}
+export interface IPagination {
+  current: number
+  pageSize: number
+  showSizeChanger: boolean
+  total: number
+}
+
+export interface IprevState {
+  age: any
+  disability: boolean
+  gender: string
+  income: boolean
+  regions: string[]
+  statuses: string[]
+  student: boolean
 }
