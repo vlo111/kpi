@@ -21,7 +21,8 @@ const SectionSelect: React.FC<ISectionProps> = ({
   title,
   answers,
   index,
-  rules
+  rules,
+  placeholder
 }) => {
   return (<AsnForm.Item
     key={index}
@@ -30,7 +31,7 @@ const SectionSelect: React.FC<ISectionProps> = ({
     name={[index, 'answers', 0, 'id']}
     rules={rules}
   >
-    <AntSelect>
+    <AntSelect placeholder={placeholder}>
       {answers.map((item: IAnswer) => (
         <Option key={item.id} value={item.id}>
           {item.title}

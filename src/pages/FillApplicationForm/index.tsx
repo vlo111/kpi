@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Form, Typography } from 'antd';
+import { Form } from 'antd';
 
 import { AsnForm } from '../../components/Forms/Form';
 import { AsnButton } from '../../components/Forms/Button';
@@ -17,6 +17,7 @@ import { getAnswers } from '../../helpers/utils';
 import { PATHS } from '../../helpers/constants';
 import styled from 'styled-components';
 import { ConcatAnswers, IFormQuestion } from '../../types/application';
+import { FormText, SectionTitle } from '../../components/FillApplicationForm/style';
 
 const FillApplicationFormContainer = styled.div`
   padding: 3rem 3.75rem 3.75rem;
@@ -27,19 +28,14 @@ const FillApplicationFormContainer = styled.div`
   margin: 3rem auto;
   display: flex;
   flex-direction: column;
-`;
+  
+  .ant-form-item {
+    margin: 12px 0 16px;
 
-const FormTitle = styled(Typography.Title)`
-  font-size: var(--font-size-semilarge);
-  color: var(--dark-border-ultramarine) !important;
-  font-weight: 400;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`;
-
-const FormText = styled.span`
-  font-size: var(--base-font-size);
+    input {
+      font-size: var(--font-size-semismall);
+    }
+  }
 `;
 
 const concatRelatedAnswers: ConcatAnswers = (items, educationQuestion) => {
@@ -122,7 +118,7 @@ const FillApplicationForm: React.FC = () => {
   return (
     <FillApplicationFormContainer>
       <AsnForm form={form} onFinish={onFinish} autoComplete="off">
-        <FormTitle>{title}</FormTitle>
+        <SectionTitle>{title}</SectionTitle>
         <FormText>{description}</FormText>
         <ApplicationForm
           sections={applicationFormSections}

@@ -19,14 +19,17 @@ export const renderQuestionForm: RenderQuestionForm = (
         { required: props.required },
         { pattern: phoneRegExp, message: phoneErrorMesage }
       ];
+      props.placeholder = '+(374) XXXXXX';
       break;
     }
     case 'email': {
       props.rules = [{ required: props.required }, { type: 'email' }, { max: 128 }];
+      props.placeholder = 'apply@analysed.ai';
       break;
     }
     default: {
       props.rules = [{ required: props.required }];
+      props.placeholder = 'Please enter the field';
       break;
     }
   }

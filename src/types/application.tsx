@@ -33,6 +33,7 @@ export interface IApplicationFormProps {
 
 export interface ISection {
   title: string
+  placeholder?: string
   index: number
   rules: Array<{ required: boolean, message: string }>
 }
