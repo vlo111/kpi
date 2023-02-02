@@ -68,4 +68,9 @@ export interface IFormItemProps {
 }
 
 export type CheckboxHandler = (values: CheckboxValueType[]) => void
-export type RadioHandler = (values: RadioChangeEvent) => void
+
+export type RadioHandler = (event: RadioChangeEvent) => void
+
+export type SetRequired = (item: boolean) => Array<{ required: boolean, message: string }>
+
+export type SetOtherState = (value: boolean) => void

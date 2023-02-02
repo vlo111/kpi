@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Radio, Space } from 'antd';
 
-import { IFormItemProps, RadioHandler } from '../../../../types/application';
+import { IFormItemProps, RadioHandler, SetOtherState, SetRequired } from '../../../../types/application';
 
 import {
   IAnswer, IRelatedQuestion
@@ -11,6 +11,8 @@ import { renderQuestionForm } from '../../../../helpers/applicationForm';
 
 import { AnswerTypes, ErrorRequireMessages } from '../../../../helpers/constants';
 import { BorderBottomInput, CustomRadio, FormText } from '../../style';
+
+const setRequired: SetRequired = (item) => [{ required: item, message: ErrorRequireMessages.input }];
 
 const SectionRadio: React.FC<IFormItemProps> = ({
   title,
@@ -24,6 +26,12 @@ const SectionRadio: React.FC<IFormItemProps> = ({
   const [showRelatedQuestion, setShowRelatedQuestion] = useState(true);
 
   const [openOther, setOpenOther] = useState(false);
+  const [otherRules, setOtherRules] = useState(setRequired(false));
+
+  const setOtherState: SetOtherState = (value) => {
+    setOpenOther(value);
+    setOtherRules(setRequired(value));
+  };
 
   const renderRelatedQuestion: (question: IRelatedQuestion) => JSX.Element = (
     question
@@ -47,29 +55,39 @@ const SectionRadio: React.FC<IFormItemProps> = ({
     return renderQuestionForm(keyName, answerType, index, props);
   };
 
-  const onRadioHandler: RadioHandler = (value) => {
-    if (relatedQuestions !== undefined) {
+  /**
+   * render yes or no related question
+   * update state radio for form item other id or text
+   * @param event
+   */
+  const onRadioHandler: RadioHandler = (event) => {
+    const { value } = event.target;
+
+    if (relatedQuestions !== undefined && relatedQuestions.length > 0) {
       setShowRelatedQuestion(!showRelatedQuestion);
-    }
-
-    const id = answers.find((a) => a.type === AnswerTypes.shortText)?.id;
-
-    if (value.target.value === id) {
-      setOpenOther(true);
     } else {
-      const formItemName = [formName, index, 'answers', 0, 'text'];
+      const otherId = answers.find((a) => a.type === AnswerTypes.shortText)?.id;
 
-      if (form.getFieldValue(formItemName) !== undefined) {
-        form.setFieldValue(formItemName, undefined);
-        setOpenOther(false);
+      const hasOther = value === otherId;
+
+      if (hasOther) {
+        setOtherState(true);
+      } else {
+        setOtherState(false);
       }
+
+      const fieldAnswer = {
+        id: value
+      };
+
+      form.setFieldValue([formName, index, 'answers', 0], fieldAnswer);
     }
   };
 
   const other = (
     <Space direction="horizontal">
       <FormText>Other/Այլ</FormText>
-      <AsnForm.Item key={index} name={[index, 'answers', 0, 'text']} rules={[{ required: true, message: ErrorRequireMessages.input }]}>
+      <AsnForm.Item key={index} name={[index, 'answers', 0, 'text']} rules={otherRules}>
         <BorderBottomInput disabled={!openOther} />
       </AsnForm.Item>
     </Space>
