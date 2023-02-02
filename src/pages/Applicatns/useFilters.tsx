@@ -62,7 +62,7 @@ export const UseFilters = ({
             <Form.Item name="income">
               <Radio.Group>
                 <Space direction="vertical">
-                  <Radio value={true}>Paid job</Radio>
+                  <Radio value={true} name='Paid job'>Paid job</Radio>
                   <Radio value={false}>Unemployed</Radio>
                 </Space>
               </Radio.Group>

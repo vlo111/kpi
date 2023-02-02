@@ -250,12 +250,12 @@ const GlobalStyle = createGlobalStyle`
   }
   .filterIcon{
     svg{
-    fill: #2A5578;
-    font-size: 16px;
+    fill: var(--dark-border-ultramarine);
+    font-size: var(--base-font-size);
     }
   }
   .table-row-dark{
-    background-color: #F4F6F8;
+    background-color: var(--primary-light-3);
   }
 `;
 
