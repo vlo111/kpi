@@ -127,7 +127,6 @@ const ApplicantsData: React.FC = () => {
       <Drawer width={'80%'} placement="right" onClose={onClose} open={openRow}>
         <Applicant applicantId={applicantId} />
       </Drawer>
-      ;
     </Container>
   );
 };
