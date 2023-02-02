@@ -52,4 +52,19 @@ export interface ShowDeleteUserModal {
   setShowModal: (b: string) => void
 }
 
+export interface ResultArea {
+  resultAreaId: string
+  activity: Array<{
+    id: string
+    template?: Array<{
+      id: string
+    }>
+  }>
+}
+
+export interface CascadedData {
+  projectId: string
+  resultAreas: ResultArea[]
+}
+
 export type HandleTableOnChange = (pagination: TablePaginationConfig) => void

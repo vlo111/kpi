@@ -7,7 +7,7 @@ import { AsnForm } from '../../Forms/Form';
 import { AsnInput } from '../../Forms/Input';
 import { VALIDATE_MESSAGES } from '../../../helpers/constants';
 import { AsnButton } from '../../Forms/Button';
-import { ShowDeleteUserModal } from '../../../types/teams';
+import { CascadedData, ShowDeleteUserModal } from '../../../types/teams';
 import { UsersPermissionsRule } from '../../../helpers/utils';
 import { FormFinish } from '../../../types/global';
 
@@ -110,21 +110,57 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({ setShowModal }) => 
   const [form] = AsnForm.useForm();
   const [value, setValue] = useState(1);
 
-  const [filedValue, setFiledValue] = useState<string[] | undefined>(undefined);
+  const [filedValue, setFiledValue] = useState<string[][]>([[]]);
 
   const [defaultVal] = useState(UsersPermissionsRule);
 
-  const onChange: any = (value: string[], selectOptions: any) => {
-    //   (obj[item.id]) ? obj[item.id].resultAreas.push(...item.resultAreas) : (obj[item.id] = { ...item });
-    //   return obj;
-    // }, {});
-    console.log(selectOptions, 'selectOptionsselectOptionsselectOptions');
-
+  const onChange: any = (value: string[][]) => {
     setFiledValue(value);
   };
 
   const onFinish: FormFinish = (values) => {
-    console.log(values, 'valuesss');
+    const result: CascadedData = {
+      projectId: filedValue[0][0],
+      resultAreas: []
+    };
+    filedValue.forEach((item) => {
+      const resultAreaIdIndex = 1;
+      const resultAreaId = item[resultAreaIdIndex];
+      const existingResultArea = result.resultAreas.find(
+        (ra) => ra.resultAreaId === resultAreaId
+      );
+      if (existingResultArea != null) {
+        existingResultArea.activity.push({
+          id: item[resultAreaIdIndex + 1],
+          template:
+            item.length > 2
+              ? [
+                  {
+                    id: item[resultAreaIdIndex + 2]
+                  }
+                ]
+              : undefined
+        });
+      } else {
+        result.resultAreas.push({
+          resultAreaId,
+          activity: [
+            {
+              id: item[resultAreaIdIndex + 1],
+              template:
+                item.length > 2
+                  ? [
+                      {
+                        id: item[resultAreaIdIndex + 2]
+                      }
+                    ]
+                  : undefined
+            }
+          ]
+        });
+      }
+    });
+    console.log(result);
   };
 
   const onChangePermission: (e: RadioChangeEvent) => void = (
@@ -220,7 +256,7 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({ setShowModal }) => 
         </AsnForm.Item>
         <AsnForm.Item
           style={{ width: '100%' }}
-          name="AssignTo"
+          name="assign_to"
           label="Assign to"
           rules={[{ required: true }]}
         >
@@ -230,9 +266,6 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({ setShowModal }) => 
             options={defaultVal}
             onChange={onChange}
             displayRender={(label) => label.join(' >  ')}
-            loadData={(selectOptions) => {
-              console.log(selectOptions);
-            }}
             multiple
             allowClear
             bordered={false}
