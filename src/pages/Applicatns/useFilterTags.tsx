@@ -82,12 +82,13 @@ export const UseFilterTags: React.FC<any> = ({
           )}
           {Boolean(form.getFieldValue('clearAll')) && (
             <Tag
-              closable
-              onClose={() => {
+              // closable
+              onClick={() => {
                 resetFilters();
               }}
+              className='clearfilter'
             >
-              {'Clear All'}
+              {'Clean All'}
             </Tag>
           )}
         </>

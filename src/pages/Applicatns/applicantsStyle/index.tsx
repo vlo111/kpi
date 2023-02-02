@@ -103,4 +103,10 @@ export const Container = styled.div`
   .ant-table table {
     width: auto;
   }
+  .clearfilter{
+    background-color: var(--white);
+    border: none;
+    color: var(--dark-border-ultramarine);
+    cursor: pointer;
+  }
 `;
