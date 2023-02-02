@@ -1,4 +1,4 @@
-import { AnswerTypes, phoneErrorMesage, phoneRegExp } from './constants';
+import { AnswerTypes, ErrorRequireMessages, phoneErrorMesage, phoneRegExp, Placeholders } from './constants';
 import SectionCheckBox from '../components/FillApplicationForm/FormList/CheckBox';
 import SectionSelect from '../components/FillApplicationForm/FormList/Select';
 import SectionRadio from '../components/FillApplicationForm/FormList/Radio';
@@ -19,17 +19,20 @@ export const renderQuestionForm: RenderQuestionForm = (
         { required: props.required },
         { pattern: phoneRegExp, message: phoneErrorMesage }
       ];
-      props.placeholder = '+(374) XXXXXX';
+      props.placeholder = Placeholders.phone;
       break;
     }
     case 'email': {
       props.rules = [{ required: props.required }, { type: 'email' }, { max: 128 }];
-      props.placeholder = 'apply@analysed.ai';
+      props.placeholder = Placeholders.email;
       break;
     }
     default: {
-      props.rules = [{ required: props.required }];
-      props.placeholder = 'Please enter the field';
+      if (answerType === AnswerTypes.options || answerType === AnswerTypes.checkbox) {
+        props.rules = props.rules = [{ required: props.required, message: ErrorRequireMessages.checkbox }];
+      } else {
+        props.rules = [{ required: props.required }];
+      }
       break;
     }
   }

@@ -3,7 +3,7 @@ import { IAnswer } from '../../../../types/api/application/applicationForm';
 import { AsnForm } from '../../../Forms/Form';
 import { AsnSelect } from '../../../Forms/Select';
 import styled from 'styled-components';
-import { ISectionProps } from '../../../../types/application';
+import { IFormItemProps } from '../../../../types/application';
 
 const { Option } = AsnSelect;
 
@@ -17,7 +17,7 @@ const AntSelect = styled(AsnSelect)`
   }
 `;
 
-const SectionSelect: React.FC<ISectionProps> = ({
+const SectionSelect: React.FC<IFormItemProps> = ({
   title,
   answers,
   index,

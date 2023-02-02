@@ -97,8 +97,6 @@ const FillApplicationForm: React.FC = () => {
         [personalInfo.keyName]: getAnswers(personalInfo.questions)
       };
 
-      console.log(questions);
-
       form.setFieldsValue({
         ...questions
       });
@@ -117,7 +115,10 @@ const FillApplicationForm: React.FC = () => {
 
   return (
     <FillApplicationFormContainer>
-      <AsnForm form={form} onFinish={onFinish} autoComplete="off">
+      <AsnForm form={form} onFinish={onFinish} onFinishFailed={(val) => {
+        // eslint-disable-next-line no-debugger
+        debugger;
+      }} autoComplete="off">
         <SectionTitle>{title}</SectionTitle>
         <FormText>{description}</FormText>
         <ApplicationForm

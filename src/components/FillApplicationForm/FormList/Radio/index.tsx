@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
+import { Radio, Space } from 'antd';
+
+import { IFormItemProps, RadioHandler } from '../../../../types/application';
+
 import {
-  IAnswer,
-  IRelatedQuestion
+  IAnswer, IRelatedQuestion
 } from '../../../../types/api/application/applicationForm';
 import { AsnForm } from '../../../Forms/Form';
-import { Radio, Space } from 'antd';
-import { BorderBottomInput, CustomRadio } from '../../style';
-import { ISectionCheckProps } from '../../../../types/application';
 import { renderQuestionForm } from '../../../../helpers/applicationForm';
 
-const SectionRadio: React.FC<ISectionCheckProps> = ({
+import { AnswerTypes, ErrorRequireMessages } from '../../../../helpers/constants';
+import { BorderBottomInput, CustomRadio, FormText } from '../../style';
+
+const SectionRadio: React.FC<IFormItemProps> = ({
   title,
   answers,
   index,
-  otherOption,
   formName,
   relatedQuestions
 }) => {
@@ -21,11 +23,12 @@ const SectionRadio: React.FC<ISectionCheckProps> = ({
 
   const [showRelatedQuestion, setShowRelatedQuestion] = useState(true);
 
+  const [openOther, setOpenOther] = useState(false);
+
   const renderRelatedQuestion: (question: IRelatedQuestion) => JSX.Element = (
     question
   ) => {
-    const { answerType, keyName, title, answers, otherOption, required } =
-      question;
+    const { answerType, keyName, title, answers, required } = question;
 
     const formSection = form.getFieldValue(formName ?? '');
 
@@ -36,47 +39,65 @@ const SectionRadio: React.FC<ISectionCheckProps> = ({
     const props = {
       index,
       title,
-      otherOption,
       answers,
+      formName,
       required
     };
 
     return renderQuestionForm(keyName, answerType, index, props);
   };
 
+  const onRadioHandler: RadioHandler = (value) => {
+    if (relatedQuestions !== undefined) {
+      setShowRelatedQuestion(!showRelatedQuestion);
+    }
+
+    const id = answers.find((a) => a.type === AnswerTypes.shortText)?.id;
+
+    if (value.target.value === id) {
+      setOpenOther(true);
+    } else {
+      const formItemName = [formName, index, 'answers', 0, 'text'];
+
+      if (form.getFieldValue(formItemName) !== undefined) {
+        form.setFieldValue(formItemName, undefined);
+        setOpenOther(false);
+      }
+    }
+  };
+
+  const other = (
+    <Space direction="horizontal">
+      <FormText>Other/Այլ</FormText>
+      <AsnForm.Item key={index} name={[index, 'answers', 0, 'text']} rules={[{ required: true, message: ErrorRequireMessages.input }]}>
+        <BorderBottomInput disabled={!openOther} />
+      </AsnForm.Item>
+    </Space>
+  );
+
   return (
     <>
       <AsnForm.Item
         key={index}
+        name={[index, 'answers', 0, 'id']}
         label={title}
         labelCol={{ span: 24 }}
-        name={[index, 'answers', 0, 'id']}
-        rules={[{ required: true, message: 'The field is required' }]}
       >
-        <Radio.Group>
+        <Radio.Group
+          onChange={onRadioHandler}
+        >
           <Space direction="vertical">
-            {answers.map((item: IAnswer) => (
-              <CustomRadio
-                value={item.id}
-                key={item.id}
-                onChange={() => {
-                  setShowRelatedQuestion(!showRelatedQuestion);
-                }}
-              >
-                {item.title}
-              </CustomRadio>
-            ))}
-            {otherOption && (
+            {answers?.map((item: IAnswer) => (
               <>
-                <span>Other (specify)/ Այլ (նշել)</span>
-                <BorderBottomInput />
+                <CustomRadio key={item.id} value={item.id}>
+                  {item.type === AnswerTypes.shortText ? other : <p>{item.title}</p>}
+                </CustomRadio>
               </>
-            )}
+            ))}
           </Space>
         </Radio.Group>
       </AsnForm.Item>
       {showRelatedQuestion &&
-        relatedQuestions !== undefined &&
         relatedQuestions?.map((question) => renderRelatedQuestion(question))}
     </>
   );

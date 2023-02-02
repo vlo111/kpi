@@ -27,7 +27,7 @@ const queryClient = new QueryClient({
 
 // eslint-disable-next-line no-template-curly-in-string
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <ConfigProvider locale={locale}>
       <AuthProvider>
       <ProjectProvider>
@@ -38,7 +38,7 @@ root.render(
       </ProjectProvider>
       </AuthProvider>
     </ConfigProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 reportWebVitals();

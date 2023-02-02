@@ -1,9 +1,10 @@
 import { IAnswer, IApplicationFormSections, IQuestion, IRelatedQuestion } from './api/application/applicationForm';
-import { Rule } from 'eslint';
+import { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import { RadioChangeEvent } from 'antd';
 
 export interface IFormAnswer {
   id: string
-  text: string
+  // text: string
 }
 
 export interface IAnswerProps {
@@ -31,23 +32,6 @@ export interface IApplicationFormProps {
   section: IApplicationFormSections
 }
 
-export interface ISection {
-  title: string
-  placeholder?: string
-  index: number
-  rules: Array<{ required: boolean, message: string }>
-}
-
-export interface ISectionProps extends ISection {
-  answers: IAnswer[]
-}
-
-export interface ISectionCheckProps extends ISectionProps {
-  otherOption: boolean
-  formName?: string
-  relatedQuestions?: IRelatedQuestion[]
-}
-
 export interface IFormQuestion { [p: string]: IAnswerProps[] }
 
 export type ConcatAnswers = (items: IApplicationFormSections, educationQuestion: IFormQuestion) => void
@@ -69,5 +53,19 @@ export type RenderQuestionForm = (
   keyName: string,
   answerType: string,
   index: number,
-  props: any
+  props: IFormItemProps
 ) => JSX.Element;
+
+export interface IFormItemProps {
+  index: number
+  title: string
+  answers: IAnswer[]
+  required?: boolean
+  formName: string
+  placeholder?: string
+  relatedQuestions?: IRelatedQuestion[]
+  rules?: any
+}
+
+export type CheckboxHandler = (values: CheckboxValueType[]) => void
+export type RadioHandler = (values: RadioChangeEvent) => void

@@ -96,8 +96,8 @@ const initAnswers: InitAnswer = (keyName, answerType, answers) => {
 };
 
 const convertAnswerForm: ConvertAnswerForm = (key, answers) => ({
-  id: answers[0]?.id,
-  text: answers[0]?.title
+  id: answers[0]?.id
+  // text: answers[0]?.title
 });
 
 /**

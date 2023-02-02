@@ -154,6 +154,16 @@ export enum SectionName {
   professionalInfo = 'professional_info',
 }
 
+export enum Placeholders {
+  phone = '+(374) XXXXXX',
+  email = 'apply@analysed.ai'
+}
+
+export enum ErrorRequireMessages {
+  checkbox = 'Please chose one of the fields',
+  input = 'Please enter the field'
+}
+
 export const defaultLimit = {
   offset: 0,
   limit: 24,

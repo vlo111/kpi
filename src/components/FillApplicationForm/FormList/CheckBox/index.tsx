@@ -5,57 +5,61 @@ import { AsnCheckbox } from '../../../Forms/Checkbox';
 import { AsnForm } from '../../../Forms/Form';
 
 import { IAnswer } from '../../../../types/api/application/applicationForm';
-import { ISectionCheckProps } from '../../../../types/application';
+import { CheckboxHandler, IFormItemProps } from '../../../../types/application';
 
-import { Void } from '../../../../types/global';
-import { BorderBottomInput } from '../../style';
+import { AnswerTypes, ErrorRequireMessages } from '../../../../helpers/constants';
+import { BorderBottomInput, FormText } from '../../style';
 
-const SectionCheckBox: React.FC<ISectionCheckProps> = ({
+const SectionCheckBox: React.FC<IFormItemProps> = ({
   title,
   answers,
   index,
-  otherOption
+  formName,
+  rules
 }) => {
   const form = AsnForm.useFormInstance();
   const [openOther, setOpenOther] = useState(false);
 
-  const checkboxHandler: Void = () => {
-    form.setFieldValue(
-      ['personal_info', index, 'answers', answers.length, 'text'],
-      ''
-    );
-    setOpenOther(!openOther);
+  const onCheckboxHandler: CheckboxHandler = (values) => {
+    const id = answers.find((a) => a.type === AnswerTypes.shortText)?.id;
+
+    if (values.includes(id ?? '')) {
+      setOpenOther(true);
+    } else {
+      // if (form.getFieldValue([formName, index, 'answers', 1, 'text']) !== undefined) {
+      // form.setFieldValue([formName, index, 'answers', 1, 'text'], undefined);
+      setOpenOther(false);
+      // }
+    }
   };
+
+  const other = (
+    <Space direction="horizontal">
+      <FormText>Other/Այլ</FormText>
+      <AsnForm.Item key={index} rules={[{ required: true, message: ErrorRequireMessages.input }]} name={[index, 'answers', 1, 'text']}>
+        <BorderBottomInput disabled={!openOther} />
+      </AsnForm.Item>
+    </Space>
+  );
 
   return (
     <Fragment key={index}>
       <p>{title}</p>
-      {answers?.map((item: IAnswer, i) => (
-        <AsnForm.Item
-          style={{ marginBottom: '8px' }}
-          key={i} name={[index, 'answers', i, 'id']}
-        >
+      <AsnForm.Item
+        key={index}
+        name={[index, 'answers', 0, 'id']}
+        rules={rules}
+      >
+        <AsnCheckbox.Group onChange={onCheckboxHandler}>
           <Space direction="vertical">
-            <AsnCheckbox key={item.id}>
-              {item.title}
-            </AsnCheckbox>
+            {answers?.map((item: IAnswer, i) => (
+              <AsnCheckbox key={item.id} value={item.id}>
+                {item.type === AnswerTypes.shortText ? other : <p>{item.title}</p>}
+                </AsnCheckbox>
+            ))}
           </Space>
-        </AsnForm.Item>
-      ))}
-      {otherOption && (
-        <AsnCheckbox
-          onChange={checkboxHandler}
-        >
-          <Space direction="vertical">
-            <AsnForm.Item
-              key={index}
-              name={[index, 'answers', answers.length, 'text']}
-            >
-              <BorderBottomInput disabled={!openOther} />
-            </AsnForm.Item>
-          </Space>
-        </AsnCheckbox>
-      )}
+        </AsnCheckbox.Group>
+      </AsnForm.Item>
     </Fragment>
   );
 };
