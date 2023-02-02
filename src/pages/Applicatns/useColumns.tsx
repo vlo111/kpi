@@ -71,7 +71,7 @@ export const useColumn = ({
     {
       title: 'Region',
       key: 5,
-      dataIndex: 'regions',
+      dataIndex: 'region',
       ellipsis: true
     },
     {
