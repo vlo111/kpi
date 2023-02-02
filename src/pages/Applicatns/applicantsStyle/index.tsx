@@ -68,7 +68,7 @@ export const Container = styled.div`
     padding: 32px 0px 42px 0px;
   }
   .ant-table-wrapper {
-    height: 79vh;
+    height: 67vh;
     overflow: auto;
   }
   .ant-pagination-item-link {
