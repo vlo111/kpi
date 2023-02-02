@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useCallback, useEffect, useState } from 'react';
 import { Table, Drawer } from 'antd';
 
