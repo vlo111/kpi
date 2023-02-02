@@ -83,10 +83,10 @@ const setValue: (key: string, value: string | undefined) => JSX.Element = (
   </AntRow>
 );
 
-const Applicant: React.FC = () => {
+const Applicant: React.FC<{ applicantId?: string | undefined }> = ({ applicantId }) => {
   const { id } = useParams();
 
-  const { applicant: { applicant, courses } = {} } = useGetApplicant(id);
+  const { applicant: { applicant, courses } = {} } = useGetApplicant(id ?? applicantId);
 
   const getApplicantInfo = (
     <>
@@ -112,6 +112,7 @@ const Applicant: React.FC = () => {
   return (
     <Row height={100} style={{ padding: '2rem 4rem' }} gutter={[0, 32]}>
       <Row>
+      {Boolean(id) &&
         <Col>
           <InfoRow>
             <Col className="path">
@@ -121,7 +122,7 @@ const Applicant: React.FC = () => {
               <p>{applicant?.fullName}</p>
             </Col>
           </InfoRow>
-        </Col>
+        </Col>}
       </Row>
       <Row>
         <ApplicantProfile span={24}>

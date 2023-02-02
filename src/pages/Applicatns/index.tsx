@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useCallback, useEffect, useState } from 'react';
-import { Table } from 'antd';
+import { Table, Drawer } from 'antd';
 
 import UseSearch from './useSearch';
 import { Container } from './applicantsStyle';
@@ -9,6 +10,7 @@ import { UseFilterTags } from './useFilterTags';
 import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
 import { AsnForm } from '../../components/Forms/Form';
 import { iFinishApplicant, IprevState } from './applicantsTypes';
+import Applicant from '../../components/Applicant';
 
 const ApplicantsData: React.FC = () => {
   const [result, setResult] = useState<any>({ data: [], count: null });
@@ -28,6 +30,17 @@ const ApplicantsData: React.FC = () => {
 
   const [form] = AsnForm.useForm();
   const [open, setOpen] = useState(false);
+  const [openRow, setOpenRow] = useState(false);
+  const [applicantId, setApplicantId] = useState('');
+  const showDrawer = (record: any): any => {
+    setOpenRow(record);
+    setApplicantId(record);
+    console.log(record);
+  };
+
+  const onClose = (): any => {
+    setOpenRow(false);
+  };
 
   const { refetch } = useAllAplicants(filters, {
     onSuccess: (data: []) => {
@@ -101,19 +114,20 @@ const ApplicantsData: React.FC = () => {
           rowClassName={(record, index) =>
             index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
           }
-          // onRow={(record) => {
-          //   return {
-          //     onClick: (event) => {
-          //       // showDrawer(record?.key);
-          //       // navigate(
-          //       //    `/applicant/${record?.key}`
-          //       // );
-          //     }
-          //   };
-          // }}
+          onRow={(record, index): any => {
+            return {
+              onClick: () => {
+                showDrawer(record?.id);
+              }
+            };
+          }}
           pagination={tableParams.pagination}
         />
       </>
+      <Drawer width={'80%'} placement="right" onClose={onClose} open={openRow}>
+        <Applicant applicantId={applicantId} />
+      </Drawer>
+      ;
     </Container>
   );
 };
