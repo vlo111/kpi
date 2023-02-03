@@ -238,7 +238,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
           <SwitchContainer>
             <span>Required</span>
             <AsnForm.Item name="requiredFiled" valuePropName="checked">
-              <AsnSwitch defaultChecked={true} />
+              <AsnSwitch defaultChecked={true} disabled={(answerTypeValue === 'OPTION' || answerTypeValue === 'YES_NO')} />
             </AsnForm.Item>
           </SwitchContainer>
           {answerTypeValue === 'CHECKBOX' || answerTypeValue === 'OPTION'
