@@ -1,67 +1,77 @@
 import React from 'react';
+import styled from 'styled-components';
 import {
   CardContainer,
   CardTitle,
   CustomButton,
   CustomTextArea
 } from '../applicationStyle';
-import { v4 as uuidv4 } from 'uuid';
-import { FormFinish } from '../../../types/global';
-import {
-  IIsAddTermsConditions,
-  ITermsAndCondition
-} from '../../../types/project';
+import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
+import { ReactComponent as PlusIcon } from '../../../assets/icons/plus.svg';
+import { AsnForm } from '../../Forms/Form';
 
-const TermsAndCondition: React.FC<ITermsAndCondition> = ({
-  setTermsConditionsValue,
-  termsConditionsValue,
-  setIsAddTermsConditions,
-  isAddTermsConditions
-}) => {
-  const handleTermsConditions: FormFinish = (event) => {
-    setTermsConditionsValue({
-      ...termsConditionsValue,
-      [event.target.name]: event.target.value
-    });
-  };
+export const TextAreaContainer = styled.div`
+  display: flex;
+  flex-direction: row;
 
+  svg {
+    margin-left: 8px;
+    cursor: pointer;
+  }
+`;
+export const FormSpace = styled.div`
+  display: flex;
+  align-items: flex-start;
+  .ant-form-item {
+    margin: 0px 8px 0px 0px;
+    width: 100%;
+  }
+  svg {
+    cursor: pointer;
+  }
+`;
+
+const TermsAndCondition: React.FC = () => {
   return (
     <CardContainer
       borderTop={'3px solid var(--secondary-light-amber)'}
       marginBottom={'2rem'}
     >
       <CardTitle>Terms and Conditions / Պայմաններ և դրույթներ</CardTitle>
-      {isAddTermsConditions.map(
-        (item: IIsAddTermsConditions, index: number) => (
-          <CustomTextArea
-            key={item.id}
-            style={{ borderRadius: '0px' }}
-            placeholder={item.placeholder}
-            name={`condition${index}`}
-            onChange={handleTermsConditions}
-            value={termsConditionsValue[`condition${index}`]}
-          />
+      <AsnForm.List name="conditions">
+        {(fields, { add, remove }) => (
+            <>
+              {fields.map(({ key, name, ...restField }) => (
+                <FormSpace key={key}>
+                  <AsnForm.Item {...restField} name={name}>
+                    <CustomTextArea
+                      placeholder="Type the agreement text"
+                      style={{ borderRadius: '0px' }}
+                    />
+                  </AsnForm.Item>
+                  <DeleteIcon onClick={() => remove(name)} />
+                </FormSpace>
+              ))}
+              {fields.length === 5
+                ? null
+                : (
+                <AsnForm.Item>
+                  <CustomButton
+                    className="default"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusIcon />}
+                  >
+                    Add field
+                  </CustomButton>
+                </AsnForm.Item>
+                  )}
+            </>
         )
-      )}
-      {isAddTermsConditions.length === 5
-        ? null
-        : (
-        <CustomButton
-          className="default"
-          onClick={() => {
-            if (isAddTermsConditions.length <= 5) {
-              setIsAddTermsConditions([
-                ...isAddTermsConditions,
-                { id: uuidv4(), placeholder: 'Type the agreement text' }
-              ]);
-            }
-          }}
-        >
-          +Add field
-        </CustomButton>
-          )}
+        }
+      </AsnForm.List>
     </CardContainer>
   );
 };
 
-export default TermsAndCondition;
+export default React.memo(TermsAndCondition);
