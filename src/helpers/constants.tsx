@@ -156,7 +156,14 @@ export enum SectionName {
 
 export enum Placeholders {
   phone = '+(374) XXXXXX',
-  email = 'apply@analysed.ai'
+  date = 'DD/MM/YYYY',
+  email = 'yourmail@analysed.ai'
+}
+
+export enum KeyName {
+  phone = 'phone',
+  dob = 'dob',
+  email = 'email'
 }
 
 export enum ErrorRequireMessages {

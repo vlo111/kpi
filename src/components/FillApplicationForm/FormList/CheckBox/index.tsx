@@ -5,7 +5,13 @@ import { AsnCheckbox } from '../../../Forms/Checkbox';
 import { AsnForm } from '../../../Forms/Form';
 
 import { IAnswer } from '../../../../types/api/application/applicationForm';
-import { CheckboxHandler, IFormItemProps, SetOtherState, SetRequired } from '../../../../types/application';
+import {
+  CheckboxHandler, IFormAnswer,
+  IFormItemProps,
+  OnOtherChangeHandler,
+  SetOtherState,
+  SetRequired
+} from '../../../../types/application';
 
 import { AnswerTypes, ErrorRequireMessages } from '../../../../helpers/constants';
 import { BorderBottomInput, FormText } from '../../style';
@@ -39,6 +45,7 @@ const SectionCheckBox: React.FC<IFormItemProps> = ({
     if (isCheckedOther) {
       setOtherState(true);
     } else {
+      form.setFieldValue([formName, index, 'radioText'], '');
       setOtherState(false);
     }
 
@@ -54,14 +61,20 @@ const SectionCheckBox: React.FC<IFormItemProps> = ({
       return answer;
     });
 
-    form.setFieldValue([formName, index, 'answers', 0], fieldAnswer);
+    form.setFieldValue([formName, index, 'answers'], fieldAnswer);
+  };
+
+  const onOtherChangeHandler: OnOtherChangeHandler = (event) => {
+    const otherIndex = form.getFieldValue([formName, index, 'answers']).findIndex((a: IFormAnswer) => a.text);
+
+    form.setFieldValue([formName, index, 'answers', otherIndex, 'text'], event.target.value);
   };
 
   const other = (
     <Space direction="horizontal">
       <FormText>Other/Այլ</FormText>
       <AsnForm.Item key={index} rules={otherRules} name={[index, 'radioText']}>
-        <BorderBottomInput disabled={!openOther} />
+        <BorderBottomInput disabled={!openOther} onChange={onOtherChangeHandler}/>
       </AsnForm.Item>
     </Space>
   );

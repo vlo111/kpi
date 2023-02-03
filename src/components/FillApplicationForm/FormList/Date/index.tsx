@@ -3,7 +3,7 @@ import { AsnForm } from '../../../Forms/Form';
 import { IFormItemProps } from '../../../../types/application';
 import { AsnDatePicker } from '../../../Forms/DatePicker';
 
-const SectionDate: React.FC<IFormItemProps> = ({ index, title, rules }) => {
+const SectionDate: React.FC<IFormItemProps> = ({ index, title, placeholder, rules }) => {
   return (
     <AsnForm.Item
       key={index}
@@ -14,6 +14,7 @@ const SectionDate: React.FC<IFormItemProps> = ({ index, title, rules }) => {
     >
       <AsnDatePicker
         format="DD/MM/YYYY"
+        placeholder={placeholder}
         style={{ height: '44px', width: '100%' }}
       />
     </AsnForm.Item>

@@ -1,3 +1,5 @@
+import { SectionName } from '../helpers/constants';
+
 export interface IApplicant {
   id: string
   fullName: string
@@ -64,3 +66,5 @@ interface GetApplicant {
 }
 
 export type UseGetApplicant = (id: string | undefined) => GetApplicant
+
+export type GetField = (name: SectionName) => any

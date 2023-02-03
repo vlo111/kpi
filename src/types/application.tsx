@@ -1,15 +1,16 @@
 import { IAnswer, IApplicationFormSections, IQuestion, IRelatedQuestion } from './api/application/applicationForm';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { RadioChangeEvent } from 'antd';
+import React from 'react';
 
 export interface IFormAnswer {
-  id: string
-  // text: string
+  id?: string
+  text?: string
 }
 
 export interface IAnswerProps {
   title: string
-  id: string
+  questionId: string
   keyName: string
   answers: IFormAnswer[]
   answerType: string
@@ -74,3 +75,5 @@ export type RadioHandler = (event: RadioChangeEvent) => void
 export type SetRequired = (item: boolean) => Array<{ required: boolean, message: string }>
 
 export type SetOtherState = (value: boolean) => void
+
+export type OnOtherChangeHandler = (value: React.ChangeEvent<HTMLInputElement>) => void

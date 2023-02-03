@@ -1,23 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Form } from 'antd';
+import { Form, Row, Spin } from 'antd';
 
 import { AsnForm } from '../../components/Forms/Form';
 import { AsnButton } from '../../components/Forms/Button';
-import { FormFinish } from '../../types/global';
-import {
-  IApplicant,
-  IQuestion,
-  IRelatedQuestion
-} from '../../types/api/application/applicationForm';
+import { FormFinish, Void } from '../../types/global';
+import { IApplicant } from '../../types/api/application/applicationForm';
 
 import useSingleApplicationForm from '../../api/ApplicationForm/useGetSingleApplicationForm';
 import ApplicationForm from '../../components/FillApplicationForm';
-import { getAnswers } from '../../helpers/utils';
-import { PATHS } from '../../helpers/constants';
+import { KeyName, PATHS, SectionName } from '../../helpers/constants';
 import styled from 'styled-components';
-import { ConcatAnswers, IFormQuestion } from '../../types/application';
 import { FormText, SectionTitle } from '../../components/FillApplicationForm/style';
+import _ from 'lodash';
+import useCreateApplicant from '../../api/Applicant/useApplyApplicant';
+import { getRelatedQuestions, getAnswers } from '../../helpers/applicationForm';
+import { GetField } from '../../types/applicant';
+import { AsnModal } from '../../components/Forms/Modal';
+import { ReactComponent as SuccessfulIcon } from '../../assets/icons/successful.svg';
 
 const FillApplicationFormContainer = styled.div`
   padding: 3rem 3.75rem 3.75rem;
@@ -29,39 +29,50 @@ const FillApplicationFormContainer = styled.div`
   display: flex;
   flex-direction: column;
   
+  .title {
+    font-size: var(--large-font-size) !important;
+    justify-content: center;
+  }
+  
   .ant-form-item {
     margin: 12px 0 16px;
 
     input {
       font-size: var(--font-size-semismall);
     }
-  }
+  }  
 `;
-
-const concatRelatedAnswers: ConcatAnswers = (items, educationQuestion) => {
-  const relatedQuestions: IRelatedQuestion[] = items.questions
-    .map((q: IQuestion) => q.relatedQuestions)
-    .filter((f: IRelatedQuestion[]) => f.length)
-    .flat();
-
-  const relatedQuestionAnswer = getAnswers(relatedQuestions);
-
-  const key = Object.keys(educationQuestion)[0];
-
-  educationQuestion[key] = educationQuestion[key].concat(relatedQuestionAnswer);
-};
 
 const FillApplicationForm: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [form] = Form.useForm();
 
-  const data: IApplicant | undefined = useSingleApplicationForm(id ?? '', {
+  const [isSuccessPublishModal, setIsSuccessPublishModal] = useState(false);
+
+  const { data, isLoading } = useSingleApplicationForm(id ?? '', {
     onSuccess: (data: IApplicant) => {
       // console.log('SUCC', data);
     },
     onError: (data: IApplicant) => {
       navigate(`/${PATHS.ERROR_403}`);
+    }
+  });
+
+  const { mutate: createApplicant } = useCreateApplicant({
+    onSuccess: (options: any) => {
+      form.resetFields();
+      initForm();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      setTimeout(() => {
+        setIsSuccessPublishModal(true);
+      }, 1000);
+    },
+    onError: (err: any) => {
+      console.log(err);
     }
   });
 
@@ -74,21 +85,18 @@ const FillApplicationForm: React.FC = () => {
   } = data ?? {};
 
   useEffect(() => {
-    if (data?.applicationFormSections !== undefined) {
-      const [personalDetails, education, otherInfo, personalInfo] =
-        applicationFormSections;
+    if (!_.isEmpty(data)) {
+      initForm();
+    }
+  }, [data, id, form]);
 
-      const educationQuestion: IFormQuestion = {
-        [education.keyName]: getAnswers(education.questions)
-      };
+  const initForm: Void = () => {
+    if (applicationFormSections !== undefined) {
+      const [personalDetails, education, otherInfo, personalInfo] = applicationFormSections;
 
-      concatRelatedAnswers(education, educationQuestion);
+      const educationQuestion = getRelatedQuestions(education);
 
-      const otherInfoQuestion: IFormQuestion = {
-        [otherInfo.keyName]: getAnswers(otherInfo.questions)
-      };
-
-      concatRelatedAnswers(otherInfo, otherInfoQuestion);
+      const otherInfoQuestion = getRelatedQuestions(otherInfo);
 
       const questions = {
         [personalDetails.keyName]: getAnswers(personalDetails.questions),
@@ -101,25 +109,42 @@ const FillApplicationForm: React.FC = () => {
         ...questions
       });
     }
-  }, [data]);
+  };
+
+  const getField: GetField = (name) => _.cloneDeep(form.getFieldValue(name));
 
   const onFinish: FormFinish = () => {
     try {
-      // eslint-disable-next-line no-debugger
-      debugger;
-      console.log(form.getFieldValue('personal_info'));
+      const personalInfo = getField(SectionName.personalInfo);
+      const educationalInfo = getField(SectionName.educationalInfo);
+      const otherInfo = getField(SectionName.otherInfo);
+      const professionalInfo = getField(SectionName.professionalInfo);
+
+      personalInfo.forEach((p: any) => {
+        if (p.keyName === KeyName.dob) {
+          p.answers[0].text = p.answers[0].text.toJSON();
+        }
+      });
+
+      const data = personalInfo.concat(educationalInfo, otherInfo, professionalInfo);
+
+      createApplicant({
+        id,
+        data
+      });
     } catch (e) {
       console.log(e);
     }
   };
 
   return (
+    <Spin spinning={isLoading}>
     <FillApplicationFormContainer>
       <AsnForm form={form} onFinish={onFinish} onFinishFailed={(val) => {
         // eslint-disable-next-line no-debugger
         debugger;
       }} autoComplete="off">
-        <SectionTitle>{title}</SectionTitle>
+        <SectionTitle className="title">{title}</SectionTitle>
         <FormText>{description}</FormText>
         <ApplicationForm
           sections={applicationFormSections}
@@ -135,6 +160,18 @@ const FillApplicationForm: React.FC = () => {
         </AsnButton>
       </AsnForm>
     </FillApplicationFormContainer>
+      <AsnModal
+        footer={false}
+        open={isSuccessPublishModal}
+        title={data?.successMessage}
+        onCancel={() => setIsSuccessPublishModal(false)}
+        width="50%"
+      >
+        <Row justify="center">
+          <SuccessfulIcon />
+        </Row>
+      </AsnModal>
+    </Spin>
   );
 };
 
