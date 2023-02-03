@@ -12,8 +12,8 @@ export const useColumn = ({
   form,
   setOpen,
   open
-}: any): any => {
-  const handleOpenChange = (newOpen: boolean): any => {
+}: any): {} => {
+  const handleOpenChange = (newOpen: boolean): void => {
     setOpen(newOpen);
   };
   return [
@@ -46,7 +46,7 @@ export const useColumn = ({
       dataIndex: 'sector',
       key: 2,
       ellipsis: true,
-      render: (text: any, record: any) => {
+      render: (text: string, record: any) => {
         return record?.courseMap?.course?.sector?.title;
       }
     },
@@ -55,7 +55,7 @@ export const useColumn = ({
       dataIndex: 'course',
       key: 3,
       ellipsis: true,
-      render: (text: any, record: any) => {
+      render: (text: string, record: any) => {
         return record?.courseMap?.course?.title;
       }
     },
@@ -64,7 +64,7 @@ export const useColumn = ({
       key: 4,
       dataIndex: 'status',
       ellipsis: true,
-      render: (text: any, record: any) => {
+      render: (text: string, record: any) => {
         return record?.courseMap?.status;
       }
     },
@@ -79,7 +79,7 @@ export const useColumn = ({
       key: 6,
       dataIndex: 'phoneNumber',
       ellipsis: true,
-      render: (text: any, record: any) => {
+      render: (text: string, record: any) => {
         return record?.phone;
       }
     },
@@ -88,7 +88,7 @@ export const useColumn = ({
       key: 7,
       dataIndex: 'age',
       ellipsis: true,
-      render: (text: any, record: any) => {
+      render: (text: string, record: any) => {
         return `${
           Number(moment?.(today)?.format('YYYY').valueOf()) -
           Number(moment(record?.dob).format('YYYY'))
@@ -106,7 +106,7 @@ export const useColumn = ({
       key: 9,
       dataIndex: 'education',
       ellipsis: true,
-      render: (text: any, record: any) => {
+      render: (text: string, record: any) => {
         return record?.educationLevel;
       }
     },
@@ -121,7 +121,7 @@ export const useColumn = ({
       key: 11,
       dataIndex: 'vulnerability',
       ellipsis: true,
-      render: (text: any, record: any) => {
+      render: (text: string, record: any) => {
         return record?.vulnerabilities;
       }
     },
@@ -130,7 +130,7 @@ export const useColumn = ({
       key: 12,
       dataIndex: 'workOrganisation',
       ellipsis: true,
-      render: (text: any, record: any) => {
+      render: (text: string, record: any) => {
         return record?.workOrganisation;
       }
     },
