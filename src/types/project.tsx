@@ -229,11 +229,12 @@ export interface ILearningStatusData {
   sections: object[]
   status: string
   title: string
-
 }
 
 export interface ISetting {
   changeable: boolean | undefined
+  answerType: string
+  data: string []
   id: string | undefined
   projectId: string | undefined
   title: string | undefined
@@ -557,6 +558,7 @@ export interface IAddActivity {
 
 export interface IAttachmentSetting {
   setting: ISetting
+  active: boolean
 }
 
 export interface IFormUrlModal {
