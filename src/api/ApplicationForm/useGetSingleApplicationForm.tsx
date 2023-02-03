@@ -13,11 +13,12 @@ const useSingleApplicationForm: any = (id: string, options = { enabled: false })
       ...options
     }
   );
-  const { data, isSuccess } = result;
+  const { data, isSuccess, isLoading } = result;
 
   return {
     ...result,
-    data: isSuccess ? data : {}
+    data: isSuccess ? data : {},
+    isLoading
   };
 };
 

@@ -1,6 +1,6 @@
 import { Typography } from 'antd';
 import styled from 'styled-components';
-import { ICardContainer } from '../../types/project';
+import { ICardContainer } from '../../types/api/application/applicationForm';
 import { AsnButton } from '../Forms/Button';
 import { AsnInput, AsnTextArea } from '../Forms/Input';
 
@@ -73,9 +73,7 @@ export const DetailsContainer = styled.div`
       background-color: var(--dark-border-ultramarine);
     }
   }
-  .ant-radio-group {
-    margin-top: 1rem;
-  }
+
 `;
 
 export const DividerLine = styled.span`
