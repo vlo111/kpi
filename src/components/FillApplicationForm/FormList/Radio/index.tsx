@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
 import { Radio, Space } from 'antd';
 
-import { IFormItemProps, RadioHandler, SetOtherState, SetRequired } from '../../../../types/application';
+import {
+  IFormItemProps,
+  RadioHandler,
+  SetOtherState,
+  SetRequired
+} from '../../../../types/application';
 
 import {
-  IAnswer, IRelatedQuestion
+  IAnswer,
+  IRelatedQuestion
 } from '../../../../types/api/application/applicationForm';
 import { AsnForm } from '../../../Forms/Form';
 import { renderQuestionForm } from '../../../../helpers/applicationForm';
 
-import { AnswerTypes, ErrorRequireMessages } from '../../../../helpers/constants';
+import {
+  AnswerTypes,
+  ErrorRequireMessages
+} from '../../../../helpers/constants';
 import { BorderBottomInput, CustomRadio, FormText } from '../../style';
 
-const setRequired: SetRequired = (item) => [{ required: item, message: ErrorRequireMessages.input }];
+const setRequired: SetRequired = (item) => [
+  { required: item, message: ErrorRequireMessages.input }
+];
 
 const SectionRadio: React.FC<IFormItemProps> = ({
   title,
@@ -87,7 +98,11 @@ const SectionRadio: React.FC<IFormItemProps> = ({
   const other = (
     <Space direction="horizontal">
       <FormText>Other/Այլ</FormText>
-      <AsnForm.Item key={index} name={[index, 'answers', 0, 'text']} rules={otherRules}>
+      <AsnForm.Item
+        key={index}
+        name={[index, 'answers', 0, 'text']}
+        rules={otherRules}
+      >
         <BorderBottomInput disabled={!openOther} />
       </AsnForm.Item>
     </Space>
@@ -101,16 +116,12 @@ const SectionRadio: React.FC<IFormItemProps> = ({
         label={title}
         labelCol={{ span: 24 }}
       >
-        <Radio.Group
-          onChange={onRadioHandler}
-        >
+        <Radio.Group onChange={onRadioHandler}>
           <Space direction="vertical">
             {answers?.map((item: IAnswer) => (
-              <>
-                <CustomRadio key={item.id} value={item.id}>
-                  {item.type === AnswerTypes.shortText ? other : <p>{item.title}</p>}
-                </CustomRadio>
-              </>
+              <CustomRadio key={item.id} value={item.id}>
+                {item.type === AnswerTypes.shortText ? other : <p>{item.title}</p>}
+              </CustomRadio>
             ))}
           </Space>
         </Radio.Group>

@@ -4,6 +4,7 @@ import { AsnInput } from '../Forms/Input';
 
 export const FormText = styled.span`
   font-size: var(--base-font-size);
+  overflow-wrap: break-word;
 `;
 
 export const SectionTitle = styled(Typography.Title)`

@@ -52,7 +52,7 @@ const FillApplicationForm: React.FC = () => {
 
   const { data, isLoading } = useSingleApplicationForm(id ?? '', {
     onSuccess: (data: IApplicant) => {
-      // console.log('SUCC', data);
+      // console.log(''success');
     },
     onError: (data: IApplicant) => {
       navigate(`/${PATHS.ERROR_403}`);
@@ -69,7 +69,7 @@ const FillApplicationForm: React.FC = () => {
       });
       setTimeout(() => {
         setIsSuccessPublishModal(true);
-      }, 1000);
+      }, 500);
     },
     onError: (err: any) => {
       console.log(err);
