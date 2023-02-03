@@ -12,9 +12,14 @@ import { iFinishApplicant, IprevState } from './applicantsTypes';
 import Applicant from '../../components/Applicant';
 
 const ApplicantsData: React.FC = () => {
-  const [result, setResult] = useState<any>({ data: [], count: null });
+  const [result, setResult] = useState<any>();
 
-  const [filters, setFilters] = useState<any>({
+  interface edeed {
+    search: string
+    limit: number
+    offset: number
+  }
+  const [filters, setFilters] = useState<edeed>({
     search: '',
     limit: 100,
     offset: 0
@@ -29,20 +34,19 @@ const ApplicantsData: React.FC = () => {
 
   const [form] = AsnForm.useForm();
   const [open, setOpen] = useState(false);
-  const [openRow, setOpenRow] = useState(false);
+  const [openRow, setOpenRow] = useState<any>(false);
   const [applicantId, setApplicantId] = useState('');
-  const showDrawer = (record: any): any => {
+  const showDrawer = (record: string): void => {
     setOpenRow(record);
     setApplicantId(record);
-    console.log(record);
   };
 
-  const onClose = (): any => {
+  const onClose = (): void => {
     setOpenRow(false);
   };
 
   const { refetch } = useAllAplicants(filters, {
-    onSuccess: (data: []) => {
+    onSuccess: (data: React.SetStateAction<{ data: never[], count: null }>): void => {
       setResult(data);
     }
   });
@@ -51,8 +55,8 @@ const ApplicantsData: React.FC = () => {
   }, [refetch, filters]);
 
   const serachData = useCallback(
-    (search: any) => {
-      setFilters((prevState: IprevState) => ({
+    (search: string) => {
+      setFilters((prevState) => ({
         ...prevState,
         search
       }));
@@ -63,7 +67,7 @@ const ApplicantsData: React.FC = () => {
   const filterData = useCallback(
     (data: IprevState) => {
       if (data !== undefined) {
-        setFilters((prevState: IprevState) => ({
+        setFilters((prevState) => ({
           ...prevState,
           ...data
         }));
@@ -113,7 +117,7 @@ const ApplicantsData: React.FC = () => {
           rowClassName={(record, index) =>
             index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
           }
-          onRow={(record, index): any => {
+          onRow={(record, index) => {
             return {
               onClick: () => {
                 showDrawer(record?.id);

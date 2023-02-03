@@ -1,8 +1,8 @@
 import { UseQueryResult } from '@tanstack/react-query';
 
 export interface SearchApplicants {
-  filters: string
-  serachData: React.Dispatch<React.SetStateAction<string>>
+  filters: any
+  serachData: any
 }
 export interface DataType {
   key: React.Key

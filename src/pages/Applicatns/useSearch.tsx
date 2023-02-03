@@ -5,7 +5,7 @@ import { SearchApplicants } from './applicantsTypes';
 const { Title } = Typography;
 
 const UseSearch: React.FC<SearchApplicants> = ({ filters, serachData }) => {
-  const onChange = (data: any): any => {
+  const onChange = (data: string): void => {
     serachData(data);
   };
 
