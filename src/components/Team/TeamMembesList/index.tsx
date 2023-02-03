@@ -26,12 +26,13 @@ const TeamContent = styled.div`
 
 const UsersTeam: React.FC = () => {
   const [showModal, setShowModal] = useState('');
+  const [totalCount, setTotalCount] = useState(0);
 
   return (
     <TeamContent>
       <TeamsWrapper>
-          <SearchTeamMembers showModal={showModal} setShowModal={setShowModal}/>
-          <TeamsList />
+          <SearchTeamMembers showModal={showModal} setShowModal={setShowModal} totalCount={totalCount}/>
+          <TeamsList setTotalCount={setTotalCount}/>
       </TeamsWrapper>
     </TeamContent>
   );

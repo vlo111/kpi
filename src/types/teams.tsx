@@ -9,17 +9,30 @@ export interface TemUsersType {
   key: string
 }
 
-export interface TableParams {
-  pagination?: TablePaginationConfig
+export interface User {
+  emailVerified: boolean
+  id: string
+  firstName: string
+  lastName: string
+  organization: string
+  email: string
+  phone?: string
+  photo?: string
+  position?: string
+  admin: boolean
+  createdAt: string
+  updatedAt: string
+  deletedAt?: string
 }
 
-export interface UsersType {
-  boolean: { status: string | number | boolean | React.ReactFragment | React.ReactElement<any, string | React.JSXElementConstructor<any>> | null | undefined }
-  picture: {
-    large: string | undefined }
-  name: {
-    first: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined
-    last: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined }
+export interface Result {
+  result: User[]
+  count: number
+  has_more: boolean
+}
+
+export interface TableParams {
+  pagination?: TablePaginationConfig
 }
 
 export type TableGlobals = (params: {
@@ -50,6 +63,11 @@ export interface ShowAddUserModalTypes {
 export interface ShowDeleteUserModal {
   showModal?: string
   setShowModal: (b: string) => void
+  totalCount?: number
+}
+
+export interface ITeamMembersTypes {
+  setTotalCount: React.Dispatch<React.SetStateAction<number>>
 }
 
 export interface ResultArea {
@@ -67,4 +85,19 @@ export interface CascadedData {
   resultAreas: ResultArea[]
 }
 
+export type OnChangeType = (value: string[][]) => void;
+
+export interface GetAllTeamsListParams { [key: string]: any }
+export interface GetAllTeamsListOptions { enabled: boolean }
+export interface GetAllTeamsListResult {
+  data: User[]
+  count: number
+  has_more: boolean
+  isLoading: boolean
+  isSuccess: boolean
+  refetch: () => Promise<void>
+}
+
 export type HandleTableOnChange = (pagination: TablePaginationConfig) => void
+
+export type UseGetTeamMembers = (params: { limit: number, offset: number }, options?: { enabled: Boolean }) => Result

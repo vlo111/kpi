@@ -106,7 +106,9 @@ const AddTeamMemberModalWrapper = styled(AsnModal)`
   }
 `;
 
-const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({ setShowModal }) => {
+const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
+  setShowModal
+}) => {
   const [form] = AsnForm.useForm();
   const [value, setValue] = useState(1);
 
@@ -160,7 +162,6 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({ setShowModal }) => 
         });
       }
     });
-    console.log(result);
   };
 
   const onChangePermission: (e: RadioChangeEvent) => void = (

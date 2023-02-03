@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import qs from 'qs';
 import { Space } from 'antd';
 
 import { ReactComponent as Preview } from '../../../assets/icons/eye.svg';
@@ -10,34 +9,44 @@ import AddTeamMemberModal from './CreateTeamMemberModal';
 import { ConfirmModal } from '../../Forms/Modal/Confirm';
 import TeamMemberPermissionInfoModal from './TeamMemberPermissionModal';
 import { AsnTable } from '../../Forms/Table';
-import { HandleTableOnChange, TableGlobals, TableParams, UsersType } from '../../../types/teams';
+import { HandleTableOnChange, ITeamMembersTypes, TableParams, User } from '../../../types/teams';
+import useGetAllTeamsList from '../../../api/Teams/useGetAllTeamMembersList';
+import AsnAvatar from '../../Forms/Avatar';
 
 const ApplicantList = styled.div`
-    margin-top: 8px;
-    height: calc(100% - 75px);
+  margin-top: 8px;
+  height: calc(100% - 75px);
 `;
 
-const getRandomuserParams: TableGlobals = (params) => ({
-  results: params.pagination?.pageSize,
-  page: params.pagination?.current,
-  ...params
-});
-
-const TeamsList: React.FC = () => {
-  const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState(false);
+const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
+  const [openApplicantDeleteModal, setOpenApplicantDeleteModal] =
+    useState(false);
   const [showModal, setShowModal] = useState('');
-  const [openApplicantPermissionModal, setOpenApplicantPermissionModal] = useState(false);
+  const [openApplicantPermissionModal, setOpenApplicantPermissionModal] =
+    useState(false);
   const columns = [
     {
       title: 'Name Surname',
-      render: (item: UsersType) => {
+      render: (item: User) => {
         return (
-          <Space direction='horizontal'>
-            <Space align='start'>
-              <img style={{ borderRadius: '50%' }} src={item?.picture?.large} width={30} height={30} />
+          <Space direction="horizontal">
+            <Space align="start">
+              <AsnAvatar
+                letter={`${item?.lastName?.charAt(0)}${item?.firstName?.charAt(
+                  0
+                )}`}
+                src={item?.photo}
+              />
             </Space>
-            <Space align='end' style={{ color: 'var(--dark-border-ultramarine)', fontSize: 'var(--base-font-size)' }}>
-               {item?.name?.first}{item?.name?.last}
+            <Space
+              align="end"
+              style={{
+                color: 'var(--dark-border-ultramarine)',
+                fontSize: 'var(--base-font-size)'
+              }}
+            >
+              {item?.firstName}
+              {item?.lastName}
             </Space>
           </Space>
         );
@@ -45,38 +54,42 @@ const TeamsList: React.FC = () => {
     },
     {
       title: 'Email',
-      dataIndex: 'email',
-      render: (item: UsersType['name']['first']) => {
-        return <h2>{item}</h2>;
+      render: (item: User) => {
+        return <h2>{item?.email}</h2>;
       }
     },
     {
       title: 'Access level',
-      dataIndex: 'gender',
-      render: (item: UsersType['name']['first']) => {
+      render: (item: User) => {
         return (
-        <Space direction='horizontal'>
-          <Space align='start'>
-            <Preview onClick={() => setOpenApplicantPermissionModal(true)}/>
+          <Space direction="horizontal">
+            <Space align="start">
+              <Preview onClick={() => setOpenApplicantPermissionModal(true)} />
+            </Space>
+            <Space align="end">
+              <h3>{item?.position}</h3>
+            </Space>
           </Space>
-          <Space align='end'>
-             <h3>{item === 'male' ? 'Sub-activity' : 'Project'}</h3>
-          </Space>
-        </Space>
         );
       }
     },
     {
       title: 'User status',
-      dataIndex: 'gender',
-      render: (item: UsersType['boolean']['status']) => {
+      dataIndex: 'emailVerified',
+      render: (item: User) => {
         return (
           <Space
-            className={`${item === 'male' ? 'user_status_pending' : 'user_status_resolved'}`}
+            className={`${
+              item?.emailVerified
+                ? 'user_status_pending'
+                : 'user_status_resolved'
+            }`}
             style={{ width: '100%', justifyContent: 'center' }}
-            direction='horizontal'
-            >
-            <Space align='center'>{item === 'male' ? 'Pending' : 'Resolved'}</Space>
+            direction="horizontal"
+          >
+            <Space align="center">
+              {item?.emailVerified ? 'Pending' : 'Resolved'}
+            </Space>
           </Space>
         );
       },
@@ -85,11 +98,11 @@ const TeamsList: React.FC = () => {
     {
       render: () => {
         return (
-          <Space direction='horizontal'>
-            <Space align='start' style={{ cursor: 'pointer' }}>
-              <EditSvg onClick={() => setShowModal('update')}/>
+          <Space direction="horizontal">
+            <Space align="start" style={{ cursor: 'pointer' }}>
+              <EditSvg onClick={() => setShowModal('update')} />
             </Space>
-            <Space align='end' style={{ cursor: 'pointer' }}>
+            <Space align="end" style={{ cursor: 'pointer' }}>
               <TrashSvg onClick={() => setOpenApplicantDeleteModal(true)} />
             </Space>
           </Space>
@@ -98,9 +111,7 @@ const TeamsList: React.FC = () => {
       width: 55
     }
   ];
-  const [data, setData] = useState();
 
-  const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
       current: 1,
@@ -109,63 +120,60 @@ const TeamsList: React.FC = () => {
     }
   });
 
-  const fetchData = (): void => {
-    setLoading(true);
-    void fetch(`https://randomuser.me/api?${qs.stringify(getRandomuserParams(tableParams))}`)
-      .then(async res => await res.json())
-      .then(({ results }) => {
-        setData(results);
-        setLoading(false);
-        setTableParams({
-          ...tableParams,
-          pagination: {
-            ...tableParams.pagination,
-            total: 100
-          }
-        });
-      });
-  };
+  const { data: membersListInfo, isLoading, refetch, count } = useGetAllTeamsList({
+    limit: tableParams.pagination?.pageSize,
+    offset: 10
+  });
 
   useEffect(() => {
-    fetchData();
-  }, [JSON.stringify(tableParams)]);
+    setTableParams({
+      ...tableParams,
+      pagination: {
+        ...tableParams.pagination,
+        total: count
+      }
+    });
+    setTotalCount(count);
+  }, [JSON.stringify(tableParams), isLoading]);
 
-  const handleTableChange: HandleTableOnChange = (
-    pagination
-  ) => {
+  const handleTableChange: HandleTableOnChange = (pagination) => {
     setTableParams({
       pagination
     });
+    refetch();
   };
 
   return (
-        <ApplicantList>
-            <AsnTable
-             size="middle"
-             scroll={{ y: 'calc(100vh - 30em)' }}
-             columns={columns}
-             rowKey={record => record.login.uuid}
-             dataSource={data}
-             pagination={tableParams.pagination}
-             loading={loading}
-             onChange={handleTableChange}
-             />
-            {showModal === 'del' && <AddTeamMemberModal setShowModal={setShowModal}/>}
-            <ConfirmModal
-              styles={{ gap: '80px' }}
-              yes="Delete"
-              no="Cancel"
-              open={openApplicantDeleteModal}
-              title="Are you sure you want to delete this user?"
-              onCancel={() => setOpenApplicantDeleteModal(!openApplicantDeleteModal)}
-              onSubmit={function (): void {
-                throw new Error('Function not implemented.');
-              } } />
-              <TeamMemberPermissionInfoModal
-                showPermissionModal={openApplicantPermissionModal}
-                setShowPermissionModal={setOpenApplicantPermissionModal}
-              />
-        </ApplicantList>
+    <ApplicantList>
+      <AsnTable
+        size="middle"
+        scroll={{ y: 'calc(100vh - 30em)' }}
+        columns={columns}
+        rowKey={(record) => record?.id}
+        dataSource={membersListInfo}
+        pagination={tableParams.pagination}
+        loading={isLoading}
+        onChange={handleTableChange}
+      />
+      {showModal === 'del' && (
+        <AddTeamMemberModal setShowModal={setShowModal} />
+      )}
+      <ConfirmModal
+        styles={{ gap: '80px' }}
+        yes="Delete"
+        no="Cancel"
+        open={openApplicantDeleteModal}
+        title="Are you sure you want to delete this user?"
+        onCancel={() => setOpenApplicantDeleteModal(!openApplicantDeleteModal)}
+        onSubmit={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+      />
+      <TeamMemberPermissionInfoModal
+        showPermissionModal={openApplicantPermissionModal}
+        setShowPermissionModal={setOpenApplicantPermissionModal}
+      />
+    </ApplicantList>
   );
 };
 

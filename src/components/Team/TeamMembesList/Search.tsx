@@ -9,7 +9,8 @@ import { ShowDeleteUserModal } from '../../../types/teams';
 
 const SearchTeamMembers: React.FC<ShowDeleteUserModal> = ({
   showModal,
-  setShowModal
+  setShowModal,
+  totalCount
 }) => {
   return (
     <Row gutter={24}>
@@ -79,7 +80,7 @@ const SearchTeamMembers: React.FC<ShowDeleteUserModal> = ({
               marginLeft: '10px'
             }}
           >
-            Total members: 11
+            Total members: {totalCount}
           </Col>
         </Row>
       </Col>
