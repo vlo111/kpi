@@ -1,9 +1,20 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { Tag } from 'antd';
 import _ from 'lodash';
 import React, { useCallback } from 'react';
 
-export const UseFilterTags: React.FC<any> = ({
+export const UseFilterTags: React.FC<{
+  filters: {
+    search: string
+    limit: number
+    offset: number
+    gender: string
+    student: string
+    statuses: string
+  }
+  onFinish: any
+  form: any
+  setFilters: any
+}> = ({
   filters,
   onFinish,
   form,
@@ -86,7 +97,7 @@ export const UseFilterTags: React.FC<any> = ({
               onClick={() => {
                 resetFilters();
               }}
-              className='clearfilter'
+              className="clearfilter"
             >
               {'Clean All'}
             </Tag>
