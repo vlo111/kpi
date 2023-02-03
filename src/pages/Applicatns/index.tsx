@@ -8,11 +8,11 @@ import { UseFilterTags } from './useFilterTags';
 
 import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
 import { AsnForm } from '../../components/Forms/Form';
-import { Idata, iFinishApplicant, IprevState, Iseacrh } from './applicantsTypes';
+import { iFinishApplicant, IprevState, Iseacrh } from './applicantsTypes';
 import Applicant from '../../components/Applicant';
 
 const ApplicantsData: React.FC = () => {
-  const [result, setResult] = useState<Idata>();
+  const [result, setResult] = useState<any>();
 
   const [filters, setFilters] = useState<Iseacrh>({
     search: '',
@@ -28,10 +28,10 @@ const ApplicantsData: React.FC = () => {
   };
 
   const [form] = AsnForm.useForm();
-  const [open, setOpen] = useState('');
-  const [openRow, setOpenRow] = useState<boolean | undefined >();
+  const [open, setOpen] = useState(false);
+  const [openRow, setOpenRow] = useState<any>(false);
   const [applicantId, setApplicantId] = useState('');
-  const showDrawer = (record: any): void => {
+  const showDrawer = (record: string): void => {
     setOpenRow(record);
     setApplicantId(record);
   };
@@ -41,7 +41,7 @@ const ApplicantsData: React.FC = () => {
   };
 
   const { refetch } = useAllAplicants(filters, {
-    onSuccess: (data: Idata): void => {
+    onSuccess: (data: React.SetStateAction<{ data: never[], count: null }>): void => {
       setResult(data);
     }
   });
@@ -88,7 +88,7 @@ const ApplicantsData: React.FC = () => {
       income: values?.income
     });
 
-    setOpen('');
+    setOpen(false);
     form.setFieldValue('clearAll', true);
   };
 

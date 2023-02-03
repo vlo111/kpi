@@ -71,7 +71,7 @@ export interface Idata {
   ]
 
 }
- export interface Iseacrh {
+export interface Iseacrh {
   search: string
   limit: number
   offset: number

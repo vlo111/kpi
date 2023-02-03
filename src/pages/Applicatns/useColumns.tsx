@@ -12,7 +12,7 @@ export const useColumn = ({
   form,
   setOpen,
   open
-}: any): {} => {
+}: any): any => {
   const handleOpenChange = (newOpen: boolean): void => {
     setOpen(newOpen);
   };
