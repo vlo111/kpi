@@ -60,3 +60,19 @@ export interface IprevState {
   statuses: string[]
   student: boolean
 }
+
+export interface Idata {
+  count: number
+  has_more: boolean
+  result: [
+    {
+      id: string
+    }
+  ]
+
+}
+ export interface Iseacrh {
+  search: string
+  limit: number
+  offset: number
+}
