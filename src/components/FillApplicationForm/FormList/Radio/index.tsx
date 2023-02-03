@@ -19,7 +19,7 @@ import {
   AnswerTypes,
   ErrorRequireMessages
 } from '../../../../helpers/constants';
-import { BorderBottomInput, CustomRadio, FormText } from '../../style';
+import { BorderBottomInput, CustomRadio } from '../../style';
 
 const setRequired: SetRequired = (item) => [
   { required: item, message: ErrorRequireMessages.input }
@@ -97,7 +97,7 @@ const SectionRadio: React.FC<IFormItemProps> = ({
 
   const other = (
     <Space direction="horizontal">
-      <FormText>Other/Այլ</FormText>
+      <span className="other">Other/Այլ</span>
       <AsnForm.Item
         key={index}
         name={[index, 'answers', 0, 'text']}

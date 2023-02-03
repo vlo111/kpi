@@ -14,7 +14,7 @@ import {
 } from '../../../../types/application';
 
 import { AnswerTypes, ErrorRequireMessages } from '../../../../helpers/constants';
-import { BorderBottomInput, FormText } from '../../style';
+import { BorderBottomInput } from '../../style';
 
 const setRequired: SetRequired = (item) => [{ required: item, message: ErrorRequireMessages.input }];
 
@@ -72,7 +72,7 @@ const SectionCheckBox: React.FC<IFormItemProps> = ({
 
   const other = (
     <Space direction="horizontal">
-      <FormText>Other/Այլ</FormText>
+      <span className="other">Other/Այլ</span>
       <AsnForm.Item key={index} rules={otherRules} name={[index, 'radioText']}>
         <BorderBottomInput disabled={!openOther} onChange={onOtherChangeHandler}/>
       </AsnForm.Item>
