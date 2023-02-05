@@ -64,10 +64,12 @@ export interface ShowDeleteUserModal {
   showModal?: string
   setShowModal: (b: string) => void
   totalCount?: number
+  setSearchText?: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface ITeamMembersTypes {
   setTotalCount: React.Dispatch<React.SetStateAction<number>>
+  searchText?: string
 }
 
 export interface ResultArea {
@@ -87,15 +89,25 @@ export interface CascadedData {
 
 export type OnChangeType = (value: string[][]) => void;
 
-export interface GetAllTeamsListParams { [key: string]: any }
+export interface GetAllTeamsListParams {
+  limit: number | undefined
+  offset: number
+  search?: string
+}
 export interface GetAllTeamsListOptions { enabled: boolean }
-export interface GetAllTeamsListResult {
-  data: User[]
+
+export interface TeamData {
+  result: User[]
   count: number
   has_more: boolean
+}
+
+export interface UseGetAllTeamsListResult {
+  data: TeamData['result']
+  count: TeamData['count']
+  has_more: TeamData['has_more']
   isLoading: boolean
-  isSuccess: boolean
-  refetch: () => Promise<void>
+  refetch: any
 }
 
 export type HandleTableOnChange = (pagination: TablePaginationConfig) => void
