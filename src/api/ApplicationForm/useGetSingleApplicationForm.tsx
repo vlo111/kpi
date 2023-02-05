@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import client from '../client';
-import { IApplicant } from '../../types/api/application/applicationForm';
+import { IApplicant } from '../../types/api/application/applicationForm1';
 
 export const url = 'api/application-form/:id';
 

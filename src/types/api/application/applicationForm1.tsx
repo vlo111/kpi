@@ -67,11 +67,3 @@ export interface IOnlyId {
 export type CreateApplicationFormType = UseMutation<Void, any, ResponseErrorParam, ICreateApplicationForm>;
 export type DeleteApplicationForm = UseMutation<Void, any, ResponseErrorParam, IOnlyId>
 export type UpdateApplicationStatus = UseMutation<Void, any, ResponseErrorParam, IOnlyId>
-
-export type IUseApplicantForm = (
-  id: string,
-  options: {
-    onSuccess: (data: IApplicant) => void
-    onError: (data: IApplicant) => void
-  }
-) => IApplicant | undefined;

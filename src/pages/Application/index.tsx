@@ -22,7 +22,7 @@ import { AsnInput } from '../../components/Forms/Input';
 import { ICardsData, IIsAddTermsConditions } from '../../types/project';
 import getApplicationFormDefault from '../../api/ApplicationForm/useGetApplicationFormDefault';
 import createApplicationForm from '../../api/ApplicationForm/useCreateApplicationForm';
-import { IApplicationsOption } from '../../types/api/application/applicationForm';
+import { IApplicationsOption } from '../../types/api/application/applicationForm1';
 import FormUrlModal from '../../components/Application/FormUrlModal/Index';
 import { PATHS } from '../../helpers/constants';
 

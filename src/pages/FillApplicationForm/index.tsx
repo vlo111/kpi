@@ -5,7 +5,7 @@ import { Form, Row, Spin } from 'antd';
 import { AsnForm } from '../../components/Forms/Form';
 import { AsnButton } from '../../components/Forms/Button';
 import { FormFinish, Void } from '../../types/global';
-import { IApplicant } from '../../types/api/application/applicationForm';
+import { IApplicant } from '../../types/api/application/applicationForm1';
 
 import useSingleApplicationForm from '../../api/ApplicationForm/useGetSingleApplicationForm';
 import ApplicationForm from '../../components/FillApplicationForm';

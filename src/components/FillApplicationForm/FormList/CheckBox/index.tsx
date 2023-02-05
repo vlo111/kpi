@@ -4,7 +4,7 @@ import { Space } from 'antd';
 import { AsnCheckbox } from '../../../Forms/Checkbox';
 import { AsnForm } from '../../../Forms/Form';
 
-import { IAnswer } from '../../../../types/api/application/applicationForm';
+import { IAnswer } from '../../../../types/api/application/applicationForm1';
 import {
   CheckboxHandler, IFormAnswer,
   IFormItemProps,

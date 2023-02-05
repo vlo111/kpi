@@ -11,7 +11,7 @@ import {
 import {
   IAnswer,
   IRelatedQuestion
-} from '../../../../types/api/application/applicationForm';
+} from '../../../../types/api/application/applicationForm1';
 import { AsnForm } from '../../../Forms/Form';
 import { renderQuestionForm } from '../../../../helpers/applicationForm';
 

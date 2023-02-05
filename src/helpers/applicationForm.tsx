@@ -13,7 +13,7 @@ import {
   InitAnswer,
   RenderQuestionForm
 } from '../types/application';
-import { IApplicationFormSections, IQuestion, IRelatedQuestion } from '../types/api/application/applicationForm';
+import { IApplicationFormSections, IQuestion, IRelatedQuestion } from '../types/api/application/applicationForm1';
 
 export const renderQuestionForm: RenderQuestionForm = (
   keyName,
