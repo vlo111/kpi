@@ -84,10 +84,9 @@ const Application: React.FC = () => {
     enabled: location?.state?.edit !== true
   });
 
-  const { data: singleApplicantData } =
-    useSingleApplicationForm(courseId, {
-      enabled: location?.state?.edit === true
-    });
+  const { data: singleApplicantData } = useSingleApplicationForm(courseId, {
+    enabled: location?.state?.edit === true
+  });
 
   const { mutate: createApplicationFn } = createApplicationForm({
     onSuccess: (options: IApplicationsOption) => {
@@ -118,13 +117,13 @@ const Application: React.FC = () => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
   const [applicationData, setApplicationData] = useState<
-    IApplicant | undefined
-    >();
+  IApplicant | undefined
+  >();
   const [onlineSignature, setOnlineSignature] = useState<boolean>(true);
   const [formUrlModal, setFormUrlModal] = useState<boolean>(false);
   const [createdItemInfo, setCreatedItemResponse] = useState<
-    IResult | undefined
-    >();
+  IResult | undefined
+  >();
   const [deadlineDate, setDeadlineDate] = useState<string>('');
   const [isQuestionCardVisible, setIsQuestionCardVisible] = useState<string[]>(
     []
@@ -237,10 +236,10 @@ const Application: React.FC = () => {
       )}
       {isValidateMessage
         ? (
-          <ValidateMessage>
-            Field must have at least 1 character and maximum 255 characters.
-          </ValidateMessage>
-        )
+        <ValidateMessage>
+          Field must have at least 1 character and maximum 255 characters.
+        </ValidateMessage>
+          )
         : null}
       <Typography.Title level={5} style={{ fontWeight: 'var(--font-normal)' }}>
         Description

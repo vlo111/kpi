@@ -5,7 +5,7 @@ import client from '../client';
 
 const url = 'api/application-form';
 
-const useUpdateApplicationForm: CreateApplicationFormType = (options: any) =>
+const useUpdateApplicationForm: any = (options: any) =>
   useMutation(
     async (params: ICreateApplicationForm) => {
       if (params.id != null) {
