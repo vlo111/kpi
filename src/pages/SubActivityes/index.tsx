@@ -106,7 +106,7 @@ const SubActivity: React.FC<{}> = () => {
                   />
                 }
               >
-                <SubActivityHeader activity={item} region={data.region} />
+                <SubActivityHeader inputActivityId={data?.id} activity={item} region={data?.region} />
                 <SubActivitySections
                   activity={item}
                   refetch={refetch}
@@ -122,6 +122,7 @@ const SubActivity: React.FC<{}> = () => {
       {data?.sectionsData?.length === 1 && (
         <>
           <SubActivityHeader
+            inputActivityId={data?.id}
             activity={data?.sectionsData[0]}
             region={data.region}
           />

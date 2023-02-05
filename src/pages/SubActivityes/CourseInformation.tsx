@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Space, Typography } from 'antd';
 
 import { AsnCard } from '../../components/Forms/Card';
@@ -15,33 +15,47 @@ const CourseInfoWrapper = styled.div`
 
 const CourseInformation: React.FC<{}> = () => {
   const { Title } = Typography;
-  const { id: subActivityId } = useParams<{ id: any }>();
-  const { data } = GetSingleSubActivity(subActivityId, { courseInfo: true }, {});
+  const { id: subActivityId } = useParams<{ id: string }>();
+  const { data, refetch } = GetSingleSubActivity(subActivityId, { courseInfo: true }, {});
+  const [courseTitle, setCourseTitle] = useState('');
+  const [activityTitle, setActivityTitle] = useState('');
+  const [resultAreaTitle, setResultAreaTitle] = useState('');
+  const [projectId, setProjectId] = useState('');
+
+  const onChange = (key: string): void => {
+    setCourseTitle(key);
+  };
+
+  useEffect(() => {
+    setCourseTitle(data?.sectionsData[0]?.title);
+    setActivityTitle(data?.inputActivity?.title);
+    setResultAreaTitle(data?.inputActivity?.resultArea?.title);
+    setProjectId(data?.inputActivity?.resultArea?.project?.id);
+  }, [data]);
 
   return (
     <CourseInfoWrapper>
+      {Boolean(projectId) && subActivityId !== undefined &&
       <AsnBreadcrumb
         routes={[
           {
-            path: '/project/sub-activity/:id1',
-            breadcrumbName: 'Activity 1.3'
+            path: `/project/overview/${projectId}`,
+            breadcrumbName: resultAreaTitle
           },
           {
-            path: '/project/sub-activity/:id2',
-            breadcrumbName: 'Activity 1.3'
+            path: `/project/overview/${projectId}`,
+            breadcrumbName: activityTitle
           },
           {
-
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-            path: `/project/sub-activity/${data?.sectionsData[0]?.id}`,
-            breadcrumbName: data?.sectionsData[0]?.title
+            path: `/project/sub-activity/${subActivityId}`,
+            breadcrumbName: courseTitle
           },
           {
             path: '',
             breadcrumbName: 'COURSE INFORMATION'
           }
         ]}
-      />
+      />}
       <Title
         level={2}
         style={{
@@ -54,8 +68,8 @@ const CourseInformation: React.FC<{}> = () => {
       </Title>
       <AsnCard>
         <Space direction={'vertical'} size={[0, 16]} style={{ width: '100%' }}>
-          <CardTitle title={'General Info'} id={data?.sectionsData[0]?.id} />
-          <CourseInfo courseData={data}/>
+          <CardTitle title={'Course General Info'} id={projectId} refetch={refetch} />
+          <CourseInfo courseData={data} onChange={onChange}/>
         </Space>
       </AsnCard>
     </CourseInfoWrapper>

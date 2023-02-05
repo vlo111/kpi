@@ -109,4 +109,4 @@ interface ProjectDetailsData {
   isLoading: boolean
 }
 
-export type UseGetProjectDetails = (id: any) => ProjectDetailsData
+export type UseGetProjectDetails = (id: any, options?: { enabled: boolean }) => ProjectDetailsData
