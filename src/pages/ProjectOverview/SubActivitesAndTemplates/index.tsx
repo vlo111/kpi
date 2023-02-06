@@ -76,7 +76,7 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
           templates={templates}
           />
         </Tabs.TabPane>
-        <Tabs.TabPane tab="Active Templates " key="2">
+        <Tabs.TabPane tab="Templates " key="2">
           <ActiveTempalate templates={templates} refetch={refetch} setIsOpenCreateActivityModal={setIsOpenCreateActivityModal} />
         </Tabs.TabPane>
       </Tabs>

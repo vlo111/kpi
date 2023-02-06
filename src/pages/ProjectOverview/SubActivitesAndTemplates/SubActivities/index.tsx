@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Space, Button, Card, Col } from 'antd';
+import { Row, Space, Button, Card, Col, Typography, Tooltip  } from 'antd';
 import styled from 'styled-components';
 import moment from 'moment';
 
@@ -22,7 +22,15 @@ const Container = styled.div`
 .ant-card-bordered {
     border: none;
 }
+.subCardTemplater{
+  color: #111B23;
+}
+.ant-typography strong {
+    font-weight: 400;
+}
 `;
+const { Paragraph } = Typography;
+
 export const SubActivity: React.FC<ISubActivitiesProps> = ({
   subActivities,
   setCheckAll,
@@ -82,7 +90,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                 style={{ color: 'var(--dark-1)', fontSize: 'var(--base-font-size)' }}
                 onClick={() => setIsOpenCreateActivityModal(true)}
               >
-                + Add Activity
+                + Add Sub Activity
               </Button>
               {subActivities?.map((item: ISubActivities, i: number) => (
                 <Card
@@ -102,10 +110,21 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                         : ''
                       }`}
                   >
-                    {item?.cardRound}
+                    {item?.cardRound} ...
                   </div>
                   <Row gutter={[8, 16]} style={{ padding: '15px 0', cursor: 'pointer' }} onClick={() => navigate(`/project/sub-activity/${item?.subActivityId}`)}>
-                    <Col style={{ color: 'var(--dark-1)', fontSize: 'var(--headline-font-size)', display: 'flex', gap: '5px' }}>{item?.title}</Col>
+                    <Col style={{ color: 'var(--dark-1)', fontSize: 'var(--headline-font-size)', display: 'flex', gap: '5px',width: '100px', height: '44px'}}>
+                      <Tooltip title={item?.title}>
+                         <Paragraph
+                      strong
+                      ellipsis={{
+                        rows: 1,
+                      }}
+                      className="subCardTemplater"
+                    >
+                      {item?.title}
+                    </Paragraph>
+                    </Tooltip></Col>
                     <Col style={{ display: 'flex', gap: '5px' }}>
                       <Location /> {item?.subActivity?.region?.title}
                     </Col>
