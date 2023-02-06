@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import _ from 'lodash';
 import { Form, Row, Spin } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { AsnForm } from '../../components/Forms/Form';
 import { AsnButton } from '../../components/Forms/Button';
+
+import { GetField } from '../../types/application';
 import { FormFinish, Void } from '../../types/global';
 import { IApplicant } from '../../types/api/application/applicationForm1';
 
 import useSingleApplicationForm from '../../api/ApplicationForm/useGetSingleApplicationForm';
+import { AsnModal } from '../../components/Forms/Modal';
 import ApplicationForm from '../../components/FillApplicationForm';
 import { KeyName, PATHS, SectionName } from '../../helpers/constants';
-import styled from 'styled-components';
 import { FormText, SectionTitle } from '../../components/FillApplicationForm/style';
-import _ from 'lodash';
 import useCreateApplicant from '../../api/Applicant/useApplyApplicant';
 import { getRelatedQuestions, getAnswers } from '../../helpers/applicationForm';
-import { GetField } from '../../types/applicant';
-import { AsnModal } from '../../components/Forms/Modal';
 import { ReactComponent as SuccessfulIcon } from '../../assets/icons/successful.svg';
 
 const FillApplicationFormContainer = styled.div`

@@ -2,6 +2,7 @@ import { IAnswer, IApplicationFormSections, IQuestion, IRelatedQuestion } from '
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { RadioChangeEvent } from 'antd';
 import React from 'react';
+import { SectionName } from '../helpers/constants';
 
 export interface IFormAnswer {
   id?: string
@@ -82,3 +83,5 @@ export interface ITermsConditionsProps {
   text: string | undefined
   onlineSignature: boolean | undefined
 }
+
+export type GetField = (name: SectionName) => any
