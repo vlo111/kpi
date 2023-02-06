@@ -9,13 +9,13 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
   form,
   setFilters
 }) => {
-  const closeFilter = (filter: string): any => {
-    const newAs = _.omit(filters, [filter]);
+  const closeFilter = (filter: string): void => {
+    const newAs: any = _.omit(filters, [filter]);
     onFinish(newAs);
     form.setFieldsValue({
       [filter]: undefined
     });
-
+    console.log(filters);
     const isNotEmpty = Object.keys(newAs).some((name) => {
       if (
         newAs[name] !== undefined &&
@@ -82,7 +82,6 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
           )}
           {Boolean(form.getFieldValue('clearAll')) && (
             <Tag
-              // closable
               onClick={() => {
                 resetFilters();
               }}

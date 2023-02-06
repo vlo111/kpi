@@ -1,4 +1,5 @@
 import { UseQueryResult } from '@tanstack/react-query';
+import { TVoid } from '../../../types/global';
 
 export interface SearchApplicants {
   filters: any
@@ -77,19 +78,8 @@ export interface Iseacrh {
   offset: number
 }
 export interface IfilterResult {
-  filters: {
-    search: string
-    limit: number
-    offset: number
-    gender: string
-    student: string
-    statuses: string
-    income: string
-    disability: string
-    regions: string
-    age: any
-  }
-  onFinish: any
+  filters: any
+  onFinish: TVoid
   form: any
   setFilters: any
 }
