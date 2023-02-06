@@ -77,3 +77,8 @@ export type SetRequired = (item: boolean) => Array<{ required: boolean, message:
 export type SetOtherState = (value: boolean) => void
 
 export type OnOtherChangeHandler = (value: React.ChangeEvent<HTMLInputElement>) => void
+
+export interface ITermsConditionsProps {
+  text: string | undefined
+  onlineSignature: boolean | undefined
+}

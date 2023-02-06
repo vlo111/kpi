@@ -140,10 +140,7 @@ const FillApplicationForm: React.FC = () => {
   return (
     <Spin spinning={isLoading}>
     <FillApplicationFormContainer>
-      <AsnForm form={form} onFinish={onFinish} onFinishFailed={(val) => {
-        // eslint-disable-next-line no-debugger
-        debugger;
-      }} autoComplete="off">
+      <AsnForm form={form} onFinish={onFinish} autoComplete="off">
         <SectionTitle className="title">{title}</SectionTitle>
         <FormText>{description}</FormText>
         <ApplicationForm

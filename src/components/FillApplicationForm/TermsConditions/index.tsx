@@ -8,16 +8,12 @@ import {
   FormText,
   SectionTitle
 } from '../style';
+import { ITermsConditionsProps } from '../../../types/application';
 
 const TermsConditionsContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
-interface ITermsConditionsProps {
-  text: string | undefined
-  onlineSignature: boolean | undefined
-}
 
 const TermsConditions: React.FC<ITermsConditionsProps> = ({
   text,
