@@ -1,20 +1,9 @@
 import { Tag } from 'antd';
 import _ from 'lodash';
 import React, { useCallback } from 'react';
+import { IfilterResult } from './applicantsTypes';
 
-export const UseFilterTags: React.FC<{
-  filters: {
-    search: string
-    limit: number
-    offset: number
-    gender: string
-    student: string
-    statuses: string
-  }
-  onFinish: any
-  form: any
-  setFilters: any
-}> = ({
+export const UseFilterTags: React.FC<IfilterResult> = ({
   filters,
   onFinish,
   form,
@@ -27,7 +16,7 @@ export const UseFilterTags: React.FC<{
       [filter]: undefined
     });
 
-    const isNotEmpty = Object.keys(newAs).some((name: any) => {
+    const isNotEmpty = Object.keys(newAs).some((name) => {
       if (
         newAs[name] !== undefined &&
         name !== 'limit' &&
@@ -58,7 +47,7 @@ export const UseFilterTags: React.FC<{
         <>
           {filters?.age !== undefined && (
             <Tag onClose={() => closeFilter('age')} closable>
-              {`Age${filters?.age?.from} - ${filters?.age?.to}`}
+              {`Age: ${filters?.age?.from} - ${filters?.age?.to}`}
             </Tag>
           )}
           {filters?.gender !== undefined && (

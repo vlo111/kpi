@@ -103,8 +103,6 @@ const ApplicantsData: React.FC = () => {
           onFinish={onFinish}
           form={form}
           setFilters={setFilters}
-          filterData={filterData}
-          refetch={refetch}
         />
         <Table
           columns={column}

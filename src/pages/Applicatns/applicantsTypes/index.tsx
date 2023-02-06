@@ -75,5 +75,21 @@ export interface Iseacrh {
   search: string
   limit: number
   offset: number
-  gender: string
+}
+export interface IfilterResult {
+  filters: {
+    search: string
+    limit: number
+    offset: number
+    gender: string
+    student: string
+    statuses: string
+    income: string
+    disability: string
+    regions: string
+    age: any
+  }
+  onFinish: any
+  form: any
+  setFilters: any
 }
