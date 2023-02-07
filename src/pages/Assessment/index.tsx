@@ -1,117 +1,90 @@
+import { Space } from 'antd';
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import AssessmentForms from '../../components/AssessmentForm';
 import AsnBreadcrumb from '../../components/Forms/Breadcrumb';
-// import changeStatusAssessmentFormDataById from '../../api/AssessmentForm/useChangeStatusAssessmentFormById';
-// import CreateAssessmentFormDataByCourseId from '../../api/AssessmentForm/useCreateAssessmentFormCourseId';
-// import useDeleteAssessmentFormDataById from '../../api/AssessmentForm/useDeleteAssessmentFormById';
-// import getAssessmentFormByCourseId from '../../api/AssessmentForm/useGetAssessmentFormCourseId';
+
+export const aaa = {
+  title: 'Assessment Form 1',
+  onlineSignature: false,
+  passingScore: 30,
+  maximumScore: 50,
+  duplicate: false,
+  type: 'PRE_ASSESSMENT',
+  questions: [
+    {
+      title: 'Full name/ Անուն, Ազգանուն, Հայրանուն1',
+      required: true,
+      score: 1,
+      answerType: 'SHORT_TEXT',
+      answers: [
+        {
+          title: 'How old are you',
+          score: 1,
+          type: 'LONG_TEXT'
+        }
+      ]
+    },
+    {
+      title: 'Full name/ Անուն, Ազգանուն, Հայրանուն2',
+      required: true,
+      score: 1,
+      answerType: 'SHORT_TEXT',
+      answers: [
+        {
+          title: 'How old are you',
+          score: 1,
+          type: 'LONG_TEXT'
+        }
+      ]
+    },
+    {
+      title: 'Full name/ Անուն, Ազգանուն, Հայրանուն3',
+      required: true,
+      score: 1,
+      answerType: 'OPTION',
+      answers: [
+        {
+          title: 'option1',
+          score: 1,
+          type: 'OPTION'
+        },
+        {
+          title: 'option2',
+          score: 1,
+          type: 'OPTION'
+        },
+        {
+          title: 'option3',
+          score: 1,
+          type: 'OPTION'
+        }
+      ]
+    }
+
+  ]
+};
+
+const AssessmentFormWrapper = styled(Space)`
+width: 100%;
+padding: 4.2vh 3.9vw 4.2vh 3.9vw;
+`;
 
 const CreateAssessmentForm: React.FC = () => {
-  // const { data } = getAssessmentFormByCourseId('aa', { type: 'POST_ASSESSMENT' });
-  // const { mutate: CreateForm } = CreateAssessmentFormDataByCourseId({
-  //   onSuccess: () => {
-  //     console.log('aaaa');
-  //   }
-  // });
-
   const { id: courseId } = useParams();
 
-  // console.log(data);
-
-  // const { mutate: updateStatus } = changeStatusAssessmentFormDataById({
-  //   onSuccess: () => {
-  //     console.log('aaaa');
-  //   }
-  // });
-
-  // const { mutate: deleteForm } = useDeleteAssessmentFormDataById({
-  //   onSuccess: () => {
-  //     console.log('aaaa');
-  //   }
-  // });
-
-  // const updateStatusById = (): void => {
-  //   updateStatus({
-  //     id: 'ce14133a-0951-4f30-b15a-aecd561fbeed'
-  //   });
-  // };
-
-  // const deleteFormById = (): void => {
-  //   deleteForm({ id: 'd5a63e39-d6d8-40de-9afa-e80a3d77a6cc' });
-  // };
-
-  // const createForm = (): void => {
-  //   CreateForm({
-  //     courseId: '111c6625-fe59-4582-af58-56a603e7b7ec',
-  //     data: {
-  //       title: 'test post_ass_original',
-  //       onlineSignature: true,
-  //       passingScore: 1,
-  //       maximumScore: 2,
-  //       type: 'POST_ASSESSMENT',
-  //       questions: [
-  //         {
-  //           title: 'Select Item',
-  //           required: false,
-  //           score: 1,
-  //           answerType: 'OPTION',
-  //           answers: [
-  //             {
-  //               title: 'How old are you',
-  //               score: 1,
-  //               type: 'OPTION'
-  //             },
-  //             {
-  //               title: 'How old are you 22',
-  //               score: 0,
-  //               type: 'OPTION'
-  //             },
-  //             {
-  //               title: 'How old are you 333',
-  //               score: 0,
-  //               type: 'OPTION'
-  //             }
-  //           ]
-  //         },
-  //         {
-  //           title: 'Select Item 2',
-  //           required: false,
-  //           score: 1,
-  //           answerType: 'OPTION',
-  //           answers: [
-  //             {
-  //               title: 'How old are you',
-  //               score: 1,
-  //               type: 'OPTION'
-  //             },
-  //             {
-  //               title: 'How old are you 22',
-  //               score: 0,
-  //               type: 'OPTION'
-  //             },
-  //             {
-  //               title: 'How old are you 333',
-  //               score: 0,
-  //               type: 'OPTION'
-  //             }
-  //           ]
-  //         }
-  //       ]
-  //     }
-  //   });
-  // };
-
   return (
-    <>
+    <AssessmentFormWrapper direction="vertical">
       {Boolean(courseId) && courseId !== undefined && (
         <AsnBreadcrumb
           routes={[
             {
-              path: `/project/overview/${courseId}`,
+              path: '/project/overview/id1',
               breadcrumbName: 'Result Area 1'
             },
             {
-              path: `/project/overview/${courseId}`,
+              path: '/project/overview/id2',
               breadcrumbName: 'Activity name'
             },
             {
@@ -125,7 +98,8 @@ const CreateAssessmentForm: React.FC = () => {
           ]}
         />
       )}
-    </>
+      <AssessmentForms />
+    </AssessmentFormWrapper>
   );
 };
 
