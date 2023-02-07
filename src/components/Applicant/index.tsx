@@ -7,13 +7,7 @@ import { useParams } from 'react-router-dom';
 import useGetApplicant from '../../api/Applicant/useGetApplicant';
 import { ApplicantInfo } from '../../helpers/constants';
 import moment from 'moment';
-
-interface ApplicantRow {
-  children: React.ReactNode
-  width?: number
-  height?: number
-  style?: any
-}
+import { ApplicantRow, SetValue } from '../../types/applicant';
 
 const Row = styled(AntRow)<ApplicantRow>`
   height: auto;
@@ -69,7 +63,7 @@ const InfoRow = styled(Row)`
   }
 `;
 
-const setValue: (key: string, value: string | undefined) => JSX.Element = (
+const setValue: SetValue = (
   key,
   value = ''
 ) => (
@@ -149,7 +143,9 @@ const Applicant: React.FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-          <ApplicantTabs applicant={applicant?.fullName ?? ''} courses={courses} />
+          {(applicant !== undefined && courses !== undefined) && (
+            <ApplicantTabs applicant={applicant} courses={courses} />
+          )}
         </Col>
       </Row>
     </Row>

@@ -4,6 +4,7 @@ import { ReactComponent as NotesSvg } from '../icons/Notes.svg';
 import { Void } from '../../../../../types/global';
 import { ReactComponent as CloseIcon } from '../../../../../assets/icons/closeIcon.svg';
 import styled from 'styled-components';
+import { INote, ShowNote } from '../../../../../types/applicant';
 
 const { Title } = Typography;
 
@@ -16,11 +17,8 @@ const Row = styled(AntRow)`
   }
 `;
 
-const Note: React.FC<{ index: string, inactive: boolean }> = ({
-  index,
-  inactive
-}) => {
-  const [showNote, setShowNote] = useState<boolean | string>(false);
+const Note: React.FC<INote> = ({ id, inactive }) => {
+  const [showNote, setShowNote] = useState<ShowNote>(false);
 
   const content = (
     <Row>
@@ -35,14 +33,24 @@ const Note: React.FC<{ index: string, inactive: boolean }> = ({
         </a>
       </Col>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis delectus expedita laborum libero officia, voluptatem. A, ad adipisci asperiores atque autem eaque eum eveniet ex hic illum impedit ipsam itaque iusto laudantium magni nihil quia repellat similique sint suscipit ut velit voluptate voluptates! Aliquam consequuntur ea eligendi eveniet hic illo inventore itaque laborum saepe temporibus! Adipisci asperiores deleniti distinctio doloribus excepturi fuga harum iure, minima natus necessitatibus nesciunt nobis odit pariatur provident quia vel voluptas. Delectus illum ipsam laudantium neque nihil, quia recusandae vero. Adipisci at beatae cumque esse expedita modi non omnis sequi. Illo libero nobis quos saepe ut!
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis
+        delectus expedita laborum libero officia, voluptatem. A, ad adipisci
+        asperiores atque autem eaque eum eveniet ex hic illum impedit ipsam
+        itaque iusto laudantium magni nihil quia repellat similique sint
+        suscipit ut velit voluptate voluptates! Aliquam consequuntur ea eligendi
+        eveniet hic illo inventore itaque laborum saepe temporibus! Adipisci
+        asperiores deleniti distinctio doloribus excepturi fuga harum iure,
+        minima natus necessitatibus nesciunt nobis odit pariatur provident quia
+        vel voluptas. Delectus illum ipsam laudantium neque nihil, quia
+        recusandae vero. Adipisci at beatae cumque esse expedita modi non omnis
+        sequi. Illo libero nobis quos saepe ut!
       </p>
     </Row>
   );
 
   const changeOpen: Void = () => {
     if (!inactive) {
-      setShowNote(showNote === `${index}` ? false : `${index}`);
+      setShowNote(showNote === `${id}` ? false : `${id}`);
     }
   };
 
@@ -53,7 +61,7 @@ const Note: React.FC<{ index: string, inactive: boolean }> = ({
       trigger="click"
       placement={'bottomLeft'}
       getPopupContainer={(trigger) => trigger.parentNode as HTMLElement}
-      open={typeof showNote === 'string' && showNote === `${index}`}
+      open={typeof showNote === 'string' && showNote === `${id}`}
       onOpenChange={changeOpen}
     >
       <NotesSvg />

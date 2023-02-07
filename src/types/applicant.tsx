@@ -1,3 +1,6 @@
+import { ChangeEventHandler } from 'react';
+import { TabsProps } from 'antd';
+
 export interface IApplicant {
   id: string
   fullName: string
@@ -64,3 +67,41 @@ interface GetApplicant {
 }
 
 export type UseGetApplicant = (id: string | undefined) => GetApplicant
+
+export interface IApproveModalProps {
+  applicant: IApplicant
+  open: string
+  onCancel: () => void
+}
+
+export type OnNoteHandler = ChangeEventHandler<HTMLTextAreaElement>
+
+export interface ICourseProps {
+  index: number
+  history: IHistory
+  applicant: IApplicant
+  isLast: boolean
+  isActive: boolean
+}
+
+export interface ICourses { histories: IHistory[], applicant: IApplicant }
+
+export interface IStyle { color?: string }
+
+export interface ApplicantRow {
+  width?: number
+  height?: number
+}
+
+export type SetValue = (key: string, value: string | undefined) => JSX.Element
+
+export type StatusItems = TabsProps['items']
+
+export interface IApplicantTabs {
+  courses: ICourse[]
+  applicant: IApplicant
+}
+
+export interface INote { id: string, inactive: boolean }
+
+export type ShowNote = boolean | string
