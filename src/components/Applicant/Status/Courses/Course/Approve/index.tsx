@@ -78,7 +78,7 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
     approveApplicant({
       sectionId: open,
       applicantId: applicant.id,
-      note: 'note'
+      note: noteText
     });
 
     void onCancel();

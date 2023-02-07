@@ -102,6 +102,10 @@ export interface IApplicantTabs {
   applicant: IApplicant
 }
 
-export interface INote { id: string, inactive: boolean }
+export interface INote {
+  id: string
+  text: string
+  inactive: boolean
+}
 
 export type ShowNote = boolean | string

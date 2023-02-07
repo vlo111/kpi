@@ -17,7 +17,7 @@ const Row = styled(AntRow)`
   }
 `;
 
-const Note: React.FC<INote> = ({ id, inactive }) => {
+const Note: React.FC<INote> = ({ id, text, inactive }) => {
   const [showNote, setShowNote] = useState<ShowNote>(false);
 
   const content = (
@@ -33,17 +33,7 @@ const Note: React.FC<INote> = ({ id, inactive }) => {
         </a>
       </Col>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis
-        delectus expedita laborum libero officia, voluptatem. A, ad adipisci
-        asperiores atque autem eaque eum eveniet ex hic illum impedit ipsam
-        itaque iusto laudantium magni nihil quia repellat similique sint
-        suscipit ut velit voluptate voluptates! Aliquam consequuntur ea eligendi
-        eveniet hic illo inventore itaque laborum saepe temporibus! Adipisci
-        asperiores deleniti distinctio doloribus excepturi fuga harum iure,
-        minima natus necessitatibus nesciunt nobis odit pariatur provident quia
-        vel voluptas. Delectus illum ipsam laudantium neque nihil, quia
-        recusandae vero. Adipisci at beatae cumque esse expedita modi non omnis
-        sequi. Illo libero nobis quos saepe ut!
+        {text}
       </p>
     </Row>
   );

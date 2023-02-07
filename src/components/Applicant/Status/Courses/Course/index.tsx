@@ -148,6 +148,7 @@ const Course: React.FC<ICourseProps> = ({ history, applicant, index, isActive, i
                   <Note
                     id={`${history?.id}`}
                     inactive={!isActive}
+                    text={history?.note ?? ''}
                   />
                 </div>
               </Col>
