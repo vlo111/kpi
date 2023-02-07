@@ -66,7 +66,6 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   const handleChange: UploadProps['onChange'] = (info) => {
     const newFileList = [...info.fileList];
     setDefaultFileList(newFileList);
-    console.log(info.fileList);
   };
   const props: UploadProps = {
     customRequest: (options: any) => {

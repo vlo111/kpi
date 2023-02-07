@@ -27,7 +27,8 @@ export const PATHS = {
   APPLICANT: 'applicant/:id',
   APPLICATIONFORM: 'application/:id',
   APPLYAPPLICANTFORM: 'apply-form/:id',
-  ASSESSMENTFORM: 'assessment-form/:id'
+  ASSESSMENTFORM: 'assessment-form/:id',
+  ASSESSMENTFORMCREATE: 'assessment-form/create/:id'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -139,3 +140,9 @@ export const regions: string[] = [
   'Tavush/Տավուշ',
   'Vayots Dzor/Վայոց Ձոր'
 ];
+
+export const defaultLimit = {
+  offset: 0,
+  limit: 24,
+  currentPage: 1
+};

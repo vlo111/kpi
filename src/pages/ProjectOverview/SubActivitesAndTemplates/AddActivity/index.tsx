@@ -4,7 +4,8 @@ import styled from 'styled-components';
 
 import { AddManagerHandle, IAddActivity } from '../../../../types/project';
 import { AsnModal } from '../../../../components/Forms/Modal';
-import CreateSubActivityModal from '../../../../components/Project/SubActivity/SubActivityModals/CreateModal';
+// import CreateSubActivityModal from '../../../../components/Project/SubActivity/SubActivityModals/CreateModal';
+import CreateSubCourse from '../../../../components/Project/SubActivity/SubActivityModals/Create';
 
 const SubModal = styled(AsnModal)`
     padding: 4.3vh 1.3vw 4.5vh 2.3vh !important;
@@ -82,8 +83,15 @@ const AddSubActivity: React.FC<IAddActivity> = ({
           ))}
         </Row>
       </SubModal>
-      {(Boolean(openCreateSubActivity)) &&
+      {/* {(Boolean(openCreateSubActivity)) &&
         <CreateSubActivityModal
+          openCreateSubActivity={openCreateSubActivity}
+          setOpenCreateSubActivity={setOpenCreateSubActivity}
+          templateId={templateId}
+        />
+      } */}
+      {(Boolean(openCreateSubActivity)) &&
+        <CreateSubCourse
           openCreateSubActivity={openCreateSubActivity}
           setOpenCreateSubActivity={setOpenCreateSubActivity}
           templateId={templateId}

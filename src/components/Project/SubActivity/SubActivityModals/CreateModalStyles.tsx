@@ -72,10 +72,6 @@ export const CreateSubActivity = styled(AsnModal)`
       border-right: none;
       border-left: none;
     }
-    .ant-input-number-input-wrap,
-    .ant-input-number-input {
-      height: 100%;
-    }
     .ant-input-number-handler-wrap {
       width: 18px;
       svg > path {
@@ -140,5 +136,20 @@ export const CreateSubActivity = styled(AsnModal)`
   }
   .ant-input-number-disabled {
     background-color: transparent;
+  }
+  .ant-input-number-input-wrap,
+    .ant-input-number-input {
+      height: 100%;
+    }
+
+  .input_number_custom{
+    border: 1px solid var(--dark-border-ultramarine);
+    :hover {
+      border: 1px solid var(--dark-border-ultramarine) !important;
+    }
+    :focus {
+      border: 1px solid var(--dark-border-ultramarine) ;
+      box-shadow: var(--input-box-shadow);
+    }
   }
 `;

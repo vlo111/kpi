@@ -5,7 +5,6 @@ const useCreateApplicant: any = (options = {}) =>
   useMutation(
     async (params: { id: string, data: any }) => {
       if (params.id !== undefined) {
-        console.log(params.data);
         return await client.post(`api/application-form/${params.id}/apply`, {
           apply: params.data
         });

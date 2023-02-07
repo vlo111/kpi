@@ -30,11 +30,12 @@ import SubActivity from './pages/SubActivityes';
 import CourseInformation from './pages/SubActivityes/CourseInformation';
 import ActivityTemplate from './pages/ActivityTemplate';
 import CourseSection from './pages/CourseSection';
-import { FileHeader } from './pages/Files/Header';
+import Files from './pages/Files';
 import Applicant from './pages/Applicant';
 import Application from './pages/Application';
 import FillApplicationForm from './pages/FillApplicationForm';
 import AssessMentForm from './pages/FillAssessmentForm';
+import CreateAssessmentForm from './pages/Assessment';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -58,7 +59,7 @@ export const router = createBrowserRouter(
           <Route path={PATHS.PROJECTS} element={<ProjectList />} />
           <Route path={PATHS.STEPS} element={<ProjectSteps />} />
           <Route path={PATHS.OVERVIEW} element={<ProjectOverview />} />
-          <Route path={PATHS.FILES} element={<FileHeader />} />
+          <Route path={PATHS.FILES} element={<Files />} />
           <Route path={PATHS.SUBACTIVITY} element={<SubActivity />} />
         </Route>
         <Route path={PATHS.PROJECTINFORMATION} element={<ProjectInformation />} />
@@ -69,6 +70,7 @@ export const router = createBrowserRouter(
         <Route path={PATHS.COURSESECTION} element={<CourseSection />} />
         <Route path={PATHS.APPLICANT} element={<Applicant />} />
         <Route path={PATHS.APPLICATIONFORM} element={<Application />} />
+        <Route path={PATHS.ASSESSMENTFORMCREATE} element={<CreateAssessmentForm />} />
       </Route>
       <Route path={PATHS.APPLYAPPLICANTFORM} element={<FillApplicationForm />} />
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
