@@ -84,10 +84,9 @@ const Application: React.FC = () => {
     enabled: location?.state?.edit !== true
   });
 
-  const { data: singleApplicantData } =
-    useSingleApplicationForm(courseId, {
-      enabled: location?.state?.edit === true
-    });
+  const { data: singleApplicantData } = useSingleApplicationForm(courseId, {
+    enabled: location?.state?.edit === true
+  });
 
   const { mutate: createApplicationFn } = createApplicationForm({
     onSuccess: (options: IApplicationsOption) => {
@@ -148,7 +147,7 @@ const Application: React.FC = () => {
   useEffect(() => {
     form.setFieldsValue({
       conditions:
-      applicationData?.termsAndConditions !== undefined &&
+        applicationData?.termsAndConditions !== undefined &&
         JSON.parse(applicationData?.termsAndConditions)
     });
   }, [applicationData]);

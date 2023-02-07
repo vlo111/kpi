@@ -94,7 +94,7 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
             onChange={onChange}
             className="course_tabs"
           >
-            {courseData?.sectionsData.map((course: any) => (
+            {courseData?.sectionsData?.map((course: any) => (
               <Tabs.TabPane key={course.title} tab={<>{course.title}</>}>
                 <Row style={{ marginBottom: '1.2vh' }}>
                   <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>
@@ -156,7 +156,7 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
                     hr)
                   </AntCol>
                 </Row>
-                {course?.data?.customInputs.map((inputs: any) => (
+                {course?.data?.customInputs?.map((inputs: any) => (
                   <Row
                     key={inputs.setting.id}
                     style={{ marginBottom: '1.2vh' }}
@@ -167,6 +167,7 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
                     <AntCol span={12}>
                       {inputs?.SHORT_TEXT ??
                         inputs?.partner_organization ??
+                        ((Boolean((inputs?.ATTACHMENT))) && inputs?.ATTACHMENT[0]?.name) ??
                         inputs?.NUMBER ??
                         inputs?.DROPDOWN}
                     </AntCol>
@@ -244,6 +245,7 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
                       {inputs?.SHORT_TEXT ??
                         inputs?.partner_organization ??
                         inputs?.NUMBER ??
+                        ((Boolean((inputs?.ATTACHMENT))) && inputs?.ATTACHMENT[0]?.name) ??
                         inputs?.DROPDOWN}
                     </AntCol>
                   </Row>
