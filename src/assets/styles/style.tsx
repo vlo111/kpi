@@ -236,8 +236,8 @@ const GlobalStyle = createGlobalStyle`
   }
   .applicantsFilter{
     .ant-popover-title{
-  font-size: 16px !important;
-  color: #263238;
+  font-size: var(--base-font-size) !important;
+  color: var(--dark-2);
   border-bottom: none !important;
   text-align-last: center;
   padding: 16px 16px 10px;

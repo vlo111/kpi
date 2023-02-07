@@ -79,9 +79,10 @@ const DataResult: React.FC<IDataResult> = ({
         currentPage: page
       });
   };
-
   const handleCancel = (): void => {
     setOpens(false);
+    refetchAllFiles();
+
   };
 
   const handleCourseFileClick = (path: string): void => {
