@@ -30,6 +30,10 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
     }
   };
 
+  const createAssessmentForm = (): void => {
+    navigate(`/${PATHS.ASSESSMENTFORMCREATE.replace(':id', courseId)}`, { state: { SubActivityId } });
+  };
+
   const renderCurrentSelectionTitle = (): any => {
     switch (title) {
       case 'Applicant':
@@ -118,7 +122,7 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
                 {applicationForm.includes('ASSESSMENT') && (
                   <>
                     <Row justify="center" style={{ width: '100%' }}>
-                      <AsnButton className="primary" type="primary">
+                      <AsnButton className="primary" type="primary" onClick={createAssessmentForm}>
                         Publish Post-assessment form
                       </AsnButton>
                     </Row>

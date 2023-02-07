@@ -26,7 +26,7 @@ export const PATHS = {
   COURSESECTION: 'activity-template/:id/second-step',
   APPLICANT: 'applicant/:id',
   APPLICATIONFORM: 'application/:id',
-  ASSESSMENTFORM: 'assessment-form',
+  ASSESSMENTFORMCREATE: 'assessment-form/create/:id',
   APPLYAPPLICANTFORM: 'apply-form/:id'
 };
 

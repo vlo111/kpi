@@ -5,7 +5,7 @@ import client from '../client';
 
 export const url = 'api/assessment-form';
 
-const DeleteAssessmentFormDataById: DeleteAssessmentFormByFormId = (options = {}) =>
+const useDeleteAssessmentFormDataById: DeleteAssessmentFormByFormId = (options = {}) =>
   useMutation(
     async (params: IOnlyId) => {
       if (params.id !== undefined) {
@@ -14,4 +14,4 @@ const DeleteAssessmentFormDataById: DeleteAssessmentFormByFormId = (options = {}
     },
     options
   );
-export default DeleteAssessmentFormDataById;
+export default useDeleteAssessmentFormDataById;

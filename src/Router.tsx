@@ -69,7 +69,7 @@ export const router = createBrowserRouter(
         <Route path={PATHS.COURSESECTION} element={<CourseSection />} />
         <Route path={PATHS.APPLICANT} element={<Applicant />} />
         <Route path={PATHS.APPLICATIONFORM} element={<Application />} />
-        <Route path={PATHS.ASSESSMENTFORM} element={<CreateAssessmentForm />} />
+        <Route path={PATHS.ASSESSMENTFORMCREATE} element={<CreateAssessmentForm />} />
       </Route>
       <Route path={PATHS.APPLYAPPLICANTFORM} element={<FillApplicationForm />} />
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
