@@ -1,14 +1,15 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Modal, Typography } from 'antd';
+import { Modal, Typography, Space } from 'antd';
 import styled from 'styled-components';
 
-import OptionType from './OptionType';
-import ShortTextType from './ShortTextType';
+import { UnderLineInput } from '../../components/Forms/Input/UnderLineInput';
 import AsnSpin from '../../components/Forms/Spin';
 import { AsnForm } from '../../components/Forms/Form';
 import { AsnButton } from '../../components/Forms/Button';
-import { VALIDATE_MESSAGES } from '../../helpers/constants';
+import CheckBoxType from './CheckBoxType';
+import OptionType from './OptionType';
+import ShortTextType from './ShortTextType';
 import { TVoid } from '../../types/global';
 import useGetAssessmentForm from '../../api/AssessmentForm/useGetAssessmentForm';
 
@@ -36,7 +37,6 @@ const AsnParagraph = styled(Paragraph)`
 `;
 
 const FillAssessMentForm: React.FC = () => {
-  // id 0c83f395-3a58-4334-8abd-530e98e4b25c
   const [form] = AsnForm.useForm();
   const { id } = useParams();
   const { data: { result: assessmentForm }, isLoading } = useGetAssessmentForm(id, { enabled: Boolean(id) });
@@ -48,8 +48,9 @@ const FillAssessMentForm: React.FC = () => {
   if (isLoading === true) {
     return <AsnSpin />;
   }
-  const { title, questions } = assessmentForm;
-  console.log(questions, 'questions');
+
+  const { title, questions, sectionDataTitle } = assessmentForm;
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleQuestionType = (question: any, i: any) => {
     if (question.answerType === 'SHORT_TEXT') {
@@ -58,35 +59,24 @@ const FillAssessMentForm: React.FC = () => {
     if (question.answerType === 'OPTION') {
       return <OptionType question={question} i={i} />;
     }
+    if (question.answerType === 'CHECKBOX') {
+      return <CheckBoxType question={question} i={i} />;
+    }
   };
   const initalValue =
-    [
-      ...questions.map((question: any) => {
-        return {
-          questionId: question.id,
-          answers: question.answerType === 'SHORT_TEXT'
-            ? [{
-                text: ''
-              }]
-            : question.answers.map((item: any) => {
-              if (item.type === 'SHORT_TEXT') {
-                return {
-                  id: item.id,
-                  text: ''
-                };
-              } else {
-                return {
-                  id: item.id
-                };
-              }
-            })
-        };
-      })
-    ];
+    questions.map((question: any) => {
+      return {
+        questionId: question.id,
+        answers: question.answerType === 'SHORT_TEXT'
+          ? [{
+              text: ''
+            }]
+          : question.answerType === 'CHECKBOX'
+            ? []
+            : question.answers.map((item: any) => item.id)
+      };
+    });
 
-  // const onFinishFailed = ({ errorFields }) => {
-  //   console.log(errorFields);
-  // };
   return (
     <AsnModal
       open={true}
@@ -96,24 +86,48 @@ const FillAssessMentForm: React.FC = () => {
       footer={false}
     >
       <AsnTitle level={2}>{title}</AsnTitle>
-      <AsnParagraph>Pre-assessment form for python course</AsnParagraph>
+      <AsnParagraph style={{ marginBottom: '60px' }}>Pre-assessment form for {sectionDataTitle} course</AsnParagraph>
       <AsnForm
         form={form}
         layout='vertical'
-        validateMessages={VALIDATE_MESSAGES}
         onFinish={onFinish}
-      // onFinishFailed={onFinishFailed}
+        name="preassesment"
       >
-        <AsnForm.List name='apply' initialValue={[initalValue]}>
+        <AsnForm.Item
+          name="email"
+          rules={[{ required: true, message: 'Please enter valid email' }]}
+          label={'Email address (same as in the submitted application form)'}
+          style={{ fontWeight: 500 }}
+        >
+          <UnderLineInput />
+        </AsnForm.Item>
+        <AsnForm.List name='apply' initialValue={[...initalValue]}>
           {(fields) => (
             <div>
-              {questions.map((question: any, i: any) => (
+              {questions.map((question: any, i: any) =>
                 handleQuestionType(question, i)
-              ))}
+              )}
             </div>
           )}
         </AsnForm.List>
-        <AsnButton className="primary" htmlType="submit">Submit</AsnButton>
+        <AsnForm.Item>
+          <Space direction='horizontal' align='center' style={{ paddingTop: '30px' }}>
+            <Paragraph
+              style={{ marginBottom: 0, fontSize: '16px', fontWeight: 500 }}
+            >Online Signature
+            </Paragraph>
+            <UnderLineInput style={{ width: 'calc(80vw - 196px)' }} />
+          </Space>
+        </AsnForm.Item>
+        <AsnForm.Item>
+          <AsnButton
+            className="primary"
+            htmlType="submit"
+            style={{ float: 'right', borderRadius: '18px', marginTop: '30px' }}
+          >
+            Submit
+          </AsnButton>
+        </AsnForm.Item>
       </AsnForm>
     </AsnModal>
   );

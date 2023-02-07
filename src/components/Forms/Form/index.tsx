@@ -24,8 +24,8 @@ export const AsnForm = styled(Form)`
     > label {
       overflow: hidden;
       display: block;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      text-overflow: ${props => props.name === 'preassesment' ? 'initial' : 'ellipsis'};
+      white-space: ${props => props.name === 'preassesment' ? 'initial' : 'nowrap'};;
       padding: 0;
       color: var(--dark-2);
       font-size: var(--base-font-size);
