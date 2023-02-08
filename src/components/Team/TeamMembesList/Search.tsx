@@ -10,7 +10,8 @@ import { ShowDeleteUserModal } from '../../../types/teams';
 const SearchTeamMembers: React.FC<ShowDeleteUserModal> = ({
   showModal,
   setShowModal,
-  totalCount
+  totalCount,
+  permissionsList
 }) => {
   return (
     <Row gutter={24}>
@@ -84,7 +85,7 @@ const SearchTeamMembers: React.FC<ShowDeleteUserModal> = ({
           </Col>
         </Row>
       </Col>
-      {showModal === 'create' && <AddTeamMemberModal setShowModal={setShowModal} />}
+      {showModal === 'create' && <AddTeamMemberModal permissionsList={permissionsList} setShowModal={setShowModal} />}
     </Row>
   );
 };

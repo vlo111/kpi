@@ -5,13 +5,14 @@ import { Space } from 'antd';
 import { ReactComponent as Preview } from '../../../assets/icons/eye.svg';
 import { ReactComponent as TrashSvg } from '../../../assets/icons/trash.svg';
 import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg';
-import AddTeamMemberModal from './CreateTeamMemberModal';
+// import AddTeamMemberModal from './CreateTeamMemberModal';
 import { ConfirmModal } from '../../Forms/Modal/Confirm';
 import TeamMemberPermissionInfoModal from './TeamMemberPermissionModal';
 import { AsnTable } from '../../Forms/Table';
 import { HandleTableOnChange, ITeamMembersTypes, TableParams, User } from '../../../types/teams';
 import useGetAllTeamsList from '../../../api/Teams/useGetAllTeamMembersList';
 import AsnAvatar from '../../Forms/Avatar';
+import { useProject } from '../../../hooks/useProject';
 
 const ApplicantList = styled.div`
   margin-top: 8px;
@@ -19,11 +20,11 @@ const ApplicantList = styled.div`
 `;
 
 const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
-  const [openApplicantDeleteModal, setOpenApplicantDeleteModal] =
-    useState(false);
-  const [showModal, setShowModal] = useState('');
-  const [openApplicantPermissionModal, setOpenApplicantPermissionModal] =
-    useState(false);
+  const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState(false);
+  const { projectId } = useProject();
+  // const [showModal, setShowModal] = useState('');
+  const [openApplicantPermissionModal, setOpenApplicantPermissionModal] = useState(false);
+
   const columns = [
     {
       title: 'Name Surname',
@@ -75,20 +76,19 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
     },
     {
       title: 'User status',
-      dataIndex: 'emailVerified',
       render: (item: User) => {
         return (
           <Space
             className={`${
               item?.emailVerified
-                ? 'user_status_pending'
-                : 'user_status_resolved'
+                ? 'user_status_resolved'
+                : 'user_status_pending'
             }`}
             style={{ width: '100%', justifyContent: 'center' }}
             direction="horizontal"
           >
             <Space align="center">
-              {item?.emailVerified ? 'Pending' : 'Resolved'}
+              {item?.emailVerified ? 'Resolved' : 'Pending' }
             </Space>
           </Space>
         );
@@ -100,7 +100,7 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
         return (
           <Space direction="horizontal">
             <Space align="start" style={{ cursor: 'pointer' }}>
-              <EditSvg onClick={() => setShowModal('update')} />
+              <EditSvg />
             </Space>
             <Space align="end" style={{ cursor: 'pointer' }}>
               <TrashSvg onClick={() => setOpenApplicantDeleteModal(true)} />
@@ -122,7 +122,8 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
 
   const { data: membersListInfo, isLoading, refetch, count } = useGetAllTeamsList({
     limit: tableParams.pagination?.pageSize,
-    offset: 10
+    offset: 0,
+    projectId
   });
 
   useEffect(() => {
@@ -155,9 +156,9 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
         loading={isLoading}
         onChange={handleTableChange}
       />
-      {showModal === 'del' && (
+      {/* {showModal === 'del' && (
         <AddTeamMemberModal setShowModal={setShowModal} />
-      )}
+      )} */}
       <ConfirmModal
         styles={{ gap: '80px' }}
         yes="Delete"

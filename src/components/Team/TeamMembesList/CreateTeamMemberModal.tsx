@@ -8,8 +8,8 @@ import { AsnInput } from '../../Forms/Input';
 import { VALIDATE_MESSAGES } from '../../../helpers/constants';
 import { AsnButton } from '../../Forms/Button';
 import { CascadedData, ShowDeleteUserModal } from '../../../types/teams';
-import { UsersPermissionsRule } from '../../../helpers/utils';
 import { FormFinish } from '../../../types/global';
+import useInviteMemberByPermission from '../../../api/Teams/useInviteTeamMember';
 
 const AddTeamMemberModalWrapper = styled(AsnModal)`
   width: 600px !important;
@@ -107,34 +107,56 @@ const AddTeamMemberModalWrapper = styled(AsnModal)`
 `;
 
 const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
-  setShowModal
+  setShowModal,
+  permissionsList
 }) => {
   const [form] = AsnForm.useForm();
-  const [value, setValue] = useState(1);
-
+  const [value, setValue] = useState('');
   const [filedValue, setFiledValue] = useState<string[][]>([[]]);
 
-  const [defaultVal] = useState(UsersPermissionsRule);
+  const { mutate: InviteTeamMember } = useInviteMemberByPermission({
+    onSuccess: () => {
+      form.resetFields();
+      setShowModal('');
+    }
+  });
 
   const onChange: any = (value: string[][]) => {
     setFiledValue(value);
   };
 
+  const defaultVal = {
+    value: permissionsList.id,
+    label: permissionsList.title,
+    children: permissionsList.resultAreas.map(resultArea => ({
+      value: resultArea.id,
+      label: resultArea.title,
+      children: resultArea.activities.map(activity => ({
+        value: activity.id,
+        label: activity.title,
+        children: activity.templates.map(template => ({
+          value: template.id,
+          label: template.title
+        }))
+      }))
+    }))
+  };
+
   const onFinish: FormFinish = (values) => {
     const result: CascadedData = {
-      projectId: filedValue[0][0],
+      id: filedValue[0][0],
       resultAreas: []
     };
     filedValue.forEach((item) => {
       const resultAreaIdIndex = 1;
-      const resultAreaId = item[resultAreaIdIndex];
+      const id = item[resultAreaIdIndex];
       const existingResultArea = result.resultAreas.find(
-        (ra) => ra.resultAreaId === resultAreaId
+        (ra) => ra.id === id
       );
       if (existingResultArea != null) {
-        existingResultArea.activity.push({
+        existingResultArea.activities.push({
           id: item[resultAreaIdIndex + 1],
-          template:
+          templates:
             item.length > 2
               ? [
                   {
@@ -145,11 +167,11 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
         });
       } else {
         result.resultAreas.push({
-          resultAreaId,
-          activity: [
+          id,
+          activities: [
             {
               id: item[resultAreaIdIndex + 1],
-              template:
+              templates:
                 item.length > 2
                   ? [
                       {
@@ -162,6 +184,8 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
         });
       }
     });
+    values.permissions = result;
+    InviteTeamMember(values);
   };
 
   const onChangePermission: (e: RadioChangeEvent) => void = (
@@ -257,14 +281,14 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
         </AsnForm.Item>
         <AsnForm.Item
           style={{ width: '100%' }}
-          name="assign_to"
+          name="permissions"
           label="Assign to"
           rules={[{ required: true }]}
         >
           <Cascader
             value={filedValue}
             popupClassName="customCascaderPopup"
-            options={defaultVal}
+            options={[defaultVal]}
             onChange={onChange}
             displayRender={(label) => label.join(' >  ')}
             multiple
@@ -273,12 +297,12 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
             changeOnSelect
           />
         </AsnForm.Item>
-        <AsnForm.Item name="Radio" initialValue={1}>
+        <AsnForm.Item name="permissionType" initialValue={'VIEW'} >
           <Radio.Group value={value}>
-            <Radio value={1} onChange={onChangePermission}>
+            <Radio value={'VIEW'} onChange={onChangePermission}>
               View
             </Radio>
-            <Radio value={2} onChange={onChangePermission}>
+            <Radio value={'EDIT'} onChange={onChangePermission}>
               Edit
             </Radio>
           </Radio.Group>
