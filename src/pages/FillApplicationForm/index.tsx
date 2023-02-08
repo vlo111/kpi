@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Form, Row, Space, Spin, Typography } from 'antd';
-import PersonalDetails from '../../components/FillApplicationForm/PersonalDetails';
-import { FormText } from '../../components/FillApplicationForm/style';
-import { FormFinish, Void } from '../../types/global';
-import { AsnButton } from '../../components/Forms/Button';
-import { useNavigate, useParams } from 'react-router-dom';
-import useSingleApplicationForm from '../../api/ApplicationForm/useGetSingleApplicationForm';
-import { PATHS } from '../../helpers/constants';
 import _ from 'lodash';
+import { Form, Row, Spin } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import { AsnForm } from '../../components/Forms/Form';
-import EducationsWork from '../../components/FillApplicationForm/EducationsWork';
-import OtherInformation from '../../components/FillApplicationForm/OtherInformation';
-import TermsConditions from '../../components/FillApplicationForm/TermsConditions';
-import useCreateApplicant from '../../api/Applicant/useApplyApplicant';
+import { AsnButton } from '../../components/Forms/Button';
+
+import { GetField } from '../../types/application';
+import { FormFinish, Void } from '../../types/global';
+import { IApplicant } from '../../types/api/application/applicationForm1';
+
+import useSingleApplicationForm from '../../api/ApplicationForm/useGetSingleApplicationForm';
 import { AsnModal } from '../../components/Forms/Modal';
+import ApplicationForm from '../../components/FillApplicationForm';
+import { KeyName, PATHS, SectionName } from '../../helpers/constants';
+import { FormText, SectionTitle } from '../../components/FillApplicationForm/style';
+import useCreateApplicant from '../../api/Applicant/useApplyApplicant';
+import { getRelatedQuestions, getAnswers } from '../../helpers/applicationForm';
 import { ReactComponent as SuccessfulIcon } from '../../assets/icons/successful.svg';
 
 const FillApplicationFormContainer = styled.div`
@@ -26,111 +29,38 @@ const FillApplicationFormContainer = styled.div`
   margin: 3rem auto;
   display: flex;
   flex-direction: column;
-`;
-
-const FormTitle = styled(Typography.Title)`
-  font-size: var(--font-size-semilarge);
-  color: var(--dark-border-ultramarine) !important;
-  font-weight: 400;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`;
-
-const getDefaultAnswer: (key: any, item: any) => any = (key, item) => {
-  if (item !== undefined) {
-    if (key === 'gender' || key === 'student' ||
-      key === 'educationLevel' || key === 'income' ||
-      key === 'studyType' || key === 'disability' ||
-      key === 'informedAboutUs' || key === 'vulnerabilities'
-    ) {
-      return {
-        id: item[0].id,
-        text: item[0].title
-      };
-    }
+  
+  .title {
+    font-size: var(--large-font-size) !important;
+    justify-content: center;
   }
+  
+  .ant-form-item {
+    margin: 12px 0 16px;
 
-  return {
-    text: ''
-  };
-};
-
-const getAnswers: (items: any) => any = (items) => (
-  items?.map((p: { id: any, answers: any, keyName: string }) => {
-    return {
-      questionId: p.id,
-      keyName: p.keyName,
-      answers: [getDefaultAnswer(p.keyName, p.answers)]
-    };
-  })
-);
-
-const concatRelatedAnswers: (items: any, educationQuestion: any) => any = (items, educationQuestion) => {
-  const relatedQuestions = items.questions.map((q: any) => q.relatedQuestions).filter((f: any) => f.length).flat();
-
-  const rq = getAnswers(relatedQuestions);
-
-  const key = Object.keys(educationQuestion)[0];
-
-  educationQuestion[key] = educationQuestion[key].concat(rq);
-};
-
-const initFormData: (personalInfo: any, educationQuestion: any, otherInfo: any) => any = (personalInfo, education, otherInfo) => {
-  const personalInfoQuestions = {
-    [personalInfo.keyName]: getAnswers(personalInfo.questions)
-  };
-
-  const educationQuestion: any = {
-    [education.keyName]: getAnswers(education.questions)
-  };
-
-  concatRelatedAnswers(education, educationQuestion);
-
-  const otherInfoQuestion = {
-    [otherInfo.keyName]: getAnswers(otherInfo.questions)
-  };
-
-  concatRelatedAnswers(otherInfo, otherInfoQuestion);
-
-  return {
-    termsAndConditions: '',
-    income: education.questions.find((e: any) => e.keyName === 'income')?.title,
-    disability: otherInfo.questions.find((e: any) => e.keyName === 'disability')?.title,
-    vulnerabilities: otherInfo.questions.find((e: any) => e.keyName === 'vulnerabilities')?.title ?? '',
-    informedAboutUs: otherInfo.questions.find((e: any) => e.keyName === 'informedAboutUs')?.title,
-    ...personalInfoQuestions,
-    ...educationQuestion,
-    ...otherInfoQuestion
-  };
-};
-
-const getAnswersByKey: (item: any, key: string) => any = (item, key) => (
-  item.questions.find(
-    (q: { keyName: string }) => q.keyName === key
-  )?.answers.map((a: any) => ({
-    id: a.id,
-    text: a.title
-  }))
-);
-
-const getRelatedAnswersByKey: (item: any, key: string) => any = (item, key) => {
-  const relatedQuestions = item.questions.map((q: any) => q.relatedQuestions).filter((f: any) => f.length).flat();
-
-  return relatedQuestions.find(
-    (q: { keyName: string }) => q.keyName === key
-  )?.answers.map((a: any) => ({
-    id: a.id,
-    text: a.title
-  }));
-};
+    input {
+      font-size: var(--font-size-semismall);
+    }
+  }  
+`;
 
 const FillApplicationForm: React.FC = () => {
-  const [isSuccessPublishModal, setIsSuccessPublishModal] = useState(false);
-
+  const navigate = useNavigate();
+  const { id } = useParams();
   const [form] = Form.useForm();
 
-  const { mutate: createApplicat } = useCreateApplicant({
+  const [isSuccessPublishModal, setIsSuccessPublishModal] = useState(false);
+
+  const { data, isLoading } = useSingleApplicationForm(id ?? '', {
+    onSuccess: (data: IApplicant) => {
+      // console.log(''success');
+    },
+    onError: (data: IApplicant) => {
+      navigate(`/${PATHS.ERROR_403}`);
+    }
+  });
+
+  const { mutate: createApplicant } = useCreateApplicant({
     onSuccess: (options: any) => {
       form.resetFields();
       initForm();
@@ -138,59 +68,22 @@ const FillApplicationForm: React.FC = () => {
         top: 0,
         behavior: 'smooth'
       });
-      setIsSuccessPublishModal(true);
+      setTimeout(() => {
+        setIsSuccessPublishModal(true);
+      }, 500);
     },
     onError: (err: any) => {
       console.log(err);
     }
   });
 
-  const navigate = useNavigate();
-
-  const { id } = useParams();
-
-  const { data, isLoading }: any = useSingleApplicationForm(id,
-    {
-      enabled: !(id === null),
-      onSuccess: (data: any) => {
-        // console.log('SUCC', data);
-      },
-      onError: (data: any) => {
-        navigate(`/${PATHS.ERROR_403}`);
-      }
-    });
-
-  const [educations, setEducations] = useState();
-  const [educationLevel, setEducationLevel] = useState();
-  const [vulnerabilities, setVulnerabilities] = useState();
-  const [informedAboutUs, setInformedAboutUs] = useState();
-  const [areStudent, setAreStudent] = useState();
-  const [gender, setGender] = useState();
-  const [hasJobsIncome, setHasJobsIncome] = useState();
-  const [disability, setDisability] = useState();
-
-  const onFinish: FormFinish = () => {
-    try {
-      const personalInfo = _.cloneDeep(form.getFieldValue('personal_info'));
-      const educationalInfo = _.cloneDeep(form.getFieldValue('educational_info'));
-      const otherInfo = _.cloneDeep(form.getFieldValue('other_info'));
-
-      personalInfo.forEach((p: any) => {
-        if (p.keyName === 'dob') {
-          p.answers[0].text = p.answers[0].text.toJSON();
-        }
-      });
-
-      const data = personalInfo.concat(educationalInfo, otherInfo);
-
-      createApplicat({
-        id,
-        data
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const {
+    applicationFormSections = [],
+    title,
+    description,
+    termsAndConditions,
+    onlineSignature
+  } = data ?? {};
 
   useEffect(() => {
     if (!_.isEmpty(data)) {
@@ -199,68 +92,73 @@ const FillApplicationForm: React.FC = () => {
   }, [data, id, form]);
 
   const initForm: Void = () => {
-    const { applicationFormSections } = data;
+    if (applicationFormSections !== undefined) {
+      const [personalDetails, education, otherInfo, personalInfo] = applicationFormSections;
 
-    const [personalInfo, education, otherInfo] = applicationFormSections;
+      const educationQuestion = getRelatedQuestions(education);
 
-    initStates(personalInfo, education, otherInfo);
+      const otherInfoQuestion = getRelatedQuestions(otherInfo);
 
-    const initial = initFormData(personalInfo, education, otherInfo);
+      const questions = {
+        [personalDetails.keyName]: getAnswers(personalDetails.questions),
+        ...educationQuestion,
+        ...otherInfoQuestion,
+        [personalInfo.keyName]: getAnswers(personalInfo.questions)
+      };
 
-    form.setFieldsValue({
-      ...initial
-    });
+      form.setFieldsValue({
+        ...questions
+      });
+    }
   };
 
-  const initStates: (personalInfo: any, education: any, otherInfo: any) => void = (personalInfo, education, otherInfo) => {
-    setGender(getAnswersByKey(personalInfo, 'gender'));
+  const getField: GetField = (name) => _.cloneDeep(form.getFieldValue(name));
 
-    setEducations(getRelatedAnswersByKey(education, 'studyType'));
+  const onFinish: FormFinish = () => {
+    try {
+      const personalInfo = getField(SectionName.personalInfo);
+      const educationalInfo = getField(SectionName.educationalInfo);
+      const otherInfo = getField(SectionName.otherInfo);
+      const professionalInfo = getField(SectionName.professionalInfo);
 
-    setEducationLevel(getAnswersByKey(education, 'educationLevel'));
+      personalInfo.forEach((p: any) => {
+        if (p.keyName === KeyName.dob) {
+          p.answers[0].text = p.answers[0].text.toJSON();
+        }
+      });
 
-    setAreStudent(getAnswersByKey(education, 'student'));
+      const data = personalInfo.concat(educationalInfo, otherInfo, professionalInfo);
 
-    setHasJobsIncome(getAnswersByKey(education, 'income'));
-
-    setVulnerabilities(getRelatedAnswersByKey(otherInfo, 'vulnerabilities'));
-
-    setInformedAboutUs(getAnswersByKey(otherInfo, 'informedAboutUs'));
-
-    setDisability(getAnswersByKey(otherInfo, 'disability'));
+      createApplicant({
+        id,
+        data
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
     <Spin spinning={isLoading}>
     <FillApplicationFormContainer>
-      <FormTitle>{data?.title}</FormTitle>
-      <FormText>{data?.description}</FormText>
-      <AsnForm
-        form={form}
-        onFinish={onFinish}
-        autoComplete="off"
-      >
-        <PersonalDetails gender={gender}/>
-        <EducationsWork educations={educations} educationLevel={educationLevel} areStudent={areStudent} hasJobsIncome={hasJobsIncome} />
-        <OtherInformation informedAboutUs={informedAboutUs} vulnerabilities={vulnerabilities} disability={disability} />
-        <TermsConditions text={data.termsAndConditions} onlineSignature={data.onlineSignature}/>
-        <Space
-          style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            margin: '3.5rem 0rem'
-          }}
-          size={60}
+      <AsnForm form={form} onFinish={onFinish} autoComplete="off">
+        <SectionTitle className="title">{title}</SectionTitle>
+        <FormText>{description}</FormText>
+        <ApplicationForm
+          sections={applicationFormSections}
+          terms={termsAndConditions}
+          online={onlineSignature}
+        />
+        <AsnButton
+          className="primary"
+          htmlType="submit"
+          style={{ width: 'clamp(8.5rem, 7vw, 24rem)', float: 'right' }}
         >
-          <AsnButton className="default">Cancel</AsnButton>
-          <AsnButton className="primary" htmlType="submit">
-            Submit
-          </AsnButton>
-        </Space>
+          Publish
+        </AsnButton>
       </AsnForm>
     </FillApplicationFormContainer>
-    <AsnModal
+      <AsnModal
         footer={false}
         open={isSuccessPublishModal}
         title={data?.successMessage}
