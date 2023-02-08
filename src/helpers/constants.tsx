@@ -1,3 +1,5 @@
+import { IAssessmentSelectItem } from '../types/api/assessment';
+
 export const PATHS = {
   ROOT: '/',
   ERROR_403: 'no-access',
@@ -178,3 +180,18 @@ export const defaultLimit = {
   limit: 24,
   currentPage: 1
 };
+
+export const assessmentSelect: IAssessmentSelectItem[] = [
+  {
+    name: 'One answer',
+    value: 'OPTION'
+  },
+  {
+    name: 'Multiple answers',
+    value: 'CHECKBOX'
+  },
+  {
+    name: 'Text answer',
+    value: 'SHORT_TEXT'
+  }
+];

@@ -34,7 +34,6 @@ type EnumAssessmentFormTypes = keyof typeof AssessmentFormType;
 enum AssessmentFormAnswers {
   OPTION,
   SHORT_TEXT,
-  LONG_TEXT,
   CHECKBOX
 }
 
@@ -123,3 +122,8 @@ export type UpdateAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorP
 export type DeleteAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
 export type DuplicateAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
 export type ChangeStatusAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
+
+export interface IAssessmentSelectItem {
+  name: string
+  value: string
+}

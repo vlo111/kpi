@@ -2,69 +2,8 @@ import { Space } from 'antd';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import AssessmentForms from '../../components/AssessmentForm';
+import AssessmentForms from '../../components/AssessmentForm/DynamicAssessmentForm';
 import AsnBreadcrumb from '../../components/Forms/Breadcrumb';
-
-export const aaa = {
-  title: 'Assessment Form 1',
-  onlineSignature: false,
-  passingScore: 30,
-  maximumScore: 50,
-  duplicate: false,
-  type: 'PRE_ASSESSMENT',
-  questions: [
-    {
-      title: 'Full name/ Անուն, Ազգանուն, Հայրանուն1',
-      required: true,
-      score: 1,
-      answerType: 'SHORT_TEXT',
-      answers: [
-        {
-          title: 'How old are you',
-          score: 1,
-          type: 'LONG_TEXT'
-        }
-      ]
-    },
-    {
-      title: 'Full name/ Անուն, Ազգանուն, Հայրանուն2',
-      required: true,
-      score: 1,
-      answerType: 'SHORT_TEXT',
-      answers: [
-        {
-          title: 'How old are you',
-          score: 1,
-          type: 'LONG_TEXT'
-        }
-      ]
-    },
-    {
-      title: 'Full name/ Անուն, Ազգանուն, Հայրանուն3',
-      required: true,
-      score: 1,
-      answerType: 'OPTION',
-      answers: [
-        {
-          title: 'option1',
-          score: 1,
-          type: 'OPTION'
-        },
-        {
-          title: 'option2',
-          score: 1,
-          type: 'OPTION'
-        },
-        {
-          title: 'option3',
-          score: 1,
-          type: 'OPTION'
-        }
-      ]
-    }
-
-  ]
-};
 
 const AssessmentFormWrapper = styled(Space)`
 width: 100%;
