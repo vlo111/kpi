@@ -12,6 +12,7 @@ import { ReactComponent as TrashSvg } from "../../../../assets/icons/trash.svg";
 import { ReactComponent as EditSvg } from "../../../../assets/icons/edit.svg";
 import { ReactComponent as Dublicat } from "../../../../assets/icons/duplicate.svg";
 import { ReactComponent as Plus } from "../../../../assets/icons/plus.svg";
+import CreateSubCourse from "../../../../components/Project/SubActivity/SubActivityModals/Create";
 
 const { Meta } = Card;
 const { Paragraph } = Typography;
@@ -124,6 +125,8 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
   const [show, setShow] = useState<string | boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [templateId, setTemplateId] = useState<string>("");
+  const [openCreateSubActivity, setOpenCreateSubActivity] = useState<boolean>(false);
+
   const { mutate: deleteActivityTemplate } = useDeleteActivityTemplate({
     onSuccess: () => {
       refetch();
@@ -141,13 +144,16 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
       void message.error("Something went wrong", 2);
     },
   });
-
   const navigate = useNavigate();
   const title = (id: string): any => {
     return (
       <Row>
         <Col>
-          <Popup type="link">
+          <Popup type="link" onClick={() => {
+             setTemplateId(id);
+              setOpenCreateSubActivity(true);
+            }
+            }>
             <Plus />
             Use
           </Popup>
@@ -254,6 +260,13 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
           onCancel={() => setOpenDeleteModal(false)}
         />
       </Container>
+      {(Boolean(openCreateSubActivity)) &&
+        <CreateSubCourse
+          openCreateSubActivity={openCreateSubActivity}
+          setOpenCreateSubActivity={setOpenCreateSubActivity}
+          templateId={templateId}
+        />
+      }
     </>
   );
 };
