@@ -53,8 +53,8 @@ export interface ICascadeOnchange {
 }
 
 export interface ShowPermissionModalTypes {
-  showPermissionModal: boolean
-  setShowPermissionModal: (b: boolean) => void
+  userId: string
+  setUserId: (b: string) => void
 }
 
 export interface ShowAddUserModalTypes {
@@ -149,6 +149,21 @@ export interface InviteMemberResultArea {
   InviteMemberActivity: Activity[]
 }
 
+export interface SingleUserPermissionResult {
+  level: number
+  project: string
+  resultArea: string
+  inputActivity: string
+  activityTemplate: string
+}
+
+export interface SingleUserPermissionResults {
+  data: SingleUserPermissionResult[]
+  isSuccess: boolean
+  refetch: any
+  isLoading: boolean
+}
+
 export interface InviteMemberActivity {
   id: string
   templates: InviteMemberTemplate[]
@@ -182,13 +197,26 @@ export interface UseGetAllTeamsListResult {
   refetch: any
 }
 
+export interface DeleteTeamMemberData {
+  userId: string
+  projectId: string
+}
+
 export type GetPermissionsList = (
   projectId: string,
   options?: FormOptions
 ) => UseGetPermissionList;
+
+export type GetSingleUserPermissions = (
+  userId: string,
+  projectId: string,
+  options?: FormOptions
+) => SingleUserPermissionResults;
 
 export type HandleTableOnChange = (pagination: TablePaginationConfig) => void
 
 export type UseGetTeamMembers = (params: { limit: number, offset: number }, options?: { enabled: Boolean }) => Result
 
 export type InviteTeamMemberPermission = UseMutation<Void, any, ResponseErrorParam, InviteMemberData>;
+
+export type DeleteTeamMemberByUserId = UseMutation<Void, any, ResponseErrorParam, DeleteTeamMemberData>;

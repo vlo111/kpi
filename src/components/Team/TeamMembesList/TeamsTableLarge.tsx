@@ -13,6 +13,7 @@ import { HandleTableOnChange, ITeamMembersTypes, TableParams, User } from '../..
 import useGetAllTeamsList from '../../../api/Teams/useGetAllTeamMembersList';
 import AsnAvatar from '../../Forms/Avatar';
 import { useProject } from '../../../hooks/useProject';
+import useDeleteTeamMemberPermissionByInfo from '../../../api/Teams/useDeleteTeamMember';
 
 const ApplicantList = styled.div`
   margin-top: 8px;
@@ -20,10 +21,10 @@ const ApplicantList = styled.div`
 `;
 
 const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
-  const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState(false);
+  const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState('');
   const { projectId } = useProject();
   // const [showModal, setShowModal] = useState('');
-  const [openApplicantPermissionModal, setOpenApplicantPermissionModal] = useState(false);
+  const [userId, setUserId] = useState('');
 
   const columns = [
     {
@@ -65,7 +66,7 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
         return (
           <Space direction="horizontal">
             <Space align="start">
-              <Preview onClick={() => setOpenApplicantPermissionModal(true)} />
+              <Preview onClick={() => setUserId(item?.id)} />
             </Space>
             <Space align="end">
               <h3>{item?.position}</h3>
@@ -96,14 +97,14 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
       width: 150
     },
     {
-      render: () => {
+      render: (item: User) => {
         return (
           <Space direction="horizontal">
             <Space align="start" style={{ cursor: 'pointer' }}>
               <EditSvg />
             </Space>
             <Space align="end" style={{ cursor: 'pointer' }}>
-              <TrashSvg onClick={() => setOpenApplicantDeleteModal(true)} />
+              <TrashSvg onClick={() => setOpenApplicantDeleteModal(item?.id)} />
             </Space>
           </Space>
         );
@@ -115,15 +116,22 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
       current: 1,
-      pageSize: 11,
+      pageSize: 10,
       showSizeChanger: false
     }
   });
 
   const { data: membersListInfo, isLoading, refetch, count } = useGetAllTeamsList({
     limit: tableParams.pagination?.pageSize,
-    offset: 0,
+    offset: tableParams.pagination?.current !== undefined ? tableParams.pagination?.current - 1 : 0,
     projectId
+  });
+
+  const { mutate: deletePermission } = useDeleteTeamMemberPermissionByInfo({
+    onSuccess: () => {
+      refetch();
+      setOpenApplicantDeleteModal('');
+    }
   });
 
   useEffect(() => {
@@ -163,16 +171,16 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
         styles={{ gap: '80px' }}
         yes="Delete"
         no="Cancel"
-        open={openApplicantDeleteModal}
-        title="Are you sure you want to delete this user?"
-        onCancel={() => setOpenApplicantDeleteModal(!openApplicantDeleteModal)}
+        open={Boolean(openApplicantDeleteModal)}
+        title="Are you sure you want to delete this user permissions ?"
+        onCancel={() => setOpenApplicantDeleteModal('')}
         onSubmit={function (): void {
-          throw new Error('Function not implemented.');
+          deletePermission({ userId: openApplicantDeleteModal, projectId });
         }}
       />
       <TeamMemberPermissionInfoModal
-        showPermissionModal={openApplicantPermissionModal}
-        setShowPermissionModal={setOpenApplicantPermissionModal}
+        userId={userId}
+        setUserId={setUserId}
       />
     </ApplicantList>
   );
