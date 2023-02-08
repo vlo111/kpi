@@ -102,6 +102,64 @@ export const validateResultArea: SetResultArea = (values) => {
   errorsIndex.map((i: any) => resultAreaElement(i));
 };
 
+export const UsersPermissionsRule: () => any = () => [
+  {
+    value: 'project_id',
+    label: 'Project',
+    children: [
+      {
+        value: 'result_area_1_id',
+        label: 'Result Area1',
+        children: [
+          {
+            value: 'activity_1_id',
+            label: 'Activity 1.1',
+            children: [
+              {
+                value: 'course_template_1_id',
+                label: 'One section course template'
+              },
+              {
+                value: 'course_template_2_id',
+                label: 'Multi section course template'
+              }
+            ]
+          },
+          {
+            value: 'activity_2_id',
+            label: 'Activity 1.2'
+          },
+          {
+            value: 'activity_3_id',
+            label: 'Activity 1.3'
+          }
+        ]
+      },
+      {
+        value: 'result_area_2_id',
+        label: 'Result Area 2'
+      },
+      {
+        value: 'result_area_3_id',
+        label: 'Result Area 3',
+        children: [
+          {
+            value: 'activity_1_3_id',
+            label: 'Activity 1.1'
+          },
+          {
+            value: 'activity_2_3_id',
+            label: 'Activity 1.2'
+          },
+          {
+            value: 'activity_3_3_id',
+            label: 'Activity 1.3'
+          }
+        ]
+      }
+    ]
+  }
+];
 export const answerTypes = (type: string, question: IQuestion): JSX.Element => {
   const option = (
     <Radio.Group value={question?.answers[0]?.title}>
