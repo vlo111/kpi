@@ -94,7 +94,7 @@ export const FormProject: React.FC<{
               <AsnForm.Item
                 label="Title"
                 name="title"
-                rules={[{ required: true, min: 2, max: 256 }]}
+                rules={[{ required: true, min: 2, max: 128 }]}
               >
                 <AsnInput placeholder="Example: AWDA" />
               </AsnForm.Item>
