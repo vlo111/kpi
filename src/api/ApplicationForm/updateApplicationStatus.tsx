@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { IOnlyId, UpdateApplicationStatus } from '../../types/api/application/applicationForm';
+import { IOnlyId, UpdateApplicationStatus } from '../../types/api/application/applicationForm1';
 import client from '../client';
 
 export const url = 'api/application-form';

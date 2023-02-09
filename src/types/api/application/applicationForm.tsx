@@ -75,32 +75,32 @@ export interface IOnlyId {
 }
 
 export type CreateApplicationFormType = UseMutation<
-Void,
-any,
-ResponseErrorParam,
-ICreateApplicationForm
->;
+  Void,
+  any,
+  ResponseErrorParam,
+  ICreateApplicationForm
+  >;
 
 export type DuplicateApplicationFormType = UseMutation<
-Void,
-any,
-ResponseErrorParam,
-IOnlyId
->;
+  Void,
+  any,
+  ResponseErrorParam,
+  IOnlyId
+  >;
 
 export type DeleteApplicationForm = UseMutation<
-Void,
-any,
-ResponseErrorParam,
-IOnlyId
->;
+  Void,
+  any,
+  ResponseErrorParam,
+  IOnlyId
+  >;
 
 export type UpdateApplicationStatus = UseMutation<
-Void,
-any,
-ResponseErrorParam,
-IOnlyId
->;
+  Void,
+  any,
+  ResponseErrorParam,
+  IOnlyId
+  >;
 
 export interface IPreviewModal {
   questionData: IApplicant | undefined
@@ -138,8 +138,8 @@ export interface IApplicationCard {
   description: string | undefined
   applicationData: IApplicant
   setApplicationData: React.Dispatch<
-  React.SetStateAction<IApplicant | undefined>
-  >
+    React.SetStateAction<IApplicant | undefined>
+    >
 }
 
 export interface IQuestionRowContainer {
@@ -148,8 +148,8 @@ export interface IQuestionRowContainer {
   content: IQuestion[]
   applicationData: IApplicant
   setApplicationData: React.Dispatch<
-  React.SetStateAction<IApplicant | undefined>
-  >
+    React.SetStateAction<IApplicant | undefined>
+    >
   setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
   isQuestionCardVisible: string[]
   cardId: string

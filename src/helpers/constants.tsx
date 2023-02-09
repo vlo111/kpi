@@ -10,6 +10,7 @@ export const PATHS = {
   RESTOREPASSWORD: 'restore-password',
   DASHBOARD: 'dashboard',
   PROJECT: 'project',
+  TEAMS: '/teams',
   PROJECTCREATE: 'create',
   OVERVIEW: 'overview/:id',
   SUBACTIVITY: 'sub-activity/:id',
@@ -140,6 +141,38 @@ export const regions: string[] = [
   'Tavush/Տավուշ',
   'Vayots Dzor/Վայոց Ձոր'
 ];
+
+export enum AnswerTypes {
+  shortText = 'SHORT_TEXT',
+  options = 'OPTION',
+  checkbox = 'CHECKBOX',
+  yesNo = 'YES_NO',
+  region = 'region',
+}
+
+export enum SectionName {
+  personalInfo = 'personal_info',
+  educationalInfo = 'educational_info',
+  otherInfo = 'other_info',
+  professionalInfo = 'professional_info',
+}
+
+export enum Placeholders {
+  phone = '+(374) XXXXXX',
+  date = 'DD/MM/YYYY',
+  email = 'yourmail@analysed.ai'
+}
+
+export enum KeyName {
+  phone = 'phone',
+  dob = 'dob',
+  email = 'email'
+}
+
+export enum ErrorRequireMessages {
+  checkbox = 'Please chose one of the fields',
+  input = 'Please enter the field'
+}
 
 export const defaultLimit = {
   offset: 0,

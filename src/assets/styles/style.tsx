@@ -236,6 +236,43 @@ const GlobalStyle = createGlobalStyle`
     width: auto!important;
     height: 500px !important;
   }
+
+  .customCascaderPopup{
+    background-color: transparent !important;
+    box-shadow: none !important;
+
+    .ant-cascader-menu-item-active{
+      background-color: var(--primary-light-1);
+      &:hover{
+        background-color: var(--primary-light-1);
+      }
+    }
+    .ant-cascader-menu{
+      height: auto;
+      border: 1px solid var(--dark-border-ultramarine);
+      border-radius: 6px;
+      background: var(--white);
+      padding: 6px 0;
+      margin-right: 1px;
+    }
+    .ant-cascader-checkbox-checked .ant-cascader-checkbox-inner{
+      background-color: var(--dark-border-ultramarine);
+      border: var(--dark-border-ultramarine);
+    }
+    .ant-cascader-checkbox-indeterminate 
+    .ant-cascader-checkbox-inner:after {
+      display: none !important;
+    }
+    .ant-cascader-checkbox:hover .ant-cascader-checkbox-inner {
+      border-color: var(--dark-border-ultramarine);
+    }
+    .ant-cascader-checkbox-inner{
+      border-color: var(--dark-border-ultramarine);
+    }
+    .ant-cascader-menu-item-active:not(.ant-cascader-menu-item-disabled){
+      font-weight: var(--font-normal);
+    }
+  }
 `;
 
 export default GlobalStyle;

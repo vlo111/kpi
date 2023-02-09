@@ -36,6 +36,7 @@ import Application from './pages/Application';
 import FillApplicationForm from './pages/FillApplicationForm';
 import AssessMentForm from './pages/FillAssessmentForm';
 import CreateAssessmentForm from './pages/Assessment';
+import UsersTeam from './components/Team/TeamMembesList';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -52,6 +53,7 @@ export const router = createBrowserRouter(
       </Route>
       <Route element={<PrivateRoutes />} errorElement={<ErrorBoundary />}>
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
+        <Route path={PATHS.TEAMS} element={<UsersTeam />} />
         <Route path={PATHS.PROJECT}>
           {/* <Route index element={<CreateProject />} /> */}
           <Route path={PATHS.PROJECTCREATE} element={<CreateProject />} />
