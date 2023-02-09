@@ -146,3 +146,9 @@ export const defaultLimit = {
   limit: 24,
   currentPage: 1
 };
+
+export const FormScrollToErrorOptions: ScrollOptions | ScrollIntoViewOptions = {
+  behavior: 'smooth',
+  block: 'center',
+  inline: 'center'
+};

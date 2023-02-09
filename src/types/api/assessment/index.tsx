@@ -59,7 +59,25 @@ export interface Result {
   type: EnumAssessmentFormTypes
   questions: Question[]
 }
-
+export interface IResult {
+  id: string
+  authorId: string
+  projectId: string
+  sectionDataId: string
+  sectionDataTitle: string
+  title: string
+  onlineSignature: boolean
+  active: boolean
+  publish: boolean
+  passingScore: number
+  maximumScore: number
+  createdAt: string
+  updatedAt: string
+  deletedAt: string
+  duplicate: boolean
+  type: string
+  questions: IQuestion[]
+}
 export interface Question {
   id?: string
   title: string
@@ -76,6 +94,12 @@ export interface Answer {
   type: enumAssessmentFormAnswers
 }
 
+export interface IAnswer {
+  id: string
+  title: string
+  score: number
+  type: string
+}
 export interface AssessmentFormDataResponseOneItem {
   result: Result
 }
@@ -118,8 +142,29 @@ export type GetAssessmentFormByProjectId = (
   options?: AssessmentFormOptions
 ) => UseAssessmentFormSingleResult;
 
+export interface IGetAssessmentForm {
+  data: { result: IResult }
+  isSuccess: boolean
+  isLoading: boolean
+}
+export interface IQuestion {
+  answerType: string
+  id: string
+  required: boolean
+  score: number
+  title: string
+  answers: IAnswer[] | []
+}
+
+export interface IAnswersProps {
+  question: IQuestion
+  i: number
+}
+
 export type CreateAssessmentFormByCourseId = UseMutation<Void, any, ResponseErrorParam, CreateAssessmentFormData>;
 export type UpdateAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, UpdateAssessmentFormData>;
 export type DeleteAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
 export type DuplicateAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
 export type ChangeStatusAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
+
+export type useGetAssessmentFormById = (id: string, options: AssessmentFormOptions) => IGetAssessmentForm

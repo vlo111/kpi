@@ -23,4 +23,8 @@ export const UnderLineInput = styled(Input)`
    .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover{
     border-bottom: 1px solid var(--error) !important;
    }
+   &.ant-input[disabled] {
+    border-color: var(--dark-border-ultramarine);
+    background-color: var(--white)
+   }
 `;

@@ -2,16 +2,16 @@ import React from 'react';
 
 import { UnderLineInput } from '../../components/Forms/Input/UnderLineInput';
 import { AsnForm } from '../../components/Forms/Form';
+import { IAnswersProps } from '../../types/api/assessment';
 
-const ShortTextType: React.FC<any> = ({ question, i }) => {
+const ShortTextType: React.FC<IAnswersProps> = ({ question, i }) => {
   const { title, required, score } = question;
   return (
         <AsnForm.Item
             name={[i, 'answers', 0, 'text']}
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             label={`${title} (${score} score)`}
             rules={[{ required, message: 'Please fill input field' }]}
-            style={{ fontWeight: 500 }}
+            style={{ fontWeight: 'var(--font-semibold)' }}
         >
             <UnderLineInput />
         </AsnForm.Item>
