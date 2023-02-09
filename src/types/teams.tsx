@@ -163,9 +163,13 @@ export interface InviteMemberResultArea {
 export interface SingleUserPermissionResult {
   level: number
   project: string
+  projectId: string
   resultArea: string
+  resultAreaId: string | null
   inputActivity: string
+  inputActivityId: string | null
   activityTemplate: string
+  activityTemplateId: string | null
 }
 
 export interface SingleUserPermissionResults {
@@ -200,6 +204,16 @@ export interface InviteMemberData {
   permissions: InvitePermission
 }
 
+export interface UseUpdatePermissionData {
+  userId: string
+  projectId: string
+  data: {
+    position?: string
+    permissionType: EnumInviteMemberViewPermissions
+    permissions: InvitePermission
+  }
+}
+
 export interface UseGetAllTeamsListResult {
   data: TeamData['result']
   count: TeamData['count']
@@ -231,3 +245,5 @@ export type UseGetTeamMembers = (params: { limit: number, offset: number }, opti
 export type InviteTeamMemberPermission = UseMutation<Void, any, ResponseErrorParam, InviteMemberData>;
 
 export type DeleteTeamMemberByUserId = UseMutation<Void, any, ResponseErrorParam, DeleteTeamMemberData>;
+
+export type UpdateMemberPermissionsId = UseMutation<Void, any, ResponseErrorParam, UseUpdatePermissionData>;
