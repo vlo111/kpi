@@ -111,14 +111,16 @@ export const answerTypeOptions: string[] = [
   'Dropdown options'
 ];
 
-export const ApplicantStatus = {
-  Applicant: 'Applicant',
-  Selection: 'Selection',
-  PreAssessment: 'Pre-assessment',
-  Participant: 'Participant',
-  PostAssessment: 'Post-assessment',
-  Trained: 'Trained'
+export const ApplicantStatus: any = {
+  APPLICANT: 'Applicant',
+  SELECTION: 'Selection',
+  PRE_ASSESSMENT: 'Pre Assessment',
+  PARTICIPANT: 'Participant',
+  POST_ASSESSMENT: 'Post Assessment',
+  TRAINED: 'Trained',
+  DROPPED: 'Dropped'
 };
+
 export const answerType: string[] = [
   'Select one',
   'Short text',
@@ -177,3 +179,12 @@ export const defaultLimit = {
   limit: 24,
   currentPage: 1
 };
+
+export const optionsReason = [
+  { label: 'Personal issues', value: 'personal' },
+  { label: 'Change of plans', value: 'plan' },
+  { label: 'Not-eligible', value: 'eligible' },
+  { label: 'Pro-assessment insufficient scores', value: 'assessment' },
+  { label: 'Wrong choice of the course', value: 'choice' },
+  { label: 'Interview insufficient score', value: 'interview' }
+];

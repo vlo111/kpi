@@ -3,14 +3,15 @@ import styled from 'styled-components';
 import { Col, Row } from 'antd';
 import moment from 'moment';
 
-import Note from '../Note';
 import ApproveModal from './Approve';
+import Note from '../Note';
 
 import { ICourseProps, IStyle } from '../../../../../types/applicant';
 import { ApplicantStatus } from '../../../../../helpers/constants';
 import { ReactComponent as UploadSvg } from '../icons/Upload.svg';
 
 import { AsnButton } from '../../../../Forms/Button';
+import RejectModal from '../Reject';
 
 const CourseItem = styled.div<IStyle>`
   display: flex;
@@ -116,19 +117,18 @@ const AntRow = styled(Row)<IStyle>`
 
 const Course: React.FC<ICourseProps> = ({ history, applicant, index, isActive, isLast }) => {
   const [openApprove, setOpenApprove] = useState<string>('');
+  const [openReject, setOpenReject] = useState<string>('');
 
   return (
-    <div className={index !== 4 ? 'left-line' : 'last-line'}>
+    <div className={!isLast ? 'left-line' : 'last-line'}>
       <CourseItem color={isLast ? 'var(--primary-light-orange)' : 'var(--primary-light-3)'}>
         <AntRow className="content" color={isLast ? 'var(--background)' : 'var(--white)'}>
           <Col span={24}>
             <AntRow>
               <Col span={6}>
-                {isActive
-                  ? moment(history.updatedAt).format('DD/MM/YYYY')
-                  : 'NA'}
+                {moment(history?.updatedAt).format('DD/MM/YYYY')}
               </Col>
-              <Col span={6}>{Object.values(ApplicantStatus)[index]}</Col>
+              <Col span={6}>{ApplicantStatus[history.status]}</Col>
               <Col span={6}>
                 {history?.files.map((f) => (
                   <div key={f.originalName} className="file">
@@ -156,7 +156,9 @@ const Course: React.FC<ICourseProps> = ({ history, applicant, index, isActive, i
           </Col>
           {isLast && (
               <Col span={24} className="buttons">
-                <AsnButton className="reject">Reject</AsnButton>
+                <AsnButton className="reject" onClick={() =>
+                  setOpenReject(history?.sectionDataId)
+                }>Reject</AsnButton>
                 <AsnButton
                   className="approve"
                   onClick={() =>
@@ -170,6 +172,7 @@ const Course: React.FC<ICourseProps> = ({ history, applicant, index, isActive, i
         </AntRow>
       </CourseItem>
       <ApproveModal applicant={applicant} open={openApprove} onCancel={() => setOpenApprove('')} />
+      <RejectModal applicant={applicant} open={openReject} onCancel={() => setOpenReject('')} />
     </div>
   );
 };

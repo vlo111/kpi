@@ -68,10 +68,78 @@ const AntRow = styled(Row)`
   }
 `;
 
-const Courses: React.FC<ICourses> = ({
-  histories,
-  applicant
-}) => {
+// const getHistories: any = (histories: any) => {
+//   const statuses: any = Object.keys(ApplicantStatus);
+//
+//   const newArr: any[] = [];
+//
+//   const applicantStatus: any = ApplicantStatus;
+//
+//   for (let i = 0; i < statuses.length; i++) {
+//     const status = applicantStatus[statuses[i]];
+//
+//     if (status === ApplicantStatus.Selection) {
+//       if (histories[i] === undefined) {
+//         newArr.push({
+//           id: undefined,
+//           updatedAt: 'NA',
+//           status: statuses[i],
+//           files: [],
+//           note: undefined
+//         });
+//       } else {
+//         if (histories[i].status === ApplicantStatus.Selection) {
+//           newArr.push({
+//             ...histories[i],
+//             updatedAt: moment(histories[i].updatedAt).format('DD/MM/YYYY')
+//           });
+//         } else {
+//           newArr.push({
+//             id: undefined,
+//             updatedAt: 'NA',
+//             status: statuses[i],
+//             files: [],
+//             note: undefined
+//           });
+//
+//           newArr.push({
+//             ...histories[i],
+//             updatedAt: moment(histories[i].updatedAt).format('DD/MM/YYYY')
+//           });
+//
+//           if (histories[i]?.status === 'NOT_ENROLLED') {
+//             break;
+//           } else {
+//             i++;
+//           }
+//         }
+//       }
+//     } else {
+//       if (histories[i] !== undefined) {
+//         newArr.push({
+//           ...histories[i],
+//           updatedAt: moment(histories[i].updatedAt).format('DD/MM/YYYY')
+//         });
+//       } else {
+//         newArr.push({
+//           id: undefined,
+//           updatedAt: 'NA',
+//           status: statuses[i],
+//           files: [],
+//           note: undefined
+//         });
+//       }
+//     }
+//
+//     if (histories[i]?.status === 'NOT_ENROLLED') {
+//       break;
+//     }
+//   }
+//
+//   return newArr;
+// };
+
+const Courses: React.FC<ICourses> = ({ histories, applicant }) => {
   return (
     <div>
       <AntRow align="middle" className="title">
@@ -80,14 +148,14 @@ const Courses: React.FC<ICourses> = ({
         <Col span={6}>Files</Col>
       </AntRow>
       <CoursesStyle>
-        {Array.from(Array(5).keys()).map((index: number) => (
+        {histories.map((history: any, index: number) => (
           <Course
             key={index}
             index={index}
             applicant={applicant}
-            history={histories[index]}
+            history={history}
             isLast={histories.length - 1 === index}
-            isActive={histories[index]?.id !== undefined}
+            isActive={history?.id !== undefined}
           />
         ))}
       </CoursesStyle>
