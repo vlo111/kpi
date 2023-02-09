@@ -44,7 +44,7 @@ export const ButtonsContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  margin-top: 4rem; 
+  margin-top: 4rem;
   gap: 60px;
 `;
 
@@ -95,7 +95,7 @@ const AssessmentForms: React.FC = () => {
 
   useEffect(() => {
     form.setFieldsValue({
-      questions: [{ answerType: 'OPTION' }]
+      // questions: [{ answerType: 'OPTION' }]
     });
   }, []);
 
@@ -110,6 +110,7 @@ const AssessmentForms: React.FC = () => {
         form={form}
         id="create-assessment-AsnForm"
         onFinish={onCreatedAssessment}
+        initialValues={{ questions: [''] }}
       >
         <CardContainer
           borderTop={'3px solid var(--secondary-light-amber)'}
@@ -132,11 +133,11 @@ const AssessmentForms: React.FC = () => {
                   width: '100%'
                 }}
               >
-                {questionsLists.map((questionsList) => (
+                {questionsLists.map(({ key, name, ...restField }) => (
                   <AssessmentFormItems
-                    name={[questionsList.key, 'answers']}
-                    key={questionsList.key}
-                    items={questionsList}
+                    {...restField}
+                    key={key}
+                    name={[name, 'answers']}
                     questionsLists={questionsLists}
                     add={add}
                     remove={remove}

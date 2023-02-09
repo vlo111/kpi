@@ -48,13 +48,7 @@ const AnswerTypeSelect = styled(AsnSelect)`
   }
 `;
 
-const QuestionHeader: React.FC<any> = ({
-  remove,
-  items,
-  questionsLists,
-  name,
-  add
-}) => {
+const QuestionHeader: React.FC<any> = ({ remove, name, questionsLists }) => {
   const form = AsnForm.useFormInstance();
   const onDuplicateForm = (): any => {
     console.log(form.getFieldsValue());
@@ -62,8 +56,8 @@ const QuestionHeader: React.FC<any> = ({
 
   return (
     <HeaderWrapper align="middle" justify="space-between">
-      <AsnForm.Item name={[name, 'type']} className="select_question_item">
-        <AnswerTypeSelect >
+      <AsnForm.Item name={[name[0], 'type']} className="select_question_item">
+        <AnswerTypeSelect>
           {assessmentSelect.map((item) => (
             <Fragment key={item.value}>
               <Option value={item.value}>{item.name}</Option>
@@ -91,13 +85,13 @@ const QuestionHeader: React.FC<any> = ({
           <Col className="icons" onClick={onDuplicateForm}>
             <DuplicateIcon />
           </Col>
-          {questionsLists.length < 2
-            ? null
-            : (
-            <Col className="icons" onClick={() => remove(items.name)}>
+          {questionsLists.length > 1
+            ? (
+            <Col className="icons" onClick={() => remove(name)}>
               <DeleteIcon />
             </Col>
-              )}
+              )
+            : null}
         </Row>
       </AsnForm.Item>
     </HeaderWrapper>
