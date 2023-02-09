@@ -5,26 +5,56 @@ import { Space } from 'antd';
 import { ReactComponent as Preview } from '../../../assets/icons/eye.svg';
 import { ReactComponent as TrashSvg } from '../../../assets/icons/trash.svg';
 import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg';
-// import AddTeamMemberModal from './CreateTeamMemberModal';
+import AddTeamMemberModal from './CreateTeamMemberModal';
 import { ConfirmModal } from '../../Forms/Modal/Confirm';
 import TeamMemberPermissionInfoModal from './TeamMemberPermissionModal';
 import { AsnTable } from '../../Forms/Table';
-import { HandleTableOnChange, ITeamMembersTypes, TableParams, User } from '../../../types/teams';
+import {
+  HandleTableOnChange,
+  IEditUserInfo,
+  ITeamMembersTypes,
+  TableParams,
+  User
+} from '../../../types/teams';
 import useGetAllTeamsList from '../../../api/Teams/useGetAllTeamMembersList';
 import AsnAvatar from '../../Forms/Avatar';
 import { useProject } from '../../../hooks/useProject';
 import useDeleteTeamMemberPermissionByInfo from '../../../api/Teams/useDeleteTeamMember';
+import useGetSingleUserPermissions from '../../../api/Teams/useGetSingleUserPermissons';
 
 const ApplicantList = styled.div`
   margin-top: 8px;
   height: calc(100% - 75px);
 `;
 
-const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
+const TeamsList: React.FC<ITeamMembersTypes> = ({
+  setTotalCount,
+  permissionsList
+}) => {
   const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState('');
   const { projectId } = useProject();
-  // const [showModal, setShowModal] = useState('');
+  const [showModal, setShowModal] = useState('');
   const [userId, setUserId] = useState('');
+  const [updateUserInfo, setUpdateUserInfo] = useState<{
+    updateUserId: string
+    info: IEditUserInfo
+  }>({
+    updateUserId: '',
+    info: {
+      lastName: '',
+      firstName: '',
+      email: '',
+      position: ''
+    }
+  });
+
+  const { data } = useGetSingleUserPermissions(
+    updateUserInfo.updateUserId,
+    projectId,
+    {
+      enabled: Boolean(updateUserInfo.updateUserId) && Boolean(projectId)
+    }
+  );
 
   const columns = [
     {
@@ -89,7 +119,7 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
             direction="horizontal"
           >
             <Space align="center">
-              {item?.emailVerified ? 'Resolved' : 'Pending' }
+              {item?.emailVerified ? 'Resolved' : 'Pending'}
             </Space>
           </Space>
         );
@@ -101,7 +131,20 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
         return (
           <Space direction="horizontal">
             <Space align="start" style={{ cursor: 'pointer' }}>
-              <EditSvg />
+              <EditSvg
+                onClick={() => {
+                  setUpdateUserInfo({
+                    updateUserId: item?.id,
+                    info: {
+                      lastName: item?.lastName,
+                      firstName: item?.firstName,
+                      email: item?.email,
+                      position: item?.position
+                    }
+                  });
+                  setShowModal('edit');
+                }}
+              />
             </Space>
             <Space align="end" style={{ cursor: 'pointer' }}>
               <TrashSvg onClick={() => setOpenApplicantDeleteModal(item?.id)} />
@@ -116,14 +159,24 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
       current: 1,
-      pageSize: 10,
+      pageSize: 11,
       showSizeChanger: false
     }
   });
 
-  const { data: membersListInfo, isLoading, refetch, count } = useGetAllTeamsList({
+  const {
+    data: membersListInfo,
+    isLoading,
+    refetch,
+    count
+  } = useGetAllTeamsList({
     limit: tableParams.pagination?.pageSize,
-    offset: tableParams.pagination?.current !== undefined ? tableParams.pagination?.current - 1 : 0,
+    offset:
+      tableParams.pagination?.current !== undefined &&
+      tableParams.pagination?.pageSize !== undefined
+        ? (tableParams.pagination?.current - 1) *
+          tableParams.pagination?.pageSize
+        : 0,
     projectId
   });
 
@@ -143,7 +196,7 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
       }
     });
     setTotalCount(count);
-  }, [JSON.stringify(tableParams), isLoading]);
+  }, [JSON.stringify(tableParams), isLoading, count]);
 
   const handleTableChange: HandleTableOnChange = (pagination) => {
     setTableParams({
@@ -164,9 +217,15 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
         loading={isLoading}
         onChange={handleTableChange}
       />
-      {/* {showModal === 'del' && (
-        <AddTeamMemberModal setShowModal={setShowModal} />
-      )} */}
+      {showModal === 'edit' && (
+        <AddTeamMemberModal
+          setShowModal={setShowModal}
+          edit={true}
+          permissionsList={permissionsList}
+          userPermissions={data}
+          userInfo={updateUserInfo.info}
+        />
+      )}
       <ConfirmModal
         styles={{ gap: '80px' }}
         yes="Delete"
@@ -178,10 +237,9 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
           deletePermission({ userId: openApplicantDeleteModal, projectId });
         }}
       />
-      <TeamMemberPermissionInfoModal
-        userId={userId}
-        setUserId={setUserId}
-      />
+      {showModal !== 'edit' && (
+        <TeamMemberPermissionInfoModal userId={userId} setUserId={setUserId} />
+      )}
     </ApplicantList>
   );
 };

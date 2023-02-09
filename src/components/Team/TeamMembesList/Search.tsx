@@ -85,7 +85,7 @@ const SearchTeamMembers: React.FC<ShowDeleteUserModal> = ({
           </Col>
         </Row>
       </Col>
-      {showModal === 'create' && <AddTeamMemberModal permissionsList={permissionsList} setShowModal={setShowModal} />}
+      {showModal === 'create' && <AddTeamMemberModal edit={false} permissionsList={permissionsList} setShowModal={setShowModal} />}
     </Row>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Cascader, Col, Radio, RadioChangeEvent, Row } from 'antd';
 
@@ -108,7 +108,10 @@ const AddTeamMemberModalWrapper = styled(AsnModal)`
 
 const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
   setShowModal,
-  permissionsList
+  permissionsList,
+  userPermissions,
+  edit,
+  userInfo
 }) => {
   const [form] = AsnForm.useForm();
   const [value, setValue] = useState('');
@@ -125,22 +128,40 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
     setFiledValue(value);
   };
 
-  const defaultVal = {
+  const cascadedListIOptions = {
     value: permissionsList.id,
     label: permissionsList.title,
-    children: permissionsList.resultAreas.map(resultArea => ({
+    children: permissionsList.resultAreas.map((resultArea) => ({
       value: resultArea.id,
       label: resultArea.title,
-      children: resultArea.activities.map(activity => ({
+      children: resultArea.activities.map((activity) => ({
         value: activity.id,
         label: activity.title,
-        children: activity.templates.map(template => ({
+        children: activity.templates.map((template) => ({
           value: template.id,
           label: template.title
         }))
       }))
     }))
   };
+
+  const defaultValue = [
+    [
+      'fdcbb18d-209b-4068-83bb-c31a102eb218',
+      '81cc1756-5ed1-4f3d-9251-271f2c2affa6',
+      '8788fa4c-54a6-4a3c-9f78-9235d608b269'
+    ],
+    [
+      'fdcbb18d-209b-4068-83bb-c31a102eb218',
+      '81cc1756-5ed1-4f3d-9251-271f2c2affa6',
+      '2f48c159-763d-436d-a48f-aa8f97448609'
+    ],
+    [
+      'fdcbb18d-209b-4068-83bb-c31a102eb218',
+      '81cc1756-5ed1-4f3d-9251-271f2c2affa6',
+      'dbe0bce2-47c3-422c-b7fb-048493891fdd'
+    ]
+  ];
 
   const onFinish: FormFinish = (values) => {
     const result: CascadedData = {
@@ -150,9 +171,7 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
     filedValue.forEach((item) => {
       const resultAreaIdIndex = 1;
       const id = item[resultAreaIdIndex];
-      const existingResultArea = result.resultAreas.find(
-        (ra) => ra.id === id
-      );
+      const existingResultArea = result.resultAreas.find((ra) => ra.id === id);
       if (existingResultArea != null) {
         existingResultArea.activities.push({
           id: item[resultAreaIdIndex + 1],
@@ -185,7 +204,11 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
       }
     });
     values.permissions = result;
-    InviteTeamMember(values);
+    if (edit) {
+      console.log('edit');
+    } else {
+      InviteTeamMember(values);
+    }
   };
 
   const onChangePermission: (e: RadioChangeEvent) => void = (
@@ -199,10 +222,19 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
     setShowModal('');
   };
 
+  useEffect(() => {
+    if (edit) {
+      form.setFieldsValue({
+        ...userInfo,
+        permissions: defaultValue
+      });
+    }
+  }, []);
+
   return (
     <AddTeamMemberModalWrapper
       open={true}
-      title={'Add Person'}
+      title={!edit ? 'Add Person' : 'Edit Permission'}
       cancelText="Cancel"
       onCancel={handleCancel}
       footer={[
@@ -229,7 +261,7 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
                 htmlType="submit"
                 style={{ width: '133px' }}
               >
-                Add
+                {!edit ? 'Add' : 'Edit'}
               </AsnButton>
             </Row>
           </Col>
@@ -246,35 +278,35 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
         <AsnForm.Item
           name="email"
           label="Email"
-          rules={[{ required: true }, { type: 'email' }]}
+          rules={[{ required: !edit }, { type: 'email' }]}
         >
-          <AsnInput />
+          <AsnInput disabled={edit} />
         </AsnForm.Item>
         <AsnForm.Item
           name="firstName"
           label="First Name"
           rules={[
             {
-              required: true,
+              required: !edit,
               min: 2,
               max: 256
             }
           ]}
         >
-          <AsnInput />
+          <AsnInput disabled={edit} />
         </AsnForm.Item>
         <AsnForm.Item
           name="lastName"
           label="Last Name"
           rules={[
             {
-              required: true,
+              required: !edit,
               min: 2,
               max: 256
             }
           ]}
         >
-          <AsnInput />
+          <AsnInput disabled={edit} />
         </AsnForm.Item>
         <AsnForm.Item name="position" label="Position">
           <AsnInput />
@@ -288,7 +320,7 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
           <Cascader
             value={filedValue}
             popupClassName="customCascaderPopup"
-            options={[defaultVal]}
+            options={[cascadedListIOptions]}
             onChange={onChange}
             displayRender={(label) => label.join(' >  ')}
             multiple
@@ -297,7 +329,7 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
             changeOnSelect
           />
         </AsnForm.Item>
-        <AsnForm.Item name="permissionType" initialValue={'VIEW'} >
+        <AsnForm.Item name="permissionType" initialValue={'VIEW'}>
           <Radio.Group value={value}>
             <Radio value={'VIEW'} onChange={onChangePermission}>
               View

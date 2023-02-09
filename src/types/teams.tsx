@@ -27,6 +27,13 @@ export interface User {
   deletedAt?: string
 }
 
+export interface IEditUserInfo {
+  lastName: string
+  firstName: string
+  email: string
+  position: string | undefined
+}
+
 export interface Result {
   result: User[]
   count: number
@@ -66,13 +73,17 @@ export interface ShowDeleteUserModal {
   showModal?: string
   setShowModal: (b: string) => void
   totalCount?: number
+  edit: boolean
   permissionsList: PermissionsResult
+  userPermissions?: SingleUserPermissionResult[]
+  userInfo?: IEditUserInfo
   setSearchText?: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface ITeamMembersTypes {
   setTotalCount: React.Dispatch<React.SetStateAction<number>>
   searchText?: string
+  permissionsList: PermissionsResult
 }
 
 export interface PermissionsResult {

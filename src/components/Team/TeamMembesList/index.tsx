@@ -37,12 +37,13 @@ const UsersTeam: React.FC = () => {
       <TeamsWrapper>
         {Boolean(data) &&
         <SearchTeamMembers
+          edit={false}
           showModal={showModal}
           setShowModal={setShowModal}
           totalCount={totalCount}
           permissionsList={data}
         />}
-        <TeamsList setTotalCount={setTotalCount} />
+        <TeamsList setTotalCount={setTotalCount} permissionsList={data}/>
       </TeamsWrapper>
     </TeamContent>
   );
