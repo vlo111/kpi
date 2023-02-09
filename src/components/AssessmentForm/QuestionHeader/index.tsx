@@ -7,6 +7,9 @@ import { AsnSwitch } from '../../Forms/Switch';
 
 import { ReactComponent as DuplicateIcon } from '../../../components/Project/SubActivity/SubActivityIcons/copy.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
+// import { ReactComponent as RadioIcon } from '../../../assets/icons/radio.svg';
+// import { ReactComponent as CheckboxIcon } from '../../../assets/icons/checkbox.svg';
+// import { ReactComponent as TextIcon } from '../../../assets/icons/text.svg';
 import { assessmentSelect } from '../../../helpers/constants';
 
 const { Option } = AsnSelect;
@@ -16,7 +19,7 @@ const HeaderWrapper = styled(Row)`
   border-bottom: 1px dashed var(--dark-border-ultramarine);
   padding-bottom: 2vh;
   .select_question_item {
-    width: 20%;
+    width: 30%;
   }
   .ant-form-item {
     margin: 0;
@@ -45,15 +48,22 @@ const AnswerTypeSelect = styled(AsnSelect)`
   }
 `;
 
-const QuestionHeader: React.FC<any> = ({ remove, items, questionsLists }) => {
+const QuestionHeader: React.FC<any> = ({
+  remove,
+  items,
+  questionsLists,
+  name,
+  add
+}) => {
+  const form = AsnForm.useFormInstance();
   const onDuplicateForm = (): any => {
-
+    console.log(form.getFieldsValue());
   };
 
   return (
     <HeaderWrapper align="middle" justify="space-between">
-      <AsnForm.Item name="answerType" className="select_question_item">
-        <AnswerTypeSelect>
+      <AsnForm.Item name={[name, 'type']} className="select_question_item">
+        <AnswerTypeSelect >
           {assessmentSelect.map((item) => (
             <Fragment key={item.value}>
               <Option value={item.value}>{item.name}</Option>
@@ -81,9 +91,13 @@ const QuestionHeader: React.FC<any> = ({ remove, items, questionsLists }) => {
           <Col className="icons" onClick={onDuplicateForm}>
             <DuplicateIcon />
           </Col>
-          <Col className="icons" onClick={() => remove(items.name)}>
-            <DeleteIcon />
-          </Col>
+          {questionsLists.length < 2
+            ? null
+            : (
+            <Col className="icons" onClick={() => remove(items.name)}>
+              <DeleteIcon />
+            </Col>
+              )}
         </Row>
       </AsnForm.Item>
     </HeaderWrapper>

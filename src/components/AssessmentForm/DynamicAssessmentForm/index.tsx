@@ -5,6 +5,7 @@ import { AsnForm } from '../../Forms/Form';
 import { AsnInput, AsnInputNumber } from '../../Forms/Input';
 import AssessmentFormItems from '../FormList';
 import { ICardContainer } from '../../../types/api/application/applicationForm';
+import { ReactComponent as AddAssessmentIcon } from '../../../assets/icons/add-assessment.svg';
 import { AsnButton } from '../../Forms/Button';
 import { AsnSwitch } from '../../Forms/Switch';
 
@@ -43,7 +44,7 @@ export const ButtonsContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  margin-top: 4rem;
+  margin-top: 4rem; 
   gap: 60px;
 `;
 
@@ -64,6 +65,8 @@ export const MaxScores = styled.div`
 `;
 
 const AssessmentFormsContent = styled.div`
+  width: 72%;
+  margin: 0 auto;
   h4 {
     text-align: center;
     font-weight: var(--font-semibold);
@@ -71,13 +74,28 @@ const AssessmentFormsContent = styled.div`
   }
 `;
 
+export const FAddAssessmentButton = styled.div`
+  display: flex;
+  background-color: var(--white);
+  padding: 10px;
+  height: fit-content;
+  border-radius: 16px;
+  margin-left: 0.5rem;
+  margin-top: 2rem;
+  cursor: pointer;
+`;
+
+export const FormItemContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 const AssessmentForms: React.FC = () => {
   const [form] = AsnForm.useForm();
 
   useEffect(() => {
     form.setFieldsValue({
-      // answerType: 'OPTION'
-      questions: [{ answerType: 'CHECKBOX', title: 'dddddddddddddddd' }]
+      questions: [{ answerType: 'OPTION' }]
     });
   }, []);
 
@@ -106,17 +124,29 @@ const AssessmentForms: React.FC = () => {
         </CardContainer>
         <AsnForm.List name="questions">
           {(questionsLists, { add, remove }) => (
-            <>
-              {questionsLists.map((questionsList) => (
-                <AssessmentFormItems
-                  key={questionsList.key}
-                  items={questionsList}
-                  questionsLists={questionsLists}
-                  add={add}
-                  remove={remove}
-                />
-              ))}
-            </>
+            <FormItemContainer>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%'
+                }}
+              >
+                {questionsLists.map((questionsList) => (
+                  <AssessmentFormItems
+                    name={[questionsList.key, 'answers']}
+                    key={questionsList.key}
+                    items={questionsList}
+                    questionsLists={questionsLists}
+                    add={add}
+                    remove={remove}
+                  />
+                ))}
+              </div>
+              <FAddAssessmentButton onClick={() => add()}>
+                <AddAssessmentIcon />
+              </FAddAssessmentButton>
+            </FormItemContainer>
           )}
         </AsnForm.List>
         <CardContainer
