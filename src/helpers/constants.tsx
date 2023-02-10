@@ -111,13 +111,16 @@ export const answerTypeOptions: string[] = [
   'Dropdown options'
 ];
 
-export const ApplicantStatus: any = {
+export const ApplicantDefaultStatus: any = {
   APPLICANT: 'Applicant',
   SELECTION: 'Selection',
   PRE_ASSESSMENT: 'Pre Assessment',
   PARTICIPANT: 'Participant',
   POST_ASSESSMENT: 'Post Assessment',
-  TRAINED: 'Trained',
+  TRAINED: 'Trained'
+};
+
+export const ApplicantAccessStatus: any = {
   DROPPED: 'Dropped'
 };
 

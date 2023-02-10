@@ -77,7 +77,6 @@ export interface IApproveModalProps {
 export type OnNoteHandler = ChangeEventHandler<HTMLTextAreaElement>
 
 export interface ICourseProps {
-  index: number
   history: IHistory
   applicant: IApplicant
   isLast: boolean

@@ -23,7 +23,7 @@ const useRejectApplicant: any = () => {
     },
     {
       onSuccess: () => {
-        void queryClient.invalidateQueries(['api/applicant/:id']);
+        void queryClient.invalidateQueries(['api/applicant/:id/project/:projectId']);
       },
       onError: (err) => {
         console.log(err);

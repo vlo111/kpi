@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Col, Popover, Row as AntRow, Typography } from 'antd';
 import { ReactComponent as NotesSvg } from '../icons/Notes.svg';
+import { ReactComponent as NotFoundSvg } from '../icons/not-found.svg';
 import { Void } from '../../../../../types/global';
 import { ReactComponent as CloseIcon } from '../../../../../assets/icons/closeIcon.svg';
 import styled from 'styled-components';
@@ -15,6 +16,15 @@ const Row = styled(AntRow)`
     font-weight: var(--font-normal);
     color: var(--dark-border-ultramarine);
   }
+`;
+
+const NotFound = styled(AntRow)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+  padding: 1rem;
 `;
 
 const Note: React.FC<INote> = ({ id, text, inactive }) => {
@@ -32,9 +42,12 @@ const Note: React.FC<INote> = ({ id, text, inactive }) => {
           <CloseIcon />
         </a>
       </Col>
-      <p>
-        {text}
-      </p>
+        {text ??
+          <NotFound>
+            <NotFoundSvg />
+            <p>No records found</p>
+          </NotFound>
+        }
     </Row>
   );
 

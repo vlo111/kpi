@@ -1,21 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import client from '../client';
+import { message } from 'antd';
 
-const useApproveApplicant: any = () => {
+const useApplicantAttachFile: any = (options = {}) => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    async (params: {
-      sectionId: string
-      applicantId: string
-      note: string
-    }) => {
-      if (params.sectionId !== undefined) {
+    async (params: { id: string, files: string[] }) => {
+      if (params.id !== undefined) {
         return await client.post(
-          `api/applicant/course/${params.sectionId}/status/approve`,
+          `/api/applicant/course/history/${params.id}/attach/file`,
           {
-            applicantIds: [params.applicantId],
-            note: params.note
+            files: params.files
           }
         );
       }
@@ -23,6 +19,7 @@ const useApproveApplicant: any = () => {
     {
       onSuccess: () => {
         void queryClient.invalidateQueries(['api/applicant/:id/project/:projectId']);
+        void message.success('Successfully attached to the status', 2);
       },
       onError: (err) => {
         console.log(err);
@@ -30,4 +27,5 @@ const useApproveApplicant: any = () => {
     }
   );
 };
-export default useApproveApplicant;
+
+export default useApplicantAttachFile;

@@ -80,10 +80,9 @@ const Courses: React.FC<ICourses> = ({ histories, applicant }) => {
         {histories.map((history: any, index: number) => (
           <Course
             key={index}
-            index={index}
             applicant={applicant}
             history={history}
-            isLast={histories.length - 1 === index}
+            isLast={history.id === undefined ? false : histories.length - 1 === index}
             isActive={history?.id !== undefined}
           />
         ))}
