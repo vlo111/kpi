@@ -48,16 +48,38 @@ const AnswerTypeSelect = styled(AsnSelect)`
   }
 `;
 
-const QuestionHeader: React.FC<any> = ({ remove, name, questionsLists }) => {
+const QuestionHeader: React.FC<any> = ({
+  remove,
+  name,
+  questionsLists,
+  add,
+  setAnswerType
+}) => {
   const form = AsnForm.useFormInstance();
   const onDuplicateForm = (): any => {
     console.log(form.getFieldsValue());
+    console.log(name[0]);
+    add(form.getFieldsValue().questions[name[0]]);
   };
 
   return (
     <HeaderWrapper align="middle" justify="space-between">
       <AsnForm.Item name={[name[0], 'type']} className="select_question_item">
-        <AnswerTypeSelect>
+        <AnswerTypeSelect
+          onChange={(value) => {
+            if (value === 'SHORT_TEXT') {
+              form.setFieldsValue({
+                questions: [
+                  {
+                    type: value,
+                    answers: []
+                  }
+                ]
+              });
+            }
+            setAnswerType(value);
+          }}
+        >
           {assessmentSelect.map((item) => (
             <Fragment key={item.value}>
               <Option value={item.value}>{item.name}</Option>
@@ -65,35 +87,33 @@ const QuestionHeader: React.FC<any> = ({ remove, name, questionsLists }) => {
           ))}
         </AnswerTypeSelect>
       </AsnForm.Item>
-      <AsnForm.Item name="required" valuePropName="checked">
-        <Row align="middle" justify="center" gutter={16}>
-          <Col
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center'
-            }}
-          >
-            <Title
-              level={5}
-              style={{ fontWeight: '400', margin: '0 0.5rem 0 ' }}
-            >
-              Required Question
-            </Title>
+
+      <Row align="middle" justify="center" gutter={16}>
+        <Col
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center'
+          }}
+        >
+          <Title level={5} style={{ fontWeight: '400', margin: '0 0.5rem 0 ' }}>
+            Required Question
+          </Title>
+          <AsnForm.Item name={[name[0], 'required']} valuePropName="checked">
             <AsnSwitch />
+          </AsnForm.Item>
+        </Col>
+        <Col className="icons" onClick={onDuplicateForm}>
+          <DuplicateIcon />
+        </Col>
+        {questionsLists.length > 1
+          ? (
+          <Col className="icons" onClick={() => remove(name)}>
+            <DeleteIcon />
           </Col>
-          <Col className="icons" onClick={onDuplicateForm}>
-            <DuplicateIcon />
-          </Col>
-          {questionsLists.length > 1
-            ? (
-            <Col className="icons" onClick={() => remove(name)}>
-              <DeleteIcon />
-            </Col>
-              )
-            : null}
-        </Row>
-      </AsnForm.Item>
+            )
+          : null}
+      </Row>
     </HeaderWrapper>
   );
 };

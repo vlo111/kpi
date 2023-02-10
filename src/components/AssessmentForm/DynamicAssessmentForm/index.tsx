@@ -95,7 +95,18 @@ const AssessmentForms: React.FC = () => {
 
   useEffect(() => {
     form.setFieldsValue({
-      // questions: [{ answerType: 'OPTION' }]
+      onlineSignature: true,
+      passingScore: 0,
+      questions: [
+        {
+          type: 'OPTION',
+          required: true,
+          answers: [
+            { title: '', score: 0 },
+            { title: '', score: 0 }
+          ]
+        }
+      ]
     });
   }, []);
 
