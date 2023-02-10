@@ -5,14 +5,18 @@ import { ReactComponent as DownloadInfo } from '../../../assets/icons/download.s
 import { AsnInput } from '../../Forms/Input';
 import { AsnButton } from '../../Forms/Button';
 import AddTeamMemberModal from './CreateTeamMemberModal';
-import { ShowDeleteUserModal } from '../../../types/teams';
+import { SearchHeaderTypes } from '../../../types/teams';
 
-const SearchTeamMembers: React.FC<ShowDeleteUserModal> = ({
+const SearchTeamMembers: React.FC<SearchHeaderTypes> = ({
   showModal,
   setShowModal,
   totalCount,
-  permissionsList
+  permissionsList,
+  setSearchText
 }) => {
+  const onChange = (data: React.ChangeEvent<HTMLInputElement>): void => {
+    setSearchText(data.target.value);
+  };
   return (
     <Row gutter={24}>
       <Col span={24}>
@@ -40,6 +44,7 @@ const SearchTeamMembers: React.FC<ShowDeleteUserModal> = ({
                 <AsnInput
                    placeholder="Search"
                    className='search_users'
+                   onChange={onChange}
                    style={{
                      height: '32px',
                      border: 'none',

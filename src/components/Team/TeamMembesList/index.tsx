@@ -30,6 +30,7 @@ const UsersTeam: React.FC = () => {
   const { projectId } = useProject();
   const [showModal, setShowModal] = useState('');
   const [totalCount, setTotalCount] = useState(0);
+  const [searchText, setSearchText] = useState('');
   const { data } = usePermissionsListByProjectId(projectId);
 
   return (
@@ -42,8 +43,9 @@ const UsersTeam: React.FC = () => {
           setShowModal={setShowModal}
           totalCount={totalCount}
           permissionsList={data}
+          setSearchText={setSearchText}
         />}
-        <TeamsList setTotalCount={setTotalCount} permissionsList={data}/>
+        <TeamsList setTotalCount={setTotalCount} permissionsList={data} searchText={searchText}/>
       </TeamsWrapper>
     </TeamContent>
   );

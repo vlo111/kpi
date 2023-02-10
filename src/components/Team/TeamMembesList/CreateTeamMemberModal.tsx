@@ -99,11 +99,12 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
         });
       }
     });
+    console.log(filedValue, ' filedValue');
     values.permissions = result;
     if (edit) {
       updatePermissionById({
         projectId,
-        userId: '309666b3-498a-40bf-915c-608331d41cb3',
+        userId: userInfo?.updateUserId ?? '',
         data: {
           position: values.position,
           permissions: values.permissions,
@@ -128,10 +129,8 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
 
   useEffect(() => {
     if (edit && userPermissions !== undefined) {
-      console.log();
-
       form.setFieldsValue({
-        ...userInfo,
+        ...userInfo?.info,
         permissions: userPermissions.map((item) => {
           return (
             [item.projectId, item.resultAreaId, item.inputActivityId, item.activityTemplateId].filter(Boolean)
@@ -139,8 +138,14 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
         }
         )
       });
+      setFiledValue(userPermissions.map((item) => {
+        return (
+          [item.projectId, item.resultAreaId, item.inputActivityId, item.activityTemplateId].filter(Boolean)
+        );
+      }
+      ));
     }
-  }, []);
+  }, [edit, userPermissions, userInfo]);
 
   return (
     <AddTeamMemberModalWrapper

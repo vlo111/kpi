@@ -76,13 +76,27 @@ export interface ShowDeleteUserModal {
   edit: boolean
   permissionsList: PermissionsResult
   userPermissions?: SingleUserPermissionResult[]
-  userInfo?: IEditUserInfo
+  userInfo?: UpdateUserAllInfo
   setSearchText?: React.Dispatch<React.SetStateAction<string>>
+}
+
+export interface SearchHeaderTypes {
+  showModal: string
+  setShowModal: (b: string) => void
+  totalCount: number
+  edit: boolean
+  permissionsList: PermissionsResult
+  setSearchText: React.Dispatch<React.SetStateAction<string>>
+}
+
+export interface UpdateUserAllInfo {
+  updateUserId: string
+  info: IEditUserInfo
 }
 
 export interface ITeamMembersTypes {
   setTotalCount: React.Dispatch<React.SetStateAction<number>>
-  searchText?: string
+  searchText: string
   permissionsList: PermissionsResult
 }
 
@@ -165,11 +179,11 @@ export interface SingleUserPermissionResult {
   project: string
   projectId: string
   resultArea: string
-  resultAreaId: string | null
+  resultAreaId: string
   inputActivity: string
-  inputActivityId: string | null
+  inputActivityId: string
   activityTemplate: string
-  activityTemplateId: string | null
+  activityTemplateId: string
 }
 
 export interface SingleUserPermissionResults {

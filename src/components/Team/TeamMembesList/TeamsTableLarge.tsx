@@ -11,9 +11,9 @@ import TeamMemberPermissionInfoModal from './TeamMemberPermissionModal';
 import { AsnTable } from '../../Forms/Table';
 import {
   HandleTableOnChange,
-  IEditUserInfo,
   ITeamMembersTypes,
   TableParams,
+  UpdateUserAllInfo,
   User
 } from '../../../types/teams';
 import useGetAllTeamsList from '../../../api/Teams/useGetAllTeamMembersList';
@@ -29,16 +29,14 @@ const ApplicantList = styled.div`
 
 const TeamsList: React.FC<ITeamMembersTypes> = ({
   setTotalCount,
-  permissionsList
+  permissionsList,
+  searchText
 }) => {
   const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState('');
   const { projectId } = useProject();
   const [showModal, setShowModal] = useState('');
   const [userId, setUserId] = useState('');
-  const [updateUserInfo, setUpdateUserInfo] = useState<{
-    updateUserId: string
-    info: IEditUserInfo
-  }>({
+  const [updateUserInfo, setUpdateUserInfo] = useState<UpdateUserAllInfo>({
     updateUserId: '',
     info: {
       lastName: '',
@@ -171,6 +169,7 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
     count
   } = useGetAllTeamsList({
     limit: tableParams.pagination?.pageSize,
+    search: (searchText?.length > 3) ? searchText : undefined,
     offset:
       tableParams.pagination?.current !== undefined &&
       tableParams.pagination?.pageSize !== undefined
@@ -223,7 +222,7 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
           edit={true}
           permissionsList={permissionsList}
           userPermissions={data}
-          userInfo={updateUserInfo.info}
+          userInfo={updateUserInfo}
         />
       )}
       <ConfirmModal
