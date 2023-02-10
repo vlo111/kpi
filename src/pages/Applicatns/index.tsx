@@ -8,7 +8,7 @@ import { UseFilterTags } from './useFilterTags';
 
 import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
 import { AsnForm } from '../../components/Forms/Form';
-import { iFinishApplicant, IprevState, Iseacrh } from './applicantsTypes';
+import { IApplicants, iFinishApplicant, IprevState, Iseacrh } from './applicantsTypes';
 import Applicant from '../../components/Applicant';
 
 const ApplicantsData: React.FC = () => {
@@ -41,7 +41,7 @@ const ApplicantsData: React.FC = () => {
   };
 
   const { refetch } = useAllAplicants(filters, {
-    onSuccess: (data: React.SetStateAction<{ data: never[], count: null }>): void => {
+    onSuccess: (data: React.SetStateAction<IApplicants>): void => {
       setResult(data);
     }
   });

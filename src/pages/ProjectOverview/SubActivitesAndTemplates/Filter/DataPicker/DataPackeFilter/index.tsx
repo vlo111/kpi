@@ -6,7 +6,7 @@ import { TVoid } from "../../../../../../types/global";
 import { IDateFilterCards } from "../../../../../../types/project";
 import { AsnForm } from "../../../../../../components/Forms/Form";
 import { AsnDatePicker } from "../../../../../../components/Forms/DatePicker";
-import moment from "moment";
+import moment, { Moment } from "moment";
 import { AsnButton } from "../../../../../../components/Forms/Button";
 
 
@@ -43,11 +43,12 @@ export const DateFilter: React.FC<IDateFilterCards> = ({
       to: moment(to).format(),
     });
   };
-
-  const onChange = ( string: any) => {
-    setStartTime(string);
+  const onChange: (item: Moment | null) => void = ( item) => {
+    if(item !== null) {
+      setStartTime(item.format());
+    }
   };
-  const disabledDateEndPicker = (current: any) => {
+  const disabledDateEndPicker: (current: Moment) => boolean = ( current) => {
     if (!startTime) return true;
     return current && current < moment(startTime);
   };

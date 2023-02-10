@@ -83,3 +83,9 @@ export interface IfilterResult {
   form: any
   setFilters: any
 }
+export interface IApplicants {
+  data: never[]
+  count: null
+}
+
+
