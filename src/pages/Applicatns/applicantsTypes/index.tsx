@@ -1,5 +1,6 @@
 import { UseQueryResult } from '@tanstack/react-query';
 import { TVoid } from '../../../types/global';
+import { FormInstance } from 'antd';
 
 export interface SearchApplicants {
   filters: any
@@ -80,7 +81,7 @@ export interface Iseacrh {
 export interface IfilterResult {
   filters: any
   onFinish: TVoid
-  form: any
+  form: FormInstance<string>
   setFilters: any
 }
 export interface IApplicants {
@@ -88,4 +89,9 @@ export interface IApplicants {
   count: null
 }
 
+export interface Ifiltres {
+  form: FormInstance<string>
+  onFinish: () => void
+  setOpen: () => boolean
+}
 

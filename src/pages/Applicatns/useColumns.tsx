@@ -20,7 +20,9 @@ export const useColumn = ({
     {
       title: (
         <Popover
-          content={UseFilters({ setOpen, filterData, onFinish, form })}
+          content={UseFilters({
+            setOpen, onFinish, form
+          })}
           title="Filter your results"
           trigger="click"
           overlayClassName="applicantsFilter"
