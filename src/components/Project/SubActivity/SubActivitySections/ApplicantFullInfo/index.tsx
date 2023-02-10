@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Col, Row, Space } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Row, Space, Upload, message } from 'antd';
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/lib/table';
 
@@ -9,12 +9,16 @@ import { ReactComponent as DownloadIcon } from '../../../../../assets/icons/down
 import { IApplicantsListFullInfo, IUserListTypes } from '../../../../../types/api/activity/subActivity';
 import { AsnTable } from '../../../../Forms/Table';
 import FormWrapper from '../../SubActivityWrapper';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PATHS } from '../../../../../helpers/constants';
+import useAttacheFiles from './useGetUpload';
 
-const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({ color, applicants }) => {
+const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({ color, applicants, courseId }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
   const navigate = useNavigate();
+  const { mutate: addFileCourse } = useAttacheFiles();
+
   const columns: ColumnsType<IUserListTypes> = [
     {
       title: 'Name Surname',
@@ -32,25 +36,27 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({ color, ap
       key: 'status'
     }
   ];
-
   const onSelectChange = (newSelectedRowKeys: React.Key[]): void => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
-
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange
-  };
+  }
 
   return (
     <FormWrapper className="users_full_list" margin={0} color={color}>
       <Space style={{ width: '100%' }} size={[0, 32]} direction="vertical">
         <Row gutter={[12, 12]} justify="space-between" align="middle">
           <Col>
-            Applicants <ApplicantsIcon /> <DownloadIcon />
+            Applicants <Button type='link'> <DownloadIcon onClick={() => {
+         addFileCourse(courseId, {
+         })
+        }}   />
+        </Button>
           </Col>
           <Col>
-            Upload list of applicants <CloudDownloadOutlined />
+            Upload list of applicants <Button type='link'><CloudDownloadOutlined /></Button>
           </Col>
         </Row>
         {applicants.length === 0
