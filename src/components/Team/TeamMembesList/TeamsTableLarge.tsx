@@ -20,7 +20,7 @@ import useGetAllTeamsList from '../../../api/Teams/useGetAllTeamMembersList';
 import AsnAvatar from '../../Forms/Avatar';
 import { useProject } from '../../../hooks/useProject';
 import useDeleteTeamMemberPermissionByInfo from '../../../api/Teams/useDeleteTeamMember';
-import useGetSingleUserPermissions from '../../../api/Teams/useGetSingleUserPermissons';
+import useGetSingleUserPermissions from '../../../api/Teams/useGetSingleUserPermissions';
 
 const ApplicantList = styled.div`
   margin-top: 8px;
@@ -50,7 +50,7 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
     updateUserInfo.updateUserId,
     projectId,
     {
-      enabled: Boolean(updateUserInfo.updateUserId) && Boolean(projectId)
+      enabled: Boolean(updateUserInfo.updateUserId) && Boolean(projectId) && showModal === 'edit'
     }
   );
 
@@ -201,7 +201,6 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
     setTableParams({
       pagination
     });
-    refetch();
   };
 
   return (

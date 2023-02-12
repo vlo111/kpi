@@ -145,7 +145,7 @@ export interface ResultArea {
 
 export interface CascadedData {
   id: string
-  resultAreas: ResultArea[]
+  resultAreas?: ResultArea[]
 }
 
 export type OnChangeType = (value: string[][]) => void;

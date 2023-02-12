@@ -1,28 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Breadcrumb, Col, Row } from 'antd';
 
-import { AsnModal } from '../../Forms/Modal';
 import { ShowPermissionModalTypes } from '../../../types/teams';
-import useGetSingleUserPermissions from '../../../api/Teams/useGetSingleUserPermissons';
+import useGetSingleUserPermissions from '../../../api/Teams/useGetSingleUserPermissions';
 import { useProject } from '../../../hooks/useProject';
-
-const PermissionInfoModal = styled(AsnModal)`
-  width: 628px !important;
-  top: 190px !important;
-
-  .ant-modal-content {
-    padding: 32px !important;
-  }
-  .ant-modal-close-x {
-    font-size: 12px;
-    svg {
-      path {
-        fill: var(--dark-1);
-      }
-    }
-  }
-`;
+import { PermissionInfoModal } from '../Styles';
 
 const TeamMemberPermissionInfoModal: React.FC<ShowPermissionModalTypes> = ({
   userId,

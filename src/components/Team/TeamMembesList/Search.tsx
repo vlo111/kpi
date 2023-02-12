@@ -1,7 +1,6 @@
 import React from 'react';
 import { Col, Row } from 'antd';
 
-import { ReactComponent as DownloadInfo } from '../../../assets/icons/download.svg';
 import { AsnInput } from '../../Forms/Input';
 import { AsnButton } from '../../Forms/Button';
 import AddTeamMemberModal from './CreateTeamMemberModal';
@@ -75,9 +74,6 @@ const SearchTeamMembers: React.FC<SearchHeaderTypes> = ({
       </Col>
       <Col span={24}>
         <Row justify="end" align='middle' style={{ marginTop: '1.6vh' }}>
-          <Col>
-            <DownloadInfo />
-          </Col>
           <Col
             style={{
               border: '0.5px solid var(--dark-5)',

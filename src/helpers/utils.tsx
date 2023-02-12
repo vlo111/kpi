@@ -16,6 +16,7 @@ import {
   IApplicant,
   IQuestion
 } from '../types/api/application/applicationForm';
+import { CascadedData } from '../types/teams';
 
 /** Logout the user */
 export const logOut: TVoid = () => {
@@ -205,3 +206,54 @@ export const getApplicationData: GetApplicationData = (data) =>
     'onlineSignature',
     'deadline'
   ) as IApplicant;
+
+export const convertArrayToResult = (array: string[][]): CascadedData => {
+  const result: CascadedData = { id: (array.length > 0) ? array[0][0] : '' };
+
+  array.forEach(innerArray => {
+    const [id, resultAreaId, activityId, templateId] = innerArray;
+
+    if (result.id !== '') {
+      result.id = id;
+    }
+
+    if (result.resultAreas == null) {
+      result.resultAreas = [];
+    }
+
+    let resultAreaIndex = result.resultAreas.findIndex(ra => ra.id === resultAreaId);
+
+    if (resultAreaIndex === -1) {
+      result.resultAreas.push({
+        id: resultAreaId,
+        activities: []
+      });
+      resultAreaIndex = result.resultAreas.length - 1;
+    }
+
+    const resultArea = result.resultAreas[resultAreaIndex];
+
+    if (resultArea.activities == null) {
+      resultArea.activities = [];
+    }
+
+    let activityIndex = resultArea.activities.findIndex(a => a.id === activityId);
+
+    if (activityIndex === -1) {
+      resultArea.activities.push({ id: activityId });
+      activityIndex = resultArea.activities.length - 1;
+    }
+
+    const activity = resultArea.activities[activityIndex];
+
+    if (templateId !== '') {
+      if (activity.templates == null) {
+        activity.templates = [];
+      }
+
+      activity.templates.push({ id: templateId });
+    }
+  });
+
+  return result;
+};

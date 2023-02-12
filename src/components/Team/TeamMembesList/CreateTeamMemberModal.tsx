@@ -5,12 +5,13 @@ import { AsnForm } from '../../Forms/Form';
 import { AsnInput } from '../../Forms/Input';
 import { VALIDATE_MESSAGES } from '../../../helpers/constants';
 import { AsnButton } from '../../Forms/Button';
-import { CascadedData, ShowDeleteUserModal } from '../../../types/teams';
+import { ShowDeleteUserModal } from '../../../types/teams';
 import { FormFinish } from '../../../types/global';
 import useInviteMemberByPermission from '../../../api/Teams/useInviteTeamMember';
 import useUpdateMemberPermissionsId from '../../../api/Teams/useUpdateTeamMemberPermission';
 import { useProject } from '../../../hooks/useProject';
-import { AddTeamMemberModalWrapper } from './CreateModalStyles';
+import { AddTeamMemberModalWrapper } from '../Styles';
+import { convertArrayToResult } from '../../../helpers/utils';
 
 const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
   setShowModal,
@@ -60,46 +61,7 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
   };
 
   const onFinish: FormFinish = (values) => {
-    const result: CascadedData = {
-      id: filedValue[0][0],
-      resultAreas: []
-    };
-    filedValue.forEach((item) => {
-      const resultAreaIdIndex = 1;
-      const id = item[resultAreaIdIndex];
-      const existingResultArea = result.resultAreas.find((ra) => ra.id === id);
-      if (existingResultArea != null) {
-        existingResultArea.activities.push({
-          id: item[resultAreaIdIndex + 1],
-          templates:
-            item.length > 2
-              ? [
-                  {
-                    id: item[resultAreaIdIndex + 2]
-                  }
-                ]
-              : undefined
-        });
-      } else {
-        result.resultAreas.push({
-          id,
-          activities: [
-            {
-              id: item[resultAreaIdIndex + 1],
-              templates:
-                item.length > 2
-                  ? [
-                      {
-                        id: item[resultAreaIdIndex + 2]
-                      }
-                    ]
-                  : undefined
-            }
-          ]
-        });
-      }
-    });
-    console.log(filedValue, ' filedValue');
+    const result = convertArrayToResult(filedValue);
     values.permissions = result;
     if (edit) {
       updatePermissionById({
@@ -154,8 +116,8 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
       cancelText="Cancel"
       onCancel={handleCancel}
       footer={[
-        <Row key={'action'} gutter={14} justify="center">
-          <Col span={7}>
+        <Row key={'action'} gutter={24} justify="center">
+          <Col span={9}>
             <Row justify="start">
               <AsnButton
                 key="back"
@@ -167,7 +129,7 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
               </AsnButton>
             </Row>
           </Col>
-          <Col span={7}>
+          <Col span={9}>
             <Row justify="end">
               <AsnButton
                 form="managerForm"

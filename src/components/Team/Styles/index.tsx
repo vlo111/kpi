@@ -95,3 +95,74 @@ export const AddTeamMemberModalWrapper = styled(AsnModal)`
     width: 100%;
   }
 `;
+
+export const TeamsWrapper = styled.div`
+  padding: 16px;
+  box-shadow: var(--base-box-shadow);
+  border-radius: 20px;
+  height: 100%;
+  background-color: var(--white);
+  padding: 30px 16px 50px 16px;
+
+  .search_users {
+    &:hover {
+      border: none !important;
+    }
+  }
+`;
+
+export const TeamContent = styled.div`
+  padding: 32px 64px 50px 64px;
+  height: 100%;
+`;
+
+export const PermissionInfoModal = styled(AsnModal)`
+  width: 628px !important;
+  top: 190px !important;
+
+  .ant-modal-content {
+    padding: 32px !important;
+  }
+  .ant-modal-close-x {
+    font-size: 12px;
+    svg {
+      path {
+        fill: var(--dark-1);
+      }
+    }
+  }
+`;
+
+export const ApplicantListSmall = styled(AsnModal)`
+  .ant-modal-content {
+    padding: 0;
+    background: var(--background);
+    border: 1px solid var(--dark-2);
+    border-radius: 10px;
+    padding: 42px 14px 16px 16px;
+  }
+  .ant-table-tbody > tr > td {
+    border-bottom: 0.5px solid var(--dark-border-ultramarine);
+  }
+  .ant-table-thead > tr > th {
+    display: none;
+  }
+  .ant-table-tbody > tr > td {
+    padding: 7px 8px !important;
+  }
+  .ant-modal-close-x {
+    position: relative;
+    bottom: 8px;
+    left: 2px;
+
+    svg > path {
+      fill: var(--dark-1) !important;
+    }
+  }
+  .ant-table-wrapper {
+    max-height: 216px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-right: 3px;
+  }
+`;
