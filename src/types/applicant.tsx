@@ -1,3 +1,6 @@
+import { ResponseErrorParam } from './api/project/get-project';
+import { UseMutation, Void } from './global';
+
 export interface IApplicant {
   id: string
   fullName: string
@@ -63,4 +66,11 @@ interface GetApplicant {
   applicant: IApplicantData
 }
 
+export interface ImportParams {
+  sectionDataId: string
+  file: Blob
+}
+
 export type UseGetApplicant = (id: string | undefined) => GetApplicant
+
+export type ImportApplicantList = UseMutation<Void, any, ResponseErrorParam, ImportParams>

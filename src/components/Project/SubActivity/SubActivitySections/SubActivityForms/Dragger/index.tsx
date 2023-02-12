@@ -31,7 +31,7 @@ const AsnDragger = styled(Dragger)`
   }
 `;
 
-const AsnDragger2 = styled(Dragger)`
+export const AsnDragger2 = styled(Dragger)`
   background: transparent !important;
   border: none !important;
   text-align: start !important;

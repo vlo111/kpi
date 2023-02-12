@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import client from  '../../../../../api/client';
+import client from '../../../../../api/client';
 
 const url = 'api/sub-activity/course/:id/download/applicants';
 const useAttacheFiles: any = (options = {}) =>
@@ -8,6 +8,7 @@ const useAttacheFiles: any = (options = {}) =>
     async (id: any) => {
       if (id !== undefined) {
         const data = await client.post(url.replace(':id', id));
+        return data;
       }
     },
     options
