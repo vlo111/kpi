@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import QuestionHeader from '../QuestionHeader';
 import QuestionContent from '../QuestionContent';
 import { CardContainer } from '../DynamicAssessmentForm';
@@ -7,11 +7,10 @@ const AssessmentFormItems: React.FC<any> = ({
   items,
   remove,
   name,
-  questionsLists,
-  add
+  add,
+  answerType,
+  setAnswerType
 }) => {
-  const [answerType, setAnswerType] = useState('OPTION');
-
   return (
     <CardContainer
       borderTop={'3px solid var(--secondary-green)'}
@@ -20,13 +19,13 @@ const AssessmentFormItems: React.FC<any> = ({
       <QuestionHeader
         remove={remove}
         name={name}
-        questionsLists={questionsLists}
         add={add}
         setAnswerType={setAnswerType}
+        answerType={answerType}
       />
-      <QuestionContent items={items} name={name} answerType={answerType}/>
+      <QuestionContent items={items} name={name} answerType={answerType} />
     </CardContainer>
   );
 };
 
-export default AssessmentFormItems;
+export default React.memo(AssessmentFormItems);

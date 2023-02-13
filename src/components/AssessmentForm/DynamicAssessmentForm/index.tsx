@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Space, Typography } from 'antd';
+import { Space, Tooltip, Typography } from 'antd';
 import { AsnForm } from '../../Forms/Form';
 import { AsnInput, AsnInputNumber } from '../../Forms/Input';
 import AssessmentFormItems from '../FormList';
@@ -91,6 +91,7 @@ export const FormItemContainer = styled.div`
 `;
 
 const AssessmentForms: React.FC = () => {
+  const [answerType, setAnswerType] = useState('OPTION');
   const [form] = AsnForm.useForm();
 
   useEffect(() => {
@@ -99,7 +100,7 @@ const AssessmentForms: React.FC = () => {
       passingScore: 0,
       questions: [
         {
-          type: 'OPTION',
+          type: answerType,
           required: true,
           answers: [
             { title: '', score: 0 },
@@ -149,14 +150,21 @@ const AssessmentForms: React.FC = () => {
                     {...restField}
                     key={key}
                     name={[name, 'answers']}
-                    questionsLists={questionsLists}
                     add={add}
                     remove={remove}
+                    answerType={answerType}
+                    setAnswerType={setAnswerType}
                   />
                 ))}
               </div>
               <FAddAssessmentButton onClick={() => add()}>
-                <AddAssessmentIcon />
+                <Tooltip
+                  placement="topLeft"
+                  title={<span>Add a question</span>}
+                  overlayClassName="tooltipHelper"
+                >
+                  <AddAssessmentIcon />
+                </Tooltip>
               </FAddAssessmentButton>
             </FormItemContainer>
           )}

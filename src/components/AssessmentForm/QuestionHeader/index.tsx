@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
-import { Col, Row, Typography } from 'antd';
+import { Col, Row, Tooltip, Typography } from 'antd';
 import { AsnForm } from '../../Forms/Form';
 import { AsnSelect } from '../../Forms/Select';
 import { AsnSwitch } from '../../Forms/Switch';
@@ -11,6 +11,7 @@ import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
 // import { ReactComponent as CheckboxIcon } from '../../../assets/icons/checkbox.svg';
 // import { ReactComponent as TextIcon } from '../../../assets/icons/text.svg';
 import { assessmentSelect } from '../../../helpers/constants';
+import { FormFinish } from '../../../types/global';
 
 const { Option } = AsnSelect;
 const { Title } = Typography;
@@ -19,7 +20,7 @@ const HeaderWrapper = styled(Row)`
   border-bottom: 1px dashed var(--dark-border-ultramarine);
   padding-bottom: 2vh;
   .select_question_item {
-    width: 30%;
+    width: 25%;
   }
   .ant-form-item {
     margin: 0;
@@ -51,34 +52,59 @@ const AnswerTypeSelect = styled(AsnSelect)`
 const QuestionHeader: React.FC<any> = ({
   remove,
   name,
-  questionsLists,
   add,
-  setAnswerType
+  setAnswerType,
+  answerType
 }) => {
   const form = AsnForm.useFormInstance();
   const onDuplicateForm = (): any => {
-    console.log(form.getFieldsValue());
-    console.log(name[0]);
     add(form.getFieldsValue().questions[name[0]]);
+  };
+
+  const answerTypeChange: FormFinish = (value) => {
+    if (value === 'SHORT_TEXT') {
+      form.setFieldValue(form.getFieldsValue().questions[name[0]], {
+        questions: [
+          {
+            required: true,
+            type: value,
+            answers: []
+          }
+        ]
+      });
+    } else {
+      form.setFieldValue(form.getFieldsValue().questions[name[0]], {
+        questions: [
+          {
+            type: value,
+            required: true,
+            answers: [
+              {
+                title: '',
+                score: 0
+              },
+              {
+                title: '',
+                score: 0
+              }
+            ]
+          }
+        ]
+      });
+    }
+    setAnswerType(value);
   };
 
   return (
     <HeaderWrapper align="middle" justify="space-between">
-      <AsnForm.Item name={[name[0], 'type']} className="select_question_item">
+      <AsnForm.Item
+        name={[name[0], 'type']}
+        className="select_question_item"
+        initialValue={answerType}
+      >
         <AnswerTypeSelect
-          onChange={(value) => {
-            if (value === 'SHORT_TEXT') {
-              form.setFieldsValue({
-                questions: [
-                  {
-                    type: value,
-                    answers: []
-                  }
-                ]
-              });
-            }
-            setAnswerType(value);
-          }}
+          onChange={answerTypeChange}
+          getPopupContainer={(trigger) => trigger.parentNode}
         >
           {assessmentSelect.map((item) => (
             <Fragment key={item.value}>
@@ -104,18 +130,21 @@ const QuestionHeader: React.FC<any> = ({
           </AsnForm.Item>
         </Col>
         <Col className="icons" onClick={onDuplicateForm}>
-          <DuplicateIcon />
+          <Tooltip
+            placement="topLeft"
+            title={<span>Duplicate</span>}
+            overlayClassName="tooltipHelper"
+          >
+            <DuplicateIcon />
+          </Tooltip>
         </Col>
-        {questionsLists.length > 1
-          ? (
-          <Col className="icons" onClick={() => remove(name)}>
-            <DeleteIcon />
-          </Col>
-            )
-          : null}
+
+        <Col className="icons" onClick={() => remove(name)}>
+          <DeleteIcon />
+        </Col>
       </Row>
     </HeaderWrapper>
   );
 };
 
-export default QuestionHeader;
+export default React.memo(QuestionHeader);
