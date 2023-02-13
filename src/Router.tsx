@@ -33,7 +33,7 @@ import CourseSection from './pages/CourseSection';
 import Files from './pages/Files';
 import Applicant from './pages/Applicant';
 import Application from './pages/Application';
-import FillApplicationForm from './pages/FillApplicationForm';
+import FillApplicationForm from './pages/ApplicationPublicForm';
 import UsersTeam from './components/Team/TeamMembesList';
 
 export const router = createBrowserRouter(
