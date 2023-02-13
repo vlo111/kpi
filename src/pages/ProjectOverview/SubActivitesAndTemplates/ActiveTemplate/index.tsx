@@ -69,7 +69,6 @@ const Container = styled.div`
     top: 7px !important;
   }
   .ant-popover-inner-content {
-    height: 170px;
     .ant-popover-buttons {
       position: absolute;
       top: 10px;
@@ -126,7 +125,6 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [templateId, setTemplateId] = useState<string>("");
   const [openCreateSubActivity, setOpenCreateSubActivity] = useState<boolean>(false);
-
   const { mutate: deleteActivityTemplate } = useDeleteActivityTemplate({
     onSuccess: () => {
       refetch();
@@ -145,7 +143,9 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
     },
   });
   const navigate = useNavigate();
-  const title = (id: string): any => {
+  const title = (id: string, template: any): any => {
+    console.log(template?.used);
+    
     return (
       <Row>
         <Col>
@@ -157,6 +157,7 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
             <Plus />
             Use
           </Popup>
+          {template?.used === false  && 
           <Popup
             type="link"
             onClick={() =>
@@ -165,7 +166,8 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
           >
             <EditSvg />
             Edit
-          </Popup>
+          </Popup>}
+          {template?.used === false  && 
           <Popup
             type="link"
             onClick={() => {
@@ -176,6 +178,7 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
             <TrashSvg />
             Delete
           </Popup>
+  }
           <Popup type="link" onClick={() => duplicateTemplate({ id })}>
             <Dublicat />
             Duplicate
@@ -198,7 +201,7 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
             <Col key={template?.id}>
               <Popconfirm
                 overlayClassName="popconFirm"
-                title={() => title(template?.id)}
+                title={() => title(template?.id, template)}
                 okText
                 cancelText="X"
                 placement="bottom"
