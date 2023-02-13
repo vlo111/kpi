@@ -1,6 +1,6 @@
 import { Radio, Typography } from 'antd';
 import styled from 'styled-components';
-import { AsnInput } from '../Forms/Input';
+import { AsnInput } from '../../Forms/Input';
 
 export const FormText = styled.span`
   font-size: var(--base-font-size);

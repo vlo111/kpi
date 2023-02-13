@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { FormText, SectionTitle } from '../style';
+import { FormText, SectionTitle } from '../../../ApplicantPublicForm/Form/style';
 import ListItems from './ListItems';
-import { IApplicationFormItems } from '../../../types/application';
+import { IApplicationFormItems } from '../../../../types/application';
 
 const ApplicationForm: React.FC<IApplicationFormItems> = ({
   name,

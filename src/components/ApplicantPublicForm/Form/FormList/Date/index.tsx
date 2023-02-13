@@ -1,7 +1,9 @@
 import React from 'react';
-import { AsnForm } from '../../../Forms/Form';
-import { IFormItemProps } from '../../../../types/application';
-import { AsnDatePicker } from '../../../Forms/DatePicker';
+
+import { AsnForm } from '../../../../Forms/Form';
+import { AsnDatePicker } from '../../../../Forms/DatePicker';
+
+import { IFormItemProps } from '../../../../../types/application';
 
 const SectionDate: React.FC<IFormItemProps> = ({ index, title, placeholder, rules }) => {
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
-import { AsnInput } from '../../../Forms/Input';
-import { AsnForm } from '../../../Forms/Form';
-import { IFormItemProps } from '../../../../types/application';
+import { AsnInput } from '../../../../Forms/Input';
+import { AsnForm } from '../../../../Forms/Form';
+import { IFormItemProps } from '../../../../../types/application';
 
 const SectionText: React.FC<IFormItemProps> = ({ index, title, rules, placeholder }) => {
   return (

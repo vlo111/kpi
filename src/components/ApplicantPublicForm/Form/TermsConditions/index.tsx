@@ -1,14 +1,14 @@
 import { Form } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
-import { AsnCheckbox } from '../../Forms/Checkbox';
+import { AsnCheckbox } from '../../../Forms/Checkbox';
 import {
   BorderBottomInput,
   DividerLine,
   FormText,
   SectionTitle
 } from '../style';
-import { ITermsConditionsProps } from '../../../types/application';
+import { ITermsConditionsProps } from '../../../../types/application';
 
 const TermsConditionsContainer = styled.div`
   display: flex;

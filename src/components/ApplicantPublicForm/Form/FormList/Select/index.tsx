@@ -1,9 +1,11 @@
 import React from 'react';
-import { IAnswer } from '../../../../types/api/application/applicationForm1';
-import { AsnForm } from '../../../Forms/Form';
-import { AsnSelect } from '../../../Forms/Select';
 import styled from 'styled-components';
-import { IFormItemProps } from '../../../../types/application';
+
+import { AsnForm } from '../../../../Forms/Form';
+import { AsnSelect } from '../../../../Forms/Select';
+
+import { IFormItemProps } from '../../../../../types/application';
+import { IAnswer } from '../../../../../types/api/application/applicationForm1';
 
 const { Option } = AsnSelect;
 

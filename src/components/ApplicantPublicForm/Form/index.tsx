@@ -1,9 +1,9 @@
 import React from 'react';
 
 import TermsConditions from './TermsConditions';
-import { SectionName } from '../../helpers/constants';
-import FormList from '../../components/FillApplicationForm/FormList';
-import { IApplicationForm } from '../../types/application';
+import { SectionName } from '../../../helpers/constants';
+import FormList from './FormList';
+import { IApplicationForm } from '../../../types/application';
 
 const ApplicationForm: React.FC<IApplicationForm> = ({
   sections,

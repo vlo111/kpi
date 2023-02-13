@@ -6,20 +6,20 @@ import {
   RadioHandler,
   SetOtherState,
   SetRequired
-} from '../../../../types/application';
+} from '../../../../../types/application';
 
 import {
   IAnswer,
   IRelatedQuestion
-} from '../../../../types/api/application/applicationForm1';
-import { AsnForm } from '../../../Forms/Form';
-import { renderQuestionForm } from '../../../../helpers/applicationForm';
+} from '../../../../../types/api/application/applicationForm1';
+import { AsnForm } from '../../../../Forms/Form';
+import { renderQuestionForm } from '../../../../../helpers/applicationForm';
 
 import {
   AnswerTypes,
   ErrorRequireMessages
-} from '../../../../helpers/constants';
-import { BorderBottomInput, CustomRadio } from '../../style';
+} from '../../../../../helpers/constants';
+import { BorderBottomInput, CustomRadio } from '../../../../ApplicantPublicForm/Form/style';
 
 const setRequired: SetRequired = (item) => [
   { required: item, message: ErrorRequireMessages.input }
