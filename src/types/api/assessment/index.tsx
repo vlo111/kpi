@@ -29,7 +29,7 @@ enum AssessmentFormType {
   POST_ASSESSMENT
 }
 
-type EnumAssessmentFormTypes = keyof typeof AssessmentFormType;
+export type EnumAssessmentFormTypes = keyof typeof AssessmentFormType;
 
 enum AssessmentFormAnswers {
   OPTION,
@@ -91,12 +91,19 @@ export interface UpdateAssessmentFormData {
 }
 
 export interface UseAssessmentFormSingleResult {
-  data: Result
+  data: Result[]
   isSuccess: boolean
   refetch: any
   isLoading: boolean
 }
 
+export interface CreateAssessmentIfoModalTypes {
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  type: EnumAssessmentFormTypes
+  projectId: string
+
+}
 export type GetAssessmentFormByCourseId = (
   courseId: string,
   params: {

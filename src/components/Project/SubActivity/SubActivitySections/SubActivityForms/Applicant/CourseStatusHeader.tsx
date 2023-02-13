@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Row, Typography } from 'antd';
 
 import { AsnButton } from '../../../../../Forms/Button';
@@ -7,9 +7,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PATHS } from '../../../../../../helpers/constants';
 import { ICourseStatusInfo } from '../../../../../../types/api/activity/subActivity';
 import useStartSubActivityCourse from '../../../../../../api/Activity/SubActivity/useStartSubActivityCourse';
+import { EnumAssessmentFormTypes } from '../../../../../../types/api/assessment';
+import { useProject } from '../../../../../../hooks/useProject';
+import CreateAssessmentInfoModal from '../../../../../AssessmentForm/AssessmentCreateInfoModal';
 
 const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicationForm, courseId, refetchSingleStatus, courseStatus }) => {
   const { Title } = Typography;
+  const { projectId } = useProject();
+  const [openModal, setOpenModal] = useState(false);
+  const [enumTypes, setEnumTypes] = useState<EnumAssessmentFormTypes>('PRE_ASSESSMENT');
   const navigate = useNavigate();
   const { id: SubActivityId } = useParams();
 
@@ -30,8 +36,10 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
     }
   };
 
-  const createAssessmentForm = (): void => {
-    navigate(`/${PATHS.ASSESSMENTFORMCREATE.replace(':id', courseId)}`, { state: { SubActivityId } });
+  const createAssessmentForm = (type: EnumAssessmentFormTypes): void => {
+    // navigate(`/${PATHS.ASSESSMENTFORMCREATE.replace(':id', courseId)}`, { state: { SubActivityId } });
+    setEnumTypes(type);
+    setOpenModal(true);
   };
 
   const renderCurrentSelectionTitle = (): any => {
@@ -85,7 +93,7 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
                 {applicationForm.includes('ASSESSMENT') && (
                   <>
                     <Row justify="center" style={{ width: '100%' }}>
-                      <AsnButton className="primary" type="primary">
+                      <AsnButton className="primary" type="primary" onClick={() => createAssessmentForm('PRE_ASSESSMENT')}>
                         Publish Pre-assessment form
                       </AsnButton>
                     </Row>
@@ -122,7 +130,7 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
                 {applicationForm.includes('ASSESSMENT') && (
                   <>
                     <Row justify="center" style={{ width: '100%' }}>
-                      <AsnButton className="primary" type="primary" onClick={createAssessmentForm}>
+                      <AsnButton className="primary" type="primary" onClick={() => createAssessmentForm('POST_ASSESSMENT')}>
                         Publish Post-assessment form
                       </AsnButton>
                     </Row>
@@ -151,7 +159,10 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
         return null;
     }
   };
-  return <>{renderCurrentSelectionTitle()}</>;
+  return <>
+     {renderCurrentSelectionTitle()}
+     {openModal && <CreateAssessmentInfoModal type={enumTypes} projectId={projectId} open={openModal} setOpen={setOpenModal}/>}
+  </>;
 };
 
 export default CourseHeaderStatus;
