@@ -101,7 +101,7 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
           label="Organization"
           rules={[{ required: true }]}
         >
-          <AsnSelect suffixIcon={<ArrowSvg />}>
+          <AsnSelect suffixIcon={<ArrowSvg />}  getPopupContainer={(trigger: HTMLElement) => trigger.parentElement as HTMLElement}>
             {organizations?.map((organization: any, i: number) => (
               <Option key={i} value={organization?.id}>
                 {organization?.title}
@@ -135,7 +135,7 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
           </Row>
         </AsnForm.Item>
         <AsnForm.Item name="sector" label="Sector" rules={[{ required: true }]}>
-          <AsnSelect suffixIcon={<ArrowSvg />}>
+          <AsnSelect suffixIcon={<ArrowSvg />}  getPopupContainer={(trigger: HTMLElement) => trigger.parentElement as HTMLElement}>
             {sectors?.map((sector, i: number) => (
               <Option key={i} value={sector?.id}>
                 {sector?.title}
@@ -144,7 +144,7 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
           </AsnSelect>
         </AsnForm.Item>
         <AsnForm.Item name="region" label="Region" rules={[{ required: true }]}>
-          <AsnSelect suffixIcon={<ArrowSvg />}>
+          <AsnSelect suffixIcon={<ArrowSvg />}  getPopupContainer={(trigger: HTMLElement) => trigger.parentElement as HTMLElement}>
             {regions?.map((region, i: number) => (
               <Option key={i} value={region?.id}>
                 {region?.title}
@@ -172,6 +172,7 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
               <AsnSelect
                 suffixIcon={<ArrowSvg />}
                 popupClassName="customPopupSelect"
+                getPopupContainer={(trigger: HTMLElement) => trigger.parentElement as HTMLElement}
               >
                 {options.map((i) => (
                   <Option key={i} value={i}>
