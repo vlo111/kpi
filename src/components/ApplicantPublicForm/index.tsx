@@ -44,7 +44,12 @@ const FillApplicationFormContainer = styled.div`
   }
 `;
 
-const ApplicantPublicForm: React.FC<{ id: string | undefined }> = ({ id }) => {
+export interface IApplicantPublicForm {
+  id: string | undefined
+  preview?: boolean
+}
+
+const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({ id, preview = false }) => {
   const [form] = Form.useForm();
 
   const navigate = useNavigate();
@@ -154,13 +159,13 @@ const ApplicantPublicForm: React.FC<{ id: string | undefined }> = ({ id }) => {
             terms={termsAndConditions}
             online={onlineSignature}
           />
-          <AsnButton
+          {!preview && <AsnButton
             className="primary"
             htmlType="submit"
             style={{ width: 'clamp(8.5rem, 7vw, 24rem)', float: 'right' }}
           >
             Publish
-          </AsnButton>
+          </AsnButton>}
         </AsnForm>
       </FillApplicationFormContainer>
       <AsnModal

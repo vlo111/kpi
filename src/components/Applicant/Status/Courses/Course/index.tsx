@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import { Col, message, Row, Upload } from 'antd';
@@ -24,6 +24,8 @@ import Note from '../Note';
 import Status from './Status';
 
 import { ReactComponent as UploadSvg } from '../Icons/Upload.svg';
+import { AsnModal } from '../../../../Forms/Modal';
+import ApplicantPublicForm from '../../../../ApplicantPublicForm';
 
 const CourseItem = styled.div<IStyle>`
   display: flex;
@@ -152,6 +154,16 @@ const AntRow = styled(Row)<IStyle>`
   }
 `;
 
+const Modal = styled(AsnModal)`
+  .ant-modal-content {
+    padding: 0;
+
+    .ant-spin-container > div {
+      width: 100%;
+    }
+  }
+`;
+
 const Course: React.FC<ICourseProps> = ({
   history,
   applicant,
@@ -161,6 +173,8 @@ const Course: React.FC<ICourseProps> = ({
   const { mutate: attachFile } = useApplicantAttachFile();
 
   const { mutate: uploadFile } = useFileUpload();
+
+  const [openPreviewApplicant, setOpenPreviewApplicant] = useState(false);
 
   const onUpload: OnUpload = (options) => {
     const { file } = options;
@@ -214,8 +228,13 @@ const Course: React.FC<ICourseProps> = ({
               </Col>
               <Col span={6} className="files">
                 {history?.status === 'APPLICANT' && (
-                  <span>
-                    applicationform
+                  <span
+                    className="file"
+                    onClick={() => {
+                      setOpenPreviewApplicant(!openPreviewApplicant);
+                    }}
+                  >
+                    Application Form
                   </span>
                 )}
                 {history?.status === 'PRE_ASSESSMENT' && (
@@ -281,6 +300,14 @@ const Course: React.FC<ICourseProps> = ({
         applicantId={applicant.id}
         status={history.status}
       />
+      <Modal
+        footer={false}
+        open={openPreviewApplicant}
+        onCancel={() => setOpenPreviewApplicant(false)}
+        width="50%"
+      >
+        <ApplicantPublicForm id={'da912a5a-aad1-4599-bda6-f67b67ba2828'} preview={true} />
+      </Modal>
     </CourseSection>
   );
 };
