@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Col, Popover, Row as AntRow, Typography } from 'antd';
-import { ReactComponent as NotesSvg } from '../icons/Notes.svg';
-import { ReactComponent as NotFoundSvg } from '../icons/not-found.svg';
+import { ReactComponent as NotesSvg } from '../Icons/Notes.svg';
+import { ReactComponent as NotFoundSvg } from '../Icons/not-found.svg';
 import { Void } from '../../../../../types/global';
 import { ReactComponent as CloseIcon } from '../../../../../assets/icons/closeIcon.svg';
 import styled from 'styled-components';

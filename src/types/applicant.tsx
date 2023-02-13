@@ -1,5 +1,6 @@
 import { ChangeEventHandler } from 'react';
 import { TabsProps } from 'antd';
+import { UploadRequestOption } from './api/activity/subActivity';
 
 export interface IApplicant {
   id: string
@@ -46,6 +47,7 @@ export interface IHistory {
   userId: string
   note: string
   reasonsForRejection: string
+  preAssessmentScore?: string
   status: string
   createdAt: string
   updatedAt: string
@@ -66,7 +68,7 @@ interface GetApplicant {
   applicant: IApplicantData
 }
 
-export type UseGetApplicant = (id: string | undefined) => GetApplicant
+export type UseGetApplicant = (id: string | undefined) => GetApplicant;
 
 export interface IApproveModalProps {
   applicant: IApplicant
@@ -74,7 +76,7 @@ export interface IApproveModalProps {
   onCancel: () => void
 }
 
-export type OnNoteHandler = ChangeEventHandler<HTMLTextAreaElement>
+export type OnNoteHandler = ChangeEventHandler<HTMLTextAreaElement>;
 
 export interface ICourseProps {
   history: IHistory
@@ -83,18 +85,23 @@ export interface ICourseProps {
   isActive: boolean
 }
 
-export interface ICourses { histories: IHistory[], applicant: IApplicant }
+export interface ICourses {
+  histories: IHistory[]
+  applicant: IApplicant
+}
 
-export interface IStyle { color?: string }
+export interface IStyle {
+  color?: string
+}
 
 export interface ApplicantRow {
   width?: number
   height?: number
 }
 
-export type SetValue = (key: string, value: string | undefined) => JSX.Element
+export type SetValue = (key: string, value: string | undefined) => JSX.Element;
 
-export type StatusItems = TabsProps['items']
+export type StatusItems = TabsProps['items'];
 
 export interface IApplicantTabs {
   courses: ICourse[]
@@ -107,4 +114,22 @@ export interface INote {
   inactive: boolean
 }
 
-export type ShowNote = boolean | string
+export type ShowNote = boolean | string;
+
+export interface IStatus {
+  status: string
+}
+
+export interface IMove {
+  sectionDataId: string
+  applicantId: string
+  status: string
+}
+
+export interface INext {
+  applicant: IApplicant
+  sectionDataId: string
+  isAllowEdit: boolean
+}
+
+export type OnUpload = (options: { file: any }) => void;

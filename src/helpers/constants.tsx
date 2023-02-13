@@ -121,7 +121,9 @@ export const ApplicantDefaultStatus: any = {
 };
 
 export const ApplicantAccessStatus: any = {
-  DROPPED: 'Dropped'
+  Dropped: 'DROPPED',
+  Trained: 'TRAINED',
+  NotEnrolled: 'NOT_ENROLLED'
 };
 
 export const answerType: string[] = [
@@ -191,3 +193,13 @@ export const optionsReason = [
   { label: 'Wrong choice of the course', value: 'choice' },
   { label: 'Interview insufficient score', value: 'interview' }
 ];
+
+export enum FileType {
+  APPLICANT_DOCUMENT = 'APPLICANT_DOCUMENT'
+}
+
+export enum AssessmentStatus {
+  NotAssessed = ' Not assessed',
+  NotSubmitted = ' Not submitted',
+  Scored = ' Scored '
+}
