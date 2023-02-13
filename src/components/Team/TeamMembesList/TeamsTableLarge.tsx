@@ -97,7 +97,7 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
               <Preview onClick={() => setUserId(item?.id)} />
             </Space>
             <Space align="end">
-              <h3>{item?.position}</h3>
+              <h3>{item?.permissionLevel[0]?.position}</h3>
             </Space>
           </Space>
         );
@@ -137,7 +137,7 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
                       lastName: item?.lastName,
                       firstName: item?.firstName,
                       email: item?.email,
-                      position: item?.position
+                      position: item?.permissionLevel[0]?.position
                     }
                   });
                   setShowModal('edit');

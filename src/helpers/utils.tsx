@@ -217,6 +217,10 @@ export const convertArrayToResult = (array: string[][]): CascadedData => {
       result.id = id;
     }
 
+    if (resultAreaId === undefined || resultAreaId === '') {
+      return null;
+    }
+
     if (result.resultAreas == null) {
       result.resultAreas = [];
     }
@@ -225,10 +229,13 @@ export const convertArrayToResult = (array: string[][]): CascadedData => {
 
     if (resultAreaIndex === -1) {
       result.resultAreas.push({
-        id: resultAreaId,
-        activities: []
+        id: resultAreaId
       });
       resultAreaIndex = result.resultAreas.length - 1;
+    }
+
+    if (activityId === undefined || activityId === '') {
+      return null;
     }
 
     const resultArea = result.resultAreas[resultAreaIndex];
@@ -243,8 +250,11 @@ export const convertArrayToResult = (array: string[][]): CascadedData => {
       resultArea.activities.push({ id: activityId });
       activityIndex = resultArea.activities.length - 1;
     }
-
     const activity = resultArea.activities[activityIndex];
+
+    if (templateId === undefined || templateId === '') {
+      return null;
+    }
 
     if (templateId !== '') {
       if (activity.templates == null) {

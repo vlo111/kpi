@@ -25,6 +25,11 @@ export interface User {
   createdAt: string
   updatedAt: string
   deletedAt?: string
+  permissionLevel: Array<{
+    maxLevel: number
+    position: string
+  }>
+
 }
 
 export interface IEditUserInfo {
@@ -135,7 +140,7 @@ export interface UseGetPermissionList {
 
 export interface ResultArea {
   id: string
-  activities: Array<{
+  activities?: Array<{
     id: string
     templates?: Array<{
       id: string
