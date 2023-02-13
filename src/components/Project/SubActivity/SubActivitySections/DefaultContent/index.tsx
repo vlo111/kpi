@@ -12,7 +12,8 @@ const DefaultContent: React.FC<any> = ({
   color,
   applicants,
   courseId,
-  files
+  files,
+  refetch
 }) => {
   return (
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 32]}>
@@ -31,7 +32,7 @@ const DefaultContent: React.FC<any> = ({
         </Col>
       </Row>
       <Col>
-        {status === 'ACTIVE' && <SubActivityUsersFullInfo color={color} applicants={applicants} courseId={courseId}/>}
+        {status === 'ACTIVE' && <SubActivityUsersFullInfo color={color} applicants={applicants} courseId={courseId} refetch={refetch}/>}
       </Col>
     </Space>
   );

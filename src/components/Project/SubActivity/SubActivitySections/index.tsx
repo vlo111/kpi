@@ -145,8 +145,9 @@ const SubActivitySections: React.FC<any> = ({
               status={activity?.status}
               courseId={activity?.id}
               files={activity?.section?.files}
-              requIredDocs={activity?.section?.requiredDocuments
-              }
+              requIredDocs={activity?.section?.requiredDocuments}
+              refetch={refetch}
+
             />
           </TabPane>
           {activity?.section?.sectionSettingMap?.map((item: any) => (

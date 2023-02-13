@@ -14,12 +14,13 @@ import useAttacheFiles from './useGetUpload';
 import useImportApplicantsIntoExcelFile from '../../../../../api/Applicants/useImportUploadListInExcel';
 import { AsnDragger2 } from '../SubActivityForms/Dragger';
 
-const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({ color, applicants, courseId }) => {
+const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({ color, applicants, courseId, refetch }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const navigate = useNavigate();
   const { mutate: addFileCourse } = useAttacheFiles();
   const { mutate: importApplicant } = useImportApplicantsIntoExcelFile({
     onSuccess: () => {
+      refetch()
       void message.success('Applicants have been successfully added');
     },
     onError: () => {
@@ -77,7 +78,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({ color, ap
           }} />
         </Button>
           </Col>
-          <Col>
+          <Col style={{ display: 'flex', gap: '5px' }}>
             Upload list of applicants
             <AsnDragger2 {...props}>
                <CloudDownloadOutlined />
