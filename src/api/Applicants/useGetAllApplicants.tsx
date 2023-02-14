@@ -2,12 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 
 import client from '../client';
 
-const url = '/api/applicant';
+const url = 'api/applicant/project/:id';
 
-const useAllAplicants: any = (params: any, options = { enabled: false }) => {
+const useAllAplicants: any = (params: any, id: string, options = { enabled: false }) => {
   const result = useQuery(
-    [url],
-    async () => await client.post(url, params),
+    [url, id, params],
+    async () => await client.post(url.replace(':id', id), params),
     {
       select: (data) => data?.data,
       ...options
