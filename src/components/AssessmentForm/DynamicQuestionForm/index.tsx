@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Radio, Space, Typography } from 'antd';
 import { AsnButton } from '../../Forms/Button';
@@ -7,6 +7,7 @@ import { AsnInput } from '../../Forms/Input';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
 import { ButtonsContainer, ScoreInputNumber } from '../DynamicAssessmentForm';
 import { AsnCheckbox } from '../../Forms/Checkbox';
+import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 
 const { Title } = Typography;
 
@@ -24,6 +25,28 @@ const AnswersInput = styled(AsnInput)`
   }
 `;
 
+const AddQuestionRow = styled(Space)`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+
+  .ant-checkbox-inner {
+    border: 1px solid var(--dark-border-ultramarine);
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .ant-radio-checked .ant-radio-inner {
+    border-color: var(--dark-border-ultramarine);
+  }
+
+  .ant-radio-inner {
+    ::after {
+      background-color: var(--dark-border-ultramarine);
+    }
+  }
+`;
+
 const AddAnswerButton = styled(AsnButton)`
   border-radius: 0px !important;
   border: 1px solid var(--light-border) !important;
@@ -35,8 +58,9 @@ const AddAnswerButton = styled(AsnButton)`
 `;
 
 const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType }) => {
+  const [radio, setRadio] = useState();
+  const [checkbox, setCheckbox] = useState<CheckboxValueType[]>([]);
   const form = AsnForm.useFormInstance();
-
   return (
     <AsnForm.List name={contentName} initialValue={['', '']}>
       {(answerList, { add, remove }) => (
@@ -44,71 +68,65 @@ const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType }) => {
           {form.getFieldsValue().questions?.[contentName[0]].type ===
           'OPTION'
             ? (
-            <Radio.Group>
+            <Radio.Group
+              onChange={(val) => {
+                setRadio(val.target.value);
+              }}
+            >
               {answerList.map(({ key, name, ...restField }) => (
-                <Space
-                  key={key}
-                  style={{
-                    display: 'flex',
-                    marginBottom: 8,
-                    justifyContent: 'space-between'
-                  }}
-                  align="baseline"
-                >
-                  <AsnForm.Item {...restField} name={[name]}>
-                    <Radio value={name}>
-                      <AsnForm.Item
-                        {...restField}
-                        name={[name, 'title']}
-                        rules={[
-                          { required: true, message: 'Missing first name' }
-                        ]}
-                      >
-                        <AnswersInput placeholder={`Option ${key + 1}`} />
-                      </AsnForm.Item>
-                    </Radio>
-                  </AsnForm.Item>
-                  <Space>
-                {/* {form.getFieldsValue().questions?.[contentName[0]]?.answers[
-                  name
-                ]?.radio !== undefined && ( */}
-                  <ScoreContainer>
-                    <Title
-                      level={5}
-                      style={{
-                        fontWeight: '400',
-                        margin: '0 0.5rem 0 ',
-                        fontSize: 'var(--base-font-size)'
-                      }}
-                    >
-                      Score
-                    </Title>
+                <AddQuestionRow key={key} align="baseline">
+                  <Radio value={name}>
                     <AsnForm.Item
                       {...restField}
-                      name={[name, 'score']}
+                      name={[name, 'title']}
                       rules={[
                         { required: true, message: 'Missing first name' }
                       ]}
                     >
-                      <ScoreInputNumber className="primary" min={0} />
+                      <AnswersInput placeholder={`Option ${key + 1}`} />
                     </AsnForm.Item>
-                  </ScoreContainer>
-                {/* )} */}
-                {answerList.length <= 2
-                  ? null
-                  : (
-                  <DeleteIcon onClick={() => remove(name)} />
+                  </Radio>
+                  <Space>
+                    {radio === name && (
+                      <ScoreContainer>
+                        <Title
+                          level={5}
+                          style={{
+                            fontWeight: '400',
+                            margin: '0 0.5rem 0 ',
+                            fontSize: 'var(--base-font-size)'
+                          }}
+                        >
+                          Score
+                        </Title>
+                        <AsnForm.Item
+                          {...restField}
+                          name={[name, 'score']}
+                          initialValue={0}
+                          rules={[
+                            { required: true, message: 'Missing first name' }
+                          ]}
+                        >
+                          <ScoreInputNumber className="primary" min={0} />
+                        </AsnForm.Item>
+                      </ScoreContainer>
                     )}
-              </Space>
-                </Space>
+                    {answerList.length <= 2
+                      ? null
+                      : (
+                      <DeleteIcon onClick={() => remove(name)} />
+                        )}
+                  </Space>
+                </AddQuestionRow>
               ))}
-
             </Radio.Group>
               )
             : form.getFieldsValue().questions?.[contentName[0]].type ===
             'CHECKBOX'
               ? (
-            <AsnCheckbox.Group>
+            <AsnCheckbox.Group
+              onChange={(val: CheckboxValueType[]) => setCheckbox(val)}
+            >
               {answerList.map(({ key, name, ...restField }) => (
                 <Space
                   key={key}
@@ -119,54 +137,50 @@ const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType }) => {
                   }}
                   align="baseline"
                 >
-                  <AsnForm.Item name={[name]}>
-                    <AsnCheckbox value={name}>
-                      <AsnForm.Item
-                        {...restField}
-                        name={[name, 'title']}
-                        rules={[
-                          { required: true, message: 'Missing first name' }
-                        ]}
-                      >
-                        <AnswersInput placeholder={`Option ${key + 1}`} />
-                      </AsnForm.Item>
-                    </AsnCheckbox>
-                  </AsnForm.Item>
-                  <Space>
-                {/* {form.getFieldsValue().questions?.[contentName[0]]?.answers[
-                  name
-                ]?.checkbox !== undefined && ( */}
-                  <ScoreContainer>
-                    <Title
-                      level={5}
-                      style={{
-                        fontWeight: '400',
-                        margin: '0 0.5rem 0 ',
-                        fontSize: 'var(--base-font-size)'
-                      }}
-                    >
-                      Score
-                    </Title>
+                  <AsnCheckbox value={name}>
                     <AsnForm.Item
                       {...restField}
-                      name={[name, 'score']}
+                      name={[name, 'title']}
                       rules={[
                         { required: true, message: 'Missing first name' }
                       ]}
                     >
-                      <ScoreInputNumber className="primary" min={0} />
+                      <AnswersInput placeholder={`Option ${key + 1}`} />
                     </AsnForm.Item>
-                  </ScoreContainer>
-                {/* )} */}
-                {answerList.length <= 2
-                  ? null
-                  : (
-                  <DeleteIcon onClick={() => remove(name)} />
+                  </AsnCheckbox>
+                  <Space>
+                    {checkbox.includes(name) && (
+                      <ScoreContainer key={key}>
+                        <Title
+                          level={5}
+                          style={{
+                            fontWeight: '400',
+                            margin: '0 0.5rem 0 ',
+                            fontSize: 'var(--base-font-size)'
+                          }}
+                        >
+                          Score
+                        </Title>
+                        <AsnForm.Item
+                          {...restField}
+                          name={[name, 'score']}
+                          initialValue={0}
+                          rules={[
+                            { required: true, message: 'Missing first name' }
+                          ]}
+                        >
+                          <ScoreInputNumber className="primary" min={0} />
+                        </AsnForm.Item>
+                      </ScoreContainer>
                     )}
-              </Space>
+                    {answerList.length <= 2
+                      ? null
+                      : (
+                      <DeleteIcon onClick={() => remove(name)} />
+                        )}
+                  </Space>
                 </Space>
               ))}
-
             </AsnCheckbox.Group>
                 )
               : null}
@@ -180,12 +194,16 @@ const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType }) => {
               <AddAnswerButton className="default" onClick={() => add()}>
                 +Add Option
               </AddAnswerButton>
-              <AddAnswerButton
-                className="default"
-                onClick={() => add('Other...')}
-              >
-                +Add Other
-              </AddAnswerButton>
+              {answerType === 'OPTION'
+                ? (
+                <AddAnswerButton
+                  className="default"
+                  onClick={() => add('Other...')}
+                >
+                  +Add Other
+                </AddAnswerButton>
+                  )
+                : null}
             </ButtonsContainer>
           </AsnForm.Item>
         </>
@@ -195,87 +213,3 @@ const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType }) => {
 };
 
 export default DynamicQuestionForm;
-
-//  {/* {answerList.map(({ key, name, ...restField }) => (
-//             <Space
-//               key={key}
-//               style={{
-//                 display: 'flex',
-//                 marginBottom: 8,
-//                 justifyContent: 'space-between'
-//               }}
-//               align="baseline"
-//             >
-//               {form.getFieldsValue().questions?.[contentName[0]].type ===
-//               'OPTION'
-//                 ? (
-//                 <AsnForm.Item name={[name, 'radio']}>
-//                   <Radio.Group>
-//                     <Radio value={name}>
-//                       <AsnForm.Item
-//                         {...restField}
-//                         name={[name, 'title']}
-//                         rules={[
-//                           { required: true, message: 'Missing first name' }
-//                         ]}
-//                       >
-//                         <AnswersInput placeholder={`Option ${key + 1}`} />
-//                       </AsnForm.Item>
-//                     </Radio>
-//                   </Radio.Group>
-//                 </AsnForm.Item>
-//                   )
-//                 : form.getFieldsValue().questions?.[contentName[0]].type ===
-//                 'CHECKBOX'
-//                   ? (
-//                 <AsnForm.Item name={[name, 'checkbox']}>
-//                   <AsnCheckbox.Group>
-//                     <AsnCheckbox value={name}>
-//                       <AsnForm.Item
-//                         {...restField}
-//                         name={[name, 'title']}
-//                         rules={[
-//                           { required: true, message: 'Missing first name' }
-//                         ]}
-//                       >
-//                         <AnswersInput placeholder={`Option ${key + 1}`} />
-//                       </AsnForm.Item>
-//                     </AsnCheckbox>
-//                   </AsnCheckbox.Group>
-//                 </AsnForm.Item>
-//                     )
-//                   : null}
-//               <Space>
-//                 {form.getFieldsValue().questions?.[contentName[0]]?.answers[
-//                   name
-//                 ]?.radio !== undefined && (
-//                   <ScoreContainer>
-//                     <Title
-//                       level={5}
-//                       style={{
-//                         fontWeight: '400',
-//                         margin: '0 0.5rem 0 ',
-//                         fontSize: 'var(--base-font-size)'
-//                       }}
-//                     >
-//                       Score
-//                     </Title>
-//                     <AsnForm.Item
-//                       {...restField}
-//                       name={[name, 'score']}
-//                       rules={[
-//                         { required: true, message: 'Missing first name' }
-//                       ]}
-//                     >
-//                       <ScoreInputNumber className="primary" min={0} />
-//                     </AsnForm.Item>
-//                   </ScoreContainer>
-//                 )}
-//                 {answerList.length <= 2
-//                   ? null
-//                   : (
-//                   <DeleteIcon onClick={() => remove(name)} />
-//                     )}
-//               </Space>
-//             </Space>
-//           ))} */}

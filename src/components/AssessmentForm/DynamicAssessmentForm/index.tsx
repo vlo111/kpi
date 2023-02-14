@@ -74,7 +74,7 @@ const AssessmentFormsContent = styled.div`
   }
 `;
 
-export const FAddAssessmentButton = styled.div`
+export const AddAssessmentButton = styled.div`
   display: flex;
   background-color: var(--white);
   padding: 10px;
@@ -83,11 +83,13 @@ export const FAddAssessmentButton = styled.div`
   margin-left: 0.5rem;
   margin-top: 2rem;
   cursor: pointer;
+  position: absolute;
+  left: 100%;
 `;
 
 export const FormItemContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 `;
 
 const AssessmentForms: React.FC = () => {
@@ -138,14 +140,16 @@ const AssessmentForms: React.FC = () => {
         <AsnForm.List name="questions">
           {(questionsLists, { add, remove }) => (
             <FormItemContainer>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  width: '100%'
-                }}
-              >
-                {questionsLists.map(({ key, name, ...restField }) => (
+              {questionsLists.map(({ key, name, ...restField }) => (
+                <div
+                  key={key}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    width: '100%',
+                    position: 'relative'
+                  }}
+                >
                   <AssessmentFormItems
                     {...restField}
                     key={key}
@@ -155,17 +159,21 @@ const AssessmentForms: React.FC = () => {
                     answerType={answerType}
                     setAnswerType={setAnswerType}
                   />
-                ))}
-              </div>
-              <FAddAssessmentButton onClick={() => add()}>
-                <Tooltip
-                  placement="topLeft"
-                  title={<span>Add a question</span>}
-                  overlayClassName="tooltipHelper"
-                >
-                  <AddAssessmentIcon />
-                </Tooltip>
-              </FAddAssessmentButton>
+                  {name === questionsLists.length - 1
+                    ? (
+                    <AddAssessmentButton onClick={() => add()}>
+                      <Tooltip
+                        placement="topLeft"
+                        title={<span>Add a question</span>}
+                        overlayClassName="tooltipHelper"
+                      >
+                        <AddAssessmentIcon />
+                      </Tooltip>
+                    </AddAssessmentButton>
+                      )
+                    : null}
+                </div>
+              ))}
             </FormItemContainer>
           )}
         </AsnForm.List>

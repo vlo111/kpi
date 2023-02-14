@@ -21,7 +21,6 @@ const AddQuestionTextArea = styled(AsnTextArea)`
 
 const QuestionContent: React.FC<any> = ({ items, name, answerType }) => {
   const form = AsnForm.useFormInstance();
-  // console.log(form.getFieldsValue().questions?.[name[0]].type, 'form.getFieldsValue()', name[0]);
 
   return (
     <QuestionContentContainer>

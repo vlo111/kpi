@@ -63,35 +63,26 @@ const QuestionHeader: React.FC<any> = ({
 
   const answerTypeChange: FormFinish = (value) => {
     if (value === 'SHORT_TEXT') {
-      form.setFieldValue(form.getFieldsValue().questions[name[0]], {
-        questions: [
-          {
-            required: true,
-            type: value,
-            answers: []
-          }
-        ]
+      form.setFieldValue(['questions', name[0]], {
+        answers: [],
+        type: value,
+        required: true
       });
     } else {
-      form.setFieldValue(form.getFieldsValue().questions[name[0]], {
-        questions: [
+      form.setFieldValue(['questions', name[0]], {
+        type: value,
+        required: true,
+        answers: [
           {
-            type: value,
-            required: true,
-            answers: [
-              {
-                title: '',
-                score: 0
-              },
-              {
-                title: '',
-                score: 0
-              }
-            ]
+            title: ''
+          },
+          {
+            title: ''
           }
         ]
       });
     }
+    // form.resetFields();
     setAnswerType(value);
   };
 
