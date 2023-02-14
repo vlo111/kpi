@@ -15,7 +15,7 @@ const useApplicantAttachFile: UseApplicantAttachFile = () => {
     }
   };
 
-  return useMutation(async (params: { id: string, files: string[] }) => {
+  return useMutation(async (params) => {
     if (params.id !== undefined) {
       return await client.post(
         `/api/applicant/course/history/${params.id}/attach/file`,
