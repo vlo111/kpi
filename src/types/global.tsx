@@ -104,3 +104,7 @@ export interface IAsnPicker {
   startDate?: [number, string]
   endDate?: [number, string]
 }
+
+export interface FormOptions {
+  enabled: boolean
+}

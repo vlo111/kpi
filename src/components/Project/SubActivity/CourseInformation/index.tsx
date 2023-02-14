@@ -144,16 +144,9 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
                   <AntCol span={12}>
                     {course?.data?.durationInfo?.duration}
                     (Technical skills{' '}
-                    {
-                      course?.data?.durationInfo
-                        ?.duration_technical_number
-                    }{' '}
-                    hr/ Soft skills{' '}
-                    {
-                      course?.data?.durationInfo
-                        ?.duration_soft_number
-                    }{' '}
-                    hr)
+                    {course?.data?.durationInfo?.duration_technical_number} hr/
+                    Soft skills{' '}
+                    {course?.data?.durationInfo?.duration_soft_number} hr)
                   </AntCol>
                 </Row>
                 {course?.data?.customInputs?.map((inputs: any) => (
@@ -167,9 +160,11 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
                     <AntCol span={12}>
                       {inputs?.SHORT_TEXT ??
                         inputs?.partner_organization ??
-                        ((Boolean((inputs?.ATTACHMENT))) && inputs?.ATTACHMENT[0]?.name) ??
-                        inputs?.NUMBER ??
-                        inputs?.DROPDOWN}
+                        inputs?.DROPDOWN ??
+                        (Boolean(inputs?.ATTACHMENT) &&
+                          inputs?.ATTACHMENT[0]?.name) ??
+                        inputs?.NUMBER
+                      }
                     </AntCol>
                   </Row>
                 ))}
@@ -210,7 +205,9 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
               <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>
                 Teaching Mode
               </AntCol>
-              <AntCol span={12}>ONLINE</AntCol>
+              <AntCol span={12}>
+                {courseData?.sectionsData[0]?.data?.teachingMode}
+              </AntCol>
             </Row>
             <Row>
               <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>
@@ -242,11 +239,14 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
                       {inputs.setting.title}
                     </AntCol>
                     <AntCol span={12}>
-                      {inputs?.SHORT_TEXT ??
+                      {
+                        inputs?.SHORT_TEXT ??
                         inputs?.partner_organization ??
                         inputs?.NUMBER ??
-                        ((Boolean((inputs?.ATTACHMENT))) && inputs?.ATTACHMENT[0]?.name) ??
-                        inputs?.DROPDOWN}
+                        inputs?.DROPDOWN ??
+                        (Boolean(inputs?.ATTACHMENT) &&
+                          inputs?.ATTACHMENT[0]?.name)
+                        }
                     </AntCol>
                   </Row>
                 ))}

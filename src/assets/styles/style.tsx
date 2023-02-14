@@ -252,6 +252,7 @@ const GlobalStyle = createGlobalStyle`
       background: var(--white);
       padding: 6px 0;
       margin-right: 1px;
+      max-height: 142px;
     }
     .ant-cascader-checkbox-checked .ant-cascader-checkbox-inner{
       background-color: var(--dark-border-ultramarine);

@@ -3,15 +3,15 @@ import { GetAllTeamsListOptions, GetAllTeamsListParams, UseGetAllTeamsListResult
 
 import client from '../client';
 
-const url = '/api/users/';
+const url = '/api/users/project';
 
 const useGetAllTeamsList: (
-  params?: GetAllTeamsListParams,
+  params: GetAllTeamsListParams,
   options?: GetAllTeamsListOptions
-) => UseGetAllTeamsListResult = (params = { limit: 11, offset: 10 }, options = { enabled: true }) => {
+) => UseGetAllTeamsListResult = (params, options = { enabled: true }) => {
   const result = useQuery(
     [url, params],
-    async () => await client.get(url, { params }),
+    async () => await client.get(`${url}/${params?.projectId}`, { params: { limit: params.limit, offset: params.offset, search: params.search } }),
     {
       select: (data) => data?.data,
       ...options
