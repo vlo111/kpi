@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Popconfirm, Card, Col, Row, message, Typography } from "antd";
+import { Button, Popover, Card, Col, Row, message, Typography } from "antd";
 import styled from "styled-components";
 
 import { PATHS } from "../../../../helpers/constants";
@@ -69,6 +69,7 @@ const Container = styled.div`
     top: 7px !important;
   }
   .ant-popover-inner-content {
+    display: none;
     .ant-popover-buttons {
       position: absolute;
       top: 10px;
@@ -77,6 +78,9 @@ const Container = styled.div`
         border: none;
       }
     }
+  }
+  .ant-popover-title{
+   padding: 15px 26px 4px !important;
   }
   .ant-popover-message {
     padding: 20px 0 12px;
@@ -144,7 +148,6 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
   });
   const navigate = useNavigate();
   const title = (id: string, template: any): any => {
-    console.log(template?.used);
     
     return (
       <Row>
@@ -179,13 +182,33 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
             Delete
           </Popup>
   }
-          <Popup type="link" onClick={() => duplicateTemplate({ id })}>
+          <Popup type="link" onClick={() => {
+            duplicateTemplate({ id })
+            hide()
+          }}>
             <Dublicat />
             Duplicate
           </Popup>
         </Col>
       </Row>
     );
+  };
+  const [openPopOver, setOpenPopOver] = useState<{ id: string, show: boolean }>({
+    id: '',
+    show: false
+  });
+  const hide = (): void => {
+    setOpenPopOver({
+      show: false,
+      id: ''
+    });
+  };
+
+  const handleOpenChange = (newOpen: boolean, fileId: string): void => {
+    setOpenPopOver({
+      show: newOpen,
+      id: fileId
+    });
   };
   return (
     <>
@@ -199,19 +222,18 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
           </Col>
           {templates?.map((template) => (
             <Col key={template?.id}>
-              <Popconfirm
-                overlayClassName="popconFirm"
+              <Popover
                 title={() => title(template?.id, template)}
-                okText
-                cancelText="X"
                 placement="bottom"
-                icon={false}
+                trigger="click"
                 getPopupContainer={(trigger: HTMLElement) => trigger}
+                open={!!openPopOver.show && (openPopOver.id === template?.id)}
+                onOpenChange={(newOpen) => handleOpenChange(newOpen, template?.id)}
               >
                 <Button type="link" className="cardClick">
                   ...
                 </Button>
-              </Popconfirm>
+              </Popover>
               <Card
                 className="card"
                 extra={
