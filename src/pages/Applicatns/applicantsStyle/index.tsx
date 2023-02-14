@@ -109,4 +109,9 @@ export const Container = styled.div`
     color: var(--dark-border-ultramarine);
     cursor: pointer;
   }
+  .tableName{
+    strong{
+      font-weight: 400;
+    }
+  }
 `;
