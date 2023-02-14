@@ -1,34 +1,31 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import client from '../client';
+import { UseRejectApplicant } from '../../types/api/applicant';
 
-const useRejectApplicant: any = () => {
+const useRejectApplicant: UseRejectApplicant = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(
-    async (params: {
-      sectionId: string
-      applicantIds: string
-      note: string
-      reasonsForRejection: string
-    }) => {
-      if (params.sectionId !== undefined) {
-        const payload = {
-          applicantIds: [params.applicantIds],
-          note: params.note,
-          reasonsForRejection: params.reasonsForRejection
-        };
-
-        return await client.post(`api/applicant/course/${params.sectionId}/status/reject`, payload);
-      }
-    },
-    {
-      onSuccess: () => {
-        void queryClient.invalidateQueries(['api/applicant/:id/project/:projectId']);
-      },
-      onError: (err) => {
-        console.log(err);
-      }
+  const options = {
+    onSuccess: () => {
+      void queryClient.invalidateQueries([
+        'api/applicant/:id/project/:projectId'
+      ]);
     }
-  );
+  };
+
+  return useMutation(async (params) => {
+    if (params.sectionId !== undefined) {
+      const payload = {
+        applicantIds: [params.applicantIds],
+        note: params.note,
+        reasonsForRejection: params.reasonsForRejection
+      };
+
+      return await client.post(
+        `api/applicant/course/${params.sectionId}/status/reject`,
+        payload
+      );
+    }
+  }, options);
 };
 export default useRejectApplicant;

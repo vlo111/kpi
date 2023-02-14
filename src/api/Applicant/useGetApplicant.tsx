@@ -5,8 +5,7 @@ import { useProject } from '../../hooks/useProject';
 
 const URL_GET_APPLICANT = 'api/applicant/:id/project/:projectId';
 
-// @ts-expect-error
-const useGetApplicant: UseGetApplicant = (id: string | undefined) => {
+const useGetApplicant: UseGetApplicant = (id) => {
   const { projectId } = useProject();
 
   try {

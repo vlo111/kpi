@@ -63,12 +63,9 @@ export interface IFile {
   type: string
 }
 
-interface GetApplicant {
-  isLoading: boolean
-  applicant: IApplicantData
-}
+interface IGetApplicant { isLoading: false | true, applicant: IApplicant }
 
-export type UseGetApplicant = (id: string | undefined) => GetApplicant;
+export type UseGetApplicant = (id: string) => IGetApplicant | undefined
 
 export interface IApproveModalProps {
   applicant: IApplicant

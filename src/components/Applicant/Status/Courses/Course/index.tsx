@@ -186,7 +186,6 @@ const Course: React.FC<ICourseProps> = ({
             id: history.id,
             files: result
           });
-          console.log(result, 'success');
         },
         onError: ({
           response: {

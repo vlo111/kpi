@@ -1,15 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import client from '../client';
+import { UseApproveApplicant } from '../../types/api/applicant';
 
-const useApproveApplicant: any = () => {
+const useApproveApplicant: UseApproveApplicant = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    async (params: {
-      sectionId: string
-      applicantId: string
-      note: string
-    }) => {
+    async (params) => {
       if (params.sectionId !== undefined) {
         return await client.post(
           `api/applicant/course/${params.sectionId}/status/approve`,
@@ -22,12 +19,12 @@ const useApproveApplicant: any = () => {
     },
     {
       onSuccess: () => {
-        void queryClient.invalidateQueries(['api/applicant/:id/project/:projectId']);
-      },
-      onError: (err) => {
-        console.log(err);
+        void queryClient.invalidateQueries([
+          'api/applicant/:id/project/:projectId'
+        ]);
       }
     }
   );
 };
+
 export default useApproveApplicant;
