@@ -12,7 +12,7 @@ export const PATHS = {
   RESTOREPASSWORD: 'restore-password',
   DASHBOARD: 'dashboard',
   PROJECT: 'project',
-  TEAMS: '/teams',
+  TEAMS: 'teams/',
   PROJECTCREATE: 'create',
   OVERVIEW: 'overview/:id',
   SUBACTIVITY: 'sub-activity/:id',
