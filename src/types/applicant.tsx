@@ -130,3 +130,18 @@ export interface INext {
 }
 
 export type OnUpload = (options: { file: any }) => void;
+
+export interface IApplicantDefaultStatus {
+  APPLICANT: string
+  SELECTION: string
+  PRE_ASSESSMENT: string
+  PARTICIPANT: string
+  POST_ASSESSMENT: string
+  TRAINED: string
+}
+
+export interface IApplicantAccessStatus {
+  Dropped: string
+  Trained: string
+  NotEnrolled: string
+}

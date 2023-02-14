@@ -1,3 +1,4 @@
+import { IApplicantAccessStatus, IApplicantDefaultStatus } from '../types/applicant';
 
 export const PATHS = {
   ROOT: '/',
@@ -112,7 +113,7 @@ export const answerTypeOptions: string[] = [
   'Dropdown options'
 ];
 
-export const ApplicantDefaultStatus: any = {
+export const ApplicantDefaultStatus: IApplicantDefaultStatus = {
   APPLICANT: 'Applicant',
   SELECTION: 'Selection',
   PRE_ASSESSMENT: 'Pre Assessment',
@@ -121,7 +122,7 @@ export const ApplicantDefaultStatus: any = {
   TRAINED: 'Trained'
 };
 
-export const ApplicantAccessStatus: any = {
+export const ApplicantAccessStatus: IApplicantAccessStatus = {
   Dropped: 'DROPPED',
   Trained: 'TRAINED',
   NotEnrolled: 'NOT_ENROLLED'

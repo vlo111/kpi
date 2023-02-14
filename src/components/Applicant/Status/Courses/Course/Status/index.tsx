@@ -33,6 +33,7 @@ const Status: React.FC<IStatus> = ({ status }) => {
       );
     }
     default: {
+      // @ts-expect-error
       return ApplicantDefaultStatus[status];
     }
   }
