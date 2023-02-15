@@ -5,11 +5,11 @@ import { AsnModal } from '../../../../../Forms/Modal';
 import ApplicantPublicForm from '../../../../../ApplicantPublicForm';
 
 import { Void } from '../../../../../../types/global';
-import { IHistory } from '../../../../../../types/applicant';
 
 import { AssessmentStatus } from '../../../../../../helpers/constants';
 import useResendApplicant from '../../../../../../api/Applicant/useResendApplicant';
 import { ReactComponent as ResendSvg } from '../../Icons/resend.svg';
+import { IFiles } from '../../../../../../types/applicant';
 
 const Modal = styled(AsnModal)`
   .ant-modal-content {
@@ -21,7 +21,7 @@ const Modal = styled(AsnModal)`
   }
 `;
 
-const Files: React.FC<{ applicantId: string, history: IHistory }> = ({ applicantId, history }) => {
+const Files: React.FC<IFiles> = ({ applicantId, history }) => {
   const { mutate: resendApplicant } = useResendApplicant();
 
   const [openPreviewApplicant, setOpenPreviewApplicant] = useState(false);
