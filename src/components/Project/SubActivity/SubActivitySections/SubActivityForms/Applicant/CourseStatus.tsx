@@ -17,7 +17,8 @@ const CourseStatusForm: React.FC<any> = ({
   statusTitle,
   applicationForm,
   courseStatus,
-  refetch
+  refetch,
+  navigateRouteInfo
 }) => {
   const [fileList, setFileList] = useState<any>([]);
   const [defaultFileList, setDefaultFileList] = useState<any>([]);
@@ -80,6 +81,7 @@ const CourseStatusForm: React.FC<any> = ({
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 64]}>
       <FormWrapper className="applicant_form" color={color}>
         <CourseHeaderStatus
+          navigateRouteInfo={navigateRouteInfo}
           title={statusTitle}
           courseStatus={courseStatus}
           courseId={courseId}

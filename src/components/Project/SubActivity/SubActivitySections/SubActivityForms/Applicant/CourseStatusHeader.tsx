@@ -11,7 +11,7 @@ import { EnumAssessmentFormTypes } from '../../../../../../types/api/assessment'
 import { useProject } from '../../../../../../hooks/useProject';
 import CreateAssessmentInfoModal from '../../../../../AssessmentForm/AssessmentCreateInfoModal';
 
-const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicationForm, courseId, refetchSingleStatus, courseStatus }) => {
+const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ navigateRouteInfo, title, form, applicationForm, courseId, refetchSingleStatus, courseStatus }) => {
   const { Title } = Typography;
   const { projectId } = useProject();
   const [openModal, setOpenModal] = useState(false);
@@ -164,7 +164,7 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
   };
   return <>
      {renderCurrentSelectionTitle()}
-     {openModal && <CreateAssessmentInfoModal courseId={courseId} type={enumTypes} projectId={projectId} open={openModal} setOpen={setOpenModal}/>}
+     {openModal && <CreateAssessmentInfoModal navigateRouteInfo={navigateRouteInfo} courseId={courseId} type={enumTypes} projectId={projectId} open={openModal} setOpen={setOpenModal}/>}
   </>;
 };
 
