@@ -1,3 +1,4 @@
+import { IApplicantAccessStatus, IApplicantDefaultStatus } from '../types/applicant';
 
 export const PATHS = {
   ROOT: '/',
@@ -112,14 +113,21 @@ export const answerTypeOptions: string[] = [
   'Dropdown options'
 ];
 
-export const ApplicantStatus = {
-  Applicant: 'Applicant',
-  Selection: 'Selection',
-  PreAssessment: 'Pre-assessment',
-  Participant: 'Participant',
-  PostAssessment: 'Post-assessment',
-  Trained: 'Trained'
+export const ApplicantDefaultStatus: IApplicantDefaultStatus = {
+  APPLICANT: 'Applicant',
+  SELECTION: 'Selection',
+  PRE_ASSESSMENT: 'Pre Assessment',
+  PARTICIPANT: 'Participant',
+  POST_ASSESSMENT: 'Post Assessment',
+  TRAINED: 'Trained'
 };
+
+export const ApplicantAccessStatus: IApplicantAccessStatus = {
+  Dropped: 'DROPPED',
+  Trained: 'TRAINED',
+  NotEnrolled: 'NOT_ENROLLED'
+};
+
 export const answerType: string[] = [
   'Select one',
   'Short text',
@@ -178,3 +186,22 @@ export const defaultLimit = {
   limit: 24,
   currentPage: 1
 };
+
+export const optionsReason = [
+  { label: 'Personal issues', value: 'personal' },
+  { label: 'Change of plans', value: 'plan' },
+  { label: 'Not-eligible', value: 'eligible' },
+  { label: 'Pro-assessment insufficient scores', value: 'assessment' },
+  { label: 'Wrong choice of the course', value: 'choice' },
+  { label: 'Interview insufficient score', value: 'interview' }
+];
+
+export enum FileType {
+  APPLICANT_DOCUMENT = 'APPLICANT_DOCUMENT'
+}
+
+export enum AssessmentStatus {
+  NotAssessed = ' Not assessed',
+  NotSubmitted = ' Not submitted',
+  Scored = ' Scored '
+}

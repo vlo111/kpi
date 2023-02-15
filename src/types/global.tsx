@@ -12,7 +12,7 @@ export interface IAnsAlert {
   email?: string
 }
 
-export type TVoid = (params?: any) => void
+export type TVoid = (params?: any) => void;
 
 export interface ConfirmModalType {
   open: boolean | OpenDeleteResultModal
@@ -25,7 +25,7 @@ export interface ConfirmModalType {
   styles?: { gap: string }
 }
 
-export type FormFinish = (errorInfo: any) => void
+export type FormFinish = (errorInfo: any) => void;
 
 export interface IAvatarTypes {
   letter: string | React.ReactElement
@@ -33,7 +33,7 @@ export interface IAvatarTypes {
   src?: string | undefined | null
 }
 
-export type Void = () => void
+export type Void = () => void;
 
 export interface IQueryData {
   isLoading: false | true
@@ -54,7 +54,7 @@ unknown
 >;
 
 export type UseMutation<Success, Error, ResponseErrorData, RequestData> = (
-  options: {} | { onSuccess: Success, onError: Error }
+  options?: {} | { onSuccess: Success, onError: Error }
 ) => {
   mutate: Mutate<RequestData, ResponseErrorData>
   isLoading: boolean
@@ -80,9 +80,9 @@ export interface IInfoHeader {
   inputActivityId?: string
 }
 
-export type Onchange = (newOpen: boolean) => void
-export type StringVoidType = (id: string) => void
-export type NumberVoidType = (item: number) => void
+export type Onchange = (newOpen: boolean) => void;
+export type StringVoidType = (id: string) => void;
+export type NumberVoidType = (item: number) => void;
 
 export interface IAsnCheckbox {
   width?: string
@@ -98,8 +98,12 @@ export interface DataType {
   name: string
 }
 
-export interface IActivityResult<T> { data: { result: T } }
-export interface ISectionResult<T> { data: { result: T } }
+export interface IActivityResult<T> {
+  data: { result: T }
+}
+export interface ISectionResult<T> {
+  data: { result: T }
+}
 export interface IAsnPicker {
   startDate?: [number, string]
   endDate?: [number, string]
