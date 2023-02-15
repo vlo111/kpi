@@ -5,13 +5,18 @@ import { AsnButton } from '../../Forms/Button';
 import { AsnForm } from '../../Forms/Form';
 import { AsnInput } from '../../Forms/Input';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
-import { ButtonsContainer, ScoreInputNumber } from '../DynamicAssessmentForm';
+import {
+  ButtonsContainer,
+  // MaxScores,
+  ScoreInputNumber
+  // Scores
+} from '../DynamicAssessmentForm';
 import { AsnCheckbox } from '../../Forms/Checkbox';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 
 const { Title } = Typography;
 
-const ScoreContainer = styled.div`
+export const ScoreContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -51,7 +56,7 @@ const AddAnswerButton = styled(AsnButton)`
   border-radius: 0px !important;
   border: 1px solid var(--light-border) !important;
   padding: 0rem 3rem;
-  width: 37%;
+  width: 20vw;
   span {
     color: var(--dark-2);
   }
@@ -60,9 +65,39 @@ const AddAnswerButton = styled(AsnButton)`
 const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType }) => {
   const [radio, setRadio] = useState();
   const [checkbox, setCheckbox] = useState<CheckboxValueType[]>([]);
+  const [addOder, setAddOder] = useState(true);
   const form = AsnForm.useFormInstance();
+
+  const onDeleteAnswer: any = (remove: any, name: number) => {
+    const field = form.getFieldValue(['questions', contentName[0], 'answers']);
+    const index = field.findIndex((f: any) => f.type === 'SHORT_TEXT');
+    if (index === name) {
+      setAddOder(true);
+    } else {
+      if (index < 0) {
+        setAddOder(true);
+      } else {
+        setAddOder(false);
+      }
+    }
+    remove(name);
+  };
+
+  const onAddOderAnswer = (add: any): void => {
+    const field = form.getFieldValue(['questions', contentName[0], 'answers']);
+    const index = field.findIndex((f: any) => f.type === 'SHORT_TEXT');
+    if (index < 0) {
+      setAddOder(false);
+    }
+    add({
+      title: 'Other...',
+      score: 0,
+      type: 'SHORT_TEXT'
+    });
+  };
+
   return (
-    <AsnForm.List name={contentName} initialValue={['', '']}>
+    <AsnForm.List name={contentName}>
       {(answerList, { add, remove }) => (
         <>
           {form.getFieldsValue().questions?.[contentName[0]].type ===
@@ -114,7 +149,9 @@ const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType }) => {
                     {answerList.length <= 2
                       ? null
                       : (
-                      <DeleteIcon onClick={() => remove(name)} />
+                      <DeleteIcon
+                        onClick={() => onDeleteAnswer(remove, name)}
+                      />
                         )}
                   </Space>
                 </AddQuestionRow>
@@ -184,28 +221,56 @@ const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType }) => {
             </AsnCheckbox.Group>
                 )
               : null}
-          <AsnForm.Item>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              width: '100%',
+              justifyContent: 'space-between',
+              marginTop: '1rem'
+            }}
+          >
             <ButtonsContainer
               style={{
                 justifyContent: 'flex-start',
                 gap: '2rem'
               }}
             >
-              <AddAnswerButton className="default" onClick={() => add()}>
+              <AddAnswerButton
+                className="default"
+                onClick={() =>
+                  add({
+                    title: '',
+                    score: 0,
+                    type: answerType
+                  })
+                }
+              >
                 +Add Option
               </AddAnswerButton>
-              {answerType === 'OPTION'
+              {form.getFieldsValue().questions?.[contentName[0]].type ===
+                'OPTION' && addOder
                 ? (
                 <AddAnswerButton
                   className="default"
-                  onClick={() => add('Other...')}
+                  onClick={() => onAddOderAnswer(add)}
                 >
                   +Add Other
                 </AddAnswerButton>
                   )
                 : null}
             </ButtonsContainer>
-          </AsnForm.Item>
+            {/* {form.getFieldsValue().questions?.[contentName[0]].type === 'CHECKBOX' && checkbox.length >= 1
+              ? (
+              <Scores>
+                <Title level={5} style={{ fontWeight: '400' }}>
+                  Total
+                </Title>
+                <MaxScores></MaxScores>
+              </Scores>
+                )
+              : null} */}
+          </div>
         </>
       )}
     </AsnForm.List>

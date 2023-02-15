@@ -54,11 +54,13 @@ const QuestionHeader: React.FC<any> = ({
   name,
   add,
   setAnswerType,
-  answerType
+  answerType,
+  questionsLists
 }) => {
   const form = AsnForm.useFormInstance();
   const onDuplicateForm = (): any => {
     add(form.getFieldsValue().questions[name[0]]);
+    // console.log(form.getFieldsValue().questions[name[0]].answers.findIndex((item: any) => item.score > 0));
   };
 
   const answerTypeChange: FormFinish = (value) => {
@@ -66,7 +68,8 @@ const QuestionHeader: React.FC<any> = ({
       form.setFieldValue(['questions', name[0]], {
         answers: [],
         type: value,
-        required: true
+        required: true,
+        title: ''
       });
     } else {
       form.setFieldValue(['questions', name[0]], {
@@ -74,15 +77,18 @@ const QuestionHeader: React.FC<any> = ({
         required: true,
         answers: [
           {
-            title: ''
+            title: '',
+            score: 0,
+            type: value
           },
           {
-            title: ''
+            title: '',
+            score: 0,
+            type: value
           }
         ]
       });
     }
-    // form.resetFields();
     setAnswerType(value);
   };
 
@@ -129,13 +135,16 @@ const QuestionHeader: React.FC<any> = ({
             <DuplicateIcon />
           </Tooltip>
         </Col>
-
-        <Col className="icons" onClick={() => remove(name)}>
-          <DeleteIcon />
-        </Col>
+        {questionsLists.length > 1
+          ? (
+          <Col className="icons" onClick={() => remove(name)}>
+            <DeleteIcon />
+          </Col>
+            )
+          : null}
       </Row>
     </HeaderWrapper>
   );
 };
 
-export default React.memo(QuestionHeader);
+export default QuestionHeader;

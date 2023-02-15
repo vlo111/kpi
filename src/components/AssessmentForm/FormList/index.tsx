@@ -4,7 +4,7 @@ import QuestionContent from '../QuestionContent';
 import { CardContainer } from '../DynamicAssessmentForm';
 
 const AssessmentFormItems: React.FC<any> = ({
-  items,
+  questionsLists,
   remove,
   name,
   add,
@@ -22,8 +22,12 @@ const AssessmentFormItems: React.FC<any> = ({
         add={add}
         setAnswerType={setAnswerType}
         answerType={answerType}
+        questionsLists={questionsLists}
       />
-      <QuestionContent items={items} name={name} answerType={answerType} />
+      <QuestionContent
+        name={name}
+        answerType={answerType}
+      />
     </CardContainer>
   );
 };

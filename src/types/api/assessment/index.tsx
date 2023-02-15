@@ -144,3 +144,7 @@ export interface IAssessmentSelectItem {
   name: string
   value: string
 }
+
+export interface IButtonContainer {
+  marginTop?: string
+}

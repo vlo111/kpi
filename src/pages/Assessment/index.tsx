@@ -1,15 +1,23 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import AssessmentForms from '../../components/AssessmentForm/DynamicAssessmentForm';
 import AsnBreadcrumb from '../../components/Forms/Breadcrumb';
+import { INavigateRoteInfoTypes } from '../../types/api/assessment';
 
 const AssessmentFormWrapper = styled.div`
-  padding: 3vh ;
+  padding: 3vh;
 `;
 
 const CreateAssessmentForm: React.FC = () => {
-  const { id: courseId } = useParams();
+  const location = useLocation();
+  const {
+    courseId,
+    courseTitle,
+    inputActivityTitle,
+    projectId,
+    resultAreaTitle
+  }: INavigateRoteInfoTypes = location.state.navigateRouteInfo;
 
   return (
     <>
@@ -18,16 +26,16 @@ const CreateAssessmentForm: React.FC = () => {
           <AsnBreadcrumb
             routes={[
               {
-                path: '/project/overview/id1',
-                breadcrumbName: 'Result Area 1'
+                path: `/project/overview/${projectId}`,
+                breadcrumbName: resultAreaTitle
               },
               {
-                path: '/project/overview/id2',
-                breadcrumbName: 'Activity name'
+                path: `/project/overview/${projectId}`,
+                breadcrumbName: inputActivityTitle
               },
               {
                 path: `/project/sub-activity/${courseId}`,
-                breadcrumbName: 'courseTitle'
+                breadcrumbName: courseTitle
               },
               {
                 path: '',

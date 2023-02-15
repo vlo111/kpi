@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Space, Tooltip, Typography } from 'antd';
+import { FormProps, Space, Tooltip, Typography } from 'antd';
 import { AsnForm } from '../../Forms/Form';
 import { AsnInput, AsnInputNumber } from '../../Forms/Input';
 import AssessmentFormItems from '../FormList';
@@ -8,6 +8,8 @@ import { ICardContainer } from '../../../types/api/application/applicationForm';
 import { ReactComponent as AddAssessmentIcon } from '../../../assets/icons/add-assessment.svg';
 import { AsnButton } from '../../Forms/Button';
 import { AsnSwitch } from '../../Forms/Switch';
+import { IButtonContainer } from '../../../types/api/assessment';
+import { useLocation } from 'react-router-dom';
 
 const { Title } = Typography;
 
@@ -40,11 +42,10 @@ export const ScoreInputNumber = styled(AsnInputNumber)`
   border-radius: 2px !important;
 `;
 
-export const ButtonsContainer = styled.div`
-  width: 100%;
+export const ButtonsContainer = styled.div<IButtonContainer>`
   display: flex;
   justify-content: flex-end;
-  margin-top: 4rem;
+  margin-top: ${(props) => props.marginTop};
   gap: 60px;
 `;
 
@@ -62,11 +63,16 @@ export const MaxScores = styled.div`
   background: #ffffff;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--base-font-size);
 `;
 
 const AssessmentFormsContent = styled.div`
   width: 72%;
   margin: 0 auto;
+  margin-bottom: 4rem;
   h4 {
     text-align: center;
     font-weight: var(--font-semibold);
@@ -92,29 +98,88 @@ export const FormItemContainer = styled.div`
   flex-direction: column;
 `;
 
+export const FormInput = styled(AsnInput)`
+  border: none;
+  width: 100%;
+  margin-bottom: 1rem;
+  box-shadow: var(--base-box-shadow);
+`;
+
 const AssessmentForms: React.FC = () => {
   const [answerType, setAnswerType] = useState('OPTION');
+  const [allScore, setAllScore] = useState(0);
   const [form] = AsnForm.useForm();
+  const location = useLocation();
+
+  console.log(location?.state?.type, 'aaa');
 
   useEffect(() => {
     form.setFieldsValue({
       onlineSignature: true,
+      title: '',
       passingScore: 0,
       questions: [
         {
           type: answerType,
           required: true,
           answers: [
-            { title: '', score: 0 },
-            { title: '', score: 0 }
+            {
+              title: '',
+              score: 0,
+              type: answerType
+            },
+            {
+              title: '',
+              score: 0,
+              type: answerType
+            }
           ]
         }
       ]
     });
   }, []);
 
-  const onCreatedAssessment = (value: any): any => {
+  const onAddQuestion = (add: any): void => {
+    add({
+      type: 'OPTION',
+      answers: [
+        {
+          title: '',
+          score: 0,
+          type: answerType
+        },
+        {
+          title: '',
+          score: 0,
+          type: answerType
+        }
+      ],
+      required: true,
+      title: ''
+    });
+  };
+
+  const onCreatedAssessmentFinish = (value: any): any => {
     console.log(value);
+  };
+
+  const sumAllScores: FormProps['onValuesChange'] = (
+    _changedValues,
+    allValues: any
+  ) => {
+    const allScores = allValues.questions.reduce(
+      (sum: any, current: any): any =>
+        Number(current?.score === undefined ? 0 : current.score) +
+        +sum +
+        +current?.answers.reduce(
+          (sum: number, current: { score: number }) =>
+            sum + Number(current.score),
+          0
+        ),
+      0
+    );
+
+    setAllScore(allScores);
   };
 
   return (
@@ -123,19 +188,29 @@ const AssessmentForms: React.FC = () => {
       <AsnForm
         form={form}
         id="create-assessment-AsnForm"
-        onFinish={onCreatedAssessment}
+        onFinish={onCreatedAssessmentFinish}
         initialValues={{ questions: [''] }}
+        onValuesChange={sumAllScores}
       >
         <CardContainer
           borderTop={'3px solid var(--secondary-light-amber)'}
           marginTop={'2rem'}
         >
-          <AsnForm.Item>
+          <CardTitle>
+            Form title
+          </CardTitle>
+          <AsnForm.Item name="title">
+            <FormInput placeholder="Title" />
+          </AsnForm.Item>
+        </CardContainer>
+        <CardContainer
+          borderTop={'3px solid var(--secondary-light-amber)'}
+          marginTop={'2rem'}
+        >
             <CardTitle>
               Email address (same as in the submitted application form)
             </CardTitle>
-            <AsnInput placeholder="Email address" />
-          </AsnForm.Item>
+            <FormInput placeholder="Email address" disabled={true}/>
         </CardContainer>
         <AsnForm.List name="questions">
           {(questionsLists, { add, remove }) => (
@@ -158,10 +233,13 @@ const AssessmentForms: React.FC = () => {
                     remove={remove}
                     answerType={answerType}
                     setAnswerType={setAnswerType}
+                    questionsLists={questionsLists}
                   />
                   {name === questionsLists.length - 1
                     ? (
-                    <AddAssessmentButton onClick={() => add()}>
+                    <AddAssessmentButton
+                      onClick={() => onAddQuestion(add)}
+                    >
                       <Tooltip
                         placement="topLeft"
                         title={<span>Add a question</span>}
@@ -191,7 +269,7 @@ const AssessmentForms: React.FC = () => {
               <Title level={5} style={{ fontWeight: '400' }}>
                 Maximum Score
               </Title>
-              <MaxScores></MaxScores>
+              <MaxScores>{allScore}</MaxScores>
             </Scores>
             <Scores>
               <Title level={5} style={{ fontWeight: '400' }}>
@@ -211,7 +289,7 @@ const AssessmentForms: React.FC = () => {
             </AsnForm.Item>
           </Scores>
         </CardContainer>
-        <ButtonsContainer>
+        <ButtonsContainer marginTop="4rem">
           <AsnButton className="default">Cancel</AsnButton>
           <AsnButton className="default">Preview</AsnButton>
           <AsnButton className="primary" htmlType="submit">
