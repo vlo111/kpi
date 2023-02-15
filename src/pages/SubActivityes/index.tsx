@@ -109,7 +109,7 @@ const SubActivity: React.FC<{}> = () => {
                 <SubActivityHeader inputActivityId={data?.id} activity={item} region={data?.region} />
                 <SubActivitySections
                   activity={item}
-                  navigateRouteInfo={{ courseTitle, inputActivityTitle: activityTitle, resultAreaTitle }}
+                  navigateRouteInfo={{ courseTitle, inputActivityTitle: activityTitle, resultAreaTitle, courseId: data?.id }}
                   refetch={refetch}
                   index={i}
                   manager={data?.manager}
@@ -129,7 +129,7 @@ const SubActivity: React.FC<{}> = () => {
           />
           <SubActivitySections
             refetch={refetch}
-            navigateRouteInfo={{ courseTitle, inputActivityTitle: activityTitle, resultAreaTitle }}
+            navigateRouteInfo={{ courseTitle, inputActivityTitle: activityTitle, resultAreaTitle, courseId: data?.id }}
             activity={data?.sectionsData[0]}
             index={0}
             manager={data?.manager}
