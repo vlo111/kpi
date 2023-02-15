@@ -15,3 +15,5 @@ export type UseApplicantAttachFile = UseMutation<Void, any, ResponseErrorParam, 
 export type UseFinishApplicant = UseMutation<Void, IUploadFileError, ResponseErrorParam, { id: string }>
 
 export type UseRejectApplicant = UseMutation<Void, IUploadFileError, ResponseErrorParam, IRejectApplicant>
+
+export type UseMoveApplicant = UseMutation<Void, IUploadFileError, ResponseErrorParam, { id: string, applicantId: string }>

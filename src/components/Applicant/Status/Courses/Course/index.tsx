@@ -24,6 +24,8 @@ import Note from '../Note';
 import Status from './Status';
 
 import { ReactComponent as UploadSvg } from '../Icons/Upload.svg';
+import { ReactComponent as ResendSvg } from '../Icons/resend.svg';
+
 import { AsnModal } from '../../../../Forms/Modal';
 import ApplicantPublicForm from '../../../../ApplicantPublicForm';
 
@@ -240,10 +242,14 @@ const Course: React.FC<ICourseProps> = ({
                 {history?.status === 'PRE_ASSESSMENT' && (
                   <span>
                     <span className="file">Pre Assessment:</span>
-                    <span>
+                    <span className="resend">
                       {history?.preAssessmentScore === null
                         ? AssessmentStatus.NotAssessed
-                        : AssessmentStatus.NotSubmitted}
+                        : <div>
+                          <p>{AssessmentStatus.NotSubmitted}</p>
+                          <div><ResendSvg /></div>
+                        </div>
+                      }
                     </span>
                   </span>
                 )}

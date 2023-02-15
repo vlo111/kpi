@@ -1,15 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import client from '../client';
 import { message } from 'antd';
-import { IUploadFileError } from '../../types/files';
+import { UseMoveApplicant } from '../../types/api/applicant';
 
 export const url = '/api/applicant/course/:sectionDataId/move';
 
-const useMoveApplicant: any = () => {
+const useMoveApplicant: UseMoveApplicant = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    async (params: any) => {
+    async (params
+    ) => {
       await client.post(url.replace(':sectionDataId', params.id), {
         applicantIds: [
           params.applicantId
@@ -26,7 +27,7 @@ const useMoveApplicant: any = () => {
         response: {
           data: { message: error }
         }
-      }: IUploadFileError) => message.error(error, 2)
+      }) => message.error(error, 2)
     }
   );
 };
