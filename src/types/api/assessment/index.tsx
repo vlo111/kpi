@@ -7,7 +7,7 @@ export interface AssessmentFormData {
 }
 
 export interface UseAssessmentFormResult {
-  data: AssessmentFormData | null
+  data: Result[]
   isSuccess: boolean
   refetch: any
   isLoading: boolean
@@ -26,7 +26,8 @@ export interface AssessmentFormResult {
 
 enum AssessmentFormType {
   PRE_ASSESSMENT,
-  POST_ASSESSMENT
+  POST_ASSESSMENT,
+  APPLICATION
 }
 
 export type EnumAssessmentFormTypes = keyof typeof AssessmentFormType;
@@ -102,7 +103,7 @@ export interface CreateAssessmentIfoModalTypes {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   type: EnumAssessmentFormTypes
   projectId: string
-
+  courseId: string
 }
 export type GetAssessmentFormByCourseId = (
   courseId: string,

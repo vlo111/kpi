@@ -24,7 +24,7 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
       navigate(`/${PATHS.APPLICATIONFORM.replace(':id', courseId)}`, { state: { SubActivityId } });
     },
     onError: () => {
-      console.log('aaa');
+      console.log('err');
     }
   });
 
@@ -37,9 +37,12 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
   };
 
   const createAssessmentForm = (type: EnumAssessmentFormTypes): void => {
-    // navigate(`/${PATHS.ASSESSMENTFORMCREATE.replace(':id', courseId)}`, { state: { SubActivityId } });
-    setEnumTypes(type);
-    setOpenModal(true);
+    if (type === 'APPLICATION') {
+      navigate(`/${PATHS.APPLICATIONFORM.replace(':id', courseId)}`, { state: { SubActivityId } });
+    } else {
+      setEnumTypes(type);
+      setOpenModal(true);
+    }
   };
 
   const renderCurrentSelectionTitle = (): any => {
@@ -71,7 +74,7 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
               </>
                 )
               : (
-              <ApplicationFormItem form={form} refetchSingleStatus={refetchSingleStatus} />
+              <ApplicationFormItem createAssessmentForm={createAssessmentForm} formType='APPLICATION' form={form} refetchSingleStatus={refetchSingleStatus} />
                 )}
           </>
         );
@@ -108,7 +111,7 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
               </>
                 )
               : (
-              <ApplicationFormItem form={form} refetchSingleStatus={refetchSingleStatus} />
+              <ApplicationFormItem createAssessmentForm={createAssessmentForm} formType='PRE_ASSESSMENT' form={form} refetchSingleStatus={refetchSingleStatus} />
                 )}
           </>
         );
@@ -145,7 +148,7 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
               </>
                 )
               : (
-              <ApplicationFormItem form={form} refetchSingleStatus={refetchSingleStatus} />
+              <ApplicationFormItem createAssessmentForm={createAssessmentForm} formType='POST_ASSESSMENT' form={form} refetchSingleStatus={refetchSingleStatus} />
                 )}
           </>
         );
@@ -161,7 +164,7 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
   };
   return <>
      {renderCurrentSelectionTitle()}
-     {openModal && <CreateAssessmentInfoModal type={enumTypes} projectId={projectId} open={openModal} setOpen={setOpenModal}/>}
+     {openModal && <CreateAssessmentInfoModal courseId={courseId} type={enumTypes} projectId={projectId} open={openModal} setOpen={setOpenModal}/>}
   </>;
 };
 
