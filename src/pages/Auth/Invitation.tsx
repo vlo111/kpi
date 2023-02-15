@@ -21,8 +21,7 @@ const Invitation: React.FC = () => {
     
     const { mutate: invitationPasswordToken }: any = useGetIntivitationToken(
       {
-        onSuccess: ({ data }: ISuccessMessage) => {
-          void message.success(data.result, 2);
+        onSuccess: () => {
         },
         onError: () => {
         <Navigate to={`/${PATHS.ERROR_500}`} />;
