@@ -142,7 +142,7 @@ export interface IFileUpload {
 }
 
 export interface IUploadFileError {
-  response: { data: { message: string } }
+  response: { data: { status: number, message: string } }
 }
 export interface IUploadFileResponse {
   data: { result: string[] }

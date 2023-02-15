@@ -1,5 +1,6 @@
-import { ResponseErrorParam } from './api/project/get-project';
-import { UseMutation, Void } from './global';
+import { ChangeEventHandler } from 'react';
+import { TabsProps } from 'antd';
+import { UploadRequestOption } from './api/activity/subActivity';
 
 export interface IApplicant {
   id: string
@@ -46,6 +47,7 @@ export interface IHistory {
   userId: string
   note: string
   reasonsForRejection: string
+  preAssessmentScore?: string
   status: string
   createdAt: string
   updatedAt: string
@@ -61,16 +63,85 @@ export interface IFile {
   type: string
 }
 
-interface GetApplicant {
-  isLoading: boolean
-  applicant: IApplicantData
+interface IGetApplicant { isLoading?: boolean, applicant: IApplicant, courses: ICourse[] }
+
+export type UseGetApplicant = (id: string | undefined) => IGetApplicant | undefined
+
+export interface IApproveModalProps {
+  applicant: IApplicant
+  open: string
+  onCancel: () => void
 }
 
-export interface ImportParams {
+export type OnNoteHandler = ChangeEventHandler<HTMLTextAreaElement>;
+
+export interface ICourseProps {
+  history: IHistory
+  applicant: IApplicant
+  isLast: boolean
+  isActive: boolean
+}
+
+export interface ICourses {
+  histories: IHistory[]
+  applicant: IApplicant
+}
+
+export interface IStyle {
+  color?: string
+}
+
+export interface ApplicantRow {
+  width?: number
+  height?: number
+}
+
+export type SetValue = (key: string, value: string | undefined) => JSX.Element;
+
+export type StatusItems = TabsProps['items'];
+
+export interface IApplicantTabs {
+  courses: ICourse[]
+  applicant: IApplicant
+}
+
+export interface INote {
+  id: string
+  text: string
+  inactive: boolean
+}
+
+export type ShowNote = boolean | string;
+
+export interface IStatus {
+  status: string
+}
+
+export interface IMove {
   sectionDataId: string
-  file: Blob
+  applicantId: string
+  status: string
 }
 
-export type UseGetApplicant = (id: string | undefined) => GetApplicant
+export interface INext {
+  applicant: IApplicant
+  sectionDataId: string
+  isAllowEdit: boolean
+}
 
-export type ImportApplicantList = UseMutation<Void, any, ResponseErrorParam, ImportParams>
+export type OnUpload = (options: { file: any }) => void;
+
+export interface IApplicantDefaultStatus {
+  APPLICANT: string
+  SELECTION: string
+  PRE_ASSESSMENT: string
+  PARTICIPANT: string
+  POST_ASSESSMENT: string
+  TRAINED: string
+}
+
+export interface IApplicantAccessStatus {
+  Dropped: string
+  Trained: string
+  NotEnrolled: string
+}
