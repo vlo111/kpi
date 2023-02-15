@@ -19,6 +19,8 @@ const useMoveApplicant: any = () => {
     {
       onSuccess: () => {
         void queryClient.invalidateQueries(['api/applicant/:id/project/:projectId']);
+
+        void message.success('successfully moved', 2);
       },
       onError: ({
         response: {
