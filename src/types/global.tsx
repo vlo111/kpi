@@ -54,7 +54,7 @@ unknown
 >;
 
 export type UseMutation<Success, Error, ResponseErrorData, RequestData> = (
-  options: {} | { onSuccess: Success, onError: Error }
+  options?: {} | { onSuccess: Success, onError: Error }
 ) => {
   mutate: Mutate<RequestData, ResponseErrorData>
   isLoading: boolean

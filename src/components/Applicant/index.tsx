@@ -63,10 +63,7 @@ const InfoRow = styled(Row)`
   }
 `;
 
-const setValue: SetValue = (
-  key,
-  value = ''
-) => (
+const setValue: SetValue = (key, value = '') => (
   <AntRow>
     <Col span={10}>
       <strong>{key}:</strong>
@@ -80,7 +77,9 @@ const setValue: SetValue = (
 const Applicant: React.FC = () => {
   const { id } = useParams();
 
-  const { applicant: { applicant, courses } = {} } = useGetApplicant(id);
+  const { applicant, courses } = useGetApplicant(id) ?? {};
+
+  console.log(courses);
 
   const getApplicantInfo = (
     <>
@@ -143,7 +142,7 @@ const Applicant: React.FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-          {(applicant !== undefined && courses !== undefined) && (
+          {applicant !== undefined && courses !== undefined && (
             <ApplicantTabs applicant={applicant} courses={courses} />
           )}
         </Col>

@@ -63,9 +63,9 @@ export interface IFile {
   type: string
 }
 
-interface IGetApplicant { isLoading: false | true, applicant: IApplicant }
+interface IGetApplicant { isLoading?: boolean, applicant: IApplicant, courses: ICourse[] }
 
-export type UseGetApplicant = (id: string) => IGetApplicant | undefined
+export type UseGetApplicant = (id: string | undefined) => IGetApplicant | undefined
 
 export interface IApproveModalProps {
   applicant: IApplicant

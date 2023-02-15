@@ -4,7 +4,7 @@ import { IUploadFileError } from '../../files';
 
 interface IFileData { id: string, files: string[] }
 
-interface IApproveApplicant { sectionId: string, applicantId: string, note: string }
+interface IApproveApplicant { sectionId: string, applicantId: string, note: string | undefined }
 
 interface IRejectApplicant { sectionId: string, applicantIds: string, note: string, reasonsForRejection: string }
 
