@@ -30,7 +30,8 @@ export const PATHS = {
   APPLICANT: 'applicant/:id',
   APPLICATIONFORM: 'application/:id',
   APPLYAPPLICANTFORM: 'apply-form/:id',
-  APPLICANTS: 'applicants'
+  APPLICANTS: 'applicants',
+  INVITATION: 'invitation'
 };
 
 export const VALIDATE_MESSAGES = {
