@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { message, Space } from 'antd';
+import { Space } from 'antd';
 import styled from 'styled-components';
 
 import { AsnButton } from '../../../../../Forms/Button';
@@ -82,8 +82,6 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
     });
 
     void onCancel();
-
-    void message.success('successfully approved', 2);
   };
 
   const onNoteHandler: OnNoteHandler = (event) => {

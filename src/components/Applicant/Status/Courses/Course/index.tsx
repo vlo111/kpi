@@ -200,7 +200,8 @@ const Course: React.FC<ICourseProps> = ({
     history.status !== ApplicantAccessStatus.NotEnrolled &&
     history.status !== ApplicantAccessStatus.Dropped;
 
-  const isAllowEdit: boolean = isLast && isNotRejected;
+  const isAllowEdit: boolean =
+    history.status !== ApplicantAccessStatus.Trained && isLast && isNotRejected;
 
   return (
     <CourseSection className={!isLast ? 'left-line' : 'last-line'}>
@@ -305,7 +306,10 @@ const Course: React.FC<ICourseProps> = ({
         onCancel={() => setOpenPreviewApplicant(false)}
         width="50%"
       >
-        <ApplicantPublicForm id={'da912a5a-aad1-4599-bda6-f67b67ba2828'} preview={true} />
+        <ApplicantPublicForm
+          id={'da912a5a-aad1-4599-bda6-f67b67ba2828'}
+          preview={true}
+        />
       </Modal>
     </CourseSection>
   );

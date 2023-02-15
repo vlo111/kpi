@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import client from '../client';
 import { UseApproveApplicant } from '../../types/api/applicant';
+import { message } from 'antd';
 
 const useApproveApplicant: UseApproveApplicant = () => {
   const queryClient = useQueryClient();
@@ -22,7 +23,14 @@ const useApproveApplicant: UseApproveApplicant = () => {
         void queryClient.invalidateQueries([
           'api/applicant/:id/project/:projectId'
         ]);
-      }
+
+        void message.success('successfully approved', 2);
+      },
+      onError: ({
+        response: {
+          data: { message: error }
+        }
+      }) => message.error(error, 2)
     }
   );
 };
