@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Cascader, Col, Radio, RadioChangeEvent, Row } from 'antd';
+import { Cascader, Col, message, notification, Radio, RadioChangeEvent, Row } from 'antd';
 
 import { AsnForm } from '../../Forms/Form';
 import { AsnInput } from '../../Forms/Input';
@@ -29,6 +29,9 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
     onSuccess: () => {
       form.resetFields();
       setShowModal('');
+    },
+    onError: () => {
+      void message.error('Something went wrong !!');
     }
   });
 
@@ -36,6 +39,15 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
     onSuccess: () => {
       form.resetFields();
       setShowModal('');
+      notification.success({
+        bottom: 50,
+        placement: 'topRight',
+        message: 'The User updated successfully',
+        duration: 3
+      });
+    },
+    onError: () => {
+      void message.error('Something went wrong !!');
     }
   });
 

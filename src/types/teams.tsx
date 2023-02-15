@@ -28,6 +28,7 @@ export interface User {
   permissionLevel: Array<{
     maxLevel: number
     position: string
+    permissionType: string
   }>
 
 }
@@ -37,6 +38,7 @@ export interface IEditUserInfo {
   firstName: string
   email: string
   position: string | undefined
+  permissionType: string
 }
 
 export interface Result {

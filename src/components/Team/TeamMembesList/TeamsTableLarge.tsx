@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Space } from 'antd';
+import { message, Space } from 'antd';
 
 import { ReactComponent as Preview } from '../../../assets/icons/eye.svg';
 import { ReactComponent as TrashSvg } from '../../../assets/icons/trash.svg';
@@ -42,7 +42,8 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
       lastName: '',
       firstName: '',
       email: '',
-      position: ''
+      position: '',
+      permissionType: ''
     }
   });
 
@@ -137,7 +138,8 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
                       lastName: item?.lastName,
                       firstName: item?.firstName,
                       email: item?.email,
-                      position: item?.permissionLevel[0]?.position
+                      position: item?.permissionLevel[0]?.position,
+                      permissionType: item?.permissionLevel[0]?.permissionType
                     }
                   });
                   setShowModal('edit');
@@ -183,6 +185,9 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
     onSuccess: () => {
       refetch();
       setOpenApplicantDeleteModal('');
+    },
+    onError: () => {
+      void message.error('Something went wrong !!');
     }
   });
 
