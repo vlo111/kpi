@@ -8,7 +8,12 @@ import { UseFilterTags } from './useFilterTags';
 
 import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
 import { AsnForm } from '../../components/Forms/Form';
-import { IApplicants, iFinishApplicant, IprevState, Iseacrh } from './applicantsTypes';
+import {
+  IApplicants,
+  iFinishApplicant,
+  IprevState,
+  Iseacrh
+} from './applicantsTypes';
 import Applicant from '../../components/Applicant';
 import { useProject } from '../../hooks/useProject';
 
@@ -41,10 +46,9 @@ const ApplicantsData: React.FC = () => {
 
   const onClose = (): void => {
     setOpenRow(false);
-  };  
+  };
   const { refetch } = useAllAplicants(filters, projectId, {
     onSuccess: (data: React.SetStateAction<IApplicants>): void => {
-      
       setResult(data);
     }
   });
@@ -62,7 +66,6 @@ const ApplicantsData: React.FC = () => {
     [filters]
   );
 
-  
   const filterData = useCallback(
     (data: IprevState) => {
       if (data !== undefined) {
@@ -125,7 +128,7 @@ const ApplicantsData: React.FC = () => {
         />
       </>
       <Drawer width={'80%'} placement="right" onClose={onClose} open={openRow}>
-        <Applicant applicantId={applicantId} />
+        <Applicant />
       </Drawer>
     </Container>
   );

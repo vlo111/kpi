@@ -74,7 +74,6 @@ export const router = createBrowserRouter(
         <Route path={PATHS.APPLICANT} element={<Applicant />} />
         <Route path={PATHS.APPLICATIONFORM} element={<Application />} />
         <Route path={PATHS.APPLICANTS} element={<ApplicantsData />} />
-
       </Route>
       <Route path={PATHS.APPLYAPPLICANTFORM} element={<FillApplicationForm />} />
       <Route path={PATHS.ERROR_403} element={<Error404 />} />

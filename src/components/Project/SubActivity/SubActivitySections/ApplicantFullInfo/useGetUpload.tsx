@@ -1,38 +1,41 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
 
 const useAttacheFiles: any = (options = {}) =>
-  useMutation(async (id: any) => {
+  useMutation(async (id: string | undefined) => {
     if (id !== undefined) {
       try {
-        var filename = "";
+        const filename = '';
         const token: string | null = JSON.parse(
-          localStorage.getItem("token") as string
+          localStorage.getItem('token') as string
         );
 
-        fetch(
-          `https://apimeetk.analysed.ai/api/sub-activity/course/${id}/download/applicants`,
-          {
-            method: "POST",
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-          .then((result) => {
-            if (!result.ok) {
-              throw Error(result.statusText);
+        if (token !== null) {
+          void fetch(
+            `https://apimeetk.analysed.ai/api/sub-activity/course/${id}/download/applicants`,
+            {
+              method: 'POST',
+              headers: { Authorization: `Bearer ${token}` }
             }
-            return result.blob();
-          })
-          .then((blob) => {
-            if (blob != null) {
-              var url = window.URL.createObjectURL(blob);
-              var a = document.createElement("a");
-              a.href = url;
-              a.download = filename;
-              document.body.appendChild(a);
-              a.click();
-              a.remove();
-            }
-          });
+          )
+            .then(async (result) => {
+              if (!result.ok) {
+                throw Error(result.statusText);
+              }
+              return await result.blob();
+            })
+            .then((blob) => {
+              if (blob != null) {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+              }
+            });
+        }
+
         return {};
       } catch (error) {}
     }

@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Col, Space, Radio } from "antd";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Col, Space, Radio } from 'antd';
 
-import { TVoid } from "../../../../../../types/global";
-import { IDateFilterCards } from "../../../../../../types/project";
-import { AsnForm } from "../../../../../../components/Forms/Form";
-import { AsnDatePicker } from "../../../../../../components/Forms/DatePicker";
-import moment, { Moment } from "moment";
-import { AsnButton } from "../../../../../../components/Forms/Button";
-
+import { TVoid } from '../../../../../../types/global';
+import { IDateFilterCards } from '../../../../../../types/project';
+import { AsnForm } from '../../../../../../components/Forms/Form';
+import { AsnDatePicker } from '../../../../../../components/Forms/DatePicker';
+import moment, { Moment } from 'moment';
+import { AsnButton } from '../../../../../../components/Forms/Button';
 
 export const PickerSpace = styled(Space)`
   width: 100%;
@@ -30,26 +29,27 @@ export const PickerSpace = styled(Space)`
 
 export const DateFilter: React.FC<IDateFilterCards> = ({
   setDateSearch,
-  setOpen,
+  setOpen
 }) => {
   const [form] = AsnForm.useForm();
-  const [startTime, setStartTime] = useState("");
+  const [startTime, setStartTime] = useState('');
 
   const onFinish: TVoid = (values) => {
     const { from, to, radio } = values;
     setDateSearch({
       start: radio,
       from: moment(from).format(),
-      to: moment(to).format(),
+      to: moment(to).format()
     });
   };
-  const onChange: (item: Moment | null) => void = ( item) => {
-    if(item !== null) {
+  const onChange: (item: Moment | null) => void = (item) => {
+    if (item !== null) {
       setStartTime(item.format());
     }
   };
-  const disabledDateEndPicker: (current: Moment) => boolean = ( current) => {
-    if (!startTime) return true;
+  const disabledDateEndPicker: (current: Moment) => boolean = (current: Moment) => {
+    if (startTime === '') return true;
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return current && current < moment(startTime);
   };
 
@@ -85,7 +85,7 @@ export const DateFilter: React.FC<IDateFilterCards> = ({
         <Space
           direction="horizontal"
           align="center"
-          style={{ justifyContent: "space-around", width: "100%" }}
+          style={{ justifyContent: 'space-around', width: '100%' }}
         >
           <AsnButton htmlType="submit" className="primary">
             Save

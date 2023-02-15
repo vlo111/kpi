@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button, Popover, Card, Col, Row, message, Typography } from "antd";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button, Popover, Card, Col, Row, message, Typography } from 'antd';
+import styled from 'styled-components';
 
-import { PATHS } from "../../../../helpers/constants";
-import { ConfirmModal } from "../../../../components/Forms/Modal/Confirm";
-import { IActiveTemplate } from "../../../../types/project";
-import useDuplicateTemplate from "../../../../api/Activity/Template/useDuplicateTemplate";
-import useDeleteActivityTemplate from "../../../../api/Activity/Template/useDeleteActivityTemplate";
-import { ReactComponent as TrashSvg } from "../../../../assets/icons/trash.svg";
-import { ReactComponent as EditSvg } from "../../../../assets/icons/edit.svg";
-import { ReactComponent as Dublicat } from "../../../../assets/icons/duplicate.svg";
-import { ReactComponent as Plus } from "../../../../assets/icons/plus.svg";
-import CreateSubCourse from "../../../../components/Project/SubActivity/SubActivityModals/Create";
+import { PATHS } from '../../../../helpers/constants';
+import { ConfirmModal } from '../../../../components/Forms/Modal/Confirm';
+import { IActiveTemplate } from '../../../../types/project';
+import useDuplicateTemplate from '../../../../api/Activity/Template/useDuplicateTemplate';
+import useDeleteActivityTemplate from '../../../../api/Activity/Template/useDeleteActivityTemplate';
+import { ReactComponent as TrashSvg } from '../../../../assets/icons/trash.svg';
+import { ReactComponent as EditSvg } from '../../../../assets/icons/edit.svg';
+import { ReactComponent as Dublicat } from '../../../../assets/icons/duplicate.svg';
+import { ReactComponent as Plus } from '../../../../assets/icons/plus.svg';
+import CreateSubCourse from '../../../../components/Project/SubActivity/SubActivityModals/Create';
 
 const { Meta } = Card;
 const { Paragraph } = Typography;
@@ -79,8 +79,8 @@ const Container = styled.div`
       }
     }
   }
-  .ant-popover-title{
-   padding: 15px 26px 4px !important;
+  .ant-popover-title {
+    padding: 15px 26px 4px !important;
   }
   .ant-popover-message {
     padding: 20px 0 12px;
@@ -99,12 +99,12 @@ const Container = styled.div`
   }
   .ant-typography strong {
     font-weight: 400;
-}
-  .activeCardTemplate{
-    color: #111B23;
   }
-  .activeCardTemplateHover{
-    color: white
+  .activeCardTemplate {
+    color: #111b23;
+  }
+  .activeCardTemplateHover {
+    color: white;
   }
 `;
 const Popup = styled(Button)`
@@ -123,69 +123,75 @@ const Popup = styled(Button)`
 export const ActiveTempalate: React.FC<IActiveTemplate> = ({
   templates,
   refetch,
-  setIsOpenCreateActivityModal,
+  setIsOpenCreateActivityModal
 }) => {
   const [show, setShow] = useState<string | boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-  const [templateId, setTemplateId] = useState<string>("");
-  const [openCreateSubActivity, setOpenCreateSubActivity] = useState<boolean>(false);
+  const [templateId, setTemplateId] = useState<string>('');
+  const [openCreateSubActivity, setOpenCreateSubActivity] =
+    useState<boolean>(false);
   const { mutate: deleteActivityTemplate } = useDeleteActivityTemplate({
     onSuccess: () => {
       refetch();
       setOpenDeleteModal(false);
     },
     onError: () => {
-      void message.error("Something went wrong", 2);
-    },
+      void message.error('Something went wrong', 2);
+    }
   });
   const { mutate: duplicateTemplate } = useDuplicateTemplate({
     onSuccess: () => {
       refetch();
     },
     onError: () => {
-      void message.error("Something went wrong", 2);
-    },
+      void message.error('Something went wrong', 2);
+    }
   });
   const navigate = useNavigate();
   const title = (id: string, template: any): any => {
-    
     return (
       <Row>
         <Col>
-          <Popup type="link" onClick={() => {
-             setTemplateId(id);
-              setOpenCreateSubActivity(true);
-            }
-            }>
-            <Plus />
-            Use
-          </Popup>
-          {template?.used === false  && 
-          <Popup
-            type="link"
-            onClick={() =>
-              navigate(`/${PATHS.ACTIVITYTEMPLATE}`.replace(":id", id))
-            }
-          >
-            <EditSvg />
-            Edit
-          </Popup>}
-          {template?.used === false  && 
           <Popup
             type="link"
             onClick={() => {
               setTemplateId(id);
-              setOpenDeleteModal(true);
+              setOpenCreateSubActivity(true);
             }}
           >
-            <TrashSvg />
-            Delete
+            <Plus />
+            Use
           </Popup>
-  }
-          <Popup type="link" onClick={() => {
-            duplicateTemplate({ id })
-            hide()
-          }}>
+          {template?.used === false && (
+            <Popup
+              type="link"
+              onClick={() =>
+                navigate(`/${PATHS.ACTIVITYTEMPLATE}`.replace(':id', id))
+              }
+            >
+              <EditSvg />
+              Edit
+            </Popup>
+          )}
+          {template?.used === false && (
+            <Popup
+              type="link"
+              onClick={() => {
+                setTemplateId(id);
+                setOpenDeleteModal(true);
+              }}
+            >
+              <TrashSvg />
+              Delete
+            </Popup>
+          )}
+          <Popup
+            type="link"
+            onClick={() => {
+              duplicateTemplate({ id });
+              hide();
+            }}
+          >
             <Dublicat />
             Duplicate
           </Popup>
@@ -193,10 +199,12 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
       </Row>
     );
   };
-  const [openPopOver, setOpenPopOver] = useState<{ id: string, show: boolean }>({
-    id: '',
-    show: false
-  });
+  const [openPopOver, setOpenPopOver] = useState<{ id: string, show: boolean }>(
+    {
+      id: '',
+      show: false
+    }
+  );
   const hide = (): void => {
     setOpenPopOver({
       show: false,
@@ -213,9 +221,9 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
   return (
     <>
       <Container>
-        <Row gutter={[32, 0]} style={{ width: "100%", height: "50vh" }}>
+        <Row gutter={[32, 0]} style={{ width: '100%', height: '50vh' }}>
           <Col
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
             onClick={() => setIsOpenCreateActivityModal(true)}
           >
             <Card className=" card">+Add Templates</Card>
@@ -227,8 +235,10 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
                 placement="bottom"
                 trigger="click"
                 getPopupContainer={(trigger: HTMLElement) => trigger}
-                open={!!openPopOver.show && (openPopOver.id === template?.id)}
-                onOpenChange={(newOpen) => handleOpenChange(newOpen, template?.id)}
+                open={!!openPopOver.show && openPopOver.id === template?.id}
+                onOpenChange={(newOpen) =>
+                  handleOpenChange(newOpen, template?.id)
+                }
               >
                 <Button type="link" className="cardClick">
                   ...
@@ -237,35 +247,39 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
               <Card
                 className="card"
                 extra={
-                  show === template?.id ? (
+                  show === template?.id
+                    ? (
                     <Paragraph
                       strong
                       ellipsis={{
-                        rows: 5,
+                        rows: 5
                       }}
                       className="activeCardTemplateHover"
                     >
                       {template?.description}
                     </Paragraph>
-                  ) : null
+                      )
+                    : null
                 }
                 onMouseEnter={() => setShow(template?.id)}
                 onMouseLeave={() => setShow(false)}
               >
                 <Meta
                   description={
-                    template?.status === "DRAFT" ? (
+                    template?.status === 'DRAFT'
+                      ? (
                       <div className="draft">DRAFT</div>
-                    ) : (
-                      ""
-                    )
+                        )
+                      : (
+                          ''
+                        )
                   }
                 />
 
                 <Paragraph
                   strong
                   ellipsis={{
-                    rows: 5,
+                    rows: 5
                   }}
                   className="activeCardTemplate"
                 >
@@ -276,7 +290,7 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
           ))}
         </Row>
         <ConfirmModal
-          styles={{ gap: "3rem" }}
+          styles={{ gap: '3rem' }}
           yes="Delete"
           no="Cancel"
           open={openDeleteModal}
@@ -285,13 +299,13 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
           onCancel={() => setOpenDeleteModal(false)}
         />
       </Container>
-      {(Boolean(openCreateSubActivity)) &&
+      {Boolean(openCreateSubActivity) && (
         <CreateSubCourse
           openCreateSubActivity={openCreateSubActivity}
           setOpenCreateSubActivity={setOpenCreateSubActivity}
           templateId={templateId}
         />
-      }
+      )}
     </>
   );
 };

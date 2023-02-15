@@ -1,6 +1,5 @@
 import { ChangeEventHandler } from 'react';
 import { TabsProps } from 'antd';
-import { UploadRequestOption } from './api/activity/subActivity';
 import { UseMutation, Void } from './global';
 import { ResponseErrorParam } from './api/project/get-project';
 

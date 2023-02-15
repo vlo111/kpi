@@ -40,7 +40,6 @@ export interface IApplicantsListFullInfo {
   applicants: IApplicantsList []
   color: string
   courseId: string
-  refetch: any
 }
 
 export interface ICourseStatusInfo {
