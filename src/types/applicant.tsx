@@ -1,6 +1,5 @@
 import { ChangeEventHandler } from 'react';
 import { TabsProps } from 'antd';
-import { UploadRequestOption } from './api/activity/subActivity';
 
 export interface IApplicant {
   id: string

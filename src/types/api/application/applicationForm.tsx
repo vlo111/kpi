@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { UseMutation, Void } from '../../global';
 import { ResponseErrorParam } from '../project/get-project';
 
@@ -75,37 +76,37 @@ export interface IOnlyId {
 }
 
 export type CreateApplicationFormType = UseMutation<
-  Void,
-  any,
-  ResponseErrorParam,
-  ICreateApplicationForm
-  >;
+Void,
+any,
+ResponseErrorParam,
+ICreateApplicationForm
+>;
 
 export type DuplicateApplicationFormType = UseMutation<
-  Void,
-  any,
-  ResponseErrorParam,
-  IOnlyId
-  >;
+Void,
+any,
+ResponseErrorParam,
+IOnlyId
+>;
 
 export type DeleteApplicationForm = UseMutation<
-  Void,
-  any,
-  ResponseErrorParam,
-  IOnlyId
-  >;
+Void,
+any,
+ResponseErrorParam,
+IOnlyId
+>;
 
 export type UpdateApplicationStatus = UseMutation<
-  Void,
-  any,
-  ResponseErrorParam,
-  IOnlyId
-  >;
+Void,
+any,
+ResponseErrorParam,
+IOnlyId
+>;
 
 export interface IPreviewModal {
   questionData: IApplicant | undefined
   isOpenCreateActivityModal: boolean
-  setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+  setIsOpenCreateActivityModal: Dispatch<SetStateAction<boolean>>
   onPublishClick: Void
 }
 
@@ -133,13 +134,13 @@ export interface IApplicationCard {
   title: string
   content: IQuestion[] | []
   isQuestionCardVisible: string[]
-  setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
+  setIsQuestionCardVisible: Dispatch<SetStateAction<string[]>>
   cardId: string
   description: string | undefined
   applicationData: IApplicant
-  setApplicationData: React.Dispatch<
-    React.SetStateAction<IApplicant | undefined>
-    >
+  setApplicationData: Dispatch<
+  SetStateAction<IApplicant | undefined>
+  >
 }
 
 export interface IQuestionRowContainer {
@@ -147,27 +148,27 @@ export interface IQuestionRowContainer {
   index: number
   content: IQuestion[]
   applicationData: IApplicant
-  setApplicationData: React.Dispatch<
-    React.SetStateAction<IApplicant | undefined>
-    >
-  setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
+  setApplicationData: Dispatch<
+  SetStateAction<IApplicant | undefined>
+  >
+  setIsQuestionCardVisible: Dispatch<SetStateAction<string[]>>
   isQuestionCardVisible: string[]
   cardId: string
-  setAnswerTypeValue: React.Dispatch<React.SetStateAction<string>>
-  setSingleQuestionData: React.Dispatch<React.SetStateAction<IQuestion | undefined>>
-  setAddOrUpdateQuestion: React.Dispatch<React.SetStateAction<string>>
-  setQuestionRowIndex: React.Dispatch<React.SetStateAction<number>>
+  setAnswerTypeValue: Dispatch<SetStateAction<string>>
+  setSingleQuestionData: Dispatch<SetStateAction<IQuestion | undefined>>
+  setAddOrUpdateQuestion: Dispatch<SetStateAction<string>>
+  setQuestionRowIndex: Dispatch<SetStateAction<number>>
 }
 
 export interface IAddQuestionCard {
-  setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
+  setIsQuestionCardVisible: Dispatch<SetStateAction<string[]>>
   isQuestionCardVisible: string[]
   cardId: string
   applicationData: IApplicant
   answerTypeValue: string
-  setAnswerTypeValue: React.Dispatch<React.SetStateAction<string>>
+  setAnswerTypeValue: Dispatch<SetStateAction<string>>
   singleQuestionData: IQuestion | undefined
-  setSingleQuestionData: React.Dispatch<React.SetStateAction<IQuestion | undefined>>
+  setSingleQuestionData: Dispatch<SetStateAction<IQuestion | undefined>>
   addOrUpdateQuestion: string
   questionRowIndex: number
 }
@@ -181,7 +182,7 @@ export interface IResult {
 
 export interface IFormUrlModal {
   formUrlModal: boolean
-  setFormUrlModal: React.Dispatch<React.SetStateAction<boolean>>
+  setFormUrlModal: Dispatch<SetStateAction<boolean>>
   responseIds: IResult | undefined
 }
 
