@@ -1,3 +1,4 @@
+import { SliderMarks } from "antd/lib/slider";
 import { IApplicantAccessStatus, IApplicantDefaultStatus } from '../types/applicant';
 
 export const PATHS = {
@@ -29,7 +30,9 @@ export const PATHS = {
   COURSESECTION: 'activity-template/:id/second-step',
   APPLICANT: 'applicant/:id',
   APPLICATIONFORM: 'application/:id',
-  APPLYAPPLICANTFORM: 'apply-form/:id'
+  APPLYAPPLICANTFORM: 'apply-form/:id',
+  APPLICANTS: 'applicants',
+  INVITATION: 'accept-invitation'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -187,6 +190,35 @@ export const defaultLimit = {
   currentPage: 1
 };
 
+// Region data
+export const optionsRegion = [
+  { label: 'Yerevan', value: 'Yerevan/Երևան,' },
+  { label: 'Aragatsotn', value: 'Aragatsotn/Արագածոտն,' },
+  { label: 'Ararat', value: 'Ararat/Արարատ,' },
+  { label: 'Armavir', value: 'Armavir/Արմավիր,' },
+  { label: 'Gegharkunik', value: 'Gegharkunik/Գեղարքունիք,' },
+  { label: 'Kotayk', value: 'Kotayk/Կոտայք' },
+  { label: 'Lori', value: 'Lori/Լոռի,' },
+  { label: 'Shirak', value: 'Shirak/Շիրակ,' },
+  { label: 'Syunik', value: 'Syunik/Սյունիք,' },
+  { label: 'Tavush', value: 'Tavush/Տավուշ,' },
+  { label: 'Vayots Dzor', value: 'Vayots Dzor/Վայոց Ձոր,' }
+];
+
+// Status data
+export const optionsStatus = [
+  { label: 'Applicant', value: 'APPLICANT' },
+  { label: 'Selection', value: 'SELECTION' },
+  { label: 'Pre-Assessment', value: 'PRE_ASSESSMENT' },
+  { label: 'Participant', value: 'PARTICIPANT' },
+  { label: 'Post-Assessment ', value: 'POST_ASSESSMENT' },
+  { label: 'Trained', value: 'TRAINED' }
+];
+  // Age function
+export const marks: SliderMarks = {
+  0: '0',
+  100: '100'
+};
 export const optionsReason = [
   { label: 'Personal issues', value: 'personal' },
   { label: 'Change of plans', value: 'plan' },
