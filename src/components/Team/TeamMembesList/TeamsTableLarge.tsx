@@ -51,7 +51,10 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
     updateUserInfo.updateUserId,
     projectId,
     {
-      enabled: Boolean(updateUserInfo.updateUserId) && Boolean(projectId) && showModal === 'edit'
+      enabled:
+        Boolean(updateUserInfo.updateUserId) &&
+        Boolean(projectId) &&
+        showModal === 'edit'
     }
   );
 
@@ -63,7 +66,7 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
           <Space direction="horizontal">
             <Space align="start">
               <AsnAvatar
-                letter={`${item?.lastName?.charAt(0)}${item?.firstName?.charAt(
+                letter={`${item?.firstName?.charAt(0)}${item?.lastName?.charAt(
                   0
                 )}`}
                 src={item?.photo}
@@ -98,7 +101,15 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
               <Preview onClick={() => setUserId(item?.id)} />
             </Space>
             <Space align="end">
-              <h3>{item?.permissionLevel[0]?.position}</h3>
+              <h3>
+                {item?.permissionLevel[0]?.maxLevel === 1
+                  ? 'Project'
+                  : item?.permissionLevel[0]?.maxLevel === 2
+                    ? 'Result Area'
+                    : item?.permissionLevel[0]?.maxLevel === 3
+                      ? 'Input Activity'
+                      : 'Template'}
+              </h3>
             </Space>
           </Space>
         );
@@ -171,7 +182,7 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
     count
   } = useGetAllTeamsList({
     limit: tableParams.pagination?.pageSize,
-    search: (searchText?.length > 3) ? searchText : undefined,
+    search: searchText?.length > 3 ? searchText : undefined,
     offset:
       tableParams.pagination?.current !== undefined &&
       tableParams.pagination?.pageSize !== undefined
