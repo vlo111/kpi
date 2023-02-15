@@ -104,6 +104,15 @@ export interface CreateAssessmentIfoModalTypes {
   type: EnumAssessmentFormTypes
   projectId: string
   courseId: string
+  navigateRouteInfo: INavigateRoteInfoTypes
+}
+
+export interface INavigateRoteInfoTypes {
+  projectId: string
+  courseId: string
+  courseTitle: string
+  resultAreaTitle: string
+  inputActivityTitle: string
 }
 export type GetAssessmentFormByCourseId = (
   courseId: string,
