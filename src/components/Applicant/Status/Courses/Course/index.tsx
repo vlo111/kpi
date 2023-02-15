@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import { Col, message, Row, Upload } from 'antd';
@@ -14,25 +14,37 @@ import { ICourseProps, IStyle, OnUpload } from '../../../../../types/applicant';
 
 import {
   ApplicantAccessStatus,
-  AssessmentStatus,
   FileType
 } from '../../../../../helpers/constants';
 
 import Next from './Next';
 import Move from './Move';
 import Note from '../Note';
+import Files from './Files';
 import Status from './Status';
 
 import { ReactComponent as UploadSvg } from '../Icons/Upload.svg';
-import { ReactComponent as ResendSvg } from '../Icons/resend.svg';
-
-import { AsnModal } from '../../../../Forms/Modal';
-import ApplicantPublicForm from '../../../../ApplicantPublicForm';
 
 const CourseItem = styled.div<IStyle>`
   display: flex;
   height: auto;
   margin: 0 20px 1rem 34px;
+
+  .assessment-section {
+    display: flex;
+    gap: 1rem;
+
+    .assessment {
+      .resend {
+        display: flex;
+        gap: 1rem;
+
+        .icon {
+          cursor: pointer;
+        }
+      }
+    }
+  }
 
   .item-footer {
     width: 100%;
@@ -156,16 +168,6 @@ const AntRow = styled(Row)<IStyle>`
   }
 `;
 
-const Modal = styled(AsnModal)`
-  .ant-modal-content {
-    padding: 0;
-
-    .ant-spin-container > div {
-      width: 100%;
-    }
-  }
-`;
-
 const Course: React.FC<ICourseProps> = ({
   history,
   applicant,
@@ -175,8 +177,6 @@ const Course: React.FC<ICourseProps> = ({
   const { mutate: attachFile } = useApplicantAttachFile();
 
   const { mutate: uploadFile } = useFileUpload();
-
-  const [openPreviewApplicant, setOpenPreviewApplicant] = useState(false);
 
   const onUpload: OnUpload = (options) => {
     const { file } = options;
@@ -229,41 +229,7 @@ const Course: React.FC<ICourseProps> = ({
                 <Status status={history.status} />
               </Col>
               <Col span={6} className="files">
-                {history?.status === 'APPLICANT' && (
-                  <span
-                    className="file"
-                    onClick={() => {
-                      setOpenPreviewApplicant(!openPreviewApplicant);
-                    }}
-                  >
-                    Application Form
-                  </span>
-                )}
-                {history?.status === 'PRE_ASSESSMENT' && (
-                  <span>
-                    <span className="file">Pre Assessment:</span>
-                    <span className="resend">
-                      {history?.preAssessmentScore === null
-                        ? AssessmentStatus.NotAssessed
-                        : <div>
-                          <p>{AssessmentStatus.NotSubmitted}</p>
-                          <div><ResendSvg /></div>
-                        </div>
-                      }
-                    </span>
-                  </span>
-                )}
-                {history.id !== undefined &&
-                  history.files.map((f) => (
-                    <a
-                      key={f.originalName}
-                      className="file"
-                      href={f.path}
-                      download={f.path}
-                    >
-                      {f.originalName}
-                    </a>
-                  ))}
+                <Files applicantId={applicant.id} history={history} />
               </Col>
               <Col
                 offset={3}
@@ -306,17 +272,6 @@ const Course: React.FC<ICourseProps> = ({
         applicantId={applicant.id}
         status={history.status}
       />
-      <Modal
-        footer={false}
-        open={openPreviewApplicant}
-        onCancel={() => setOpenPreviewApplicant(false)}
-        width="50%"
-      >
-        <ApplicantPublicForm
-          id={'da912a5a-aad1-4599-bda6-f67b67ba2828'}
-          preview={true}
-        />
-      </Modal>
     </CourseSection>
   );
 };
