@@ -13,13 +13,20 @@ import {
   IRelatedQuestion
 } from '../../../../../types/api/application/applicationForm1';
 import { AsnForm } from '../../../../Forms/Form';
-import { renderQuestionForm } from '../../../../../helpers/applicationForm';
+import {
+  getAnswers,
+  renderQuestionForm
+} from '../../../../../helpers/applicationForm';
 
 import {
   AnswerTypes,
   ErrorRequireMessages
 } from '../../../../../helpers/constants';
-import { BorderBottomInput, CustomRadio } from '../../../../ApplicantPublicForm/Form/style';
+import {
+  BorderBottomInput,
+  CustomRadio
+} from '../../../../ApplicantPublicForm/Form/style';
+import _ from 'lodash';
 
 const setRequired: SetRequired = (item) => [
   { required: item, message: ErrorRequireMessages.input }
@@ -75,6 +82,24 @@ const SectionRadio: React.FC<IFormItemProps> = ({
     const { value } = event.target;
 
     if (relatedQuestions !== undefined && relatedQuestions.length > 0) {
+      const formValues = _.cloneDeep(form.getFieldValue(formName));
+      if (showRelatedQuestion) {
+        for (const relatedQuestion of relatedQuestions) {
+          const index = formValues.findIndex(
+            (f: IRelatedQuestion) => f?.keyName === relatedQuestion.keyName
+          );
+
+          formValues.splice(index, 1);
+        }
+
+        form.setFieldValue([formName], formValues);
+      } else {
+        const answers = getAnswers(relatedQuestions);
+
+        const data = [...formValues, ...answers];
+        form.setFieldValue([formName], data);
+      }
+
       setShowRelatedQuestion(!showRelatedQuestion);
     } else {
       const otherId = answers.find((a) => a.type === AnswerTypes.shortText)?.id;
