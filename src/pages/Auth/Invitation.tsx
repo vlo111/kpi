@@ -49,7 +49,7 @@ const Invitation: React.FC = () => {
   const onFinish: TVoid = (values: IResetPassword) => {
     const { password, confirmPassword } = values;
     invitationPassword({ password, repeatPassword: confirmPassword, token });
-    };
+  };
   const rulesConfirmPassword = [
     {
       required: true
