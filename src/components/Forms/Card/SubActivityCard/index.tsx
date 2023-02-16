@@ -36,12 +36,14 @@ export const AsnCardSubActivity = styled(Card)`
   }
   .cardInactive {
     background: var(--dark-5);
-    border-top: 2px solid var(--dark-5);
+    border-top: 2px solid var(--dark-5) !important;
     box-shadow: 0px 4px 4px rgba(104, 163, 149, 0.2);
   }
   .cardActive {
     background: rgba(104, 163, 149, 0.05);
-    border-top: 2px solid var(--secondary-green);
+    border-top: 2px solid var(--secondary-green) !important;
+    border: 2px solid var(--secondary-green) !important;
+
     box-shadow: 0px 4px 4px rgba(104, 163, 149, 0.2);
   }
   .cardRoundInactive {
@@ -60,4 +62,8 @@ export const AsnCardSubActivity = styled(Card)`
   .ant-select:not(.ant-select-customize-input) .ant-select-selector {
     border: none !important;
   }
+  .cardDone{
+    border: 2px solid  #68A395 !important;
+  }
+
 `;
