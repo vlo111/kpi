@@ -20,6 +20,7 @@ import { TitleAuth } from '../../components/Layout/TitleAuth';
 const Invitation: React.FC = () => {
   const [error, setError] = useState<string>('');
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const token = searchParams.get('token');
 
   const { mutate: invitationPasswordToken }: any = useGetIntivitationToken({
@@ -45,15 +46,10 @@ const Invitation: React.FC = () => {
       }
     });
   const [form] = AsnForm.useForm();
-  const navigate = useNavigate();
   const onFinish: TVoid = (values: IResetPassword) => {
     const { password, confirmPassword } = values;
-    try {
-      invitationPassword({ password, repeatPassword: confirmPassword, token });
-    } catch (error: any) {
-      void message.error(error, 2);
-    }
-  };
+    invitationPassword({ password, repeatPassword: confirmPassword, token });
+    };
   const rulesConfirmPassword = [
     {
       required: true
@@ -79,7 +75,7 @@ const Invitation: React.FC = () => {
           layout="vertical"
         >
           <TitleAuth>Accept Invitation</TitleAuth>
-          {error.length > 0 && <AsnAlert type="error" message={error} />}
+          {error?.length > 0 && <AsnAlert type="error" message={error} />}
           <AsnForm.Item
             name="password"
             label="New password"
