@@ -8,11 +8,7 @@ import { UseFilterTags } from './useFilterTags';
 
 import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
 import { AsnForm } from '../../components/Forms/Form';
-import {
-  IApplicants,
-  iFinishApplicant,
-  Iseacrh
-} from './applicantsTypes';
+import { IApplicants, iFinishApplicant, Iseacrh } from './applicantsTypes';
 import Applicant from '../../components/Applicant';
 import { useProject } from '../../hooks/useProject';
 
@@ -133,7 +129,7 @@ const ApplicantsData: React.FC = () => {
         />
       </>
       <Drawer width={'80%'} placement="right" onClose={onClose} open={openRow}>
-        <Applicant />
+        <Applicant applicantId={applicantId} />
       </Drawer>
     </Container>
   );
