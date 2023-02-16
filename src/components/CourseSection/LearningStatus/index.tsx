@@ -137,7 +137,7 @@ const LearningStatus: React.FC<ILearningStatus> = ({
   return (
     <SectionContainer>
       <SectionHeaderContainer>
-        <SectionHeader>Section {+index + 1}:</SectionHeader>
+        <SectionHeader>Phase  {+index + 1}:</SectionHeader>
         {data?.courseStructure !== 'ONE_SECTION' &&
         data?.sections?.length > 2
           ? (

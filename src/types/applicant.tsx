@@ -71,6 +71,12 @@ export interface IApproveModalProps {
   open: string
   onCancel: () => void
 }
+export interface ImportParams {
+  sectionDataId: string
+  file: Blob
+}
+
+export type ImportApplicantList = UseMutation<Void, any, ResponseErrorParam, ImportParams>
 
 export type OnNoteHandler = ChangeEventHandler<HTMLTextAreaElement>;
 
@@ -144,3 +150,5 @@ export interface IApplicantAccessStatus {
   Trained: string
   NotEnrolled: string
 }
+
+export interface IFiles { applicantId: string, history: IHistory }

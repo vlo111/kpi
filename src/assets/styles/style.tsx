@@ -234,6 +234,29 @@ const GlobalStyle = createGlobalStyle`
     width: auto!important;
     height: 500px !important;
   }
+  .applicantsFilter{
+    .ant-popover-title{
+  font-size: var(--base-font-size) !important;
+  color: var(--dark-2);
+  border-bottom: none !important;
+  text-align-last: center;
+  padding: 16px 16px 10px;
+
+}
+.ant-popover-inner-content{
+  padding: 20px 0;
+  width: 350px;
+}
+  }
+  .filterIcon{
+    svg{
+    fill: var(--dark-border-ultramarine);
+    font-size: var(--base-font-size);
+    }
+  }
+  .table-row-dark{
+    background-color: var(--primary-light-3);
+  }
 
   .customCascaderPopup{
     background-color: transparent !important;
