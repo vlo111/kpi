@@ -1,5 +1,4 @@
 import React from 'react';
-import Dragger from 'antd/lib/upload/Dragger';
 import styled from 'styled-components';
 import { Col, Typography, UploadProps } from 'antd';
 
@@ -8,6 +7,7 @@ import { ReactComponent as LinkIcon } from '../../../SubActivityIcons/link.svg';
 import { IDraggerProps } from '../../../../../../types/api/activity/subActivity';
 import useFileUpload from '../../../../../../api/Activity/SubActivity/useUploadFile';
 import useDeleteFile from '../../../../../../api/Files/useDeleteFile';
+import Dragger from 'antd/es/upload/Dragger';
 
 const AsnDragger = styled(Dragger)`
   background: transparent !important;
@@ -31,7 +31,7 @@ const AsnDragger = styled(Dragger)`
   }
 `;
 
-const AsnDragger2 = styled(Dragger)`
+export const AsnDragger2 = styled(Dragger)`
   background: transparent !important;
   border: none !important;
   text-align: start !important;

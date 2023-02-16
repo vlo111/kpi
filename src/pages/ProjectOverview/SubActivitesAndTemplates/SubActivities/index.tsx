@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Space, Button, Card, Col } from 'antd';
+import { Row, Space, Button, Card, Col, Typography, Tooltip } from 'antd';
 import styled from 'styled-components';
 import moment from 'moment';
 
@@ -16,13 +16,21 @@ import AddSubActivity from '../AddActivity';
 import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
-.ant-select:not(.ant-select-customize-input) .ant-select-selector{
-  border: none;
-}
-.ant-card-bordered {
+  .ant-select:not(.ant-select-customize-input) .ant-select-selector {
     border: none;
-}
+  }
+  .ant-card-bordered {
+    border: none;
+  }
+  .subCardTemplater {
+    color: #111b23;
+  }
+  .ant-typography strong {
+    font-weight: 400;
+  }
 `;
+const { Paragraph } = Typography;
+
 export const SubActivity: React.FC<ISubActivitiesProps> = ({
   subActivities,
   setCheckAll,
@@ -35,7 +43,8 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
   dateSearch,
   templates
 }) => {
-  const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] = useState<boolean>(false);
+  const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
+    useState<boolean>(false);
   const resetFilter: Void = () => {
     setDateSearch({
       start: true,
@@ -49,7 +58,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
   return (
     <>
       <Container>
-        <Space align='baseline'>
+        <Space align="baseline">
           <StatusFilter
             setCheckAll={setCheckAll}
             setIndeterminate={setIndeterminate}
@@ -59,13 +68,24 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
             checkedList={checkedList}
           />
           <AssingnesFilter />
-          <DateFilterCards setDateSearch={setDateSearch} dateSearch={dateSearch} />
-          <AsnButton type="link" onClick={resetFilter} style={{ fontSize: 'var(--font-size-small', color: 'var(--dark-1)' }}>Reset</AsnButton>
+          <DateFilterCards
+            setDateSearch={setDateSearch}
+            dateSearch={dateSearch}
+          />
+          <AsnButton
+            type="link"
+            onClick={resetFilter}
+            style={{
+              fontSize: 'var(--font-size-small',
+              color: 'var(--dark-1)'
+            }}
+          >
+            Reset
+          </AsnButton>
         </Space>
-        <Space align='baseline'>
-        </Space>
+        <Space align="baseline"></Space>
         <Row>
-          <AsnCardSubActivity >
+          <AsnCardSubActivity>
             <Row
               gutter={24}
               style={{
@@ -73,44 +93,79 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                 padding: '16px 0px',
                 overflow: 'auto',
                 height: 'calc(100vh - 61vh)'
-
               }}
             >
               <Button
                 type="link"
                 block
-                style={{ color: 'var(--dark-1)', fontSize: 'var(--base-font-size)' }}
+                style={{
+                  color: 'var(--dark-1)',
+                  fontSize: 'var(--base-font-size)'
+                }}
                 onClick={() => setIsOpenCreateActivityModal(true)}
               >
-                + Add Activity
+                + Add Sub Activity
               </Button>
               {subActivities?.map((item: ISubActivities, i: number) => (
                 <Card
                   key={i}
-                  className={`card ${item?.subActivity?.status === 'ACTIVE'
-                    ? 'INACTIVE'
-                    : item?.subActivity?.status === 'DONE'
+                  className={`card ${
+                    item?.subActivity?.status === 'ACTIVE'
+                      ? 'INACTIVE'
+                      : item?.subActivity?.status === 'DONE'
                       ? 'cardActive'
                       : ''
-                    }`}
+                  }`}
                 >
                   <div
-                    className={`cardRound ${item?.subActivity?.status === 'ACTIVE'
-                      ? 'cardRoundInactive'
-                      : item?.subActivity?.status === 'DONE'
+                    className={`cardRound ${
+                      item?.subActivity?.status === 'ACTIVE'
+                        ? 'cardRoundInactive'
+                        : item?.subActivity?.status === 'DONE'
                         ? 'ACTIVE'
                         : ''
-                      }`}
+                    }`}
                   >
-                    {item?.cardRound}
+                    {item?.cardRound} ...
                   </div>
-                  <Row gutter={[8, 16]} style={{ padding: '15px 0', cursor: 'pointer' }} onClick={() => navigate(`/project/sub-activity/${item?.subActivityId}`)}>
-                    <Col style={{ color: 'var(--dark-1)', fontSize: 'var(--headline-font-size)', display: 'flex', gap: '5px' }}>{item?.title}</Col>
+                  <Row
+                    gutter={[8, 16]}
+                    style={{ padding: '15px 0', cursor: 'pointer' }}
+                    onClick={() =>
+                      navigate(`/project/sub-activity/${item?.subActivityId}`)
+                    }
+                  >
+                    <Col
+                      style={{
+                        color: 'var(--dark-1)',
+                        fontSize: 'var(--headline-font-size)',
+                        display: 'flex',
+                        gap: '5px',
+                        width: '100px',
+                        height: '44px'
+                      }}
+                    >
+                      <Tooltip title={item?.title}>
+                        <Paragraph
+                          strong
+                          ellipsis={{
+                            rows: 1
+                          }}
+                          className="subCardTemplater"
+                        >
+                          {item?.title}
+                        </Paragraph>
+                      </Tooltip>
+                    </Col>
                     <Col style={{ display: 'flex', gap: '5px' }}>
                       <Location /> {item?.subActivity?.region?.title}
                     </Col>
-                    <Col style={{ display: 'flex', gap: '5px', fontSize: '12px' }}>
-                      <Calendar />{moment(item?.startDate).format('DD/MM/YY')} - {moment(item?.endDate).format('DD/MM/YY')}
+                    <Col
+                      style={{ display: 'flex', gap: '5px', fontSize: '12px' }}
+                    >
+                      <Calendar />
+                      {moment(item?.startDate).format('DD/MM/YY')} -{' '}
+                      {moment(item?.endDate).format('DD/MM/YY')}
                     </Col>
                     <Space size={[40, 16]} align="start">
                       <Col>{item?.subActivity?.sector?.title} </Col>
@@ -122,12 +177,13 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
           </AsnCardSubActivity>
         </Row>
       </Container>
-      {isOpenCreateActivityModal &&
+      {isOpenCreateActivityModal && (
         <AddSubActivity
           setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
           isOpenCreateActivityModal={isOpenCreateActivityModal}
           templates={templates}
-        />}
+        />
+      )}
     </>
   );
 };

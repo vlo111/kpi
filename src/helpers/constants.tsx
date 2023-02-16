@@ -1,4 +1,8 @@
-import { IApplicantAccessStatus, IApplicantDefaultStatus } from '../types/applicant';
+import { SliderMarks } from 'antd/lib/slider';
+import {
+  IApplicantAccessStatus,
+  IApplicantDefaultStatus
+} from '../types/applicant';
 
 export const PATHS = {
   ROOT: '/',
@@ -29,7 +33,9 @@ export const PATHS = {
   COURSESECTION: 'activity-template/:id/second-step',
   APPLICANT: 'applicant/:id',
   APPLICATIONFORM: 'application/:id',
-  APPLYAPPLICANTFORM: 'apply-form/:id'
+  APPLYAPPLICANTFORM: 'apply-form/:id',
+  APPLICANTS: 'applicants',
+  INVITATION: 'accept-invitation'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -64,8 +70,10 @@ export const menuItemsNavigate = [
 ];
 
 export const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$/;
-export const phoneRegExp = /^[+][(][0-9]{1,5}[)][-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,12}$/im;
-export const phoneErrorMesage = 'Please enter your phone in format: +(374) XXXXXX';
+export const phoneRegExp =
+  /^[+][(][0-9]{1,5}[)][-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,12}$/im;
+export const phoneErrorMesage =
+  'Please enter your phone in format: +(374) XXXXXX';
 
 export const VALIDATE_EMPTY = {
   firstName: 'Please enter a valid Email Address',
@@ -167,18 +175,18 @@ export enum SectionName {
 export enum Placeholders {
   phone = '+(374) XXXXXX',
   date = 'DD/MM/YYYY',
-  email = 'yourmail@analysed.ai'
+  email = 'yourmail@analysed.ai',
 }
 
 export enum KeyName {
   phone = 'phone',
   dob = 'dob',
-  email = 'email'
+  email = 'email',
 }
 
 export enum ErrorRequireMessages {
   checkbox = 'Please chose one of the fields',
-  input = 'Please enter the field'
+  input = 'Please enter the field',
 }
 
 export const defaultLimit = {
@@ -187,6 +195,35 @@ export const defaultLimit = {
   currentPage: 1
 };
 
+// Region data
+export const optionsRegion = [
+  { label: 'Yerevan', value: 'Yerevan/Երևան,' },
+  { label: 'Aragatsotn', value: 'Aragatsotn/Արագածոտն,' },
+  { label: 'Ararat', value: 'Ararat/Արարատ,' },
+  { label: 'Armavir', value: 'Armavir/Արմավիր,' },
+  { label: 'Gegharkunik', value: 'Gegharkunik/Գեղարքունիք,' },
+  { label: 'Kotayk', value: 'Kotayk/Կոտայք' },
+  { label: 'Lori', value: 'Lori/Լոռի,' },
+  { label: 'Shirak', value: 'Shirak/Շիրակ,' },
+  { label: 'Syunik', value: 'Syunik/Սյունիք,' },
+  { label: 'Tavush', value: 'Tavush/Տավուշ,' },
+  { label: 'Vayots Dzor', value: 'Vayots Dzor/Վայոց Ձոր,' }
+];
+
+// Status data
+export const optionsStatus = [
+  { label: 'Applicant', value: 'APPLICANT' },
+  { label: 'Selection', value: 'SELECTION' },
+  { label: 'Pre-Assessment', value: 'PRE_ASSESSMENT' },
+  { label: 'Participant', value: 'PARTICIPANT' },
+  { label: 'Post-Assessment ', value: 'POST_ASSESSMENT' },
+  { label: 'Trained', value: 'TRAINED' }
+];
+// Age function
+export const marks: SliderMarks = {
+  0: '0',
+  100: '100'
+};
 export const optionsReason = [
   { label: 'Personal issues', value: 'personal' },
   { label: 'Change of plans', value: 'plan' },
@@ -197,11 +234,11 @@ export const optionsReason = [
 ];
 
 export enum FileType {
-  APPLICANT_DOCUMENT = 'APPLICANT_DOCUMENT'
+  APPLICANT_DOCUMENT = 'APPLICANT_DOCUMENT',
 }
 
 export enum AssessmentStatus {
   NotAssessed = ' Not assessed',
   NotSubmitted = ' Not submitted',
-  Scored = ' Scored '
+  Scored = ' Scored ',
 }

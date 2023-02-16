@@ -367,7 +367,7 @@ const ActivityTemplate: React.FC = () => {
                       color: 'var(--dark-2)'
                     }}
                   >
-                    One Section
+                    One Phase
                   </Radio>
                   <Radio
                     value={'MULTI_SECTION'}
@@ -376,7 +376,7 @@ const ActivityTemplate: React.FC = () => {
                       color: 'var(--dark-2)'
                     }}
                   >
-                    Multi-Section
+                    Multi-Phase
                   </Radio>
                 </Radio.Group>
               </Form.Item>

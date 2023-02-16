@@ -34,7 +34,9 @@ import Files from './pages/Files';
 import Applicant from './pages/Applicant';
 import Application from './pages/Application';
 import FillApplicationForm from './pages/ApplicationPublicForm';
+import ApplicantsData from './pages/Applicatns';
 import UsersTeam from './components/Team/TeamMembesList';
+import Invitation from './pages/Auth/Invitation';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,6 +44,7 @@ export const router = createBrowserRouter(
       <Route element={<PublicRoutes />}>
         <Route element={<AuthLayout />}>
           <Route path={PATHS.ROOT} element={<SignIn />} />
+          <Route path={PATHS.INVITATION} element={<Invitation />} />
           <Route path={PATHS.SIGNIN} element={<SignIn />} />
           <Route path={PATHS.SIGNUP} element={<SignUp />} />
           <Route path={PATHS.RESENDCONFIRMATION} element={<ResendConfirmation />} />
@@ -70,6 +73,7 @@ export const router = createBrowserRouter(
         <Route path={PATHS.COURSESECTION} element={<CourseSection />} />
         <Route path={PATHS.APPLICANT} element={<Applicant />} />
         <Route path={PATHS.APPLICATIONFORM} element={<Application />} />
+        <Route path={PATHS.APPLICANTS} element={<ApplicantsData />} />
       </Route>
       <Route path={PATHS.APPLYAPPLICANTFORM} element={<FillApplicationForm />} />
       <Route path={PATHS.ERROR_403} element={<Error404 />} />

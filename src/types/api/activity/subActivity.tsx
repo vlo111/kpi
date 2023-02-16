@@ -39,6 +39,7 @@ export interface IApplicantsList {
 export interface IApplicantsListFullInfo {
   applicants: IApplicantsList []
   color: string
+  courseId: string
 }
 
 export interface ICourseStatusInfo {
@@ -74,6 +75,9 @@ export interface IUserListTypes {
   name: string
   email: string
   status: string
+  dataIndex: number
+  key: string
+  title: string
 }
 
 export interface IWrapperProps {

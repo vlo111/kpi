@@ -1,6 +1,7 @@
 import { ChangeEventHandler } from 'react';
 import { TabsProps } from 'antd';
-import { UploadRequestOption } from './api/activity/subActivity';
+import { UseMutation, Void } from './global';
+import { ResponseErrorParam } from './api/project/get-project';
 
 export interface IApplicant {
   id: string
@@ -72,6 +73,12 @@ export interface IApproveModalProps {
   open: string
   onCancel: () => void
 }
+export interface ImportParams {
+  sectionDataId: string
+  file: Blob
+}
+
+export type ImportApplicantList = UseMutation<Void, any, ResponseErrorParam, ImportParams>
 
 export type OnNoteHandler = ChangeEventHandler<HTMLTextAreaElement>;
 
@@ -144,4 +151,10 @@ export interface IApplicantAccessStatus {
   Dropped: string
   Trained: string
   NotEnrolled: string
+}
+
+export interface IFiles { applicantId: string, history: IHistory }
+
+export interface IApplicantProps {
+  applicantId?: string
 }
