@@ -111,7 +111,7 @@ const SubActivity: React.FC<{}> = () => {
                   activity={item}
                   refetch={refetch}
                   index={i}
-                  manager={data?.manager}
+                  assignedUsers={data?.assignees}
                   applicationForm={data?.applicationForm}
                 />
               </Tabs.TabPane>
@@ -130,7 +130,7 @@ const SubActivity: React.FC<{}> = () => {
             refetch={refetch}
             activity={data?.sectionsData[0]}
             index={0}
-            manager={data?.manager}
+            assignedUsers={data?.assignees}
             applicationForm={data?.applicationForm}
           />
         </>

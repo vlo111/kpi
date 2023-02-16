@@ -112,7 +112,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                 className={`card ${
                   item?.status === 'INACTIVE'
                     ? 'cardInactive'
-                    : item?.status=== 'DONE'
+                    : item?.status === 'DONE'
                     ? 'cardActive'
                     : ''
                 }`}
@@ -126,7 +126,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                         : ''
                     }`}
                   >
-                    {item?.cardRound} 
+                    {item?.cardRound}
                   </div>
                   <Row
                     gutter={[8, 16]}
