@@ -84,13 +84,13 @@ const CreateAssessmentInfoModal: React.FC<CreateAssessmentIfoModalTypes> = ({
 
   const createAssessmentForm = (): void => {
     navigate(`/${PATHS.ASSESSMENTFORMCREATE.replace(':id', courseId)}`, {
-      state: { type, navigateRouteInfo: { ...navigateRouteInfo, courseId, projectId } }
+      state: { type, navigateRouteInfo: { ...navigateRouteInfo, projectId } }
     });
   };
 
   const nextToDuplicate = (item: Result | undefined): void => {
     navigate(`/${PATHS.ASSESSMENTFORMCREATE.replace(':id', courseId)}`, {
-      state: { type: item?.type, formId: item?.id, navigateRouteInfo: { ...navigateRouteInfo, courseId, projectId } }
+      state: { type: item?.type, formId: item?.id, navigateRouteInfo: { ...navigateRouteInfo, projectId } }
     });
   };
 
