@@ -7,25 +7,22 @@ import { AsnForm } from '../../components/Forms/Form';
 import { IAnswersProps, IAnswer } from '../../types/api/assessment';
 
 const OptionType: React.FC<IAnswersProps> = ({ question, i }) => {
-  //   const { title, answers, required, score } = question;
+  const { answers, title, score, required } = question;
 
-  //   const form = AsnForm.useFormInstance();
-  //   const sortedAnswers = answers?.sort((a, b) => (a.type < b.type) ? -1 : (a.type > b.type) ? 1 : 0);
+  const sortedAnswers = answers?.sort((a, b) => (a.type < b.type) ? -1 : (a.type > b.type) ? 1 : 0);
 
   return (
     <AsnForm.Item
-      name={[i, 'answers', 0, 'id']}
-    //   label={`${title} (${score} score)`}
-    //   rules={[{ required, message: 'Please check field' }]}
+      label={`${title} (${score} score)`}
+      rules={[{ required }]}
       style={{ fontWeight: 'var(--font-semibold)' }}
     >
         <Space direction="vertical" style={{ paddingTop: '17px' }}>
-          {[].map((answer: IAnswer) => (
-            <AsnRadio key={answer.id} value={answer.id} style={{ fontWeight: 'var(--font-normal)' }} >
+          {sortedAnswers.map((answer: IAnswer) => (
+            <AsnRadio key={answer.id} disabled style={{ fontWeight: 'var(--font-normal)' }} >
               {answer.title}
               {answer.type === 'SHORT_TEXT' &&
                 <AsnForm.Item
-                  name={[i, 'answers', 0, 'text']}
                   style={{ margin: '-32px 0px 0px 65px', width: 'calc(80vw - 136px)' }}
                 >
                   <UnderLineInput disabled />
@@ -38,5 +35,3 @@ const OptionType: React.FC<IAnswersProps> = ({ question, i }) => {
 };
 
 export default OptionType;
-// 0c83f395-3a58-4334-8abd-530e98e4b25c
-// 937ac0c0-37f3-453c-9f48-5e222b745ddd

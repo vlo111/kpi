@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FormProps, Space, Tooltip, Typography } from 'antd';
+import { Space, Tooltip, Typography } from 'antd';
 import { AsnForm } from '../../Forms/Form';
 import { AsnInput, AsnInputNumber } from '../../Forms/Input';
 import AssessmentFormItems from '../FormList';
@@ -9,7 +9,10 @@ import { ReactComponent as AddAssessmentIcon } from '../../../assets/icons/add-a
 import { AsnButton } from '../../Forms/Button';
 import { AsnSwitch } from '../../Forms/Switch';
 import { IButtonContainer } from '../../../types/api/assessment';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import CreateAssessmentFormDataByCourseId from '../../../api/AssessmentForm/useCreateAssessmentFormCourseId';
+import PreviewAssessmentForm from '../../PreviewAssessmentForm';
+import AssessmentFormUrlModal from '../FormUrlModal/Index';
 
 const { Title } = Typography;
 
@@ -107,11 +110,20 @@ export const FormInput = styled(AsnInput)`
 
 const AssessmentForms: React.FC = () => {
   const [answerType, setAnswerType] = useState('OPTION');
+  const [formUrlModal, setFormUrlModal] = useState(false);
+  const [isPreviewForm, setIsPreviewForm] = useState(false);
   const [allScore, setAllScore] = useState(0);
+  const [responseDataId, setResponseDataId] = useState();
   const [form] = AsnForm.useForm();
   const location = useLocation();
+  const { id: courseId } = useParams<{ id: any }>();
 
-  console.log(location?.state?.type, 'aaa');
+  const { mutate: createAssessmentForm } = CreateAssessmentFormDataByCourseId({
+    onSuccess: (responseData: any) => {
+      setResponseDataId(responseData.data);
+      setFormUrlModal(true);
+    }
+  });
 
   useEffect(() => {
     form.setFieldsValue({
@@ -120,7 +132,7 @@ const AssessmentForms: React.FC = () => {
       passingScore: 0,
       questions: [
         {
-          type: answerType,
+          answerType,
           required: true,
           answers: [
             {
@@ -140,18 +152,19 @@ const AssessmentForms: React.FC = () => {
   }, []);
 
   const onAddQuestion = (add: any): void => {
+    setAnswerType('OPTION');
     add({
-      type: 'OPTION',
+      answerType: 'OPTION',
       answers: [
         {
           title: '',
           score: 0,
-          type: answerType
+          type: 'OPTION'
         },
         {
           title: '',
           score: 0,
-          type: answerType
+          type: 'OPTION'
         }
       ],
       required: true,
@@ -160,26 +173,15 @@ const AssessmentForms: React.FC = () => {
   };
 
   const onCreatedAssessmentFinish = (value: any): any => {
-    console.log(value);
-  };
-
-  const sumAllScores: FormProps['onValuesChange'] = (
-    _changedValues,
-    allValues: any
-  ) => {
-    const allScores = allValues.questions.reduce(
-      (sum: any, current: any): any =>
-        Number(current?.score === undefined ? 0 : current.score) +
-        +sum +
-        +current?.answers.reduce(
-          (sum: number, current: { score: number }) =>
-            sum + Number(current.score),
-          0
-        ),
-      0
-    );
-
-    setAllScore(allScores);
+    createAssessmentForm({
+      id: courseId,
+      data: {
+        maximumScore: allScore,
+        type: location?.state.type,
+        duplicate: false,
+        ...value
+      }
+    });
   };
 
   return (
@@ -190,16 +192,16 @@ const AssessmentForms: React.FC = () => {
         id="create-assessment-AsnForm"
         onFinish={onCreatedAssessmentFinish}
         initialValues={{ questions: [''] }}
-        onValuesChange={sumAllScores}
       >
         <CardContainer
           borderTop={'3px solid var(--secondary-light-amber)'}
           marginTop={'2rem'}
         >
-          <CardTitle>
-            Form title
-          </CardTitle>
-          <AsnForm.Item name="title">
+          <CardTitle>Form title</CardTitle>
+          <AsnForm.Item
+            name="title"
+            rules={[{ required: true, message: 'Please enter title' }]}
+          >
             <FormInput placeholder="Title" />
           </AsnForm.Item>
         </CardContainer>
@@ -207,10 +209,10 @@ const AssessmentForms: React.FC = () => {
           borderTop={'3px solid var(--secondary-light-amber)'}
           marginTop={'2rem'}
         >
-            <CardTitle>
-              Email address (same as in the submitted application form)
-            </CardTitle>
-            <FormInput placeholder="Email address" disabled={true}/>
+          <CardTitle>
+            Email address (same as in the submitted application form)
+          </CardTitle>
+          <FormInput placeholder="Email address" disabled={true} />
         </CardContainer>
         <AsnForm.List name="questions">
           {(questionsLists, { add, remove }) => (
@@ -234,12 +236,11 @@ const AssessmentForms: React.FC = () => {
                     answerType={answerType}
                     setAnswerType={setAnswerType}
                     questionsLists={questionsLists}
+                    setAllScore={setAllScore}
                   />
                   {name === questionsLists.length - 1
                     ? (
-                    <AddAssessmentButton
-                      onClick={() => onAddQuestion(add)}
-                    >
+                    <AddAssessmentButton onClick={() => onAddQuestion(add)}>
                       <Tooltip
                         placement="topLeft"
                         title={<span>Add a question</span>}
@@ -276,7 +277,7 @@ const AssessmentForms: React.FC = () => {
                 Passing Score
               </Title>
               <AsnForm.Item name="passingScore">
-                <ScoreInputNumber className="primary" />
+                <ScoreInputNumber className="primary" min={0} max={allScore} />
               </AsnForm.Item>
             </Scores>
           </Space>
@@ -291,12 +292,31 @@ const AssessmentForms: React.FC = () => {
         </CardContainer>
         <ButtonsContainer marginTop="4rem">
           <AsnButton className="default">Cancel</AsnButton>
-          <AsnButton className="default">Preview</AsnButton>
+          <AsnButton className="default" onClick={() => setIsPreviewForm(true)}>
+            Preview
+          </AsnButton>
           <AsnButton className="primary" htmlType="submit">
             Publish
           </AsnButton>
         </ButtonsContainer>
       </AsnForm>
+      <AssessmentFormUrlModal
+        formUrlModal={formUrlModal}
+        setFormUrlModal={setFormUrlModal}
+        responseIds={responseDataId}
+      />
+      <PreviewAssessmentForm
+        isPreviewForm={isPreviewForm}
+        setIsPreviewForm={setIsPreviewForm}
+        createAssessmentForm={createAssessmentForm}
+        courseId={courseId}
+        data={{
+          maximumScore: allScore,
+          type: location?.state.type,
+          duplicate: false,
+          ...form.getFieldsValue()
+        }}
+      />
     </AssessmentFormsContent>
   );
 };

@@ -59,21 +59,21 @@ const QuestionHeader: React.FC<any> = ({
 }) => {
   const form = AsnForm.useFormInstance();
   const onDuplicateForm = (): any => {
+    setAnswerType(form.getFieldsValue().questions[name[0]].answerType);
     add(form.getFieldsValue().questions[name[0]]);
-    // console.log(form.getFieldsValue().questions[name[0]].answers.findIndex((item: any) => item.score > 0));
   };
 
   const answerTypeChange: FormFinish = (value) => {
     if (value === 'SHORT_TEXT') {
       form.setFieldValue(['questions', name[0]], {
         answers: [],
-        type: value,
+        answerType: value,
         required: true,
         title: ''
       });
     } else {
       form.setFieldValue(['questions', name[0]], {
-        type: value,
+        answerType: value,
         required: true,
         answers: [
           {
@@ -95,7 +95,7 @@ const QuestionHeader: React.FC<any> = ({
   return (
     <HeaderWrapper align="middle" justify="space-between">
       <AsnForm.Item
-        name={[name[0], 'type']}
+        name={[name[0], 'answerType']}
         className="select_question_item"
         initialValue={answerType}
       >

@@ -108,7 +108,7 @@ export interface AssessmentFormDataResponseOneItem {
 }
 
 export interface CreateAssessmentFormData {
-  courseId: string
+  id: string | undefined
   data: Result
 }
 

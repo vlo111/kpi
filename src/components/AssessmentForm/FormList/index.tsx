@@ -9,7 +9,8 @@ const AssessmentFormItems: React.FC<any> = ({
   name,
   add,
   answerType,
-  setAnswerType
+  setAnswerType,
+  setAllScore
 }) => {
   return (
     <CardContainer
@@ -27,6 +28,7 @@ const AssessmentFormItems: React.FC<any> = ({
       <QuestionContent
         name={name}
         answerType={answerType}
+        setAllScore={setAllScore}
       />
     </CardContainer>
   );

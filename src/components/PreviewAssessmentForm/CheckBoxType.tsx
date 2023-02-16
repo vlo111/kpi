@@ -6,28 +6,26 @@ import { AsnForm } from '../../components/Forms/Form';
 import { IAnswersProps, IAnswer } from '../../types/api/assessment';
 
 const CheckBoxType: React.FC<IAnswersProps> = ({ question, i }) => {
-  //   const form = AsnForm.useFormInstance();
-  //   const { title, answers, required, score } = question;
+  const { answers, title, score, required } = question;
 
   return (
-        <AsnForm.Item
-            name={[i, 'checkboxIds']}
-            //   label={`${title} (${score} score)`}
-            // rules={[{ requred: true }]}
-            style={{ fontWeight: 'var(--font-semibold)' }}
-        >
-                <Space direction="vertical" style={{ paddingTop: '17px' }}>
-                    {[].map((answer: IAnswer) => (
-                        <AssessMentFormCheckBox
-                            key={answer.id}
-                            value={answer.id}
-                            style={{ fontWeight: 'var(--font-normal)' }}
-                        >
-                            {answer.title}
-                        </AssessMentFormCheckBox>
-                    ))}
-                </Space>
-        </AsnForm.Item>
+    <AsnForm.Item
+      label={`${title} (${score} score)`}
+      rules={[{ required }]}
+      style={{ fontWeight: 'var(--font-semibold)' }}
+    >
+      <Space direction="vertical" style={{ paddingTop: '17px' }}>
+        {answers.map((answer: IAnswer) => (
+          <AssessMentFormCheckBox
+            key={answer.id}
+            style={{ fontWeight: 'var(--font-normal)' }}
+            disabled
+          >
+            {answer.title}
+          </AssessMentFormCheckBox>
+        ))}
+      </Space>
+    </AsnForm.Item>
   );
 };
 

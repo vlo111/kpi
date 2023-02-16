@@ -5,15 +5,15 @@ import { AsnForm } from '../../components/Forms/Form';
 import { IAnswersProps } from '../../types/api/assessment';
 
 const ShortTextType: React.FC<IAnswersProps> = ({ question, i }) => {
-//   const { title, required, score } = question;
+  const { title, score, required } = question;
+
   return (
         <AsnForm.Item
-            name={[i, 'answers', 0, 'text']}
-            // label={`${title} (${score} score)`}
-            // rules={[{ required, message: 'Please fill input field' }]}
+            label={`${title} (${score} score)`}
+            rules={[{ required }]}
             style={{ fontWeight: 'var(--font-semibold)' }}
         >
-            <UnderLineInput />
+            <UnderLineInput disabled />
         </AsnForm.Item>
   );
 };

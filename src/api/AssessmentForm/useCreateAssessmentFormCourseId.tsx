@@ -7,8 +7,8 @@ export const url = 'api/assessment-form/course';
 const CreateAssessmentFormDataByCourseId: CreateAssessmentFormByCourseId = (options = {}) =>
   useMutation(
     async (params: CreateAssessmentFormData) => {
-      if (params.courseId !== undefined) {
-        return await client.post(`${url}/${params.courseId}`, params.data);
+      if (params.id !== undefined) {
+        return await client.post(`${url}/${params.id}`, params.data);
       }
     },
     options
