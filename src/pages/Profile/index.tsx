@@ -15,11 +15,13 @@ import { ReactComponent as UploadUser } from '../../assets/icons/upload.svg';
 import { ReactComponent as Edit } from '../../assets/icons/edit.svg';
 import useEditUser from '../../api/UserProfile/useEditUser';
 import userImageUpload from '../../api/UserProfile/useUserImageUpload';
+import { useProject } from '../../hooks/useProject';
 
 const { Title } = Typography;
 
 const UserProfile: React.FC = () => {
-  const { data: user }: { data: IUser } = useCurrentUser();
+  const { projectId } = useProject();
+  const { data: user }: { data: IUser } = useCurrentUser({ projectId });
   const [photo, setPhoto] = useState('');
   const navigate = useNavigate();
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
@@ -45,7 +47,7 @@ const UserProfile: React.FC = () => {
 
   useEffect(() => {
     if (photo !== '') {
-      saveChanges({ photo });
+      saveChanges({ userData: { photo }, projectId });
     }
   }, [photo]);
 
@@ -66,7 +68,7 @@ const UserProfile: React.FC = () => {
   };
 
   const onRemove: TVoid = () => {
-    saveChanges({ photo: '' });
+    saveChanges({ userData: { photo: '' }, projectId });
     setPhoto('');
   };
   const antIcon = <LoadingOutlined style={{ fontSize: 60, color: 'var(--dark-border-ultramarine)' }} spin />;

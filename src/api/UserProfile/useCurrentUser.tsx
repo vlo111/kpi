@@ -5,9 +5,9 @@ import client from '../client';
 
 export const URL_USER_ME = 'api/users/me';
 
-const useCurrentUser = (params = {}, options = { enabled: true }): any => {
+const useCurrentUser = (params: { projectId: string }, options = { enabled: true }): any => {
   const { user, login } = useAuth();
-  const result = useQuery([URL_USER_ME, params], (): any => client.get(URL_USER_ME), {
+  const result = useQuery([`${URL_USER_ME}/project/${params?.projectId}`, params], (): any => client.get(`${URL_USER_ME}/project/${params?.projectId}`), {
     ...options,
     select: (data) => data.data,
     onSuccess: (data) => {
