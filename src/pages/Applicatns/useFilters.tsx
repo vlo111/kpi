@@ -8,11 +8,7 @@ import { ContentAssingersFilter } from './applicantsStyle';
 import { Ifiltres } from './applicantsTypes';
 import { Void } from '../../types/global';
 
-export const UseFilters: React.FC<Ifiltres> = ({
-  setOpen,
-  onFinish,
-  form
-}) => {
+export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
   const hide: Void = () => {
     setOpen();
   };
@@ -63,7 +59,9 @@ export const UseFilters: React.FC<Ifiltres> = ({
             <Form.Item name="income">
               <Radio.Group>
                 <Space direction="vertical">
-                  <Radio value={true} name='Paid job'>Paid job</Radio>
+                  <Radio value={true} name="Paid job">
+                    Paid job
+                  </Radio>
                   <Radio value={false}>Unemployed</Radio>
                 </Space>
               </Radio.Group>
@@ -87,7 +85,7 @@ export const UseFilters: React.FC<Ifiltres> = ({
               />
             </Form.Item>
           </Panel>
-        </Collapse>{' '}
+        </Collapse>
         <Form.Item>
           <Space
             direction="horizontal"
