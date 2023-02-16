@@ -1,5 +1,7 @@
 import { ChangeEventHandler } from 'react';
 import { TabsProps } from 'antd';
+import { UseMutation, Void } from './global';
+import { ResponseErrorParam } from './api/project/get-project';
 
 export interface IApplicant {
   id: string
