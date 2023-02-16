@@ -154,3 +154,7 @@ export interface IApplicantAccessStatus {
 }
 
 export interface IFiles { applicantId: string, history: IHistory }
+
+export interface IApplicantProps {
+  applicantId?: string
+}

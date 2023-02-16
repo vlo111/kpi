@@ -74,12 +74,20 @@ export interface Idata {
 
 }
 export interface Iseacrh {
-  search: string
-  limit: number
-  offset: number
+  age?: { from: number, to: number } | undefined
+  search?: string
+  limit?: number
+  offset?: number
+  disability?: boolean
+  gender?: string
+  income?: boolean
+  regions?: string[]
+  statuses?: string[]
+  student?: boolean
 }
+
 export interface IfilterResult {
-  filters: any
+  filters: Iseacrh
   onFinish: TVoid
   form: FormInstance<string>
   setFilters: any
@@ -94,4 +102,3 @@ export interface Ifiltres {
   onFinish: () => void
   setOpen: () => boolean
 }
-
