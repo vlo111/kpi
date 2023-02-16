@@ -28,8 +28,9 @@ export const PATHS = {
   APPLICANT: 'applicant/:id',
   APPLICATIONFORM: 'application/:id',
   APPLYAPPLICANTFORM: 'apply-form/:id',
-  ASSESSMENTFORM: 'assessment-form/:id',
-  ASSESSMENTFORMCREATE: 'assessment-form/create/:id'
+  ASSESSMENTFORM: 'assessment-form',
+  ASSESSMENTFORMCREATE: 'assessment-form/create/:id',
+  FILLEDOUTASSESSMENTFORM: 'assessment-form/assess/:id'
 };
 
 export const VALIDATE_MESSAGES = {

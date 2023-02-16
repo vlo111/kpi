@@ -3,9 +3,9 @@ import { Outlet, Navigate } from 'react-router-dom';
 import { PATHS } from '../helpers/constants';
 import { MainLayout } from '../components/Layout/MainLayout';
 
-export const PrivateRoutes: React.FC = () => {
+export const PrivateRoutes: React.FC<{ path?: string }> = ({ path }) => {
   const token = localStorage.getItem('token');
   return (
-    (token !== 'null') ? <MainLayout><Outlet /></MainLayout> : <Navigate to={`/${PATHS.SIGNIN}`} />
+    (token !== 'null') ? PATHS.FILLEDOUTASSESSMENTFORM === path ? <Outlet /> : <MainLayout><Outlet /></MainLayout> : <Navigate to={`/${PATHS.SIGNIN}`} />
   );
 };

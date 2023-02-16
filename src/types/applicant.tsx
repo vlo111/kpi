@@ -1,3 +1,5 @@
+import { AssessmentFormOptions, IQuestion } from './api/assessment';
+
 export interface IApplicant {
   id: string
   fullName: string
@@ -63,4 +65,37 @@ interface GetApplicant {
   applicant: IApplicantData
 }
 
+export interface IPreAssessMentForm {
+  active: boolean
+  authorId: string
+  createdAt: string
+  deletedAt: null | string
+  duplicate: boolean
+  id: string
+  maximumScore: number
+  onlineSignature: boolean
+  passingScore: number
+  projectId: string
+  publish: boolean
+  questions: IQuestion[]
+  sectionDataId: string
+  sectionDataTitle: string
+  title: string
+  type: string
+  updatedAt: string
+  userEarnedScore: number
+  userAssessedScore: number
+}
+export interface IGetApplicantForm {
+  email: string
+  id: string
+  preAssessmentForm: IPreAssessMentForm
+}
+export interface IGetApplicantFormResult {
+  data: IGetApplicantForm
+  isSuccess: boolean
+  isLoading: boolean
+  refetch: any
+}
 export type UseGetApplicant = (id: string | undefined) => GetApplicant
+export type useGetApplicantForm = (id: string, sectionDataId: string, type: string, options?: AssessmentFormOptions) => IGetApplicantFormResult

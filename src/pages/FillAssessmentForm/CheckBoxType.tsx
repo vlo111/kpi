@@ -1,28 +1,10 @@
 import React from 'react';
-import { Space, Checkbox } from 'antd';
+import { Space } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
-import styled from 'styled-components';
 
+import { AssessMentFormCheckBox } from '../../components/Forms/Checkbox';
 import { AsnForm } from '../../components/Forms/Form';
 import { IAnswersProps, IAnswer } from '../../types/api/assessment';
-
-const AsnCheckbox = styled(Checkbox)`
-    span{
-     font-size: var(--base-font-size) !important;
-    }
-    .ant-checkbox .ant-checkbox-inner {
-      border-color:  var(--dark-border-ultramarine);
-    }
-
-    .ant-checkbox-disabled .ant-checkbox-inner {
-      border-color:  var(--dark-border-ultramarine);
-     }
-
-     .ant-checkbox-checked .ant-checkbox-inner {
-       border-color:  var(--dark-border-ultramarine);
-       background-color: var(--dark-border-ultramarine);
-     }
-`;
 
 const CheckBoxType: React.FC<IAnswersProps> = ({ question, i }) => {
   const form = AsnForm.useFormInstance();
@@ -53,19 +35,19 @@ const CheckBoxType: React.FC<IAnswersProps> = ({ question, i }) => {
       ]}
       style={{ fontWeight: 'var(--font-semibold)' }}
     >
-      <AsnCheckbox.Group style={{ paddingTop: '17px' }} onChange={(e) => handleChecked(e)} >
+      <AssessMentFormCheckBox.Group style={{ paddingTop: '17px' }} onChange={(e) => handleChecked(e)} >
         <Space direction="vertical">
           {answers.map((answer: IAnswer) => (
-            <AsnCheckbox
+            <AssessMentFormCheckBox
               key={answer.id}
               value={answer.id}
               style={{ fontWeight: 'var(--font-normal)' }}
             >
               {answer.title}
-            </AsnCheckbox>
+            </AssessMentFormCheckBox>
           ))}
         </Space>
-      </AsnCheckbox.Group>
+      </AssessMentFormCheckBox.Group>
     </AsnForm.Item>
   );
 };

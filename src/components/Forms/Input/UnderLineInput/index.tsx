@@ -25,6 +25,8 @@ export const UnderLineInput = styled(Input)`
    }
    &.ant-input[disabled] {
     border-color: var(--dark-border-ultramarine);
-    background-color: var(--white)
+    background-color: var(--white);
+    color: var(--dark);
+    font-weight: var( --font-semibold)
    }
 `;

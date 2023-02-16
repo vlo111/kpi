@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Modal, Typography, Space, message } from 'antd';
 import styled from 'styled-components';
 
@@ -47,9 +47,12 @@ const FillAssessMentForm: React.FC = () => {
 
   const [form] = AsnForm.useForm();
 
-  const { id } = useParams();
-  const { data: { result: assessmentForm }, isLoading } = useGetAssessmentForm(id as string, { enabled: Boolean(id) });
-  const { mutate: applyForm } = useApplyAssessmentForm();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const id = searchParams.get('id') as string;
+
+  const { data: { result: assessmentForm }, isLoading } = useGetAssessmentForm(id, { enabled: Boolean(id) });
+  const { mutate: applyForm } = useApplyAssessmentForm({});
 
   const onFinish: TVoid = (values) => {
     const clonedValues = _.cloneDeep(values);
@@ -177,4 +180,3 @@ const FillAssessMentForm: React.FC = () => {
 };
 
 export default FillAssessMentForm;
-// 05dbaacb-8e47-4f72-9994-644d88117b74

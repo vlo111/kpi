@@ -1,28 +1,10 @@
 import React, { useState } from 'react';
-import { Space, Radio, RadioChangeEvent } from 'antd';
-import styled from 'styled-components';
+import { Space, RadioChangeEvent } from 'antd';
 
+import { AsnRadio } from '../../components/Forms/Radio';
 import { UnderLineInput } from '../../components/Forms/Input/UnderLineInput';
 import { AsnForm } from '../../components/Forms/Form';
 import { IAnswersProps, IAnswer } from '../../types/api/assessment';
-
-const AsnRadio = styled(Radio)`
- span{
-  font-size: var(--base-font-size) !important;
- }
-  .ant-radio-inner{
-   border: 1px solid var(--dark-border-ultramarine)
-  }
-  .ant-radio:hover .ant-radio-inner{
-    border: 1px solid var(--dark-border-ultramarine) !important
-  }
-  .ant-radio-inner:after{
-    background-color:var(--dark-border-ultramarine)
-  }
-  .ant-radio-input:focus+.ant-radio-inner{
-    box-shadow: none
-  }
-`;
 
 const OptionType: React.FC<IAnswersProps> = ({ question, i }) => {
   const [checkOther, setCheckOther] = useState<boolean>(false);
