@@ -5,11 +5,12 @@ import client from '../../client';
 
 const url = 'api/sub-activity';
 
-const useAttacheFilesSubActivitySection: AssignUserInCourse = (options = {}) =>
+const useAssignUserInCoresById: AssignUserInCourse = (options = {}) =>
   useMutation(
     async (params: IAssignUserParams) => {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       return await client.post(`${url}/${params.subActivityId}/assign/${params.userId}`);
     },
     options
   );
-export default useAttacheFilesSubActivitySection;
+export default useAssignUserInCoresById;

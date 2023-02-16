@@ -101,13 +101,17 @@ export interface ICreateSubActivityTypes {
   setOpenCreateSubActivity: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+export interface IAssignedUserType {
+  email: string
+  creator: boolean
+  photo: string
+  firstname: string
+  id: string
+  lastname: string
+}
+
 export interface IManagerType {
-  manager: {
-    email: string
-    firstName: string
-    id: string
-    lastName: string
-  }
+  assignedUsers: IAssignedUserType[]
   color: string | undefined
 }
 
@@ -178,7 +182,7 @@ export interface EligibleUsersTypes {
 }
 
 export interface IAssignUserParams {
-  subActivityId: string
+  subActivityId?: string
   userId: string
 }
 

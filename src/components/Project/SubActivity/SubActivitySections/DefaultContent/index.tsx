@@ -6,7 +6,7 @@ import SubActivityUsersInfo from '../UsersInfo';
 import SubActivityUsersFullInfo from '../ApplicantFullInfo';
 
 const DefaultContent: React.FC<any> = ({
-  manager,
+  assignedUsers,
   status,
   requIredDocs,
   color,
@@ -27,7 +27,7 @@ const DefaultContent: React.FC<any> = ({
           />
         </Col>
         <Col span={12}>
-          <SubActivityUsersInfo manager={manager} color={color} />
+          <SubActivityUsersInfo assignedUsers={assignedUsers} color={color} />
         </Col>
       </Row>
       <Col>
