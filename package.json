@@ -21,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
+    "react-signature-canvas": "^1.0.6",
     "styled-components": "^5.3.6",
     "typescript": "*",
     "uuid": "^9.0.0",
@@ -31,7 +32,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "eslint": "./node_modules/.bin/eslint src/. --config .eslintrc.js"
+    "eslint": "./node_modules/.bin/eslint src/. --config .eslintrc.json"
   },
   "eslintConfig": {
     "extends": [
@@ -64,6 +65,7 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.6",
+    "@types/react-signature-canvas": "^1.0.2",
     "@types/react-test-renderer": "^18.0.0",
     "@types/styled-components": "^5.1.26",
     "@types/uuid": "^8.3.4",

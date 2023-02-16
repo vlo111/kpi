@@ -23,6 +23,7 @@ const GlobalStyle = createGlobalStyle`
     --success: #03BC66;
     --error: #EA1F4D;
     --error-background: #EA1F4D19;
+    --assessment-form-background: #F5F5F5;
     
     --white: #FFFFFF;
     --background: #F9FCFF;
@@ -71,6 +72,7 @@ const GlobalStyle = createGlobalStyle`
     --header-box-shadow: 0px 4px 4px rgba(42, 85, 120, 0.1);
     --manu-box-shadow: 4px 0px 4px rgba(42, 85, 120, 0.1);
     --overview-box-shadow: rgb(42 85 120 / 10%) -2px 6px 8px;
+    --assessment-form-box-shadow: 0px 4px 30px rgba(113, 103, 246, 0.2);
     /* Constants */
     --interval: clamp(15px, 5%, 50px)
   }
@@ -233,6 +235,29 @@ const GlobalStyle = createGlobalStyle`
   .filePreviewModal{
     width: auto!important;
     height: 500px !important;
+  }
+  .applicantsFilter{
+    .ant-popover-title{
+  font-size: var(--base-font-size) !important;
+  color: var(--dark-2);
+  border-bottom: none !important;
+  text-align-last: center;
+  padding: 16px 16px 10px;
+
+}
+.ant-popover-inner-content{
+  padding: 20px 0;
+  width: 350px;
+}
+  }
+  .filterIcon{
+    svg{
+    fill: var(--dark-border-ultramarine);
+    font-size: var(--base-font-size);
+    }
+  }
+  .table-row-dark{
+    background-color: var(--primary-light-3);
   }
 
   .customCascaderPopup{

@@ -59,7 +59,25 @@ export interface Result {
   type: EnumAssessmentFormTypes
   questions: Question[]
 }
-
+export interface IResult {
+  id: string
+  authorId: string
+  projectId: string
+  sectionDataId: string
+  sectionDataTitle: string
+  title: string
+  onlineSignature: boolean
+  active: boolean
+  publish: boolean
+  passingScore: number
+  maximumScore: number
+  createdAt: string
+  updatedAt: string
+  deletedAt: string
+  duplicate: boolean
+  type: string
+  questions: IQuestion[]
+}
 export interface Question {
   id?: string
   title: string
@@ -76,6 +94,15 @@ export interface Answer {
   type: enumAssessmentFormAnswers
 }
 
+export interface IAnswer {
+  id: string
+  title: string
+  score: number
+  type: string
+  checked: boolean
+  text: string
+  userEarnedScore: number
+}
 export interface AssessmentFormDataResponseOneItem {
   result: Result
 }
@@ -134,6 +161,73 @@ export type GetAssessmentFormByProjectId = (
   options?: AssessmentFormOptions
 ) => UseAssessmentFormSingleResult;
 
+export interface IGetAssessmentForm {
+  data: { result: IResult }
+  isSuccess: boolean
+  isLoading: boolean
+}
+export interface IQuestion {
+  answerType: string
+  id: string
+  required: boolean
+  score: number
+  title: string
+  userEarnedScore: number
+  assessedScore: number
+  answers: IAnswer[] | []
+}
+
+export interface IAnswersProps {
+  question: IQuestion
+  i: number
+}
+export interface IAssessmentFormAssess {
+  id: string
+  score: number
+}
+export interface IAssessmentFormSumTotalScore {
+  email: string
+  assess: IAssessmentFormAssess[]
+}
+
+export interface IGradingAssessmentForm {
+  grading: boolean
+  earnedScore: number
+  score: number
+  setEarnedScore: React.Dispatch<React.SetStateAction<number>>
+  i: number
+  setGrading: React.Dispatch<React.SetStateAction<boolean>>
+  userEarnedScore: number
+}
+
+export interface IAssessAnswer {
+  questionId: string
+  score: number
+}
+export interface IAssessForm {
+  formId: string
+  requestBody: {
+    type: string
+    assess: IAssessAnswer[]
+  }
+}
+
+export interface IFillAnswer {
+  id?: string
+  text?: string
+}
+export interface IApplyForm {
+  questionId: string
+  answers: IFillAnswer[]
+}
+export interface IApplyAssessMentForm {
+  id: string
+  requestBody: {
+    email: string
+    apply: IApplyForm[]
+  }
+}
+
 export type CreateAssessmentFormByCourseId = UseMutation<Void, any, ResponseErrorParam, CreateAssessmentFormData>;
 export type UpdateAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, UpdateAssessmentFormData>;
 export type DeleteAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
@@ -148,3 +242,7 @@ export interface IAssessmentSelectItem {
 export interface IButtonContainer {
   marginTop?: string
 }
+export type TUseAssessForm = UseMutation<Void, any, ResponseErrorParam, IAssessForm>;
+export type TUseApplyAssessMentForm = UseMutation<Void, any, ResponseErrorParam, IApplyAssessMentForm>;
+
+export type useGetAssessmentFormById = (id: string, options: AssessmentFormOptions) => IGetAssessmentForm

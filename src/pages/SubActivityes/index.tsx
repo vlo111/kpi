@@ -112,7 +112,7 @@ const SubActivity: React.FC<{}> = () => {
                   navigateRouteInfo={{ courseTitle, inputActivityTitle: activityTitle, resultAreaTitle, courseId: data?.id }}
                   refetch={refetch}
                   index={i}
-                  manager={data?.manager}
+                  assignedUsers={data?.assignees}
                   applicationForm={data?.applicationForm}
                 />
               </Tabs.TabPane>
@@ -132,7 +132,7 @@ const SubActivity: React.FC<{}> = () => {
             navigateRouteInfo={{ courseTitle, inputActivityTitle: activityTitle, resultAreaTitle, courseId: data?.id }}
             activity={data?.sectionsData[0]}
             index={0}
-            manager={data?.manager}
+            assignedUsers={data?.assignees}
             applicationForm={data?.applicationForm}
           />
         </>

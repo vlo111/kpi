@@ -12,6 +12,7 @@ import { IUser } from '../../../types/auth';
 import { ICreateTemplate } from '../../../types/project';
 import { TVoid } from '../../../types/global';
 import useEditUser from '../../../api/UserProfile/useEditUser';
+import { useProject } from '../../../hooks/useProject';
 
 const UserModal = styled(AsnModal)`
     padding: 4.3vh 1.3vw 4.5vh 4.3vh !important;
@@ -45,6 +46,7 @@ const EditProfile: React.FC<ICreateTemplate> = ({
   user
 }) => {
   const [error, setError] = useState<string>('');
+  const { projectId } = useProject();
   const { mutate: saveChanges, isLoading }: any = useEditUser(
     {
       onSuccess: () => {
@@ -60,7 +62,7 @@ const EditProfile: React.FC<ICreateTemplate> = ({
   const [form] = AsnForm.useForm();
   const onFinish: TVoid = (values: IUser) => {
     try {
-      saveChanges(values);
+      saveChanges({ userData: values, projectId });
     } catch (error: any) {
       void message.error(error, 2);
     }

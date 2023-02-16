@@ -57,3 +57,33 @@ export const AsnCheckboxGroup = styled(AsnCheckbox.Group)<IAsnCheckbox>`
   ${defaultStyle}
   }
 `;
+
+export const AssessMentFormCheckBox = styled(Checkbox)`
+    span{
+     font-size: var(--base-font-size) !important;
+    }
+    .ant-checkbox .ant-checkbox-inner {
+      border-color:  var(--dark-border-ultramarine);
+    }
+
+    .ant-checkbox-disabled .ant-checkbox-inner {
+      border-color:  var(--dark-border-ultramarine);
+     }
+
+     .ant-checkbox-checked .ant-checkbox-inner {
+       border-color:  var(--dark-border-ultramarine);
+       background-color: var(--dark-border-ultramarine);
+     }
+     .ant-checkbox-disabled+span{
+        color: ${props => props.value > 0 ? 'var(--dark-2)' : 'var(--dark-3)'}; 
+     }
+     .ant-checkbox-disabled .ant-checkbox-inner{
+        border-color:  var(--dark-border-ultramarine) !important;
+     }
+     .ant-checkbox-disabled.ant-checkbox-checked .ant-checkbox-inner:after{
+        border-color: var(--white)
+     }
+     &.ant-checkbox-wrapper.ant-checkbox-wrapper-disabled{
+        width: 90%
+     }
+`;
