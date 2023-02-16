@@ -11,7 +11,6 @@ import { AsnForm } from '../../components/Forms/Form';
 import {
   IApplicants,
   iFinishApplicant,
-  IprevState,
   Iseacrh
 } from './applicantsTypes';
 import Applicant from '../../components/Applicant';
@@ -25,7 +24,12 @@ const ApplicantsData: React.FC = () => {
   const [filters, setFilters] = useState<Iseacrh>({
     search: '',
     limit: 100,
-    offset: 0
+    offset: 0,
+    student: undefined,
+    income: undefined,
+    disability: undefined,
+    gender: undefined,
+    statuses: undefined
   });
 
   const tableParams = {
@@ -39,6 +43,7 @@ const ApplicantsData: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [openRow, setOpenRow] = useState<any>(false);
   const [applicantId, setApplicantId] = useState('');
+  console.log(applicantId);
   const showDrawer = (record: string): void => {
     setOpenRow(record);
     setApplicantId(record);
@@ -67,7 +72,7 @@ const ApplicantsData: React.FC = () => {
   );
 
   const filterData = useCallback(
-    (data: IprevState) => {
+    (data: Iseacrh) => {
       if (data !== undefined) {
         setFilters((prevState) => ({
           ...prevState,

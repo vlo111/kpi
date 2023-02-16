@@ -1,4 +1,4 @@
-import { Collapse, Radio, Space, Form, Slider, FormInstance } from 'antd';
+import { Collapse, Radio, Space, Form, Slider } from 'antd';
 import React from 'react';
 import { AsnButton } from '../../components/Forms/Button';
 import { AsnCheckboxGroup } from '../../components/Forms/Checkbox';
@@ -6,14 +6,14 @@ import { Panel } from '../../components/Forms/Collapse';
 import { marks, optionsRegion, optionsStatus } from '../../helpers/constants';
 import { ContentAssingersFilter } from './applicantsStyle';
 import { Ifiltres } from './applicantsTypes';
+import { Void } from '../../types/global';
 
-
-export const UseFilters: React.FC<Ifiltres>  = ({
+export const UseFilters: React.FC<Ifiltres> = ({
   setOpen,
   onFinish,
   form
 }) => {
-  const hide = () => {
+  const hide: Void = () => {
     setOpen();
   };
 

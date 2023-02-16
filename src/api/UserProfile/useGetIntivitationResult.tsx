@@ -11,4 +11,3 @@ const useGetIntivitationResult: any = (options = {}) => {
 };
 
 export default useGetIntivitationResult;
-

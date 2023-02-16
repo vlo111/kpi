@@ -7,13 +7,7 @@ import { UseFilters } from './useFilters';
 const today = new Date();
 const { Paragraph } = Typography;
 
-export const useColumn = ({
-  filterData,
-  onFinish,
-  form,
-  setOpen,
-  open
-}: any): any => {
+export const useColumn = ({ onFinish, form, setOpen, open }: any): any => {
   const handleOpenChange = (newOpen: boolean): void => {
     setOpen(newOpen);
   };
@@ -22,7 +16,9 @@ export const useColumn = ({
       title: (
         <Popover
           content={UseFilters({
-            setOpen, onFinish, form
+            setOpen,
+            onFinish,
+            form
           })}
           title="Filter your results"
           trigger="click"
@@ -42,14 +38,17 @@ export const useColumn = ({
       title: 'Name Surname',
       dataIndex: 'fullName',
       key: 1,
-      ellipsis: false,
+      ellipsis: false
     },
     {
       title: 'Sector',
       dataIndex: 'sector',
       key: 2,
       ellipsis: false,
-      render: (text: string, record: { courseMap: { course: { sector: { title: string } } } }) => {
+      render: (
+        text: string,
+        record: { courseMap: { course: { sector: { title: string } } } }
+      ) => {
         return record?.courseMap?.course?.sector?.title;
       }
     },
@@ -58,7 +57,10 @@ export const useColumn = ({
       dataIndex: 'course',
       key: 3,
       ellipsis: false,
-      render: (text: string, record: { courseMap: { course: { title: string } } }) => {
+      render: (
+        text: string,
+        record: { courseMap: { course: { title: string } } }
+      ) => {
         return record?.courseMap?.course?.title;
       }
     },
@@ -75,7 +77,7 @@ export const useColumn = ({
       title: 'Region',
       key: 5,
       dataIndex: 'region',
-      ellipsis: false,
+      ellipsis: false
     },
     {
       title: 'Phone number',
@@ -102,7 +104,7 @@ export const useColumn = ({
       title: 'Gender',
       key: 8,
       dataIndex: 'gender',
-      ellipsis: false,
+      ellipsis: false
     },
     {
       title: 'Education',
@@ -110,23 +112,24 @@ export const useColumn = ({
       dataIndex: 'education',
       ellipsis: false,
       render: (text: string, record: { educationLevel: string }) => {
-        return <Paragraph
-        strong
-        ellipsis={{
-          rows: 2,
-        }}
-        className='tableName'
-
-      >
-        {record?.educationLevel}
-      </Paragraph>
+        return (
+          <Paragraph
+            strong
+            ellipsis={{
+              rows: 2
+            }}
+            className="tableName"
+          >
+            {record?.educationLevel}
+          </Paragraph>
+        );
       }
     },
     {
       title: 'Student',
       key: 1,
       dataIndex: 'student',
-      ellipsis: false,
+      ellipsis: false
     },
     {
       title: 'Vulnerability',
@@ -134,17 +137,17 @@ export const useColumn = ({
       dataIndex: 'vulnerability',
       ellipsis: false,
       render: (text: string, record: { vulnerabilities: string }) => {
-        return <Paragraph
-        strong
-        ellipsis={{
-          rows: 2,
-        }}
-        className='tableName'
-
-
-      >
-        {record?.vulnerabilities}
-      </Paragraph>
+        return (
+          <Paragraph
+            strong
+            ellipsis={{
+              rows: 2
+            }}
+            className="tableName"
+          >
+            {record?.vulnerabilities}
+          </Paragraph>
+        );
       }
     },
     {
@@ -162,16 +165,17 @@ export const useColumn = ({
       dataIndex: 'informedAboutUs',
       ellipsis: false,
       render: (text: string, record: { informedAboutUs: string }) => {
-        return <Paragraph
-        strong
-        ellipsis={{
-          rows: 2,
-        }}
-        className='tableName'
-      >
-        {record?.informedAboutUs}
-      </Paragraph>
-  
+        return (
+          <Paragraph
+            strong
+            ellipsis={{
+              rows: 2
+            }}
+            className="tableName"
+          >
+            {record?.informedAboutUs}
+          </Paragraph>
+        );
       }
     }
   ];

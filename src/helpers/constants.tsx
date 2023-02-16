@@ -1,5 +1,8 @@
-import { SliderMarks } from "antd/lib/slider";
-import { IApplicantAccessStatus, IApplicantDefaultStatus } from '../types/applicant';
+import { SliderMarks } from 'antd/lib/slider';
+import {
+  IApplicantAccessStatus,
+  IApplicantDefaultStatus
+} from '../types/applicant';
 
 export const PATHS = {
   ROOT: '/',
@@ -67,8 +70,10 @@ export const menuItemsNavigate = [
 ];
 
 export const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$/;
-export const phoneRegExp = /^[+][(][0-9]{1,5}[)][-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,12}$/im;
-export const phoneErrorMesage = 'Please enter your phone in format: +(374) XXXXXX';
+export const phoneRegExp =
+  /^[+][(][0-9]{1,5}[)][-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,12}$/im;
+export const phoneErrorMesage =
+  'Please enter your phone in format: +(374) XXXXXX';
 
 export const VALIDATE_EMPTY = {
   firstName: 'Please enter a valid Email Address',
@@ -170,18 +175,18 @@ export enum SectionName {
 export enum Placeholders {
   phone = '+(374) XXXXXX',
   date = 'DD/MM/YYYY',
-  email = 'yourmail@analysed.ai'
+  email = 'yourmail@analysed.ai',
 }
 
 export enum KeyName {
   phone = 'phone',
   dob = 'dob',
-  email = 'email'
+  email = 'email',
 }
 
 export enum ErrorRequireMessages {
   checkbox = 'Please chose one of the fields',
-  input = 'Please enter the field'
+  input = 'Please enter the field',
 }
 
 export const defaultLimit = {
@@ -214,7 +219,7 @@ export const optionsStatus = [
   { label: 'Post-Assessment ', value: 'POST_ASSESSMENT' },
   { label: 'Trained', value: 'TRAINED' }
 ];
-  // Age function
+// Age function
 export const marks: SliderMarks = {
   0: '0',
   100: '100'
@@ -229,11 +234,11 @@ export const optionsReason = [
 ];
 
 export enum FileType {
-  APPLICANT_DOCUMENT = 'APPLICANT_DOCUMENT'
+  APPLICANT_DOCUMENT = 'APPLICANT_DOCUMENT',
 }
 
 export enum AssessmentStatus {
   NotAssessed = ' Not assessed',
   NotSubmitted = ' Not submitted',
-  Scored = ' Scored '
+  Scored = ' Scored ',
 }
