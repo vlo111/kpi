@@ -152,3 +152,5 @@ export interface IApplicantAccessStatus {
   Trained: string
   NotEnrolled: string
 }
+
+export interface IFiles { applicantId: string, history: IHistory }
