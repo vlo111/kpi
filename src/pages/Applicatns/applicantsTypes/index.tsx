@@ -91,6 +91,7 @@ export interface IfilterResult {
   onFinish: TVoid
   form: FormInstance<string>
   setFilters: any
+  refetch: () => Promise<UseQueryResult>
 }
 export interface IApplicants {
   data: never[]

@@ -108,25 +108,25 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
               </Button>
               {subActivities?.map((item: ISubActivities, i: number) => (
                 <Card
-                  key={i}
-                  className={`card ${
-                    item?.subActivity?.status === 'ACTIVE'
-                      ? 'INACTIVE'
-                      : item?.subActivity?.status === 'DONE'
-                      ? 'cardActive'
-                      : ''
-                  }`}
+                key={i}
+                className={`card ${
+                  item?.status === 'INACTIVE'
+                    ? 'cardInactive'
+                    : item?.status === 'DONE'
+                    ? 'cardActive'
+                    : ''
+                }`}
                 >
                   <div
                     className={`cardRound ${
-                      item?.subActivity?.status === 'ACTIVE'
+                      item?.status === 'INACTIVE'
                         ? 'cardRoundInactive'
-                        : item?.subActivity?.status === 'DONE'
-                        ? 'ACTIVE'
+                        : item?.status === 'DONE'
+                        ? 'cardDone'
                         : ''
                     }`}
                   >
-                    {item?.cardRound} ...
+                    {item?.cardRound}
                   </div>
                   <Row
                     gutter={[8, 16]}

@@ -111,6 +111,7 @@ const ApplicantsData: React.FC = () => {
           onFinish={onFinish}
           form={form}
           setFilters={setFilters}
+          refetch={refetch}
         />
         <Table
           columns={column}
