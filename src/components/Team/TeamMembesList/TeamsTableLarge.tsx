@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Space } from 'antd';
+import { message, Space } from 'antd';
 
 import { ReactComponent as Preview } from '../../../assets/icons/eye.svg';
 import { ReactComponent as TrashSvg } from '../../../assets/icons/trash.svg';
@@ -9,21 +9,55 @@ import AddTeamMemberModal from './CreateTeamMemberModal';
 import { ConfirmModal } from '../../Forms/Modal/Confirm';
 import TeamMemberPermissionInfoModal from './TeamMemberPermissionModal';
 import { AsnTable } from '../../Forms/Table';
-import { HandleTableOnChange, ITeamMembersTypes, TableParams, User } from '../../../types/teams';
+import {
+  HandleTableOnChange,
+  ITeamMembersTypes,
+  TableParams,
+  UpdateUserAllInfo,
+  User
+} from '../../../types/teams';
 import useGetAllTeamsList from '../../../api/Teams/useGetAllTeamMembersList';
 import AsnAvatar from '../../Forms/Avatar';
+import { useProject } from '../../../hooks/useProject';
+import useDeleteTeamMemberPermissionByInfo from '../../../api/Teams/useDeleteTeamMember';
+import useGetSingleUserPermissions from '../../../api/Teams/useGetSingleUserPermissions';
 
 const ApplicantList = styled.div`
   margin-top: 8px;
   height: calc(100% - 75px);
 `;
 
-const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
-  const [openApplicantDeleteModal, setOpenApplicantDeleteModal] =
-    useState(false);
+const TeamsList: React.FC<ITeamMembersTypes> = ({
+  setTotalCount,
+  permissionsList,
+  searchText
+}) => {
+  const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState('');
+  const { projectId } = useProject();
   const [showModal, setShowModal] = useState('');
-  const [openApplicantPermissionModal, setOpenApplicantPermissionModal] =
-    useState(false);
+  const [userId, setUserId] = useState('');
+  const [updateUserInfo, setUpdateUserInfo] = useState<UpdateUserAllInfo>({
+    updateUserId: '',
+    info: {
+      lastName: '',
+      firstName: '',
+      email: '',
+      position: '',
+      permissionType: ''
+    }
+  });
+
+  const { data } = useGetSingleUserPermissions(
+    updateUserInfo.updateUserId,
+    projectId,
+    {
+      enabled:
+        Boolean(updateUserInfo.updateUserId) &&
+        Boolean(projectId) &&
+        showModal === 'edit'
+    }
+  );
+
   const columns = [
     {
       title: 'Name Surname',
@@ -32,7 +66,7 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
           <Space direction="horizontal">
             <Space align="start">
               <AsnAvatar
-                letter={`${item?.lastName?.charAt(0)}${item?.firstName?.charAt(
+                letter={`${item?.firstName?.charAt(0)}${item?.lastName?.charAt(
                   0
                 )}`}
                 src={item?.photo}
@@ -64,10 +98,18 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
         return (
           <Space direction="horizontal">
             <Space align="start">
-              <Preview onClick={() => setOpenApplicantPermissionModal(true)} />
+              <Preview onClick={() => setUserId(item?.id)} />
             </Space>
             <Space align="end">
-              <h3>{item?.position}</h3>
+              <h3>
+                {item?.permissionLevel[0]?.maxLevel === 1
+                  ? 'Project'
+                  : item?.permissionLevel[0]?.maxLevel === 2
+                    ? 'Result Area'
+                    : item?.permissionLevel[0]?.maxLevel === 3
+                      ? 'Input Activity'
+                      : 'Template'}
+              </h3>
             </Space>
           </Space>
         );
@@ -75,20 +117,19 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
     },
     {
       title: 'User status',
-      dataIndex: 'emailVerified',
       render: (item: User) => {
         return (
           <Space
             className={`${
               item?.emailVerified
-                ? 'user_status_pending'
-                : 'user_status_resolved'
+                ? 'user_status_resolved'
+                : 'user_status_pending'
             }`}
             style={{ width: '100%', justifyContent: 'center' }}
             direction="horizontal"
           >
             <Space align="center">
-              {item?.emailVerified ? 'Pending' : 'Resolved'}
+              {item?.emailVerified ? 'Resolved' : 'Pending'}
             </Space>
           </Space>
         );
@@ -96,14 +137,28 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
       width: 150
     },
     {
-      render: () => {
+      render: (item: User) => {
         return (
           <Space direction="horizontal">
             <Space align="start" style={{ cursor: 'pointer' }}>
-              <EditSvg onClick={() => setShowModal('update')} />
+              <EditSvg
+                onClick={() => {
+                  setUpdateUserInfo({
+                    updateUserId: item?.id,
+                    info: {
+                      lastName: item?.lastName,
+                      firstName: item?.firstName,
+                      email: item?.email,
+                      position: item?.permissionLevel[0]?.position,
+                      permissionType: item?.permissionLevel[0]?.permissionType
+                    }
+                  });
+                  setShowModal('edit');
+                }}
+              />
             </Space>
             <Space align="end" style={{ cursor: 'pointer' }}>
-              <TrashSvg onClick={() => setOpenApplicantDeleteModal(true)} />
+              <TrashSvg onClick={() => setOpenApplicantDeleteModal(item?.id)} />
             </Space>
           </Space>
         );
@@ -120,9 +175,31 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
     }
   });
 
-  const { data: membersListInfo, isLoading, refetch, count } = useGetAllTeamsList({
+  const {
+    data: membersListInfo,
+    isLoading,
+    refetch,
+    count
+  } = useGetAllTeamsList({
     limit: tableParams.pagination?.pageSize,
-    offset: 10
+    search: searchText?.length > 3 ? searchText : undefined,
+    offset:
+      tableParams.pagination?.current !== undefined &&
+      tableParams.pagination?.pageSize !== undefined
+        ? (tableParams.pagination?.current - 1) *
+          tableParams.pagination?.pageSize
+        : 0,
+    projectId
+  });
+
+  const { mutate: deletePermission } = useDeleteTeamMemberPermissionByInfo({
+    onSuccess: () => {
+      refetch();
+      setOpenApplicantDeleteModal('');
+    },
+    onError: () => {
+      void message.error('Something went wrong !!');
+    }
   });
 
   useEffect(() => {
@@ -134,13 +211,12 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
       }
     });
     setTotalCount(count);
-  }, [JSON.stringify(tableParams), isLoading]);
+  }, [JSON.stringify(tableParams), isLoading, count]);
 
   const handleTableChange: HandleTableOnChange = (pagination) => {
     setTableParams({
       pagination
     });
-    refetch();
   };
 
   return (
@@ -155,24 +231,29 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({ setTotalCount }) => {
         loading={isLoading}
         onChange={handleTableChange}
       />
-      {showModal === 'del' && (
-        <AddTeamMemberModal setShowModal={setShowModal} />
+      {showModal === 'edit' && (
+        <AddTeamMemberModal
+          setShowModal={setShowModal}
+          edit={true}
+          permissionsList={permissionsList}
+          userPermissions={data}
+          userInfo={updateUserInfo}
+        />
       )}
       <ConfirmModal
         styles={{ gap: '80px' }}
         yes="Delete"
         no="Cancel"
-        open={openApplicantDeleteModal}
-        title="Are you sure you want to delete this user?"
-        onCancel={() => setOpenApplicantDeleteModal(!openApplicantDeleteModal)}
+        open={Boolean(openApplicantDeleteModal)}
+        title="Are you sure you want to delete this user permissions ?"
+        onCancel={() => setOpenApplicantDeleteModal('')}
         onSubmit={function (): void {
-          throw new Error('Function not implemented.');
+          deletePermission({ userId: openApplicantDeleteModal, projectId });
         }}
       />
-      <TeamMemberPermissionInfoModal
-        showPermissionModal={openApplicantPermissionModal}
-        setShowPermissionModal={setOpenApplicantPermissionModal}
-      />
+      {showModal !== 'edit' && (
+        <TeamMemberPermissionInfoModal userId={userId} setUserId={setUserId} />
+      )}
     </ApplicantList>
   );
 };

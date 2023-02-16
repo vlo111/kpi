@@ -1,9 +1,9 @@
 import { AnswerTypes, ErrorRequireMessages, KeyName, phoneErrorMesage, phoneRegExp, Placeholders } from './constants';
-import SectionCheckBox from '../components/FillApplicationForm/FormList/CheckBox';
-import SectionSelect from '../components/FillApplicationForm/FormList/Select';
-import SectionRadio from '../components/FillApplicationForm/FormList/Radio';
-import SectionText from '../components/FillApplicationForm/FormList/Text';
-import SectionDate from '../components/FillApplicationForm/FormList/Date';
+import SectionCheckBox from '../components/ApplicantPublicForm/Form/FormList/CheckBox';
+import SectionSelect from '../components/ApplicantPublicForm/Form/FormList/Select';
+import SectionRadio from '../components/ApplicantPublicForm/Form/FormList/Radio';
+import SectionText from '../components/ApplicantPublicForm/Form/FormList/Text';
+import SectionDate from '../components/ApplicantPublicForm/Form/FormList/Date';
 import React from 'react';
 import {
   ConcatAnswers,

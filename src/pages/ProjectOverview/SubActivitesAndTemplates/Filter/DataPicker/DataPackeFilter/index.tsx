@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Col, Space, Radio } from 'antd';
 
@@ -6,7 +6,7 @@ import { TVoid } from '../../../../../../types/global';
 import { IDateFilterCards } from '../../../../../../types/project';
 import { AsnForm } from '../../../../../../components/Forms/Form';
 import { AsnDatePicker } from '../../../../../../components/Forms/DatePicker';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { AsnButton } from '../../../../../../components/Forms/Button';
 
 export const PickerSpace = styled(Space)`
@@ -27,8 +27,13 @@ export const PickerSpace = styled(Space)`
   }
 `;
 
-export const DateFilter: React.FC<IDateFilterCards> = ({ setDateSearch, setOpen }) => {
+export const DateFilter: React.FC<IDateFilterCards> = ({
+  setDateSearch,
+  setOpen
+}) => {
   const [form] = AsnForm.useForm();
+  const [startTime, setStartTime] = useState('');
+
   const onFinish: TVoid = (values) => {
     const { from, to, radio } = values;
     setDateSearch({
@@ -37,13 +42,20 @@ export const DateFilter: React.FC<IDateFilterCards> = ({ setDateSearch, setOpen 
       to: moment(to).format()
     });
   };
+  const onChange: (item: Moment | null) => void = (item) => {
+    if (item !== null) {
+      setStartTime(item.format());
+    }
+  };
+  const disabledDateEndPicker: (current: Moment) => boolean = (current: Moment) => {
+    if (startTime === '') return true;
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    return current && current < moment(startTime);
+  };
 
   return (
     <>
-      <AsnForm
-        onFinish={onFinish}
-        form={form}
-      >
+      <AsnForm onFinish={onFinish} form={form}>
         <AsnForm.Item name="radio" rules={[{ required: true }]}>
           <Radio.Group>
             <Radio value={true}>Start Date Interval</Radio>
@@ -52,33 +64,36 @@ export const DateFilter: React.FC<IDateFilterCards> = ({ setDateSearch, setOpen 
         </AsnForm.Item>
         <PickerSpace size={18}>
           <Col span={22}>
-            <AsnForm.Item
-              name="from"
-              label="from"
-              rules={[{ required: true }]}
-            >
+            <AsnForm.Item name="from" label="from" rules={[{ required: true }]}>
               <AsnDatePicker
                 format="DD/MM/YYYY"
                 placeholder="01/01/23"
+                onChange={onChange}
               />
             </AsnForm.Item>
           </Col>
           <Col span={22}>
-            <AsnForm.Item
-              name="to"
-              label="to"
-              rules={[{ required: true }]}
-            >
+            <AsnForm.Item name="to" label="to" rules={[{ required: true }]}>
               <AsnDatePicker
                 placeholder="01/01/23"
                 format="DD/MM/YYYY"
+                disabledDate={disabledDateEndPicker}
               />
             </AsnForm.Item>
           </Col>
         </PickerSpace>
-        <Space direction='horizontal' align='center' style={{ justifyContent: 'space-around', width: '100%' }}>
-        <AsnButton htmlType="submit" className='primary'>Save</AsnButton>
-        <AsnButton className="default" onClick={() => setOpen?.(false) }>Cancel</AsnButton></Space>
+        <Space
+          direction="horizontal"
+          align="center"
+          style={{ justifyContent: 'space-around', width: '100%' }}
+        >
+          <AsnButton htmlType="submit" className="primary">
+            Save
+          </AsnButton>
+          <AsnButton className="default" onClick={() => setOpen?.(false)}>
+            Cancel
+          </AsnButton>
+        </Space>
       </AsnForm>
     </>
   );

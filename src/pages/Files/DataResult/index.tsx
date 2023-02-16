@@ -9,31 +9,32 @@ import ResultWrapper from '../ResultWrapper';
 import AsnSpin from '../../../components/Forms/Spin';
 import { IDataResult } from '../../../types/files';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
+import { Void } from '../../../types/global';
 
 const Result = styled.div`
- .ant-collapse>.ant-collapse-item>.ant-collapse-header{
-  align-items: center
- }
- .ant-divider{
-  span{
-    font-size: var(--base-font-size);
-    color: var(--dark-2)
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    align-items: center;
   }
- }
+  .ant-divider {
+    span {
+      font-size: var(--base-font-size);
+      color: var(--dark-2);
+    }
+  }
 `;
 
 const AsnPagination = styled(Pagination)`
-  .ant-pagination-item-link{
+  .ant-pagination-item-link {
     border: none !important;
   }
-  .ant-pagination-item{
+  .ant-pagination-item {
     border: none;
   }
-  .ant-pagination-item-active{
+  .ant-pagination-item-active {
     border-radius: 100%;
-    background:  var( --background-active-pagination);
+    background: var(--background-active-pagination);
   }
-  .ant-pagination-item-active a{
+  .ant-pagination-item-active a {
     color: var(--active-pagination);
   }
 `;
@@ -69,19 +70,19 @@ const DataResult: React.FC<IDataResult> = ({
   const handlePagination = (page: number): void => {
     search.length > 2
       ? setSearchPaginate({
-        offset: page === 1 ? 0 : ((page - 1) * 24),
+        offset: page === 1 ? 0 : (page - 1) * 24,
         limit: 24,
         currentPage: page
       })
       : setPaginate({
-        offset: page === 1 ? 0 : ((page - 1) * 24),
+        offset: page === 1 ? 0 : (page - 1) * 24,
         limit: 24,
         currentPage: page
       });
   };
-
-  const handleCancel = (): void => {
+  const handleCancel: Void = () => {
     setOpens(false);
+    void refetchAllFiles();
   };
 
   const handleCourseFileClick = (path: string): void => {
@@ -93,90 +94,111 @@ const DataResult: React.FC<IDataResult> = ({
   };
 
   const { Panel } = Collapse;
-  if (isFetchingFolderFiles || isFetchingSearchCourseFiles || isFetchingAllFilesSearch || isFetchingAllFiles || isFetchingCourseFiles) {
+  if (
+    isFetchingFolderFiles ||
+    isFetchingSearchCourseFiles ||
+    isFetchingAllFilesSearch ||
+    isFetchingAllFiles ||
+    isFetchingCourseFiles
+  ) {
     return <AsnSpin />;
   }
 
   return (
     <Result>
-      {(Boolean((fileList?.folders))) && (Boolean((fileList?.files)))
+      {Boolean(fileList?.folders) && Boolean(fileList?.files)
         ? (
-          <CourseFiles
-            fileList={fileList}
+        <CourseFiles
+          fileList={fileList}
+          onRemoveFile={onRemoveFile}
+          setOpens={setOpens}
+          setViewPdf={setViewPdf}
+          fileName={fileName}
+          handleFileClick={handleCourseFileClick}
+          handleFolderFileClick={handleFolderFileClick}
+          courseId={courseId}
+          refetch={refetch}
+          refetchAllFiles={refetchAllFiles}
+        />
+          )
+        : fileList?.length > 0 && folderId === ''
+          ? (
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <ResultWrapper
+            files={fileList}
             onRemoveFile={onRemoveFile}
             setOpens={setOpens}
             setViewPdf={setViewPdf}
             fileName={fileName}
             handleFileClick={handleCourseFileClick}
-            handleFolderFileClick={handleFolderFileClick}
+            all={true}
+          />
+          <Row
+            justify="center"
+            style={{
+              paddingBottom: '10px',
+              position: 'absolute',
+              bottom: 0,
+              width: '100%'
+            }}
+          >
+            <AsnPagination
+              showSizeChanger={false}
+              current={search.length > 2 ? searchCurrentPage : currentPage}
+              pageSize={24}
+              total={
+                search.length > 2
+                  ? Number(allFilesSearchCount)
+                  : Number(filesCount)
+              }
+              onChange={handlePagination}
+            />
+          </Row>
+        </Space>
+            )
+          : fileList?.length >= 0 && folderId !== ''
+            ? (
+        <div>
+          <FileUpload
+            type={'SECTION_SETTING_DOCUMENT'}
             courseId={courseId}
+            folderId={folderId}
+            refetchFolderFiles={refetchFolderFiles}
             refetch={refetch}
             refetchAllFiles={refetchAllFiles}
+            folder={true}
           />
-          )
-        : (
-            fileList?.length > 0 && folderId === ''
-              ? (
-              <Space direction='vertical' style={{ width: '100%' }}>
-                <ResultWrapper
-                  files={fileList}
-                  onRemoveFile={onRemoveFile}
-                  setOpens={setOpens}
-                  setViewPdf={setViewPdf}
-                  fileName={fileName}
-                  handleFileClick={handleCourseFileClick}
-                  all={true}
-                />
-                <Row justify='center' style={{ paddingBottom: '10px', position: 'absolute', bottom: 0, width: '100%' }}>
-                  <AsnPagination
-                    showSizeChanger={false}
-                    current={search.length > 2 ? searchCurrentPage : currentPage}
-                    pageSize={24}
-                    total={search.length > 2 ? Number(allFilesSearchCount) : Number(filesCount)}
-                    onChange={handlePagination}
-                  />
-                </Row>
-              </Space>
-                )
-              : fileList?.length >= 0 && folderId !== ''
-                ? (
-                <div>
-                  <FileUpload
-                    type={'SECTION_SETTING_DOCUMENT'}
-                    courseId={courseId}
-                    folderId={folderId}
-                    refetchFolderFiles={refetchFolderFiles}
-                    refetch={refetch}
-                    refetchAllFiles={refetchAllFiles}
-                    folder={true}
-                  />
-                  <Collapse defaultActiveKey={['1']} ghost bordered={false}>
-                    <Panel
-                      header={
-                        <Divider orientation="left" plain >
-                          {`${folderName} (${+fileList?.length})`}
-                        </Divider>
-                      }
-                      key="1"
-                    >
-                      <ResultWrapper
-                        files={fileList}
-                        onRemoveFile={onRemoveFile}
-                        setOpens={setOpens}
-                        setViewPdf={setViewPdf}
-                        fileName={fileName}
-                        handleFileClick={handleCourseFileClick}
-                        all={true}
-                      />
-                    </Panel>
-                  </Collapse>
-                </div>
-                  )
-                : (
-                <NoAttachments />
-                  )
-          )}
-      <Modal open={opens} onCancel={handleCancel} okText={''} className="filePreviewModal">
+          <Collapse defaultActiveKey={['1']} ghost bordered={false}>
+            <Panel
+              header={
+                <Divider orientation="left" plain>
+                  {`${folderName} (${+fileList?.length})`}
+                </Divider>
+              }
+              key="1"
+            >
+              <ResultWrapper
+                files={fileList}
+                onRemoveFile={onRemoveFile}
+                setOpens={setOpens}
+                setViewPdf={setViewPdf}
+                fileName={fileName}
+                handleFileClick={handleCourseFileClick}
+                all={true}
+              />
+            </Panel>
+          </Collapse>
+        </div>
+              )
+            : (
+        <NoAttachments />
+              )}
+      <Modal
+        open={opens}
+        onCancel={handleCancel}
+        okText={''}
+        className="filePreviewModal"
+      >
         {viewPdf !== null && (
           <>
             <DocViewer
@@ -189,7 +211,8 @@ const DataResult: React.FC<IDataResult> = ({
                   retainURLParams: false
                 }
               }}
-              style={{ height: window.innerHeight - 332 }} />
+              style={{ height: window.innerHeight - 332 }}
+            />
           </>
         )}
       </Modal>

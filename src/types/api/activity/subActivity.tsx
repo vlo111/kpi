@@ -1,5 +1,5 @@
 import { RcFile } from 'antd/lib/upload';
-import { UseMutation, Void } from '../../global';
+import { FormOptions, UseMutation, Void } from '../../global';
 import { IAttachmentSetting } from '../../project';
 import { ResponseErrorParam } from '../project/get-project';
 
@@ -39,6 +39,7 @@ export interface IApplicantsList {
 export interface IApplicantsListFullInfo {
   applicants: IApplicantsList []
   color: string
+  courseId: string
 }
 
 export interface ICourseStatusInfo {
@@ -74,6 +75,9 @@ export interface IUserListTypes {
   name: string
   email: string
   status: string
+  dataIndex: number
+  key: string
+  title: string
 }
 
 export interface IWrapperProps {
@@ -101,13 +105,17 @@ export interface ICreateSubActivityTypes {
   setOpenCreateSubActivity: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+export interface IAssignedUserType {
+  email: string
+  creator: boolean
+  photo: string
+  firstname: string
+  id: string
+  lastname: string
+}
+
 export interface IManagerType {
-  manager: {
-    email: string
-    firstName: string
-    id: string
-    lastName: string
-  }
+  assignedUsers: IAssignedUserType[]
   color: string | undefined
 }
 
@@ -157,10 +165,43 @@ export interface ICustomInputs {
   attachments: IAttachmentSetting[]
 }
 
+export interface IAssignUserModalTypes {
+  open: true
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  subActivityId?: string
+}
+
 export interface ICourseInfoCardTypes {
   title: string
   id: string | undefined
   refetch?: any
 }
 
+export interface EligibleUsersTypes {
+  emailVerified: boolean
+  id: string
+  firstName: string
+  lastName: string
+  photo: string
+}
+
+export interface IAssignUserParams {
+  subActivityId?: string
+  userId: string
+}
+
+export interface UseGetEligibleUsersResponse {
+  data: EligibleUsersTypes[]
+  isSuccess: boolean
+  refetch: any
+  isLoading: boolean
+}
+
+export type GetEligibleUsersListBySubActivityId = (
+  subActivityId?: string,
+  options?: FormOptions
+) => UseGetEligibleUsersResponse;
+
 export type AttachFileSubActivity = UseMutation<Void, any, ResponseErrorParam, IAttachFileSubActivity>;
+
+export type AssignUserInCourse = UseMutation<Void, any, ResponseErrorParam, IAssignUserParams>;
