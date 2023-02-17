@@ -154,3 +154,10 @@ export interface IApplicantAccessStatus {
 }
 
 export interface IFiles { applicantId: string, history: IHistory }
+
+export interface IApplicantPublicForm {
+  preview?: boolean
+  applicantId?: string
+  sectionDataId?: string
+  type?: string
+}

@@ -15,6 +15,8 @@ export interface IAnswer {
   id: string
   title: string
   type: string
+  text?: string
+  checked?: boolean
 }
 
 export interface IQuestion extends IRelatedQuestion {

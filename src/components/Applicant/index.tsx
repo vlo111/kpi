@@ -79,8 +79,6 @@ const Applicant: React.FC = () => {
 
   const { applicant, courses } = useGetApplicant(id) ?? {};
 
-  console.log(courses);
-
   const getApplicantInfo = (
     <>
       <AntTitle level={4}>{ApplicantInfo.PersonalTitle}</AntTitle>
