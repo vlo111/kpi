@@ -19,14 +19,14 @@ const Next: React.FC<INext> = ({ applicant, sectionDataId, isAllowEdit,applicant
           <AsnButton
             className="reject"
             onClick={() => setOpenReject(sectionDataId)}
-            disabled={applicantId != undefined}
+            disabled={applicantId !== undefined}
           >
             Reject
           </AsnButton>
           <AsnButton
             className="approve"
             onClick={() => setOpenApprove(sectionDataId)}
-            disabled={applicantId != undefined}
+            disabled={applicantId !== undefined}
           >
             Approve
           </AsnButton>
