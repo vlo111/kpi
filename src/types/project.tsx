@@ -406,6 +406,7 @@ export interface ISubActivities {
   startDate: string
   endDate: string
   subActivity: {
+    [x: string]: any;
     status: string
     region: {
       title: string
