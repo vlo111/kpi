@@ -8,6 +8,7 @@ const GetTemplates: any = (activityId: string, options = { enabled: false }) => 
     [url, activityId],
     async () => await client.get(`${url}/${activityId}/templates`),
     {
+      retry: false,
       ...options,
       select: (data) => data.data
     }

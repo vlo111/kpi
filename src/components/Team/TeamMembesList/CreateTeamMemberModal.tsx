@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Cascader, Col, message, notification, Radio, RadioChangeEvent, Row } from 'antd';
+import {
+  Cascader,
+  Col,
+  notification,
+  Radio,
+  RadioChangeEvent,
+  Row
+} from 'antd';
 
 import { AsnForm } from '../../Forms/Form';
 import { AsnInput } from '../../Forms/Input';
@@ -29,9 +36,12 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
     onSuccess: () => {
       form.resetFields();
       setShowModal('');
-    },
-    onError: () => {
-      void message.error('Something went wrong !!');
+      notification.success({
+        bottom: 50,
+        placement: 'topRight',
+        message: 'The User successfully Assigned',
+        duration: 3
+      });
     }
   });
 
@@ -45,9 +55,6 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
         message: 'The User updated successfully',
         duration: 3
       });
-    },
-    onError: () => {
-      void message.error('Something went wrong !!');
     }
   });
 
@@ -106,18 +113,24 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
       form.setFieldsValue({
         ...userInfo?.info,
         permissions: userPermissions.map((item) => {
-          return (
-            [item.projectId, item.resultAreaId, item.inputActivityId, item.activityTemplateId].filter(Boolean)
-          );
-        }
-        )
+          return [
+            item.projectId,
+            item.resultAreaId,
+            item.inputActivityId,
+            item.activityTemplateId
+          ].filter(Boolean);
+        })
       });
-      setFiledValue(userPermissions.map((item) => {
-        return (
-          [item.projectId, item.resultAreaId, item.inputActivityId, item.activityTemplateId].filter(Boolean)
-        );
-      }
-      ));
+      setFiledValue(
+        userPermissions.map((item) => {
+          return [
+            item.projectId,
+            item.resultAreaId,
+            item.inputActivityId,
+            item.activityTemplateId
+          ].filter(Boolean);
+        })
+      );
     }
   }, [edit, userPermissions, userInfo]);
 

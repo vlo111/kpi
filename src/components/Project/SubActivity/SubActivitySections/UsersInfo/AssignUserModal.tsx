@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { message, notification, Row, Space } from 'antd';
+import { notification, Row, Space } from 'antd';
 
 import {
   EligibleUsersTypes,
@@ -69,9 +69,6 @@ const AssignUserModal: React.FC<IAssignUserModalTypes> = ({
         duration: 3
       });
       setOpen(false);
-    },
-    onError: (err: any) => {
-      void message.error(err?.response?.data?.message, 3);
     }
   });
 
