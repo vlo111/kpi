@@ -11,8 +11,8 @@ import { AsnSwitch } from '../../Forms/Switch';
 import { IButtonContainer } from '../../../types/api/assessment';
 import { useLocation, useParams } from 'react-router-dom';
 import CreateAssessmentFormDataByCourseId from '../../../api/AssessmentForm/useCreateAssessmentFormCourseId';
-import PreviewAssessmentForm from '../../PreviewAssessmentForm';
 import AssessmentFormUrlModal from '../FormUrlModal/Index';
+import PreviewAssessmentForm from '../../PreviewAssessmentForm';
 
 const { Title } = Typography;
 
