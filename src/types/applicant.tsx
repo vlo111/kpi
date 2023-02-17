@@ -49,13 +49,15 @@ export interface IHistory {
   userId: string
   note: string
   reasonsForRejection: string
-  preAssessmentScore?: string
+  preAssessmentScore: string | null
   status: string
   createdAt: string
   updatedAt: string
   deletedAt: string
   files: IFile[]
   applicationForm: true
+  preAssessmentMaxScore: number
+  preAssessmentForm: boolean
 }
 
 export interface IFile {
