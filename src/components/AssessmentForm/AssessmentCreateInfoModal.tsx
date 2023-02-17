@@ -90,7 +90,11 @@ const CreateAssessmentInfoModal: React.FC<CreateAssessmentIfoModalTypes> = ({
 
   const nextToDuplicate = (item: Result | undefined): void => {
     navigate(`/${PATHS.ASSESSMENTFORMCREATE.replace(':id', courseId)}`, {
-      state: { type: item?.type, formId: item?.id, navigateRouteInfo: { ...navigateRouteInfo, projectId } }
+      state: {
+        type: item?.type,
+        formId: item?.id,
+        navigateRouteInfo: { ...navigateRouteInfo, projectId }
+      }
     });
   };
 
@@ -149,7 +153,12 @@ const CreateAssessmentInfoModal: React.FC<CreateAssessmentIfoModalTypes> = ({
             </AsnButton>
           </Col>
           <Col>
-            <AsnButton className="primary" onClick={() => nextToDuplicate(footerButtons)}>Next</AsnButton>
+            <AsnButton
+              className="primary"
+              onClick={() => nextToDuplicate(footerButtons)}
+            >
+              Next
+            </AsnButton>
           </Col>
         </Row>
       )}
