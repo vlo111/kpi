@@ -7,7 +7,8 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
   filters,
   onFinish,
   form,
-  setFilters
+  setFilters,
+  refetch
 }) => {
   const closeFilter = (filter: string): void => {
     const newAs: any = _.omit(filters, [filter]);
@@ -15,7 +16,7 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
     form.setFieldsValue({
       [filter]: undefined
     });
-    console.log(filters);
+
     const isNotEmpty = Object.keys(newAs).some((name) => {
       if (
         newAs[name] !== undefined &&
@@ -35,8 +36,13 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
     form.resetFields();
     setFilters({
       search: '',
-      limit: 10,
-      offset: 0
+      limit: 100,
+      offset: 0,
+      student: undefined,
+      income: undefined,
+      disability: undefined,
+      gender: undefined,
+      statuses: undefined
     });
     form.setFieldValue('clearAll', false);
   }, [form, filters]);
@@ -56,28 +62,30 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
             </Tag>
           )}
           {filters?.student !== undefined && (
-            <Tag closable onClose={() => closeFilter('student')}>
-              {`Student:${filters?.student}`}
+            <Tag onClose={() => closeFilter('student')} closable>
+              {`Student: ${filters?.student ? 'yes' : 'no'}`}
             </Tag>
           )}
           {filters?.statuses !== undefined && (
-            <Tag closable onClose={() => closeFilter('status')}>
-              {`Status:${filters?.statuses}`}
+            <Tag onClose={() => closeFilter('status')} closable>
+              {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
+              {`Statuses: ${filters?.statuses}`}
             </Tag>
           )}
           {filters?.income !== undefined && (
-            <Tag closable onClose={() => closeFilter('income')}>
-              {`Paid job:${filters?.income}`}
+            <Tag onClose={() => closeFilter('income')} closable>
+              {`Income: ${filters?.income ? 'yes' : 'no'}`}
             </Tag>
           )}
           {filters?.disability !== undefined && (
-            <Tag closable onClose={() => closeFilter('disability')}>
-              {`Vulnerability:${filters?.disability}`}
+            <Tag onClose={() => closeFilter('disability')} closable>
+              {`Vulnerability: ${filters?.disability ? 'yes' : 'no'}`}
             </Tag>
           )}
           {filters?.regions !== undefined && (
-            <Tag closable onClose={() => closeFilter('regions')}>
-              {`Region:${filters?.regions}`}
+            <Tag onClose={() => closeFilter('regions')} closable>
+              {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
+              {`Region: ${filters?.regions}`}
             </Tag>
           )}
           {Boolean(form.getFieldValue('clearAll')) && (

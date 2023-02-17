@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import client from '../../client';
 
-export const url = '/api/sub-activity';
+export const USE_GET_SINGLE_SUB_ACTIVITY = '/api/sub-activity';
 
 const GetSingleSubActivity: any = (id: string, params: object = {}, options = { enabled: false }) => {
   const result = useQuery(
-    [url, id, params],
-    async () => await client.get(`${url}/${id}`, params),
+    [USE_GET_SINGLE_SUB_ACTIVITY, id, params],
+    async () => await client.get(`${USE_GET_SINGLE_SUB_ACTIVITY}/${id}`, params),
     {
       ...options,
       select: (data) => data.data

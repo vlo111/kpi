@@ -8,12 +8,7 @@ import { UseFilterTags } from './useFilterTags';
 
 import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
 import { AsnForm } from '../../components/Forms/Form';
-import {
-  IApplicants,
-  iFinishApplicant,
-  IprevState,
-  Iseacrh
-} from './applicantsTypes';
+import { IApplicants, iFinishApplicant, Iseacrh } from './applicantsTypes';
 import Applicant from '../../components/Applicant';
 import { useProject } from '../../hooks/useProject';
 
@@ -25,7 +20,12 @@ const ApplicantsData: React.FC = () => {
   const [filters, setFilters] = useState<Iseacrh>({
     search: '',
     limit: 100,
-    offset: 0
+    offset: 0,
+    student: undefined,
+    income: undefined,
+    disability: undefined,
+    gender: undefined,
+    statuses: undefined
   });
 
   const tableParams = {
@@ -39,6 +39,7 @@ const ApplicantsData: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [openRow, setOpenRow] = useState<any>(false);
   const [applicantId, setApplicantId] = useState('');
+  console.log(applicantId);
   const showDrawer = (record: string): void => {
     setOpenRow(record);
     setApplicantId(record);
@@ -67,7 +68,7 @@ const ApplicantsData: React.FC = () => {
   );
 
   const filterData = useCallback(
-    (data: IprevState) => {
+    (data: Iseacrh) => {
       if (data !== undefined) {
         setFilters((prevState) => ({
           ...prevState,
@@ -110,6 +111,7 @@ const ApplicantsData: React.FC = () => {
           onFinish={onFinish}
           form={form}
           setFilters={setFilters}
+          refetch={refetch}
         />
         <Table
           columns={column}
@@ -128,7 +130,7 @@ const ApplicantsData: React.FC = () => {
         />
       </>
       <Drawer width={'80%'} placement="right" onClose={onClose} open={openRow}>
-        <Applicant />
+        <Applicant applicantId={applicantId} />
       </Drawer>
     </Container>
   );

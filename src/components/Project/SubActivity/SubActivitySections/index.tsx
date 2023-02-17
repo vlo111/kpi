@@ -86,9 +86,10 @@ const SectionsWrapper = styled.div<{ color: string | undefined }>`
 const SubActivitySections: React.FC<any> = ({
   activity,
   index,
-  manager,
+  assignedUsers,
   applicationForm,
-  refetch
+  refetch,
+  navigateRouteInfo
 }) => {
   const { Title } = Typography;
   const { TabPane } = Tabs;
@@ -139,7 +140,7 @@ const SubActivitySections: React.FC<any> = ({
               </Row>
             )}
             <DefaultContent
-              manager={manager}
+              assignedUsers={assignedUsers}
               applicants={activity?.applicants}
               color={filteredColor[0]?.color}
               status={activity?.status}
@@ -162,6 +163,7 @@ const SubActivitySections: React.FC<any> = ({
               }
             >
               <CourseStatusForm
+                navigateRouteInfo={navigateRouteInfo}
                 setActiveKey={setActiveKey}
                 id={item?.setting?.id}
                 courseStatus={activity?.status}

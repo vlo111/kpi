@@ -1,3 +1,4 @@
+import { AssessmentFormOptions, IQuestion } from './api/assessment';
 import { ChangeEventHandler } from 'react';
 import { TabsProps } from 'antd';
 import { UseMutation, Void } from './global';
@@ -78,6 +79,40 @@ export interface ImportParams {
   file: Blob
 }
 
+export interface IPreAssessMentForm {
+  active: boolean
+  authorId: string
+  createdAt: string
+  deletedAt: null | string
+  duplicate: boolean
+  id: string
+  maximumScore: number
+  onlineSignature: boolean
+  passingScore: number
+  projectId: string
+  publish: boolean
+  questions: IQuestion[]
+  sectionDataId: string
+  sectionDataTitle: string
+  title: string
+  type: string
+  updatedAt: string
+  userEarnedScore: number
+  userAssessedScore: number
+}
+export interface IGetApplicantForm {
+  email: string
+  id: string
+  preAssessmentForm: IPreAssessMentForm
+}
+export interface IGetApplicantFormResult {
+  data: IGetApplicantForm
+  isSuccess: boolean
+  isLoading: boolean
+  refetch: any
+}
+
+export type useGetApplicantForm = (id: string, sectionDataId: string, type: string, options?: AssessmentFormOptions) => IGetApplicantFormResult
 export type ImportApplicantList = UseMutation<Void, any, ResponseErrorParam, ImportParams>
 
 export type OnNoteHandler = ChangeEventHandler<HTMLTextAreaElement>;
@@ -87,11 +122,13 @@ export interface ICourseProps {
   applicant: IApplicant
   isLast: boolean
   isActive: boolean
+  applicantId: string | undefined
 }
 
 export interface ICourses {
   histories: IHistory[]
   applicant: IApplicant
+  applicantId: string | undefined
 }
 
 export interface IStyle {
@@ -110,6 +147,7 @@ export type StatusItems = TabsProps['items'];
 export interface IApplicantTabs {
   courses: ICourse[]
   applicant: IApplicant
+  applicantId: string | undefined
 }
 
 export interface INote {
@@ -134,6 +172,8 @@ export interface INext {
   applicant: IApplicant
   sectionDataId: string
   isAllowEdit: boolean
+  applicantId: string | undefined
+
 }
 
 export type OnUpload = (options: { file: any }) => void;
@@ -154,6 +194,10 @@ export interface IApplicantAccessStatus {
 }
 
 export interface IFiles { applicantId: string, history: IHistory }
+
+export interface IApplicantProps {
+  applicantId?: string
+}
 
 export interface IApplicantPublicForm {
   preview?: boolean

@@ -27,9 +27,17 @@ const Wrapper = styled(Col)<{ color: string | undefined }>`
     margin: 0 !important;
   }
   .users_list {
-    .ant-space-item:first-child {
+
+    .users_content{
+      width: 100%;
       min-height: calc(35vh - 14.4vh);
       max-height: calc(35vh - 14.4vh);
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    .assigned_list_item{
+      margin-bottom: 12px;
+      padding-bottom: 8px;
     }
   }
   .users_list,

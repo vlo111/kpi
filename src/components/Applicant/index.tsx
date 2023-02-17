@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Divider as AntDivider, Row as AntRow, Typography } from 'antd';
+import { Col, Divider as AntDivider, Row as AntRow, Typography, Spin } from 'antd';
 import styled from 'styled-components';
 import AsnAvatar from '../../components/Forms/Avatar';
 import ApplicantTabs from './Status';
@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import useGetApplicant from '../../api/Applicant/useGetApplicant';
 import { ApplicantInfo } from '../../helpers/constants';
 import moment from 'moment';
-import { ApplicantRow, SetValue } from '../../types/applicant';
+import { ApplicantRow, IApplicantProps, SetValue } from '../../types/applicant';
 
 const Row = styled(AntRow)<ApplicantRow>`
   height: auto;
@@ -74,10 +74,10 @@ const setValue: SetValue = (key, value = '') => (
   </AntRow>
 );
 
-const Applicant: React.FC = () => {
+const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
   const { id } = useParams();
 
-  const { applicant, courses } = useGetApplicant(id) ?? {};
+  const { applicant, courses, isLoading } = useGetApplicant(applicantId ?? id) ?? {};
 
   const getApplicantInfo = (
     <>
@@ -107,19 +107,22 @@ const Applicant: React.FC = () => {
   );
 
   return (
+    <Spin spinning={isLoading}>
     <Row height={100} style={{ padding: '2rem 4rem' }} gutter={[0, 32]}>
-      <Row>
-        <Col>
-          <InfoRow>
-            <Col className="path">
-              <p>
-                {'Objective 1 > Activity 1.3 > Python Course > Applicants >'}
-              </p>
-              <p>{applicant?.fullName}</p>
-            </Col>
-          </InfoRow>
-        </Col>
-      </Row>
+      {applicantId === undefined && (
+        <Row>
+          <Col>
+            <InfoRow>
+              <Col className="path">
+                <p>
+                  {'Objective 1 > Activity 1.3 > Python Course > Applicants >'}
+                </p>
+                <p>{applicant?.fullName}</p>
+              </Col>
+            </InfoRow>
+          </Col>
+        </Row>
+      )}
       <Row>
         <ApplicantProfile span={24}>
           <Row gutter={10} style={{ padding: '1rem' }}>
@@ -147,11 +150,12 @@ const Applicant: React.FC = () => {
       <Row>
         <Col span={24}>
           {applicant !== undefined && courses !== undefined && (
-            <ApplicantTabs applicant={applicant} courses={courses} />
+            <ApplicantTabs applicant={applicant} courses={courses} applicantId={applicantId} />
           )}
         </Col>
       </Row>
     </Row>
+    </Spin>
   );
 };
 

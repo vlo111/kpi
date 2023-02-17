@@ -399,6 +399,7 @@ export interface ISubActivitiesProps {
   templates: IProjectTemplate[]
 }
 export interface ISubActivities {
+  status: string;
   title: string
   cardRound: string
   subActivityId: string

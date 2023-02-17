@@ -11,8 +11,12 @@ import updateApplicationStatus from '../../../../../../api/ApplicationForm/updat
 import { IApplicationFormItem } from '../../../../../../types/api/activity/subActivity';
 import duplicateApplicationForm from '../../../../../../api/ApplicationForm/useApplicationFormDuplicate';
 import useDeleteApplicationForm from '../../../../../../api/ApplicationForm/useDeleteApplicationForm';
+import changeStatusAssessmentFormDataById from '../../../../../../api/AssessmentForm/useChangeStatusAssessmentFormById';
+import useDeleteAssessmentFormDataById from '../../../../../../api/AssessmentForm/useDeleteAssessmentFormById';
+import useDuplicateAssessmentFormDataById from '../../../../../../api/AssessmentForm/useDuplicateAssessmentFormById';
 import { PATHS } from '../../../../../../helpers/constants';
 import { useNavigate, useParams } from 'react-router';
+import { AsnButton } from '../../../../../Forms/Button';
 
 const StyledItems = styled(List)`
   .ant-list-item {
@@ -32,7 +36,9 @@ const StyledItems = styled(List)`
 
 const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
   form,
-  refetchSingleStatus
+  refetchSingleStatus,
+  formType,
+  createAssessmentForm
 }) => {
   const { Title } = Typography;
   const navigate = useNavigate();
@@ -46,7 +52,6 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
       console.log('err');
     }
   });
-
   const { mutate: deleteApplicationFormById } = useDeleteApplicationForm({
     onSuccess: () => {
       refetchSingleStatus();
@@ -58,12 +63,31 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
   const { mutate: duplicateApplicationFormById } = duplicateApplicationForm({
     onSuccess: () => {
       refetchSingleStatus();
-      // setOpenPopover(!openPopover);
     },
     onError: () => {
       console.log('err');
     }
   });
+
+  const { mutate: changeAssessmentFormStatus } =
+    changeStatusAssessmentFormDataById({
+      onSuccess: () => {
+        refetchSingleStatus();
+      }
+    });
+
+  const { mutate: deleteAssessmentFormById } = useDeleteAssessmentFormDataById({
+    onSuccess: () => {
+      refetchSingleStatus();
+    }
+  });
+
+  const { mutate: duplicateAssessmentFormById } =
+    useDuplicateAssessmentFormDataById({
+      onSuccess: () => {
+        refetchSingleStatus();
+      }
+    });
 
   const content = (id: string): ReactElement => (
     <Row
@@ -74,7 +98,14 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
       }}
       gutter={[8, 8]}
     >
-      <Col span={24} onClick={() => navigate(`/${PATHS.APPLICATIONFORM.replace(':id', id)}`, { state: { edit: true, SubActivityId } })}>
+      <Col
+        span={24}
+        onClick={() =>
+          navigate(`/${PATHS.APPLICATIONFORM.replace(':id', id)}`, {
+            state: { edit: true, SubActivityId }
+          })
+        }
+      >
         <EditIcon /> Edit
       </Col>
       {/* <Col span={24}> */}
@@ -90,81 +121,116 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
   );
 
   const duplicate = (id: string): void => {
-    duplicateApplicationFormById({ id });
+    if (formType === 'APPLICATION') {
+      duplicateApplicationFormById({ id });
+    } else {
+      duplicateAssessmentFormById({ id });
+    }
   };
 
   const deleteForm = (id: string): void => {
-    deleteApplicationFormById({ id });
+    if (formType === 'APPLICATION') {
+      deleteApplicationFormById({ id });
+    } else {
+      deleteAssessmentFormById({ id });
+    }
   };
 
   const onChange = (id: string): void => {
-    updateApplicationFormStatus({ id });
+    if (formType === 'APPLICATION') {
+      updateApplicationFormStatus({ id });
+    } else {
+      changeAssessmentFormStatus({ id });
+    }
   };
 
-  // const handleOpenChange: Onchange = (newOpen) => {
-  //   setOpenPopover(newOpen);
-  // };
+  const renderButtonsText = (param: string): any => {
+    switch (param) {
+      case 'APPLICATION':
+        return 'Publish Application form';
+      case 'PRE_ASSESSMENT':
+        return 'Publish Pre-assessment form';
+      case 'POST_ASSESSMENT':
+        return 'Publish Post-assessment form';
+      default:
+        return 'Publish Application form';
+    }
+  };
 
   return (
-    <StyledItems
-      dataSource={form}
-      renderItem={(item: any) => (
-        <List.Item>
-          <Row align="middle" style={{ width: '100%' }}>
-            <Col span={16} xl={16} xxl={14}>
-              <Row justify="end" align="middle" style={{ width: '100%' }}>
-                <Title level={5}>{item.title}</Title>
-              </Row>
-            </Col>
-            <Col span={8} xl={8} xxl={10}>
-              <Row
-                justify="end"
-                align="middle"
-                style={{ width: '100%', paddingRight: '1vw' }}
-                gutter={[10, 10]}
-              >
-                <Col>
-                  <Title
-                    level={4}
-                    copyable={{
-                      icon: [<LinkIcon key="copy-icon" />, <LinkIcon key="copied-icon" />],
-                      text: `${
-                        process.env.REACT_APP_BASE_URL_HOST ?? ''
-                      }${PATHS.APPLYAPPLICANTFORM.replace(
-                        ':id',
-                        item.id !== null ? item.id : ''
-                      )}`
-                    }}
-                  />
-                </Col>
-                <Col>
-                  <Switch
-                    defaultChecked={item?.active}
-                    checked={item?.active}
-                    disabled={item?.active}
-                    onChange={() => onChange(item.id)}
-                  />
-                </Col>
-                <Popover
-                  placement="bottomRight"
-                  content={() => content(item.id)}
-                  trigger="click"
-                  overlayClassName="menuPopover"
-                  // onOpenChange={handleOpenChange}
-                  // open={openPopover}
+    <>
+      <Row justify="center" style={{ width: '100%' }}>
+        <AsnButton
+          className="primary"
+          type="primary"
+          onClick={() => {
+            createAssessmentForm(formType);
+          }}
+        >
+          {renderButtonsText(formType)}
+        </AsnButton>
+      </Row>
+      <StyledItems
+        dataSource={form}
+        renderItem={(item: any) => (
+          <List.Item>
+            <Row align="middle" style={{ width: '100%' }}>
+              <Col span={16} xl={16} xxl={14}>
+                <Row justify="end" align="middle" style={{ width: '100%' }}>
+                  <Title level={5}>{item.title}</Title>
+                </Row>
+              </Col>
+              <Col span={8} xl={8} xxl={10}>
+                <Row
+                  justify="end"
+                  align="middle"
+                  style={{ width: '100%', paddingRight: '1vw' }}
+                  gutter={[10, 10]}
                 >
-                  <Col style={{ cursor: 'pointer' }}>
-                    <Row align="middle">
-                      <MenuIcon />
-                    </Row>
+                  <Col>
+                    <Title
+                      level={4}
+                      copyable={{
+                        icon: [
+                          <LinkIcon key="copy-icon" />,
+                          <LinkIcon key="copied-icon" />
+                        ],
+                        text: `${
+                          process.env.REACT_APP_BASE_URL_HOST ?? ''
+                        }${PATHS.APPLYAPPLICANTFORM.replace(
+                          ':id',
+                          item.id !== null ? item.id : ''
+                        )}`
+                      }}
+                    />
                   </Col>
-                </Popover>
-              </Row>
-            </Col>
-          </Row>
-        </List.Item>
-      )}
-    />
+                  <Col>
+                    <Switch
+                      defaultChecked={item?.active}
+                      checked={item?.active}
+                      disabled={item?.active}
+                      onChange={() => onChange(item.id)}
+                    />
+                  </Col>
+                  <Popover
+                    placement="bottomRight"
+                    content={() => content(item.id)}
+                    trigger="click"
+                    overlayClassName="menuPopover"
+                  >
+                    <Col style={{ cursor: 'pointer' }}>
+                      <Row align="middle">
+                        <MenuIcon />
+                      </Row>
+                    </Col>
+                  </Popover>
+                </Row>
+              </Col>
+            </Row>
+          </List.Item>
+        )}
+      />
+    </>
   );
 };
 export default ApplicationFormItem;

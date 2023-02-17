@@ -1,3 +1,4 @@
+import { IAssessmentSelectItem } from '../types/api/assessment';
 import { SliderMarks } from 'antd/lib/slider';
 import { IApplicantAccessStatus, IApplicantDefaultStatus } from '../types/applicant';
 
@@ -31,6 +32,9 @@ export const PATHS = {
   APPLICANT: 'applicant/:id',
   APPLICATIONFORM: 'application/:id',
   APPLYAPPLICANTFORM: 'apply-form/:id',
+  ASSESSMENTFORM: 'assessment-form',
+  ASSESSMENTFORMCREATE: 'assessment-form/create/:id',
+  FILLEDOUTASSESSMENTFORM: 'assessment-form/assess/:id',
   APPLICANTS: 'applicants',
   INVITATION: 'accept-invitation'
 };
@@ -67,8 +71,10 @@ export const menuItemsNavigate = [
 ];
 
 export const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$/;
-export const phoneRegExp = /^[+][(][0-9]{1,5}[)][-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,12}$/im;
-export const phoneErrorMesage = 'Please enter your phone in format: +(374) XXXXXX';
+export const phoneRegExp =
+  /^[+][(][0-9]{1,5}[)][-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,12}$/im;
+export const phoneErrorMesage =
+  'Please enter your phone in format: +(374) XXXXXX';
 
 export const VALIDATE_EMPTY = {
   firstName: 'Please enter a valid Email Address',
@@ -191,6 +197,25 @@ export const defaultLimit = {
   currentPage: 1
 };
 
+export const assessmentSelect: IAssessmentSelectItem[] = [
+  {
+    name: 'One answer',
+    value: 'OPTION'
+  },
+  {
+    name: 'Multiple answers',
+    value: 'CHECKBOX'
+  },
+  {
+    name: 'Text answer',
+    value: 'SHORT_TEXT'
+  }
+];
+export const FormScrollToErrorOptions: ScrollOptions | ScrollIntoViewOptions = {
+  behavior: 'smooth',
+  block: 'center',
+  inline: 'center'
+};
 // Region data
 export const optionsRegion = [
   { label: 'Yerevan', value: 'Yerevan/Երևան,' },
@@ -215,7 +240,7 @@ export const optionsStatus = [
   { label: 'Post-Assessment ', value: 'POST_ASSESSMENT' },
   { label: 'Trained', value: 'TRAINED' }
 ];
-  // Age function
+// Age function
 export const marks: SliderMarks = {
   0: '0',
   100: '100'

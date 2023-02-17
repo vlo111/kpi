@@ -1,4 +1,4 @@
-import { Collapse, Radio, Space, Form, Slider, FormInstance } from 'antd';
+import { Collapse, Radio, Space, Form, Slider } from 'antd';
 import React from 'react';
 import { AsnButton } from '../../components/Forms/Button';
 import { AsnCheckboxGroup } from '../../components/Forms/Checkbox';
@@ -6,14 +6,10 @@ import { Panel } from '../../components/Forms/Collapse';
 import { marks, optionsRegion, optionsStatus } from '../../helpers/constants';
 import { ContentAssingersFilter } from './applicantsStyle';
 import { Ifiltres } from './applicantsTypes';
+import { Void } from '../../types/global';
 
-
-export const UseFilters: React.FC<Ifiltres>  = ({
-  setOpen,
-  onFinish,
-  form
-}) => {
-  const hide = () => {
+export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
+  const hide: Void = () => {
     setOpen();
   };
 
@@ -63,7 +59,9 @@ export const UseFilters: React.FC<Ifiltres>  = ({
             <Form.Item name="income">
               <Radio.Group>
                 <Space direction="vertical">
-                  <Radio value={true} name='Paid job'>Paid job</Radio>
+                  <Radio value={true} name="Paid job">
+                    Paid job
+                  </Radio>
                   <Radio value={false}>Unemployed</Radio>
                 </Space>
               </Radio.Group>
@@ -87,7 +85,7 @@ export const UseFilters: React.FC<Ifiltres>  = ({
               />
             </Form.Item>
           </Panel>
-        </Collapse>{' '}
+        </Collapse>
         <Form.Item>
           <Space
             direction="horizontal"

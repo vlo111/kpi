@@ -10,6 +10,7 @@ import AsnSpin from '../../components/Forms/Spin';
 import SubActivityAndTemplates from './SubActivitesAndTemplates';
 import { ITabContent } from '../../types/project';
 import { ReactComponent as CreateTemplateSvg } from '../../assets/icons/create-template.svg';
+import { ReactComponent as NotAccessSvg } from '../../assets/icons/error_404.svg';
 
 const { Text } = Typography;
 
@@ -18,7 +19,23 @@ const AntRow = styled(Row)`
   width: 18vw;
   min-height: 80px;
   word-break: break-word;
-;
+`;
+
+const NotAccessContent = styled(Space)`
+  width: 100%;
+  .ant-space-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  h5,h3{
+    color: var(--dark-1);
+    font-size: 20px;
+    font-weight: var(--font-normal)
+  }
+  h5{
+    font-size: 14px !important;
+  }
 `;
 
 const TabContent: React.FC<ITabContent> = ({
@@ -30,6 +47,7 @@ const TabContent: React.FC<ITabContent> = ({
 }) => {
   const [checkedList, setCheckedList] = useState<CheckboxValueType[]>();
   const [indeterminate, setIndeterminate] = useState(true);
+  const { Title } = Typography;
   const [checkAll, setCheckAll] = useState(false);
   const [dateSearch, setDateSearch] = useState({
     start: true,
@@ -37,28 +55,56 @@ const TabContent: React.FC<ITabContent> = ({
     to: ''
   });
   const { from, to } = dateSearch;
-  const filters = ((checkedList?.length) !== 0 && (from !== '') && (to !== '')) ? { status: checkedList, date: dateSearch } : (checkedList?.length) !== 0 ? { status: checkedList } : ((from !== '') && (to !== '')) ? { date: dateSearch } : {};
-  const { data: templates, isLoading: isLoadingTemplates, refetch } = GetTemplates(inputActivityId ?? defaultInputActivityId, { enabled: Boolean(inputActivityId ?? defaultInputActivityId) });
-  const { data: subActivities, isLoading: isLoadingSubActivity } = useGetSubActivities(inputActivityId ?? defaultInputActivityId, filters, { enabled: Boolean((inputActivityId ?? defaultInputActivityId)) });
+  const filters =
+    checkedList?.length !== 0 && from !== '' && to !== ''
+      ? { status: checkedList, date: dateSearch }
+      : checkedList?.length !== 0
+        ? { status: checkedList }
+        : from !== '' && to !== ''
+          ? { date: dateSearch }
+          : {};
+  const {
+    data: templates,
+    isLoading: isLoadingTemplates,
+    refetch
+  } = GetTemplates(inputActivityId ?? defaultInputActivityId, {
+    enabled: Boolean(inputActivityId ?? defaultInputActivityId)
+  });
+  const {
+    data: subActivities,
+    isLoading: isLoadingSubActivity,
+    error
+  } = useGetSubActivities(inputActivityId ?? defaultInputActivityId, filters, {
+    enabled: Boolean(inputActivityId ?? defaultInputActivityId)
+  });
   return (
     <Tabs
       activeKey={inputActivityId ?? resultArea?.inputActivities[0]?.id}
       tabPosition={'left'}
-      items={resultArea?.inputActivities?.map(
-        (inputActivity, i: number) => {
-          return {
-            label: (
-              <AntRow align='middle' onClick={() => setInputActivityId(inputActivity?.id)}>
-                1.{+i + 1} {inputActivity?.title}
-              </AntRow>
-            ),
-            key: `${inputActivity?.id ?? i}`,
-            children: ((Boolean(isLoadingTemplates)) || (Boolean(isLoadingSubActivity)))
-              ? <AsnSpin />
-              : (templates?.length > 0 || subActivities?.length > 0)
-                  ? (< SubActivityAndTemplates
+      items={resultArea?.inputActivities?.map((inputActivity, i: number) => {
+        return {
+          label: (
+            <AntRow
+              align="middle"
+              onClick={() => setInputActivityId(inputActivity?.id)}
+            >
+              1.{+i + 1} {inputActivity?.title}
+            </AntRow>
+          ),
+          key: `${inputActivity?.id ?? i}`,
+          children:
+            error === null
+              ? (
+                  Boolean(isLoadingTemplates) || Boolean(isLoadingSubActivity)
+                    ? (
+                <AsnSpin />
+                      )
+                    : templates?.length > 0 || subActivities?.length > 0
+                      ? (
+                <SubActivityAndTemplates
                   subActivities={subActivities}
-                  templates={templates} refetch={refetch}
+                  templates={templates}
+                  refetch={refetch}
                   setCheckedList={setCheckedList}
                   setIndeterminate={setIndeterminate}
                   setCheckAll={setCheckAll}
@@ -68,34 +114,42 @@ const TabContent: React.FC<ITabContent> = ({
                   setDateSearch={setDateSearch}
                   dateSearch={dateSearch}
                   setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
-                />)
-                  : (
-                  <Space
-                    direction="vertical"
-                    align="center"
-                    style={{ width: '100%', padding: '5vh 0 30px 0' }}
+                />
+                        )
+                      : (
+                <Space
+                  direction="vertical"
+                  align="center"
+                  style={{ width: '100%', padding: '5vh 0 30px 0' }}
+                >
+                  <CreateTemplateSvg style={{ marginBottom: '20px' }} />
+                  <Text style={{ fontSize: 'var(--headline-font-size)' }}>
+                    Create Activity Template
+                  </Text>
+                  <Text>Create activity templates to start</Text>
+                  <AsnButton
+                    style={{ marginTop: '12px' }}
+                    className="primary"
+                    onClick={() => {
+                      setIsOpenCreateActivityModal(true);
+                    }}
                   >
-                    <CreateTemplateSvg style={{ marginBottom: '20px' }} />
-                    <Text
-                      style={{ fontSize: 'var(--headline-font-size)' }}
-                    >
-                      Create Activity Template
-                    </Text>
-                    <Text>Create activity templates to start</Text>
-                    <AsnButton
-                      style={{ marginTop: '12px' }}
-                      className="primary"
-                      onClick={() => {
-                        setIsOpenCreateActivityModal(true);
-                      }}
-                    >
-                      Create Activity Template
-                    </AsnButton>
-                  </Space>
-                    )
-          };
-        }
-      )}
+                    Create Activity Template
+                  </AsnButton>
+                </Space>
+                        )
+                )
+              : (
+                  error !== null && (
+                  <NotAccessContent direction='vertical'>
+                    <NotAccessSvg/>
+                    <Title level={3}>We are sorry,</Title>
+                    <Title level={5}>but you don’t have access to this page or resource</Title>
+                  </NotAccessContent>
+                  )
+                )
+        };
+      })}
     />
   );
 };

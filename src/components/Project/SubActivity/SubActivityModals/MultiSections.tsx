@@ -41,7 +41,7 @@ const MultiSections: React.FC<IMultiSections> = ({
 
   const items = new Array(sectionsCount).fill(null).map((_, i) => {
     return {
-      label: <AsnRow>{i + 1} Section</AsnRow>,
+      label: <AsnRow>{i + 1} Phase</AsnRow>,
       key: `${i}`,
       children: (
         <AsnForm.List name="sectionsData">
