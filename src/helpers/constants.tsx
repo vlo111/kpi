@@ -1,4 +1,4 @@
-import { SliderMarks } from "antd/lib/slider";
+import { SliderMarks } from 'antd/lib/slider';
 import { IApplicantAccessStatus, IApplicantDefaultStatus } from '../types/applicant';
 
 export const PATHS = {
@@ -104,9 +104,10 @@ export const ApplicantInfo = {
   Student: 'Student',
   EducationLevel: 'Education level',
   PaidJob: 'Paid job',
+  Position: 'Position',
   WorkOrganisation: 'Work Organisation',
   VulnerabilityType: 'Vulnerability type',
-  CourseSource: 'Course Source'
+  CourseSource: 'Found the course'
 };
 
 export const answerTypeOptions: string[] = [

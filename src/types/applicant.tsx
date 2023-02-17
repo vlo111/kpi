@@ -18,7 +18,7 @@ export interface IApplicant {
   profession: string
   position: string
   income: string
-  workOrganization: string
+  workOrganisation: string
   vulnerabilities: string
   informedAboutUs: string
   disability: string

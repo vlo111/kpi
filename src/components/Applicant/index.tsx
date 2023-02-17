@@ -89,14 +89,20 @@ const Applicant: React.FC = () => {
       {setValue(ApplicantInfo.Region, applicant?.region)}
       {setValue(ApplicantInfo.Community, applicant?.community)}
       {setValue(ApplicantInfo.Gender, applicant?.gender)}
+
       <AntTitle level={4}>{ApplicantInfo.EducationTitle}</AntTitle>
       {setValue(ApplicantInfo.Student, applicant?.student)}
       {setValue(ApplicantInfo.EducationLevel, applicant?.educationLevel)}
-      {setValue(ApplicantInfo.PaidJob, '-')}
-      {setValue(ApplicantInfo.WorkOrganisation, applicant?.workOrganization)}
+      {setValue(ApplicantInfo.PaidJob, applicant?.income)}
+      {setValue(ApplicantInfo.Position, applicant?.position ?? '-')}
+      {setValue(
+        ApplicantInfo.WorkOrganisation,
+        applicant?.workOrganisation ?? '-'
+      )}
+
       <AntTitle level={4}>{ApplicantInfo.OtherInfoTitle}</AntTitle>
       {setValue(ApplicantInfo.VulnerabilityType, applicant?.vulnerabilities)}
-      {setValue(ApplicantInfo.CourseSource, '-')}
+      {setValue(ApplicantInfo.CourseSource, applicant?.informedAboutUs)}
     </>
   );
 

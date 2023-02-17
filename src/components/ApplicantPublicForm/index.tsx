@@ -59,7 +59,7 @@ const FillApplicationFormContainer = styled.div`
   }
 
   .ant-radio-disabled .ant-radio-inner:after {
-    background-color: rgba(0,0,0,.2);
+    background-color: rgba(0, 0, 0, 0.2);
   }
 
   .ant-radio.ant-radio-disabled .ant-radio-inner {
@@ -75,7 +75,7 @@ const FillApplicationFormContainer = styled.div`
     background-color: var(--white) !important;
     border-color: var(--dark-5);
   }
-  
+
   .ant-input-disabled {
     &:hover {
       border: 1px solid var(--dark-5) !important;
@@ -109,7 +109,7 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
     : useGetForm(applicantId, sectionDataId, type);
 
   const { mutate: createApplicant } = useCreateApplicant({
-    onSuccess: (options: any) => {
+    onSuccess: () => {
       form.resetFields();
       initForm();
       window.scrollTo({
@@ -120,9 +120,7 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
         setIsSuccessPublishModal(true);
       }, 500);
     },
-    onError: (err: any) => {
-      console.log(err);
-    }
+    onError: () => {}
   });
 
   const {
@@ -181,8 +179,12 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
             answers: p.answers.filter((a) => a.checked)
           };
 
-          if (p.answers.find((a) => a.type === 'SHORT_TEXT' && a.checked) != null) {
-            answer.radioText = p.answers.find((a) => a.type === 'SHORT_TEXT' && a.checked)?.text;
+          if (
+            p.answers.find((a) => a.type === 'SHORT_TEXT' && a.checked) != null
+          ) {
+            answer.radioText = p.answers.find(
+              (a) => a.type === 'SHORT_TEXT' && a.checked
+            )?.text;
           }
 
           return answer;
@@ -204,12 +206,19 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
 
       const questions = {
         [personalDetails.keyName]: getAnswers(personalDetails.questions),
-        [education.keyName]: getAnswers(education.questions).concat(educationAnswers),
-        [otherInfo.keyName]: getAnswers(otherInfo.questions).concat(otherAnswers),
+        [education.keyName]: getAnswers(education.questions).concat(
+          educationAnswers
+        ),
+        [otherInfo.keyName]: getAnswers(otherInfo.questions).concat(
+          otherAnswers
+        ),
         [personalInfo.keyName]: getAnswers(personalInfo.questions)
       };
 
-      questions[personalDetails.keyName][1].answers[0].text = moment(questions[personalDetails.keyName][1].answers[0].text, 'YYYY-MM-DD');
+      questions[personalDetails.keyName][1].answers[0].text = moment(
+        questions[personalDetails.keyName][1].answers[0].text,
+        'YYYY-MM-DD'
+      );
 
       JSON.parse(termsAndConditions)?.forEach((p: any, i: number) => {
         form.setFieldValue(`community${i}`, true);

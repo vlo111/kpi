@@ -1,13 +1,14 @@
 import { UseQueryResult } from '@tanstack/react-query';
 import { TVoid } from '../../../types/global';
 import { FormInstance } from 'antd';
+import React, { Key } from 'react';
 
 export interface SearchApplicants {
   filters: any
   serachData: any
 }
 export interface DataType {
-  key: React.Key
+  key: Key
   name: string
   sector: string
   age: string
@@ -94,4 +95,3 @@ export interface Ifiltres {
   onFinish: () => void
   setOpen: () => boolean
 }
-
