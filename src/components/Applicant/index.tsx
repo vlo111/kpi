@@ -1,19 +1,12 @@
 import React from 'react';
-import moment from 'moment';
+import { Col, Divider as AntDivider, Row as AntRow, Typography, Spin } from 'antd';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
-import {
-  Col,
-  Divider as AntDivider,
-  Row as AntRow,
-  Spin,
-  Typography
-} from 'antd';
-
-import ApplicantTabs from './Status';
 import AsnAvatar from '../../components/Forms/Avatar';
-import { ApplicantInfo } from '../../helpers/constants';
+import ApplicantTabs from './Status';
+import { useParams } from 'react-router-dom';
 import useGetApplicant from '../../api/Applicant/useGetApplicant';
+import { ApplicantInfo } from '../../helpers/constants';
+import moment from 'moment';
 import { ApplicantRow, IApplicantProps, SetValue } from '../../types/applicant';
 
 const Row = styled(AntRow)<ApplicantRow>`
@@ -96,14 +89,20 @@ const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
       {setValue(ApplicantInfo.Region, applicant?.region)}
       {setValue(ApplicantInfo.Community, applicant?.community)}
       {setValue(ApplicantInfo.Gender, applicant?.gender)}
+
       <AntTitle level={4}>{ApplicantInfo.EducationTitle}</AntTitle>
       {setValue(ApplicantInfo.Student, applicant?.student)}
       {setValue(ApplicantInfo.EducationLevel, applicant?.educationLevel)}
-      {setValue(ApplicantInfo.PaidJob, '-')}
-      {setValue(ApplicantInfo.WorkOrganisation, applicant?.workOrganization)}
+      {setValue(ApplicantInfo.PaidJob, applicant?.income)}
+      {setValue(ApplicantInfo.Position, applicant?.position ?? '-')}
+      {setValue(
+        ApplicantInfo.WorkOrganisation,
+        applicant?.workOrganisation ?? '-'
+      )}
+
       <AntTitle level={4}>{ApplicantInfo.OtherInfoTitle}</AntTitle>
       {setValue(ApplicantInfo.VulnerabilityType, applicant?.vulnerabilities)}
-      {setValue(ApplicantInfo.CourseSource, '-')}
+      {setValue(ApplicantInfo.CourseSource, applicant?.informedAboutUs)}
     </>
   );
 

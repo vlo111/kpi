@@ -3,10 +3,11 @@ import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { RadioChangeEvent } from 'antd';
 import React from 'react';
 import { SectionName } from '../helpers/constants';
+import { Moment } from 'moment';
 
 export interface IFormAnswer {
   id?: string
-  text?: string
+  text?: string | Moment
 }
 
 export interface IAnswerProps {
@@ -15,6 +16,8 @@ export interface IAnswerProps {
   keyName: string
   answers: IFormAnswer[]
   answerType: string
+  radioId?: string[]
+  radioText?: string
 }
 
 export type GetAnswers = (items: IQuestion[] | IRelatedQuestion[]) => IAnswerProps[];

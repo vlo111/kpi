@@ -19,7 +19,7 @@ export interface IApplicant {
   profession: string
   position: string
   income: string
-  workOrganization: string
+  workOrganisation: string
   vulnerabilities: string
   informedAboutUs: string
   disability: string
@@ -197,4 +197,11 @@ export interface IFiles { applicantId: string, history: IHistory }
 
 export interface IApplicantProps {
   applicantId?: string
+}
+
+export interface IApplicantPublicForm {
+  preview?: boolean
+  applicantId?: string
+  sectionDataId?: string
+  type?: string
 }
