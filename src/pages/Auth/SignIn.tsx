@@ -15,6 +15,7 @@ import { AsnForm } from '../../components/Forms/Form';
 import { AsnAlert } from '../../components/Forms/Alert';
 
 import useSignInApi from '../../api/Auth/useSignInApi';
+import { useProject } from '../../hooks/useProject';
 
 const ForgotPassword = styled.div`
   color: var(--forget-password-gray); 
@@ -27,11 +28,12 @@ const SignIn: React.FC = () => {
   const [form] = AsnForm.useForm();
   const navigate = useNavigate();
   const email = form.getFieldValue('email');
+  const { setProjectId } = useProject();
   const { login, isToken } = useAuth();
   const { mutate: signIn, isLoading }: any = useSignInApi(
     {
       onSuccess: (payload: { data: IUser }) => {
-        const { id, firstName, lastName, email, accessToken, photo } = payload.data;
+        const { id, firstName, lastName, email, accessToken, photo, projects } = payload.data;
         login({
           id,
           firstName,
@@ -41,6 +43,7 @@ const SignIn: React.FC = () => {
         });
         isToken(accessToken);
         navigate(PATHS.ROOT);
+        setProjectId(projects.slice(-1)[0].id);
       },
       onError: ({ response }: any) => { setError(handleErrorMessage(response)); }
     }
