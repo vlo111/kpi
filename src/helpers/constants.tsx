@@ -1,9 +1,6 @@
 import { IAssessmentSelectItem } from '../types/api/assessment';
 import { SliderMarks } from 'antd/lib/slider';
-import {
-  IApplicantAccessStatus,
-  IApplicantDefaultStatus
-} from '../types/applicant';
+import { IApplicantAccessStatus, IApplicantDefaultStatus } from '../types/applicant';
 
 export const PATHS = {
   ROOT: '/',
@@ -113,9 +110,10 @@ export const ApplicantInfo = {
   Student: 'Student',
   EducationLevel: 'Education level',
   PaidJob: 'Paid job',
+  Position: 'Position',
   WorkOrganisation: 'Work Organisation',
   VulnerabilityType: 'Vulnerability type',
-  CourseSource: 'Course Source'
+  CourseSource: 'Found the course'
 };
 
 export const answerTypeOptions: string[] = [
@@ -179,18 +177,18 @@ export enum SectionName {
 export enum Placeholders {
   phone = '+(374) XXXXXX',
   date = 'DD/MM/YYYY',
-  email = 'yourmail@analysed.ai',
+  email = 'yourmail@analysed.ai'
 }
 
 export enum KeyName {
   phone = 'phone',
   dob = 'dob',
-  email = 'email',
+  email = 'email'
 }
 
 export enum ErrorRequireMessages {
   checkbox = 'Please chose one of the fields',
-  input = 'Please enter the field',
+  input = 'Please enter the field'
 }
 
 export const defaultLimit = {
@@ -257,11 +255,11 @@ export const optionsReason = [
 ];
 
 export enum FileType {
-  APPLICANT_DOCUMENT = 'APPLICANT_DOCUMENT',
+  APPLICANT_DOCUMENT = 'APPLICANT_DOCUMENT'
 }
 
 export enum AssessmentStatus {
   NotAssessed = ' Not assessed',
   NotSubmitted = ' Not submitted',
-  Scored = ' Scored ',
+  Scored = ' Scored '
 }
