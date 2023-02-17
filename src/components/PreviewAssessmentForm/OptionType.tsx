@@ -13,17 +13,18 @@ const OptionType: React.FC<IAnswersProps> = ({ question, i }) => {
 
   return (
     <AsnForm.Item
+      name={i}
       label={`${title} (${score} score)`}
       rules={[{ required }]}
       style={{ fontWeight: 'var(--font-semibold)' }}
     >
         <Space direction="vertical" style={{ paddingTop: '17px' }}>
-          {sortedAnswers.map((answer: IAnswer) => (
-            <AsnRadio key={answer.id} disabled style={{ fontWeight: 'var(--font-normal)' }} >
+          {sortedAnswers.map((answer: IAnswer, i: number) => (
+            <AsnRadio key={i} disabled style={{ fontWeight: 'var(--font-normal)' }} >
               {answer.title}
               {answer.type === 'SHORT_TEXT' &&
                 <AsnForm.Item
-                  style={{ margin: '-32px 0px 0px 65px', width: 'calc(80vw - 136px)' }}
+                  style={{ margin: '-32px 0px 0px 65px' }}
                 >
                   <UnderLineInput disabled />
                 </AsnForm.Item>}

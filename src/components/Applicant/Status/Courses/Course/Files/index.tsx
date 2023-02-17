@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { AsnModal } from '../../../../../Forms/Modal';
 import ApplicantPublicForm from '../../../../../ApplicantPublicForm';
+import PreviewAssessmentForm from '../../../../../PreviewAssessmentForm';
 
 import { Void } from '../../../../../../types/global';
 
@@ -27,6 +28,7 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
   const { mutate: resendApplicant } = useResendApplicant();
 
   const [openPreviewApplicant, setOpenPreviewApplicant] = useState(false);
+  const [openPreviewAssessmentForm, setOpenPreviewAssessmentForm] = useState<boolean>(false);
 
   const onResendHandler: Void = () => {
     resendApplicant({
@@ -73,7 +75,7 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
                     AssessmentStatus.NotAssessed
                   )
                 : (
-                  <p>score {history.preAssessmentScore}/{ history.preAssessmentMaxScore}</p>
+                  <p>score {history.preAssessmentScore}/{history.preAssessmentMaxScore}</p>
                   )
             }
           </div>
@@ -101,6 +103,10 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
           preview={true}
         />
       </Modal>
+      {openPreviewAssessmentForm && <PreviewAssessmentForm
+        openPreviewAssessmentForm={openPreviewAssessmentForm}
+        setOpenPreviewAssessmentForm={setOpenPreviewAssessmentForm}
+      />}
     </>
   );
 };

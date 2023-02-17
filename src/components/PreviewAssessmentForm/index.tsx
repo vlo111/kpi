@@ -18,15 +18,13 @@ const PreviewModalContent = styled(AsnModal)`
   .ant-modal-content {
     padding: 3rem 0rem 1rem;
   }
-`;
-
-const PreviewContainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  height: 75vh;
-  overflow-y: auto;
-  padding: 0rem 6rem;
+  .ant-modal-body{
+    height: 75vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overflow-x: hidden;
+    padding: 60px
+  }
 `;
 
 const AsnTitle = styled(Title)`
@@ -49,7 +47,9 @@ const PreviewAssessmentForm: React.FC<any> = ({
   isPreviewForm,
   setIsPreviewForm,
   courseId,
-  createAssessmentForm
+  createAssessmentForm,
+  setOpenPreviewAssessmentForm,
+  openPreviewAssessmentForm
 }) => {
   const { questions, title } = data;
 
@@ -61,84 +61,91 @@ const PreviewAssessmentForm: React.FC<any> = ({
       }
     });
   };
+
+  const handleCancel = (): void => {
+    if (openPreviewAssessmentForm === true) {
+      setOpenPreviewAssessmentForm(false);
+    } else {
+      setIsPreviewForm(false);
+    }
+  };
   return (
     <PreviewModalContent
-      open={isPreviewForm}
+      open={(Boolean(isPreviewForm)) || openPreviewAssessmentForm}
       width={'80vw'}
-      onCancel={() => setIsPreviewForm(false)}
+      onCancel={handleCancel}
       footer={false}
     >
-      <PreviewContainer>
-        <AsnTitle level={2}>{title}</AsnTitle>
-        <AsnParagraph style={{ marginBottom: '60px' }}>
-          Pre-assessment form for course
-        </AsnParagraph>
-        <AsnForm layout="vertical" name="preassesment">
-          <AsnForm.Item
-            name="email"
-            label={'Email address (same as in the submitted application form)'}
-            style={{ fontWeight: 'var(--font-semibold)' }}
-          >
-            <UnderLineInput disabled />
-          </AsnForm.Item>
-          <AsnForm.List name="apply">
-            {(fields) => (
-              <div>
-                {questions.map((question: IQuestion, i: number) =>
-                  question.answerType === 'SHORT_TEXT'
-                    ? (
-                    <ShortTextType key={i} question={question} i={i} />
-                      )
-                    : question.answerType === 'OPTION'
-                      ? (
-                    <OptionType key={i} question={question} i={i} />
-                        )
-                      : (
-                    <CheckBoxType key={i} question={question} i={i} />
-                        )
-                )}
-              </div>
-            )}
-          </AsnForm.List>
-          <AsnForm.Item>
-            <Space
-              direction="horizontal"
-              align="center"
-              style={{ paddingTop: '30px' }}
-            >
-              <Paragraph
-                style={{
-                  marginBottom: 0,
-                  fontSize: 'var(--base-font-size)',
-                  fontWeight: 'var(--font-semibold)'
-                }}
-              >
-                Online Signature
-              </Paragraph>
-              <UnderLineInput disabled style={{ width: '57vw' }} />
-            </Space>
-          </AsnForm.Item>
-        </AsnForm>
-        <Space
-          style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            margin: '3.5rem 0rem'
-          }}
-          size={60}
+      <AsnTitle level={2}>{title}</AsnTitle>
+      <AsnParagraph style={{ marginBottom: '60px' }}>
+        Pre-assessment form for course
+      </AsnParagraph>
+      <AsnForm layout="vertical" name="preassesment">
+        <AsnForm.Item
+          name="email"
+          label={'Email address (same as in the submitted application form)'}
+          style={{ fontWeight: 'var(--font-semibold)' }}
+          rules={[{ required: true }]}
         >
-          <AsnButton
-            className="default"
-            onClick={() => setIsPreviewForm(false)}
+          <UnderLineInput disabled />
+        </AsnForm.Item>
+        <AsnForm.List name="apply">
+          {(fields) => (
+            <div>
+              {questions.map((question: IQuestion, i: number) =>
+                question.answerType === 'SHORT_TEXT'
+                  ? (
+                    <ShortTextType key={i} question={question} i={i} />
+                    )
+                  : question.answerType === 'OPTION'
+                    ? (
+                      <OptionType key={i} question={question} i={i} />
+                      )
+                    : (
+                      <CheckBoxType key={i} question={question} i={i} />
+                      )
+              )}
+            </div>
+          )}
+        </AsnForm.List>
+        <AsnForm.Item>
+          <Space
+            direction="horizontal"
+            align="center"
+            style={{ paddingTop: '30px' }}
           >
-            Cancel
-          </AsnButton>
-          <AsnButton className="primary" onClick={onPublishClick}>
-            Publish
-          </AsnButton>
-        </Space>
-      </PreviewContainer>
+            <Paragraph
+              style={{
+                marginBottom: 0,
+                fontSize: 'var(--base-font-size)',
+                fontWeight: 'var(--font-semibold)'
+              }}
+            >
+              Online Signature
+            </Paragraph>
+            <UnderLineInput disabled />
+          </Space>
+        </AsnForm.Item>
+      </AsnForm>
+      <Space
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          margin: '3.5rem 0rem'
+        }}
+        size={60}
+      >
+        <AsnButton
+          className="default"
+          onClick={() => setIsPreviewForm(false)}
+        >
+          Cancel
+        </AsnButton>
+        <AsnButton className="primary" onClick={onPublishClick}>
+          Publish
+        </AsnButton>
+      </Space>
     </PreviewModalContent>
   );
 };
