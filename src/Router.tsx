@@ -38,6 +38,7 @@ import AssessMentForm from './pages/FillAssessmentForm';
 import CreateAssessmentForm from './pages/Assessment';
 import UsersTeam from './components/Team/TeamMembesList';
 import FilledOutAssessmentForm from './pages/FilledOutAssessmentForm';
+import ApplicantsData from './pages/Applicatns';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -73,6 +74,7 @@ export const router = createBrowserRouter(
         <Route path={PATHS.COURSESECTION} element={<CourseSection />} />
         <Route path={PATHS.APPLICANT} element={<Applicant />} />
         <Route path={PATHS.APPLICATIONFORM} element={<Application />} />
+        <Route path={PATHS.APPLICANTS} element={<ApplicantsData />} />
         <Route path={PATHS.ASSESSMENTFORMCREATE} element={<CreateAssessmentForm />} />
       </Route>
       <Route element={<PrivateRoutes path={PATHS.FILLEDOUTASSESSMENTFORM} />} errorElement={<ErrorBoundary />}>
