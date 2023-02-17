@@ -88,7 +88,8 @@ const SubActivitySections: React.FC<any> = ({
   index,
   assignedUsers,
   applicationForm,
-  refetch
+  refetch,
+  navigateRouteInfo
 }) => {
   const { Title } = Typography;
   const { TabPane } = Tabs;
@@ -162,6 +163,7 @@ const SubActivitySections: React.FC<any> = ({
               }
             >
               <CourseStatusForm
+                navigateRouteInfo={navigateRouteInfo}
                 setActiveKey={setActiveKey}
                 id={item?.setting?.id}
                 courseStatus={activity?.status}

@@ -1,3 +1,4 @@
+import { IAssessmentSelectItem } from '../types/api/assessment';
 import { SliderMarks } from 'antd/lib/slider';
 import {
   IApplicantAccessStatus,
@@ -198,6 +199,20 @@ export const defaultLimit = {
   currentPage: 1
 };
 
+export const assessmentSelect: IAssessmentSelectItem[] = [
+  {
+    name: 'One answer',
+    value: 'OPTION'
+  },
+  {
+    name: 'Multiple answers',
+    value: 'CHECKBOX'
+  },
+  {
+    name: 'Text answer',
+    value: 'SHORT_TEXT'
+  }
+];
 export const FormScrollToErrorOptions: ScrollOptions | ScrollIntoViewOptions = {
   behavior: 'smooth',
   block: 'center',

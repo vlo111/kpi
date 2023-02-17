@@ -7,7 +7,7 @@ export interface AssessmentFormData {
 }
 
 export interface UseAssessmentFormResult {
-  data: AssessmentFormData | null
+  data: Result[]
   isSuccess: boolean
   refetch: any
   isLoading: boolean
@@ -26,15 +26,15 @@ export interface AssessmentFormResult {
 
 enum AssessmentFormType {
   PRE_ASSESSMENT,
-  POST_ASSESSMENT
+  POST_ASSESSMENT,
+  APPLICATION
 }
 
-type EnumAssessmentFormTypes = keyof typeof AssessmentFormType;
+export type EnumAssessmentFormTypes = keyof typeof AssessmentFormType;
 
 enum AssessmentFormAnswers {
   OPTION,
   SHORT_TEXT,
-  LONG_TEXT,
   CHECKBOX
 }
 
@@ -108,7 +108,7 @@ export interface AssessmentFormDataResponseOneItem {
 }
 
 export interface CreateAssessmentFormData {
-  courseId: string
+  id: string | undefined
   data: Result
 }
 
@@ -118,12 +118,28 @@ export interface UpdateAssessmentFormData {
 }
 
 export interface UseAssessmentFormSingleResult {
-  data: Result
+  data: Result[]
   isSuccess: boolean
   refetch: any
   isLoading: boolean
 }
 
+export interface CreateAssessmentIfoModalTypes {
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  type: EnumAssessmentFormTypes
+  projectId: string
+  courseId: string
+  navigateRouteInfo: INavigateRoteInfoTypes
+}
+
+export interface INavigateRoteInfoTypes {
+  projectId: string
+  courseId: string
+  courseTitle: string
+  resultAreaTitle: string
+  inputActivityTitle: string
+}
 export type GetAssessmentFormByCourseId = (
   courseId: string,
   params: {
@@ -217,6 +233,15 @@ export type UpdateAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorP
 export type DeleteAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
 export type DuplicateAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
 export type ChangeStatusAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
+
+export interface IAssessmentSelectItem {
+  name: string
+  value: string
+}
+
+export interface IButtonContainer {
+  marginTop?: string
+}
 export type TUseAssessForm = UseMutation<Void, any, ResponseErrorParam, IAssessForm>;
 export type TUseApplyAssessMentForm = UseMutation<Void, any, ResponseErrorParam, IApplyAssessMentForm>;
 
