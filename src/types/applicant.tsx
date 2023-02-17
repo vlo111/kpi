@@ -1,3 +1,4 @@
+import { AssessmentFormOptions, IQuestion } from './api/assessment';
 import { ChangeEventHandler } from 'react';
 import { TabsProps } from 'antd';
 import { UseMutation, Void } from './global';
@@ -78,6 +79,40 @@ export interface ImportParams {
   file: Blob
 }
 
+export interface IPreAssessMentForm {
+  active: boolean
+  authorId: string
+  createdAt: string
+  deletedAt: null | string
+  duplicate: boolean
+  id: string
+  maximumScore: number
+  onlineSignature: boolean
+  passingScore: number
+  projectId: string
+  publish: boolean
+  questions: IQuestion[]
+  sectionDataId: string
+  sectionDataTitle: string
+  title: string
+  type: string
+  updatedAt: string
+  userEarnedScore: number
+  userAssessedScore: number
+}
+export interface IGetApplicantForm {
+  email: string
+  id: string
+  preAssessmentForm: IPreAssessMentForm
+}
+export interface IGetApplicantFormResult {
+  data: IGetApplicantForm
+  isSuccess: boolean
+  isLoading: boolean
+  refetch: any
+}
+
+export type useGetApplicantForm = (id: string, sectionDataId: string, type: string, options?: AssessmentFormOptions) => IGetApplicantFormResult
 export type ImportApplicantList = UseMutation<Void, any, ResponseErrorParam, ImportParams>
 
 export type OnNoteHandler = ChangeEventHandler<HTMLTextAreaElement>;
