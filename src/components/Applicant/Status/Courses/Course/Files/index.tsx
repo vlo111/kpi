@@ -25,11 +25,10 @@ const Modal = styled(AsnModal)`
 
 const Files: React.FC<IFiles> = ({ applicantId, history }) => {
   const navigate = useNavigate();
-  const { mutate: resendApplicant } = useResendApplicant();
+  const { mutate: resendApplicant } = useResendApplicant('');
 
-  const [openPreviewApplicant, setOpenPreviewApplicant] = useState(false);
+  const [openPreviewApplicant, setOpenPreviewApplicant] = useState('');
   const [openPreviewAssessmentForm, setOpenPreviewAssessmentForm] = useState<boolean>(false);
-
   const onResendHandler: Void = () => {
     resendApplicant({
       id: applicantId,
@@ -51,7 +50,7 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
         <span
           className="file"
           onClick={() => {
-            setOpenPreviewApplicant(!openPreviewApplicant);
+            setOpenPreviewApplicant('APPLICATION');
           }}
         >
           Application Form
@@ -94,12 +93,14 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
         ))}
       <Modal
         footer={false}
-        open={openPreviewApplicant}
-        onCancel={() => setOpenPreviewApplicant(false)}
+        open={openPreviewApplicant !== ''}
+        onCancel={() => setOpenPreviewApplicant('')}
         width="50%"
       >
         <ApplicantPublicForm
-          id={'da912a5a-aad1-4599-bda6-f67b67ba2828'}
+          applicantId={applicantId}
+          sectionDataId={history.sectionDataId}
+          type={openPreviewApplicant}
           preview={true}
         />
       </Modal>

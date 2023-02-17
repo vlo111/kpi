@@ -7,8 +7,7 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
   filters,
   onFinish,
   form,
-  setFilters,
-  refetch
+  setFilters
 }) => {
   const closeFilter = (filter: string): void => {
     const newAs: any = _.omit(filters, [filter]);
