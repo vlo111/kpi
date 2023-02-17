@@ -1,6 +1,7 @@
 import { RcFile } from 'antd/lib/upload';
 import { FormOptions, UseMutation, Void } from '../../global';
 import { IAttachmentSetting } from '../../project';
+import { EnumAssessmentFormTypes, INavigateRoteInfoTypes } from '../assessment';
 import { ResponseErrorParam } from '../project/get-project';
 
 export interface IDisableType {
@@ -49,11 +50,14 @@ export interface ICourseStatusInfo {
   refetchSingleStatus: any
   courseStatus: string
   form: Array<{ id: string, title: string }>
+  navigateRouteInfo: INavigateRoteInfoTypes
 }
 
 export interface IApplicationFormItem {
   refetchSingleStatus: any
   form: Array<{ id: string, title: string }>
+  formType: EnumAssessmentFormTypes
+  createAssessmentForm: (type: EnumAssessmentFormTypes) => void
 }
 
 export interface UploadRequestError extends Error {

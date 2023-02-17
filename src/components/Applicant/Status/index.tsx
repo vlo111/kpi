@@ -6,7 +6,7 @@ import ResultAreasTitles from '../../../pages/ProjectOverview/ResultAreasTitles'
 import { IApplicantTabs, StatusItems } from '../../../types/applicant';
 import { ApplicantDefaultStatus } from '../../../helpers/constants';
 
-const ApplicantTabs: React.FC<IApplicantTabs> = ({ courses, applicant }) => {
+const ApplicantTabs: React.FC<IApplicantTabs> = ({ courses, applicant, applicantId }) => {
   const items: StatusItems = courses?.map((course, i) => ({
     key: course.title,
     label: (
@@ -27,6 +27,7 @@ const ApplicantTabs: React.FC<IApplicantTabs> = ({ courses, applicant }) => {
           }))
         }
         applicant={applicant}
+        applicantId={applicantId}
       />
     )
   }));

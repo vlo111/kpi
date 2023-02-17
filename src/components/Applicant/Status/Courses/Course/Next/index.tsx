@@ -7,7 +7,8 @@ import ApproveModal from '../Approve';
 import { AsnButton } from '../../../../../Forms/Button';
 import { INext } from '../../../../../../types/applicant';
 
-const Next: React.FC<INext> = ({ applicant, sectionDataId, isAllowEdit }) => {
+const Next: React.FC<INext> = ({ applicant, sectionDataId, isAllowEdit, applicantId
+}) => {
   const [openApprove, setOpenApprove] = useState<string>('');
   const [openReject, setOpenReject] = useState<string>('');
 
@@ -18,12 +19,14 @@ const Next: React.FC<INext> = ({ applicant, sectionDataId, isAllowEdit }) => {
           <AsnButton
             className="reject"
             onClick={() => setOpenReject(sectionDataId)}
+            disabled={applicantId !== undefined}
           >
             Reject
           </AsnButton>
           <AsnButton
             className="approve"
             onClick={() => setOpenApprove(sectionDataId)}
+            disabled={applicantId !== undefined}
           >
             Approve
           </AsnButton>
