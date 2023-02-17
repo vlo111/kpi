@@ -172,7 +172,8 @@ const Course: React.FC<ICourseProps> = ({
   history,
   applicant,
   isActive,
-  isLast
+  isLast,
+  applicantId
 }) => {
   const { mutate: attachFile } = useApplicantAttachFile();
 
@@ -264,6 +265,8 @@ const Course: React.FC<ICourseProps> = ({
             applicant={applicant}
             sectionDataId={history?.sectionDataId}
             isAllowEdit={isAllowEdit}
+            applicantId={applicantId}
+
           />
         </AntRow>
       </CourseItem>

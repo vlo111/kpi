@@ -68,7 +68,7 @@ export const Container = styled.div`
     padding: 32px 0px 42px 0px;
   }
   .ant-table-wrapper {
-    height: 67vh;
+    height: calc(100% - 128px);
     overflow: auto;
   }
   .ant-pagination-item-link {
@@ -114,4 +114,15 @@ export const Container = styled.div`
       font-weight: 400;
     }
   }
+
+.react-resizable-handle {
+  position: absolute;
+  right: -5px;
+  bottom: 0;
+  z-index: 1;
+  width: 10px;
+  height: 100%;
+  cursor: col-resize;
+}
+
 `;
