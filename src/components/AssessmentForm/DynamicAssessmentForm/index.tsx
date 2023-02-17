@@ -13,6 +13,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import CreateAssessmentFormDataByCourseId from '../../../api/AssessmentForm/useCreateAssessmentFormCourseId';
 import AssessmentFormUrlModal from '../FormUrlModal/Index';
 import PreviewAssessmentForm from '../../PreviewAssessmentForm';
+import useGetAssessmentForm from '../../../api/AssessmentForm/useGetAssessmentForm';
 
 const { Title } = Typography;
 
@@ -108,7 +109,7 @@ export const FormInput = styled(AsnInput)`
   box-shadow: var(--base-box-shadow);
 `;
 
-const AssessmentForms: React.FC = () => {
+const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
   const [answerType, setAnswerType] = useState('OPTION');
   const [formUrlModal, setFormUrlModal] = useState(false);
   const [isPreviewForm, setIsPreviewForm] = useState(false);
@@ -125,30 +126,45 @@ const AssessmentForms: React.FC = () => {
     }
   });
 
+  const { data } = useGetAssessmentForm(
+    footerButtons !== undefined ? footerButtons?.id : location?.state?.footerButtons?.id,
+    {
+      enabled: preview === true || location.state.preview === true
+    }
+  );
+
   useEffect(() => {
-    form.setFieldsValue({
-      onlineSignature: true,
-      title: '',
-      passingScore: 0,
-      questions: [
-        {
-          answerType,
-          required: true,
-          answers: [
-            {
-              title: '',
-              score: 0,
-              type: answerType
-            },
-            {
-              title: '',
-              score: 0,
-              type: answerType
-            }
-          ]
-        }
-      ]
-    });
+    if (preview === true || location.state.preview === true) {
+      form.setFieldsValue({
+        ...data?.result
+      });
+
+      setAllScore(data?.result?.maximumScore);
+    } else {
+      form.setFieldsValue({
+        onlineSignature: true,
+        title: '',
+        passingScore: 0,
+        questions: [
+          {
+            answerType,
+            required: true,
+            answers: [
+              {
+                title: '',
+                score: 0,
+                type: answerType
+              },
+              {
+                title: '',
+                score: 0,
+                type: answerType
+              }
+            ]
+          }
+        ]
+      });
+    }
   }, []);
 
   const onAddQuestion = (add: any): void => {
@@ -290,15 +306,22 @@ const AssessmentForms: React.FC = () => {
             </AsnForm.Item>
           </Scores>
         </CardContainer>
-        <ButtonsContainer marginTop="4rem">
-          <AsnButton className="default">Cancel</AsnButton>
-          <AsnButton className="default" onClick={() => setIsPreviewForm(true)}>
-            Preview
-          </AsnButton>
-          <AsnButton className="primary" htmlType="submit">
-            Publish
-          </AsnButton>
-        </ButtonsContainer>
+        {preview === true
+          ? null
+          : (
+          <ButtonsContainer marginTop="4rem">
+            <AsnButton className="default">Cancel</AsnButton>
+            <AsnButton
+              className="default"
+              onClick={() => setIsPreviewForm(true)}
+            >
+              Preview
+            </AsnButton>
+            <AsnButton className="primary" htmlType="submit">
+              Publish
+            </AsnButton>
+          </ButtonsContainer>
+            )}
       </AsnForm>
       <AssessmentFormUrlModal
         formUrlModal={formUrlModal}
@@ -312,7 +335,7 @@ const AssessmentForms: React.FC = () => {
         courseId={courseId}
         data={{
           maximumScore: allScore,
-          type: location?.state.type,
+          type: location?.state?.type,
           duplicate: false,
           ...form.getFieldsValue()
         }}

@@ -78,7 +78,7 @@ const AssessmentFormUrlModal: React.FC<IFormUrlModal> = ({
           copyable={{
             text: `${
               process.env.REACT_APP_BASE_URL_HOST ?? ''
-            }${PATHS.APPLYAPPLICANTFORM.replace(
+            }${PATHS.ASSESSMENTFORM.replace(
               ':id',
               responseIds !== undefined ? responseIds?.result?.id : ''
             )}`
@@ -86,7 +86,7 @@ const AssessmentFormUrlModal: React.FC<IFormUrlModal> = ({
         >
           {`${
             process.env.REACT_APP_BASE_URL_HOST ?? ''
-          }${PATHS.APPLYAPPLICANTFORM.replace(':id', responseIds !== undefined ? responseIds?.result?.id : '')}`}
+          }${PATHS.ASSESSMENTFORM.replace(':id', responseIds !== undefined ? responseIds?.result?.id : '')}`}
         </UrlContainer>
         <AsnButton className="primary" onClick={onPublishClick}>
           Ok
