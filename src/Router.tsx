@@ -34,8 +34,11 @@ import Files from './pages/Files';
 import Applicant from './pages/Applicant';
 import Application from './pages/Application';
 import FillApplicationForm from './pages/ApplicationPublicForm';
-import ApplicantsData from './pages/Applicatns';
+import AssessMentForm from './pages/FillAssessmentForm';
+import CreateAssessmentForm from './pages/Assessment';
 import UsersTeam from './components/Team/TeamMembesList';
+import FilledOutAssessmentForm from './pages/FilledOutAssessmentForm';
+import ApplicantsData from './pages/Applicatns';
 import Invitation from './pages/Auth/Invitation';
 
 export const router = createBrowserRouter(
@@ -52,7 +55,7 @@ export const router = createBrowserRouter(
           <Route path={PATHS.RESTOREPASSWORD} element={<ResetPassword />} />
         </Route>
       </Route>
-      <Route element={<PrivateRoutes />} errorElement={<ErrorBoundary />}>
+      <Route element={<PrivateRoutes/>} errorElement={<ErrorBoundary />}>
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
         <Route path={PATHS.TEAMS} element={<UsersTeam />} />
         <Route path={PATHS.PROJECT}>
@@ -74,12 +77,17 @@ export const router = createBrowserRouter(
         <Route path={PATHS.APPLICANT} element={<Applicant />} />
         <Route path={PATHS.APPLICATIONFORM} element={<Application />} />
         <Route path={PATHS.APPLICANTS} element={<ApplicantsData />} />
+        <Route path={PATHS.ASSESSMENTFORMCREATE} element={<CreateAssessmentForm />} />
+      </Route>
+      <Route element={<PrivateRoutes path={PATHS.FILLEDOUTASSESSMENTFORM} />} errorElement={<ErrorBoundary />}>
+        <Route path={PATHS.FILLEDOUTASSESSMENTFORM} element={<FilledOutAssessmentForm />} />
       </Route>
       <Route path={PATHS.APPLYAPPLICANTFORM} element={<FillApplicationForm />} />
       <Route path={PATHS.ERROR_403} element={<Error404 />} />
       <Route path={PATHS.ERROR_500} element={<ErrorBoundary />} />
       <Route path="*" element={<Navigate to={PATHS.ERROR_403} replace />} />
       <Route path={PATHS.CONFIRMATION} element={<Confirmation />} />
+      <Route path={PATHS.ASSESSMENTFORM} element={<AssessMentForm />} />
     </>
   )
 );

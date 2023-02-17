@@ -34,6 +34,9 @@ export const PATHS = {
   APPLICANT: 'applicant/:id',
   APPLICATIONFORM: 'application/:id',
   APPLYAPPLICANTFORM: 'apply-form/:id',
+  ASSESSMENTFORM: 'assessment-form',
+  ASSESSMENTFORMCREATE: 'assessment-form/create/:id',
+  FILLEDOUTASSESSMENTFORM: 'assessment-form/assess/:id',
   APPLICANTS: 'applicants',
   INVITATION: 'accept-invitation'
 };
@@ -195,6 +198,11 @@ export const defaultLimit = {
   currentPage: 1
 };
 
+export const FormScrollToErrorOptions: ScrollOptions | ScrollIntoViewOptions = {
+  behavior: 'smooth',
+  block: 'center',
+  inline: 'center'
+};
 // Region data
 export const optionsRegion = [
   { label: 'Yerevan', value: 'Yerevan/Երևան,' },
