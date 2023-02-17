@@ -2,7 +2,7 @@ import React from 'react';
 import { Spin, Row, Col } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
-const antIcon = <LoadingOutlined style={{ fontSize: 100, color: 'var(--dark-border-ultramarine)' }} spin />;
+const antIcon = <LoadingOutlined style={{ fontSize: 80, color: 'var(--dark-border-ultramarine)' }} spin />;
 
 const AsnSpin: React.FC = () => {
   return (
