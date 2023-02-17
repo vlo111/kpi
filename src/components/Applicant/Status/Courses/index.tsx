@@ -68,7 +68,7 @@ const AntRow = styled(Row)`
   }
 `;
 
-const Courses: React.FC<ICourses> = ({ histories, applicant }) => {
+const Courses: React.FC<ICourses> = ({ histories, applicant, applicantId }) => {
   return (
     <div>
       <AntRow align="middle" className="title">
@@ -84,6 +84,7 @@ const Courses: React.FC<ICourses> = ({ histories, applicant }) => {
             history={history}
             isLast={history.id === undefined ? false : histories.length - 1 === index}
             isActive={history?.id !== undefined}
+            applicantId={applicantId}
           />
         ))}
       </CoursesStyle>

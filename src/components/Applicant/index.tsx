@@ -151,7 +151,7 @@ const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
       <Row>
         <Col span={24}>
           {applicant !== undefined && courses !== undefined && (
-            <ApplicantTabs applicant={applicant} courses={courses} />
+            <ApplicantTabs applicant={applicant} courses={courses} applicantId={applicantId} />
           )}
         </Col>
       </Row>
