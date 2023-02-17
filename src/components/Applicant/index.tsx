@@ -20,6 +20,14 @@ const ApplicantProfile = styled(Col)`
   border-top: 3px solid var(--dark-border-ultramarine);
   box-shadow: var(--base-box-shadow);
   border-radius: 20px;
+
+  .applicant-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
 `;
 
 const Divider = styled(AntDivider)`
@@ -69,7 +77,7 @@ const setValue: SetValue = (key, value = '') => (
       <strong>{key}:</strong>
     </Col>
     <Col span={10}>
-      <p>{value}</p>
+      <p className="applicant-text" title={value}>{value}</p>
     </Col>
   </AntRow>
 );
