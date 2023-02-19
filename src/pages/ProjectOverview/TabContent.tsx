@@ -46,6 +46,8 @@ const TabContent: React.FC<ITabContent> = ({
   defaultInputActivityId
 }) => {
   const [checkedList, setCheckedList] = useState<CheckboxValueType[]>();
+  const [assignedUsersIds, setAssignedUsersIds] = useState<React.Key[]>([]);
+
   const [indeterminate, setIndeterminate] = useState(true);
   const { Title } = Typography;
   const [checkAll, setCheckAll] = useState(false);
@@ -56,13 +58,15 @@ const TabContent: React.FC<ITabContent> = ({
   });
   const { from, to } = dateSearch;
   const filters =
-    checkedList?.length !== 0 && from !== '' && to !== ''
-      ? { status: checkedList, date: dateSearch }
+    checkedList?.length !== 0 && assignedUsersIds?.length !== 0 && from !== '' && to !== ''
+      ? { status: checkedList, date: dateSearch, assigned: assignedUsersIds }
       : checkedList?.length !== 0
         ? { status: checkedList }
-        : from !== '' && to !== ''
-          ? { date: dateSearch }
-          : {};
+        : assignedUsersIds?.length !== 0
+          ? { assigned: assignedUsersIds }
+          : from !== '' && to !== ''
+            ? { date: dateSearch }
+            : { };
   const {
     data: templates,
     isLoading: isLoadingTemplates,
@@ -105,6 +109,8 @@ const TabContent: React.FC<ITabContent> = ({
                   subActivities={subActivities}
                   templates={templates}
                   refetch={refetch}
+                  inputActivityId={inputActivity?.id !== undefined ? inputActivity?.id : ''}
+                  setAssignedUsersIds={setAssignedUsersIds}
                   setCheckedList={setCheckedList}
                   setIndeterminate={setIndeterminate}
                   setCheckAll={setCheckAll}

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Popover, Typography, Col, Row } from 'antd';
 import { AssingnesData } from './Data';
-import { AssingnesSearch } from './Search';
 import { Onchange } from '../../../../../types/global';
+import { IAssignedFilter } from '../../../../../types/project';
 
-export const AssingnesFilter: React.FC = () => {
+export const AssingnesFilter: React.FC<IAssignedFilter> = ({
+  inputActivityId,
+  setAssignedUsersIds
+}) => {
   const [open, setOpen] = useState(false);
   const { Title } = Typography;
 
@@ -16,11 +19,19 @@ export const AssingnesFilter: React.FC = () => {
     setOpen(newOpen);
   };
   const content = (
-  <>
-    <Row justify="space-between" align='middle'>  <Title level={5}>Assigned</Title><Col onClick={hide}>X</Col> </Row>
-    <AssingnesSearch/>
-    <AssingnesData open={open} setOpen={setOpen}/>
-  </>
+    <>
+      <Row justify="space-between" align="middle">
+        {' '}
+        <Title level={5}>Assigned</Title>
+        <Col onClick={hide}>X</Col>{' '}
+      </Row>
+      <AssingnesData
+        setAssignedUsersIds={setAssignedUsersIds}
+        inputActivityId={inputActivityId}
+        open={open}
+        setOpen={setOpen}
+      />
+    </>
   );
 
   return (
@@ -31,7 +42,12 @@ export const AssingnesFilter: React.FC = () => {
       content={content}
       placement="bottom"
     >
-      <Button type='link' style={{ fontSize: 'var(--font-size-small', color: 'var(--dark-1)' }}>Assigned</Button>
+      <Button
+        type="link"
+        style={{ fontSize: 'var(--font-size-small', color: 'var(--dark-1)' }}
+      >
+        Assigned
+      </Button>
     </Popover>
   );
 };

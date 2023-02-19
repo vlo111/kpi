@@ -201,10 +201,29 @@ export interface UseGetEligibleUsersResponse {
   isLoading: boolean
 }
 
+export interface AssignedUserType {
+  emailVerified: string
+  id: string
+  firstName: string
+  lastName: string
+  photo: string
+}
+
+export interface UseGetAssignedUsersResponse {
+  data: AssignedUserType[]
+  isSuccess: boolean
+  refetch: any
+  isLoading: boolean
+}
 export type GetEligibleUsersListBySubActivityId = (
   subActivityId?: string,
   options?: FormOptions
 ) => UseGetEligibleUsersResponse;
+
+export type GetAssignedUsersListByInputActivityId = (
+  inputActivityActivityId: string,
+  options?: FormOptions
+) => UseGetAssignedUsersResponse;
 
 export type AttachFileSubActivity = UseMutation<Void, any, ResponseErrorParam, IAttachFileSubActivity>;
 

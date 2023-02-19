@@ -361,6 +361,8 @@ export interface ISubActivityAndTemplates {
   React.SetStateAction<CheckboxValueType[] | undefined>
   >
   checkAll: boolean
+  inputActivityId: string
+  setAssignedUsersIds: React.Dispatch<React.SetStateAction<React.Key[] | []>>
   indeterminate: boolean
   checkedList: CheckboxValueType[] | undefined
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
@@ -393,20 +395,34 @@ export interface ISubActivitiesProps {
   >
   checkAll: boolean
   indeterminate: boolean
+  inputActivityId: string
+  setAssignedUsersIds: React.Dispatch<React.SetStateAction<React.Key[] | []>>
   checkedList: CheckboxValueType[] | undefined
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
   templates: IProjectTemplate[]
 }
+
+export interface IAssignedFilter {
+  inputActivityId: string
+  setAssignedUsersIds: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+}
+
+export interface IAssignedFilterData {
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  inputActivityId: string
+  setAssignedUsersIds: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+}
 export interface ISubActivities {
-  status: string;
+  status: string
   title: string
   cardRound: string
   subActivityId: string
   startDate: string
   endDate: string
   subActivity: {
-    [x: string]: any;
+    [x: string]: any
     status: string
     region: {
       title: string
