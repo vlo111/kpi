@@ -55,7 +55,7 @@ export interface IHistory {
   updatedAt: string
   deletedAt: string
   files: IFile[]
-  applicationForm: true
+  applicationForm: boolean
 }
 
 export interface IFile {
@@ -185,12 +185,19 @@ export interface IApplicantDefaultStatus {
   PARTICIPANT: string
   POST_ASSESSMENT: string
   TRAINED: string
+  NOT_ENROLLED: string
+  DROPPED: string
 }
 
 export interface IApplicantAccessStatus {
   Dropped: string
   Trained: string
   NotEnrolled: string
+  Applicant: string
+  Selection: string
+  PreAssessment: string
+  Participant: string
+  PostAssessment: string
 }
 
 export interface IFiles { applicantId: string, history: IHistory }

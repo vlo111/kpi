@@ -6,7 +6,7 @@ import { CollapseHeader, SetResultArea, SetTitleColor } from '../types/project';
 import { AsnInput } from '../components/Forms/Input';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
-import { Divider, Radio, Space } from 'antd';
+import { Col, Divider, Radio, Row, Space } from 'antd';
 import { DividerLine } from '../components/Application/applicationStyle';
 import RelatedQuestion from '../components/Application/Preview/RelatedQuestion';
 import { AsnCheckbox } from '../components/Forms/Checkbox';
@@ -17,6 +17,9 @@ import {
   IQuestion
 } from '../types/api/application/applicationForm';
 import { CascadedData } from '../types/teams';
+import { ApplicantAccessStatus, ApplicantDefaultStatus } from './constants';
+import { ReactComponent as RejectSvg } from '../assets/icons/reject.svg';
+import { ReactComponent as ApproveSvg } from '../assets/icons/approve.svg';
 
 /** Logout the user */
 export const logOut: TVoid = () => {
@@ -208,9 +211,9 @@ export const getApplicationData: GetApplicationData = (data) =>
   ) as IApplicant;
 
 export const convertArrayToResult = (array: string[][]): CascadedData => {
-  const result: CascadedData = { id: (array.length > 0) ? array[0][0] : '' };
+  const result: CascadedData = { id: array.length > 0 ? array[0][0] : '' };
 
-  array.forEach(innerArray => {
+  array.forEach((innerArray) => {
     const [id, resultAreaId, activityId, templateId] = innerArray;
 
     if (result.id !== '') {
@@ -225,7 +228,9 @@ export const convertArrayToResult = (array: string[][]): CascadedData => {
       result.resultAreas = [];
     }
 
-    let resultAreaIndex = result.resultAreas.findIndex(ra => ra.id === resultAreaId);
+    let resultAreaIndex = result.resultAreas.findIndex(
+      (ra) => ra.id === resultAreaId
+    );
 
     if (resultAreaIndex === -1) {
       result.resultAreas.push({
@@ -244,7 +249,9 @@ export const convertArrayToResult = (array: string[][]): CascadedData => {
       resultArea.activities = [];
     }
 
-    let activityIndex = resultArea.activities.findIndex(a => a.id === activityId);
+    let activityIndex = resultArea.activities.findIndex(
+      (a) => a.id === activityId
+    );
 
     if (activityIndex === -1) {
       resultArea.activities.push({ id: activityId });
@@ -267,3 +274,94 @@ export const convertArrayToResult = (array: string[][]): CascadedData => {
 
   return result;
 };
+
+export const TollTipStatus: () => React.ReactNode = () => (
+  <div>
+    Learning statuses
+    {ApplicantRow(
+      ApplicantAccessStatus.Applicant,
+      ApplicantDefaultStatus.APPLICANT,
+      ApplicantAccessStatus.NotEnrolled,
+      ApplicantDefaultStatus.NOT_ENROLLED
+    )}
+    {Separate()}
+    {ApplicantRow(
+      ApplicantAccessStatus.Selection,
+      ApplicantDefaultStatus.SELECTION,
+      ApplicantAccessStatus.NotEnrolled,
+      ApplicantDefaultStatus.NOT_ENROLLED
+    )}
+    {Separate()}
+    {ApplicantRow(
+      ApplicantAccessStatus.PreAssessment,
+      ApplicantDefaultStatus.PRE_ASSESSMENT,
+      ApplicantAccessStatus.NotEnrolled,
+      ApplicantDefaultStatus.NOT_ENROLLED
+    )}
+    {Separate()}
+    {ApplicantRow(
+      ApplicantAccessStatus.Participant,
+      ApplicantDefaultStatus.PARTICIPANT,
+      ApplicantAccessStatus.Dropped,
+      ApplicantDefaultStatus.DROPPED
+    )}
+    {Separate()}
+    {ApplicantRow(
+      ApplicantAccessStatus.PostAssessment,
+      ApplicantDefaultStatus.POST_ASSESSMENT,
+      ApplicantAccessStatus.Dropped,
+      ApplicantDefaultStatus.DROPPED
+    )}
+    {Separate()}
+    <Row className="applicant-status-row">
+      <Col span={8}>
+        <Space>
+          <Space
+            className={`status ${ApplicantAccessStatus.Trained}`}
+            direction="horizontal"
+          >
+            <Space className="name" align="start">
+              {ApplicantDefaultStatus.TRAINED}
+            </Space>
+          </Space>
+        </Space>
+      </Col>
+    </Row>
+  </div>
+);
+
+const ApplicantRow: (...items: string[]) => React.ReactNode = (...items) => (
+  <Row className="applicant-status-row">
+    <Col span={8}>
+      <Space>
+        <Space className={`status ${items[0]}`} direction="horizontal">
+          <Space className="name" align="start">
+            {items[1]}
+          </Space>
+        </Space>
+      </Space>
+    </Col>
+    <Col span={8}>
+      <Space>
+        <RejectSvg />
+      </Space>
+    </Col>
+    <Col span={8}>
+      <Space>
+        <Space className={`status ${items[2]}`} direction="horizontal">
+          <Space className="name" align="start">
+            {items[3]}
+          </Space>
+        </Space>
+      </Space>
+    </Col>
+  </Row>
+);
+
+const Separate: () => React.ReactNode = () => (
+  <Row>
+    <Col offset={3} span={2}>
+      <ApproveSvg />
+    </Col>
+  </Row>
+);

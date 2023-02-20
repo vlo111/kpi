@@ -41,6 +41,7 @@ export interface IApplicantsListFullInfo {
   applicants: IApplicantsList []
   color: string
   courseId: string
+  status: string
 }
 
 export interface ICourseStatusInfo {
@@ -82,6 +83,10 @@ export interface IUserListTypes {
   dataIndex: number
   key: string
   title: string
+  preAssessmentScore: boolean
+  preAssessmentSubmitted: boolean
+  postAssessmentScore: boolean
+  postAssessmentSubmitted: boolean
 }
 
 export interface IWrapperProps {

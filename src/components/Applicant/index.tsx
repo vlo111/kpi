@@ -1,5 +1,11 @@
 import React from 'react';
-import { Col, Divider as AntDivider, Row as AntRow, Typography, Spin } from 'antd';
+import {
+  Col,
+  Divider as AntDivider,
+  Row as AntRow,
+  Typography,
+  Spin
+} from 'antd';
 import styled from 'styled-components';
 import AsnAvatar from '../../components/Forms/Avatar';
 import ApplicantTabs from './Status';
@@ -77,7 +83,9 @@ const setValue: SetValue = (key, value = '') => (
       <strong>{key}:</strong>
     </Col>
     <Col span={10}>
-      <p className="applicant-text" title={value}>{value}</p>
+      <p className="applicant-text" title={value}>
+        {value}
+      </p>
     </Col>
   </AntRow>
 );
@@ -85,7 +93,8 @@ const setValue: SetValue = (key, value = '') => (
 const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
   const { id } = useParams();
 
-  const { applicant, courses, isLoading } = useGetApplicant(applicantId ?? id) ?? {};
+  const { applicant, courses, isLoading } =
+    useGetApplicant(applicantId ?? id) ?? {};
 
   const getApplicantInfo = (
     <>
@@ -116,53 +125,59 @@ const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
 
   return (
     <Spin spinning={isLoading}>
-    <Row height={100} style={{ padding: '2rem 4rem' }} gutter={[0, 32]}>
-      {applicantId === undefined && (
-        <Row>
-          <Col>
-            <InfoRow>
-              <Col className="path">
-                <p>
-                  {'Objective 1 > Activity 1.3 > Python Course > Applicants >'}
-                </p>
-                <p>{applicant?.fullName}</p>
-              </Col>
-            </InfoRow>
-          </Col>
-        </Row>
-      )}
-      <Row>
-        <ApplicantProfile span={24}>
-          <Row gutter={10} style={{ padding: '1rem' }}>
-            <Col span={8} style={{ height: '60%' }}>
+      <Row height={100} style={{ padding: '2rem 4rem' }} gutter={[0, 32]}>
+        {applicantId === undefined && (
+          <Row>
+            <Col>
               <InfoRow>
-                <Col span={24}>
-                  <AsnAvatar size={80} letter={'VV'} />
-                </Col>
-                <Col span={24}>
-                  <AntTitle level={4}>{applicant?.fullName}</AntTitle>
-                </Col>
-                <Col className="content" span={24}>
-                  {applicant?.email}
-                </Col>
-                <Col className="content" span={24}>
-                  {applicant?.phone}
+                <Col className="path">
+                  <p>
+                    {
+                      'Objective 1 > Activity 1.3 > Python Course > Applicants >'
+                    }
+                  </p>
+                  <p>{applicant?.fullName}</p>
                 </Col>
               </InfoRow>
             </Col>
-            <Divider type={'vertical'} />
-            <Col span={12}>{getApplicantInfo}</Col>
           </Row>
-        </ApplicantProfile>
+        )}
+        <Row>
+          <ApplicantProfile span={24}>
+            <Row gutter={10} style={{ padding: '1rem' }}>
+              <Col span={8} style={{ height: '60%' }}>
+                <InfoRow>
+                  <Col span={24}>
+                    <AsnAvatar size={80} letter={'VV'} />
+                  </Col>
+                  <Col span={24}>
+                    <AntTitle level={4}>{applicant?.fullName}</AntTitle>
+                  </Col>
+                  <Col className="content" span={24}>
+                    {applicant?.email}
+                  </Col>
+                  <Col className="content" span={24}>
+                    {applicant?.phone}
+                  </Col>
+                </InfoRow>
+              </Col>
+              <Divider type={'vertical'} />
+              <Col span={12}>{getApplicantInfo}</Col>
+            </Row>
+          </ApplicantProfile>
+        </Row>
+        <Row>
+          <Col span={24}>
+            {applicant !== undefined && courses !== undefined && (
+              <ApplicantTabs
+                applicant={applicant}
+                courses={courses}
+                applicantId={applicantId}
+              />
+            )}
+          </Col>
+        </Row>
       </Row>
-      <Row>
-        <Col span={24}>
-          {applicant !== undefined && courses !== undefined && (
-            <ApplicantTabs applicant={applicant} courses={courses} applicantId={applicantId} />
-          )}
-        </Col>
-      </Row>
-    </Row>
     </Spin>
   );
 };
