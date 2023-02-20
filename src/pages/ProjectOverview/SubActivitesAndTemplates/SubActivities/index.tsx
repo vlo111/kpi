@@ -64,6 +64,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
       from: '',
       to: ''
     });
+    setCheckedList(undefined)
     setAssignedUsersIds([]);
   };
 
@@ -153,7 +154,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                         color: 'var(--dark-1)',
                         fontSize: 'var(--headline-font-size)',
                         display: 'flex',
-                        gap: '5px',
+                        gap: '3px',
                         width: '100px',
                         height: '44px'
                       }}
@@ -170,11 +171,11 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                         </Paragraph>
                       </Tooltip>
                     </Col>
-                    <Col style={{ display: 'flex', gap: '5px' }}>
+                    <Col style={{ display: 'flex', gap: '3px' }}>
                       <Location /> {item?.subActivity?.region?.title}
                     </Col>
                     <Col
-                      style={{ display: 'flex', gap: '5px', fontSize: '12px' }}
+                      style={{ display: 'flex', gap: '3px', fontSize: '12px' }}
                     >
                       <Calendar />
                       {moment(item?.startDate).format('DD/MM/YY')} -{' '}
