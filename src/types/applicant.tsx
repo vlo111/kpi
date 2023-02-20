@@ -166,6 +166,7 @@ export interface IMove {
   sectionDataId: string
   applicantId: string
   status: string
+  applicantsId: string | undefined
 }
 
 export interface INext {

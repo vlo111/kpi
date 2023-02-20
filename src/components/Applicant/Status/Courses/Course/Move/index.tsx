@@ -11,7 +11,7 @@ import useFinishApplicant from '../../../../../../api/Applicant/useFinishApplica
 import { IMove } from '../../../../../../types/applicant';
 import { ReactComponent as ArrowSvg } from '../../Icons/arrow.svg';
 
-const Move: React.FC<IMove> = ({ sectionDataId, applicantId, status }) => {
+const Move: React.FC<IMove> = ({ sectionDataId, applicantId, status, applicantsId }) => {
   const [openFinish, setOpenFinish] = useState<string>('');
   const [openMove, setOpenMove] = useState<string>('');
 
@@ -25,6 +25,7 @@ const Move: React.FC<IMove> = ({ sectionDataId, applicantId, status }) => {
           <AsnButton
             className="finish default"
             onClick={() => setOpenFinish(sectionDataId)}
+            disabled={applicantsId !== undefined}
           >
             Finish
           </AsnButton>
@@ -32,6 +33,7 @@ const Move: React.FC<IMove> = ({ sectionDataId, applicantId, status }) => {
             icon={<ArrowSvg />}
             className="move primary"
             onClick={() => setOpenMove(sectionDataId)}
+            disabled={applicantsId !== undefined}
           >
             Move
           </AsnButton>
