@@ -135,7 +135,7 @@ const QuestionHeader: React.FC<any> = ({
             <DuplicateIcon />
           </Tooltip>
         </Col>
-        {questionsLists.length > 1
+        {questionsLists.length > 2
           ? (
           <Col className="icons" onClick={() => remove(name)}>
             <DeleteIcon />

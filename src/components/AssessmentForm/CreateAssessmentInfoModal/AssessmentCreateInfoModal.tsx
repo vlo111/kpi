@@ -78,7 +78,7 @@ const CreateAssessmentInfoModal: React.FC<CreateAssessmentIfoModalTypes> = ({
   const navigate = useNavigate();
   const { data } = getAssessmentFormByProjectId(
     projectId,
-    { type },
+    { type: 'PRE_ASSESSMENT' },
     { enabled: Boolean(projectId) }
   );
 

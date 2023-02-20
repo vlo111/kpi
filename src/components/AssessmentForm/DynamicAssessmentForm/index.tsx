@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Space, Tooltip, Typography } from 'antd';
+import { message, Space, Tooltip, Typography } from 'antd';
 import { AsnForm } from '../../Forms/Form';
 import { AsnInput, AsnInputNumber } from '../../Forms/Input';
 import AssessmentFormItems from '../FormList';
-import { ICardContainer } from '../../../types/api/application/applicationForm';
+import {
+  ICardContainer,
+  IResult
+} from '../../../types/api/application/applicationForm';
 import { ReactComponent as AddAssessmentIcon } from '../../../assets/icons/add-assessment.svg';
 import { AsnButton } from '../../Forms/Button';
 import { AsnSwitch } from '../../Forms/Switch';
@@ -14,6 +17,7 @@ import CreateAssessmentFormDataByCourseId from '../../../api/AssessmentForm/useC
 import AssessmentFormUrlModal from '../FormUrlModal/Index';
 import PreviewAssessmentForm from '../../PreviewAssessmentForm';
 import useGetAssessmentForm from '../../../api/AssessmentForm/useGetAssessmentForm';
+import UpdateAssessmentFormDataById from '../../../api/AssessmentForm/useUpdateAssessmentFormById';
 
 const { Title } = Typography;
 
@@ -114,7 +118,7 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
   const [formUrlModal, setFormUrlModal] = useState(false);
   const [isPreviewForm, setIsPreviewForm] = useState(false);
   const [allScore, setAllScore] = useState(0);
-  const [responseDataId, setResponseDataId] = useState();
+  const [responseDataId, setResponseDataId] = useState<IResult | undefined>();
   const [form] = AsnForm.useForm();
   const location = useLocation();
   const { id: courseId } = useParams<{ id: any }>();
@@ -123,29 +127,72 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
     onSuccess: (responseData: any) => {
       setResponseDataId(responseData.data);
       setFormUrlModal(true);
+    },
+    onError: (e: any) => {
+      void message.error(e.response.data.message);
+    }
+  });
+  const { mutate: updateAssessmentForm } = UpdateAssessmentFormDataById({
+    onSuccess: (responseData: any) => {
+      setFormUrlModal(true);
+    },
+    onError: (e: any) => {
+      void message.error(e.response.data.message);
     }
   });
 
   const { data } = useGetAssessmentForm(
-    footerButtons !== undefined ? footerButtons?.id : location?.state?.footerButtons?.id,
+    footerButtons !== undefined
+      ? footerButtons?.id
+      : location?.state?.footerButtons?.id,
     {
       enabled: preview === true || location.state.preview === true
     }
   );
 
   useEffect(() => {
-    if (preview === true || location.state.preview === true) {
-      form.setFieldsValue({
-        ...data?.result
-      });
+    if (preview === true || location?.state?.preview === true) {
+      let obj = null;
+      if (data.result !== undefined) {
+        obj = JSON.parse(JSON.stringify(data?.result));
+        obj.questions.map((question: any): any => {
+          if (question.answers.length > 0) {
+            question.answers.map((answer: any) => delete answer.id);
+          }
+          return delete question.id;
+        });
+      }
 
+      form.setFieldsValue({
+        ...obj
+      });
       setAllScore(data?.result?.maximumScore);
-    } else {
+    }
+  }, [data, preview, location?.state?.preview]);
+
+  useEffect(() => {
+    if (preview !== true && location?.state?.preview !== true) {
       form.setFieldsValue({
         onlineSignature: true,
         title: '',
         passingScore: 0,
         questions: [
+          {
+            answerType,
+            required: true,
+            answers: [
+              {
+                title: '',
+                score: 0,
+                type: answerType
+              },
+              {
+                title: '',
+                score: 0,
+                type: answerType
+              }
+            ]
+          },
           {
             answerType,
             required: true,
@@ -189,15 +236,25 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
   };
 
   const onCreatedAssessmentFinish = (value: any): any => {
-    createAssessmentForm({
-      id: courseId,
-      data: {
-        maximumScore: allScore,
-        type: location?.state.type,
-        duplicate: false,
-        ...value
-      }
-    });
+    if (location.state.edit === true) {
+      updateAssessmentForm({
+        formId: location?.state?.footerButtons?.id,
+        data: {
+          maximumScore: allScore,
+          ...value
+        }
+      });
+    } else {
+      createAssessmentForm({
+        id: courseId,
+        data: {
+          maximumScore: allScore,
+          type: location?.state.type,
+          duplicate: false,
+          ...value
+        }
+      });
+    }
   };
 
   return (
@@ -216,7 +273,14 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
           <CardTitle>Form title</CardTitle>
           <AsnForm.Item
             name="title"
-            rules={[{ required: true, message: 'Please enter title' }]}
+            rules={[
+              {
+                required: true,
+                message: 'Enter required fields',
+                min: 2,
+                max: 64
+              }
+            ]}
           >
             <FormInput placeholder="Title" />
           </AsnForm.Item>
@@ -254,7 +318,9 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
                     questionsLists={questionsLists}
                     setAllScore={setAllScore}
                   />
-                  {name === questionsLists.length - 1
+                  {name === questionsLists.length - 1 &&
+                  questionsLists.length <= 50 &&
+                  preview !== true
                     ? (
                     <AddAssessmentButton onClick={() => onAddQuestion(add)}>
                       <Tooltip
@@ -326,7 +392,10 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
       <AssessmentFormUrlModal
         formUrlModal={formUrlModal}
         setFormUrlModal={setFormUrlModal}
-        responseIds={responseDataId}
+        subActivityId={location?.state?.navigateRouteInfo?.courseId}
+        assessmentFormId={
+          responseDataId?.result?.id ?? location?.state?.footerButtons?.id
+        }
       />
       <PreviewAssessmentForm
         isPreviewForm={isPreviewForm}

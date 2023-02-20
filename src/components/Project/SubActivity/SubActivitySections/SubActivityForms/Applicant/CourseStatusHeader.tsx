@@ -7,7 +7,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PATHS } from '../../../../../../helpers/constants';
 import { ICourseStatusInfo } from '../../../../../../types/api/activity/subActivity';
 import useStartSubActivityCourse from '../../../../../../api/Activity/SubActivity/useStartSubActivityCourse';
-import { EnumAssessmentFormTypes, IAssessments } from '../../../../../../types/api/assessment';
+import {
+  EnumAssessmentFormTypes,
+  IAssessments
+} from '../../../../../../types/api/assessment';
 import { useProject } from '../../../../../../hooks/useProject';
 import CreateAssessmentInfoModal from '../../../../../AssessmentForm/CreateAssessmentInfoModal/AssessmentCreateInfoModal';
 import PreviewAssessmentModal from '../../../../../AssessmentForm/PreviewAssessmentModal';
@@ -103,7 +106,9 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({
                 createAssessmentForm={createAssessmentForm}
                 formType="APPLICATION"
                 form={form}
+                courseId={courseId}
                 refetchSingleStatus={refetchSingleStatus}
+                navigateRouteInfo={navigateRouteInfo}
               />
                 )}
           </>
@@ -149,6 +154,8 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({
                 createAssessmentForm={createAssessmentForm}
                 formType="PRE_ASSESSMENT"
                 form={form}
+                navigateRouteInfo={navigateRouteInfo}
+                courseId={courseId}
                 refetchSingleStatus={refetchSingleStatus}
               />
                 )}
@@ -193,6 +200,8 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({
               : (
               <ApplicationFormItem
                 createAssessmentForm={createAssessmentForm}
+                navigateRouteInfo={navigateRouteInfo}
+                courseId={courseId}
                 formType="POST_ASSESSMENT"
                 form={form}
                 refetchSingleStatus={refetchSingleStatus}
@@ -224,7 +233,6 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({
           setOpenPreviewAssessmentModal={setOpenPreviewAssessmentModal}
           footerButtons={footerButtons}
           setFooterButtons={setFooterButtons}
-
         />
       )}
       <PreviewAssessmentModal
@@ -236,7 +244,6 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({
         navigateRouteInfo={navigateRouteInfo}
         type={enumTypes}
         projectId={projectId}
-
       />
     </>
   );

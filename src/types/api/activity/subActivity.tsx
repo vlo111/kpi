@@ -38,7 +38,7 @@ export interface IApplicantsList {
 }
 
 export interface IApplicantsListFullInfo {
-  applicants: IApplicantsList []
+  applicants: IApplicantsList[]
   color: string
   courseId: string
 }
@@ -57,6 +57,8 @@ export interface IApplicationFormItem {
   refetchSingleStatus: any
   form: Array<{ id: string, title: string }>
   formType: EnumAssessmentFormTypes
+  navigateRouteInfo: INavigateRoteInfoTypes
+  courseId: string
   createAssessmentForm: (type: EnumAssessmentFormTypes) => void
 }
 
@@ -206,6 +208,16 @@ export type GetEligibleUsersListBySubActivityId = (
   options?: FormOptions
 ) => UseGetEligibleUsersResponse;
 
-export type AttachFileSubActivity = UseMutation<Void, any, ResponseErrorParam, IAttachFileSubActivity>;
+export type AttachFileSubActivity = UseMutation<
+Void,
+any,
+ResponseErrorParam,
+IAttachFileSubActivity
+>;
 
-export type AssignUserInCourse = UseMutation<Void, any, ResponseErrorParam, IAssignUserParams>;
+export type AssignUserInCourse = UseMutation<
+Void,
+any,
+ResponseErrorParam,
+IAssignUserParams
+>;
