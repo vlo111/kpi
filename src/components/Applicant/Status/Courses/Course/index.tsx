@@ -266,7 +266,6 @@ const Course: React.FC<ICourseProps> = ({
             sectionDataId={history?.sectionDataId}
             isAllowEdit={isAllowEdit}
             applicantId={applicantId}
-
           />
         </AntRow>
       </CourseItem>

@@ -8,8 +8,9 @@ import PreviewAssessmentForm from '../../../../../PreviewAssessmentForm';
 
 import { Void } from '../../../../../../types/global';
 
-import { AssessmentStatus, PATHS } from '../../../../../../helpers/constants';
+import useGetAssessmentFormByCourseId from '../../../../../../api/AssessmentForm/useGetAssessmentFormCourseId';
 import useResendApplicant from '../../../../../../api/Applicant/useResendApplicant';
+import { AssessmentStatus, PATHS } from '../../../../../../helpers/constants';
 import { ReactComponent as ResendSvg } from '../../Icons/resend.svg';
 import { IFiles, IHistory } from '../../../../../../types/applicant';
 
@@ -24,11 +25,19 @@ const Modal = styled(AsnModal)`
 `;
 
 const Files: React.FC<IFiles> = ({ applicantId, history }) => {
-  const navigate = useNavigate();
-  const { mutate: resendApplicant } = useResendApplicant('');
-
   const [openPreviewApplicant, setOpenPreviewApplicant] = useState('');
   const [openPreviewAssessmentForm, setOpenPreviewAssessmentForm] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const { mutate: resendApplicant } = useResendApplicant('');
+  const { data: forms } = useGetAssessmentFormByCourseId(history.sectionDataId,
+    { type: history.status },
+    {
+      enabled: (Boolean(history.sectionDataId) &&
+      Boolean(history.status === 'PRE_ASSESSMENT' || history.status === 'POST_ASSESSMENT'))
+    });
+
+  const hasActiveForm = forms[0];
+
   const onResendHandler: Void = () => {
     resendApplicant({
       id: applicantId,
@@ -38,9 +47,11 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
   };
 
   const handleStatus = (history: IHistory): void => {
-    const { preAssessmentForm, sectionDataId, status } = history;
-    if (preAssessmentForm) {
+    const { preAssessmentForm, sectionDataId, status, postAssessmentForm } = history;
+    if (preAssessmentForm || postAssessmentForm) {
       navigate(`/${PATHS.FILLEDOUTASSESSMENTFORM}`.replace(':id', applicantId), { state: { sectionDataId, type: status } });
+    } else {
+      setOpenPreviewAssessmentForm(true);
     }
   };
 
@@ -56,7 +67,7 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
           Application Form
         </span>
       )}
-      {history?.status === 'PRE_ASSESSMENT' && (
+      {history?.status === 'PRE_ASSESSMENT' && history.hasPreAssessmentForm && (Boolean(((hasActiveForm?.active) ?? false))) && (
         <div className="assessment-section">
           <span className="file" onClick={() => handleStatus(history)}>Pre Assessment:</span>
           <div className="assessment">
@@ -80,6 +91,30 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
           </div>
         </div>
       )}
+       {history?.status === 'POST_ASSESSMENT' && history.hasPostAssessmentForm && (Boolean(((hasActiveForm?.active) ?? false))) && (
+        <div className="assessment-section">
+          <span className="file" onClick={() => handleStatus(history)}>Post Assessment:</span>
+          <div className="assessment">
+            {!history?.postAssessmentForm
+              ? (
+                <div className="resend">
+                  <p>{AssessmentStatus.NotSubmitted}</p>
+                  <div className="icon" title="Re-send" onClick={onResendHandler}>
+                    <ResendSvg />
+                  </div>
+                </div>
+                )
+              : history.postAssessmentForm && history.postAssessmentScore === null
+                ? (
+                    AssessmentStatus.NotAssessed
+                  )
+                : (
+                  <p>score {history.postAssessmentScore}/{history.postAssessmentMaxScore}</p>
+                  )
+            }
+          </div>
+        </div>
+       )}
       {history.id !== undefined &&
         history.files.map((f) => (
           <a
@@ -104,9 +139,12 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
           preview={true}
         />
       </Modal>
-      {openPreviewAssessmentForm && <PreviewAssessmentForm
+      {openPreviewAssessmentForm &&
+      <PreviewAssessmentForm
         openPreviewAssessmentForm={openPreviewAssessmentForm}
         setOpenPreviewAssessmentForm={setOpenPreviewAssessmentForm}
+        formId={hasActiveForm.id}
+        applicantPreview={true}
       />}
     </>
   );

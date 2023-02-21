@@ -143,7 +143,7 @@ export interface INavigateRoteInfoTypes {
 export type GetAssessmentFormByCourseId = (
   courseId: string,
   params: {
-    type: EnumAssessmentFormTypes
+    type: string
   },
   options?: AssessmentFormOptions
 ) => UseAssessmentFormResult;
@@ -165,6 +165,7 @@ export interface IGetAssessmentForm {
   data: { result: IResult }
   isSuccess: boolean
   isLoading: boolean
+  isFetching: boolean
 }
 export interface IQuestion {
   answerType: string

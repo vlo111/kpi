@@ -17,7 +17,6 @@ import { IAssessmentFormSumTotalScore } from '../../types/api/assessment';
 import { PATHS } from '../../helpers/constants';
 import useGetApplicantCourseForm from '../../api/Applicant/useGetApplicantCourseForm';
 import useAssessForm from '../../api/AssessmentForm/useAssessForm';
-import { useAuth } from '../../hooks/useAuth';
 import {
   FormItemWrapperCol,
   FormTitle,
@@ -29,7 +28,7 @@ const FilledOutAssessmentForm: React.FC = () => {
   const [allScore, setAllScore] = useState<number | undefined>();
   const navigate = useNavigate();
   const [form] = AsnForm.useForm();
-  const { user } = useAuth();
+
   const location = useLocation();
   const { id } = useParams();
 
@@ -49,17 +48,11 @@ const FilledOutAssessmentForm: React.FC = () => {
   const {
     email,
     id: formId,
-    preAssessmentForm: {
-      title,
-      sectionDataTitle,
-      questions,
-      userEarnedScore,
-      updatedAt,
-      userAssessedScore
-    }
+    preAssessmentForm,
+    postAssessmentForm
   } = data;
 
-  const initialValue = questions.map((question) => {
+  const initialValue = (preAssessmentForm ?? postAssessmentForm)?.questions.map((question) => {
     return {
       questionId: question.id,
       score: question.userEarnedScore
@@ -68,7 +61,7 @@ const FilledOutAssessmentForm: React.FC = () => {
 
   const onFinish: TVoid = (values) => {
     const requestBody = {
-      type: 'PRE_ASSESSMENT',
+      type,
       assess: values.assess
     };
     assessForm(
@@ -108,12 +101,12 @@ const FilledOutAssessmentForm: React.FC = () => {
         onValuesChange={sumAllScores}
       >
         <FormItemWrapperCol span={24} style={{ marginBottom: '16px' }}>
-          <FormTitle level={2}>{title}</FormTitle>
+          <FormTitle level={2}>{preAssessmentForm?.title ?? postAssessmentForm?.title}</FormTitle>
           <AsnParagraph className="courseName">
-            Pre-assessment form for {sectionDataTitle} course
+            Pre-assessment form for {preAssessmentForm?.sectionDataTitle ?? postAssessmentForm?.sectionDataTitle} course
           </AsnParagraph>
           <AsnParagraph className="submissionDate">
-            Submission date: {moment(updatedAt).format('DD/MM/YY')}{' '}
+            Submission date: {moment(preAssessmentForm?.preAssessmentAppliedAt ?? postAssessmentForm?.postAssessmentAppliedAt).format('DD/MM/YY')}{' '}
           </AsnParagraph>
           <AsnForm.Item
             name="email"
@@ -126,8 +119,8 @@ const FilledOutAssessmentForm: React.FC = () => {
         </FormItemWrapperCol>
         <AsnForm.List name="assess" initialValue={initialValue}>
           {(_fields) => (
-            <Space direction="vertical" size={16}>
-              {questions.map((question, i: number) =>
+            <Space direction="vertical" size={16} style={{ width: '100%' }}>
+              {(preAssessmentForm?.questions ?? postAssessmentForm?.questions).map((question, i: number) =>
                 question.answerType === 'SHORT_TEXT'
                   ? (
                   <ShortTextType key={i} question={question} i={i} />
@@ -160,19 +153,19 @@ const FilledOutAssessmentForm: React.FC = () => {
                 <AsnInputNumber
                   disabled
                   className="primary"
-                  value={userAssessedScore ?? allScore ?? userEarnedScore}
+                  value={preAssessmentForm?.userAssessedScore ?? allScore ?? preAssessmentForm?.userEarnedScore ?? postAssessmentForm?.userEarnedScore}
                 />
               </Space>
             </Space>
           </AsnForm.Item>
         </FormItemWrapperCol>
-        {userAssessedScore !== undefined && (
+        {(preAssessmentForm?.userAssessedScore !== undefined || postAssessmentForm?.userAssessedScore !== undefined) && (
           <Space direction="vertical" style={{ paddingTop: '14px' }}>
             <AsnParagraph className="main">
-              Assessed by {user.firstName} {user.lastName}: 10/22/26
+              Assessed by {data?.checker?.firstName} {data?.checker?.lastName}: {moment(preAssessmentForm?.preAssessmentCheckedAt ?? postAssessmentForm?.postAssessmentCheckedAt).format('DD/MM/YY')}
             </AsnParagraph>
             <AsnParagraph className="main">
-              Submission date: {moment(updatedAt).format('DD/MM/YY')}
+              Submission date: {moment(preAssessmentForm?.preAssessmentAppliedAt ?? postAssessmentForm?.postAssessmentAppliedAt).format('DD/MM/YY')}
             </AsnParagraph>
           </Space>
         )}
@@ -182,7 +175,7 @@ const FilledOutAssessmentForm: React.FC = () => {
           size={60}
           style={{ width: '100%', justifyContent: 'end', marginTop: 100 }}
         >
-          {userAssessedScore === undefined
+          {(preAssessmentForm?.userAssessedScore === undefined && postAssessmentForm?.userAssessedScore === undefined)
             ? (
             <>
               <AsnButton

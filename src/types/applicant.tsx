@@ -58,6 +58,11 @@ export interface IHistory {
   applicationForm: true
   preAssessmentMaxScore: number
   preAssessmentForm: boolean
+  hasPreAssessmentForm: boolean
+  hasPostAssessmentForm: boolean
+  postAssessmentMaxScore: number
+  postAssessmentScore: string | null
+  postAssessmentForm: boolean
 }
 
 export interface IFile {
@@ -101,11 +106,20 @@ export interface IPreAssessMentForm {
   updatedAt: string
   userEarnedScore: number
   userAssessedScore: number
+  preAssessmentAppliedAt: string
+  preAssessmentCheckedAt: string
+  postAssessmentAppliedAt: string
+  postAssessmentCheckedAt: string
 }
 export interface IGetApplicantForm {
+  checker: {
+    firstName: string
+    lastName: string
+  }
   email: string
   id: string
   preAssessmentForm: IPreAssessMentForm
+  postAssessmentForm: IPreAssessMentForm
 }
 export interface IGetApplicantFormResult {
   data: IGetApplicantForm
@@ -175,7 +189,6 @@ export interface INext {
   sectionDataId: string
   isAllowEdit: boolean
   applicantId: string | undefined
-
 }
 
 export type OnUpload = (options: { file: any }) => void;

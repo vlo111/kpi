@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, Space } from 'antd';
 import styled from 'styled-components';
 
+import AsnSpin from '../Forms/Spin';
 import { UnderLineInput } from '../Forms/Input/UnderLineInput';
 import { AsnForm } from '../Forms/Form';
 import ShortTextType from './ShortTextType';
@@ -11,6 +12,7 @@ import { IQuestion } from '../../types/api/assessment';
 import { AsnModal } from '../Forms/Modal';
 import { AsnButton } from '../Forms/Button';
 import { Void } from '../../types/global';
+import getAssessmentFormbyId from '../../api/AssessmentForm/useGetAssessmentFormById';
 
 const { Title, Paragraph } = Typography;
 
@@ -49,9 +51,15 @@ const PreviewAssessmentForm: React.FC<any> = ({
   courseId,
   createAssessmentForm,
   setOpenPreviewAssessmentForm,
-  openPreviewAssessmentForm
+  openPreviewAssessmentForm,
+  formId,
+  applicantPreview
 }) => {
-  const { questions, title } = data;
+  const { data: { result: assessmentForm }, isFetching } = getAssessmentFormbyId(formId, { enabled: Boolean(formId) });
+
+  if (isFetching) {
+    return <AsnSpin />;
+  }
 
   const onPublishClick: Void = () => {
     createAssessmentForm({
@@ -76,7 +84,7 @@ const PreviewAssessmentForm: React.FC<any> = ({
       onCancel={handleCancel}
       footer={false}
     >
-      <AsnTitle level={2}>{title}</AsnTitle>
+      <AsnTitle level={2}>{data?.title ?? assessmentForm?.title}</AsnTitle>
       <AsnParagraph style={{ marginBottom: '60px' }}>
         Pre-assessment form for course
       </AsnParagraph>
@@ -92,7 +100,7 @@ const PreviewAssessmentForm: React.FC<any> = ({
         <AsnForm.List name="apply">
           {(fields) => (
             <div>
-              {questions.map((question: IQuestion, i: number) =>
+              {(data?.questions ?? assessmentForm?.questions)?.map((question: IQuestion, i: number) =>
                 question.answerType === 'SHORT_TEXT'
                   ? (
                     <ShortTextType key={i} question={question} i={i} />
@@ -127,7 +135,7 @@ const PreviewAssessmentForm: React.FC<any> = ({
           </Space>
         </AsnForm.Item>
       </AsnForm>
-      <Space
+    {applicantPreview === undefined && <Space
         style={{
           width: '100%',
           display: 'flex',
@@ -145,7 +153,7 @@ const PreviewAssessmentForm: React.FC<any> = ({
         <AsnButton className="primary" onClick={onPublishClick}>
           Publish
         </AsnButton>
-      </Space>
+      </Space>}
     </PreviewModalContent>
   );
 };
