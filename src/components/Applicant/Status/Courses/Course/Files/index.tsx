@@ -57,7 +57,7 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
 
   return (
     <>
-      {history?.status === 'APPLICANT' && (
+      {history.id !== undefined && history?.status === 'APPLICANT' && history?.applicationForm && (
         <span
           className="file"
           onClick={() => {
@@ -121,7 +121,9 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
             key={f.originalName}
             className="file"
             href={f.path}
+            target="_blank"
             download={f.path}
+            rel="noreferrer"
           >
             {f.originalName}
           </a>

@@ -1,8 +1,9 @@
+import { FC } from 'react';
 import styled from 'styled-components';
 import { Table } from 'antd';
 import { TableProps } from 'antd/es/table';
 
-export const AsnTable: React.FC<TableProps<any>> = styled(Table)`
+export const AsnTable: FC<TableProps<any>> = styled(Table)`
   height: 100%;
   td {
     padding: 0.9vh 8px !important;
@@ -58,6 +59,16 @@ export const AsnTable: React.FC<TableProps<any>> = styled(Table)`
     }
     &:first-child {
       border-left: 0.5px solid var(--light-border);
+    }
+
+    .applicant-status-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      svg path {
+        fill: var(--dark-4)
+      }
     }
   }
   .ant-table-pagination-right {
