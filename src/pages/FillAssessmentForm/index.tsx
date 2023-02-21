@@ -92,7 +92,6 @@ const FillAssessMentForm: React.FC = () => {
       answers: []
     };
   });
-
   return (
     <>
       {!success && <AsnModal
@@ -118,7 +117,6 @@ const FillAssessMentForm: React.FC = () => {
             rules={[
               {
                 validator: async (_, file) => {
-                  console.log(error, 'errr');
                   if (file === undefined) {
                     return await Promise.reject(new Error('Please check at least one answer'));
                   }

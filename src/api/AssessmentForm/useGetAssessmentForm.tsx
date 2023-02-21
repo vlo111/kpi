@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useGetAssessmentFormById } from '../../types/api/assessment';
 import client from '../client';
 
-const url = '/api/assessment-form/:id';
+const url = '/api/assessment-form/:id/apply';
 
 const useGetAssessmentForm: useGetAssessmentFormById = (id, options = { enabled: true }) => {
   const result = useQuery(
