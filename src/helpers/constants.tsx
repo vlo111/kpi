@@ -129,13 +129,20 @@ export const ApplicantDefaultStatus: IApplicantDefaultStatus = {
   PRE_ASSESSMENT: 'Pre Assessment',
   PARTICIPANT: 'Participant',
   POST_ASSESSMENT: 'Post Assessment',
-  TRAINED: 'Trained'
+  TRAINED: 'Trained',
+  NOT_ENROLLED: 'Not Enrolled',
+  DROPPED: 'Dropped'
 };
 
 export const ApplicantAccessStatus: IApplicantAccessStatus = {
   Dropped: 'DROPPED',
   Trained: 'TRAINED',
-  NotEnrolled: 'NOT_ENROLLED'
+  NotEnrolled: 'NOT_ENROLLED',
+  Applicant: 'APPLICANT',
+  Selection: 'SELECTION',
+  PreAssessment: 'PRE_ASSESSMENT',
+  Participant: 'PARTICIPANT',
+  PostAssessment: 'POST_ASSESSMENT'
 };
 
 export const answerType: string[] = [

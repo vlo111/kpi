@@ -36,7 +36,7 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
 
   return (
     <>
-      {history?.status === 'APPLICANT' && (
+      {history.id !== undefined && history?.status === 'APPLICANT' && history?.applicationForm && (
         <span
           className="file"
           onClick={() => {
@@ -46,7 +46,7 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
           Application Form
         </span>
       )}
-      {history?.status === 'PRE_ASSESSMENT' && (
+      {history.id !== undefined && history?.status === 'PRE_ASSESSMENT' && (
         <div className="assessment-section">
           <span className="file">Pre Assessment:</span>
           <div className="assessment">
@@ -71,7 +71,9 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
             key={f.originalName}
             className="file"
             href={f.path}
+            target="_blank"
             download={f.path}
+            rel="noreferrer"
           >
             {f.originalName}
           </a>
