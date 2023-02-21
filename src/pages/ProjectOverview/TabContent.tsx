@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Tabs, Space, Typography, Row } from 'antd';
-import styled from 'styled-components';
-import { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import React, { useState } from "react";
+import { Tabs, Space, Typography, Row } from "antd";
+import styled from "styled-components";
+import { CheckboxValueType } from "antd/lib/checkbox/Group";
 
-import useGetSubActivities from '../../api/Activity/Template/SubActivity/useGetSubActivities';
-import GetTemplates from '../../api/Activity/Template/useGetActivityTemplates';
-import { AsnButton } from '../../components/Forms/Button';
-import AsnSpin from '../../components/Forms/Spin';
-import SubActivityAndTemplates from './SubActivitesAndTemplates';
-import { ITabContent } from '../../types/project';
-import { ReactComponent as CreateTemplateSvg } from '../../assets/icons/create-template.svg';
-import { ReactComponent as NotAccessSvg } from '../../assets/icons/error_404.svg';
+import useGetSubActivities from "../../api/Activity/Template/SubActivity/useGetSubActivities";
+import GetTemplates from "../../api/Activity/Template/useGetActivityTemplates";
+import { AsnButton } from "../../components/Forms/Button";
+import AsnSpin from "../../components/Forms/Spin";
+import SubActivityAndTemplates from "./SubActivitesAndTemplates";
+import { ITabContent } from "../../types/project";
+import { ReactComponent as CreateTemplateSvg } from "../../assets/icons/create-template.svg";
+import { ReactComponent as NotAccessSvg } from "../../assets/icons/error_404.svg";
 
 const { Text } = Typography;
 
@@ -28,12 +28,13 @@ const NotAccessContent = styled(Space)`
     justify-content: center;
     align-items: center;
   }
-  h5,h3{
+  h5,
+  h3 {
     color: var(--dark-1);
     font-size: 20px;
-    font-weight: var(--font-normal)
+    font-weight: var(--font-normal);
   }
-  h5{
+  h5 {
     font-size: 14px !important;
   }
 `;
@@ -43,7 +44,7 @@ const TabContent: React.FC<ITabContent> = ({
   resultArea,
   setInputActivityId,
   setIsOpenCreateActivityModal,
-  defaultInputActivityId
+  defaultInputActivityId,
 }) => {
   const [checkedList, setCheckedList] = useState<CheckboxValueType[]>();
   const [assignedUsersIds, setAssignedUsersIds] = useState<React.Key[]>([]);
@@ -53,40 +54,48 @@ const TabContent: React.FC<ITabContent> = ({
   const [checkAll, setCheckAll] = useState(false);
   const [dateSearch, setDateSearch] = useState({
     start: true,
-    from: '',
-    to: ''
+    from: "",
+    to: "",
   });
   const { from, to } = dateSearch;
   const filters =
-    checkedList?.length !== 0 && assignedUsersIds?.length !== 0 && from !== '' && to !== ''
+    checkedList?.length !== 0 &&
+    assignedUsersIds?.length !== 0 &&
+    from !== "" &&
+    to !== ""
       ? { status: checkedList, date: dateSearch, assigned: assignedUsersIds }
       : checkedList?.length !== 0
-        ? { status: checkedList }
-        : assignedUsersIds?.length !== 0
-          ? { assigned: assignedUsersIds }
-          : from !== '' && to !== ''
-            ? { date: dateSearch }
-            : { };
-  const filter2 = assignedUsersIds?.length !== 0 ? { assigned: assignedUsersIds} : {};
-  
+      ? { status: checkedList }
+      : assignedUsersIds?.length !== 0
+      ? { assigned: assignedUsersIds }
+      : from !== "" && to !== ""
+      ? { date: dateSearch }
+      : {};
+  const filter2 =
+    assignedUsersIds?.length !== 0 ? { assigned: assignedUsersIds } : {};
+
   const {
     data: templates,
     isLoading: isLoadingTemplates,
-    refetch
+    refetch,
   } = GetTemplates(inputActivityId ?? defaultInputActivityId, {
-    enabled: Boolean(inputActivityId ?? defaultInputActivityId)
+    enabled: Boolean(inputActivityId ?? defaultInputActivityId),
   });
   const {
     data: subActivities,
     isLoading: isLoadingSubActivity,
-    error
-  } = useGetSubActivities(inputActivityId ?? defaultInputActivityId, filter2, {
-    enabled: Boolean(inputActivityId ?? defaultInputActivityId)
-  });
+    error,
+  } = useGetSubActivities(
+    inputActivityId ?? defaultInputActivityId,
+    filters && filter2,
+    {
+      enabled: Boolean(inputActivityId ?? defaultInputActivityId),
+    }
+  );
   return (
     <Tabs
       activeKey={inputActivityId ?? resultArea?.inputActivities[0]?.id}
-      tabPosition={'left'}
+      tabPosition={"left"}
       items={resultArea?.inputActivities?.map((inputActivity, i: number) => {
         return {
           label: (
@@ -99,19 +108,17 @@ const TabContent: React.FC<ITabContent> = ({
           ),
           key: `${inputActivity?.id ?? i}`,
           children:
-            error === null
-              ? (
-                  Boolean(isLoadingTemplates) || Boolean(isLoadingSubActivity)
-                    ? (
+            error === null ? (
+              Boolean(isLoadingTemplates) || Boolean(isLoadingSubActivity) ? (
                 <AsnSpin />
-                      )
-                    : templates?.length > 0 || subActivities?.length > 0
-                      ? (
+              ) : templates?.length > 0 || subActivities?.length > 0 ? (
                 <SubActivityAndTemplates
                   subActivities={subActivities}
                   templates={templates}
                   refetch={refetch}
-                  inputActivityId={inputActivity?.id !== undefined ? inputActivity?.id : ''}
+                  inputActivityId={
+                    inputActivity?.id !== undefined ? inputActivity?.id : ""
+                  }
                   setAssignedUsersIds={setAssignedUsersIds}
                   setCheckedList={setCheckedList}
                   setIndeterminate={setIndeterminate}
@@ -123,20 +130,19 @@ const TabContent: React.FC<ITabContent> = ({
                   dateSearch={dateSearch}
                   setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
                 />
-                        )
-                      : (
+              ) : (
                 <Space
                   direction="vertical"
                   align="center"
-                  style={{ width: '100%', padding: '5vh 0 30px 0' }}
+                  style={{ width: "100%", padding: "5vh 0 30px 0" }}
                 >
-                  <CreateTemplateSvg style={{ marginBottom: '20px' }} />
-                  <Text style={{ fontSize: 'var(--headline-font-size)' }}>
+                  <CreateTemplateSvg style={{ marginBottom: "20px" }} />
+                  <Text style={{ fontSize: "var(--headline-font-size)" }}>
                     Create Activity Template
                   </Text>
                   <Text>Create activity templates to start</Text>
                   <AsnButton
-                    style={{ marginTop: '12px' }}
+                    style={{ marginTop: "12px" }}
                     className="primary"
                     onClick={() => {
                       setIsOpenCreateActivityModal(true);
@@ -145,17 +151,18 @@ const TabContent: React.FC<ITabContent> = ({
                     Create Activity Template
                   </AsnButton>
                 </Space>
-                        )
-                )
-              : (
-                  error !== null && (
-                  <NotAccessContent direction='vertical'>
-                    <NotAccessSvg/>
-                    <Title level={3}>We are sorry,</Title>
-                    <Title level={5}>but you don’t have access to this page or resource</Title>
-                  </NotAccessContent>
-                  )
-                )
+              )
+            ) : (
+              error !== null && (
+                <NotAccessContent direction="vertical">
+                  <NotAccessSvg />
+                  <Title level={3}>We are sorry,</Title>
+                  <Title level={5}>
+                    but you don’t have access to this page or resource
+                  </Title>
+                </NotAccessContent>
+              )
+            ),
         };
       })}
     />

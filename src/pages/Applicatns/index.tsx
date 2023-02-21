@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Table, Drawer } from 'antd';
+import React, { useCallback, useEffect, useState } from "react";
+import { Table, Drawer } from "antd";
 
-import UseSearch from './useSearch';
-import { Container } from './applicantsStyle';
-import { useColumn } from './useColumns';
-import { UseFilterTags } from './useFilterTags';
+import UseSearch from "./useSearch";
+import { Container } from "./applicantsStyle";
+import { useColumn } from "./useColumns";
+import { UseFilterTags } from "./useFilterTags";
 
-import useAllAplicants from '../../api/Applicants/useGetAllApplicants';
-import { AsnForm } from '../../components/Forms/Form';
-import { IApplicants, iFinishApplicant, Iseacrh } from './applicantsTypes';
-import Applicant from '../../components/Applicant';
-import { useProject } from '../../hooks/useProject';
+import useAllAplicants from "../../api/Applicants/useGetAllApplicants";
+import { AsnForm } from "../../components/Forms/Form";
+import { IApplicants, iFinishApplicant, Iseacrh } from "./applicantsTypes";
+import Applicant from "../../components/Applicant";
+import { useProject } from "../../hooks/useProject";
 
 const ApplicantsData: React.FC = () => {
   const [result, setResult] = useState<any>();
@@ -18,28 +18,28 @@ const ApplicantsData: React.FC = () => {
   const { projectId } = useProject();
 
   const [filters, setFilters] = useState<Iseacrh>({
-    search: '',
+    search: "",
     limit: 100,
     offset: 0,
     student: undefined,
     income: undefined,
     disability: undefined,
     gender: undefined,
-    statuses: undefined
+    statuses: undefined,
   });
 
   const tableParams = {
-    position: 'bottomCenter',
+    position: "bottomCenter",
     pagination: {
-      showSizeChanger: false
-    }
+      showSizeChanger: false,
+    },
   };
 
   const [form] = AsnForm.useForm();
   const [open, setOpen] = useState(false);
   const [openRow, setOpenRow] = useState<any>(false);
-  const [applicantId, setApplicantId] = useState('');
-  console.log(applicantId);
+  const [applicantId, setApplicantId] = useState("");
+
   const showDrawer = (record: string): void => {
     setOpenRow(record);
     setApplicantId(record);
@@ -51,7 +51,7 @@ const ApplicantsData: React.FC = () => {
   const { refetch } = useAllAplicants(filters, projectId, {
     onSuccess: (data: React.SetStateAction<IApplicants>): void => {
       setResult(data);
-    }
+    },
   });
   useEffect(() => {
     refetch();
@@ -61,7 +61,7 @@ const ApplicantsData: React.FC = () => {
     (search: string) => {
       setFilters((prevState) => ({
         ...prevState,
-        search
+        search,
       }));
     },
     [filters]
@@ -72,20 +72,19 @@ const ApplicantsData: React.FC = () => {
       if (data !== undefined) {
         setFilters((prevState) => ({
           ...prevState,
-          ...data
+          ...data,
         }));
       }
     },
     [filters]
   );
-
   const onFinish = (values: iFinishApplicant): void => {
     filterData({
       age:
         values?.age !== undefined
           ? {
               from: values?.age?.[0],
-              to: values?.age?.[1]
+              to: values?.age?.[1],
             }
           : undefined,
       regions: values?.regions,
@@ -93,11 +92,11 @@ const ApplicantsData: React.FC = () => {
       student: values?.student,
       gender: values?.gender,
       disability: values?.disability,
-      income: values?.income
+      income: values?.income,
     });
 
     setOpen(false);
-    form.setFieldValue('clearAll', true);
+    form.setFieldValue("clearAll", true);
   };
 
   const column = useColumn({ filterData, onFinish, form, setOpen, open });
@@ -117,19 +116,19 @@ const ApplicantsData: React.FC = () => {
           columns={column}
           dataSource={result?.result}
           rowClassName={(record, index) =>
-            index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
+            index % 2 === 0 ? "table-row-light" : "table-row-dark"
           }
           onRow={(record, index) => {
             return {
               onClick: () => {
                 showDrawer(record?.id);
-              }
+              },
             };
           }}
           pagination={tableParams.pagination}
         />
       </>
-      <Drawer width={'80%'} placement="right" onClose={onClose} open={openRow}>
+      <Drawer width={"80%"} placement="right" onClose={onClose} open={openRow}>
         <Applicant applicantId={applicantId} />
       </Drawer>
     </Container>
