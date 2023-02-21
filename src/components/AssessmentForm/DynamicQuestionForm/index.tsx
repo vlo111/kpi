@@ -13,6 +13,7 @@ import {
 } from '../DynamicAssessmentForm';
 import { AsnCheckbox } from '../../Forms/Checkbox';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import { FormFinish } from '../../../types/global';
 
 const { Title } = Typography;
 
@@ -62,7 +63,11 @@ const AddAnswerButton = styled(AsnButton)`
   }
 `;
 
-const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType, calcScores }) => {
+const DynamicQuestionForm: React.FC<any> = ({
+  contentName,
+  answerType,
+  calcScores
+}) => {
   const [radio, setRadio] = useState();
   const [checkbox, setCheckbox] = useState<CheckboxValueType[]>([]);
   const [addOder, setAddOder] = useState(true);
@@ -91,7 +96,7 @@ const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType, calcScore
       setAddOder(false);
     }
     add({
-      title: 'Other...',
+      title: 'Other',
       score: 0,
       type: 'SHORT_TEXT'
     });
@@ -109,6 +114,37 @@ const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType, calcScore
     setCheckboxScoreCount(scores);
   };
 
+  const radioGroupChange: FormFinish = (val) => {
+    setRadio((prevValue) => {
+      if (prevValue !== undefined) {
+        form.setFieldValue(
+          ['questions', contentName[0], 'answers', prevValue, 'score'],
+          0
+        );
+      }
+      return val.target.value;
+    });
+    calcScores();
+  };
+
+  const checkboxGroupChange: FormFinish = (val) => {
+    setCheckbox(val);
+  };
+
+  const onDeleteCheckboxGroupItem = (remove: any, name: any): void => {
+    setCheckbox(
+      checkbox.filter((item) => {
+        return item !== name;
+      })
+    );
+    remove(name);
+    calcScores();
+    const scores = form
+      .getFieldValue(['questions', contentName[0], 'answers'])
+      .reduce((acc: any, current: any) => +acc + +current.score, 0);
+    setCheckboxScoreCount(scores);
+  };
+
   return (
     <AsnForm.List name={contentName}>
       {(answerList, { add, remove }) => (
@@ -117,24 +153,27 @@ const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType, calcScore
           'OPTION'
             ? (
             <Radio.Group
-              onChange={(val) => {
-                setRadio(val.target.value);
-              }}
+              onChange={radioGroupChange}
               style={{
                 width: '100%'
               }}
             >
               {answerList.map(({ key, name, ...restField }) => (
                 <AddQuestionRow key={key} align="baseline">
-                  <Radio value={name} className='gago'>
+                  <Radio value={name}>
                     <AsnForm.Item
                       {...restField}
                       name={[name, 'title']}
                       rules={[
-                        { required: true, message: 'Missing first name' }
+                        {
+                          required: true,
+                          message: 'Enter required fields',
+                          min: 1,
+                          max: 256
+                        }
                       ]}
                     >
-                      <AnswersInput placeholder={`Option ${key + 1}`} />
+                      <AnswersInput placeholder={`Option ${name + 1}`} />
                     </AsnForm.Item>
                   </Radio>
                   <Space>
@@ -154,9 +193,6 @@ const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType, calcScore
                           {...restField}
                           name={[name, 'score']}
                           initialValue={0}
-                          rules={[
-                            { required: true, message: 'Missing first name' }
-                          ]}
                         >
                           <ScoreInputNumber
                             className="primary"
@@ -182,7 +218,8 @@ const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType, calcScore
             'CHECKBOX'
               ? (
             <AsnCheckbox.Group
-              onChange={(val: CheckboxValueType[]) => setCheckbox(val)}
+              value={checkbox}
+              onChange={checkboxGroupChange}
               style={{
                 width: '100%'
               }}
@@ -197,19 +234,24 @@ const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType, calcScore
                   }}
                   align="baseline"
                 >
-                  <AsnCheckbox value={name}>
+                  <AsnCheckbox value={key}>
                     <AsnForm.Item
                       {...restField}
                       name={[name, 'title']}
                       rules={[
-                        { required: true, message: 'Missing first name' }
+                        {
+                          required: true,
+                          message: 'Enter required fields',
+                          min: 1,
+                          max: 256
+                        }
                       ]}
                     >
-                      <AnswersInput placeholder={`Option ${key + 1}`} />
+                      <AnswersInput placeholder={`Option ${name + 1}`} />
                     </AsnForm.Item>
                   </AsnCheckbox>
                   <Space>
-                    {checkbox.includes(name) && (
+                    {checkbox.includes(key) && (
                       <ScoreContainer key={key}>
                         <Title
                           level={5}
@@ -225,9 +267,6 @@ const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType, calcScore
                           {...restField}
                           name={[name, 'score']}
                           initialValue={0}
-                          rules={[
-                            { required: true, message: 'Missing first name' }
-                          ]}
                         >
                           <ScoreInputNumber
                             className="primary"
@@ -240,7 +279,9 @@ const DynamicQuestionForm: React.FC<any> = ({ contentName, answerType, calcScore
                     {answerList.length <= 2
                       ? null
                       : (
-                      <DeleteIcon onClick={() => remove(name)} />
+                      <DeleteIcon
+                        onClick={() => onDeleteCheckboxGroupItem(remove, name)}
+                      />
                         )}
                   </Space>
                 </Space>

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Table, Space, Row, Col } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
 import { AsnButton } from '../../../../../../components/Forms/Button';
-import { UserOutlined } from '@ant-design/icons';
-import { Void, DataType } from '../../../../../../types/global';
+import { Void } from '../../../../../../types/global';
 
 import styled from 'styled-components';
+import useGetAssignedUsersListByInputActivityId from '../../../../../../api/Activity/SubActivity/useGetAssinedUsersByInputActivty';
+import { AssignedUserType } from '../../../../../../types/api/activity/subActivity';
+import AsnAvatar from '../../../../../../components/Forms/Avatar';
+import { IAssignedFilterData } from '../../../../../../types/project';
 
 const Container = styled.div`
   .ant-table-thead > tr > th {
@@ -47,38 +49,33 @@ const Container = styled.div`
   }
 `;
 
-const columns: ColumnsType<DataType> = [
+const columns = [
   {
-    title: '',
-    dataIndex: '',
-    render: (text) => <UserOutlined />
+    render: (item: AssignedUserType) => (
+      <Space direction='horizontal'>
+      <AsnAvatar
+        letter={`${item?.firstName?.charAt(0)}${item?.lastName?.charAt(0)}`}
+        src={item?.photo}
+      />
+      <h4 style={{ padding: 0 }}>{item?.firstName} {item?.lastName}</h4>
+      </Space>
+    )
   },
   {
     title: 'All People',
-    dataIndex: 'name'
+    dataIndex: ''
   }
 ];
 
-const data: DataType[] = [];
-for (let i = 0; i < 30; i++) {
-  data.push({
-    key: i,
-    name: `$ Edward King ${i}  `
-  });
-}
-export const AssingnesData: React.FC<{ open: boolean
-  setOpen: (open: boolean) => void }> = ({
-  open,
-  setOpen
-}) => {
-  const cancel: Void = () => {
-    setOpen(!open);
-  };
+export const AssingnesData: React.FC<IAssignedFilterData> = ({ open, setOpen, inputActivityId, setAssignedUsersIds }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  console.log(columns);
+
+  const { data: assignedUsers } = useGetAssignedUsersListByInputActivityId(
+    inputActivityId,
+    { enabled: open }
+  );
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]): void => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
@@ -87,6 +84,16 @@ export const AssingnesData: React.FC<{ open: boolean
     onChange: onSelectChange
   };
   const hasSelected = selectedRowKeys.length > 0;
+
+  const filterByUsers = (): void => {
+    setAssignedUsersIds(selectedRowKeys);
+    setOpen(false);
+  };
+
+  const cancel: Void = () => {
+    setOpen(!open);
+    setSelectedRowKeys([]);
+  };
 
   return (
     <Container>
@@ -97,7 +104,8 @@ export const AssingnesData: React.FC<{ open: boolean
         <Table
           rowSelection={rowSelection}
           columns={columns}
-          dataSource={data}
+          dataSource={assignedUsers}
+          rowKey={(record) => record?.id}
           pagination={false}
           style={{ marginBottom: '40px' }}
         />
@@ -105,8 +113,10 @@ export const AssingnesData: React.FC<{ open: boolean
           size={[40, 16]}
           style={{ display: 'flex', justifyContent: 'center' }}
         >
-          <AsnButton onClick={cancel}>Cancel</AsnButton>
-          <AsnButton type="primary" htmlType="submit">
+          <AsnButton onClick={cancel} className="default">
+            Cancel
+          </AsnButton>
+          <AsnButton type="primary" className="primary" htmlType="submit" onClick={filterByUsers}>
             Save
           </AsnButton>
         </Space>

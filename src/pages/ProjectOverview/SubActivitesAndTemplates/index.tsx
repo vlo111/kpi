@@ -51,7 +51,9 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
   checkedList,
   setDateSearch,
   dateSearch,
-  setIsOpenCreateActivityModal
+  setIsOpenCreateActivityModal,
+  inputActivityId,
+  setAssignedUsersIds
 }) => {
   return (
     <Tab>
@@ -71,6 +73,8 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
           checkAll={checkAll}
           indeterminate={indeterminate}
           checkedList={checkedList}
+          inputActivityId={inputActivityId}
+          setAssignedUsersIds={setAssignedUsersIds}
           setDateSearch={setDateSearch}
           dateSearch={dateSearch}
           templates={templates}

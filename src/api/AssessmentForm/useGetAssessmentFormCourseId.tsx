@@ -2,12 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { GetAssessmentFormByCourseId } from '../../types/api/assessment';
 import client from '../client';
 
-export const url = '/api/assessment-form/course';
+export const url = '/api/assessment-form/course/:id';
 
-const getAssessmentFormByCourseId: GetAssessmentFormByCourseId = (courseId, params, options = { enabled: false }) => {
+const useGetAssessmentFormByCourseId: GetAssessmentFormByCourseId = (id, params, options = { enabled: true }) => {
   const result = useQuery(
-    [url, courseId, params],
-    async () => await client.get(`${url}/${courseId}`, { params }),
+    [url, id, params],
+    async () => await client.get(url.replace(':id', id), { params }),
     {
       ...options,
       select: (data) => data.data
@@ -24,4 +24,4 @@ const getAssessmentFormByCourseId: GetAssessmentFormByCourseId = (courseId, para
   };
 };
 
-export default getAssessmentFormByCourseId;
+export default useGetAssessmentFormByCourseId;

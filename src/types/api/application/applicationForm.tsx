@@ -186,6 +186,13 @@ export interface IFormUrlModal {
   responseIds: IResult | undefined
 }
 
+export interface IAssessmentFormUrlModal {
+  formUrlModal: boolean
+  setFormUrlModal: Dispatch<SetStateAction<boolean>>
+  subActivityId: string
+  assessmentFormId: string
+}
+
 export interface ICardContainer {
   borderTop?: string
   marginTop?: string

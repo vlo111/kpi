@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Space, Tooltip, Typography } from 'antd';
+import { message, Space, Tooltip, Typography } from 'antd';
 import { AsnForm } from '../../Forms/Form';
 import { AsnInput, AsnInputNumber } from '../../Forms/Input';
 import AssessmentFormItems from '../FormList';
-import { ICardContainer } from '../../../types/api/application/applicationForm';
+import {
+  ICardContainer,
+  IResult
+} from '../../../types/api/application/applicationForm';
 import { ReactComponent as AddAssessmentIcon } from '../../../assets/icons/add-assessment.svg';
 import { AsnButton } from '../../Forms/Button';
 import { AsnSwitch } from '../../Forms/Switch';
 import { IButtonContainer } from '../../../types/api/assessment';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import CreateAssessmentFormDataByCourseId from '../../../api/AssessmentForm/useCreateAssessmentFormCourseId';
 import AssessmentFormUrlModal from '../FormUrlModal/Index';
 import PreviewAssessmentForm from '../../PreviewAssessmentForm';
+import UpdateAssessmentFormDataById from '../../../api/AssessmentForm/useUpdateAssessmentFormById';
+import { PATHS } from '../../../helpers/constants';
+import getAssessmentFormbyId from '../../../api/AssessmentForm/useGetAssessmentFormById';
 
 const { Title } = Typography;
 
@@ -108,47 +114,106 @@ export const FormInput = styled(AsnInput)`
   box-shadow: var(--base-box-shadow);
 `;
 
-const AssessmentForms: React.FC = () => {
+const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
   const [answerType, setAnswerType] = useState('OPTION');
   const [formUrlModal, setFormUrlModal] = useState(false);
   const [isPreviewForm, setIsPreviewForm] = useState(false);
   const [allScore, setAllScore] = useState(0);
-  const [responseDataId, setResponseDataId] = useState();
+  const [responseDataId, setResponseDataId] = useState<IResult | undefined>();
   const [form] = AsnForm.useForm();
   const location = useLocation();
+  const navigate = useNavigate();
   const { id: courseId } = useParams<{ id: any }>();
 
   const { mutate: createAssessmentForm } = CreateAssessmentFormDataByCourseId({
     onSuccess: (responseData: any) => {
       setResponseDataId(responseData.data);
       setFormUrlModal(true);
+    },
+    onError: (e: any) => {
+      void message.error(e.response.data.message);
+    }
+  });
+  const { mutate: updateAssessmentForm } = UpdateAssessmentFormDataById({
+    onSuccess: (responseData: any) => {
+      setFormUrlModal(true);
+    },
+    onError: (e: any) => {
+      void message.error(e.response.data.message);
     }
   });
 
+  const { data } = getAssessmentFormbyId(
+    footerButtons !== undefined
+      ? footerButtons?.id
+      : location?.state?.footerButtons?.id,
+    {
+      enabled: preview === true || location.state.preview === true
+    }
+  );
+
   useEffect(() => {
-    form.setFieldsValue({
-      onlineSignature: true,
-      title: '',
-      passingScore: 0,
-      questions: [
-        {
-          answerType,
-          required: true,
-          answers: [
-            {
-              title: '',
-              score: 0,
-              type: answerType
-            },
-            {
-              title: '',
-              score: 0,
-              type: answerType
-            }
-          ]
-        }
-      ]
-    });
+    if (preview === true || location?.state?.preview === true) {
+      let obj = null;
+      if (data.result !== undefined) {
+        obj = JSON.parse(JSON.stringify(data?.result));
+        obj.questions.map((question: any): any => {
+          if (question.answers.length > 0) {
+            question.answers.map((answer: any) => delete answer.id);
+          }
+          return delete question.id;
+        });
+      }
+
+      form.setFieldsValue({
+        ...obj
+      });
+      setAllScore(data?.result?.maximumScore);
+    }
+  }, [data, preview, location?.state?.preview]);
+
+  useEffect(() => {
+    if (preview !== true && location?.state?.preview !== true) {
+      form.setFieldsValue({
+        onlineSignature: true,
+        title: '',
+        passingScore: 0,
+        questions: [
+          {
+            answerType,
+            required: true,
+            answers: [
+              {
+                title: '',
+                score: 0,
+                type: answerType
+              },
+              {
+                title: '',
+                score: 0,
+                type: answerType
+              }
+            ]
+          },
+          {
+            answerType,
+            required: true,
+            answers: [
+              {
+                title: '',
+                score: 0,
+                type: answerType
+              },
+              {
+                title: '',
+                score: 0,
+                type: answerType
+              }
+            ]
+          }
+        ]
+      });
+    }
   }, []);
 
   const onAddQuestion = (add: any): void => {
@@ -173,15 +238,34 @@ const AssessmentForms: React.FC = () => {
   };
 
   const onCreatedAssessmentFinish = (value: any): any => {
-    createAssessmentForm({
-      id: courseId,
-      data: {
-        maximumScore: allScore,
-        type: location?.state.type,
-        duplicate: false,
-        ...value
-      }
-    });
+    if (location.state.edit === true) {
+      updateAssessmentForm({
+        formId: location?.state?.footerButtons?.id,
+        data: {
+          maximumScore: allScore,
+          ...value
+        }
+      });
+    } else {
+      createAssessmentForm({
+        id: courseId,
+        data: {
+          maximumScore: allScore,
+          type: location?.state.type,
+          duplicate: false,
+          ...value
+        }
+      });
+    }
+  };
+
+  const onCancelClick = (): void => {
+    navigate(
+      `/project/${PATHS.SUBACTIVITY.replace(
+        ':id',
+        location?.state?.navigateRouteInfo?.courseId
+      )}`
+    );
   };
 
   return (
@@ -200,7 +284,14 @@ const AssessmentForms: React.FC = () => {
           <CardTitle>Form title</CardTitle>
           <AsnForm.Item
             name="title"
-            rules={[{ required: true, message: 'Please enter title' }]}
+            rules={[
+              {
+                required: true,
+                message: 'Enter required fields',
+                min: 2,
+                max: 64
+              }
+            ]}
           >
             <FormInput placeholder="Title" />
           </AsnForm.Item>
@@ -238,7 +329,9 @@ const AssessmentForms: React.FC = () => {
                     questionsLists={questionsLists}
                     setAllScore={setAllScore}
                   />
-                  {name === questionsLists.length - 1
+                  {name === questionsLists.length - 1 &&
+                  questionsLists.length <= 50 &&
+                  preview !== true
                     ? (
                     <AddAssessmentButton onClick={() => onAddQuestion(add)}>
                       <Tooltip
@@ -290,20 +383,37 @@ const AssessmentForms: React.FC = () => {
             </AsnForm.Item>
           </Scores>
         </CardContainer>
-        <ButtonsContainer marginTop="4rem">
-          <AsnButton className="default">Cancel</AsnButton>
-          <AsnButton className="default" onClick={() => setIsPreviewForm(true)}>
-            Preview
-          </AsnButton>
-          <AsnButton className="primary" htmlType="submit">
-            Publish
-          </AsnButton>
-        </ButtonsContainer>
+        {preview === true
+          ? null
+          : (
+          <ButtonsContainer marginTop="4rem">
+            <AsnButton className="default" onClick={onCancelClick}>
+              Cancel
+            </AsnButton>
+            <AsnButton
+              className="default"
+              onClick={() => setIsPreviewForm(true)}
+            >
+              Preview
+            </AsnButton>
+            <AsnButton
+              className="primary"
+              onClick={() => {
+                form.submit();
+              }}
+            >
+              {location.state.edit === true ? 'Edit' : 'Publish' }
+            </AsnButton>
+          </ButtonsContainer>
+            )}
       </AsnForm>
       <AssessmentFormUrlModal
         formUrlModal={formUrlModal}
         setFormUrlModal={setFormUrlModal}
-        responseIds={responseDataId}
+        subActivityId={location?.state?.navigateRouteInfo?.courseId}
+        assessmentFormId={
+          responseDataId?.result?.id ?? location?.state?.footerButtons?.id
+        }
       />
       <PreviewAssessmentForm
         isPreviewForm={isPreviewForm}
@@ -312,7 +422,7 @@ const AssessmentForms: React.FC = () => {
         courseId={courseId}
         data={{
           maximumScore: allScore,
-          type: location?.state.type,
+          type: location?.state?.type,
           duplicate: false,
           ...form.getFieldsValue()
         }}

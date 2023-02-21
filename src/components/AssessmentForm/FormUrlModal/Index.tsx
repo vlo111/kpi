@@ -7,7 +7,7 @@ import { AsnModal } from '../../Forms/Modal';
 import { ReactComponent as SuccessCreatedIcon } from '../../../assets/icons/success-created.svg.svg';
 import { PATHS } from '../../../helpers/constants';
 import { useNavigate } from 'react-router-dom';
-import { IFormUrlModal } from '../../../types/api/application/applicationForm';
+import { IAssessmentFormUrlModal } from '../../../types/api/application/applicationForm';
 
 const PreviewModalContent = styled(AsnModal)`
   .ant-modal-content {
@@ -36,35 +36,27 @@ const UrlContainer = styled(Typography.Title)`
   color: var(--dark-border-ultramarine) !important;
 `;
 
-const AssessmentFormUrlModal: React.FC<IFormUrlModal> = ({
+const AssessmentFormUrlModal: React.FC<IAssessmentFormUrlModal> = ({
   formUrlModal,
   setFormUrlModal,
-  responseIds
+  subActivityId,
+  assessmentFormId
 }) => {
   const navigate = useNavigate();
   const handleCancel: Void = () => {
-    if (responseIds !== undefined) {
-      navigate(
-        `/project/${PATHS.SUBACTIVITY.replace(
-          ':id',
-          responseIds?.result?.subActivityId
-        )}`
-      );
+    if (subActivityId !== undefined) {
+      navigate(`/project/${PATHS.SUBACTIVITY.replace(':id', subActivityId)}`);
     }
     setFormUrlModal(false);
   };
 
   const onPublishClick: Void = () => {
-    if (responseIds !== undefined) {
-      navigate(
-        `/project/${PATHS.SUBACTIVITY.replace(
-          ':id',
-          responseIds?.result?.subActivityId
-        )}`
-      );
+    if (subActivityId !== undefined) {
+      navigate(`/project/${PATHS.SUBACTIVITY.replace(':id', subActivityId)}`);
     }
     setFormUrlModal(false);
   };
+
   return (
     <PreviewModalContent
       footer={false}
@@ -78,15 +70,12 @@ const AssessmentFormUrlModal: React.FC<IFormUrlModal> = ({
           copyable={{
             text: `${
               process.env.REACT_APP_BASE_URL_HOST ?? ''
-            }${PATHS.APPLYAPPLICANTFORM.replace(
-              ':id',
-              responseIds !== undefined ? responseIds?.result?.id : ''
-            )}`
+            }${PATHS.ASSESSMENTFORM}?id=${assessmentFormId !== undefined ? assessmentFormId : ''}`
           }}
         >
           {`${
             process.env.REACT_APP_BASE_URL_HOST ?? ''
-          }${PATHS.APPLYAPPLICANTFORM.replace(':id', responseIds !== undefined ? responseIds?.result?.id : '')}`}
+          }${PATHS.ASSESSMENTFORM}?id=${assessmentFormId !== undefined ? assessmentFormId : ''}`}
         </UrlContainer>
         <AsnButton className="primary" onClick={onPublishClick}>
           Ok

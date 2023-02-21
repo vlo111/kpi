@@ -17,6 +17,7 @@ import useDuplicateAssessmentFormDataById from '../../../../../../api/Assessment
 import { PATHS } from '../../../../../../helpers/constants';
 import { useNavigate, useParams } from 'react-router';
 import { AsnButton } from '../../../../../Forms/Button';
+import { useProject } from '../../../../../../hooks/useProject';
 
 const StyledItems = styled(List)`
   .ant-list-item {
@@ -38,10 +39,13 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
   form,
   refetchSingleStatus,
   formType,
-  createAssessmentForm
+  createAssessmentForm,
+  navigateRouteInfo,
+  courseId
 }) => {
   const { Title } = Typography;
   const navigate = useNavigate();
+  const { projectId } = useProject();
   const { id: SubActivityId } = useParams<{ id: string | undefined }>();
 
   const { mutate: updateApplicationFormStatus } = updateApplicationStatus({
@@ -89,6 +93,24 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
       }
     });
 
+  const redirectAssessment = (id: string): void => {
+    if (formType === 'APPLICATION') {
+      navigate(`/${PATHS.APPLICATIONFORM.replace(':id', id)}`, {
+        state: { edit: true, SubActivityId }
+      });
+    } else {
+      navigate(`/${PATHS.ASSESSMENTFORMCREATE.replace(':id', courseId)}`, {
+        state: {
+          preview: true,
+          footerButtons: { id },
+          type: formType,
+          navigateRouteInfo: { ...navigateRouteInfo, projectId },
+          edit: true
+        }
+      });
+    }
+  };
+
   const content = (id: string): ReactElement => (
     <Row
       style={{
@@ -98,14 +120,7 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
       }}
       gutter={[8, 8]}
     >
-      <Col
-        span={24}
-        onClick={() =>
-          navigate(`/${PATHS.APPLICATIONFORM.replace(':id', id)}`, {
-            state: { edit: true, SubActivityId }
-          })
-        }
-      >
+      <Col span={24} onClick={() => redirectAssessment(id)}>
         <EditIcon /> Edit
       </Col>
       {/* <Col span={24}> */}
@@ -157,6 +172,18 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
     }
   };
 
+  const createLick = (id: string): string => {
+    if (formType === 'APPLICATION') {
+      return `${
+        process.env.REACT_APP_BASE_URL_HOST ?? ''
+      }${PATHS.APPLYAPPLICANTFORM.replace(':id', id !== null ? id : '')}`;
+    } else {
+      return `${process.env.REACT_APP_BASE_URL_HOST ?? ''}${
+        PATHS.ASSESSMENTFORM
+      }?id=${id !== null ? id : ''}`;
+    }
+  };
+
   return (
     <>
       <Row justify="center" style={{ width: '100%' }}>
@@ -195,12 +222,7 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
                           <LinkIcon key="copy-icon" />,
                           <LinkIcon key="copied-icon" />
                         ],
-                        text: `${
-                          process.env.REACT_APP_BASE_URL_HOST ?? ''
-                        }${PATHS.APPLYAPPLICANTFORM.replace(
-                          ':id',
-                          item.id !== null ? item.id : ''
-                        )}`
+                        text: createLick(item.id)
                       }}
                     />
                   </Col>

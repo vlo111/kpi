@@ -66,7 +66,7 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
             </Tag>
           )}
           {filters?.statuses !== undefined && (
-            <Tag onClose={() => closeFilter('status')} closable>
+            <Tag onClose={() => closeFilter('statuses')} closable>
               {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
               {`Statuses: ${filters?.statuses}`}
             </Tag>

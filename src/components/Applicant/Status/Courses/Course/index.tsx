@@ -161,7 +161,7 @@ const Course: React.FC<ICourseProps> = ({
 
   const isAllowEdit: boolean =
     history.status !== ApplicantAccessStatus.Trained && isLast && isNotRejected;
-
+  const applicantsId = applicantId;
   return (
     <div className={!isLast ? 'left-line' : 'last-line'}>
       <CourseItem
@@ -229,6 +229,7 @@ const Course: React.FC<ICourseProps> = ({
         sectionDataId={history?.sectionDataId}
         applicantId={[applicant.id]}
         status={history.status}
+        applicantsId={applicantsId}
       />}
     </div>
   );
