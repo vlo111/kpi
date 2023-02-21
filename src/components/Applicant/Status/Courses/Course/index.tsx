@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import { Col, message, Row, Upload } from 'antd';
+import { useLocation } from 'react-router-dom';
 
 import useApplicantAttachFile from '../../../../../api/Applicant/useApplicantAttachFile';
 import useFileUpload from '../../../../../api/Activity/Template/SubActivity/useUploadFile';
@@ -175,6 +176,8 @@ const Course: React.FC<ICourseProps> = ({
   isLast,
   applicantId
 }) => {
+  const { state } = useLocation();
+
   const { mutate: attachFile } = useApplicantAttachFile();
 
   const { mutate: uploadFile } = useFileUpload();
@@ -266,16 +269,15 @@ const Course: React.FC<ICourseProps> = ({
             sectionDataId={history?.sectionDataId}
             isAllowEdit={isAllowEdit}
             applicantId={applicantId}
-
           />
         </AntRow>
       </CourseItem>
-      <Move
+      {state !== 'DONE' && <Move
         sectionDataId={history?.sectionDataId}
         applicantId={applicant.id}
         status={history.status}
         applicantsId={applicantsId}
-      />
+      />}
     </CourseSection>
   );
 };

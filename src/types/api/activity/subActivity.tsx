@@ -38,9 +38,10 @@ export interface IApplicantsList {
 }
 
 export interface IApplicantsListFullInfo {
-  applicants: IApplicantsList []
+  applicants: IApplicantsList[]
   color: string
   courseId: string
+  status: string
 }
 
 export interface ICourseStatusInfo {
@@ -57,6 +58,8 @@ export interface IApplicationFormItem {
   refetchSingleStatus: any
   form: Array<{ id: string, title: string }>
   formType: EnumAssessmentFormTypes
+  navigateRouteInfo: INavigateRoteInfoTypes
+  courseId: string
   createAssessmentForm: (type: EnumAssessmentFormTypes) => void
 }
 
@@ -82,6 +85,10 @@ export interface IUserListTypes {
   dataIndex: number
   key: string
   title: string
+  preAssessmentScore: boolean
+  preAssessmentSubmitted: boolean
+  postAssessmentScore: boolean
+  postAssessmentSubmitted: boolean
 }
 
 export interface IWrapperProps {
@@ -227,4 +234,9 @@ export type GetAssignedUsersListByInputActivityId = (
 
 export type AttachFileSubActivity = UseMutation<Void, any, ResponseErrorParam, IAttachFileSubActivity>;
 
-export type AssignUserInCourse = UseMutation<Void, any, ResponseErrorParam, IAssignUserParams>;
+export type AssignUserInCourse = UseMutation<
+Void,
+any,
+ResponseErrorParam,
+IAssignUserParams
+>;

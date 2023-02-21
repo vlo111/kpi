@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { UseMutation, Void } from '../../global';
 import { IOnlyId } from '../activity/template';
 import { ResponseErrorParam } from '../project/get-project';
@@ -123,6 +124,12 @@ export interface UseAssessmentFormSingleResult {
   refetch: any
   isLoading: boolean
 }
+export interface IAssessments {
+  id: string
+  title: string
+  type: string
+  active: boolean
+}
 
 export interface CreateAssessmentIfoModalTypes {
   open: boolean
@@ -131,6 +138,9 @@ export interface CreateAssessmentIfoModalTypes {
   projectId: string
   courseId: string
   navigateRouteInfo: INavigateRoteInfoTypes
+  setOpenPreviewAssessmentModal: React.Dispatch<React.SetStateAction<boolean>>
+  footerButtons: IAssessments | undefined
+  setFooterButtons: Dispatch<SetStateAction<undefined | IAssessments>>
 }
 
 export interface INavigateRoteInfoTypes {
@@ -143,7 +153,7 @@ export interface INavigateRoteInfoTypes {
 export type GetAssessmentFormByCourseId = (
   courseId: string,
   params: {
-    type: EnumAssessmentFormTypes
+    type: string
   },
   options?: AssessmentFormOptions
 ) => UseAssessmentFormResult;
@@ -165,6 +175,7 @@ export interface IGetAssessmentForm {
   data: { result: IResult }
   isSuccess: boolean
   isLoading: boolean
+  isFetching: boolean
 }
 export interface IQuestion {
   answerType: string

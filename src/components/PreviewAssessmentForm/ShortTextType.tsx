@@ -9,6 +9,7 @@ const ShortTextType: React.FC<IAnswersProps> = ({ question, i }) => {
 
   return (
         <AsnForm.Item
+            name={i}
             label={`${title} (${score} score)`}
             rules={[{ required }]}
             style={{ fontWeight: 'var(--font-semibold)' }}

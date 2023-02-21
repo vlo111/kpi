@@ -1,27 +1,24 @@
 import { useQuery } from '@tanstack/react-query';
-import { GetSingleAssessmentForm } from '../../types/api/assessment';
+import { useGetAssessmentFormById } from '../../types/api/assessment';
 import client from '../client';
 
-export const url = '/api/assessment-form';
+const url = '/api/assessment-form/:id';
 
-const getSingleAssessmentFormById: GetSingleAssessmentForm = (formId, options = { enabled: false }) => {
+const getAssessmentFormbyId: useGetAssessmentFormById = (id, options = { enabled: true }) => {
   const result = useQuery(
-    [url, formId],
-    async () => await client.get(`${url}/${formId}`),
+    [url, id],
+    async () => await client.get(url.replace(':id', id)),
     {
-      ...options,
-      select: (data) => data.data
+      select: (data) => data?.data,
+      ...options
     }
   );
-
-  const { data, isSuccess, refetch, isLoading } = result;
-
+  const { data, isSuccess, isLoading } = result;
   return {
     ...result,
-    data: isSuccess ? data?.result : [],
-    isLoading,
-    refetch
+    data: isSuccess ? data : {},
+    isLoading
   };
 };
 
-export default getSingleAssessmentFormById;
+export default getAssessmentFormbyId;

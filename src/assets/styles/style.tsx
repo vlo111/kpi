@@ -117,8 +117,8 @@ const GlobalStyle = createGlobalStyle`
     }
 
 }
-
-.tooltipHelper{
+  
+  .tooltipHelper{
     .ant-tooltip-inner{
       border-radius: 10px;
       background-color: white;
@@ -299,6 +299,95 @@ const GlobalStyle = createGlobalStyle`
     }
     .ant-cascader-menu-item-active:not(.ant-cascader-menu-item-disabled){
       font-weight: var(--font-normal);
+    }
+  }
+
+  .applicant-status-tooltip {
+    .ant-tooltip-inner {
+      background: var(--dark-6);
+      border: 1px solid var(--dark-border-ultramarine);
+      border-radius: 40px;
+      padding: 24px;
+      
+      .applicant-status-row {
+        margin: 8px 16px;
+        
+        >.ant-col {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+
+    .ant-tooltip-arrow-content:before {
+      border: 4px solid var(--dark-border-ultramarine);
+      background: var(--dark-6);
+    }
+  }
+
+  .status {
+    padding: 8px 8px;
+    font-weight: var(--font-bold);
+    font-size: var(--font-size-semismall);
+    border-radius: 3px;
+    width: 136px;
+
+    &.APPLICANT {
+      background-color: rgba(104, 163, 149, 0.2);
+
+      .name {
+        color: var(--secondary-green);
+      }
+    }
+    &.SELECTION {
+      background-color: var(--secondary-green);
+
+      .name {
+        color: var(--white);
+      }
+    }
+    &.PRE_ASSESSMENT {
+      background-color: rgba(246, 151, 109, 0.2);
+
+      .name {
+        color: var(--secondary-light-orage);
+      }
+    }
+    &.PARTICIPANT {
+      background-color: var(--secondary-light-amber);
+
+      .name {
+        color: var(--white);
+      }
+    }
+    &.POST_ASSESSMENT {
+      background-color: var(--secondary-light-orage);
+
+      .name {
+        color: var(--white);
+      }
+    }
+    &.TRAINED {
+      background-color: var(--dark-border-ultramarine);
+
+      .name {
+        color: var(--white);
+      }
+    }
+    &.DROPPED {
+      background-color: var(--dark-4);
+
+      .name {
+        color: var(--white);
+      }
+    }
+    &.NOT_ENROLLED {
+      background-color: rgba(139, 139, 139, 0.2);
+
+      .name {
+        color: var(--dark-4);
+      }
     }
   }
 `;
