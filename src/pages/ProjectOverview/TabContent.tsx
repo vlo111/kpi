@@ -139,9 +139,6 @@ const TabContent: React.FC<ITabContent> = ({
                   style={{ width: '100%', padding: '5vh 0 30px 0' }}
                 >
                   <CreateTemplateSvg style={{ marginBottom: '20px' }} />
-                  <Text style={{ fontSize: 'var(--headline-font-size)' }}>
-                    Create Activity Template
-                  </Text>
                   <Text>Create activity templates to start</Text>
                   <AsnButton
                     style={{ marginTop: '12px' }}

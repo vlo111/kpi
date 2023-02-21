@@ -9,6 +9,7 @@ import { ReactComponent as DateSvg } from '../../../assets/icons/date.svg';
 const AntCol = styled(Col)`
  font-size: var(--base-font-size);
   width: 110px;
+  word-break: break-all;
 `;
 
 const GeneralInfo: React.FC<IGeneralInfoProps> = ({ title, description, startDate, endDate }) => {

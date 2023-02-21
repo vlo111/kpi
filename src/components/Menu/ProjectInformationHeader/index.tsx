@@ -63,7 +63,7 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
           >
             {project?.title ?? activity?.title}
           </AntCol>
-          <Col span={14} offset={1} style={{ color: 'var(--dark-1)' }}>
+          <Col span={14} offset={1} style={{ color: 'var(--dark-1)', wordBreak: 'break-all' }}>
             {project?.description ?? activity?.data?.description}
             <Row align="middle" style={{ marginTop: '20px' }}>
               <Col>
