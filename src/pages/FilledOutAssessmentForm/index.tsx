@@ -127,10 +127,10 @@ const FilledOutAssessmentForm: React.FC = () => {
                     )
                   : question.answerType === 'OPTION'
                     ? (
-                  <OptionType key={i} question={question} i={i} />
+                  <OptionType key={i} question={question} i={i} setAllScore={setAllScore} allScore={allScore} />
                       )
                     : (
-                  <CheckBoxType key={i} question={question} i={i} />
+                  <CheckBoxType key={i} question={question} i={i} setAllScore={setAllScore} allScore={allScore} />
                       )
               )}
             </Space>
@@ -153,7 +153,7 @@ const FilledOutAssessmentForm: React.FC = () => {
                 <AsnInputNumber
                   disabled
                   className="primary"
-                  value={preAssessmentForm?.userAssessedScore ?? allScore ?? preAssessmentForm?.userEarnedScore ?? postAssessmentForm?.userEarnedScore}
+                  value={preAssessmentForm?.userAssessedScore ?? allScore ?? preAssessmentForm?.userEarnedScore ?? postAssessmentForm.userAssessedScore ?? postAssessmentForm?.userEarnedScore }
                 />
               </Space>
             </Space>

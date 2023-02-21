@@ -53,7 +53,7 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
   inputActivityId
 }) => {
   const navigate = useNavigate();
-  console.log(activity);
+
   return (
     <Row style={{ padding }}>
       <Col span={24}>
