@@ -67,6 +67,8 @@ const TabContent: React.FC<ITabContent> = ({
           : from !== '' && to !== ''
             ? { date: dateSearch }
             : { };
+  const filter2 = assignedUsersIds?.length !== 0 ? { assigned: assignedUsersIds} : {};
+  
   const {
     data: templates,
     isLoading: isLoadingTemplates,
@@ -78,7 +80,7 @@ const TabContent: React.FC<ITabContent> = ({
     data: subActivities,
     isLoading: isLoadingSubActivity,
     error
-  } = useGetSubActivities(inputActivityId ?? defaultInputActivityId, filters, {
+  } = useGetSubActivities(inputActivityId ?? defaultInputActivityId, filter2, {
     enabled: Boolean(inputActivityId ?? defaultInputActivityId)
   });
   return (
