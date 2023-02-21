@@ -56,6 +56,7 @@ const AssessmentFormUrlModal: React.FC<IAssessmentFormUrlModal> = ({
     }
     setFormUrlModal(false);
   };
+
   return (
     <PreviewModalContent
       footer={false}
@@ -69,18 +70,12 @@ const AssessmentFormUrlModal: React.FC<IAssessmentFormUrlModal> = ({
           copyable={{
             text: `${
               process.env.REACT_APP_BASE_URL_HOST ?? ''
-            }${PATHS.ASSESSMENTFORM.replace(
-              ':id',
-              assessmentFormId !== undefined ? assessmentFormId : ''
-            )}`
+            }${PATHS.ASSESSMENTFORM}?id=${assessmentFormId !== undefined ? assessmentFormId : ''}`
           }}
         >
           {`${
             process.env.REACT_APP_BASE_URL_HOST ?? ''
-          }${PATHS.ASSESSMENTFORM.replace(
-            ':id',
-            assessmentFormId !== undefined ? assessmentFormId : ''
-          )}`}
+          }${PATHS.ASSESSMENTFORM}?id=${assessmentFormId !== undefined ? assessmentFormId : ''}`}
         </UrlContainer>
         <AsnButton className="primary" onClick={onPublishClick}>
           Ok

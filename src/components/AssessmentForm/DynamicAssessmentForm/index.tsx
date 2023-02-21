@@ -16,9 +16,9 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import CreateAssessmentFormDataByCourseId from '../../../api/AssessmentForm/useCreateAssessmentFormCourseId';
 import AssessmentFormUrlModal from '../FormUrlModal/Index';
 import PreviewAssessmentForm from '../../PreviewAssessmentForm';
-import useGetAssessmentForm from '../../../api/AssessmentForm/useGetAssessmentForm';
 import UpdateAssessmentFormDataById from '../../../api/AssessmentForm/useUpdateAssessmentFormById';
 import { PATHS } from '../../../helpers/constants';
+import getAssessmentFormbyId from '../../../api/AssessmentForm/useGetAssessmentFormById';
 
 const { Title } = Typography;
 
@@ -143,7 +143,7 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
     }
   });
 
-  const { data } = useGetAssessmentForm(
+  const { data } = getAssessmentFormbyId(
     footerButtons !== undefined
       ? footerButtons?.id
       : location?.state?.footerButtons?.id,
@@ -402,7 +402,7 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
                 form.submit();
               }}
             >
-              Publish
+              {location.state.edit === true ? 'Edit' : 'Publish' }
             </AsnButton>
           </ButtonsContainer>
             )}
