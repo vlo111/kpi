@@ -78,32 +78,6 @@ const CourseItem = styled.div<IStyle>`
     }
   }
 
-  .buttons {
-    display: flex;
-    justify-content: right;
-    padding: 1rem;
-
-    .reject,
-    .approve {
-      color: var(--white);
-      border-radius: 8px;
-      width: 6rem;
-
-      &:hover {
-        border-color: var(--white);
-      }
-    }
-
-    .reject {
-      margin-right: 1rem;
-      background-color: var(--error);
-    }
-
-    .approve {
-      background-color: var(--secondary-green);
-    }
-  }
-
   &:after {
     content: "";
     position: absolute;
@@ -114,27 +88,6 @@ const CourseItem = styled.div<IStyle>`
     border-radius: 50%;
     border: 1px solid var(--primary-light-orange);
     background: ${(props) => props.color};
-  }
-`;
-
-const CourseSection = styled.div`
-  .buttons {
-    display: flex;
-    justify-content: right;
-    padding: 1rem;
-
-    .move {
-      margin-right: 1rem;
-      margin-left: 2rem;
-      padding: 10px 20px;
-      display: flex;
-      flex-direction: row-reverse;
-      gap: 10px;
-
-      &:hover path {
-        fill: var(--dark-border-ultramarine);
-      }
-    }
   }
 `;
 
@@ -210,7 +163,7 @@ const Course: React.FC<ICourseProps> = ({
     history.status !== ApplicantAccessStatus.Trained && isLast && isNotRejected;
 
   return (
-    <CourseSection className={!isLast ? 'left-line' : 'last-line'}>
+    <div className={!isLast ? 'left-line' : 'last-line'}>
       <CourseItem
         color={
           isLast && isNotRejected
@@ -274,10 +227,10 @@ const Course: React.FC<ICourseProps> = ({
       </CourseItem>
       {state !== 'DONE' && <Move
         sectionDataId={history?.sectionDataId}
-        applicantId={applicant.id}
+        applicantId={[applicant.id]}
         status={history.status}
       />}
-    </CourseSection>
+    </div>
   );
 };
 

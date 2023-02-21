@@ -89,6 +89,17 @@ export interface IUserListTypes {
   postAssessmentSubmitted: boolean
 }
 
+export interface IApplicantData {
+  id: string
+  fullName: string
+  email: string
+  status: string
+  preAssessmentScore: boolean
+  postAssessmentScore: boolean
+  preAssessmentSubmitted: boolean
+  postAssessmentSubmitted: boolean
+}
+
 export interface IWrapperProps {
   children: React.ReactNode
   className?: string | undefined

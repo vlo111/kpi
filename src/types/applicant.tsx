@@ -164,7 +164,7 @@ export interface IStatus {
 
 export interface IMove {
   sectionDataId: string
-  applicantId: string
+  applicantId: string[]
   status: string
 }
 
@@ -173,7 +173,6 @@ export interface INext {
   sectionDataId: string
   isAllowEdit: boolean
   applicantId: string | undefined
-
 }
 
 export type OnUpload = (options: { file: any }) => void;

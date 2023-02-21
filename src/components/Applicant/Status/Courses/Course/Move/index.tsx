@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Col } from 'antd';
 
 import { AsnButton } from '../../../../../Forms/Button';
 import { ConfirmModal } from '../../../../../Forms/Modal/Confirm';
@@ -10,10 +9,11 @@ import useFinishApplicant from '../../../../../../api/Applicant/useFinishApplica
 
 import { IMove } from '../../../../../../types/applicant';
 import { ReactComponent as ArrowSvg } from '../../Icons/arrow.svg';
+import { AsnCol } from '../../../../../Forms/Col';
 
 const Move: React.FC<IMove> = ({ sectionDataId, applicantId, status }) => {
-  const [openFinish, setOpenFinish] = useState<string>('');
-  const [openMove, setOpenMove] = useState<string>('');
+  const [openFinish, setOpenFinish] = useState<boolean>(false);
+  const [openMove, setOpenMove] = useState<boolean>(false);
 
   const { mutate: finishApplicant } = useFinishApplicant();
   const { mutate: moveApplicant } = useMoveApplicant();
@@ -21,50 +21,50 @@ const Move: React.FC<IMove> = ({ sectionDataId, applicantId, status }) => {
   return (
     <>
       {status === ApplicantAccessStatus.Trained && (
-        <Col span={24} className="buttons">
+        <AsnCol span={24} className="end">
           <AsnButton
             className="finish default"
-            onClick={() => setOpenFinish(sectionDataId)}
+            onClick={() => setOpenFinish(!openFinish)}
           >
             Finish
           </AsnButton>
           <AsnButton
             icon={<ArrowSvg />}
             className="move primary"
-            onClick={() => setOpenMove(sectionDataId)}
+            onClick={() => setOpenMove(!openMove)}
           >
             Move
           </AsnButton>
-        </Col>
+        </AsnCol>
       )}
       <ConfirmModal
         styles={{ gap: '6rem' }}
         yes="Complete"
         no="Cancel"
-        open={openFinish !== ''}
+        open={openFinish}
         title="Are you sure you want to complete the learning process?"
         onSubmit={() => {
           finishApplicant({
-            id: openFinish
+            id: sectionDataId
           });
-          setOpenFinish('');
+          setOpenFinish(!openFinish);
         }}
-        onCancel={() => setOpenFinish('')}
+        onCancel={() => setOpenFinish(!openFinish)}
       />
       <ConfirmModal
         styles={{ gap: '6rem' }}
         yes="Move"
         no="Cancel"
-        open={openMove !== ''}
-        title="Are you sure you want to move the  learner to the next section?"
+        open={openMove}
+        title="Are you sure you want to move the learner to the next section?"
         onSubmit={() => {
           moveApplicant({
-            id: openMove,
+            id: sectionDataId,
             applicantId
           });
-          setOpenMove('');
+          setOpenMove(!openMove);
         }}
-        onCancel={() => setOpenMove('')}
+        onCancel={() => setOpenMove(!openMove)}
       />
     </>
   );

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Col } from 'antd';
 
 import RejectModal from '../Reject';
 import ApproveModal from '../Approve';
 
 import { AsnButton } from '../../../../../Forms/Button';
 import { INext } from '../../../../../../types/applicant';
+import { AsnCol } from '../../../../../Forms/Col';
 
 const Next: React.FC<INext> = ({
   applicant,
@@ -19,7 +19,7 @@ const Next: React.FC<INext> = ({
   return (
     <>
       {isAllowEdit && (
-        <Col span={24} className="buttons">
+        <AsnCol span={24} className="next">
           <AsnButton
             className="reject"
             onClick={() => setOpenReject(sectionDataId)}
@@ -34,7 +34,7 @@ const Next: React.FC<INext> = ({
           >
             Approve
           </AsnButton>
-        </Col>
+        </AsnCol>
       )}
       <ApproveModal
         applicant={applicant}

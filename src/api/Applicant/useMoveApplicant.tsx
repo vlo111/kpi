@@ -12,9 +12,7 @@ const useMoveApplicant: UseMoveApplicant = () => {
     async (params
     ) => {
       await client.post(url.replace(':sectionDataId', params.id), {
-        applicantIds: [
-          params.applicantId
-        ]
+        applicantIds: params.applicantId
       });
     },
     {
