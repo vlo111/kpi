@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Radio, Space, Typography } from 'antd';
 import { AsnButton } from '../../Forms/Button';
@@ -53,6 +53,13 @@ const AddQuestionRow = styled(Space)`
   }
 `;
 
+export const IconButton = styled(AsnButton)`
+  border: none;
+  background-color: var(--white) !important;
+  box-shadow: none !important;
+  padding: 0;
+`;
+
 const AddAnswerButton = styled(AsnButton)`
   border-radius: 0px !important;
   border: 1px solid var(--light-border) !important;
@@ -66,13 +73,51 @@ const AddAnswerButton = styled(AsnButton)`
 const DynamicQuestionForm: React.FC<any> = ({
   contentName,
   answerType,
-  calcScores
+  calcScores,
+  preview,
+  assessmentData
 }) => {
-  const [radio, setRadio] = useState();
+  const [radio, setRadio] = useState<number | undefined>();
   const [checkbox, setCheckbox] = useState<CheckboxValueType[]>([]);
   const [addOder, setAddOder] = useState(true);
   const [checkboxScoreCount, setCheckboxScoreCount] = useState(0);
   const form = AsnForm.useFormInstance();
+
+  useEffect(() => {
+    if (assessmentData !== undefined) {
+      assessmentData.questions.forEach((question: any): any => {
+        if (question.answers.length > 0 && question.answerType === 'OPTION') {
+          question.answers.forEach((answer: any, index: number): void => {
+            if (answer.score > 0) {
+              setRadio(index);
+            }
+          });
+        }
+        if (question.answers.length > 0 && question.answerType === 'CHECKBOX') {
+          const arr: number[] = [];
+          question.answers.forEach((answer: any, index: number): void => {
+            if (answer.score > 0) {
+              arr.push(index);
+            }
+            setCheckbox([...arr]);
+          });
+        }
+      });
+    }
+    // if (
+    //   form.getFieldValue(['questions', contentName[0], 'answers']) !== undefined
+    // ) {
+    //   calcScores();
+    //   checkboxScoreCalc();
+    // }
+  }, [assessmentData, form.getFieldsValue()]);
+
+  const checkboxScoreCalc = (): void => {
+    const scores = form
+      .getFieldValue(['questions', contentName[0], 'answers'])
+      .reduce((acc: any, current: any) => +acc + +current.score, 0);
+    setCheckboxScoreCount(scores);
+  };
 
   const onDeleteAnswer: any = (remove: any, name: number) => {
     const field = form.getFieldValue(['questions', contentName[0], 'answers']);
@@ -108,10 +153,7 @@ const DynamicQuestionForm: React.FC<any> = ({
 
   const onCheckboxNumberInputChange = (): void => {
     calcScores();
-    const scores = form
-      .getFieldValue(['questions', contentName[0], 'answers'])
-      .reduce((acc: any, current: any) => +acc + +current.score, 0);
-    setCheckboxScoreCount(scores);
+    checkboxScoreCalc();
   };
 
   const radioGroupChange: FormFinish = (val) => {
@@ -139,10 +181,7 @@ const DynamicQuestionForm: React.FC<any> = ({
     );
     remove(name);
     calcScores();
-    const scores = form
-      .getFieldValue(['questions', contentName[0], 'answers'])
-      .reduce((acc: any, current: any) => +acc + +current.score, 0);
-    setCheckboxScoreCount(scores);
+    checkboxScoreCalc();
   };
 
   return (
@@ -154,6 +193,7 @@ const DynamicQuestionForm: React.FC<any> = ({
             ? (
             <Radio.Group
               onChange={radioGroupChange}
+              value={radio}
               style={{
                 width: '100%'
               }}
@@ -205,9 +245,11 @@ const DynamicQuestionForm: React.FC<any> = ({
                     {answerList.length <= 2
                       ? null
                       : (
-                      <DeleteIcon
-                        onClick={() => onDeleteAnswer(remove, name)}
-                      />
+                      <IconButton disabled={preview}>
+                        <DeleteIcon
+                          onClick={() => onDeleteAnswer(remove, name)}
+                        />
+                      </IconButton>
                         )}
                   </Space>
                 </AddQuestionRow>
@@ -279,9 +321,13 @@ const DynamicQuestionForm: React.FC<any> = ({
                     {answerList.length <= 2
                       ? null
                       : (
-                      <DeleteIcon
-                        onClick={() => onDeleteCheckboxGroupItem(remove, name)}
-                      />
+                      <IconButton disabled={preview}>
+                        <DeleteIcon
+                          onClick={() =>
+                            onDeleteCheckboxGroupItem(remove, name)
+                          }
+                        />
+                      </IconButton>
                         )}
                   </Space>
                 </Space>

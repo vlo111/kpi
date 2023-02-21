@@ -32,7 +32,13 @@ const AddQuestionTextArea = styled(AsnTextArea)`
   }
 `;
 
-const QuestionContent: React.FC<any> = ({ name, answerType, setAllScore }) => {
+const QuestionContent: React.FC<any> = ({
+  name,
+  answerType,
+  setAllScore,
+  preview,
+  assessmentData
+}) => {
   const form = AsnForm.useFormInstance();
 
   const calcScores: Void = () => {
@@ -69,12 +75,14 @@ const QuestionContent: React.FC<any> = ({ name, answerType, setAllScore }) => {
     <QuestionContentContainer>
       <AsnForm.Item
         name={[name[0], 'title']}
-        rules={[{
-          required: true,
-          message: 'Enter required fields',
-          min: 2,
-          max: 256
-        }]}
+        rules={[
+          {
+            required: true,
+            message: 'Enter required fields',
+            min: 2,
+            max: 256
+          }
+        ]}
       >
         <AddQuestionTextArea
           placeholder="Question "
@@ -90,6 +98,8 @@ const QuestionContent: React.FC<any> = ({ name, answerType, setAllScore }) => {
           contentName={name}
           answerType={answerType}
           calcScores={calcScores}
+          preview={preview}
+          assessmentData={assessmentData}
         />
           )
         : (

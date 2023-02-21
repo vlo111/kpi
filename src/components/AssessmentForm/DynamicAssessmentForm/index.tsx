@@ -276,6 +276,7 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
         id="create-assessment-AsnForm"
         onFinish={onCreatedAssessmentFinish}
         initialValues={{ questions: [''] }}
+        disabled={preview === true}
       >
         <CardContainer
           borderTop={'3px solid var(--secondary-light-amber)'}
@@ -328,6 +329,8 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
                     setAnswerType={setAnswerType}
                     questionsLists={questionsLists}
                     setAllScore={setAllScore}
+                    preview={preview}
+                    assessmentData={data?.result}
                   />
                   {name === questionsLists.length - 1 &&
                   questionsLists.length <= 50 &&

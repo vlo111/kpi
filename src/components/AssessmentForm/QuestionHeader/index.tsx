@@ -12,6 +12,7 @@ import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
 // import { ReactComponent as TextIcon } from '../../../assets/icons/text.svg';
 import { assessmentSelect } from '../../../helpers/constants';
 import { FormFinish } from '../../../types/global';
+import { IconButton } from '../DynamicQuestionForm';
 
 const { Option } = AsnSelect;
 const { Title } = Typography;
@@ -55,7 +56,8 @@ const QuestionHeader: React.FC<any> = ({
   add,
   setAnswerType,
   answerType,
-  questionsLists
+  questionsLists,
+  preview
 }) => {
   const form = AsnForm.useFormInstance();
   const onDuplicateForm = (): any => {
@@ -138,7 +140,9 @@ const QuestionHeader: React.FC<any> = ({
         {questionsLists.length > 2
           ? (
           <Col className="icons" onClick={() => remove(name)}>
-            <DeleteIcon />
+            <IconButton disabled={preview}>
+              <DeleteIcon />
+            </IconButton>
           </Col>
             )
           : null}
