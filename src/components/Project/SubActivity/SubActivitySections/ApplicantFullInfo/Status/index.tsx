@@ -9,6 +9,8 @@ import useMoveApplicant from '../../../../../../api/Applicant/useMoveApplicant';
 import { AsnCol } from '../../../../../Forms/Col';
 import { AsnButton } from '../../../../../Forms/Button';
 import { IApplicantData } from '../../../../../../types/api/activity/subActivity';
+import styled from 'styled-components';
+// import ApproveModal from '../../../../../Applicant/Status/Courses/Course/Approve';
 // import ApproveModal from '../../../../../Applicant/Status/Courses/Course/Approve';
 // import RejectModal from '../../../../../Applicant/Status/Courses/Course/Reject';
 
@@ -16,6 +18,29 @@ interface ISubActivityStatus {
   sectionDataId: string
   applicants: IApplicantData[]
 }
+
+const StatusRow = styled(Row)`
+  .next {
+    position: absolute;
+    padding: 0;
+    right: 18rem;
+    z-index: 2;
+  }
+
+  .approve {
+    margin-right: 1rem;
+    margin-left: 2rem;
+  }
+
+  .reject {
+    margin-right: 0;
+  }
+
+  .reject, .approve {
+    width: 6rem;
+    height: 44px;
+  }
+`;
 
 const SubActivityStatus: React.FC<ISubActivityStatus> = ({ sectionDataId, applicants }) => {
   const [openFinish, setOpenFinish] = useState<boolean>(false);
@@ -26,11 +51,9 @@ const SubActivityStatus: React.FC<ISubActivityStatus> = ({ sectionDataId, applic
   const { mutate: finishApplicant } = useFinishApplicant();
   const { mutate: moveApplicant } = useMoveApplicant();
 
-  console.log(applicants, '------------- applicants -----------------');
-
   return (
     <>
-      <Row className="content">
+      <StatusRow className="content">
         <AsnCol span={24} className="next">
           <AsnButton
             className="reject"
@@ -63,7 +86,7 @@ const SubActivityStatus: React.FC<ISubActivityStatus> = ({ sectionDataId, applic
             Move
           </AsnButton>
         </AsnCol>
-      </Row>
+      </StatusRow>
       <ConfirmModal
         styles={{ gap: '6rem' }}
         yes="Complete"
@@ -94,7 +117,7 @@ const SubActivityStatus: React.FC<ISubActivityStatus> = ({ sectionDataId, applic
         onCancel={() => setOpenMove(!openMove)}
       />
       {/* <ApproveModal */}
-      {/*   applicant={applicant} */}
+      {/*   applicants={applicants} */}
       {/*   open={openApprove} */}
       {/*   onCancel={() => setOpenApprove('')} */}
       {/* /> */}

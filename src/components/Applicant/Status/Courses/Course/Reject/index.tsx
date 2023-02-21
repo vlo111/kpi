@@ -9,7 +9,7 @@ import { AsnTextArea } from '../../../../../Forms/Input';
 import { AsnCheckboxGroup } from '../../../../../Forms/Checkbox';
 
 import { FormFinish } from '../../../../../../types/global';
-import { IApproveModalProps } from '../../../../../../types/applicant';
+import { IApplicant, IApproveModalProps } from '../../../../../../types/applicant';
 import { optionsReason } from '../../../../../../helpers/constants';
 import useRejectApplicant from '../../../../../../api/Applicant/useReject';
 
@@ -92,7 +92,7 @@ const AntModal = styled(AsnModal)`
 `;
 
 const ApproveModal: React.FC<IApproveModalProps> = ({
-  applicant,
+  applicants,
   open,
   onCancel
 }) => {
@@ -104,7 +104,7 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
     rejectApplicant({
       ...form.getFieldsValue(),
       sectionId: open,
-      applicantIds: applicant.id
+      applicantIds: applicants.map((a: IApplicant) => a.id)
     });
 
     void onCancel();
@@ -129,7 +129,7 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
         autoComplete="off"
       >
         <Space align="center" className="name">
-          <p>{applicant.fullName}</p>
+          {applicants.map((a) => (<p key={a.id}>{a.fullName}</p>))}
         </Space>
         <Title className="reason-title" level={5}>Reasons for rejection*</Title>
         <AsnForm.Item name="reasonsForRejection">

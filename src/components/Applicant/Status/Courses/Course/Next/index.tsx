@@ -37,12 +37,12 @@ const Next: React.FC<INext> = ({
         </AsnCol>
       )}
       <ApproveModal
-        applicant={applicant}
+        applicants={[applicant]}
         open={openApprove}
         onCancel={() => setOpenApprove('')}
       />
       <RejectModal
-        applicant={applicant}
+        applicants={[applicant]}
         open={openReject}
         onCancel={() => setOpenReject('')}
       />

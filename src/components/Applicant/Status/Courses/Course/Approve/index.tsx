@@ -7,6 +7,7 @@ import { AsnModal } from '../../../../../Forms/Modal';
 import { AsnTextArea } from '../../../../../Forms/Input';
 
 import {
+  IApplicant,
   IApproveModalProps,
   OnNoteHandler
 } from '../../../../../../types/applicant';
@@ -67,7 +68,7 @@ const AntModal = styled(AsnModal)`
 `;
 
 const ApproveModal: React.FC<IApproveModalProps> = ({
-  applicant,
+  applicants,
   open,
   onCancel
 }) => {
@@ -77,7 +78,7 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
   const onApprove: Void = () => {
     approveApplicant({
       sectionId: open,
-      applicantId: applicant.id,
+      applicantIds: applicants.map((a: IApplicant) => a.id),
       note: noteText
     });
 
@@ -99,7 +100,7 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
       centered
     >
       <Space align="center" className="name">
-        <p>{applicant.fullName}</p>
+        {applicants.map((a) => (<p key={a.id}>{a.fullName}</p>))}
       </Space>
       <Space className="add-note">
         <p>Add note:</p>

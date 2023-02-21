@@ -5,16 +5,13 @@ export const AsnCol = styled(Col)`
   &.next {
     display: flex;
     justify-content: right;
-    position: absolute;
-    right: 18rem;
-    z-index: 2;
+    padding: 1rem;
     
     .reject,
     .approve {
       color: var(--white);
       border-radius: 8px;
       width: 6rem;
-      height: 44px;
 
       &:hover {
         border-color: var(--white);
@@ -22,6 +19,7 @@ export const AsnCol = styled(Col)`
     }
 
     .reject {
+      margin-right: 1rem;
       background-color: var(--error);
 
       &:disabled {
@@ -31,8 +29,6 @@ export const AsnCol = styled(Col)`
 
     .approve {
       background-color: var(--secondary-green);
-      margin-right: 1rem;
-      margin-left: 2rem;
 
       &:disabled {
         background-color: #68a39575;

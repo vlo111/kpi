@@ -77,7 +77,7 @@ interface IGetApplicant { isLoading?: boolean, applicant: IApplicant, courses: I
 export type UseGetApplicant = (id: string | undefined) => IGetApplicant | undefined
 
 export interface IApproveModalProps {
-  applicant: IApplicant
+  applicants: IApplicant[]
   open: string
   onCancel: () => void
 }

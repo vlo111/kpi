@@ -12,7 +12,7 @@ const useApproveApplicant: UseApproveApplicant = () => {
         return await client.post(
           `api/applicant/course/${params.sectionId}/status/approve`,
           {
-            applicantIds: [params.applicantId],
+            applicantIds: params.applicantIds,
             note: params.note
           }
         );

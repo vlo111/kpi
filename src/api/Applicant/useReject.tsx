@@ -10,7 +10,7 @@ const useRejectApplicant: UseRejectApplicant = () => {
     async (params) => {
       if (params.sectionId !== undefined) {
         const payload = {
-          applicantIds: [params.applicantIds],
+          applicantIds: params.applicantIds,
           note: params.note,
           reasonsForRejection: params.reasonsForRejection
         };
