@@ -41,7 +41,7 @@ const Container = styled.div`
   }
   .ant-checkbox .ant-checkbox-inner {
     background-color: white;
-    border-color: #d9d9d9;
+    border-color: var(--dark-2) !important;
   }
   .ant-checkbox-checked .ant-checkbox-inner {
     background-color: var(--dark-border-ultramarine);
@@ -51,6 +51,7 @@ const Container = styled.div`
 
 const columns = [
   {
+    title: 'All People',
     render: (item: AssignedUserType) => (
       <Space direction='horizontal'>
       <AsnAvatar
@@ -60,10 +61,6 @@ const columns = [
       <h4 style={{ padding: 0 }}>{item?.firstName} {item?.lastName}</h4>
       </Space>
     )
-  },
-  {
-    title: 'All People',
-    dataIndex: ''
   }
 ];
 
