@@ -258,6 +258,10 @@ const GlobalStyle = createGlobalStyle`
   }
   .table-row-dark{
     background-color: var(--primary-light-3);
+    cursor: pointer;
+  }
+  .table-row-light{
+    cursor: pointer;
   }
 
   .customCascaderPopup{

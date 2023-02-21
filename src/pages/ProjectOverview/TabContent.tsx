@@ -28,12 +28,13 @@ const NotAccessContent = styled(Space)`
     justify-content: center;
     align-items: center;
   }
-  h5,h3{
+  h5,
+  h3 {
     color: var(--dark-1);
     font-size: 20px;
-    font-weight: var(--font-normal)
+    font-weight: var(--font-normal);
   }
-  h5{
+  h5 {
     font-size: 14px !important;
   }
 `;
@@ -45,7 +46,9 @@ const TabContent: React.FC<ITabContent> = ({
   setIsOpenCreateActivityModal,
   defaultInputActivityId
 }) => {
-  const [checkedList, setCheckedList] = useState<CheckboxValueType[]>();
+  const [checkedList, setCheckedList] = useState<CheckboxValueType[]>([]);
+  const [assignedUsersIds, setAssignedUsersIds] = useState<React.Key[]>([]);
+
   const [indeterminate, setIndeterminate] = useState(true);
   const { Title } = Typography;
   const [checkAll, setCheckAll] = useState(false);
@@ -56,13 +59,18 @@ const TabContent: React.FC<ITabContent> = ({
   });
   const { from, to } = dateSearch;
   const filters =
-    checkedList?.length !== 0 && from !== '' && to !== ''
-      ? { status: checkedList, date: dateSearch }
+    checkedList?.length !== 0 &&
+    assignedUsersIds?.length !== 0 &&
+    from !== '' &&
+    to !== ''
+      ? { status: checkedList, date: dateSearch, assigned: assignedUsersIds }
       : checkedList?.length !== 0
         ? { status: checkedList }
-        : from !== '' && to !== ''
-          ? { date: dateSearch }
-          : {};
+        : assignedUsersIds?.length !== 0
+          ? { assigned: assignedUsersIds }
+          : from !== '' && to !== ''
+            ? { date: dateSearch }
+            : {};
   const {
     data: templates,
     isLoading: isLoadingTemplates,
@@ -74,9 +82,13 @@ const TabContent: React.FC<ITabContent> = ({
     data: subActivities,
     isLoading: isLoadingSubActivity,
     error
-  } = useGetSubActivities(inputActivityId ?? defaultInputActivityId, filters, {
-    enabled: Boolean(inputActivityId ?? defaultInputActivityId)
-  });
+  } = useGetSubActivities(
+    inputActivityId ?? defaultInputActivityId,
+    filters,
+    {
+      enabled: Boolean(inputActivityId ?? defaultInputActivityId)
+    }
+  );
   return (
     <Tabs
       activeKey={inputActivityId ?? resultArea?.inputActivities[0]?.id}
@@ -105,6 +117,10 @@ const TabContent: React.FC<ITabContent> = ({
                   subActivities={subActivities}
                   templates={templates}
                   refetch={refetch}
+                  inputActivityId={
+                    inputActivity?.id !== undefined ? inputActivity?.id : ''
+                  }
+                  setAssignedUsersIds={setAssignedUsersIds}
                   setCheckedList={setCheckedList}
                   setIndeterminate={setIndeterminate}
                   setCheckAll={setCheckAll}
@@ -141,11 +157,13 @@ const TabContent: React.FC<ITabContent> = ({
                 )
               : (
                   error !== null && (
-                  <NotAccessContent direction='vertical'>
-                    <NotAccessSvg/>
-                    <Title level={3}>We are sorry,</Title>
-                    <Title level={5}>but you don’t have access to this page or resource</Title>
-                  </NotAccessContent>
+                <NotAccessContent direction="vertical">
+                  <NotAccessSvg />
+                  <Title level={3}>We are sorry,</Title>
+                  <Title level={5}>
+                    but you don’t have access to this page or resource
+                  </Title>
+                </NotAccessContent>
                   )
                 )
         };

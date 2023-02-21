@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Row, Space, Button, Card, Col, Typography, Tooltip } from 'antd';
+import {
+  Row,
+  Space,
+  Button,
+  Card,
+  Col,
+  Typography,
+  Tooltip,
+  Avatar
+} from 'antd';
 import styled from 'styled-components';
 import moment from 'moment';
 
@@ -14,6 +23,8 @@ import { DateFilterCards } from '../Filter/DataPicker';
 import { StatusFilter } from '../Filter/Status';
 import AddSubActivity from '../AddActivity';
 import { useNavigate } from 'react-router-dom';
+import AsnAvatar from '../../../../components/Forms/Avatar';
+import { AssignedUserType } from '../../../../types/api/activity/subActivity';
 
 const Container = styled.div`
   .ant-select:not(.ant-select-customize-input) .ant-select-selector {
@@ -41,7 +52,9 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
   checkedList,
   setDateSearch,
   dateSearch,
-  templates
+  templates,
+  inputActivityId,
+  setAssignedUsersIds
 }) => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
@@ -52,6 +65,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
       to: ''
     });
     setCheckedList([]);
+    setAssignedUsersIds([]);
   };
 
   const navigate = useNavigate();
@@ -67,7 +81,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
             indeterminate={indeterminate}
             checkedList={checkedList}
           />
-          <AssingnesFilter />
+          <AssingnesFilter inputActivityId={inputActivityId} setAssignedUsersIds={setAssignedUsersIds}/>
           <DateFilterCards
             setDateSearch={setDateSearch}
             dateSearch={dateSearch}
@@ -108,14 +122,14 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
               </Button>
               {subActivities?.map((item: ISubActivities, i: number) => (
                 <Card
-                key={i}
-                className={`card ${
-                  item?.status === 'INACTIVE'
-                    ? 'cardInactive'
-                    : item?.status === 'DONE'
-                    ? 'cardActive'
-                    : ''
-                }`}
+                  key={i}
+                  className={`card ${
+                    item?.status === 'INACTIVE'
+                      ? 'cardInactive'
+                      : item?.status === 'DONE'
+                      ? 'cardActive'
+                      : ''
+                  }`}
                 >
                   <div
                     className={`cardRound ${
@@ -140,7 +154,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                         color: 'var(--dark-1)',
                         fontSize: 'var(--headline-font-size)',
                         display: 'flex',
-                        gap: '5px',
+                        gap: '3px',
                         width: '100px',
                         height: '44px'
                       }}
@@ -157,18 +171,34 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                         </Paragraph>
                       </Tooltip>
                     </Col>
-                    <Col style={{ display: 'flex', gap: '5px' }}>
+                    <Col style={{ display: 'flex', gap: '3px' }}>
                       <Location /> {item?.subActivity?.region?.title}
                     </Col>
                     <Col
-                      style={{ display: 'flex', gap: '5px', fontSize: '12px' }}
+                      style={{ display: 'flex', gap: '3px', fontSize: '12px' }}
                     >
                       <Calendar />
                       {moment(item?.startDate).format('DD/MM/YY')} -{' '}
                       {moment(item?.endDate).format('DD/MM/YY')}
                     </Col>
-                    <Space size={[40, 16]} align="start">
+                    <Space size={[10, 0]} align="start">
                       <Col>{item?.subActivity?.sector?.title} </Col>
+                      <Col span={24}>
+                      <Avatar.Group maxCount={2}>
+                        {item?.subActivity?.assignees.map((i: AssignedUserType) => {
+                          return (
+                              <Tooltip key={i?.id} placement='top' title={`${i?.firstName} ${i?.lastName}`}>
+                              <AsnAvatar
+                                letter={`${i?.firstName?.charAt(
+                                  0
+                                )}${i?.lastName?.charAt(0)}`}
+                                src={i.photo}
+                              />
+                              </Tooltip>
+                          );
+                        })}
+                       </Avatar.Group>
+                      </Col>
                     </Space>
                   </Row>
                 </Card>

@@ -39,7 +39,7 @@ const ApplicantsData: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [openRow, setOpenRow] = useState<any>(false);
   const [applicantId, setApplicantId] = useState('');
-  console.log(applicantId);
+
   const showDrawer = (record: string): void => {
     setOpenRow(record);
     setApplicantId(record);
@@ -78,7 +78,6 @@ const ApplicantsData: React.FC = () => {
     },
     [filters]
   );
-
   const onFinish = (values: iFinishApplicant): void => {
     filterData({
       age:

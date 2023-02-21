@@ -26,7 +26,7 @@ export const StatusFilter: React.FC<IStatusFilter> = ({
   };
 
   const onCheckAllChange = (e: CheckboxChangeEvent): void => {
-    // setCheckedList(e.target.checked ? plainOptions : []);
+    setCheckedList(e.target.checked ? plainOptions : []);
     setIndeterminate(false);
     setCheckAll(e.target.checked);
   };
