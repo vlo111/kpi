@@ -95,9 +95,6 @@ export const AssingnesData: React.FC<IAssignedFilterData> = ({ open, setOpen, in
   return (
     <Container>
       <Space size={[40, 16]} direction="vertical">
-        <Row style={{ gap: '15px' }}>
-          <Col>{hasSelected ? `Selected ${selectedRowKeys.length} ` : ''}</Col>
-        </Row>
         <Table
           rowSelection={rowSelection}
           columns={columns}
