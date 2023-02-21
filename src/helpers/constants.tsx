@@ -32,7 +32,7 @@ export const PATHS = {
   APPLICANT: 'applicant/:id',
   APPLICATIONFORM: 'application/:id',
   APPLYAPPLICANTFORM: 'apply-form/:id',
-  ASSESSMENTFORM: 'assessment-form',
+  ASSESSMENTFORM: 'assessment-form?id=:id',
   ASSESSMENTFORMCREATE: 'assessment-form/create/:id',
   FILLEDOUTASSESSMENTFORM: 'assessment-form/assess/:id',
   APPLICANTS: 'applicants',

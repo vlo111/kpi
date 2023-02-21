@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Col, Row, Space, Typography } from 'antd';
 
-import getAssessmentFormByProjectId from '../../api/AssessmentForm/useGetAssessmentFormProjectId';
-import { ReactComponent as Preview } from '../../assets/icons/eye.svg';
+import getAssessmentFormByProjectId from '../../../api/AssessmentForm/useGetAssessmentFormProjectId';
+import { ReactComponent as Preview } from '../../../assets/icons/eye.svg';
 import {
   CreateAssessmentIfoModalTypes,
-  Result
-} from '../../types/api/assessment';
-import { AsnButton } from '../Forms/Button';
-import { AsnModal } from '../Forms/Modal';
-import { PATHS } from '../../helpers/constants';
+  IAssessments
+} from '../../../types/api/assessment';
+import { AsnButton } from '../../Forms/Button';
+import { AsnModal } from '../../Forms/Modal';
+import { PATHS } from '../../../helpers/constants';
 
 const CreateAssessmentModal = styled(AsnModal)`
   width: 604px;
@@ -69,17 +69,17 @@ const CreateAssessmentInfoModal: React.FC<CreateAssessmentIfoModalTypes> = ({
   type,
   projectId,
   courseId,
-  navigateRouteInfo
+  navigateRouteInfo,
+  setOpenPreviewAssessmentModal,
+  footerButtons,
+  setFooterButtons
 }) => {
   const { Title } = Typography;
   const navigate = useNavigate();
   const { data } = getAssessmentFormByProjectId(
     projectId,
-    { type },
+    { type: 'PRE_ASSESSMENT' },
     { enabled: Boolean(projectId) }
-  );
-  const [footerButtons, setFooterButtons] = useState<Result | undefined>(
-    undefined
   );
 
   const createAssessmentForm = (): void => {
@@ -88,14 +88,9 @@ const CreateAssessmentInfoModal: React.FC<CreateAssessmentIfoModalTypes> = ({
     });
   };
 
-  const nextToDuplicate = (item: Result | undefined): void => {
-    navigate(`/${PATHS.ASSESSMENTFORMCREATE.replace(':id', courseId)}`, {
-      state: {
-        type: item?.type,
-        formId: item?.id,
-        navigateRouteInfo: { ...navigateRouteInfo, projectId }
-      }
-    });
+  const nextToDuplicate = (item: IAssessments | undefined): void => {
+    setOpen(false);
+    setOpenPreviewAssessmentModal(true);
   };
 
   return (
@@ -118,7 +113,7 @@ const CreateAssessmentInfoModal: React.FC<CreateAssessmentIfoModalTypes> = ({
       )}
       <Space direction="vertical" size={0}>
         {Boolean(data) &&
-          data?.map((item) => (
+          data?.map((item: any) => (
             <Space
               key={item?.id}
               align="baseline"

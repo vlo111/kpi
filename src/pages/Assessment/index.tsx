@@ -17,7 +17,7 @@ const CreateAssessmentForm: React.FC = () => {
     inputActivityTitle,
     projectId,
     resultAreaTitle
-  }: INavigateRoteInfoTypes = location.state.navigateRouteInfo;
+  }: INavigateRoteInfoTypes = location?.state?.navigateRouteInfo;
 
   return (
     <>
