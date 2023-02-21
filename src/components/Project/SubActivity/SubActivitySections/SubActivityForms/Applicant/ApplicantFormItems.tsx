@@ -172,6 +172,18 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
     }
   };
 
+  const createLick = (id: string): string => {
+    if (formType === 'APPLICATION') {
+      return `${
+        process.env.REACT_APP_BASE_URL_HOST ?? ''
+      }${PATHS.APPLYAPPLICANTFORM.replace(':id', id !== null ? id : '')}`;
+    } else {
+      return `${process.env.REACT_APP_BASE_URL_HOST ?? ''}${
+        PATHS.ASSESSMENTFORM
+      }?id=${id !== null ? id : ''}`;
+    }
+  };
+
   return (
     <>
       <Row justify="center" style={{ width: '100%' }}>
@@ -210,12 +222,7 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
                           <LinkIcon key="copy-icon" />,
                           <LinkIcon key="copied-icon" />
                         ],
-                        text: `${
-                          process.env.REACT_APP_BASE_URL_HOST ?? ''
-                        }${PATHS.APPLYAPPLICANTFORM.replace(
-                          ':id',
-                          item.id !== null ? item.id : ''
-                        )}`
+                        text: createLick(item.id)
                       }}
                     />
                   </Col>
