@@ -358,7 +358,7 @@ export interface ISubActivityAndTemplates {
   setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
   setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
   setCheckedList: React.Dispatch<
-  React.SetStateAction<CheckboxValueType[] | undefined>
+  React.SetStateAction<CheckboxValueType[] | []>
   >
   checkAll: boolean
   inputActivityId: string
@@ -391,7 +391,7 @@ export interface ISubActivitiesProps {
   setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
   setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
   setCheckedList: React.Dispatch<
-  React.SetStateAction<CheckboxValueType[] | undefined>
+  React.SetStateAction<CheckboxValueType[] | []>
   >
   checkAll: boolean
   indeterminate: boolean
@@ -436,8 +436,7 @@ export interface ISubActivities {
 export interface IStatusFilter {
   setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
   setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
-  setCheckedList: React.Dispatch<
-  React.SetStateAction<CheckboxValueType[] | undefined>
+  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[]>
   >
   checkAll: boolean
   indeterminate: boolean

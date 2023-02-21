@@ -1,12 +1,12 @@
-import { Collapse, Radio, Space, Form, Slider } from "antd";
-import React from "react";
-import { AsnButton } from "../../components/Forms/Button";
-import { AsnCheckboxGroup } from "../../components/Forms/Checkbox";
-import { Panel } from "../../components/Forms/Collapse";
-import { marks, optionsRegion, optionsStatus } from "../../helpers/constants";
-import { ContentAssingersFilter } from "./applicantsStyle";
-import { Ifiltres } from "./applicantsTypes";
-import { Void } from "../../types/global";
+import { Collapse, Radio, Space, Form, Slider } from 'antd';
+import React from 'react';
+import { AsnButton } from '../../components/Forms/Button';
+import { AsnCheckboxGroup } from '../../components/Forms/Checkbox';
+import { Panel } from '../../components/Forms/Collapse';
+import { marks, optionsRegion, optionsStatus } from '../../helpers/constants';
+import { ContentAssingersFilter } from './applicantsStyle';
+import { Ifiltres } from './applicantsTypes';
+import { Void } from '../../types/global';
 
 export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
   const hide: Void = () => {
@@ -20,7 +20,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
           collapsible="icon"
           bordered={false}
           accordion
-          expandIcon={({ isActive }) => (isActive ?? false ? "-" : "+")}
+          expandIcon={({ isActive }) => (isActive ?? false ? '-' : '+')}
         >
           <Panel header="Age" key="1">
             <Form.Item name="age">
@@ -31,8 +31,8 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             <Form.Item name="gender">
               <Radio.Group>
                 <Space direction="vertical">
-                  <Radio value={"FEMALE"}>Female</Radio>
-                  <Radio value={"MALE"}>Male</Radio>
+                  <Radio value={'FEMALE'}>Female</Radio>
+                  <Radio value={'MALE'}>Male</Radio>
                 </Space>
               </Radio.Group>
             </Form.Item>
@@ -50,7 +50,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
           <Panel header="Status" key="4">
             <Form.Item name="statuses">
               <AsnCheckboxGroup
-                style={{ width: "200px" }}
+                style={{ width: '200px' }}
                 options={optionsStatus}
               />
             </Form.Item>
@@ -80,7 +80,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
           <Panel header="Region" key="7">
             <Form.Item name="regions">
               <AsnCheckboxGroup
-                style={{ width: "158px" }}
+                style={{ width: '158px' }}
                 options={optionsRegion}
               />
             </Form.Item>
@@ -91,9 +91,9 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             direction="horizontal"
             size={[10, 0]}
             style={{
-              justifyContent: "space-around",
-              width: "100%",
-              padding: "30px 0 0px 0px",
+              justifyContent: 'space-around',
+              width: '100%',
+              padding: '30px 0 0px 0px'
             }}
           >
             <AsnButton className="default" onClick={hide}>
@@ -102,7 +102,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             <AsnButton className="primary" htmlType="submit">
               Add Filter
             </AsnButton>
-          </Space>{" "}
+          </Space>{' '}
         </Form.Item>
       </Form>
     </ContentAssingersFilter>

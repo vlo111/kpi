@@ -64,7 +64,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
       from: '',
       to: ''
     });
-    setCheckedList(undefined)
+    setCheckedList([]);
     setAssignedUsersIds([]);
   };
 

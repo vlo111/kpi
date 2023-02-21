@@ -208,7 +208,7 @@ const Course: React.FC<ICourseProps> = ({
 
   const isAllowEdit: boolean =
     history.status !== ApplicantAccessStatus.Trained && isLast && isNotRejected;
- const applicantsId = applicantId
+  const applicantsId = applicantId;
   return (
     <CourseSection className={!isLast ? 'left-line' : 'last-line'}>
       <CourseItem
