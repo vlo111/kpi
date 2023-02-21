@@ -191,6 +191,8 @@ export interface IQuestion {
 export interface IAnswersProps {
   question: IQuestion
   i: number
+  setAllScore?: React.Dispatch<React.SetStateAction<number | undefined>>
+  allScore?: number | undefined
 }
 export interface IAssessmentFormAssess {
   id: string
@@ -209,6 +211,8 @@ export interface IGradingAssessmentForm {
   i: number
   setGrading: React.Dispatch<React.SetStateAction<boolean>>
   userEarnedScore: number
+  setAllScore?: React.Dispatch<React.SetStateAction<number | undefined>>
+  allScore?: number | undefined
 }
 
 export interface IAssessAnswer {

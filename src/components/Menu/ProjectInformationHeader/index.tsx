@@ -53,92 +53,101 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
   inputActivityId
 }) => {
   const navigate = useNavigate();
+
   return (
     <Row style={{ padding }}>
       <Col span={24}>
         <Row gutter={[16, 0]}>
-            <AntCol
-              span={4}
-            >
-              {project?.title ?? activity?.title}
-            </AntCol>
+          <AntCol
+            span={4}
+          >
+            {project?.title ?? activity?.title}
+          </AntCol>
           <Col span={14} offset={1} style={{ color: 'var(--dark-1)' }}>
-            { project?.description ?? activity?.data?.description}
+            {project?.description ?? activity?.data?.description}
             <Row align="middle" style={{ marginTop: '20px' }}>
               <Col>
-                <AntBadge color="var(--secondary-green)" text="Active" />
+                <AntBadge
+                  color={activity?.status === 'INACTIVE'
+                    ? 'var(--dark-4)'
+                    : activity?.status === 'ACTIVE'
+                      ? 'var(--primary-light-orange)'
+                      : 'var(--secondary-green)'
+                  }
+                  text={activity?.status ?? 'Active'}
+                />
                 <AntDivider type="vertical" />
               </Col>
               {overview === true
                 ? (
-                <>
-                  <Col style={{ fontSize: 'var(--base-font-size)' }}>
-                    {moment(project?.startDate).format('DD/MM/YYYY')} -
-                    {moment(project?.endDate).format('DD/MM/YYYY')}
-                    <AntDivider type="vertical" />
-                  </Col>
-                  <Col>
-                    <AntIcon component={PeopleSvg} />
-                    <Text
-                      underline={true}
-                      style={{
-                        fontSize: 'var(--base-font-size)',
-                        marginLeft: '8px'
-                      }}
-                    >
-                      1
-                    </Text>
-                    <AntDivider type="vertical" />
-                  </Col>
-                  {project?.status !== 'DRAFT' && project?.id != null && (
+                  <>
+                    <Col style={{ fontSize: 'var(--base-font-size)' }}>
+                      {moment(project?.startDate).format('DD/MM/YYYY')} -
+                      {moment(project?.endDate).format('DD/MM/YYYY')}
+                      <AntDivider type="vertical" />
+                    </Col>
+                    <Col>
+                      <AntIcon component={PeopleSvg} />
+                      <Text
+                        underline={true}
+                        style={{
+                          fontSize: 'var(--base-font-size)',
+                          marginLeft: '8px'
+                        }}
+                      >
+                        1
+                      </Text>
+                      <AntDivider type="vertical" />
+                    </Col>
+                    {project?.status !== 'DRAFT' && project?.id != null && (
+                      <Col>
+                        <AntIcon
+                          component={WarningSvg}
+                          onClick={() =>
+                            navigate(
+                              `/${PATHS.PROJECTINFORMATION}`.replace(
+                                ':id',
+                                project?.id
+                              )
+                            )
+                          }
+                        />
+                      </Col>
+                    )}
+                  </>
+                  )
+                : (
+                  <>
+                    <Col style={{ fontSize: 'var(--base-font-size)' }}>
+                      {moment(activity.data?.startDate).format(
+                        'DD/MM/YYYY'
+                      )}{' '}
+                      -{' '}
+                      {moment(activity?.data?.endDate).format(
+                        'DD/MM/YYYY'
+                      )}
+                      <AntDivider type="vertical" />
+                    </Col>
+                    <Col style={{ marginRight: '8px' }}>
+                      {region?.title}
+                    </Col>
                     <Col>
                       <AntIcon
                         component={WarningSvg}
-                        onClick={() =>
-                          navigate(
-                            `/${PATHS.PROJECTINFORMATION}`.replace(
-                              ':id',
-                              project?.id
-                            )
-                          )
+                        onClick={() => {
+                          if (inputActivityId != null) {
+                            navigate(
+                              `/${PATHS.COURSEINFORMATION}`.replace(
+                                ':id',
+                                inputActivityId
+                              )
+                            );
+                          }
+                        }
                         }
                       />
                     </Col>
-                  )}
-                </>
-                  )
-                : (
-                <>
-                  <Col style={{ fontSize: 'var(--base-font-size)' }}>
-                    {moment(activity.data?.startDate).format(
-                      'DD/MM/YYYY'
-                    )}{' '}
-                    -{' '}
-                    {moment(activity?.data?.endDate).format(
-                      'DD/MM/YYYY'
-                    )}
-                    <AntDivider type="vertical" />
-                  </Col>
-                  <Col style={{ marginRight: '8px' }}>
-                    {region?.title}
-                  </Col>
-                  <Col>
-                    <AntIcon
-                      component={WarningSvg}
-                      onClick={() => {
-                        if (inputActivityId != null) {
-                          navigate(
-                          `/${PATHS.COURSEINFORMATION}`.replace(
-                            ':id',
-                            inputActivityId
-                          )
-                          );
-                        }
-                      }
-                      }
-                    />
-                  </Col>
-                </>
+                  </>
                   )}
             </Row>
           </Col>
