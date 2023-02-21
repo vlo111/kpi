@@ -12,12 +12,13 @@ import { ReactComponent as AddAssessmentIcon } from '../../../assets/icons/add-a
 import { AsnButton } from '../../Forms/Button';
 import { AsnSwitch } from '../../Forms/Switch';
 import { IButtonContainer } from '../../../types/api/assessment';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import CreateAssessmentFormDataByCourseId from '../../../api/AssessmentForm/useCreateAssessmentFormCourseId';
 import AssessmentFormUrlModal from '../FormUrlModal/Index';
 import PreviewAssessmentForm from '../../PreviewAssessmentForm';
 import useGetAssessmentForm from '../../../api/AssessmentForm/useGetAssessmentForm';
 import UpdateAssessmentFormDataById from '../../../api/AssessmentForm/useUpdateAssessmentFormById';
+import { PATHS } from '../../../helpers/constants';
 
 const { Title } = Typography;
 
@@ -121,6 +122,7 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
   const [responseDataId, setResponseDataId] = useState<IResult | undefined>();
   const [form] = AsnForm.useForm();
   const location = useLocation();
+  const navigate = useNavigate();
   const { id: courseId } = useParams<{ id: any }>();
 
   const { mutate: createAssessmentForm } = CreateAssessmentFormDataByCourseId({
@@ -257,6 +259,15 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
     }
   };
 
+  const onCancelClick = (): void => {
+    navigate(
+      `/project/${PATHS.SUBACTIVITY.replace(
+        ':id',
+        location?.state?.navigateRouteInfo?.courseId
+      )}`
+    );
+  };
+
   return (
     <AssessmentFormsContent>
       <Title level={4}>Create assessment Form</Title>
@@ -376,14 +387,21 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
           ? null
           : (
           <ButtonsContainer marginTop="4rem">
-            <AsnButton className="default">Cancel</AsnButton>
+            <AsnButton className="default" onClick={onCancelClick}>
+              Cancel
+            </AsnButton>
             <AsnButton
               className="default"
               onClick={() => setIsPreviewForm(true)}
             >
               Preview
             </AsnButton>
-            <AsnButton className="primary" htmlType="submit">
+            <AsnButton
+              className="primary"
+              onClick={() => {
+                form.submit();
+              }}
+            >
               Publish
             </AsnButton>
           </ButtonsContainer>
