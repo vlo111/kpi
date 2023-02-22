@@ -71,8 +71,8 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             <Form.Item name="disability" rules={[{ required: true, message: 'Please  select one of them'}]}>
               <Radio.Group>
                 <Space direction="vertical">
-                  <Radio value={true}>NA</Radio>
-                  <Radio value={false}>Vulnerable group member</Radio>
+                  <Radio value={false}>NA</Radio>
+                  <Radio value={true}>Vulnerable group member</Radio>
                 </Space>
               </Radio.Group>
             </Form.Item>
