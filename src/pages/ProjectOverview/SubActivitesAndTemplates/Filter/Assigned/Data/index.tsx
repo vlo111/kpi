@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Space, Row, Col } from 'antd';
+import { Table, Space } from 'antd';
 import { AsnButton } from '../../../../../../components/Forms/Button';
 import { Void } from '../../../../../../types/global';
 
@@ -80,7 +80,6 @@ export const AssingnesData: React.FC<IAssignedFilterData> = ({ open, setOpen, in
     selectedRowKeys,
     onChange: onSelectChange
   };
-  const hasSelected = selectedRowKeys.length > 0;
 
   const filterByUsers = (): void => {
     setAssignedUsersIds(selectedRowKeys);
