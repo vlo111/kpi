@@ -1,13 +1,10 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import client from '../client';
-import { message } from 'antd';
-import { UseMoveApplicant } from '../../types/api/applicant';
+import { UseMoveApplicant, UseMoveApplicantOption } from '../../types/api/applicant';
 
 export const url = '/api/applicant/course/:sectionDataId/move';
 
-const useMoveApplicant: UseMoveApplicant = () => {
-  const queryClient = useQueryClient();
-
+const useMoveApplicant: UseMoveApplicant = (options: UseMoveApplicantOption) => {
   return useMutation(
     async (params
     ) => {
@@ -15,18 +12,7 @@ const useMoveApplicant: UseMoveApplicant = () => {
         applicantIds: params.applicantId
       });
     },
-    {
-      onSuccess: () => {
-        void queryClient.invalidateQueries(['api/applicant/:id/project/:projectId']);
-
-        void message.success('successfully moved', 2);
-      },
-      onError: ({
-        response: {
-          data: { message: error }
-        }
-      }) => message.error(error, 2)
-    }
+    options
   );
 };
 export default useMoveApplicant;

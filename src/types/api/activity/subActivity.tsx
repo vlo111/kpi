@@ -42,6 +42,7 @@ export interface IApplicantsListFullInfo {
   color: string
   courseId: string
   status: string
+  nextId: string | undefined
 }
 
 export interface ICourseStatusInfo {

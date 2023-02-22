@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row } from 'antd';
+import { message as antMessage, Row } from 'antd';
 
 import { ReactComponent as ArrowSvg } from '../../../../../Applicant/Status/Courses/Icons/arrow.svg';
 
@@ -12,9 +12,12 @@ import { IApplicantData } from '../../../../../../types/api/activity/subActivity
 import styled from 'styled-components';
 import ApproveModal from '../../../../../Applicant/Status/Courses/Course/Approve';
 import RejectModal from '../../../../../Applicant/Status/Courses/Course/Reject';
+import { useQueryClient } from '@tanstack/react-query';
+import useStartSubActivityCourse from '../../../../../../api/Activity/SubActivity/useStartSubActivityCourse';
 
 interface ISubActivityStatus {
   sectionDataId: string
+  nextId: string | undefined
   applicants: IApplicantData[]
 }
 
@@ -35,20 +38,47 @@ const StatusRow = styled(Row)`
     margin-right: 0;
   }
 
-  .reject, .approve {
+  .reject,
+  .approve {
     width: 6rem;
     height: 44px;
   }
 `;
 
-const SubActivityStatus: React.FC<ISubActivityStatus> = ({ sectionDataId, applicants }) => {
+const SubActivityStatus: React.FC<ISubActivityStatus> = ({
+  sectionDataId,
+  applicants,
+  nextId
+}) => {
+  const queryClient = useQueryClient();
+
+  const { mutate: StartCourse } = useStartSubActivityCourse({
+    onSuccess: () => {},
+    onError: () => {}
+  });
+
   const [openFinish, setOpenFinish] = useState<boolean>(false);
   const [openMove, setOpenMove] = useState<boolean>(false);
   const [openApprove, setOpenApprove] = useState<string>('');
   const [openReject, setOpenReject] = useState<string>('');
 
   const { mutate: finishApplicant } = useFinishApplicant();
-  const { mutate: moveApplicant } = useMoveApplicant();
+  const { mutate: moveApplicant } = useMoveApplicant({
+    onSuccess: () => {
+      void queryClient.invalidateQueries([
+        'api/applicant/:id/project/:projectId'
+      ]);
+
+      void antMessage.success('successfully moved', 2);
+
+      if (nextId !== undefined) {
+        StartCourse({ id: nextId });
+      }
+    },
+    onError: (data: { response: { data: { message: string } } }) => {
+      void antMessage.error(data.response.data.message, 2);
+    }
+  });
 
   return (
     <>
