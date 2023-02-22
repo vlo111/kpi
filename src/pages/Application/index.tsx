@@ -10,7 +10,7 @@ import {
   CustomInput,
   CustomTextArea
 } from '../../components/Application/applicationStyle';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import TermsAndCondition from '../../components/Application/TermsAndCondition/Index';
 import PreviewModal from '../../components/Application/Preview';
 import { AsnButton } from '../../components/Forms/Button';
@@ -169,7 +169,8 @@ const Application: React.FC = () => {
         applicationData.title =
           formTitle !== null ? formTitle?.current?.input?.value : '';
         applicationData.onlineSignature = onlineSignature;
-        applicationData.deadline = deadlineDate;
+        applicationData.deadline =
+          deadlineDate === '' ? applicationData.deadline : deadlineDate;
         applicationData.successMessage =
           successMessage !== null ? successMessage?.current?.input?.value : '';
         applicationData.termsAndConditions = JSON.stringify(
@@ -215,6 +216,10 @@ const Application: React.FC = () => {
       applicationData.successMessage =
         successMessage !== null ? successMessage?.current?.input?.value : '';
     }
+  };
+
+  const disabledDateEndPicker = (current: Moment): boolean => {
+    return current < moment(new Date());
   };
 
   return (
@@ -302,6 +307,7 @@ const Application: React.FC = () => {
       <ConditionCard>
         {applicationData !== undefined && (
           <AsnDatePicker
+            disabledDate={disabledDateEndPicker}
             style={{ border: 'none', flexDirection: 'row-reverse' }}
             onChange={(date, dateString) =>
               setDeadlineDate(new Date(dateString).toJSON())
