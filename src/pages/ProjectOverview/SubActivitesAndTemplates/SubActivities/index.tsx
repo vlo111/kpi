@@ -127,11 +127,11 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                 <Card
                   key={i}
                   className={`card ${
-                    item?.status === "INACTIVE"
-                      ? "cardInactive"
-                      : item?.status === "DONE"
-                      ? "cardActive"
-                      : "carDone"
+                    item?.status === 'INACTIVE'
+                      ? 'cardInactive'
+                      : item?.status === 'DONE'
+                      ? 'cardActive'
+                      : 'carDone'
                   }`}
                 >
                   <div
