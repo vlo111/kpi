@@ -42,6 +42,7 @@ export const StatusFilter: React.FC<IStatusFilter> = ({
           indeterminate={indeterminate}
           onChange={onCheckAllChange}
           checked={checkAll}
+          className='checkboxStatusFilter'
         >
           All
         </AsnCheckbox>
