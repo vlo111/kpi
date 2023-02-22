@@ -12,7 +12,6 @@ import {
   Scores
 } from '../DynamicAssessmentForm';
 import { AsnCheckbox } from '../../Forms/Checkbox';
-import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { FormFinish } from '../../../types/global';
 
 const { Title } = Typography;
@@ -53,6 +52,13 @@ const AddQuestionRow = styled(Space)`
   }
 `;
 
+export const IconButton = styled(AsnButton)`
+  border: none;
+  background-color: var(--white) !important;
+  box-shadow: none !important;
+  padding: 0;
+`;
+
 const AddAnswerButton = styled(AsnButton)`
   border-radius: 0px !important;
   border: 1px solid var(--light-border) !important;
@@ -66,17 +72,23 @@ const AddAnswerButton = styled(AsnButton)`
 const DynamicQuestionForm: React.FC<any> = ({
   contentName,
   answerType,
-  calcScores
+  calcScores,
+  preview,
+  radio,
+  setRadio,
+  checkbox,
+  setCheckbox,
+  checkboxScoreCount,
+  checkboxScoreCalc
 }) => {
-  const [radio, setRadio] = useState();
-  const [checkbox, setCheckbox] = useState<CheckboxValueType[]>([]);
   const [addOder, setAddOder] = useState(true);
-  const [checkboxScoreCount, setCheckboxScoreCount] = useState(0);
+
   const form = AsnForm.useFormInstance();
 
   const onDeleteAnswer: any = (remove: any, name: number) => {
     const field = form.getFieldValue(['questions', contentName[0], 'answers']);
     const index = field.findIndex((f: any) => f.type === 'SHORT_TEXT');
+
     if (index === name) {
       setAddOder(true);
     } else {
@@ -108,14 +120,11 @@ const DynamicQuestionForm: React.FC<any> = ({
 
   const onCheckboxNumberInputChange = (): void => {
     calcScores();
-    const scores = form
-      .getFieldValue(['questions', contentName[0], 'answers'])
-      .reduce((acc: any, current: any) => +acc + +current.score, 0);
-    setCheckboxScoreCount(scores);
+    checkboxScoreCalc();
   };
 
   const radioGroupChange: FormFinish = (val) => {
-    setRadio((prevValue) => {
+    setRadio((prevValue: number) => {
       if (prevValue !== undefined) {
         form.setFieldValue(
           ['questions', contentName[0], 'answers', prevValue, 'score'],
@@ -133,16 +142,13 @@ const DynamicQuestionForm: React.FC<any> = ({
 
   const onDeleteCheckboxGroupItem = (remove: any, name: any): void => {
     setCheckbox(
-      checkbox.filter((item) => {
+      checkbox.filter((item: number) => {
         return item !== name;
       })
     );
     remove(name);
     calcScores();
-    const scores = form
-      .getFieldValue(['questions', contentName[0], 'answers'])
-      .reduce((acc: any, current: any) => +acc + +current.score, 0);
-    setCheckboxScoreCount(scores);
+    checkboxScoreCalc();
   };
 
   return (
@@ -154,6 +160,7 @@ const DynamicQuestionForm: React.FC<any> = ({
             ? (
             <Radio.Group
               onChange={radioGroupChange}
+              value={radio}
               style={{
                 width: '100%'
               }}
@@ -205,9 +212,11 @@ const DynamicQuestionForm: React.FC<any> = ({
                     {answerList.length <= 2
                       ? null
                       : (
-                      <DeleteIcon
-                        onClick={() => onDeleteAnswer(remove, name)}
-                      />
+                      <IconButton disabled={preview}>
+                        <DeleteIcon
+                          onClick={() => onDeleteAnswer(remove, name)}
+                        />
+                      </IconButton>
                         )}
                   </Space>
                 </AddQuestionRow>
@@ -234,7 +243,18 @@ const DynamicQuestionForm: React.FC<any> = ({
                   }}
                   align="baseline"
                 >
-                  <AsnCheckbox value={key}>
+                  <AsnCheckbox
+                    value={key}
+                    onChange={(key: any) => {
+                      form.setFieldValue(
+                        ['questions', contentName[0], 'answers', name, 'score'],
+                        0
+                      );
+
+                      calcScores();
+                      checkboxScoreCalc();
+                    }}
+                  >
                     <AsnForm.Item
                       {...restField}
                       name={[name, 'title']}
@@ -251,7 +271,7 @@ const DynamicQuestionForm: React.FC<any> = ({
                     </AsnForm.Item>
                   </AsnCheckbox>
                   <Space>
-                    {checkbox.includes(key) && (
+                    {Boolean(checkbox.includes(key)) && (
                       <ScoreContainer key={key}>
                         <Title
                           level={5}
@@ -279,9 +299,13 @@ const DynamicQuestionForm: React.FC<any> = ({
                     {answerList.length <= 2
                       ? null
                       : (
-                      <DeleteIcon
-                        onClick={() => onDeleteCheckboxGroupItem(remove, name)}
-                      />
+                      <IconButton disabled={preview}>
+                        <DeleteIcon
+                          onClick={() =>
+                            onDeleteCheckboxGroupItem(remove, name)
+                          }
+                        />
+                      </IconButton>
                         )}
                   </Space>
                 </Space>

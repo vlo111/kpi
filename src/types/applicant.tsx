@@ -77,7 +77,7 @@ interface IGetApplicant { isLoading?: boolean, applicant: IApplicant, courses: I
 export type UseGetApplicant = (id: string | undefined) => IGetApplicant | undefined
 
 export interface IApproveModalProps {
-  applicant: IApplicant
+  applicants: Array<{ id: string, fullName: string }>
   open: string
   onCancel: () => void
 }
@@ -180,7 +180,7 @@ export interface IStatus {
 
 export interface IMove {
   sectionDataId: string
-  applicantId: string
+  applicantId: string[]
   status: string
   applicantsId: string | undefined
 }

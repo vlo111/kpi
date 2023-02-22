@@ -36,6 +36,19 @@ const CoursesStyle = styled.div`
     border-left: 3px solid var(--primary-light-orange);
   }
 
+  .finish {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem;
+    gap: 1rem;
+
+    .text {
+      color: var(--dark-3);
+    }
+  }
+
   .ant-popover-arrow {
     display: none;
   }

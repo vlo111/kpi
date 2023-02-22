@@ -2,7 +2,6 @@ import React from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import { Col, message, Row, Upload } from 'antd';
-import { useLocation } from 'react-router-dom';
 
 import useApplicantAttachFile from '../../../../../api/Applicant/useApplicantAttachFile';
 import useFileUpload from '../../../../../api/Activity/Template/SubActivity/useUploadFile';
@@ -19,12 +18,12 @@ import {
 } from '../../../../../helpers/constants';
 
 import Next from './Next';
-import Move from './Move';
 import Note from '../Note';
 import Files from './Files';
 import Status from './Status';
 
 import { ReactComponent as UploadSvg } from '../Icons/Upload.svg';
+import { ReactComponent as FinishSvg } from '../Icons/finished-applicant.svg';
 
 const CourseItem = styled.div<IStyle>`
   display: flex;
@@ -78,32 +77,6 @@ const CourseItem = styled.div<IStyle>`
     }
   }
 
-  .buttons {
-    display: flex;
-    justify-content: right;
-    padding: 1rem;
-
-    .reject,
-    .approve {
-      color: var(--white);
-      border-radius: 8px;
-      width: 6rem;
-
-      &:hover {
-        border-color: var(--white);
-      }
-    }
-
-    .reject {
-      margin-right: 1rem;
-      background-color: var(--error);
-    }
-
-    .approve {
-      background-color: var(--secondary-green);
-    }
-  }
-
   &:after {
     content: "";
     position: absolute;
@@ -114,27 +87,6 @@ const CourseItem = styled.div<IStyle>`
     border-radius: 50%;
     border: 1px solid var(--primary-light-orange);
     background: ${(props) => props.color};
-  }
-`;
-
-const CourseSection = styled.div`
-  .buttons {
-    display: flex;
-    justify-content: right;
-    padding: 1rem;
-
-    .move {
-      margin-right: 1rem;
-      margin-left: 2rem;
-      padding: 10px 20px;
-      display: flex;
-      flex-direction: row-reverse;
-      gap: 10px;
-
-      &:hover path {
-        fill: var(--dark-border-ultramarine);
-      }
-    }
   }
 `;
 
@@ -176,8 +128,6 @@ const Course: React.FC<ICourseProps> = ({
   isLast,
   applicantId
 }) => {
-  const { state } = useLocation();
-
   const { mutate: attachFile } = useApplicantAttachFile();
 
   const { mutate: uploadFile } = useFileUpload();
@@ -208,9 +158,9 @@ const Course: React.FC<ICourseProps> = ({
 
   const isAllowEdit: boolean =
     history.status !== ApplicantAccessStatus.Trained && isLast && isNotRejected;
-  const applicantsId = applicantId;
+
   return (
-    <CourseSection className={!isLast ? 'left-line' : 'last-line'}>
+    <div className={!isLast ? 'left-line' : 'last-line'}>
       <CourseItem
         color={
           isLast && isNotRejected
@@ -272,13 +222,12 @@ const Course: React.FC<ICourseProps> = ({
           />
         </AntRow>
       </CourseItem>
-      {state !== 'DONE' && <Move
-        sectionDataId={history?.sectionDataId}
-        applicantId={applicant.id}
-        status={history.status}
-        applicantsId={applicantsId}
-      />}
-    </CourseSection>
+      {history.status === ApplicantAccessStatus.Trained &&
+      <div className="finish">
+        <FinishSvg />
+        <p className="text">The applicant has finished the course.</p>
+      </div>}
+    </div>
   );
 };
 

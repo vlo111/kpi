@@ -32,28 +32,20 @@ const AddQuestionTextArea = styled(AsnTextArea)`
   }
 `;
 
-const QuestionContent: React.FC<any> = ({ name, answerType, setAllScore }) => {
+const QuestionContent: React.FC<any> = ({
+  name,
+  answerType,
+  setAllScore,
+  preview,
+  calcScores,
+  radio,
+  setRadio,
+  checkbox,
+  setCheckbox,
+  checkboxScoreCount,
+  checkboxScoreCalc
+}) => {
   const form = AsnForm.useFormInstance();
-
-  const calcScores: Void = () => {
-    const scores = form
-      .getFieldValue(['questions', name[0], 'answers'])
-      .reduce(
-        (acc: any, current: any) =>
-          +acc + Number(current.score === undefined ? 0 : current.score),
-        0
-      );
-    form.setFieldValue(['questions', name[0], 'score'], scores);
-    const allScores = form
-      .getFieldValue(['questions'])
-      .reduce(
-        (a: any, d: { score: any }) =>
-          +a + Number(d.score === undefined ? 0 : d.score),
-        0
-      );
-    setAllScore(allScores);
-  };
-
   const onInputNumberChange: Void = () => {
     const allScores = form
       .getFieldValue(['questions'])
@@ -69,12 +61,14 @@ const QuestionContent: React.FC<any> = ({ name, answerType, setAllScore }) => {
     <QuestionContentContainer>
       <AsnForm.Item
         name={[name[0], 'title']}
-        rules={[{
-          required: true,
-          message: 'Enter required fields',
-          min: 2,
-          max: 256
-        }]}
+        rules={[
+          {
+            required: true,
+            message: 'Enter required fields',
+            min: 2,
+            max: 256
+          }
+        ]}
       >
         <AddQuestionTextArea
           placeholder="Question "
@@ -89,7 +83,14 @@ const QuestionContent: React.FC<any> = ({ name, answerType, setAllScore }) => {
         <DynamicQuestionForm
           contentName={name}
           answerType={answerType}
+          preview={preview}
           calcScores={calcScores}
+          radio={radio}
+          setRadio={setRadio}
+          checkbox={checkbox}
+          setCheckbox={setCheckbox}
+          checkboxScoreCount={checkboxScoreCount}
+          checkboxScoreCalc={checkboxScoreCalc}
         />
           )
         : (
