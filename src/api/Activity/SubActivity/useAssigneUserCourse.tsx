@@ -3,7 +3,6 @@ import { message } from 'antd';
 import { AssignUserInCourse, IAssignUserParams } from '../../../types/api/activity/subActivity';
 
 import client from '../../client';
-import { USE_GET_SINGLE_SUB_ACTIVITY } from './useGetSingleSubActivity';
 
 const url = 'api/sub-activity';
 
@@ -21,7 +20,7 @@ const useAssignUserInCoresById: AssignUserInCourse = ({
       ...restOptions,
       onSuccess: () => {
         void onSuccess();
-        void queryClient.invalidateQueries([USE_GET_SINGLE_SUB_ACTIVITY]);
+        void queryClient.invalidateQueries(['/api/sub-activity']);
       },
       onError: ({
         response: {
