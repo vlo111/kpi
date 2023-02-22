@@ -57,7 +57,8 @@ const QuestionHeader: React.FC<any> = ({
   setAnswerType,
   answerType,
   questionsLists,
-  preview
+  preview,
+  calcScores
 }) => {
   const form = AsnForm.useFormInstance();
   const onDuplicateForm = (): any => {
@@ -128,19 +129,27 @@ const QuestionHeader: React.FC<any> = ({
             <AsnSwitch />
           </AsnForm.Item>
         </Col>
-        <Col className="icons" onClick={onDuplicateForm}>
+        <Col className="icons">
           <Tooltip
             placement="topLeft"
             title={<span>Duplicate</span>}
             overlayClassName="tooltipHelper"
           >
-            <DuplicateIcon />
+            <IconButton onClick={onDuplicateForm}>
+              <DuplicateIcon />
+            </IconButton>
           </Tooltip>
         </Col>
         {questionsLists.length > 2
           ? (
-          <Col className="icons" onClick={() => remove(name)}>
-            <IconButton disabled={preview}>
+          <Col className="icons">
+            <IconButton
+              disabled={preview}
+              onClick={() => {
+                remove(name);
+                calcScores();
+              }}
+            >
               <DeleteIcon />
             </IconButton>
           </Col>
