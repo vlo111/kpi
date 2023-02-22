@@ -2,7 +2,6 @@ import React from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import { Col, message, Row, Upload } from 'antd';
-import { useLocation } from 'react-router-dom';
 
 import useApplicantAttachFile from '../../../../../api/Applicant/useApplicantAttachFile';
 import useFileUpload from '../../../../../api/Activity/Template/SubActivity/useUploadFile';
@@ -19,12 +18,12 @@ import {
 } from '../../../../../helpers/constants';
 
 import Next from './Next';
-import Move from './Move';
 import Note from '../Note';
 import Files from './Files';
 import Status from './Status';
 
 import { ReactComponent as UploadSvg } from '../Icons/Upload.svg';
+import { ReactComponent as FinishSvg } from '../Icons/finished-applicant.svg';
 
 const CourseItem = styled.div<IStyle>`
   display: flex;
@@ -129,8 +128,6 @@ const Course: React.FC<ICourseProps> = ({
   isLast,
   applicantId
 }) => {
-  const { state } = useLocation();
-
   const { mutate: attachFile } = useApplicantAttachFile();
 
   const { mutate: uploadFile } = useFileUpload();
@@ -161,7 +158,7 @@ const Course: React.FC<ICourseProps> = ({
 
   const isAllowEdit: boolean =
     history.status !== ApplicantAccessStatus.Trained && isLast && isNotRejected;
-  const applicantsId = applicantId;
+
   return (
     <div className={!isLast ? 'left-line' : 'last-line'}>
       <CourseItem
@@ -225,12 +222,11 @@ const Course: React.FC<ICourseProps> = ({
           />
         </AntRow>
       </CourseItem>
-      {state !== 'DONE' && <Move
-        sectionDataId={history?.sectionDataId}
-        applicantId={[applicant.id]}
-        status={history.status}
-        applicantsId={applicantsId}
-      />}
+      {history.status === ApplicantAccessStatus.Trained &&
+      <div className="finish">
+        <FinishSvg />
+        <p className="text">The applicant has finished the course.</p>
+      </div>}
     </div>
   );
 };

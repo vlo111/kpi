@@ -1,5 +1,5 @@
 import React from 'react';
-import { message, Space, Typography } from 'antd';
+import { Space, Typography } from 'antd';
 import styled from 'styled-components';
 
 import { AsnForm } from '../../../../../Forms/Form';
@@ -110,8 +110,6 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
     });
 
     void onCancel();
-
-    void message.success('successfully rejected', 2);
   };
 
   return (
