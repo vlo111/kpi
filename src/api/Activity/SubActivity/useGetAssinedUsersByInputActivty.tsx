@@ -7,7 +7,6 @@ export const url = '/api/sub-activity/input-activity';
 const useGetAssignedUsersListByInputActivityId: GetAssignedUsersListByInputActivityId = (subActivityId, options = { enabled: false }) => {
   const result = useQuery(
     [url, subActivityId],
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     async () => await client.get(`${url}/${subActivityId}/course/assignees`),
     {
       ...options,
