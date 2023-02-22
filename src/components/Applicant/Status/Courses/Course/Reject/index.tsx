@@ -9,7 +9,7 @@ import { AsnTextArea } from '../../../../../Forms/Input';
 import { AsnCheckboxGroup } from '../../../../../Forms/Checkbox';
 
 import { FormFinish } from '../../../../../../types/global';
-import { IApplicant, IApproveModalProps } from '../../../../../../types/applicant';
+import { IApproveModalProps } from '../../../../../../types/applicant';
 import { optionsReason } from '../../../../../../helpers/constants';
 import useRejectApplicant from '../../../../../../api/Applicant/useReject';
 
@@ -28,27 +28,29 @@ const AntModal = styled(AsnModal)`
     }
 
     .ant-modal-body {
-      
       .reason-title {
         font-weight: var(--font-normal);
       }
-      
+
       .reason-list {
         display: flex;
         flex-direction: column;
         margin-bottom: 5px;
-        
+
         .ant-checkbox-wrapper {
           margin-bottom: 8px;
         }
       }
-      
+
       .name {
         display: flex;
-        justify-content: center;
         font-size: var(--base-font-size);
         color: var(--dark-3);
         padding-top: 8px;
+
+        flex-wrap: wrap;
+        max-height: 200px;
+        overflow: auto;
       }
 
       .add-note {
@@ -64,25 +66,25 @@ const AntModal = styled(AsnModal)`
 
         .ant-form-item {
           width: 100%;
-          
+
           .ant-row {
             width: 100%;
           }
         }
       }
-      
+
       .buttons {
         display: flex;
         justify-content: center;
         height: 5rem;
         align-items: self-end;
-        
+
         > .ant-space-item {
           display: flex;
           justify-content: center;
           width: 10rem;
         }
-        
+
         button {
           width: 130px;
         }
@@ -104,7 +106,7 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
     rejectApplicant({
       ...form.getFieldsValue(),
       sectionId: open,
-      applicantIds: applicants.map((a: IApplicant) => a.id)
+      applicantIds: applicants.map((a) => a.id)
     });
 
     void onCancel();
@@ -128,10 +130,22 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
         onFinish={onFinish}
         autoComplete="off"
       >
-        <Space align="center" className="name">
-          {applicants.map((a) => (<p key={a.id}>{a.fullName}</p>))}
+        <Space
+          align="center"
+          className="name"
+          style={{
+            justifyContent: applicants.length === 1 ? 'center' : 'start'
+          }}
+        >
+          {applicants.map((a, index) => (
+            <p key={a.id}>{`${a.fullName}${
+              applicants.length - 1 !== index ? ',' : ''
+            }`}</p>
+          ))}
         </Space>
-        <Title className="reason-title" level={5}>Reasons for rejection*</Title>
+        <Title className="reason-title" level={5}>
+          Reasons for rejection*
+        </Title>
         <AsnForm.Item name="reasonsForRejection">
           <AsnCheckboxGroup className="reason-list" options={optionsReason} />
         </AsnForm.Item>
@@ -139,15 +153,18 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
           <p>Add note:</p>
         </Space>
         <Space.Compact block className="text-area">
-          <AsnForm.Item name="note" rules={[
-            { required: true, message: 'Please enter Note' },
-            {
-              min: 2,
-              max: 128,
-              message:
-                'The field is required. Must be between 2 and 128 characters.'
-            }
-          ]}>
+          <AsnForm.Item
+            name="note"
+            rules={[
+              { required: true, message: 'Please enter Note' },
+              {
+                min: 2,
+                max: 128,
+                message:
+                  'The field is required. Must be between 2 and 128 characters.'
+              }
+            ]}
+          >
             <AsnTextArea></AsnTextArea>
           </AsnForm.Item>
         </Space.Compact>
@@ -158,7 +175,9 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
             </AsnButton>
           </Space>
           <Space>
-            <AsnButton htmlType="submit" className="primary">Reject</AsnButton>
+            <AsnButton htmlType="submit" className="primary">
+              Reject
+            </AsnButton>
           </Space>
         </Space>
       </AsnForm>

@@ -7,7 +7,6 @@ import { AsnModal } from '../../../../../Forms/Modal';
 import { AsnTextArea } from '../../../../../Forms/Input';
 
 import {
-  IApplicant,
   IApproveModalProps,
   OnNoteHandler
 } from '../../../../../../types/applicant';
@@ -29,10 +28,13 @@ const AntModal = styled(AsnModal)`
     .ant-modal-body {
       .name {
         display: flex;
-        justify-content: center;
         font-size: var(--base-font-size);
         color: var(--dark-3);
         padding-top: 8px;
+
+        flex-wrap: wrap;
+        max-height: 200px;
+        overflow: auto;
       }
 
       .add-note {
@@ -46,19 +48,19 @@ const AntModal = styled(AsnModal)`
           resize: initial;
         }
       }
-      
+
       .buttons {
         display: flex;
         justify-content: center;
         height: 5rem;
         align-items: self-end;
-        
+
         > .ant-space-item {
           display: flex;
           justify-content: center;
           width: 10rem;
         }
-        
+
         button {
           width: 130px;
         }
@@ -78,7 +80,7 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
   const onApprove: Void = () => {
     approveApplicant({
       sectionId: open,
-      applicantIds: applicants.map((a: IApplicant) => a.id),
+      applicantIds: applicants.map((a) => a.id),
       note: noteText
     });
 
@@ -99,8 +101,14 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
       closable
       centered
     >
-      <Space align="center" className="name">
-        {applicants.map((a) => (<p key={a.id}>{a.fullName}</p>))}
+      <Space
+        align="center"
+        className="name"
+        style={{ justifyContent: applicants.length === 1 ? 'center' : 'start' }}
+      >
+        {applicants.map((a, index) => (
+          <p key={a.id}>{`${a.fullName}${applicants.length - 1 !== index ? ',' : ''}`}</p>
+        ))}
       </Space>
       <Space className="add-note">
         <p>Add note:</p>
@@ -115,7 +123,9 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
           </AsnButton>
         </Space>
         <Space>
-          <AsnButton onClick={onApprove} className="primary">Approve</AsnButton>
+          <AsnButton onClick={onApprove} className="primary">
+            Approve
+          </AsnButton>
         </Space>
       </Space>
     </AntModal>

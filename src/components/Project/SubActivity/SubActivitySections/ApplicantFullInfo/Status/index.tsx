@@ -10,9 +10,8 @@ import { AsnCol } from '../../../../../Forms/Col';
 import { AsnButton } from '../../../../../Forms/Button';
 import { IApplicantData } from '../../../../../../types/api/activity/subActivity';
 import styled from 'styled-components';
-// import ApproveModal from '../../../../../Applicant/Status/Courses/Course/Approve';
-// import ApproveModal from '../../../../../Applicant/Status/Courses/Course/Approve';
-// import RejectModal from '../../../../../Applicant/Status/Courses/Course/Reject';
+import ApproveModal from '../../../../../Applicant/Status/Courses/Course/Approve';
+import RejectModal from '../../../../../Applicant/Status/Courses/Course/Reject';
 
 interface ISubActivityStatus {
   sectionDataId: string
@@ -45,8 +44,8 @@ const StatusRow = styled(Row)`
 const SubActivityStatus: React.FC<ISubActivityStatus> = ({ sectionDataId, applicants }) => {
   const [openFinish, setOpenFinish] = useState<boolean>(false);
   const [openMove, setOpenMove] = useState<boolean>(false);
-  // const [openApprove, setOpenApprove] = useState<string>('');
-  // const [openReject, setOpenReject] = useState<string>('');
+  const [openApprove, setOpenApprove] = useState<string>('');
+  const [openReject, setOpenReject] = useState<string>('');
 
   const { mutate: finishApplicant } = useFinishApplicant();
   const { mutate: moveApplicant } = useMoveApplicant();
@@ -57,14 +56,14 @@ const SubActivityStatus: React.FC<ISubActivityStatus> = ({ sectionDataId, applic
         <AsnCol span={24} className="next">
           <AsnButton
             className="reject"
-            // onClick={() => setOpenReject(sectionDataId)}
+            onClick={() => setOpenReject(sectionDataId)}
             disabled={!(applicants.length > 0)}
           >
             Reject
           </AsnButton>
           <AsnButton
             className="approve"
-            // onClick={() => setOpenApprove(sectionDataId)}
+            onClick={() => setOpenApprove(sectionDataId)}
             disabled={!(applicants.length > 0)}
           >
             Approve
@@ -116,16 +115,16 @@ const SubActivityStatus: React.FC<ISubActivityStatus> = ({ sectionDataId, applic
         }}
         onCancel={() => setOpenMove(!openMove)}
       />
-      {/* <ApproveModal */}
-      {/*   applicants={applicants} */}
-      {/*   open={openApprove} */}
-      {/*   onCancel={() => setOpenApprove('')} */}
-      {/* /> */}
-      {/* <RejectModal */}
-      {/*   applicant={applicant} */}
-      {/*   open={openReject} */}
-      {/*   onCancel={() => setOpenReject('')} */}
-      {/* /> */}
+      <ApproveModal
+        applicants={applicants}
+        open={openApprove}
+        onCancel={() => setOpenApprove('')}
+      />
+      <RejectModal
+        applicants={applicants}
+        open={openReject}
+        onCancel={() => setOpenReject('')}
+      />
     </>
   );
 };
