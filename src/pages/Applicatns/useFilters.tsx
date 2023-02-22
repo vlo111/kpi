@@ -23,12 +23,12 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
           expandIcon={({ isActive }) => (isActive ?? false ? '-' : '+')}
         >
           <Panel header="Age" key="1">
-            <Form.Item name="age">
+            <Form.Item name="age" rules={[{ required: true, message: 'Please  select one of them'}]}>
               <Slider range marks={marks} defaultValue={[18, 50]} />
             </Form.Item>
           </Panel>
           <Panel header="Gender" key="2">
-            <Form.Item name="gender">
+            <Form.Item name="gender" rules={[{ required: true, message: 'Please  select one of them'}]}>
               <Radio.Group>
                 <Space direction="vertical">
                   <Radio value={'FEMALE'}>Female</Radio>
@@ -38,7 +38,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             </Form.Item>
           </Panel>
           <Panel header="Student" key="3">
-            <Form.Item name="student">
+            <Form.Item name="student" rules={[{ required: true, message: 'Please  select one of them'}]}>
               <Radio.Group>
                 <Space direction="vertical">
                   <Radio value={true}>Nonstudent</Radio>
@@ -48,7 +48,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             </Form.Item>
           </Panel>
           <Panel header="Status" key="4">
-            <Form.Item name="statuses">
+            <Form.Item name="statuses" rules={[{ required: true, message: 'Please  select one of them'}]}>
               <AsnCheckboxGroup
                 style={{ width: '200px' }}
                 options={optionsStatus}
@@ -56,7 +56,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             </Form.Item>
           </Panel>
           <Panel header="Paid job" key="5">
-            <Form.Item name="income">
+            <Form.Item name="income" rules={[{ required: true, message: 'Please  select one of them'}]}>
               <Radio.Group>
                 <Space direction="vertical">
                   <Radio value={true} name="Paid job">
@@ -68,7 +68,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             </Form.Item>
           </Panel>
           <Panel header="disability" key="6">
-            <Form.Item name="disability">
+            <Form.Item name="disability" rules={[{ required: true, message: 'Please  select one of them'}]}>
               <Radio.Group>
                 <Space direction="vertical">
                   <Radio value={true}>NA</Radio>
@@ -78,7 +78,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             </Form.Item>
           </Panel>
           <Panel header="Region" key="7">
-            <Form.Item name="regions">
+            <Form.Item name="regions" rules={[{ required: true, message: 'Please  select one of them'}]}>
               <AsnCheckboxGroup
                 style={{ width: '158px' }}
                 options={optionsRegion}
