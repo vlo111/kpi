@@ -6,6 +6,7 @@ import { ColumnsType } from 'antd/lib/table';
 import { ReactComponent as NotFoundIcon } from '../../SubActivityIcons/not-users-found.svg';
 import { ReactComponent as DownloadIcon } from '../../../../../assets/icons/download.svg';
 import {
+  IApplicantData,
   IApplicantsListFullInfo,
   IUserListTypes
 } from '../../../../../types/api/activity/subActivity';
@@ -24,6 +25,7 @@ import { ReactComponent as NotSubmitedSvg } from './icons/not-submitted.svg';
 import { ReactComponent as SubmitedSvg } from './icons/submited.svg';
 import { TollTipStatus } from '../../../../../helpers/utils';
 import { ReactComponent as InfoSvg } from '../../../../../assets/icons/info.svg';
+import SubActivityStatus from './Status';
 
 const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   color,
@@ -32,6 +34,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   status
 }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [selectedApplicants, setSelectedApplicants] = useState<IApplicantData[]>([]);
   const navigate = useNavigate();
   const { mutate: addFileCourse } = useAttacheFiles();
   const { mutate: importApplicant } = useImportApplicantsIntoExcelFile({
@@ -69,16 +72,18 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
       key: 'email'
     },
     {
-      title: <Tooltip
-        overlayClassName="applicant-status-tooltip"
-        placement="right"
-        title={TollTipStatus()}
-        overlayStyle={{ width: '440px', maxWidth: '440px' }}
-      >
-        <div className="applicant-status-title">
-          Status <InfoSvg />
-        </div>
-      </Tooltip>,
+      title: (
+        <Tooltip
+          overlayClassName="applicant-status-tooltip"
+          placement="right"
+          title={TollTipStatus()}
+          overlayStyle={{ width: '440px', maxWidth: '440px' }}
+        >
+          <div className="applicant-status-title">
+            Status <InfoSvg />
+          </div>
+        </Tooltip>
+      ),
       dataIndex: 'status',
       key: 'status',
       render (text: string, applicant: IUserListTypes) {
@@ -90,7 +95,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
         switch (status) {
           case ApplicantDefaultStatus.PRE_ASSESSMENT: {
             if (!applicant.preAssessmentSubmitted) {
-              icon = <NotSubmitedSvg title="Not submitted"/>;
+              icon = <NotSubmitedSvg title="Not submitted" />;
             } else {
               if (applicant.preAssessmentScore) {
                 icon = <NotAssessedSvg />;
@@ -122,7 +127,10 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                   {status}
                 </Space>
               </Space>
-              <Space.Compact block style={{ display: 'flex', alignItems: 'center' }}>
+              <Space.Compact
+                block
+                style={{ display: 'flex', alignItems: 'center' }}
+              >
                 {icon}
               </Space.Compact>
             </Space>
@@ -132,8 +140,12 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
     }
   ];
 
-  const onSelectChange = (newSelectedRowKeys: React.Key[]): void => {
+  const onSelectChange = (
+    newSelectedRowKeys: React.Key[],
+    selectedRows: IApplicantData[]
+  ): void => {
     setSelectedRowKeys(newSelectedRowKeys);
+    setSelectedApplicants(selectedRows);
   };
   const rowSelection = {
     selectedRowKeys,
@@ -162,8 +174,8 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
             </AsnDragger2>
           </Col>
         </Row>
-        {applicants.length === 0
-          ? (
+        {/* eslint-disable-next-line multiline-ternary */}
+        {applicants.length === 0 ? (
           <>
             <Row align="middle" justify="center">
               <NotFoundIcon />
@@ -172,24 +184,28 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
               There are no applicants
             </Row>
           </>
-            )
-          : (
-          <AsnTable
-            size="middle"
-            onRow={(record) => {
-              return {
-                onClick: () => {
-                  navigate(`/${PATHS.APPLICANT.replace(':id', record.id)}`, { state: status });
-                }
-              };
-            }}
-            columns={columns}
-            dataSource={applicants}
-            rowKey="id"
-            pagination={false}
-            rowSelection={rowSelection}
-          />
-            )}
+        ) : (
+          <>
+            <AsnTable
+              size="middle"
+              onRow={(record) => {
+                return {
+                  onClick: () => {
+                    navigate(`/${PATHS.APPLICANT.replace(':id', record.id)}`, {
+                      state: status
+                    });
+                  }
+                };
+              }}
+              columns={columns}
+              dataSource={applicants}
+              rowKey="id"
+              pagination={false}
+              rowSelection={rowSelection}
+            />
+            <SubActivityStatus sectionDataId={courseId} applicants={selectedApplicants} />
+          </>
+        )}
       </Space>
     </FormWrapper>
   );

@@ -5,7 +5,6 @@ import { useProject } from '../../hooks/useProject';
 
 const URL_GET_APPLICANT = 'api/applicant/:id/project/:projectId';
 
-// const { applicant: { applicant, courses } = {} } = useGetApplicant(id);
 const useGetApplicant: UseGetApplicant = (id) => {
   const { projectId } = useProject();
 
