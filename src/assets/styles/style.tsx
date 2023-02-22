@@ -390,6 +390,11 @@ const GlobalStyle = createGlobalStyle`
       }
     }
   }
+  .checkboxStatusFilter{
+    .ant-checkbox-indeterminate .ant-checkbox-inner:after{
+      background-color: var(--white) !important;;
+    }
+  }
 `;
 
 export default GlobalStyle;
