@@ -131,7 +131,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                       ? "cardInactive"
                       : item?.status === "DONE"
                       ? "cardActive"
-                      : ""
+                      : "carDone"
                   }`}
                 >
                   <div
