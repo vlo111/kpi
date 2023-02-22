@@ -12,7 +12,7 @@ const useApproveApplicant: UseApproveApplicant = () => {
         return await client.post(
           `api/applicant/course/${params.sectionId}/status/approve`,
           {
-            applicantIds: [params.applicantId],
+            applicantIds: params.applicantIds,
             note: params.note
           }
         );
@@ -22,6 +22,10 @@ const useApproveApplicant: UseApproveApplicant = () => {
       onSuccess: () => {
         void queryClient.invalidateQueries([
           'api/applicant/:id/project/:projectId'
+        ]);
+
+        void queryClient.invalidateQueries([
+          '/api/sub-activity'
         ]);
 
         void message.success('successfully approved', 2);

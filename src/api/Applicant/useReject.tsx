@@ -10,7 +10,7 @@ const useRejectApplicant: UseRejectApplicant = () => {
     async (params) => {
       if (params.sectionId !== undefined) {
         const payload = {
-          applicantIds: [params.applicantIds],
+          applicantIds: params.applicantIds,
           note: params.note,
           reasonsForRejection: params.reasonsForRejection
         };
@@ -25,6 +25,10 @@ const useRejectApplicant: UseRejectApplicant = () => {
       onSuccess: () => {
         void queryClient.invalidateQueries([
           'api/applicant/:id/project/:projectId'
+        ]);
+
+        void queryClient.invalidateQueries([
+          '/api/sub-activity'
         ]);
 
         void message.success('successfully rejected', 2);

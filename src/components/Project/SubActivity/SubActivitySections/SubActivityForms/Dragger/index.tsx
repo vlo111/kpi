@@ -61,13 +61,15 @@ const DraggerForm: React.FC<IDraggerProps> = ({
 }) => {
   const { Title } = Typography;
   const { mutate: UploadDoc } = useFileUpload();
-  const { mutate: DeleteFile} = useDeleteFile(
-  {  onError: () => {
-      void message.error('You need permission to delete the file.');
-    }}
+  const { mutate: DeleteFile } = useDeleteFile(
+    {
+      onError: () => {
+        void message.error('You need permission to delete the file.');
+      }
+    }
   );
   const handleChange: UploadProps['onChange'] = (info) => {
-        const newFileList = [...info.fileList];
+    const newFileList = [...info.fileList];
     setDefaultFileList(newFileList);
   };
   const props: UploadProps = {
