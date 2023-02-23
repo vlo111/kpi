@@ -186,7 +186,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                 return {
                   onClick: () => {
                     navigate(`/${PATHS.APPLICANT.replace(':id', record.id)}`, {
-                      state: { status, navigateRouteInfo }
+                      state: { navigateRouteInfo }
                     });
                   }
                 };
