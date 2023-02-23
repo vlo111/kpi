@@ -2,13 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { GetEligibleUsersListBySubActivityId } from '../../../types/api/activity/subActivity';
 import client from '../../client';
 
-export const url = '/api/sub-activity';
+const url = '/api/sub-activity/:id/eligible/users';
 
-const useGetEligibleUsersListBySubActivityId: GetEligibleUsersListBySubActivityId = (subActivityId, options = { enabled: false }) => {
+const useGetEligibleUsersListBySubActivityId: GetEligibleUsersListBySubActivityId = (subActivityId, options = { enabled: true }) => {
   const result = useQuery(
     [url, subActivityId],
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    async () => await client.get(`${url}/${subActivityId}/eligible/users`),
+    async () => await client.get(url.replace(':id', subActivityId as string)),
     {
       ...options,
       select: (data) => data.data

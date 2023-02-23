@@ -179,7 +179,7 @@ const ActivityTemplate: React.FC = () => {
             data: questionType === 'DROPDOWN' ? [...values.names] : []
           }
         });
-        form.resetFields();
+        form.resetFields(['question', 'answerType', 'names']);
       } else {
         createTemplateSetting({
           id: templateId,
@@ -201,7 +201,7 @@ const ActivityTemplate: React.FC = () => {
     setIsVisibleAddField(false);
     setQuestionType('');
     setRowItem(null);
-    form.resetFields();
+    form.resetFields(['question', 'answerType', 'names']);
   };
 
   const onNextClick: Void = () => {
@@ -311,7 +311,7 @@ const ActivityTemplate: React.FC = () => {
             </Col>
             <Col span={24}>
               <Form.Item name="includeForm">
-                <AsnCheckbox.Group>
+                <AsnCheckbox.Group disabled={data?.status === 'PUBLISHED'}>
                   <AsnCheckbox
                     width="2rem"
                     height="2rem"
@@ -359,7 +359,7 @@ const ActivityTemplate: React.FC = () => {
             </Col>
             <Col span={24}>
               <Form.Item name="courseStructure">
-                <Radio.Group>
+                <Radio.Group disabled={data?.status === 'PUBLISHED'}>
                   <Radio
                     value={'ONE_SECTION'}
                     style={{
