@@ -1,10 +1,14 @@
-import React from 'react';
-import { AutoComplete, Space, Typography } from 'antd';
-import { SearchApplicants } from './applicantsTypes';
+import React from "react";
+import { AutoComplete, Row, Space, Typography } from "antd";
+import { SearchApplicants } from "./applicantsTypes";
 
 const { Title } = Typography;
 
-const UseSearch: React.FC<SearchApplicants> = ({ filters, serachData }) => {
+const UseSearch: React.FC<SearchApplicants> = ({
+  filters,
+  serachData,
+  result,
+}) => {
   const onChange = (data: string): void => {
     serachData(data);
   };
@@ -13,9 +17,9 @@ const UseSearch: React.FC<SearchApplicants> = ({ filters, serachData }) => {
     <>
       <Space
         size={[15, 0]}
-        style={{ padding: '30px 18px 4px', display: 'flex' }}
+        style={{ padding: "30px 18px 4px", display: "flex" }}
       >
-        <Title level={4} style={{ color: 'var(--dark-border-ultramarine)' }}>
+        <Title level={4} style={{ color: "var(--dark-border-ultramarine)" }}>
           Applicants
         </Title>
         <AutoComplete
@@ -24,6 +28,9 @@ const UseSearch: React.FC<SearchApplicants> = ({ filters, serachData }) => {
           onChange={onChange}
           placeholder="Search..."
         />
+        <Row style={{ position: "absolute", right: "25px", top: "111px",     border: '1px solid #D9D9D9',     padding:' 4px 20px' }}>
+          Total members: {result}
+        </Row>
       </Space>
     </>
   );

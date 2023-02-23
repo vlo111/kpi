@@ -109,7 +109,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                 gridGap: '41px',
                 padding: '16px 0px',
                 overflow: 'auto',
-                height: 'calc(100vh - 61vh)'
+                height: 'calc(49vh)'
               }}
             >
               <Button
