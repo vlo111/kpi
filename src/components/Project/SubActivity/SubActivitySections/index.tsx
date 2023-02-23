@@ -140,6 +140,7 @@ const SubActivitySections: React.FC<any> = ({
               </Row>
             )}
             <DefaultContent
+              navigateRouteInfo={navigateRouteInfo}
               assignedUsers={assignedUsers}
               applicants={activity?.applicants}
               color={filteredColor[0]?.color}

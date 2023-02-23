@@ -41,6 +41,7 @@ export interface IApplicantsListFullInfo {
   applicants: IApplicantsList[]
   color: string
   courseId: string
+  navigateRouteInfo: INavigateRoteInfoTypes
   status: string
 }
 
