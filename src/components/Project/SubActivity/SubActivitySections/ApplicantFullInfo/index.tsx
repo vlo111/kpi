@@ -31,7 +31,6 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   color,
   applicants,
   courseId,
-  nextId,
   status
 }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -204,7 +203,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
               pagination={false}
               rowSelection={rowSelection}
             />
-            <SubActivityStatus nextId={nextId} sectionDataId={courseId} applicants={selectedApplicants} />
+            <SubActivityStatus sectionDataId={courseId} applicants={selectedApplicants} />
           </>
         )}
       </Space>

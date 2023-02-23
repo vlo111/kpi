@@ -13,11 +13,9 @@ import styled from 'styled-components';
 import ApproveModal from '../../../../../Applicant/Status/Courses/Course/Approve';
 import RejectModal from '../../../../../Applicant/Status/Courses/Course/Reject';
 import { useQueryClient } from '@tanstack/react-query';
-import useStartSubActivityCourse from '../../../../../../api/Activity/SubActivity/useStartSubActivityCourse';
 
 interface ISubActivityStatus {
   sectionDataId: string
-  nextId: string | undefined
   applicants: IApplicantData[]
 }
 
@@ -47,15 +45,9 @@ const StatusRow = styled(Row)`
 
 const SubActivityStatus: React.FC<ISubActivityStatus> = ({
   sectionDataId,
-  applicants,
-  nextId
+  applicants
 }) => {
   const queryClient = useQueryClient();
-
-  const { mutate: StartCourse } = useStartSubActivityCourse({
-    onSuccess: () => {},
-    onError: () => {}
-  });
 
   const [openFinish, setOpenFinish] = useState<boolean>(false);
   const [openMove, setOpenMove] = useState<boolean>(false);
@@ -70,10 +62,6 @@ const SubActivityStatus: React.FC<ISubActivityStatus> = ({
       ]);
 
       void antMessage.success('successfully moved', 2);
-
-      if (nextId !== undefined) {
-        StartCourse({ id: nextId });
-      }
     },
     onError: (data: { response: { data: { message: string } } }) => {
       void antMessage.error(data.response.data.message, 2);

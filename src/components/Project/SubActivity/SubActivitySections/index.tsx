@@ -89,8 +89,7 @@ const SubActivitySections: React.FC<any> = ({
   assignedUsers,
   applicationForm,
   refetch,
-  navigateRouteInfo,
-  nextId
+  navigateRouteInfo
 }) => {
   const { Title } = Typography;
   const { TabPane } = Tabs;
@@ -148,7 +147,6 @@ const SubActivitySections: React.FC<any> = ({
               courseId={activity?.id}
               files={activity?.section?.files}
               requIredDocs={activity?.section?.requiredDocuments}
-              nextId={nextId}
             />
           </TabPane>
           {activity?.section?.sectionSettingMap?.map((item: any) => (

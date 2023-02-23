@@ -114,7 +114,6 @@ const SubActivity: React.FC<{}> = () => {
                   index={i}
                   assignedUsers={data?.assignees}
                   applicationForm={data?.applicationForm}
-                  nextId={data?.sectionsData.length < i ? data?.sectionsData[i + 1] : undefined }
                 />
               </Tabs.TabPane>
             )
