@@ -53,7 +53,7 @@ export interface IApplicant {
   successMessage: string | undefined
   termsAndConditions: string | undefined
   onlineSignature: boolean
-  deadline: string
+  deadline: string | undefined | null
   applicationFormSections: IApplicationFormSections[]
 }
 
