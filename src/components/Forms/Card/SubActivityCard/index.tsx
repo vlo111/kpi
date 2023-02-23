@@ -48,7 +48,7 @@ export const AsnCardSubActivity = styled(Card)`
       position: absolute;
       left: 51px;
       content: "🗸";
-      z-index: 20000;
+      z-index: 2;
       top: -19px;
       color: var(--secondary-green);
       font-size: 25px;

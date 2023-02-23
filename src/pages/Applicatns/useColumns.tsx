@@ -83,7 +83,7 @@ export const useColumn = ({ onFinish, form, setOpen, open }: any): any => {
       title: 'Phone number',
       key: 6,
       dataIndex: 'phoneNumber',
-      ellipsis: false,
+      ellipsis: true,
       render: (text: string, record: { phone: number }) => {
         return record?.phone;
       }

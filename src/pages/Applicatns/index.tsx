@@ -103,7 +103,7 @@ const ApplicantsData: React.FC = () => {
 
   return (
     <Container>
-      <UseSearch filters={filters} serachData={serachData} />
+      <UseSearch filters={filters} serachData={serachData} result={result?.result?.length}/>
       <>
         <UseFilterTags
           filters={filters}

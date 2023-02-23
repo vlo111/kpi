@@ -24,7 +24,7 @@ const DocumentDonload = ({ name, path, hide }: any) => {
   return (
             <>
                 <Button type="link" onClick={onButtonClick} style={{ paddingLeft: '24px' }}>
-                <CloudDownloadOutlined/> Download PDF
+                <CloudDownloadOutlined/> Download
                 </Button>
             </>
   );
