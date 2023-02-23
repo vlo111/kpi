@@ -277,7 +277,7 @@ export const convertArrayToResult = (array: string[][]): CascadedData => {
 
 export const TollTipStatus: () => React.ReactNode = () => (
   <div>
-    <div>Learning statuses</div>
+    <div className="applicant-status-header">Learning statuses</div>
     {ApplicantRow(
       ApplicantAccessStatus.Applicant,
       ApplicantDefaultStatus.APPLICANT,
