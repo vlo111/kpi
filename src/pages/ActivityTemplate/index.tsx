@@ -245,13 +245,12 @@ const ActivityTemplate: React.FC = () => {
   }, [rowItem]);
 
   useEffect(() => {
-    if (data?.courseStructure !== null && data?.applicationForm !== null) {
+    if (data !== undefined) {
       form.setFieldsValue({
         includeForm: data?.applicationForm,
-        courseStructure:
-          form.getFieldValue('courseStructure') === undefined
-            ? 'ONE_SECTION'
-            : form.getFieldValue('courseStructure')
+        courseStructure: data?.courseStructure === null
+          ? 'ONE_SECTION'
+          : data?.courseStructure
       });
     }
   }, [data]);

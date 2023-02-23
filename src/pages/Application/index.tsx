@@ -124,7 +124,7 @@ const Application: React.FC = () => {
   const [createdItemInfo, setCreatedItemResponse] = useState<
   IResult | undefined
   >();
-  const [deadlineDate, setDeadlineDate] = useState<string>('');
+  const [deadlineDate, setDeadlineDate] = useState<string | undefined | null>();
   const [isQuestionCardVisible, setIsQuestionCardVisible] = useState<string[]>(
     []
   );
@@ -136,10 +136,23 @@ const Application: React.FC = () => {
     if (location?.state?.edit === true) {
       if (!_.isEmpty(singleApplicantData)) {
         setApplicationData(getApplicationData(singleApplicantData));
+        if (
+          singleApplicantData.deadline !== undefined &&
+          singleApplicantData.deadline !== null
+        ) {
+          setDeadlineDate(new Date(singleApplicantData.deadline).toJSON());
+        } else {
+          setDeadlineDate(undefined);
+        }
       }
     } else {
       if (!_.isEmpty(data)) {
         setApplicationData(data);
+        if (data.deadline !== undefined && data.deadline !== null) {
+          setDeadlineDate(new Date(data.deadline).toJSON());
+        } else {
+          setDeadlineDate(undefined);
+        }
       }
     }
   }, [isLoading, singleApplicantData]);
@@ -170,7 +183,7 @@ const Application: React.FC = () => {
           formTitle !== null ? formTitle?.current?.input?.value : '';
         applicationData.onlineSignature = onlineSignature;
         applicationData.deadline =
-          deadlineDate === '' ? applicationData.deadline : deadlineDate;
+          deadlineDate === data.deadline || deadlineDate === undefined ? null : deadlineDate;
         applicationData.successMessage =
           successMessage !== null ? successMessage?.current?.input?.value : '';
         applicationData.termsAndConditions = JSON.stringify(
@@ -312,10 +325,10 @@ const Application: React.FC = () => {
             onChange={(date, dateString) =>
               setDeadlineDate(new Date(dateString).toJSON())
             }
-            defaultValue={
-              applicationData.deadline !== undefined
-                ? moment(new Date(applicationData.deadline), 'DD.MM.YYYY')
-                : moment(new Date(), 'DD.MM.YYYY')
+            value={
+              deadlineDate !== null && deadlineDate !== undefined
+                ? moment(new Date(deadlineDate).toJSON())
+                : undefined
             }
           />
         )}
