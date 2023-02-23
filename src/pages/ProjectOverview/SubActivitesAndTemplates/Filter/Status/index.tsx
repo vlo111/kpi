@@ -8,7 +8,6 @@ import { AsnCheckbox, AsnCheckboxGroup } from '../../../../../components/Forms/C
 import { Onchange } from '../../../../../types/global';
 import { ReactComponent as CloseIcon } from '../../../../../assets/icons/closeIcon.svg';
 
-
 const plainOptions = ['DONE', 'ACTIVE', 'INACTIVE'];
 
 export const StatusFilter: React.FC<IStatusFilter> = ({
@@ -74,12 +73,12 @@ export const StatusFilter: React.FC<IStatusFilter> = ({
       </Button>
     </Popover>
     <Row style={{ display: 'flex', justifyContent: 'center' }}>
-    {checkedList &&
+    {(checkedList != null) &&
         checkedList?.length > 2
-          ? (
+      ? (
             <Col>All <CloseIcon onClick={onCheckAllChange} style={{ height: '10px', cursor: 'pointer' }}/> </Col>
-            )
-          : ( checkedList && checkedList?.length > 0 )? <Col >{checkedList?.join(', ')} <CloseIcon onClick={onCheckAllChange} style={{ height: '10px', cursor: 'pointer' }}/> </Col> : null}
+        )
+      : ((checkedList != null) && checkedList?.length > 0) ? <Col >{checkedList?.join(', ')} <CloseIcon onClick={onCheckAllChange} style={{ height: '10px', cursor: 'pointer' }}/> </Col> : null}
       </Row>
       </>
   );
