@@ -12,6 +12,7 @@ const DefaultContent: React.FC<any> = ({
   color,
   applicants,
   courseId,
+  navigateRouteInfo,
   files
 }) => {
   return (
@@ -31,7 +32,7 @@ const DefaultContent: React.FC<any> = ({
         </Col>
       </Row>
       <Col>
-        {(status === 'ACTIVE' || status === 'DONE' || applicants?.length > 0) && <SubActivityUsersFullInfo status={status} color={color} applicants={applicants} courseId={courseId} />}
+        {(status === 'ACTIVE' || status === 'DONE' || applicants?.length > 0) && <SubActivityUsersFullInfo navigateRouteInfo={navigateRouteInfo} status={status} color={color} applicants={applicants} courseId={courseId} />}
       </Col>
     </Space>
   );

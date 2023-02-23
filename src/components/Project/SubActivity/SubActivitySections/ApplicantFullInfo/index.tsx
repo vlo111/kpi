@@ -31,6 +31,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   color,
   applicants,
   courseId,
+  navigateRouteInfo,
   status
 }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -185,7 +186,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                 return {
                   onClick: () => {
                     navigate(`/${PATHS.APPLICANT.replace(':id', record.id)}`, {
-                      state: status
+                      state: { status, navigateRouteInfo }
                     });
                   }
                 };
@@ -196,7 +197,11 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
               pagination={false}
               rowSelection={rowSelection}
             />
-            <SubActivityStatus status={status} sectionDataId={courseId} applicants={selectedApplicants} />
+            <SubActivityStatus
+              status={status}
+              sectionDataId={courseId}
+              applicants={selectedApplicants}
+            />
           </>
         )}
       </Space>
