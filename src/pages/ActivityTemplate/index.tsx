@@ -311,7 +311,7 @@ const ActivityTemplate: React.FC = () => {
             </Col>
             <Col span={24}>
               <Form.Item name="includeForm">
-                <AsnCheckbox.Group>
+                <AsnCheckbox.Group disabled={data?.status === 'PUBLISHED'}>
                   <AsnCheckbox
                     width="2rem"
                     height="2rem"
@@ -359,7 +359,7 @@ const ActivityTemplate: React.FC = () => {
             </Col>
             <Col span={24}>
               <Form.Item name="courseStructure">
-                <Radio.Group>
+                <Radio.Group disabled={data?.status === 'PUBLISHED'}>
                   <Radio
                     value={'ONE_SECTION'}
                     style={{
