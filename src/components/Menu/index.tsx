@@ -103,7 +103,13 @@ export const Menu: React.FC = () => {
   const [currentItem, setCurrentItem] = useState(['1']);
 
   useEffect(() => {
-    let currenPath = [`${menuItemsNavigate.indexOf(pathname.includes('project') ? menuItemsNavigate[0] : pathname) + 1}`];
+    let currenPath = [
+      `${
+        menuItemsNavigate.indexOf(
+          pathname.includes('project') ? menuItemsNavigate[0] : pathname
+        ) + 1
+      }`
+    ];
     if (pathname.includes('files')) {
       currenPath = ['4'];
     }
@@ -123,8 +129,7 @@ export const Menu: React.FC = () => {
           navigate(item);
         }
       }
-    }
-    );
+    });
   };
 
   return (
