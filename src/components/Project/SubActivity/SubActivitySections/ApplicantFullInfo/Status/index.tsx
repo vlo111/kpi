@@ -16,6 +16,7 @@ import RejectModal from '../../../../../Applicant/Status/Courses/Course/Reject';
 interface ISubActivityStatus {
   sectionDataId: string
   applicants: IApplicantData[]
+  status: string
 }
 
 const StatusRow = styled(Row)`
@@ -44,7 +45,8 @@ const StatusRow = styled(Row)`
 
 const SubActivityStatus: React.FC<ISubActivityStatus> = ({
   sectionDataId,
-  applicants
+  applicants,
+  status
 }) => {
   const [openFinish, setOpenFinish] = useState<boolean>(false);
   const [openMove, setOpenMove] = useState<boolean>(false);
@@ -57,29 +59,35 @@ const SubActivityStatus: React.FC<ISubActivityStatus> = ({
   return (
     <>
       <StatusRow className="content">
-        <AsnCol span={24} className="next">
-          <AsnButton
-            className="reject"
-            onClick={() => setOpenReject(sectionDataId)}
-            disabled={!(applicants.length > 0)}
-          >
-            Reject
-          </AsnButton>
-          <AsnButton
-            className="approve"
-            onClick={() => setOpenApprove(sectionDataId)}
-            disabled={!(applicants.length > 0)}
-          >
-            Approve
-          </AsnButton>
-        </AsnCol>
+        {status !== 'DONE' && (
+          <>
+            <AsnCol span={24} className="next">
+              <AsnButton
+                className="reject"
+                onClick={() => setOpenReject(sectionDataId)}
+                disabled={!(applicants.length > 0)}
+              >
+                Reject
+              </AsnButton>
+              <AsnButton
+                className="approve"
+                onClick={() => setOpenApprove(sectionDataId)}
+                disabled={!(applicants.length > 0)}
+              >
+                Approve
+              </AsnButton>
+            </AsnCol>
+          </>
+        )}
         <AsnCol span={24} className="end">
-          <AsnButton
-            className="finish default"
-            onClick={() => setOpenFinish(!openFinish)}
-          >
-            Finish
-          </AsnButton>
+          {status !== 'DONE' && (
+            <AsnButton
+              className="finish default"
+              onClick={() => setOpenFinish(!openFinish)}
+            >
+              Finish
+            </AsnButton>
+          )}
           <AsnButton
             icon={<ArrowSvg />}
             className="move primary"
