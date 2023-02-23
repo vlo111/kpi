@@ -49,7 +49,7 @@ const SubActivityUsersInfo: React.FC<IManagerType> = ({
               </Title>
             </Col>
             <Col span={12} style={{ display: 'flex', justifyContent: 'end' }}>
-              {item?.creator ? 'Sub-Activity manager' : 'Triner'}
+              {item?.creator ? 'Sub-Activity manager' : 'Trainer'}
             </Col>
           </Row>
         ))}
