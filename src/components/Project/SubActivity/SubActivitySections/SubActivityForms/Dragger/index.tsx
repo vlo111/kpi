@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Col, Typography, UploadProps } from 'antd';
+import { Col, Typography, UploadProps, message } from 'antd';
 
 import { ReactComponent as UploadDocument } from '../../../SubActivityIcons/upload-docs.svg';
 import { ReactComponent as LinkIcon } from '../../../SubActivityIcons/link.svg';
@@ -61,8 +61,13 @@ const DraggerForm: React.FC<IDraggerProps> = ({
 }) => {
   const { Title } = Typography;
   const { mutate: UploadDoc } = useFileUpload();
-  const { mutate: DeleteFile } = useDeleteFile();
-
+  const { mutate: DeleteFile } = useDeleteFile(
+    {
+      onError: () => {
+        void message.error('You need permission to delete the file.');
+      }
+    }
+  );
   const handleChange: UploadProps['onChange'] = (info) => {
     const newFileList = [...info.fileList];
     setDefaultFileList(newFileList);

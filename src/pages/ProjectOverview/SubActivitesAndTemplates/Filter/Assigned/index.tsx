@@ -21,8 +21,8 @@ export const AssingnesFilter: React.FC<IAssignedFilter> = ({
   const content = (
     <>
       <Row justify="space-between" align="middle">
-        <Title level={5} style={{color: 'var(--dark-border-ultramarine)'}}>Assigned</Title>
-        <Col onClick={hide} style={{cursor: 'pointer'}}>X</Col>{' '}
+        <Title level={5} style={{ color: 'var(--dark-border-ultramarine)' }}>Assigned</Title>
+        <Col onClick={hide} style={{ cursor: 'pointer' }}>X</Col>{' '}
       </Row>
       <AssingnesData
         setAssignedUsersIds={setAssignedUsersIds}

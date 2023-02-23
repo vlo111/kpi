@@ -64,7 +64,7 @@ const SubActivityDocuments: React.FC<any> = ({
       <DraggerForm
         text="File/Documents"
         docType="GENERAL_DOCUMENT"
-        disabled={status === 'INACTIVE'}
+        disabled={status === 'INACTIVE' || fileList?.length === 0}
         fileList={fileList}
         setFileList={setFileList}
         defaultFileList={defaultFileList}
