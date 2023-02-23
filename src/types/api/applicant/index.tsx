@@ -21,5 +21,3 @@ export type UseRejectApplicant = UseMutation<Void, IUploadFileError, ResponseErr
 export type UseMoveApplicant = UseMutation<Void, IUploadFileError, ResponseErrorParam, { id: string, applicantId: string[] }>
 
 export type UseResendApplicant = UseMutation<Void, IUploadFileError, ResponseErrorParam, IResendApplicant>
-
-export type UseMoveApplicantOption = {} | undefined | { onSuccess: Void, onError: (data: any) => void }

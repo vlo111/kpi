@@ -47,26 +47,13 @@ const SubActivityStatus: React.FC<ISubActivityStatus> = ({
   sectionDataId,
   applicants
 }) => {
-  const queryClient = useQueryClient();
-
   const [openFinish, setOpenFinish] = useState<boolean>(false);
   const [openMove, setOpenMove] = useState<boolean>(false);
   const [openApprove, setOpenApprove] = useState<string>('');
   const [openReject, setOpenReject] = useState<string>('');
 
   const { mutate: finishApplicant } = useFinishApplicant();
-  const { mutate: moveApplicant } = useMoveApplicant({
-    onSuccess: () => {
-      void queryClient.invalidateQueries([
-        'api/applicant/:id/project/:projectId'
-      ]);
-
-      void antMessage.success('successfully moved', 2);
-    },
-    onError: (data: { response: { data: { message: string } } }) => {
-      void antMessage.error(data.response.data.message, 2);
-    }
-  });
+  const { mutate: moveApplicant } = useMoveApplicant();
 
   return (
     <>
