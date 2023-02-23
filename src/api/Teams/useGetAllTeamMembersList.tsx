@@ -14,6 +14,7 @@ const useGetAllTeamsList: (
     async () => await client.get(`${USE_GET_TEAM_LIST}/${params?.projectId}`, { params: { limit: params.limit, offset: params.offset, search: params.search } }),
     {
       select: (data) => data?.data,
+      retry: false,
       ...options
     }
   );

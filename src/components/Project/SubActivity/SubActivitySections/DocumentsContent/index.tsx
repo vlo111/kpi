@@ -76,7 +76,7 @@ const SubActivityDocuments: React.FC<any> = ({
           style={{
             width: '100%',
             borderBottom: '0.5px solid var(--dark-border-ultramarine)',
-            padding: '16px 0'
+            padding: '1vh 0'
           }}
         >
           <Row
@@ -97,7 +97,7 @@ const SubActivityDocuments: React.FC<any> = ({
               Downloaded
             </Col>
           </Row>
-          <Col style={{ padding: '0', maxHeight: '60px', overflowY: 'scroll' }}>
+          <Col style={{ padding: '0', maxHeight: '50px', overflowY: 'scroll' }}>
             {requIredDocs?.map((doc: { title: string, count: number }) => (
               <Row
                 align="middle"

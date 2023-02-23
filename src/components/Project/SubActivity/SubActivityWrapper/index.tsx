@@ -46,9 +46,9 @@ const Wrapper = styled(Col)<{ color: string | undefined }>`
 
     .ant-upload-list{
       position: absolute !important;
-      top: 240px !important;
+      top: 25vh;
       width: 100% !important;
-      max-height: 50px !important;
+      max-height: 53px !important;
     }
   }
   .participant_form,

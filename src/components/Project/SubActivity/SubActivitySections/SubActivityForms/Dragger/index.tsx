@@ -118,7 +118,7 @@ const DraggerForm: React.FC<IDraggerProps> = ({
     onChange: handleChange,
     name: 'file',
     disabled,
-    accept: '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx'
+    accept: '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx,.png,.jpeg'
   };
 
   return (
