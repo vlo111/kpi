@@ -125,7 +125,7 @@ const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
 
   const firstName = applicant?.fullName.charAt(0).toUpperCase() ?? '';
 
-  const lastName = applicant?.fullName.split(' ')[1].charAt(0).toUpperCase() ?? '';
+  const lastName = applicant?.fullName.split(' ')[1]?.charAt(0)?.toUpperCase() ?? '';
 
   return (
     <Spin spinning={isLoading}>
