@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Col, message, Row, Space, Tooltip, UploadProps } from 'antd';
+import { Button, Col, Row, Space, Tooltip, UploadProps } from 'antd';
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/lib/table';
 
@@ -37,14 +37,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   const [selectedApplicants, setSelectedApplicants] = useState<IApplicantData[]>([]);
   const navigate = useNavigate();
   const { mutate: addFileCourse } = useAttacheFiles();
-  const { mutate: importApplicant } = useImportApplicantsIntoExcelFile({
-    onSuccess: () => {
-      void message.success('Applicants have been successfully added');
-    },
-    onError: () => {
-      void message.error('Insufficient file format !!');
-    }
-  });
+  const { mutate: importApplicant } = useImportApplicantsIntoExcelFile();
 
   const props: UploadProps = {
     customRequest: (options: any) => {
@@ -169,7 +162,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
           </Col>
           <Col style={{ display: 'flex', gap: '5px' }}>
             Upload list of applicants
-            <AsnDragger2 {...props}>
+            <AsnDragger2 {...props} disabled={status === 'DONE'}>
               <CloudDownloadOutlined />
             </AsnDragger2>
           </Col>
@@ -203,7 +196,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
               pagination={false}
               rowSelection={rowSelection}
             />
-            <SubActivityStatus sectionDataId={courseId} applicants={selectedApplicants} />
+            <SubActivityStatus status={status} sectionDataId={courseId} applicants={selectedApplicants} />
           </>
         )}
       </Space>
