@@ -35,13 +35,17 @@ const StatusRow = styled(Row)`
     margin-right: 0;
   }
 
-  .reject, .approve {
+  .reject,
+  .approve {
     width: 6rem;
     height: 44px;
   }
 `;
 
-const SubActivityStatus: React.FC<ISubActivityStatus> = ({ sectionDataId, applicants }) => {
+const SubActivityStatus: React.FC<ISubActivityStatus> = ({
+  sectionDataId,
+  applicants
+}) => {
   const [openFinish, setOpenFinish] = useState<boolean>(false);
   const [openMove, setOpenMove] = useState<boolean>(false);
   const [openApprove, setOpenApprove] = useState<string>('');
