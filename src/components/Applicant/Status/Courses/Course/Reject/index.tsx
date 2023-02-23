@@ -109,6 +109,8 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
       applicantIds: applicants.map((a) => a.id)
     });
 
+    form.resetFields();
+
     void onCancel();
   };
 
