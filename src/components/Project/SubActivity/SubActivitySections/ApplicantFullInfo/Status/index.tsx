@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { message as antMessage, Row } from 'antd';
+import { Row } from 'antd';
 
 import { ReactComponent as ArrowSvg } from '../../../../../Applicant/Status/Courses/Icons/arrow.svg';
 
@@ -12,7 +12,6 @@ import { IApplicantData } from '../../../../../../types/api/activity/subActivity
 import styled from 'styled-components';
 import ApproveModal from '../../../../../Applicant/Status/Courses/Course/Approve';
 import RejectModal from '../../../../../Applicant/Status/Courses/Course/Reject';
-import { useQueryClient } from '@tanstack/react-query';
 
 interface ISubActivityStatus {
   sectionDataId: string
