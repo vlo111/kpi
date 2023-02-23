@@ -179,7 +179,7 @@ const ActivityTemplate: React.FC = () => {
             data: questionType === 'DROPDOWN' ? [...values.names] : []
           }
         });
-        form.resetFields();
+        form.resetFields(['question', 'answerType', 'names']);
       } else {
         createTemplateSetting({
           id: templateId,
@@ -201,7 +201,7 @@ const ActivityTemplate: React.FC = () => {
     setIsVisibleAddField(false);
     setQuestionType('');
     setRowItem(null);
-    form.resetFields();
+    form.resetFields(['question', 'answerType', 'names']);
   };
 
   const onNextClick: Void = () => {
