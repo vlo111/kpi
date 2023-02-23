@@ -6,6 +6,8 @@ import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { IStatusFilter } from '../../../../../types/project';
 import { AsnCheckbox, AsnCheckboxGroup } from '../../../../../components/Forms/Checkbox';
 import { Onchange } from '../../../../../types/global';
+import { ReactComponent as CloseIcon } from '../../../../../assets/icons/closeIcon.svg';
+
 
 const plainOptions = ['DONE', 'ACTIVE', 'INACTIVE'];
 
@@ -34,7 +36,6 @@ export const StatusFilter: React.FC<IStatusFilter> = ({
   const handleOpenChange: Onchange = (newOpen) => {
     setOpen(newOpen);
   };
-
   const content = (
     <Row gutter={[4, 3]} style={{ width: '92px', padding: '9px 5px' }}>
       <Col span={22}>
@@ -57,6 +58,7 @@ export const StatusFilter: React.FC<IStatusFilter> = ({
     </Row>
   );
   return (
+    <>
     <Popover
       trigger="click"
       open={open}
@@ -71,5 +73,14 @@ export const StatusFilter: React.FC<IStatusFilter> = ({
         Status
       </Button>
     </Popover>
+    <Row style={{ display: 'flex', justifyContent: 'center' }}>
+    {checkedList &&
+        checkedList?.length > 2
+          ? (
+            <Col>All <CloseIcon onClick={onCheckAllChange} style={{ height: '10px', cursor: 'pointer' }}/> </Col>
+            )
+          : ( checkedList && checkedList?.length > 0 )? <Col >{checkedList?.join(', ')} <CloseIcon onClick={onCheckAllChange} style={{ height: '10px', cursor: 'pointer' }}/> </Col> : null}
+      </Row>
+      </>
   );
 };
