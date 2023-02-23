@@ -188,7 +188,7 @@ export interface ICustomInputs {
 }
 
 export interface IAssignUserModalTypes {
-  open: true
+  open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   subActivityId?: string
 }

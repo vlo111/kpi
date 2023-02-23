@@ -123,6 +123,10 @@ const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
     </>
   );
 
+  const firstName = applicant?.fullName.charAt(0).toUpperCase() ?? '';
+
+  const lastName = applicant?.fullName.split(' ')[1]?.charAt(0)?.toUpperCase() ?? '';
+
   return (
     <Spin spinning={isLoading}>
       <Row height={100} style={{ padding: '2rem 4rem' }} gutter={[0, 32]}>
@@ -148,7 +152,7 @@ const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
               <Col span={8} style={{ height: '60%' }}>
                 <InfoRow>
                   <Col span={24}>
-                    <AsnAvatar size={80} letter={'VV'} />
+                    <AsnAvatar letter={`${firstName}${lastName}`} />
                   </Col>
                   <Col span={24}>
                     <AntTitle level={4}>{applicant?.fullName}</AntTitle>

@@ -122,12 +122,12 @@ const SubActivitySections: React.FC<any> = ({
           className="custom_section_tabs"
         >
           <TabPane forceRender key="1">
-            {activity?.status === 'INACTIVE' && (
+            {(activity?.status === 'INACTIVE') && (
               <Row justify="center">
                 <AsnButton
                   type="primary"
                   className="primary"
-                  disabled={activity?.status === 'INACTIVE' && index !== 0}
+                  disabled={(activity?.status === 'INACTIVE' && activity?.applicants?.length === 0) && index !== 0}
                   style={{ width: '35vw' }}
                   onClick={() => {
                     setActiveKey(
@@ -146,8 +146,7 @@ const SubActivitySections: React.FC<any> = ({
               status={activity?.status}
               courseId={activity?.id}
               files={activity?.section?.files}
-              requIredDocs={activity?.section?.requiredDocuments
-              }
+              requIredDocs={activity?.section?.requiredDocuments}
             />
           </TabPane>
           {activity?.section?.sectionSettingMap?.map((item: any) => (

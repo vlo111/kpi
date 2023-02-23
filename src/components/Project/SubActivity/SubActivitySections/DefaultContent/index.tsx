@@ -31,7 +31,7 @@ const DefaultContent: React.FC<any> = ({
         </Col>
       </Row>
       <Col>
-        {(status === 'ACTIVE' || status === 'DONE') && <SubActivityUsersFullInfo status={status} color={color} applicants={applicants} courseId={courseId} />}
+        {(status === 'ACTIVE' || status === 'DONE' || applicants?.length > 0) && <SubActivityUsersFullInfo status={status} color={color} applicants={applicants} courseId={courseId} />}
       </Col>
     </Space>
   );

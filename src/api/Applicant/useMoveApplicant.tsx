@@ -18,6 +18,7 @@ const useMoveApplicant: UseMoveApplicant = () => {
     {
       onSuccess: () => {
         void queryClient.invalidateQueries(['api/applicant/:id/project/:projectId']);
+        void queryClient.invalidateQueries(['/api/sub-activity']);
 
         void message.success('successfully moved', 2);
       },

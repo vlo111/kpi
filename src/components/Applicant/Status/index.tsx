@@ -8,7 +8,7 @@ import { ApplicantDefaultStatus } from '../../../helpers/constants';
 
 const ApplicantTabs: React.FC<IApplicantTabs> = ({ courses, applicant, applicantId }) => {
   const items: StatusItems = courses?.map((course, i) => ({
-    key: course.title,
+    key: course.sectionDataId,
     label: (
       <ResultAreasTitles
         title={course.title}
