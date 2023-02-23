@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Radio, Space, Typography } from 'antd';
 import { AsnButton } from '../../Forms/Button';
@@ -27,6 +27,10 @@ const AnswersInput = styled(AsnInput)`
   border: 1px solid var(--light-border);
   :hover {
     border: 1px solid var(--light-border) !important;
+  }
+
+  :disabled {
+    color: rgba(0, 0, 0, 0.85);
   }
 `;
 
@@ -79,11 +83,27 @@ const DynamicQuestionForm: React.FC<any> = ({
   checkbox,
   setCheckbox,
   checkboxScoreCount,
-  checkboxScoreCalc
+  checkboxScoreCalc,
+  assessmentData
 }) => {
   const [addOder, setAddOder] = useState(true);
 
   const form = AsnForm.useFormInstance();
+
+  useEffect(() => {
+    if (
+      form.getFieldValue(['questions', contentName[0], 'answerType']) ===
+      'OPTION'
+    ) {
+      form
+        .getFieldValue(['questions', contentName[0], 'answers'])
+        ?.forEach((item: any): any => {
+          if (item.title === 'Other') {
+            setAddOder(false);
+          }
+        });
+    }
+  }, [assessmentData]);
 
   const onDeleteAnswer: any = (remove: any, name: number) => {
     const field = form.getFieldValue(['questions', contentName[0], 'answers']);
@@ -180,7 +200,18 @@ const DynamicQuestionForm: React.FC<any> = ({
                         }
                       ]}
                     >
-                      <AnswersInput placeholder={`Option ${name + 1}`} />
+                      <AnswersInput
+                        placeholder={`Option ${name + 1}`}
+                        disabled={
+                          form.getFieldValue([
+                            'questions',
+                            contentName[0],
+                            'answers',
+                            name,
+                            'title'
+                          ]) === 'Other' || preview === true
+                        }
+                      />
                     </AsnForm.Item>
                   </Radio>
                   <Space>

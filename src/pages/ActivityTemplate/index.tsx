@@ -247,7 +247,7 @@ const ActivityTemplate: React.FC = () => {
   useEffect(() => {
     if (data !== undefined) {
       form.setFieldsValue({
-        includeForm: data?.applicationForm,
+        includeForm: data?.applicationForm !== null ? data?.applicationForm : [],
         courseStructure: data?.courseStructure === null
           ? 'ONE_SECTION'
           : data?.courseStructure
