@@ -6,14 +6,18 @@ import {
   Typography,
   Spin
 } from 'antd';
+import moment from 'moment';
 import styled from 'styled-components';
+import { useLocation, useParams } from 'react-router-dom';
+
 import AsnAvatar from '../../components/Forms/Avatar';
 import ApplicantTabs from './Status';
-import { useParams } from 'react-router-dom';
 import useGetApplicant from '../../api/Applicant/useGetApplicant';
 import { ApplicantInfo } from '../../helpers/constants';
-import moment from 'moment';
 import { ApplicantRow, IApplicantProps, SetValue } from '../../types/applicant';
+import AsnBreadcrumb from '../Forms/Breadcrumb';
+import { INavigateRoteInfoTypes } from '../../types/api/assessment';
+import { useProject } from '../../hooks/useProject';
 
 const Row = styled(AntRow)<ApplicantRow>`
   height: auto;
@@ -93,6 +97,10 @@ const setValue: SetValue = (key, value = '') => (
 const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
   const { id } = useParams();
 
+  const { projectId }: { projectId: string } = useProject();
+
+  const { state: { navigateRouteInfo } }: { state: { navigateRouteInfo: INavigateRoteInfoTypes } } = useLocation();
+
   const { applicant, courses, isLoading } =
     useGetApplicant(applicantId ?? id) ?? {};
 
@@ -136,11 +144,27 @@ const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
               <InfoRow>
                 <Col className="path">
                   <p>
-                    {
-                      'Objective 1 > Activity 1.3 > Python Course > Applicants >'
-                    }
+                    <AsnBreadcrumb
+                      routes={[
+                        {
+                          path: `/project/overview/${projectId}`,
+                          breadcrumbName: navigateRouteInfo.resultAreaTitle
+                        },
+                        {
+                          path: `/project/overview/${projectId}`,
+                          breadcrumbName: navigateRouteInfo.inputActivityTitle
+                        },
+                        {
+                          path: `/project/sub-activity/${navigateRouteInfo.courseId}`,
+                          breadcrumbName: navigateRouteInfo.courseTitle
+                        },
+                        {
+                          path: '',
+                          breadcrumbName: applicant?.fullName ?? ''
+                        }
+                      ]}
+                    />
                   </p>
-                  <p>{applicant?.fullName}</p>
                 </Col>
               </InfoRow>
             </Col>

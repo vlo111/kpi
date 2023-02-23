@@ -13,6 +13,7 @@ import SignIn from '../../pages/Auth/SignIn';
 import { ExpectElementExist, Login } from '../../types/test';
 import { VALIDATE_EMPTY, VALIDATE_FILLED } from '../../helpers/constants';
 import renderer from 'react-test-renderer';
+import { ProjectProvider } from '../../hooks/useProject';
 
 /**
  * Login function
@@ -48,7 +49,7 @@ const expectNotInTheDocument: ExpectElementExist = async (item) =>
 
 describe('Sign In Form', () => {
   beforeEach(() => {
-    render(<SignIn />);
+    render(<ProjectProvider><SignIn /></ProjectProvider>);
   });
 
   /**

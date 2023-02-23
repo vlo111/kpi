@@ -58,10 +58,6 @@ const FillApplicationFormContainer = styled.div`
     border-color: var(--dark-5) !important;
   }
 
-  .ant-radio-disabled .ant-radio-inner:after {
-    background-color: rgba(0, 0, 0, 0.2);
-  }
-
   .ant-radio.ant-radio-disabled .ant-radio-inner {
     border-color: var(--dark-5);
   }
@@ -74,12 +70,29 @@ const FillApplicationFormContainer = styled.div`
   .ant-picker.ant-picker-disabled {
     background-color: var(--white) !important;
     border-color: var(--dark-5);
+    
+    input {
+      color: rgba(0,0,0,.85)
+    }
   }
 
   .ant-input-disabled {
-    &:hover {
-      border: 1px solid var(--dark-5) !important;
+    border-color: var(--dark-5) !important;
+    color: rgba(0,0,0,.85)
+  }
+
+  .ant-radio-disabled+span, .ant-checkbox-disabled+span {
+    color: rgba(0,0,0,.85)
+  }
+  
+  .ant-select-disabled {
+    .ant-select-selection-item {
+      color: rgba(0,0,0,.85)
     }
+  }
+
+  .ant-checkbox-disabled.ant-checkbox-checked .ant-checkbox-inner:after {
+    border-color: var(--dark-border-ultramarine);
   }
 `;
 

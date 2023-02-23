@@ -54,7 +54,7 @@ export const VALIDATE_MESSAGES = {
   }
 };
 export const MenuItems = [
-  'Dashboard',
+  // 'Dashboard',
   'Project',
   'Team',
   'Applicants',
@@ -63,7 +63,7 @@ export const MenuItems = [
   'Keyboard Shortcuts'
 ];
 export const menuItemsNavigate = [
-  '/dashboard',
+  // '/dashboard',
   '/project/create',
   '/teams',
   '/applicants',

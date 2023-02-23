@@ -31,6 +31,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   color,
   applicants,
   courseId,
+  navigateRouteInfo,
   status
 }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -91,9 +92,9 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
               icon = <NotSubmitedSvg title="Not submitted" />;
             } else {
               if (applicant.preAssessmentScore) {
-                icon = <NotAssessedSvg />;
+                icon = <SubmitedSvg title="Submitted" />;
               } else {
-                icon = <SubmitedSvg />;
+                icon = <NotAssessedSvg title="Not assessed" />;
               }
             }
             break;
@@ -103,9 +104,9 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
               icon = <NotSubmitedSvg title="Not submitted" />;
             } else {
               if (applicant.postAssessmentScore) {
-                icon = <NotAssessedSvg />;
+                icon = <SubmitedSvg title="Submitted" />;
               } else {
-                icon = <SubmitedSvg />;
+                icon = <NotAssessedSvg title="Not assessed" />;
               }
             }
             break;
@@ -185,7 +186,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                 return {
                   onClick: () => {
                     navigate(`/${PATHS.APPLICANT.replace(':id', record.id)}`, {
-                      state: status
+                      state: { status, navigateRouteInfo }
                     });
                   }
                 };
@@ -196,7 +197,11 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
               pagination={false}
               rowSelection={rowSelection}
             />
-            <SubActivityStatus status={status} sectionDataId={courseId} applicants={selectedApplicants} />
+            <SubActivityStatus
+              status={status}
+              sectionDataId={courseId}
+              applicants={selectedApplicants}
+            />
           </>
         )}
       </Space>
