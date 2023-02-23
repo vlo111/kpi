@@ -308,6 +308,14 @@ const GlobalStyle = createGlobalStyle`
       border: 1px solid var(--dark-border-ultramarine);
       border-radius: 40px;
       padding: 24px;
+
+      .applicant-status-header {
+        font-size: var(--base-font-size);
+        color: var(--dark-border-ultramarine);
+        display: flex;
+        justify-content: center;
+        margin: 1rem 0 2rem;
+      }
       
       .applicant-status-row {
         margin: 8px 16px;
