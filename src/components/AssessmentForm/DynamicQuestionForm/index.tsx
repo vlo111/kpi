@@ -195,8 +195,7 @@ const DynamicQuestionForm: React.FC<any> = ({
                         {
                           required: true,
                           message: 'Enter required fields',
-                          min: 1,
-                          max: 256
+                          min: 1
                         }
                       ]}
                     >
@@ -293,8 +292,7 @@ const DynamicQuestionForm: React.FC<any> = ({
                         {
                           required: true,
                           message: 'Enter required fields',
-                          min: 1,
-                          max: 256
+                          min: 1
                         }
                       ]}
                     >

@@ -49,31 +49,32 @@ const AssessmentFormItems: React.FC<any> = ({
   };
 
   useEffect(() => {
-    if (assessmentData !== undefined) {
-      assessmentData.questions.forEach((question: any): any => {
-        if (question.answers.length > 0 && question.answerType === 'OPTION') {
-          question.answers.forEach((answer: any, index: number): void => {
-            if (answer.score > 0) {
-              setRadio(index);
-            }
-          });
-        }
-        if (question.answers.length > 0 && question.answerType === 'CHECKBOX') {
-          const arr: number[] = [];
-          question.answers.forEach((answer: any, index: number): void => {
-            if (answer.score > 0) {
-              arr.push(index);
-            }
-            setCheckbox(arr);
-          });
-        }
-      });
-    }
+    form.getFieldValue(['questions'])?.forEach((question: any): any => {
+      if (question?.answers?.length > 0 && question?.answerType === 'OPTION') {
+        question?.answers?.forEach((answer: any, index: number): void => {
+          if (answer.score > 0) {
+            setRadio(index);
+          }
+        });
+      }
+      if (
+        question?.answers?.length > 0 &&
+        question?.answerType === 'CHECKBOX'
+      ) {
+        const arr: number[] = [];
+        question?.answers?.forEach((answer: any, index: number): void => {
+          if (answer.score > 0) {
+            arr.push(index);
+          }
+          setCheckbox(arr);
+        });
+      }
+    });
     if (form.getFieldValue(['questions', name[0], 'answers']) !== undefined) {
       calcScores();
       checkboxScoreCalc();
     }
-  }, [assessmentData, form]);
+  }, [assessmentData]);
 
   return (
     <CardContainer
