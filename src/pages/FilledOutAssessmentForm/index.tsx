@@ -123,14 +123,14 @@ const FilledOutAssessmentForm: React.FC = () => {
               {(preAssessmentForm?.questions ?? postAssessmentForm?.questions).map((question, i: number) =>
                 question.answerType === 'SHORT_TEXT'
                   ? (
-                  <ShortTextType key={i} question={question} i={i} />
+                    <ShortTextType key={i} question={question} i={i} />
                     )
                   : question.answerType === 'OPTION'
                     ? (
-                  <OptionType key={i} question={question} i={i} setAllScore={setAllScore} allScore={allScore} />
+                      <OptionType key={i} question={question} i={i} setAllScore={setAllScore} allScore={allScore} />
                       )
                     : (
-                  <CheckBoxType key={i} question={question} i={i} setAllScore={setAllScore} allScore={allScore} />
+                      <CheckBoxType key={i} question={question} i={i} setAllScore={setAllScore} allScore={allScore} />
                       )
               )}
             </Space>
@@ -141,19 +141,24 @@ const FilledOutAssessmentForm: React.FC = () => {
             <Space
               direction="horizontal"
               align="center"
-              style={{ paddingTop: '30px' }}
+            style={(preAssessmentForm?.onlineSignature ?? postAssessmentForm?.onlineSignature)
+              ? { float: 'right', paddingTop: '30px' }
+              : { paddingTop: '30px' }}
             >
-              <AsnParagraph className="main">Online Signature</AsnParagraph>
-              <UnderLineInput
-                style={{ width: 'calc(80vw - 354px)' }}
-                disabled
-              />
+              {(preAssessmentForm?.onlineSignature ?? postAssessmentForm?.onlineSignature) &&
+                <>
+                  <AsnParagraph className="main">Online Signature</AsnParagraph>
+                  <UnderLineInput
+                    style={{ width: 'calc(80vw - 354px)' }}
+                    disabled />
+                </>
+              }
               <Space direction="horizontal">
                 <AsnParagraph className="main">Total</AsnParagraph>
                 <AsnInputNumber
                   disabled
                   className="primary"
-                  value={preAssessmentForm?.userAssessedScore ?? allScore ?? preAssessmentForm?.userEarnedScore ?? postAssessmentForm.userAssessedScore ?? postAssessmentForm?.userEarnedScore }
+                  value={preAssessmentForm?.userAssessedScore ?? allScore ?? preAssessmentForm?.userEarnedScore ?? postAssessmentForm.userAssessedScore ?? postAssessmentForm?.userEarnedScore}
                 />
               </Space>
             </Space>
@@ -177,38 +182,38 @@ const FilledOutAssessmentForm: React.FC = () => {
         >
           {(preAssessmentForm?.userAssessedScore === undefined && postAssessmentForm?.userAssessedScore === undefined)
             ? (
-            <>
-              <AsnButton
-                className="default"
-                onClick={() =>
-                  navigate(`/${PATHS.APPLICANT.replace(':id', id as string)}`)
-                }
-              >
-                Cancel
-              </AsnButton>
-              <AsnForm.Item>
+              <>
                 <AsnButton
-                  className="primary"
-                  htmlType="submit"
-                  style={{ marginTop: '30px' }}
+                  className="default"
+                  onClick={() =>
+                    navigate(`/${PATHS.APPLICANT.replace(':id', id as string)}`)
+                  }
                 >
-                  Assess
+                  Cancel
                 </AsnButton>
-              </AsnForm.Item>
-            </>
+                <AsnForm.Item>
+                  <AsnButton
+                    className="primary"
+                    htmlType="submit"
+                    style={{ marginTop: '30px' }}
+                  >
+                    Assess
+                  </AsnButton>
+                </AsnForm.Item>
+              </>
               )
             : (
-            <>
-              <AsnButton
-                className="primary"
-                style={{ marginTop: '30px' }}
-                onClick={() =>
-                  navigate(`/${PATHS.APPLICANT.replace(':id', id as string)}`)
-                }
-              >
-                Back
-              </AsnButton>
-            </>
+              <>
+                <AsnButton
+                  className="primary"
+                  style={{ marginTop: '30px' }}
+                  onClick={() =>
+                    navigate(`/${PATHS.APPLICANT.replace(':id', id as string)}`)
+                  }
+                >
+                  Back
+                </AsnButton>
+              </>
               )}
         </Space>
       </AsnForm>
