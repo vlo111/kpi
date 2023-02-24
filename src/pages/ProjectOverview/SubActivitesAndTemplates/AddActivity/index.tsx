@@ -73,24 +73,24 @@ const AddSubActivity: React.FC<IAddActivity> = ({
       >
         <Row gutter={[64, 20]} style={{ width: '100%', cursor: 'pointer' }}>
           {templates?.map((template, i) => (
-            <Col
-              key={i}
-              span={8}
-              onClick={() => {
-                setTemplateId(template?.id);
-                setOpenCreateSubActivity(true);
-              }}
-            >
+            <>
               {template?.status !== 'DRAFT'
                 ? (
-                <Card className="cardActive">
-                  {template?.title}/{template?.courseStructure}
-                </Card>
+                <Col
+                  key={i}
+                  span={8}
+                  onClick={() => {
+                    setTemplateId(template?.id);
+                    setOpenCreateSubActivity(true);
+                  }}
+                >
+                  <Card className="cardActive">
+                    {template?.title}/{template?.courseStructure}
+                  </Card>
+                </Col>
                   )
-                : (
-                    ''
-                  )}
-            </Col>
+                : null}
+            </>
           ))}
         </Row>
       </SubModal>
