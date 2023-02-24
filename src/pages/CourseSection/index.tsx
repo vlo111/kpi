@@ -102,7 +102,7 @@ const CourseSection: React.FC = () => {
           onClick={onAddSection}
           style={{ width: '88%', marginTop: '2rem' }}
         >
-          +Add Section
+          +Add Phase
         </AsnButton>
           )
         : null}
