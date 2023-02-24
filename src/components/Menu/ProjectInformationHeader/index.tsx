@@ -1,13 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Col, Row, Badge, Divider, Typography } from 'antd';
+import { Col, Row, Badge, Divider } from 'antd';
 import styled from 'styled-components';
 import moment from 'moment';
 
 import { PATHS } from '../../../helpers/constants';
 import { IInfoHeader } from '../../../types/global';
 import { ReactComponent as WarningSvg } from '../../../assets/icons/project-warning.svg';
-import { ReactComponent as PeopleSvg } from '../../../assets/icons/people.svg';
 import Icon from '@ant-design/icons';
 
 const AntBadge = styled(Badge)`
@@ -43,7 +42,6 @@ const AntCol = styled(Col)`
   text-overflow: ellipsis;
 `;
 
-const { Text } = Typography;
 const ProjectInformationHeader: React.FC<IInfoHeader> = ({
   overview,
   project,
@@ -84,19 +82,6 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
                     <Col style={{ fontSize: 'var(--base-font-size)' }}>
                       {moment(project?.startDate).format('DD/MM/YYYY')} -
                       {moment(project?.endDate).format('DD/MM/YYYY')}
-                      <AntDivider type="vertical" />
-                    </Col>
-                    <Col>
-                      <AntIcon component={PeopleSvg} />
-                      <Text
-                        underline={true}
-                        style={{
-                          fontSize: 'var(--base-font-size)',
-                          marginLeft: '8px'
-                        }}
-                      >
-                        1
-                      </Text>
                       <AntDivider type="vertical" />
                     </Col>
                     {project?.status !== 'DRAFT' && project?.id != null && (
