@@ -154,7 +154,7 @@ const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
                           breadcrumbName: state?.navigateRouteInfo.inputActivityTitle ?? ''
                         },
                         {
-                          path: `/project/sub-activity/${state?.navigateRouteInfo.courseId}`,
+                          path: `/project/sub-activity/${state?.navigateRouteInfo.courseId ?? ''}`,
                           breadcrumbName: state?.navigateRouteInfo.courseTitle ?? ''
                         },
                         {
