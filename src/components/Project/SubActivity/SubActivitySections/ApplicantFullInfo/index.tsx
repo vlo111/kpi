@@ -92,7 +92,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
               icon = <NotSubmitedSvg title="Not submitted" />;
             } else {
               if (applicant.preAssessmentScore) {
-                icon = <SubmitedSvg title="Submitted" />;
+                icon = <SubmitedSvg title="Assessed" />;
               } else {
                 icon = <NotAssessedSvg title="Not assessed" />;
               }
@@ -104,7 +104,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
               icon = <NotSubmitedSvg title="Not submitted" />;
             } else {
               if (applicant.postAssessmentScore) {
-                icon = <SubmitedSvg title="Submitted" />;
+                icon = <SubmitedSvg title="Assessed" />;
               } else {
                 icon = <NotAssessedSvg title="Not assessed" />;
               }
