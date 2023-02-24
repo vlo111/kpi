@@ -43,7 +43,8 @@ const QuestionContent: React.FC<any> = ({
   checkbox,
   setCheckbox,
   checkboxScoreCount,
-  checkboxScoreCalc
+  checkboxScoreCalc,
+  assessmentData
 }) => {
   const form = AsnForm.useFormInstance();
   const onInputNumberChange: Void = () => {
@@ -91,6 +92,7 @@ const QuestionContent: React.FC<any> = ({
           setCheckbox={setCheckbox}
           checkboxScoreCount={checkboxScoreCount}
           checkboxScoreCalc={checkboxScoreCalc}
+          assessmentData={assessmentData}
         />
           )
         : (
