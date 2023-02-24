@@ -99,14 +99,14 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
               }
             ]}
           >
-            <AsnInput placeholder="One section course " />
+            <AsnInput placeholder="One phase course " />
           </AsnForm.Item>
           <AsnForm.Item
             name="description"
             label='Description'
             rules={[{ max: 256, message: 'Maximum 256 characters.' }]}
           >
-            <AsnTextArea placeholder="Activity Template for long-term courses. The course has one section." />
+            <AsnTextArea placeholder="Activity Template for long-term courses. The course has one phase." />
           </AsnForm.Item>
           <div className="buttonContainer">
             <AsnButton onClick={onCancelClick} className="default">
