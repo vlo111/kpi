@@ -66,8 +66,7 @@ const QuestionContent: React.FC<any> = ({
           {
             required: true,
             message: 'Enter required fields',
-            min: 2,
-            max: 256
+            min: 2
           }
         ]}
       >
