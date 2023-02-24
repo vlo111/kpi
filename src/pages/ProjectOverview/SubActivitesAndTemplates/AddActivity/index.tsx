@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Card, Row, Col } from "antd";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import { Card, Row, Col } from 'antd';
+import styled from 'styled-components';
 
-import { AddManagerHandle, IAddActivity } from "../../../../types/project";
-import { AsnModal } from "../../../../components/Forms/Modal";
+import { AddManagerHandle, IAddActivity } from '../../../../types/project';
+import { AsnModal } from '../../../../components/Forms/Modal';
 // import CreateSubActivityModal from '../../../../components/Project/SubActivity/SubActivityModals/CreateModal';
-import CreateSubCourse from "../../../../components/Project/SubActivity/SubActivityModals/Create";
+import CreateSubCourse from '../../../../components/Project/SubActivity/SubActivityModals/Create';
 
 const SubModal = styled(AsnModal)`
   padding: 4.3vh 1.3vw 4.5vh 2.3vh !important;
@@ -54,11 +54,11 @@ const SubModal = styled(AsnModal)`
 const AddSubActivity: React.FC<IAddActivity> = ({
   isOpenCreateActivityModal,
   setIsOpenCreateActivityModal,
-  templates,
+  templates
 }) => {
   const [openCreateSubActivity, setOpenCreateSubActivity] =
     useState<boolean>(false);
-  const [templateId, setTemplateId] = useState<string>("");
+  const [templateId, setTemplateId] = useState<string>('');
   const handleCancel: AddManagerHandle = () => {
     setIsOpenCreateActivityModal(false);
   };
@@ -71,10 +71,11 @@ const AddSubActivity: React.FC<IAddActivity> = ({
         title="Active Templates "
         onCancel={handleCancel}
       >
-        <Row gutter={[64, 20]} style={{ width: "100%", cursor: "pointer" }}>
+        <Row gutter={[64, 20]} style={{ width: '100%', cursor: 'pointer' }}>
           {templates?.map((template, i) => (
             <>
-              {template?.status !== "DRAFT" ? (
+              {template?.status !== 'DRAFT'
+                ? (
                 <Col
                   key={i}
                   span={8}
@@ -87,7 +88,8 @@ const AddSubActivity: React.FC<IAddActivity> = ({
                     {template?.title}/{template?.courseStructure}
                   </Card>
                 </Col>
-              ) : null}
+                  )
+                : null}
             </>
           ))}
         </Row>
