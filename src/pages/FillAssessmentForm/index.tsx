@@ -151,6 +151,7 @@ const FillAssessMentForm: React.FC = () => {
               </div>
             )}
           </AsnForm.List>
+         {assessmentForm.onlineSignature &&
           <AsnForm.Item>
             <Space direction='horizontal' align='center' style={{ paddingTop: '30px' }}>
               <Paragraph
@@ -160,7 +161,7 @@ const FillAssessMentForm: React.FC = () => {
               </Paragraph>
               <UnderLineInput style={{ width: 'calc(80vw - 196px)' }} />
             </Space>
-          </AsnForm.Item>
+          </AsnForm.Item>}
           <AsnForm.Item>
             <AsnButton
               className="primary"

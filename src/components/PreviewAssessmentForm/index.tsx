@@ -116,7 +116,8 @@ const PreviewAssessmentForm: React.FC<any> = ({
             </div>
           )}
         </AsnForm.List>
-        <AsnForm.Item>
+       {(assessmentForm?.onlineSignature ?? data?.onlineSignature) &&
+       <AsnForm.Item>
           <Space
             direction="horizontal"
             align="center"
@@ -133,7 +134,7 @@ const PreviewAssessmentForm: React.FC<any> = ({
             </Paragraph>
             <UnderLineInput disabled />
           </Space>
-        </AsnForm.Item>
+        </AsnForm.Item>}
       </AsnForm>
     {applicantPreview === undefined && <Space
         style={{
