@@ -96,10 +96,9 @@ const setValue: SetValue = (key, value = '') => (
 
 const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
   const { id } = useParams();
+  const { state }: { state: { navigateRouteInfo: INavigateRoteInfoTypes } | null } = useLocation();
 
   const { projectId }: { projectId: string } = useProject();
-
-  const { state: { navigateRouteInfo } }: { state: { navigateRouteInfo: INavigateRoteInfoTypes } } = useLocation();
 
   const { applicant, courses, isLoading } =
     useGetApplicant(applicantId ?? id) ?? {};
@@ -148,15 +147,15 @@ const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
                       routes={[
                         {
                           path: `/project/overview/${projectId}`,
-                          breadcrumbName: navigateRouteInfo.resultAreaTitle
+                          breadcrumbName: state?.navigateRouteInfo.resultAreaTitle ?? ''
                         },
                         {
                           path: `/project/overview/${projectId}`,
-                          breadcrumbName: navigateRouteInfo.inputActivityTitle
+                          breadcrumbName: state?.navigateRouteInfo.inputActivityTitle ?? ''
                         },
                         {
-                          path: `/project/sub-activity/${navigateRouteInfo.courseId}`,
-                          breadcrumbName: navigateRouteInfo.courseTitle
+                          path: `/project/sub-activity/${state?.navigateRouteInfo.courseId}`,
+                          breadcrumbName: state?.navigateRouteInfo.courseTitle ?? ''
                         },
                         {
                           path: '',
