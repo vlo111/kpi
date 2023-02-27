@@ -120,6 +120,10 @@ export interface IGetApplicantForm {
   id: string
   preAssessmentForm: IPreAssessMentForm
   postAssessmentForm: IPreAssessMentForm
+  preAssessmentAppliedAt: string
+  postAssessmentAppliedAt: string
+  preAssessmentCheckedAt: string
+  postAssessmentCheckedAt: string
 }
 export interface IGetApplicantFormResult {
   data: IGetApplicantForm
