@@ -136,8 +136,10 @@ export type OnNoteHandler = ChangeEventHandler<HTMLTextAreaElement>;
 export interface ICourseProps {
   history: IHistory
   applicant: IApplicant
+  isFirst: boolean
   isLast: boolean
   isActive: boolean
+  isLastInactive: boolean
   applicantId: string | undefined
 }
 
