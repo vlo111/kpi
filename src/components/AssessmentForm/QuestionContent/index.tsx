@@ -6,6 +6,7 @@ import { AsnTextArea } from '../../Forms/Input';
 import DynamicQuestionForm from '../DynamicQuestionForm';
 import { ScoreInputNumber } from '../DynamicAssessmentForm';
 import { Void } from '../../../types/global';
+import { IQuestionContent } from '../../../types/api/assessment';
 
 const { Title } = Typography;
 
@@ -32,7 +33,7 @@ const AddQuestionTextArea = styled(AsnTextArea)`
   }
 `;
 
-const QuestionContent: React.FC<any> = ({
+const QuestionContent: React.FC<IQuestionContent> = ({
   name,
   answerType,
   setAllScore,
@@ -51,8 +52,8 @@ const QuestionContent: React.FC<any> = ({
     const allScores = form
       .getFieldValue(['questions'])
       .reduce(
-        (a: any, d: { score: any }) =>
-          +a + Number(d.score === undefined ? 0 : d.score),
+        (acc: number, current: { score: number }) =>
+          +acc + Number(current.score === undefined ? 0 : current.score),
         0
       );
     setAllScore(allScores);

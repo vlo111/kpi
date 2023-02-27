@@ -11,7 +11,13 @@ import {
 import { ReactComponent as AddAssessmentIcon } from '../../../assets/icons/add-assessment.svg';
 import { AsnButton } from '../../Forms/Button';
 import { AsnSwitch } from '../../Forms/Switch';
-import { IButtonContainer } from '../../../types/api/assessment';
+import {
+  IAnswer,
+  IAssessmentForms,
+  IButtonContainer,
+  IQuestion,
+  OnAddQuestionType
+} from '../../../types/api/assessment';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import CreateAssessmentFormDataByCourseId from '../../../api/AssessmentForm/useCreateAssessmentFormCourseId';
 import AssessmentFormUrlModal from '../FormUrlModal/Index';
@@ -19,6 +25,7 @@ import PreviewAssessmentForm from '../../PreviewAssessmentForm';
 import UpdateAssessmentFormDataById from '../../../api/AssessmentForm/useUpdateAssessmentFormById';
 import { PATHS } from '../../../helpers/constants';
 import getAssessmentFormbyId from '../../../api/AssessmentForm/useGetAssessmentFormById';
+import { FormFinish, Void } from '../../../types/global';
 
 const { Title } = Typography;
 
@@ -114,31 +121,42 @@ export const FormInput = styled(AsnInput)`
   box-shadow: var(--base-box-shadow);
 `;
 
-const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
+const AssessmentForms: React.FC<IAssessmentForms> = ({
+  preview,
+  footerButtons
+}) => {
   const [answerType, setAnswerType] = useState('OPTION');
   const [formUrlModal, setFormUrlModal] = useState(false);
   const [isPreviewForm, setIsPreviewForm] = useState(false);
-  const [allScore, setAllScore] = useState(0);
+  const [allScore, setAllScore] = useState<number>(0);
   const [responseDataId, setResponseDataId] = useState<IResult | undefined>();
   const [form] = AsnForm.useForm();
   const location = useLocation();
   const navigate = useNavigate();
-  const { id: courseId } = useParams<{ id: any }>();
+  const { id: courseId } = useParams<{ id: string }>();
 
   const { mutate: createAssessmentForm } = CreateAssessmentFormDataByCourseId({
-    onSuccess: (responseData: any) => {
+    onSuccess: (responseData: { data: IResult }) => {
       setResponseDataId(responseData.data);
       setFormUrlModal(true);
     },
-    onError: (e: any) => {
+    onError: (e: {
+      response: {
+        data: { message: string }
+      }
+    }) => {
       void message.error(e.response.data.message);
     }
   });
   const { mutate: updateAssessmentForm } = UpdateAssessmentFormDataById({
-    onSuccess: (responseData: any) => {
+    onSuccess: () => {
       setFormUrlModal(true);
     },
-    onError: (e: any) => {
+    onError: (e: {
+      response: {
+        data: { message: string }
+      }
+    }) => {
       void message.error(e.response.data.message);
     }
   });
@@ -154,19 +172,19 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
 
   useEffect(() => {
     if (preview === true || location?.state?.preview === true) {
-      let obj = null;
+      let cloneAssessmentData = null;
       if (data.result !== undefined) {
-        obj = JSON.parse(JSON.stringify(data?.result));
-        obj.questions.map((question: any): any => {
+        cloneAssessmentData = JSON.parse(JSON.stringify(data?.result));
+        cloneAssessmentData.questions.map((question: IQuestion): boolean => {
           if (question.answers.length > 0) {
-            question.answers.map((answer: any) => delete answer.id);
+            question.answers.map((answer: IAnswer) => delete answer.id);
           }
           return delete question.id;
         });
       }
 
       form.setFieldsValue({
-        ...obj
+        ...cloneAssessmentData
       });
       setAllScore(data?.result?.maximumScore);
     }
@@ -216,7 +234,7 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
     }
   }, []);
 
-  const onAddQuestion = (add: any): void => {
+  const onAddQuestion: OnAddQuestionType = (add) => {
     setAnswerType('OPTION');
     add({
       answerType: 'OPTION',
@@ -237,7 +255,7 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
     });
   };
 
-  const onCreatedAssessmentFinish = (value: any): any => {
+  const onCreatedAssessmentFinish: FormFinish = (value) => {
     if (location.state.edit === true) {
       updateAssessmentForm({
         formId: location?.state?.footerButtons?.id,
@@ -259,7 +277,7 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
     }
   };
 
-  const onCancelClick = (): void => {
+  const onCancelClick: Void = () => {
     navigate(
       `/project/${PATHS.SUBACTIVITY.replace(
         ':id',
@@ -405,7 +423,7 @@ const AssessmentForms: React.FC<any> = ({ preview, footerButtons }) => {
                 form.submit();
               }}
             >
-              {location.state.edit === true ? 'Edit' : 'Publish' }
+              {location.state.edit === true ? 'Edit' : 'Publish'}
             </AsnButton>
           </ButtonsContainer>
             )}

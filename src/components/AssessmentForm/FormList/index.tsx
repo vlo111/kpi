@@ -5,8 +5,13 @@ import { CardContainer } from '../DynamicAssessmentForm';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { AsnForm } from '../../Forms/Form';
 import { Void } from '../../../types/global';
+import {
+  IAnswerCreate,
+  IAssessmentFormItems,
+  IQuestion
+} from '../../../types/api/assessment';
 
-const AssessmentFormItems: React.FC<any> = ({
+const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
   questionsLists,
   remove,
   name,
@@ -27,7 +32,7 @@ const AssessmentFormItems: React.FC<any> = ({
       const scores = form
         .getFieldValue(['questions', name[0], 'answers'])
         .reduce(
-          (acc: any, current: any) =>
+          (acc: number, current: IAnswerCreate) =>
             +acc + Number(current.score === undefined ? 0 : current.score),
           0
         );
@@ -35,34 +40,41 @@ const AssessmentFormItems: React.FC<any> = ({
     }
     const allScores = form
       .getFieldValue(['questions'])
-      .reduce((a: any, d: { score: any }) => {
-        return +a + Number(d.score === undefined ? 0 : d.score);
+      .reduce((acc: number, currentData: { score: number }) => {
+        return (
+          +acc + Number(currentData.score === undefined ? 0 : currentData.score)
+        );
       }, 0);
     setAllScore(allScores);
   };
 
-  const checkboxScoreCalc = (): void => {
+  const checkboxScoreCalc: Void = () => {
     const scores = form
       .getFieldValue(['questions', name[0], 'answers'])
-      .reduce((acc: any, current: any) => +acc + +current.score, 0);
+      .reduce(
+        (acc: number, current: { score: number }) => +acc + +current.score,
+        0
+      );
     setCheckboxScoreCount(scores);
   };
 
   useEffect(() => {
-    form.getFieldValue(['questions'])?.forEach((question: any): any => {
+    form.getFieldValue(['questions'])?.forEach((question: IQuestion) => {
       if (question?.answers?.length > 0 && question?.answerType === 'OPTION') {
-        question?.answers?.forEach((answer: any, index: number): void => {
-          if (answer.score > 0) {
-            setRadio(index);
+        question?.answers?.forEach(
+          (answer, index) => {
+            if (answer.score > 0) {
+              setRadio(index);
+            }
           }
-        });
+        );
       }
       if (
         question?.answers?.length > 0 &&
         question?.answerType === 'CHECKBOX'
       ) {
         const arr: number[] = [];
-        question?.answers?.forEach((answer: any, index: number): void => {
+        question?.answers?.forEach((answer, index) => {
           if (answer.score > 0) {
             arr.push(index);
           }
