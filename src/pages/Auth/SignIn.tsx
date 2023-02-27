@@ -33,7 +33,7 @@ const SignIn: React.FC = () => {
   const { mutate: signIn, isLoading }: any = useSignInApi(
     {
       onSuccess: (payload: { data: IUser }) => {
-        const { id, firstName, lastName, email, accessToken, photo, projects } = payload.data;
+        const { id, firstName, lastName, email, accessToken, photo } = payload.data;
         login({
           id,
           firstName,
@@ -43,7 +43,7 @@ const SignIn: React.FC = () => {
         });
         isToken(accessToken);
         navigate(PATHS.ROOT);
-        setProjectId(projects.slice(-1)[0].id);
+        setProjectId('adb2f75e-b528-4fbb-ba49-b67b69b2d257');
       },
       onError: ({ response }: any) => { setError(handleErrorMessage(response)); }
     }
