@@ -225,6 +225,10 @@ const GlobalStyle = createGlobalStyle`
       background: var(--white);
       box-shadow: 4px 4px 4px rgba(42, 85, 120, 0.2), -4px -4px 4px rgba(42, 85, 120, 0.1);
       border-radius: 20px;
+
+      &-content {
+        padding: 26px;
+      }
     }
   }
 

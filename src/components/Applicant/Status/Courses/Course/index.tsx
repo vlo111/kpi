@@ -126,6 +126,8 @@ const Course: React.FC<ICourseProps> = ({
   applicant,
   isActive,
   isLast,
+  isFirst,
+  isLastInactive,
   applicantId
 }) => {
   const { mutate: attachFile } = useApplicantAttachFile();
@@ -159,8 +161,14 @@ const Course: React.FC<ICourseProps> = ({
   const isAllowEdit: boolean =
     history.status !== ApplicantAccessStatus.Trained && isLast && isNotRejected;
 
+  const lastLine = !isLast ? 'left-line' : 'last-line';
+
+  const firstLine = !isFirst ? lastLine : 'first-line';
+
+  const drawLine = isLastInactive ? 'last-line' : firstLine;
+
   return (
-    <div className={!isLast ? 'left-line' : 'last-line'}>
+    <div className={drawLine}>
       <CourseItem
         color={
           isLast && isNotRejected
@@ -207,6 +215,7 @@ const Course: React.FC<ICourseProps> = ({
                 <div className="note">
                   <Note
                     id={`${history?.id}`}
+                    reasonsForRejection={history.reasonsForRejection}
                     inactive={!isActive}
                     text={history.note}
                   />
@@ -222,11 +231,12 @@ const Course: React.FC<ICourseProps> = ({
           />
         </AntRow>
       </CourseItem>
-      {history.status === ApplicantAccessStatus.Trained &&
-      <div className="finish">
-        <FinishSvg />
-        <p className="text">The applicant has finished the course.</p>
-      </div>}
+      {history.status === ApplicantAccessStatus.Trained && (
+        <div className="finish">
+          <FinishSvg />
+          <p className="text">The applicant has finished the course.</p>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, Popover, Row as AntRow, Typography } from 'antd';
+import { Col, Popover, Row as AntRow, Space, Typography } from 'antd';
 import { ReactComponent as NotesSvg } from '../Icons/Notes.svg';
 import { ReactComponent as NotFoundSvg } from '../Icons/not-found.svg';
 import { Void } from '../../../../../types/global';
@@ -27,28 +27,74 @@ const NotFound = styled(AntRow)`
   padding: 1rem;
 `;
 
-const Note: React.FC<INote> = ({ id, text, inactive }) => {
+const Note: React.FC<INote> = ({ id, text, inactive, reasonsForRejection }) => {
   const [showNote, setShowNote] = useState<ShowNote>(false);
 
   const content = (
-    <Row>
-      <Col span={22}>
-        <Title level={4} className="title">
-          Notes
-        </Title>
-      </Col>
-      <Col>
-        <a onClick={() => setShowNote(false)}>
-          <CloseIcon />
-        </a>
-      </Col>
-        {text ??
-          <NotFound>
-            <NotFoundSvg />
-            <p>No records found</p>
-          </NotFound>
-        }
-    </Row>
+    <>
+      <Row style={{ justifyContent: 'space-between' }}>
+        <Col span={22}>
+          <Title level={4} className="title">
+            Notes
+          </Title>
+        </Col>
+        <Col>
+          <a onClick={() => setShowNote(false)}>
+            <CloseIcon />
+          </a>
+        </Col>
+      </Row>
+      {reasonsForRejection != null && (
+        <>
+          <Space.Compact
+            block
+            style={{
+              fontSize: '14px',
+              color: 'var(--dark-2)',
+              fontWeight: 'var(--font-bold)'
+            }}
+          >
+            Reasons for rejection:
+          </Space.Compact>
+          <Row
+            style={{
+              margin: '0.3rem 1rem',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            <>
+              <Col>
+                <ul
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.3rem'
+                  }}
+                >
+                  {reasonsForRejection.map((r, i) => (
+                    <li key={i}>{r}</li>
+                  ))}
+                </ul>
+              </Col>
+            </>
+          </Row>
+        </>
+      )}
+      {text !== null
+        ? (
+        <Row>
+          <Col span={4}>Note:</Col>
+          <Col>{text}</Col>
+        </Row>
+          )
+        : (
+        <NotFound>
+          <NotFoundSvg />
+          <p>No records found</p>
+        </NotFound>
+          )}
+    </>
   );
 
   const changeOpen: Void = () => {

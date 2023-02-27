@@ -253,12 +253,12 @@ export const marks: SliderMarks = {
   100: '100'
 };
 export const optionsReason = [
-  { label: 'Personal issues', value: 'personal' },
-  { label: 'Change of plans', value: 'plan' },
-  { label: 'Not-eligible', value: 'eligible' },
-  { label: 'Pro-assessment insufficient scores', value: 'assessment' },
-  { label: 'Wrong choice of the course', value: 'choice' },
-  { label: 'Interview insufficient score', value: 'interview' }
+  { label: 'Personal issues', value: 'Personal issues' },
+  { label: 'Change of plans', value: 'Change of plans' },
+  { label: 'Not-eligible', value: 'Not-eligible' },
+  { label: 'Pro-assessment insufficient scores', value: 'Pro-assessment insufficient scores' },
+  { label: 'Wrong choice of the course', value: 'Wrong choice of the course' },
+  { label: 'Interview insufficient score', value: 'Interview insufficient score' }
 ];
 
 export enum FileType {
