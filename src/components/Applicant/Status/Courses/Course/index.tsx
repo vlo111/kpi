@@ -207,6 +207,7 @@ const Course: React.FC<ICourseProps> = ({
                 <div className="note">
                   <Note
                     id={`${history?.id}`}
+                    reasonsForRejection={history.reasonsForRejection}
                     inactive={!isActive}
                     text={history.note}
                   />

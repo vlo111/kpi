@@ -90,7 +90,7 @@ const Courses: React.FC<ICourses> = ({ histories, applicant, applicantId }) => {
         <Col span={6}>Files</Col>
       </AntRow>
       <CoursesStyle>
-        {histories.map((history: any, index: number) => (
+        {histories.map((history, index: number) => (
           <Course
             key={index}
             applicant={applicant}

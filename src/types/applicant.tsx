@@ -48,7 +48,7 @@ export interface IHistory {
   applicantId: string
   userId: string
   note: string
-  reasonsForRejection: string
+  reasonsForRejection: string[]
   preAssessmentScore: string | null
   status: string
   createdAt: string
@@ -170,6 +170,7 @@ export interface INote {
   id: string
   text: string
   inactive: boolean
+  reasonsForRejection: string[] | null
 }
 
 export type ShowNote = boolean | string;
