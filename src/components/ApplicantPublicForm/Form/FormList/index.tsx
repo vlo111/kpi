@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { FormText, SectionTitle } from '../../../ApplicantPublicForm/Form/style';
+import {
+  FormText,
+  SectionTitle
+} from '../style';
 import ListItems from './ListItems';
 import { IApplicationFormItems } from '../../../../types/application';
 
@@ -10,6 +13,9 @@ const ApplicationForm: React.FC<IApplicationFormItems> = ({
   description,
   section
 }) => {
+  if (!(section.questions.length > 0)) {
+    return null;
+  }
   return (
     <>
       <SectionTitle>{title}</SectionTitle>
