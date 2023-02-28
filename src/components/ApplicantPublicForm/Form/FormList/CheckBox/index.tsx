@@ -7,7 +7,6 @@ import { AsnForm } from '../../../../Forms/Form';
 import { IAnswer } from '../../../../../types/api/application/applicationForm1';
 import {
   CheckboxHandler,
-  IFormAnswer,
   IFormItemProps,
   OnOtherChangeHandler,
   SetOtherState,
