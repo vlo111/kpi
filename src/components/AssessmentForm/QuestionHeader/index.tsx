@@ -11,8 +11,9 @@ import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
 // import { ReactComponent as CheckboxIcon } from '../../../assets/icons/checkbox.svg';
 // import { ReactComponent as TextIcon } from '../../../assets/icons/text.svg';
 import { assessmentSelect } from '../../../helpers/constants';
-import { FormFinish } from '../../../types/global';
-import { IconButton } from '../DynamicQuestionForm';
+import { FormFinish, Void } from '../../../types/global';
+import { IQuestionHeader } from '../../../types/api/assessment';
+import { IconButton } from '../assessmentStyle';
 
 const { Option } = AsnSelect;
 const { Title } = Typography;
@@ -50,7 +51,7 @@ const AnswerTypeSelect = styled(AsnSelect)`
   }
 `;
 
-const QuestionHeader: React.FC<any> = ({
+const QuestionHeader: React.FC<IQuestionHeader> = ({
   remove,
   name,
   add,
@@ -61,7 +62,7 @@ const QuestionHeader: React.FC<any> = ({
   calcScores
 }) => {
   const form = AsnForm.useFormInstance();
-  const onDuplicateForm = (): any => {
+  const onDuplicateForm: Void = () => {
     setAnswerType(form.getFieldsValue().questions[name[0]].answerType);
     add(form.getFieldsValue().questions[name[0]]);
   };

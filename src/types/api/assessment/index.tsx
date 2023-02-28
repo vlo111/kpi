@@ -2,6 +2,10 @@ import { Dispatch, SetStateAction } from 'react';
 import { UseMutation, Void } from '../../global';
 import { IOnlyId } from '../activity/template';
 import { ResponseErrorParam } from '../project/get-project';
+import type { StoreValue } from 'rc-field-form/lib/interface';
+import { FormListFieldData } from 'antd';
+import { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import { RadioChangeEvent } from 'antd/lib/radio';
 
 export interface AssessmentFormData {
   result: AssessmentFormResult[]
@@ -28,7 +32,7 @@ export interface AssessmentFormResult {
 enum AssessmentFormType {
   PRE_ASSESSMENT,
   POST_ASSESSMENT,
-  APPLICATION
+  APPLICATION,
 }
 
 export type EnumAssessmentFormTypes = keyof typeof AssessmentFormType;
@@ -36,7 +40,7 @@ export type EnumAssessmentFormTypes = keyof typeof AssessmentFormType;
 enum AssessmentFormAnswers {
   OPTION,
   SHORT_TEXT,
-  CHECKBOX
+  CHECKBOX,
 }
 
 type enumAssessmentFormAnswers = keyof typeof AssessmentFormAnswers;
@@ -85,10 +89,10 @@ export interface Question {
   required: boolean
   score: number
   answerType: string
-  answers: Answer[]
+  answers: IAnswerCreate[]
 }
 
-export interface Answer {
+export interface IAnswerCreate {
   id?: string
   title: string
   score: number
@@ -96,7 +100,7 @@ export interface Answer {
 }
 
 export interface IAnswer {
-  id: string
+  id?: string
   title: string
   score: number
   type: string
@@ -119,7 +123,7 @@ export interface UpdateAssessmentFormData {
 }
 
 export interface UseAssessmentFormSingleResult {
-  data: Result[]
+  data: IAssessments[]
   isSuccess: boolean
   refetch: any
   isLoading: boolean
@@ -141,6 +145,89 @@ export interface CreateAssessmentIfoModalTypes {
   setOpenPreviewAssessmentModal: React.Dispatch<React.SetStateAction<boolean>>
   footerButtons: IAssessments | undefined
   setFooterButtons: Dispatch<SetStateAction<undefined | IAssessments>>
+}
+
+export interface IAssessmentFormItems {
+  questionsLists: FormListFieldData[]
+  remove: RemoveType
+  name: Array<string | number>
+  add: AddType
+  answerType: string
+  setAnswerType: Dispatch<SetStateAction<string>>
+  setAllScore: Dispatch<SetStateAction<number>>
+  preview?: boolean
+  assessmentData: IResult
+}
+
+export interface IQuestionHeader {
+  remove: RemoveType
+  name: any
+  add: AddType
+  setAnswerType: Dispatch<SetStateAction<string>>
+  answerType: string
+  questionsLists: FormListFieldData[]
+  preview?: boolean
+  calcScores: Void
+}
+
+export interface IQuestionContent {
+  name: Array<string | number>
+  answerType: string
+  setAllScore: Dispatch<SetStateAction<number>>
+  preview?: boolean
+  calcScores: Void
+  radio: number | undefined
+  setRadio: Dispatch<SetStateAction<number | undefined>>
+  checkbox: CheckboxValueType[]
+  setCheckbox: Dispatch<SetStateAction<CheckboxValueType[]>>
+  checkboxScoreCount: number
+  checkboxScoreCalc: Void
+  assessmentData: IResult
+}
+export interface IDynamicQuestionForm {
+  contentName: Array<string | number>
+  answerType: string
+  calcScores: Void
+  preview?: boolean
+  radio: number | undefined
+  setRadio: Dispatch<SetStateAction<number | undefined>>
+  checkbox: CheckboxValueType[]
+  setCheckbox: Dispatch<SetStateAction<CheckboxValueType[]>>
+  checkboxScoreCount: number
+  checkboxScoreCalc: Void
+  assessmentData: IResult
+}
+
+export interface IPreviewAssessmentModal {
+  openPreviewAssessmentModal: boolean
+  setOpenPreviewAssessmentModal: Dispatch<SetStateAction<boolean>>
+  setOpenModal: Dispatch<SetStateAction<boolean>>
+  footerButtons: IAssessments | undefined
+  courseId: string
+  navigateRouteInfo: INavigateRoteInfoTypes
+  type: string
+  projectId: string
+}
+export interface ICheckboxGroup {
+  setCheckbox: Dispatch<SetStateAction<CheckboxValueType[]>>
+  checkboxScoreCalc: Void
+  calcScores: Void
+  checkbox: CheckboxValueType[]
+  answerList: FormListFieldData[]
+  contentName: Array<string | number>
+  remove: RemoveType
+  preview?: boolean
+}
+
+export interface IRadioGroup {
+  answerList: FormListFieldData[]
+  contentName: Array<string | number>
+  remove: RemoveType
+  preview?: boolean
+  calcScores: Void
+  setAddOder: Dispatch<SetStateAction<boolean>>
+  setRadio: Dispatch<SetStateAction<number | undefined>>
+  radio: number | undefined
 }
 
 export interface INavigateRoteInfoTypes {
@@ -179,7 +266,7 @@ export interface IGetAssessmentForm {
 }
 export interface IQuestion {
   answerType: string
-  id: string
+  id?: string
   required: boolean
   score: number
   title: string
@@ -243,11 +330,48 @@ export interface IApplyAssessMentForm {
   }
 }
 
-export type CreateAssessmentFormByCourseId = UseMutation<Void, any, ResponseErrorParam, CreateAssessmentFormData>;
-export type UpdateAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, UpdateAssessmentFormData>;
-export type DeleteAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
-export type DuplicateAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
-export type ChangeStatusAssessmentFormByFormId = UseMutation<Void, any, ResponseErrorParam, IOnlyId>;
+export interface IFooterButtons {
+  id: string
+  title: string
+  type: string
+  active: boolean
+}
+
+export interface IAssessmentForms {
+  preview?: boolean
+  footerButtons?: IFooterButtons
+}
+
+export type CreateAssessmentFormByCourseId = UseMutation<
+Void,
+any,
+ResponseErrorParam,
+CreateAssessmentFormData
+>;
+export type UpdateAssessmentFormByFormId = UseMutation<
+Void,
+any,
+ResponseErrorParam,
+UpdateAssessmentFormData
+>;
+export type DeleteAssessmentFormByFormId = UseMutation<
+Void,
+any,
+ResponseErrorParam,
+IOnlyId
+>;
+export type DuplicateAssessmentFormByFormId = UseMutation<
+Void,
+any,
+ResponseErrorParam,
+IOnlyId
+>;
+export type ChangeStatusAssessmentFormByFormId = UseMutation<
+Void,
+any,
+ResponseErrorParam,
+IOnlyId
+>;
 
 export interface IAssessmentSelectItem {
   name: string
@@ -257,7 +381,29 @@ export interface IAssessmentSelectItem {
 export interface IButtonContainer {
   marginTop?: string
 }
-export type TUseAssessForm = UseMutation<Void, any, ResponseErrorParam, IAssessForm>;
-export type TUseApplyAssessMentForm = UseMutation<Void, any, ResponseErrorParam, IApplyAssessMentForm>;
+export type TUseAssessForm = UseMutation<
+Void,
+any,
+ResponseErrorParam,
+IAssessForm
+>;
+export type TUseApplyAssessMentForm = UseMutation<
+Void,
+any,
+ResponseErrorParam,
+IApplyAssessMentForm
+>;
 
-export type useGetAssessmentFormById = (id: string, options: AssessmentFormOptions) => IGetAssessmentForm
+export type useGetAssessmentFormById = (
+  id: string,
+  options: AssessmentFormOptions
+) => IGetAssessmentForm;
+export type AddType = (defaultValue?: StoreValue, insertIndex?: number) => void;
+export type RemoveType = (index: number | number[]) => void;
+export type OnDeleteAnswerType = (remove: RemoveType, name: number) => void;
+export type RadioGroupChangeType = (val: RadioChangeEvent) => void;
+export type OnDeleteCheckboxGroupItemType = (
+  remove: RemoveType,
+  name: number
+) => void;
+export type OnAddQuestionType = (add: AddType) => void;

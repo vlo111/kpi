@@ -14,7 +14,6 @@ import OptionType from './OptionType';
 import ShortTextType from './ShortTextType';
 import { TVoid } from '../../types/global';
 import { IAssessmentFormSumTotalScore } from '../../types/api/assessment';
-import { PATHS } from '../../helpers/constants';
 import useGetApplicantCourseForm from '../../api/Applicant/useGetApplicantCourseForm';
 import useAssessForm from '../../api/AssessmentForm/useAssessForm';
 import {
@@ -107,7 +106,7 @@ const FilledOutAssessmentForm: React.FC = () => {
             Pre-assessment form for {preAssessmentForm?.sectionDataTitle ?? postAssessmentForm?.sectionDataTitle} course
           </AsnParagraph>
           <AsnParagraph className="submissionDate">
-            Submission date: {moment(preAssessmentForm?.preAssessmentAppliedAt ?? postAssessmentForm?.postAssessmentAppliedAt).format('DD/MM/YY')}{' '}
+            Submission date: {moment(data?.preAssessmentAppliedAt ?? data?.postAssessmentAppliedAt).format('DD/MM/YY')}{' '}
           </AsnParagraph>
           <AsnForm.Item
             name="email"
@@ -166,10 +165,10 @@ const FilledOutAssessmentForm: React.FC = () => {
         {(preAssessmentForm?.userAssessedScore !== undefined || postAssessmentForm?.userAssessedScore !== undefined) && (
           <Space direction="vertical" style={{ paddingTop: '14px' }}>
             <AsnParagraph className="main">
-              Assessed by {data?.checker?.firstName} {data?.checker?.lastName}: {moment(preAssessmentForm?.preAssessmentCheckedAt ?? postAssessmentForm?.postAssessmentCheckedAt).format('DD/MM/YY')}
+              Assessed by {data?.checker?.firstName} {data?.checker?.lastName}: {moment(data?.preAssessmentCheckedAt ?? data?.postAssessmentCheckedAt).format('DD/MM/YY')}
             </AsnParagraph>
             <AsnParagraph className="main">
-              Submission date: {moment(preAssessmentForm?.preAssessmentAppliedAt ?? postAssessmentForm?.postAssessmentAppliedAt).format('DD/MM/YY')}
+              Submission date: {moment(data?.preAssessmentAppliedAt ?? data?.postAssessmentAppliedAt).format('DD/MM/YY')}
             </AsnParagraph>
           </Space>
         )}
@@ -184,9 +183,7 @@ const FilledOutAssessmentForm: React.FC = () => {
               <>
                 <AsnButton
                   className="default"
-                  onClick={() =>
-                    navigate(`/${PATHS.APPLICANT.replace(':id', id as string)}`)
-                  }
+                  onClick={() => navigate(-1)}
                 >
                   Cancel
                 </AsnButton>
@@ -206,9 +203,7 @@ const FilledOutAssessmentForm: React.FC = () => {
                 <AsnButton
                   className="primary"
                   style={{ marginTop: '30px' }}
-                  onClick={() =>
-                    navigate(`/${PATHS.APPLICANT.replace(':id', id as string)}`)
-                  }
+                  onClick={() => navigate(-1)}
                 >
                   Back
                 </AsnButton>

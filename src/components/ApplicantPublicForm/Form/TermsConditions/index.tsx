@@ -22,7 +22,6 @@ const TermsConditions: React.FC<ITermsConditionsProps> = ({
   return (
     <TermsConditionsContainer>
       <SectionTitle>Terms & Conditions/ Պայմաններ և դրույթներ</SectionTitle>
-
       {text !== undefined &&
         JSON.parse(text)?.map((p: any, i: number) => (
           <div key={i}>
@@ -30,22 +29,20 @@ const TermsConditions: React.FC<ITermsConditionsProps> = ({
             <Form.Item
               name={`community${i}`}
               valuePropName="checked"
-              rules={[
-                {
-                  validator: async (_, value: boolean) =>
-                    value
-                      ? await Promise.resolve()
-                      : await Promise.reject(
-                        new Error('The field is required')
-                      )
-                }
-              ]}
+              rules={[{
+                validator: async (_, value: boolean) =>
+                  value
+                    ? await Promise.resolve()
+                    : await Promise.reject(
+                      new Error('The field is required')
+                    )
+              }]}
             >
               <AsnCheckbox>I agree / Համաձայն եմ</AsnCheckbox>
             </Form.Item>
           </div>
         ))}
-      {onlineSignature !== undefined && (
+      {onlineSignature !== undefined && onlineSignature && (
         <Form.Item name="onlineSignature">
           <DividerLine>
             <FormText style={{ fontWeight: '700' }}>

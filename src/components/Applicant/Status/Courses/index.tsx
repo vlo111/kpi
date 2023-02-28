@@ -36,6 +36,10 @@ const CoursesStyle = styled.div`
     border-left: 3px solid var(--primary-light-orange);
   }
 
+  .first-line {
+    border-left: 3px solid var(--white);
+  }
+
   .finish {
     display: flex;
     align-items: center;
@@ -90,11 +94,13 @@ const Courses: React.FC<ICourses> = ({ histories, applicant, applicantId }) => {
         <Col span={6}>Files</Col>
       </AntRow>
       <CoursesStyle>
-        {histories.map((history: any, index: number) => (
+        {histories.map((history, index: number) => (
           <Course
             key={index}
             applicant={applicant}
             history={history}
+            isFirst={histories.length === 1}
+            isLastInactive={history.id === undefined && histories.length - 1 === index}
             isLast={history.id === undefined ? false : histories.length - 1 === index}
             isActive={history?.id !== undefined}
             applicantId={applicantId}

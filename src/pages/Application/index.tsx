@@ -74,6 +74,11 @@ const ConditionCard = styled(Space)`
   }
 `;
 
+const CustomDatePicker = styled(AsnDatePicker)`
+  width: 100%;
+  height: 3.5rem;
+`;
+
 const Application: React.FC = () => {
   const { id: courseId } = useParams<{ id: string | undefined }>();
   const location = useLocation();
@@ -183,7 +188,9 @@ const Application: React.FC = () => {
           formTitle !== null ? formTitle?.current?.input?.value : '';
         applicationData.onlineSignature = onlineSignature;
         applicationData.deadline =
-          deadlineDate === data.deadline || deadlineDate === undefined ? null : deadlineDate;
+          deadlineDate === data.deadline || deadlineDate === undefined
+            ? null
+            : deadlineDate;
         applicationData.successMessage =
           successMessage !== null ? successMessage?.current?.input?.value : '';
         applicationData.termsAndConditions = JSON.stringify(
@@ -317,22 +324,21 @@ const Application: React.FC = () => {
         )}
       </CardContainer>
       <CardTitle>Set deadline (optional):</CardTitle>
-      <ConditionCard>
-        {applicationData !== undefined && (
-          <AsnDatePicker
-            disabledDate={disabledDateEndPicker}
-            style={{ border: 'none', flexDirection: 'row-reverse' }}
-            onChange={(date, dateString) =>
-              setDeadlineDate(new Date(dateString).toJSON())
-            }
-            value={
-              deadlineDate !== null && deadlineDate !== undefined
-                ? moment(new Date(deadlineDate).toJSON())
-                : undefined
-            }
-          />
-        )}
-      </ConditionCard>
+      {applicationData !== undefined && (
+        <CustomDatePicker
+          getPopupContainer={(trigger) => trigger}
+          disabledDate={disabledDateEndPicker}
+          style={{ border: 'none', flexDirection: 'row-reverse' }}
+          onChange={(date, dateString) =>
+            setDeadlineDate(new Date(dateString).toJSON())
+          }
+          value={
+            deadlineDate !== null && deadlineDate !== undefined
+              ? moment(new Date(deadlineDate).toJSON())
+              : undefined
+          }
+        />
+      )}
       <Space
         direction="horizontal"
         size={60}

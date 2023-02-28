@@ -48,7 +48,7 @@ export interface IHistory {
   applicantId: string
   userId: string
   note: string
-  reasonsForRejection: string
+  reasonsForRejection: string[]
   preAssessmentScore: string | null
   status: string
   createdAt: string
@@ -120,6 +120,10 @@ export interface IGetApplicantForm {
   id: string
   preAssessmentForm: IPreAssessMentForm
   postAssessmentForm: IPreAssessMentForm
+  preAssessmentAppliedAt: string
+  postAssessmentAppliedAt: string
+  preAssessmentCheckedAt: string
+  postAssessmentCheckedAt: string
 }
 export interface IGetApplicantFormResult {
   data: IGetApplicantForm
@@ -136,8 +140,10 @@ export type OnNoteHandler = ChangeEventHandler<HTMLTextAreaElement>;
 export interface ICourseProps {
   history: IHistory
   applicant: IApplicant
+  isFirst: boolean
   isLast: boolean
   isActive: boolean
+  isLastInactive: boolean
   applicantId: string | undefined
 }
 
@@ -170,6 +176,7 @@ export interface INote {
   id: string
   text: string
   inactive: boolean
+  reasonsForRejection: string[] | null
 }
 
 export type ShowNote = boolean | string;
