@@ -123,9 +123,6 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
       <Col span={24} onClick={() => redirectAssessment(id)}>
         <EditIcon /> Edit
       </Col>
-      {/* <Col span={24}> */}
-      {/*   <PreviewIcon /> Preview */}
-      {/* </Col> */}
       <Col span={24} onClick={() => duplicate(id)}>
         <DuplicateIcon /> Duplicate
       </Col>

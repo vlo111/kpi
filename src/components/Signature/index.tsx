@@ -1,29 +1,30 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
+import { Button } from 'antd';
 
-const Signature = () => {
-  const canvasRef = useRef(null);
+const Signature = (): any => {
+  const sigRef = useRef<any>();
+  const [signature, setSignature] = useState(null);
+  const handleSignatureEnd = (): any => {
+    setSignature(sigRef.current.toDataURL());
+  };
+  const clearSignature = (): any => {
+    sigRef.current.clear();
+    setSignature(null);
+  };
 
-//   const handleDownload = () => {
-//     if (canvasRef.current) {
-//       const url = canvasRef.current.getTrimmedCanvas().toDataURL('image/png');
-//       const dlink = document.createElement("a");
-//       dlink.setAttribute("href", url);
-//       dlink.setAttribute("download", "signature.png");
-//       dlink.click();
-//     }
-//   };
+  useEffect(() => {
+  }, [signature]);
 
-  return (
-    <div>
-      <SignatureCanvas
-        penColor="black"
-        canvasProps={{ width: 100, height: 100}}
-        ref={canvasRef}
-      />
-      {/* <button onClick={handleDownload}>Download Signature</button> */}
-    </div>
-  );
+  return <div>
+    <SignatureCanvas
+      penColor="black"
+      canvasProps={{ width: 200, height: 50 }}
+      ref={sigRef}
+      onEnd={handleSignatureEnd}
+    />
+    <Button type='link' onClick={clearSignature}>Clear</Button>
+  </div>;
 };
 
 export default Signature;

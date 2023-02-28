@@ -13,6 +13,7 @@ import { AsnModal } from '../Forms/Modal';
 import { AsnButton } from '../Forms/Button';
 import { Void } from '../../types/global';
 import getAssessmentFormbyId from '../../api/AssessmentForm/useGetAssessmentFormById';
+import Signature from '../Signature';
 
 const { Title, Paragraph } = Typography;
 
@@ -132,7 +133,7 @@ const PreviewAssessmentForm: React.FC<any> = ({
             >
               Online Signature
             </Paragraph>
-            <UnderLineInput disabled />
+            <Signature/>
           </Space>
         </AsnForm.Item>}
       </AsnForm>

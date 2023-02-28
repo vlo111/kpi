@@ -3,12 +3,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { AsnCheckbox } from '../../../Forms/Checkbox';
 import {
-  BorderBottomInput,
   DividerLine,
   FormText,
   SectionTitle
 } from '../style';
 import { ITermsConditionsProps } from '../../../../types/application';
+import Signature from '../../../Signature';
 
 const TermsConditionsContainer = styled.div`
   display: flex;
@@ -51,7 +51,7 @@ const TermsConditions: React.FC<ITermsConditionsProps> = ({
             <FormText style={{ fontWeight: '700' }}>
               Online signature / Առցանց ստորագրություն
             </FormText>
-            <BorderBottomInput />
+             <Signature/>
           </DividerLine>
         </Form.Item>
       )}
