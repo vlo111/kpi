@@ -101,7 +101,7 @@ const RadioGroup: React.FC<IRadioGroup> = ({
                 ]}
               >
                 <AnswersInput
-                  placeholder={`Option ${name + 1}`}
+                  placeholder={`Option ${+name + 1}`}
                   disabled={
                     form.getFieldValue([
                       'questions',
