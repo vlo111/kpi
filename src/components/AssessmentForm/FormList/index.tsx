@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import QuestionHeader from '../QuestionHeader';
 import QuestionContent from '../QuestionContent';
-import { CardContainer } from '../DynamicAssessmentForm';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { AsnForm } from '../../Forms/Form';
 import { Void } from '../../../types/global';
@@ -10,6 +9,7 @@ import {
   IAssessmentFormItems,
   IQuestion
 } from '../../../types/api/assessment';
+import { CardContainer } from '../assessmentStyle';
 
 const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
   questionsLists,
@@ -33,7 +33,7 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
         .getFieldValue(['questions', name[0], 'answers'])
         .reduce(
           (acc: number, current: IAnswerCreate) =>
-            +acc + Number(current.score === undefined ? 0 : current.score),
+            acc + Number(current.score === undefined ? 0 : current.score),
           0
         );
       form.setFieldValue(['questions', name[0], 'score'], scores);
@@ -42,7 +42,7 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
       .getFieldValue(['questions'])
       .reduce((acc: number, currentData: { score: number }) => {
         return (
-          +acc + Number(currentData.score === undefined ? 0 : currentData.score)
+          acc + Number(currentData.score === undefined ? 0 : currentData.score)
         );
       }, 0);
     setAllScore(allScores);
@@ -52,7 +52,7 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
     const scores = form
       .getFieldValue(['questions', name[0], 'answers'])
       .reduce(
-        (acc: number, current: { score: number }) => +acc + +current.score,
+        (acc: number, current: { score: number }) => acc + current.score,
         0
       );
     setCheckboxScoreCount(scores);

@@ -3,12 +3,6 @@ import styled from 'styled-components';
 import { Typography } from 'antd';
 import { AsnButton } from '../../Forms/Button';
 import { AsnForm } from '../../Forms/Form';
-import { AsnInput } from '../../Forms/Input';
-import {
-  ButtonsContainer,
-  MaxScores,
-  Scores
-} from '../DynamicAssessmentForm';
 import {
   IAnswerCreate,
   IDynamicQuestionForm,
@@ -16,33 +10,9 @@ import {
 } from '../../../types/api/assessment';
 import CheckboxGroup from './CheckboxGroup';
 import RadioGroup from './RadioGroup';
+import { ButtonsContainer, MaxScores, Scores } from '../assessmentStyle';
 
 const { Title } = Typography;
-
-export const ScoreContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-export const AnswersInput = styled(AsnInput)`
-  border-radius: 0px;
-  width: 100% !important ;
-  border: 1px solid var(--light-border);
-  :hover {
-    border: 1px solid var(--light-border) !important;
-  }
-
-  :disabled {
-    color: rgba(0, 0, 0, 0.85);
-  }
-`;
-
-export const IconButton = styled(AsnButton)`
-  border: none;
-  background-color: var(--white) !important;
-  box-shadow: none !important;
-  padding: 0;
-`;
 
 const AddAnswerButton = styled(AsnButton)`
   border-radius: 0px !important;

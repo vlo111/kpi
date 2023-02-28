@@ -6,7 +6,8 @@ import { IPreviewAssessmentModal } from '../../../types/api/assessment';
 import { Void } from '../../../types/global';
 import { AsnButton } from '../../Forms/Button';
 import { AsnModal } from '../../Forms/Modal';
-import AssessmentForms, { ButtonsContainer } from '../DynamicAssessmentForm';
+import { ButtonsContainer } from '../assessmentStyle';
+import AssessmentForms from '../DynamicAssessmentForm';
 
 const PreviewModalContent = styled(AsnModal)`
   top: 15px !important;
@@ -38,7 +39,7 @@ const PreviewAssessmentModal: React.FC<IPreviewAssessmentModal> = ({
   };
   const navigate = useNavigate();
 
-  const onNextAssessment = (): void => {
+  const onNextAssessment: Void = () => {
     navigate(`/${PATHS.ASSESSMENTFORMCREATE.replace(':id', courseId)}`, {
       state: {
         type,

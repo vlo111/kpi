@@ -1,12 +1,11 @@
 import React from 'react';
 import { Space, Typography } from 'antd';
-import { AnswersInput, IconButton, ScoreContainer } from '..';
 import { ICheckboxGroup, OnDeleteCheckboxGroupItemType } from '../../../../types/api/assessment';
 import { FormFinish } from '../../../../types/global';
 import { AsnCheckbox } from '../../../Forms/Checkbox';
 import { AsnForm } from '../../../Forms/Form';
-import { ScoreInputNumber } from '../../DynamicAssessmentForm';
 import { ReactComponent as DeleteIcon } from '../../../../assets/icons/delete.svg';
+import { AnswersInput, IconButton, ScoreContainer, ScoreInputNumber } from '../../assessmentStyle';
 
 const { Title } = Typography;
 
@@ -34,7 +33,7 @@ const CheckboxGroup: React.FC<ICheckboxGroup> = ({
   const onDeleteCheckboxGroupItem: OnDeleteCheckboxGroupItemType = (
     remove,
     name
-  ): void => {
+  ) => {
     setCheckbox(
       checkbox.filter((item) => {
         return item !== name;

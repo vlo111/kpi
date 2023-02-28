@@ -4,9 +4,9 @@ import { Typography } from 'antd';
 import { AsnForm } from '../../Forms/Form';
 import { AsnTextArea } from '../../Forms/Input';
 import DynamicQuestionForm from '../DynamicQuestionForm';
-import { ScoreInputNumber } from '../DynamicAssessmentForm';
 import { Void } from '../../../types/global';
 import { IQuestionContent } from '../../../types/api/assessment';
+import { ScoreInputNumber } from '../assessmentStyle';
 
 const { Title } = Typography;
 
@@ -20,7 +20,6 @@ const ScoreContainer = styled.div`
 
 const QuestionContentContainer = styled.div`
   margin-top: 1rem;
-
   svg {
     cursor: pointer;
   }

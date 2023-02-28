@@ -12,8 +12,8 @@ import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
 // import { ReactComponent as TextIcon } from '../../../assets/icons/text.svg';
 import { assessmentSelect } from '../../../helpers/constants';
 import { FormFinish, Void } from '../../../types/global';
-import { IconButton } from '../DynamicQuestionForm';
 import { IQuestionHeader } from '../../../types/api/assessment';
+import { IconButton } from '../assessmentStyle';
 
 const { Option } = AsnSelect;
 const { Title } = Typography;

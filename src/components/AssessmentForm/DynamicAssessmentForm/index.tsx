@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { message, Space, Tooltip, Typography } from 'antd';
+import { message, Tooltip, Typography } from 'antd';
 import { AsnForm } from '../../Forms/Form';
-import { AsnInput, AsnInputNumber } from '../../Forms/Input';
 import AssessmentFormItems from '../FormList';
-import {
-  ICardContainer,
-  IResult
-} from '../../../types/api/application/applicationForm';
+import { IResult } from '../../../types/api/application/applicationForm';
 import { ReactComponent as AddAssessmentIcon } from '../../../assets/icons/add-assessment.svg';
 import { AsnButton } from '../../Forms/Button';
-import { AsnSwitch } from '../../Forms/Switch';
 import {
   IAnswer,
   IAssessmentForms,
-  IButtonContainer,
   IQuestion,
   OnAddQuestionType
 } from '../../../types/api/assessment';
@@ -26,64 +20,17 @@ import UpdateAssessmentFormDataById from '../../../api/AssessmentForm/useUpdateA
 import { PATHS } from '../../../helpers/constants';
 import getAssessmentFormbyId from '../../../api/AssessmentForm/useGetAssessmentFormById';
 import { FormFinish, Void } from '../../../types/global';
+import {
+  AddAssessmentButton,
+  ButtonsContainer,
+  CardContainer,
+  CardTitle,
+  FormInput,
+  FormItemContainer
+} from '../assessmentStyle';
+import BottomCard from '../BottomCatd';
 
 const { Title } = Typography;
-
-export const CardContainer = styled.div<ICardContainer>`
-  width: 100%;
-  border-top: ${(props) => props.borderTop};
-  margin-top: ${(props) => (props.marginTop != null ? props.marginTop : 0)};
-  box-shadow: var(--base-box-shadow);
-  border-radius: 20px;
-  background-color: var(--white);
-  padding: 1rem 1rem 2rem;
-  margin-bottom: ${(props) => props.marginBottom};
-
-  .ant-form-item {
-    margin: 0;
-  }
-`;
-
-export const CardTitle = styled(Typography.Title)`
-  font-size: var(--headline-font-size) !important;
-  color: var(--dark-border-ultramarine) !important;
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: space-between;
-`;
-
-export const ScoreInputNumber = styled(AsnInputNumber)`
-  display: flex;
-  align-items: center;
-  border-radius: 2px !important;
-`;
-
-export const ButtonsContainer = styled.div<IButtonContainer>`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: ${(props) => props.marginTop};
-  gap: 60px;
-`;
-
-export const Scores = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5rem;
-  margin-right: 1rem;
-`;
-
-export const MaxScores = styled.div`
-  width: 90px;
-  height: 44px;
-  background: #ffffff;
-  border: 1px solid #d9d9d9;
-  border-radius: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--base-font-size);
-`;
 
 const AssessmentFormsContent = styled.div`
   width: 72%;
@@ -96,29 +43,11 @@ const AssessmentFormsContent = styled.div`
   }
 `;
 
-export const AddAssessmentButton = styled.div`
+const AssessmentFormItemContainer = styled.div`
   display: flex;
-  background-color: var(--white);
-  padding: 10px;
-  height: fit-content;
-  border-radius: 16px;
-  margin-left: 0.5rem;
-  margin-top: 2rem;
-  cursor: pointer;
-  position: absolute;
-  left: 100%;
-`;
-
-export const FormItemContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-export const FormInput = styled(AsnInput)`
-  border: none;
+  flex-direction: row;
   width: 100%;
-  margin-bottom: 1rem;
-  box-shadow: var(--base-box-shadow);
+  position: relative;
 `;
 
 const AssessmentForms: React.FC<IAssessmentForms> = ({
@@ -328,15 +257,7 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
           {(questionsLists, { add, remove }) => (
             <FormItemContainer>
               {questionsLists.map(({ key, name, ...restField }) => (
-                <div
-                  key={key}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    width: '100%',
-                    position: 'relative'
-                  }}
-                >
+                <AssessmentFormItemContainer key={key}>
                   <AssessmentFormItems
                     {...restField}
                     key={key}
@@ -365,45 +286,12 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
                     </AddAssessmentButton>
                       )
                     : null}
-                </div>
+                </AssessmentFormItemContainer>
               ))}
             </FormItemContainer>
           )}
         </AsnForm.List>
-        <CardContainer
-          marginTop={'2rem'}
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            padding: '2rem 1rem '
-          }}
-        >
-          <Space>
-            <Scores>
-              <Title level={5} style={{ fontWeight: '400' }}>
-                Maximum Score
-              </Title>
-              <MaxScores>{allScore}</MaxScores>
-            </Scores>
-            <Scores>
-              <Title level={5} style={{ fontWeight: '400' }}>
-                Passing Score
-              </Title>
-              <AsnForm.Item name="passingScore">
-                <ScoreInputNumber className="primary" min={0} max={allScore} />
-              </AsnForm.Item>
-            </Scores>
-          </Space>
-          <Scores>
-            <Title level={5} style={{ fontWeight: '400' }}>
-              Online signature
-            </Title>
-            <AsnForm.Item name="onlineSignature" valuePropName="checked">
-              <AsnSwitch />
-            </AsnForm.Item>
-          </Scores>
-        </CardContainer>
+        <BottomCard allScore={allScore}/>
         {preview === true
           ? null
           : (
