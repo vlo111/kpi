@@ -7,9 +7,9 @@ import { AsnSwitch } from '../../Forms/Switch';
 
 import { ReactComponent as DuplicateIcon } from '../../../components/Project/SubActivity/SubActivityIcons/copy.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
-// import { ReactComponent as RadioIcon } from '../../../assets/icons/radio.svg';
-// import { ReactComponent as CheckboxIcon } from '../../../assets/icons/checkbox.svg';
-// import { ReactComponent as TextIcon } from '../../../assets/icons/text.svg';
+import { ReactComponent as RadioIcon } from '../../../assets/icons/radio.svg';
+import { ReactComponent as CheckboxIcon } from '../../../assets/icons/checkbox.svg';
+import { ReactComponent as TextIcon } from '../../../assets/icons/text.svg';
 import { assessmentSelect } from '../../../helpers/constants';
 import { FormFinish, Void } from '../../../types/global';
 import { IQuestionHeader } from '../../../types/api/assessment';
@@ -48,6 +48,11 @@ const AnswerTypeSelect = styled(AsnSelect)`
     display: flex;
     align-items: center;
     border: none !important;
+    .ant-select-selection-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
   }
 `;
 
@@ -109,7 +114,28 @@ const QuestionHeader: React.FC<IQuestionHeader> = ({
         >
           {assessmentSelect.map((item) => (
             <Fragment key={item.value}>
-              <Option value={item.value}>{item.name}</Option>
+              <Option value={item.value}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}
+                >
+                  {item.value === 'OPTION'
+                    ? (
+                    <RadioIcon />
+                      )
+                    : item.value === 'CHECKBOX'
+                      ? (
+                    <CheckboxIcon />
+                        )
+                      : (
+                    <TextIcon />
+                        )}
+                  {item.name}
+                </div>
+              </Option>
             </Fragment>
           ))}
         </AnswerTypeSelect>

@@ -3,8 +3,18 @@ import styled from 'styled-components';
 import { Radio, Space, Typography } from 'antd';
 import { AsnForm } from '../../../Forms/Form';
 import { ReactComponent as DeleteIcon } from '../../../../assets/icons/delete.svg';
-import { IAnswerCreate, IRadioGroup, OnDeleteAnswerType, RadioGroupChangeType } from '../../../../types/api/assessment';
-import { AnswersInput, IconButton, ScoreContainer, ScoreInputNumber } from '../../assessmentStyle';
+import {
+  IAnswerCreate,
+  IRadioGroup,
+  OnDeleteAnswerType,
+  RadioGroupChangeType
+} from '../../../../types/api/assessment';
+import {
+  AnswersInput,
+  IconButton,
+  ScoreContainer,
+  ScoreInputNumber
+} from '../../assessmentStyle';
 
 const { Title } = Typography;
 

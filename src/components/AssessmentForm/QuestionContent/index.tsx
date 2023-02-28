@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Typography } from 'antd';
 import { AsnForm } from '../../Forms/Form';
 import { AsnTextArea } from '../../Forms/Input';
 import DynamicQuestionForm from '../DynamicQuestionForm';
 import { Void } from '../../../types/global';
-import { IQuestionContent } from '../../../types/api/assessment';
+import { IQuestion, IQuestionContent } from '../../../types/api/assessment';
 import { ScoreInputNumber } from '../assessmentStyle';
+import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 
 const { Title } = Typography;
 
@@ -38,15 +39,14 @@ const QuestionContent: React.FC<IQuestionContent> = ({
   setAllScore,
   preview,
   calcScores,
-  radio,
-  setRadio,
-  checkbox,
-  setCheckbox,
   checkboxScoreCount,
   checkboxScoreCalc,
   assessmentData
 }) => {
   const form = AsnForm.useFormInstance();
+  const [radio, setRadio] = useState<number | undefined>();
+  const [checkbox, setCheckbox] = useState<CheckboxValueType[]>([]);
+
   const onInputNumberChange: Void = () => {
     const allScores = form
       .getFieldValue(['questions'])
@@ -57,6 +57,34 @@ const QuestionContent: React.FC<IQuestionContent> = ({
       );
     setAllScore(allScores);
   };
+
+  useEffect(() => {
+    form.getFieldValue(['questions'])?.forEach((question: IQuestion) => {
+      if (question?.answers?.length > 0 && question?.answerType === 'OPTION') {
+        question?.answers?.forEach((answer, index) => {
+          if (answer.score > 0) {
+            setRadio(index);
+          }
+        });
+      }
+      if (
+        question?.answers?.length > 0 &&
+        question?.answerType === 'CHECKBOX'
+      ) {
+        const arr: number[] = [];
+        question?.answers?.forEach((answer, index) => {
+          if (answer.score > 0) {
+            arr.push(index);
+          }
+          setCheckbox(arr);
+        });
+      }
+    });
+    if (form.getFieldValue(['questions', name[0], 'answers']) !== undefined) {
+      calcScores();
+      checkboxScoreCalc();
+    }
+  }, [assessmentData, radio]);
 
   return (
     <QuestionContentContainer>
@@ -123,4 +151,4 @@ const QuestionContent: React.FC<IQuestionContent> = ({
   );
 };
 
-export default React.memo(QuestionContent);
+export default QuestionContent;

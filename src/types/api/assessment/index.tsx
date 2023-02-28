@@ -176,10 +176,6 @@ export interface IQuestionContent {
   setAllScore: Dispatch<SetStateAction<number>>
   preview?: boolean
   calcScores: Void
-  radio: number | undefined
-  setRadio: Dispatch<SetStateAction<number | undefined>>
-  checkbox: CheckboxValueType[]
-  setCheckbox: Dispatch<SetStateAction<CheckboxValueType[]>>
   checkboxScoreCount: number
   checkboxScoreCalc: Void
   assessmentData: IResult
