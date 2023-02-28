@@ -112,22 +112,21 @@ const CreateAssessmentInfoModal: React.FC<CreateAssessmentIfoModalTypes> = ({
         </Row>
       )}
       <Space direction="vertical" size={0}>
-        {Boolean(data) &&
-          data?.map((item: any) => (
-            <Space
-              key={item?.id}
-              align="baseline"
-              className={
-                footerButtons?.id === item.id ? 'active_form' : undefined
-              }
-              onClick={() => {
-                setFooterButtons(item);
-              }}
-            >
-              <Preview />
-              <Title level={5}>{item?.title}</Title>
-            </Space>
-          ))}
+        {data?.map((item: IAssessments) => (
+          <Space
+            key={item?.id}
+            align="baseline"
+            className={
+              footerButtons?.id === item.id ? 'active_form' : undefined
+            }
+            onClick={() => {
+              setFooterButtons(item);
+            }}
+          >
+            <Preview />
+            <Title level={5}>{item?.title}</Title>
+          </Space>
+        ))}
       </Space>
       {Boolean(footerButtons) && (
         <Row

@@ -2,10 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { PATHS } from '../../../helpers/constants';
+import { IPreviewAssessmentModal } from '../../../types/api/assessment';
 import { Void } from '../../../types/global';
 import { AsnButton } from '../../Forms/Button';
 import { AsnModal } from '../../Forms/Modal';
-import AssessmentForms, { ButtonsContainer } from '../DynamicAssessmentForm';
+import { ButtonsContainer } from '../assessmentStyle';
+import AssessmentForms from '../DynamicAssessmentForm';
 
 const PreviewModalContent = styled(AsnModal)`
   top: 15px !important;
@@ -22,7 +24,7 @@ const PreviewContainer = styled.div`
   padding: 0rem 6rem;
 `;
 
-const PreviewAssessmentModal: React.FC<any> = ({
+const PreviewAssessmentModal: React.FC<IPreviewAssessmentModal> = ({
   openPreviewAssessmentModal,
   setOpenPreviewAssessmentModal,
   setOpenModal,
@@ -37,9 +39,14 @@ const PreviewAssessmentModal: React.FC<any> = ({
   };
   const navigate = useNavigate();
 
-  const onNextAssessment = (): void => {
+  const onNextAssessment: Void = () => {
     navigate(`/${PATHS.ASSESSMENTFORMCREATE.replace(':id', courseId)}`, {
-      state: { type, navigateRouteInfo: { ...navigateRouteInfo, projectId }, footerButtons, preview: true }
+      state: {
+        type,
+        navigateRouteInfo: { ...navigateRouteInfo, projectId },
+        footerButtons,
+        preview: true
+      }
     });
   };
 
@@ -51,10 +58,7 @@ const PreviewAssessmentModal: React.FC<any> = ({
       width="80%"
     >
       <PreviewContainer>
-        <AssessmentForms
-          preview={true}
-          footerButtons={footerButtons}
-        />
+        <AssessmentForms preview={true} footerButtons={footerButtons} />
         <ButtonsContainer marginTop="2rem" style={{ width: '100%' }}>
           <AsnButton
             className="default"
@@ -65,7 +69,9 @@ const PreviewAssessmentModal: React.FC<any> = ({
           >
             Cancel
           </AsnButton>
-          <AsnButton className="primary" onClick={onNextAssessment}>Next</AsnButton>
+          <AsnButton className="primary" onClick={onNextAssessment}>
+            Next
+          </AsnButton>
         </ButtonsContainer>
       </PreviewContainer>
     </PreviewModalContent>
