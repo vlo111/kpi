@@ -55,12 +55,12 @@ const SectionCheckBox: React.FC<IFormItemProps> = ({
       setOtherState(false);
     }
 
-    const fieldAnswer = values.map((v) => {
+    const fieldAnswer = values.map((value) => {
       const answer: { id: string, text?: string } = {
-        id: v as string
+        id: value as string
       };
 
-      if (v === otherId && isCheckedOther) {
+      if (value === otherId && isCheckedOther) {
         answer.text = text;
       }
 
@@ -71,9 +71,7 @@ const SectionCheckBox: React.FC<IFormItemProps> = ({
   };
 
   const onOtherChangeHandler: OnOtherChangeHandler = (event) => {
-    const otherIndex = form
-      .getFieldValue([formName, index, 'answers'])
-      .findIndex((a: IFormAnswer) => a.text);
+    const otherIndex = form.getFieldValue([formName, index, 'answers']).length - 1;
 
     form.setFieldValue(
       [formName, index, 'answers', otherIndex, 'text'],
