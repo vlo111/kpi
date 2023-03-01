@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Button, Space } from 'antd';
-import SignaturePad from 'react-signature-canvas';
+import SignatureCanvas from 'react-signature-canvas';
 
 import { AsnModal } from '../Forms/Modal';
 import styled from 'styled-components';
@@ -54,62 +54,78 @@ const Signature: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const [imageURL, setImageURL] = useState(null);
+  const [imageURL, setImageURL] = useState<string | undefined>();
 
-  const sigCanvas = useRef<any>({});
+  const sigCanvas = useRef<SignatureCanvas>(null);
 
-  const clear = (): void => sigCanvas.current.clear();
+  const handleClear = (): void => {
+    sigCanvas.current?.clear();
+  };
 
-  const save = (): void =>
-    setImageURL(sigCanvas.current.getTrimmedCanvas().toDataURL('image/png'));
+  const handleSave = (): void => {
+    const dataUrl = sigCanvas.current?.toDataURL('image/png');
+    setImageURL(dataUrl);
+  };
+
   return (
     <Space direction="horizontal">
-      <Button type="link" onClick={showModal} style={{
-        fontSize: 'var(--base-font-size)',
-        color: 'var(--dark-1)',
-        fontWeight: 700
-      }}>
-      Online signature / Առցանց ստորագրություն
+      <Button
+        type="link"
+        onClick={showModal}
+        style={{
+          fontSize: 'var(--base-font-size)',
+          color: 'var(--dark-1)',
+          fontWeight: 700
+        }}
+      >
+        Online signature / Առցանց ստորագրություն
       </Button>
       <SignatureModal
-      footer={false}
-      open={isModalOpen}
-      width={'570px'}
-      onCancel={() => setIsModalOpen(false)}
-       >
-          <>
-            <SignaturePad
-              penColor="blue"
-              ref={sigCanvas}
-              canvasProps={{ width: 470, height: 500 }}
-            />
-            <Button type="link" onClick={clear} style={{
+        footer={false}
+        open={isModalOpen}
+        width={'570px'}
+        onCancel={() => setIsModalOpen(false)}
+      >
+        <>
+          <SignatureCanvas
+            penColor="blue"
+            ref={sigCanvas}
+            canvasProps={{ width: 470, height: 500 }}
+          />
+          <Button
+            type="link"
+            onClick={handleClear}
+            style={{
               fontSize: 'var(--base-font-size)',
               color: 'var(--dark-2)'
-            }}>Clear</Button>
-          </>
-          <Space
+            }}
+          >
+            Clear
+          </Button>
+        </>
+        <Space
           style={{
             display: 'flex',
             justifyContent: 'space-around',
             marginTop: '20px'
-          }}>
-        <AsnButton className="default" onClick={handleCancel}>
-          Cancel
-        </AsnButton>
-        <AsnButton
-          className="primary"
-          htmlType="submit"
-          onClick={() => {
-            save();
-            handleCancel();
           }}
         >
-          Save
-        </AsnButton>
-      </Space>
+          <AsnButton className="default" onClick={handleCancel}>
+            Cancel
+          </AsnButton>
+          <AsnButton
+            className="primary"
+            htmlType="submit"
+            onClick={() => {
+              handleSave();
+              handleCancel();
+            }}
+          >
+            Save
+          </AsnButton>
+        </Space>
       </SignatureModal>
-      { (imageURL !== null && Boolean(imageURL))
+      {imageURL !== null && Boolean(imageURL)
         ? (
         <img
           src={imageURL}
