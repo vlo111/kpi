@@ -155,11 +155,6 @@ const FillAssessMentForm: React.FC = () => {
          {assessmentForm.onlineSignature &&
           <AsnForm.Item>
             <Space direction='horizontal' align='center' style={{ paddingTop: '30px' }}>
-              <Paragraph
-                style={{ marginBottom: 0, fontSize: 'var(--base-font-size)', fontWeight: 'var(--font-semibold)' }}
-              >
-                Online Signature
-              </Paragraph>
               <Signature/>
             </Space>
           </AsnForm.Item>}

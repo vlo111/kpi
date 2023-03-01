@@ -124,15 +124,6 @@ const PreviewAssessmentForm: React.FC<any> = ({
             align="center"
             style={{ paddingTop: '30px' }}
           >
-            <Paragraph
-              style={{
-                marginBottom: 0,
-                fontSize: 'var(--base-font-size)',
-                fontWeight: 'var(--font-semibold)'
-              }}
-            >
-              Online Signature
-            </Paragraph>
             <Signature/>
           </Space>
         </AsnForm.Item>}

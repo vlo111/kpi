@@ -45,9 +45,6 @@ const TermsConditions: React.FC<ITermsConditionsProps> = ({
       {onlineSignature !== undefined && onlineSignature && (
         <Form.Item name="onlineSignature">
           <DividerLine>
-            <FormText style={{ fontWeight: '700' }}>
-              Online signature / Առցանց ստորագրություն
-            </FormText>
              <Signature/>
           </DividerLine>
         </Form.Item>
