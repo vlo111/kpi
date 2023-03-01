@@ -53,7 +53,6 @@ export interface ICreateSecondStepData {
 }
 
 export interface IOnlyId {
-  [x: string]: any;
   id: string
 }
 
