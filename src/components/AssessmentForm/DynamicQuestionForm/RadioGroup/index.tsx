@@ -75,15 +75,13 @@ const RadioGroup: React.FC<IRadioGroup> = ({
   };
 
   const radioGroupChange: RadioGroupChangeType = (val) => {
-    setRadio((prevValue) => {
-      if (prevValue !== undefined) {
-        form.setFieldValue(
-          ['questions', contentName[0], 'answers', prevValue, 'score'],
-          0
-        );
-      }
-      return val.target.value;
-    });
+    form.setFieldValue(
+      ['questions', contentName[0], 'answers', val.target.value - 1, 'score'],
+      0
+    );
+
+    setRadio(val.target.value);
+
     calcScores();
   };
 
@@ -96,73 +94,75 @@ const RadioGroup: React.FC<IRadioGroup> = ({
           width: '100%'
         }}
       >
-        {answerList.map(({ key, name, ...restField }) => (
-          <AddQuestionRow key={key} align="baseline">
-            <Radio value={name}>
-              <AsnForm.Item
-                {...restField}
-                name={[name, 'title']}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Enter required fields',
-                    min: 1
-                  }
-                ]}
-              >
-                <AnswersInput
-                  placeholder={`Option ${name + 1}`}
-                  disabled={
-                    form.getFieldValue([
-                      'questions',
-                      contentName[0],
-                      'answers',
-                      name,
-                      'title'
-                    ]) === 'Other' || preview === true
-                  }
-                />
-              </AsnForm.Item>
-            </Radio>
-            <Space>
-              {radio === name && (
-                <ScoreContainer>
-                  <Title
-                    level={5}
-                    style={{
-                      fontWeight: '400',
-                      margin: '0 0.5rem 0 ',
-                      fontSize: 'var(--base-font-size)'
-                    }}
-                  >
-                    Score
-                  </Title>
-                  <AsnForm.Item
-                    {...restField}
-                    name={[name, 'score']}
-                    initialValue={0}
-                  >
-                    <ScoreInputNumber
-                      className="primary"
-                      min={0}
-                      onChange={() => onNumberInputChange()}
-                    />
-                  </AsnForm.Item>
-                </ScoreContainer>
-              )}
-              {answerList.length <= 2
-                ? null
-                : (
-                <IconButton disabled={preview}>
-                  <DeleteIcon onClick={() => onDeleteAnswer(remove, name)} />
-                </IconButton>
-                  )}
-            </Space>
-          </AddQuestionRow>
-        ))}
+        {answerList.map(({ key, name, ...restField }) => {
+          return (
+            <AddQuestionRow key={key} align="baseline">
+              <Radio value={name}>
+                <AsnForm.Item
+                  {...restField}
+                  name={[name, 'title']}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Enter required fields',
+                      min: 1
+                    }
+                  ]}
+                >
+                  <AnswersInput
+                    placeholder={`Option ${name + 1}`}
+                    disabled={
+                      form.getFieldValue([
+                        'questions',
+                        contentName[0],
+                        'answers',
+                        name,
+                        'title'
+                      ]) === 'Other' || preview === true
+                    }
+                  />
+                </AsnForm.Item>
+              </Radio>
+              <Space>
+                {radio === name && (
+                  <ScoreContainer>
+                    <Title
+                      level={5}
+                      style={{
+                        fontWeight: '400',
+                        margin: '0 0.5rem 0 ',
+                        fontSize: 'var(--base-font-size)'
+                      }}
+                    >
+                      Score
+                    </Title>
+                    <AsnForm.Item
+                      {...restField}
+                      name={[name, 'score']}
+                      initialValue={0}
+                    >
+                      <ScoreInputNumber
+                        className="primary"
+                        min={0}
+                        onChange={() => onNumberInputChange()}
+                      />
+                    </AsnForm.Item>
+                  </ScoreContainer>
+                )}
+                {answerList.length <= 2
+                  ? null
+                  : (
+                  <IconButton disabled={preview}>
+                    <DeleteIcon onClick={() => onDeleteAnswer(remove, name)} />
+                  </IconButton>
+                    )}
+              </Space>
+            </AddQuestionRow>
+          );
+        })}
       </Radio.Group>
     </>
   );
 };
 
-export default RadioGroup;
+export default React.memo(RadioGroup);
