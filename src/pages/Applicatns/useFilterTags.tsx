@@ -67,7 +67,6 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
           )}
           {filters?.statuses !== undefined && (
             <Tag onClose={() => closeFilter('statuses')} closable>
-              {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
               {`Statuses: ${filters?.statuses}`}
             </Tag>
           )}
@@ -83,7 +82,6 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
           )}
           {filters?.regions !== undefined && (
             <Tag onClose={() => closeFilter('regions')} closable>
-              {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
               {`Region: ${filters?.regions}`}
             </Tag>
           )}
