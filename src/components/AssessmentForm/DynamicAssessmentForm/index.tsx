@@ -115,7 +115,7 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
       form.setFieldsValue({
         ...cloneAssessmentData
       });
-      setAllScore(data?.result?.maximumScore);
+      // setAllScore(data?.result?.maximumScore);
     }
   }, [data, preview, location?.state?.preview]);
 
@@ -256,38 +256,41 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
         <AsnForm.List name="questions">
           {(questionsLists, { add, remove }) => (
             <FormItemContainer>
-              {questionsLists.map(({ key, name, ...restField }) => (
-                <AssessmentFormItemContainer key={key}>
-                  <AssessmentFormItems
-                    {...restField}
-                    key={key}
-                    name={[name, 'answers']}
-                    add={add}
-                    remove={remove}
-                    answerType={answerType}
-                    setAnswerType={setAnswerType}
-                    questionsLists={questionsLists}
-                    setAllScore={setAllScore}
-                    preview={preview}
-                    assessmentData={data?.result}
-                  />
-                  {name === questionsLists.length - 1 &&
-                  questionsLists.length <= 50 &&
-                  preview !== true
-                    ? (
-                    <AddAssessmentButton onClick={() => onAddQuestion(add)}>
-                      <Tooltip
-                        placement="topLeft"
-                        title={<span>Add a question</span>}
-                        overlayClassName="tooltipHelper"
-                      >
-                        <AddAssessmentIcon />
-                      </Tooltip>
-                    </AddAssessmentButton>
-                      )
-                    : null}
-                </AssessmentFormItemContainer>
-              ))}
+              {questionsLists.map(({ key, name, ...restField }) => {
+                console.log('Gnac ----------------------- >>>>>>>>', name);
+
+                return <AssessmentFormItemContainer key={key}>
+                <AssessmentFormItems
+                  {...restField}
+                  key={key}
+                  name={[name, 'answers']}
+                  n={name}
+                  add={add}
+                  remove={remove}
+                  answerType={answerType}
+                  setAnswerType={setAnswerType}
+                  questionsLists={questionsLists}
+                  setAllScore={setAllScore}
+                  preview={preview}
+                  assessmentData={data?.result}
+                />
+                {name === questionsLists.length - 1 &&
+                questionsLists.length <= 50 &&
+                preview !== true
+                  ? (
+                  <AddAssessmentButton onClick={() => onAddQuestion(add)}>
+                    <Tooltip
+                      placement="topLeft"
+                      title={<span>Add a question</span>}
+                      overlayClassName="tooltipHelper"
+                    >
+                      <AddAssessmentIcon />
+                    </Tooltip>
+                  </AddAssessmentButton>
+                    )
+                  : null}
+              </AssessmentFormItemContainer>;
+              })}
             </FormItemContainer>
           )}
         </AsnForm.List>

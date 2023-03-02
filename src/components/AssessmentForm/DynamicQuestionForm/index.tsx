@@ -38,7 +38,6 @@ const DynamicQuestionForm: React.FC<IDynamicQuestionForm> = ({
   assessmentData
 }) => {
   const [addOder, setAddOder] = useState(true);
-
   const form = AsnForm.useFormInstance();
 
   useEffect(() => {
@@ -144,7 +143,7 @@ const DynamicQuestionForm: React.FC<IDynamicQuestionForm> = ({
                 : null}
             </ButtonsContainer>
             {form.getFieldsValue().questions?.[contentName[0]].answerType ===
-              'CHECKBOX' && checkbox.length >= 1
+              'CHECKBOX' && checkbox !== undefined && checkbox?.length >= 1
               ? (
               <Scores>
                 <Title level={5} style={{ fontWeight: '400' }}>

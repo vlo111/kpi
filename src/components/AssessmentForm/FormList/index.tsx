@@ -18,7 +18,8 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
   setAnswerType,
   setAllScore,
   preview,
-  assessmentData
+  assessmentData,
+  n
 }) => {
   const form = AsnForm.useFormInstance();
   const [checkboxScoreCount, setCheckboxScoreCount] = useState(0);

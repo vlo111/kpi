@@ -27,27 +27,37 @@ const CheckboxGroup: React.FC<ICheckboxGroup> = ({
   };
 
   const checkboxGroupChange: FormFinish = (val) => {
-    setCheckbox(val);
+    debugger;
+    setCheckbox({
+      name: contentName[0],
+      value: val
+    });
   };
 
   const onDeleteCheckboxGroupItem: OnDeleteCheckboxGroupItemType = (
     remove,
     name
   ) => {
-    setCheckbox(
-      checkbox.filter((item) => {
-        return item !== name;
-      })
-    );
+    // setCheckbox({
+    //   name: contentName[0],
+    //   value: checkbox.filter((item) => item.name !== name)
+    // });
     remove(name);
     calcScores();
     checkboxScoreCalc();
   };
 
+  let val;
+
+  if (checkbox !== undefined) {
+    const i = contentName[0] as number;
+    val = checkbox[i].value;
+  }
+
   return (
     <>
       <AsnCheckbox.Group
-        value={checkbox}
+        value={val}
         onChange={checkboxGroupChange}
         style={{
           width: '100%'
@@ -90,7 +100,7 @@ const CheckboxGroup: React.FC<ICheckboxGroup> = ({
               </AsnForm.Item>
             </AsnCheckbox>
             <Space>
-              {Boolean(checkbox.includes(key)) && (
+              {/* {Boolean(checkbox.includes(key)) && ( */}
                 <ScoreContainer key={key}>
                   <Title
                     level={5}
@@ -114,7 +124,7 @@ const CheckboxGroup: React.FC<ICheckboxGroup> = ({
                     />
                   </AsnForm.Item>
                 </ScoreContainer>
-              )}
+              {/* )} */}
               {answerList.length <= 2
                 ? null
                 : (

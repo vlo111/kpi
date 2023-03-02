@@ -157,6 +157,7 @@ export interface IAssessmentFormItems {
   setAllScore: Dispatch<SetStateAction<number>>
   preview?: boolean
   assessmentData: IResult
+  n: number
 }
 
 export interface IQuestionHeader {
@@ -187,8 +188,14 @@ export interface IDynamicQuestionForm {
   preview?: boolean
   radio: number | undefined
   setRadio: Dispatch<SetStateAction<number | undefined>>
-  checkbox: CheckboxValueType[]
-  setCheckbox: Dispatch<SetStateAction<CheckboxValueType[]>>
+  checkbox: Array<{
+    name: Number
+    value: number[]
+  }> | undefined
+  setCheckbox: React.Dispatch<React.SetStateAction<Array<{
+    name: Number
+    value: number[]
+  }> | undefined>>
   checkboxScoreCount: number
   checkboxScoreCalc: Void
   assessmentData: IResult
@@ -205,10 +212,13 @@ export interface IPreviewAssessmentModal {
   projectId: string
 }
 export interface ICheckboxGroup {
-  setCheckbox: Dispatch<SetStateAction<CheckboxValueType[]>>
+  setCheckbox: any
   checkboxScoreCalc: Void
   calcScores: Void
-  checkbox: CheckboxValueType[]
+  checkbox: Array<{
+    name: Number
+    value: number[]
+  }> | undefined
   answerList: FormListFieldData[]
   contentName: Array<string | number>
   remove: RemoveType
