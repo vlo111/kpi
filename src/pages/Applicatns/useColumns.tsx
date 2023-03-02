@@ -132,7 +132,7 @@ export const useColumn = ({ onFinish, form, setOpen, open }: any): any => {
       ellipsis: false
     },
     {
-      title: 'Vulnerability',
+      title: 'Disability',
       key: 11,
       dataIndex: 'vulnerability',
       ellipsis: false,
