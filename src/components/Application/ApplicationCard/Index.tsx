@@ -34,16 +34,14 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
   const descriptionRef = useRef<InputRef>(null);
 
   const onAddDescription: FormFinish = (event) => {
-    if (event.key === 'Enter') {
-      if (cardId === 'personal_info') {
-        addDescription(applicationData, 0, descriptionRef);
-      } else if (cardId === 'educational_info') {
-        addDescription(applicationData, 1, descriptionRef);
-      } else if (cardId === 'other_info') {
-        addDescription(applicationData, 2, descriptionRef);
-      } else {
-        addDescription(applicationData, 3, descriptionRef);
-      }
+    if (cardId === 'personal_info') {
+      addDescription(applicationData, 0, descriptionRef);
+    } else if (cardId === 'educational_info') {
+      addDescription(applicationData, 1, descriptionRef);
+    } else if (cardId === 'other_info') {
+      addDescription(applicationData, 2, descriptionRef);
+    } else {
+      addDescription(applicationData, 3, descriptionRef);
     }
   };
 
@@ -79,7 +77,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
         placeholder="Add description"
         ref={descriptionRef}
         defaultValue={description}
-        onKeyDown={onAddDescription}
+        onBlur={onAddDescription}
       />
       {content.length > 0
         ? (
