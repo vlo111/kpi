@@ -13,6 +13,7 @@ import { AsnModal } from '../Forms/Modal';
 import { AsnButton } from '../Forms/Button';
 import { Void } from '../../types/global';
 import getAssessmentFormbyId from '../../api/AssessmentForm/useGetAssessmentFormById';
+import Signature from '../Signature';
 
 const { Title, Paragraph } = Typography;
 
@@ -123,16 +124,7 @@ const PreviewAssessmentForm: React.FC<any> = ({
             align="center"
             style={{ paddingTop: '30px' }}
           >
-            <Paragraph
-              style={{
-                marginBottom: 0,
-                fontSize: 'var(--base-font-size)',
-                fontWeight: 'var(--font-semibold)'
-              }}
-            >
-              Online Signature
-            </Paragraph>
-            <UnderLineInput disabled />
+            <Signature/>
           </Space>
         </AsnForm.Item>}
       </AsnForm>

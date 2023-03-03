@@ -210,6 +210,7 @@ const GlobalStyle = createGlobalStyle`
   position: absolute;
   .ant-popover-inner{
    width: 190px;
+   margin-top: -30px;
    button{
     font-size: var(--base-font-size);
     color: var(--dark-2);
@@ -406,6 +407,11 @@ const GlobalStyle = createGlobalStyle`
     .ant-checkbox-indeterminate .ant-checkbox-inner:after{
       background-color: var(--white) !important;;
     }
+  }
+  canvas{
+    border: 1px solid var(--dark-5);
+    border-bottom: 1px solid var(--dark-border-ultramarine) !important;
+
   }
 `;
 
