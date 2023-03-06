@@ -1,7 +1,7 @@
 import { UseQueryResult } from '@tanstack/react-query';
 import { TVoid } from '../../../types/global';
 import { FormInstance } from 'antd';
-import React, { Key } from 'react';
+import { Key } from 'react';
 
 export interface SearchApplicants {
   filters: any
@@ -43,10 +43,10 @@ export interface iFinishApplicant {
   gender: string
   age: number[]
   student: boolean
-  statuses: string[]
+  statuses: string
   income: boolean
   disability: boolean
-  regions: string[]
+  regions: string
 }
 export interface IPagination {
   current: number
@@ -83,8 +83,8 @@ export interface Iseacrh {
   disability?: boolean
   gender?: string
   income?: boolean
-  regions?: string[]
-  statuses?: string[]
+  regions?: string
+  statuses?: string
   student?: boolean
 }
 

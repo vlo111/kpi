@@ -316,8 +316,7 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
               {
                 required: true,
                 message: 'Enter required fields',
-                min: 2,
-                max: 64
+                min: 2
               }
             ]}
           >

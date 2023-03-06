@@ -9,11 +9,7 @@ import { ReactComponent as DeleteHelpTextIcon } from '../../../assets/icons/clos
 import { AsnInput } from '../../Forms/Input';
 import { AsnModal } from '../../Forms/Modal';
 import { AsnButton } from '../../Forms/Button';
-import {
-  FormFinish,
-  Onchange,
-  Void
-} from '../../../types/global';
+import { FormFinish, Onchange, Void } from '../../../types/global';
 import { ICreatedFieldItem, IQuestionsRow } from '../../../types/project';
 import useDeleteSetting from '../../../api/Activity/Template/Settings/useDeleteSingleSetting';
 import useAddSettingHelpText from '../../../api/Activity/Template/Settings/useAddSettingHelpText';
@@ -139,7 +135,7 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
   };
 
   const onHelpText: FormFinish = (event) => {
-    if (event.key === 'Enter') {
+    if (item?.helpText !== event.target.value) {
       addedHelpText({
         id: item.id,
         data: {
@@ -163,26 +159,27 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
 
   const content: (i: ICreatedFieldItem) => JSX.Element = (item) => {
     return (
-    <Row
-      style={{
-        fontSize: 'var(--font-size-small)',
-        color: 'var(--dark-2)',
-        cursor: 'pointer'
-      }}
-      gutter={[8, 8]}
-    >
-      <Col onClick={() => onOpenInputClick(item)} span={24}>
-        <HelperTextIcon /> Add help text
-      </Col>
-      <Col onClick={() => onEditedQuestion(item)} span={24}>
-        <EditIcon /> Edit
-      </Col>
-      <Col onClick={() => onDeletedQuestion(item)} span={24}>
-        <DeleteIcon /> Delete
-      </Col>
-    </Row>
+      <Row
+        style={{
+          fontSize: 'var(--font-size-small)',
+          color: 'var(--dark-2)',
+          cursor: 'pointer'
+        }}
+        gutter={[8, 8]}
+      >
+        <Col onClick={() => onOpenInputClick(item)} span={24}>
+          <HelperTextIcon /> Add help text
+        </Col>
+        <Col onClick={() => onEditedQuestion(item)} span={24}>
+          <EditIcon /> Edit
+        </Col>
+        <Col onClick={() => onDeletedQuestion(item)} span={24}>
+          <DeleteIcon /> Delete
+        </Col>
+      </Row>
     );
   };
+
   return (
     <Fragment>
       <CourseList>
@@ -276,7 +273,7 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
       {rowId.includes(item.id)
         ? (
         <InputHelpText
-          onKeyPress={onHelpText}
+          onBlur={onHelpText}
           className="courseDescriptionInput"
           placeholder="Add help text"
           suffix={<DeleteHelpTextIcon onClick={onDeleteHelpText} />}

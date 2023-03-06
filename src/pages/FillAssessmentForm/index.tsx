@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Modal, Typography, Space, message } from 'antd';
 import styled from 'styled-components';
+import _ from 'lodash';
 
 import { UnderLineInput } from '../../components/Forms/Input/UnderLineInput';
 import AsnSpin from '../../components/Forms/Spin';
@@ -16,7 +17,7 @@ import { IQuestion } from '../../types/api/assessment';
 import { FormScrollToErrorOptions } from '../../helpers/constants';
 import useGetAssessmentForm from '../../api/AssessmentForm/useGetAssessmentForm';
 import useApplyAssessmentForm from '../../api/AssessmentForm/useApplyAssessmentForm';
-import _ from 'lodash';
+import Signature from '../../components/Signature';
 
 const AsnModal = styled(Modal)`
   .ant-modal-content{
@@ -154,12 +155,7 @@ const FillAssessMentForm: React.FC = () => {
          {assessmentForm.onlineSignature &&
           <AsnForm.Item>
             <Space direction='horizontal' align='center' style={{ paddingTop: '30px' }}>
-              <Paragraph
-                style={{ marginBottom: 0, fontSize: 'var(--base-font-size)', fontWeight: 'var(--font-semibold)' }}
-              >
-                Online Signature
-              </Paragraph>
-              <UnderLineInput style={{ width: 'calc(80vw - 196px)' }} />
+              <Signature/>
             </Space>
           </AsnForm.Item>}
           <AsnForm.Item>

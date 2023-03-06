@@ -147,3 +147,9 @@ export interface IUploadFileError {
 export interface IUploadFileResponse {
   data: { result: string[] }
 }
+
+export interface DownloadDocument {
+  name: string
+  hide: () => void
+  path: string
+}

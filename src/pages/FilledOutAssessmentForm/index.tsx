@@ -22,6 +22,7 @@ import {
   AsnParagraph,
   FormWrapper
 } from './styles';
+import Signature from '../../components/Signature';
 
 const FilledOutAssessmentForm: React.FC = () => {
   const [allScore, setAllScore] = useState<number | undefined>();
@@ -147,9 +148,7 @@ const FilledOutAssessmentForm: React.FC = () => {
               {(preAssessmentForm?.onlineSignature ?? postAssessmentForm?.onlineSignature) &&
                 <>
                   <AsnParagraph className="main">Online Signature</AsnParagraph>
-                  <UnderLineInput
-                    style={{ width: 'calc(80vw - 354px)' }}
-                    disabled />
+                  <Signature />
                 </>
               }
               <Space direction="horizontal">
