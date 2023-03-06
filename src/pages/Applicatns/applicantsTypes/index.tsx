@@ -6,7 +6,9 @@ import { Key } from 'react';
 export interface SearchApplicants {
   filters: any
   serachData: any
-  result: number | undefined
+  result: {
+    count: number
+  }
 }
 export interface DataType {
   key: Key
