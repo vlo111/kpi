@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Typography } from 'antd';
 import { AsnForm } from '../../Forms/Form';
 import { AsnTextArea } from '../../Forms/Input';
 import DynamicQuestionForm from '../DynamicQuestionForm';
 import { Void } from '../../../types/global';
-import { IQuestion, IQuestionContent } from '../../../types/api/assessment';
+import { IQuestionContent } from '../../../types/api/assessment';
 import { ScoreInputNumber } from '../assessmentStyle';
 
 const { Title } = Typography;
@@ -40,14 +40,13 @@ const QuestionContent: React.FC<IQuestionContent> = ({
   calcScores,
   checkboxScoreCount,
   checkboxScoreCalc,
-  assessmentData
+  assessmentData,
+  setCheckbox,
+  checkbox,
+  radio,
+  setRadio
 }) => {
   const form = AsnForm.useFormInstance();
-  const [radio, setRadio] = useState<number | undefined>();
-  const [checkbox, setCheckbox] = useState<Array<{ name: Number, value: number[] }>>();
-  // TODO: Checkbox first time is undefined
-  // fix useEffect first render checkbox init
-  console.log(name[0], checkbox);
 
   const onInputNumberChange: Void = () => {
     const allScores = form
@@ -61,44 +60,15 @@ const QuestionContent: React.FC<IQuestionContent> = ({
   };
 
   useEffect(() => {
-    let checkboxes: Array<{ name: number, value: number[] }> | undefined;
-    form.getFieldValue(['questions'])?.forEach((question: IQuestion, i: number) => {
-      if (question?.answers?.length > 0 && question?.answerType === 'OPTION') {
-        question?.answers?.forEach((answer, index) => {
-          if (answer.score > 0) {
-            setRadio(index);
-          }
-        });
-      }
-      if (
-        question?.answers?.length > 0 &&
-        question?.answerType === 'CHECKBOX'
-      ) {
-        const arr: number[] = [];
-        question?.answers?.forEach((answer, index) => {
-          if (answer.score > 0) {
-            arr.push(index);
-          }
-        });
-        if (checkboxes === undefined) {
-          checkboxes = [{
-            name: i,
-            value: arr
-          }];
-        } else {
-          checkboxes.push({
-            name: i,
-            value: arr
-          });
-        }
-      }
-    });
-    setCheckbox(checkboxes);
     if (form.getFieldValue(['questions', name[0], 'answers']) !== undefined) {
       calcScores();
       checkboxScoreCalc();
     }
   }, [assessmentData, radio]);
+
+  const answer = form.getFieldsValue().questions?.[name[0]].answerType;
+
+  const isCheckList = answer === 'OPTION' || answer === 'CHECKBOX';
 
   return (
     <QuestionContentContainer>
@@ -119,8 +89,7 @@ const QuestionContent: React.FC<IQuestionContent> = ({
           }}
         />
       </AsnForm.Item>
-      {form.getFieldsValue().questions?.[name[0]].answerType === 'OPTION' ||
-      form.getFieldsValue().questions?.[name[0]].answerType === 'CHECKBOX'
+      {isCheckList
         ? (
         <DynamicQuestionForm
           contentName={name}

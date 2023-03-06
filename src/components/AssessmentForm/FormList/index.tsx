@@ -19,7 +19,10 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
   setAllScore,
   preview,
   assessmentData,
-  n
+  checkbox,
+  setCheckbox,
+  radio,
+  setRadio
 }) => {
   const form = AsnForm.useFormInstance();
   const [checkboxScoreCount, setCheckboxScoreCount] = useState(0);
@@ -79,6 +82,10 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
         calcScores={calcScores}
         checkboxScoreCount={checkboxScoreCount}
         checkboxScoreCalc={checkboxScoreCalc}
+        checkbox={checkbox}
+        setCheckbox={setCheckbox}
+        radio={radio}
+        setRadio={setRadio}
       />
     </CardContainer>
   );

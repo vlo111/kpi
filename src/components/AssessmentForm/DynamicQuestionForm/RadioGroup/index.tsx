@@ -5,6 +5,7 @@ import { AsnForm } from '../../../Forms/Form';
 import { ReactComponent as DeleteIcon } from '../../../../assets/icons/delete.svg';
 import {
   IAnswerCreate,
+  IAssessmentRadio,
   IRadioGroup,
   OnDeleteAnswerType,
   RadioGroupChangeType
@@ -15,6 +16,7 @@ import {
   ScoreContainer,
   ScoreInputNumber
 } from '../../assessmentStyle';
+import _ from 'lodash';
 
 const { Title } = Typography;
 
@@ -53,6 +55,22 @@ const RadioGroup: React.FC<IRadioGroup> = ({
   const form = AsnForm.useFormInstance();
 
   const onDeleteAnswer: OnDeleteAnswerType = (remove, name) => {
+    if (radio !== undefined) {
+      const radioGroup = _.cloneDeep(radio);
+
+      radioGroup.map((c: IAssessmentRadio) => {
+        if (c.name === contentName[0]) {
+          if (c.value === name) {
+            c.value = undefined;
+          }
+        }
+
+        return c;
+      });
+
+      setRadio(radioGroup);
+    }
+
     const field = form.getFieldValue(['questions', contentName[0], 'answers']);
     const index = field.findIndex(
       (answer: IAnswerCreate) => answer.type === 'SHORT_TEXT'
@@ -80,7 +98,19 @@ const RadioGroup: React.FC<IRadioGroup> = ({
       0
     );
 
-    setRadio(val.target.value);
+    if (radio !== undefined) {
+      const radioGroup = _.cloneDeep(radio);
+
+      radioGroup.map((c: IAssessmentRadio) => {
+        if (c.name === contentName[0]) {
+          c.value = val.target.value;
+        }
+
+        return c;
+      });
+
+      setRadio(radioGroup);
+    }
 
     calcScores();
   };
@@ -89,7 +119,7 @@ const RadioGroup: React.FC<IRadioGroup> = ({
     <>
       <Radio.Group
         onChange={radioGroupChange}
-        value={radio}
+        value={radio?.find((r) => r.name === contentName[0])?.value}
         style={{
           width: '100%'
         }}
@@ -124,7 +154,8 @@ const RadioGroup: React.FC<IRadioGroup> = ({
                 </AsnForm.Item>
               </Radio>
               <Space>
-                {radio === name && (
+                {radio?.find((c) => c.name === contentName[0])?.value ===
+                  name && (
                   <ScoreContainer>
                     <Title
                       level={5}

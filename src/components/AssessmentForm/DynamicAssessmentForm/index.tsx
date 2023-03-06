@@ -8,7 +8,9 @@ import { ReactComponent as AddAssessmentIcon } from '../../../assets/icons/add-a
 import { AsnButton } from '../../Forms/Button';
 import {
   IAnswer,
+  IAssessmentCheckbox,
   IAssessmentForms,
+  IAssessmentRadio,
   IQuestion,
   OnAddQuestionType
 } from '../../../types/api/assessment';
@@ -59,6 +61,10 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
   const [isPreviewForm, setIsPreviewForm] = useState(false);
   const [allScore, setAllScore] = useState<number>(0);
   const [responseDataId, setResponseDataId] = useState<IResult | undefined>();
+
+  const [checkbox, setCheckbox] = useState<IAssessmentCheckbox[] | undefined>();
+  const [radio, setRadio] = useState<IAssessmentRadio[] | undefined>();
+
   const [form] = AsnForm.useForm();
   const location = useLocation();
   const navigate = useNavigate();
@@ -116,6 +122,8 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
         ...cloneAssessmentData
       });
       // setAllScore(data?.result?.maximumScore);
+
+      initCheckList();
     }
   }, [data, preview, location?.state?.preview]);
 
@@ -162,6 +170,78 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
       });
     }
   }, []);
+
+  const initCheckList: Void = () => {
+    let checkboxes: IAssessmentCheckbox[] | undefined;
+    let radios: IAssessmentRadio[] | undefined;
+
+    const questions = form.getFieldValue(['questions']);
+
+    questions?.forEach((question: IQuestion, i: number) => {
+      const answers = question?.answers;
+      if (answers?.length > 0) {
+        switch (question?.answerType) {
+          case 'OPTION': {
+            let value: number | undefined;
+
+            answers?.forEach((answer, index) => {
+              if (answer.score > 0) {
+                value = index;
+              }
+            });
+
+            if (radios === undefined) {
+              radios = [
+                {
+                  name: i,
+                  value
+                }
+              ];
+            } else {
+              radios.push({
+                name: i,
+                value
+              });
+            }
+            break;
+          }
+          case 'CHECKBOX': {
+            const values: number[] = [];
+
+            answers?.forEach((answer, index) => {
+              if (answer.score > 0) {
+                values.push(index);
+              }
+            });
+
+            if (checkboxes === undefined) {
+              checkboxes = [
+                {
+                  name: i,
+                  value: values
+                }
+              ];
+            } else {
+              checkboxes.push({
+                name: i,
+                value: values
+              });
+            }
+
+            break;
+          }
+        }
+      }
+    });
+
+    if (checkboxes !== undefined) {
+      setCheckbox(checkboxes);
+    }
+
+    if (radios !== undefined) {
+      setRadio(radios);
+    }
+  };
 
   const onAddQuestion: OnAddQuestionType = (add) => {
     setAnswerType('OPTION');
@@ -256,45 +336,46 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
         <AsnForm.List name="questions">
           {(questionsLists, { add, remove }) => (
             <FormItemContainer>
-              {questionsLists.map(({ key, name, ...restField }) => {
-                console.log('Gnac ----------------------- >>>>>>>>', name);
-
-                return <AssessmentFormItemContainer key={key}>
-                <AssessmentFormItems
-                  {...restField}
-                  key={key}
-                  name={[name, 'answers']}
-                  n={name}
-                  add={add}
-                  remove={remove}
-                  answerType={answerType}
-                  setAnswerType={setAnswerType}
-                  questionsLists={questionsLists}
-                  setAllScore={setAllScore}
-                  preview={preview}
-                  assessmentData={data?.result}
-                />
-                {name === questionsLists.length - 1 &&
-                questionsLists.length <= 50 &&
-                preview !== true
-                  ? (
-                  <AddAssessmentButton onClick={() => onAddQuestion(add)}>
-                    <Tooltip
-                      placement="topLeft"
-                      title={<span>Add a question</span>}
-                      overlayClassName="tooltipHelper"
-                    >
-                      <AddAssessmentIcon />
-                    </Tooltip>
-                  </AddAssessmentButton>
-                    )
-                  : null}
-              </AssessmentFormItemContainer>;
-              })}
+              {questionsLists.map(({ key, name, ...restField }) => (
+                <AssessmentFormItemContainer key={key}>
+                  <AssessmentFormItems
+                    {...restField}
+                    key={key}
+                    name={[name, 'answers']}
+                    add={add}
+                    remove={remove}
+                    answerType={answerType}
+                    setAnswerType={setAnswerType}
+                    questionsLists={questionsLists}
+                    setAllScore={setAllScore}
+                    preview={preview}
+                    assessmentData={data?.result}
+                    checkbox={checkbox}
+                    setCheckbox={setCheckbox}
+                    radio={radio}
+                    setRadio={setRadio}
+                  />
+                  {name === questionsLists.length - 1 &&
+                  questionsLists.length <= 50 &&
+                  preview !== true
+                    ? (
+                    <AddAssessmentButton onClick={() => onAddQuestion(add)}>
+                      <Tooltip
+                        placement="topLeft"
+                        title={<span>Add a question</span>}
+                        overlayClassName="tooltipHelper"
+                      >
+                        <AddAssessmentIcon />
+                      </Tooltip>
+                    </AddAssessmentButton>
+                      )
+                    : null}
+                </AssessmentFormItemContainer>
+              ))}
             </FormItemContainer>
           )}
         </AsnForm.List>
-        <BottomCard allScore={allScore}/>
+        <BottomCard allScore={allScore} />
         {preview === true
           ? null
           : (
