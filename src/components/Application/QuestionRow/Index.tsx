@@ -41,6 +41,7 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
   isQuestionCardVisible,
   cardId,
   setAnswerTypeValue,
+  answerTypeValue,
   setSingleQuestionData,
   setAddOrUpdateQuestion,
   setQuestionRowIndex
@@ -57,8 +58,29 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
   };
 
   const onDeletedQuestion: NumberVoidType = (item) => {
-    content.splice(item, 1);
-    setApplicationData({ ...applicationData });
+    const applicationDataClone = JSON.parse(JSON.stringify(applicationData));
+    if (cardId === 'personal_info') {
+      applicationDataClone?.applicationFormSections[0]?.questions.splice(
+        item,
+        1
+      );
+    } else if (cardId === 'educational_info') {
+      applicationDataClone?.applicationFormSections[1]?.questions.splice(
+        item,
+        1
+      );
+    } else if (cardId === 'other_info') {
+      applicationDataClone?.applicationFormSections[2]?.questions.splice(
+        item,
+        1
+      );
+    } else {
+      applicationDataClone?.applicationFormSections[3]?.questions.splice(
+        item,
+        1
+      );
+    }
+    setApplicationData({ ...applicationDataClone });
     setOpenPopover(!openPopover);
     setIsQuestionCardVisible(
       isQuestionCardVisible.filter((itemId) => itemId !== cardId)
@@ -105,7 +127,9 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
           ? (
           <Popover
             placement="topLeft"
-            content={() => contentPopover(index, onEditedQuestion, onDeletedQuestion)}
+            content={() =>
+              contentPopover(index, onEditedQuestion, onDeletedQuestion)
+            }
             trigger="click"
             overlayClassName="menuPopover"
             onOpenChange={handleOpenChange}
