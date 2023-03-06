@@ -25,7 +25,8 @@ const ApplicantsData: React.FC = () => {
     income: undefined,
     disability: undefined,
     gender: undefined,
-    statuses: undefined
+    statuses: undefined,
+    age: undefined
   });
 
   const tableParams = {
@@ -83,8 +84,8 @@ const ApplicantsData: React.FC = () => {
       age:
         values?.age !== undefined
           ? {
-              from: values?.age?.[0],
-              to: values?.age?.[1]
+              from: values?.age?.[0] ?? values?.age?.from,
+              to: values?.age?.[1] ?? values?.age?.to
             }
           : undefined,
       regions: values?.regions,
