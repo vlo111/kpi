@@ -156,37 +156,37 @@ const RadioGroup: React.FC<IRadioGroup> = ({
               <Space>
                 {radio?.find((c) => c.name === contentName[0])?.value ===
                   name && (
-                  <ScoreContainer>
-                    <Title
-                      level={5}
-                      style={{
-                        fontWeight: '400',
-                        margin: '0 0.5rem 0 ',
-                        fontSize: 'var(--base-font-size)'
-                      }}
-                    >
-                      Score
-                    </Title>
-                    <AsnForm.Item
-                      {...restField}
-                      name={[name, 'score']}
-                      initialValue={0}
-                    >
-                      <ScoreInputNumber
-                        className="primary"
-                        min={0}
-                        onChange={() => onNumberInputChange()}
-                      />
-                    </AsnForm.Item>
-                  </ScoreContainer>
-                )}
+                    <ScoreContainer>
+                      <Title
+                        level={5}
+                        style={{
+                          fontWeight: '400',
+                          margin: '0 0.5rem 0 ',
+                          fontSize: 'var(--base-font-size)'
+                        }}
+                      >
+                        Score
+                      </Title>
+                      <AsnForm.Item
+                        {...restField}
+                        name={[name, 'score']}
+                        initialValue={0}
+                      >
+                        <ScoreInputNumber
+                          className="primary"
+                          min={0}
+                          onChange={() => onNumberInputChange()}
+                        />
+                      </AsnForm.Item>
+                    </ScoreContainer>
+                  )}
                 {answerList.length <= 2
                   ? null
                   : (
-                  <IconButton disabled={preview}>
-                    <DeleteIcon onClick={() => onDeleteAnswer(remove, name)} />
-                  </IconButton>
-                    )}
+                    <IconButton disabled={preview}>
+                      <DeleteIcon onClick={() => onDeleteAnswer(remove, name)} />
+                    </IconButton>
+                  )}
               </Space>
             </AddQuestionRow>
           );

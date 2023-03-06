@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Tabs } from 'antd';
 import TabPane from 'antd/lib/tabs/TabPane';
-import { FolderOpenOutlined } from '@ant-design/icons';
 
 import { IPaginate } from '../../types/files';
 import { defaultLimit } from '../../helpers/constants';
@@ -14,6 +13,7 @@ import { useProject } from '../../hooks/useProject';
 import useGetCoursFile from '../../api/Files/useGetCoursFile';
 import useGetAllFile from '../../api/Files/useGetProjectFileAll';
 import useGetFolderFiles from '../../api/Files/useGetFolderFiles';
+import { ReactComponent as OpenFolder } from '../Files/UploadImg/fileOpen.svg';
 
 const Tab = styled.div`
   display: flex;
@@ -112,7 +112,7 @@ const Files: React.FC = () => {
         <TabPane
           tab={
             <>
-              <FolderOpenOutlined />
+              <OpenFolder />
               {projectName} folders
             </>
           }

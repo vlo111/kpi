@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from 'react';
-import { Row, Popover, Col, Button } from 'antd';
+import { Row, Popover, Col, Button, Tooltip, Typography } from 'antd';
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import DocumentDonload from '../Popover/Pdf';
@@ -19,7 +19,7 @@ const DocumentCard = styled(Col)`
     overflow-wrap: anywhere;
   }
 `;
-
+const { Paragraph } = Typography;
 const ResultWrapper: React.FC<IResultWrapper> = ({ files, onRemoveFile, setOpens, setViewPdf, fileName, handleFileClick, all }) => {
   const [openPopOver, setOpenPopOver] = useState<{ id: string, show: boolean }>({
     id: '',
@@ -111,7 +111,19 @@ const ResultWrapper: React.FC<IResultWrapper> = ({ files, onRemoveFile, setOpens
               onClick={() => handleFileClick(file?.path)}
             >
               {uploadImgfile(file)}
-              <Col>{file?.originalName}</Col>
+              <Col style={{ cursor: 'pointer' }}>
+              <Tooltip title={file?.originalName}>
+                        <Paragraph
+                          strong
+                          ellipsis={{
+                            rows: 1
+                          }}
+                          style={{ width: '120px' }}
+                        >
+                          {file?.originalName}
+                        </Paragraph>
+                      </Tooltip>
+              </Col>
             </Col>
           </DocumentCard>
         </Popover>

@@ -13,9 +13,16 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
     setOpen();
   };
 
+  const onFinishFailed = (): void => {
+  };
   return (
     <ContentAssingersFilter>
-      <Form form={form} onFinish={onFinish}>
+      <Form
+      form={form}
+      onFinish={onFinish}
+      initialValues={{ remember: false }}
+      onFinishFailed={onFinishFailed}
+       >
         <Collapse
           collapsible="icon"
           bordered={false}
@@ -28,7 +35,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             </Form.Item>
           </Panel>
           <Panel header="Gender" key="2">
-            <Form.Item name="gender" >
+            <Form.Item name="gender">
               <Radio.Group>
                 <Space direction="vertical">
                   <Radio value={'FEMALE'}>Female</Radio>
@@ -38,17 +45,17 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             </Form.Item>
           </Panel>
           <Panel header="Student" key="3">
-            <Form.Item name="student" >
+            <Form.Item name="student">
               <Radio.Group>
                 <Space direction="vertical">
-                  <Radio value={true}>Nonstudent</Radio>
-                  <Radio value={false}>Student</Radio>
+                  <Radio value={false}>Yes</Radio>
+                  <Radio value={true}>No</Radio>
                 </Space>
               </Radio.Group>
             </Form.Item>
           </Panel>
           <Panel header="Status" key="4">
-            <Form.Item name="statuses" >
+            <Form.Item name="statuses" rules={[{ required: true }]}>
               <AsnCheckboxGroup
                 style={{ width: '200px' }}
                 options={optionsStatus}
@@ -56,29 +63,29 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             </Form.Item>
           </Panel>
           <Panel header="Paid job" key="5">
-            <Form.Item name="income" >
+            <Form.Item name="income">
               <Radio.Group>
                 <Space direction="vertical">
                   <Radio value={true} name="Paid job">
-                    Paid job
+                    Yes
                   </Radio>
-                  <Radio value={false}>Unemployed</Radio>
+                  <Radio value={false}>No</Radio>
                 </Space>
               </Radio.Group>
             </Form.Item>
           </Panel>
           <Panel header="Disability" key="6">
-            <Form.Item name="disability" >
+            <Form.Item name="disability">
               <Radio.Group>
                 <Space direction="vertical">
-                  <Radio value={false}>NA</Radio>
-                  <Radio value={true}>Vulnerable group member</Radio>
+                  <Radio value={false}>No</Radio>
+                  <Radio value={true}>Yes</Radio>
                 </Space>
               </Radio.Group>
             </Form.Item>
           </Panel>
           <Panel header="Region" key="7">
-            <Form.Item name="regions" >
+            <Form.Item name="regions" rules={[{ required: true }]}>
               <AsnCheckboxGroup
                 style={{ width: '158px' }}
                 options={optionsRegion}
@@ -86,7 +93,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             </Form.Item>
           </Panel>
         </Collapse>
-        <Form.Item>
+        <Form.Item >
           <Space
             direction="horizontal"
             size={[10, 0]}
