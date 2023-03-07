@@ -119,7 +119,11 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
         {question?.required !== undefined && (
           <AsnSwitch
             defaultChecked={question?.required}
-            disabled={!question?.editable}
+            disabled={
+              !question?.editable ||
+              answerTypeValue === 'OPTION' ||
+              answerTypeValue === 'YES_NO'
+            }
             onChange={handleIsRequiredQuestion}
           />
         )}
