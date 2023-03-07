@@ -99,7 +99,7 @@ export interface IfilterResult {
 }
 export interface IApplicants {
   data: never[]
-  count: null
+  count?: number | undefined
 }
 
 export interface Ifiltres {
