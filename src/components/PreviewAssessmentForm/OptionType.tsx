@@ -20,7 +20,7 @@ const OptionType: React.FC<IAnswersProps> = ({ question, i }) => {
     >
         <Space direction="vertical" style={{ paddingTop: '17px' }}>
           {sortedAnswers.map((answer: IAnswer, i: number) => (
-            <AsnRadio key={i} disabled style={{ fontWeight: 'var(--font-normal)' }} >
+            <AsnRadio key={i} disabled style={{ fontWeight: 'var(--font-normal)' }} id="preview" >
               {answer.title}
               {answer.type === 'SHORT_TEXT' &&
                 <AsnForm.Item
