@@ -77,8 +77,6 @@ const QuestionHeader: React.FC<IQuestionHeader> = ({
   const answerTypeChange: FormFinish = (value) => {
     removeQuestion(name[0], false);
 
-    addQuestionChecks(value);
-
     if (value === 'SHORT_TEXT') {
       form.setFieldValue(['questions', name[0]], {
         answers: [],
@@ -103,6 +101,8 @@ const QuestionHeader: React.FC<IQuestionHeader> = ({
           }
         ]
       });
+
+      addQuestionChecks(value);
     }
     setAnswerType(value);
   };
