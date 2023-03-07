@@ -395,12 +395,7 @@ export interface IAssessmentSelectItem {
 export interface IButtonContainer {
   marginTop?: string
 }
-export type TUseAssessForm = UseMutation<
-Void,
-any,
-ResponseErrorParam,
-IAssessForm
->;
+export type TUseAssessForm = UseMutation<Void, any, ResponseErrorParam, IAssessForm>;
 export type TUseApplyAssessMentForm = UseMutation<
 Void,
 any,
