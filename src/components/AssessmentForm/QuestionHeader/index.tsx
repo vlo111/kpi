@@ -110,9 +110,9 @@ const QuestionHeader: React.FC<IQuestionHeader> = ({
     }
 
     if (checkbox.length > 0) {
-      addQuestionChecks(formItem.answerType, questions.length, radio);
-    } else {
       addQuestionChecks(formItem.answerType, questions.length, checkbox);
+    } else {
+      addQuestionChecks(formItem.answerType, questions.length, radio);
     }
 
     setAnswerType(formItem.answerType);
