@@ -21,7 +21,7 @@ export const AsnRadio = styled(Radio)`
     color: ${props => props.value > 0 ? 'var(--dark-2)' : 'var(--dark-3)'};
   }
   &.ant-radio-wrapper-disabled{
-    width: 90%
+    width: ${props => props.id === 'preview' ? '100%' : '90%'};
   }
   .ant-radio.ant-radio-disabled .ant-radio-inner{
     border-color:  var(--dark-border-ultramarine);

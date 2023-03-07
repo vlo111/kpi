@@ -21,6 +21,7 @@ const CheckBoxType: React.FC<IAnswersProps> = ({ question, i }) => {
             key={i}
             style={{ fontWeight: 'var(--font-normal)' }}
             disabled
+            id="preview"
           >
             {answer.title}
           </AssessMentFormCheckBox>
