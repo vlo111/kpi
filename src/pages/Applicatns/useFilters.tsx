@@ -55,7 +55,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             </Form.Item>
           </Panel>
           <Panel header="Status" key="4">
-            <Form.Item name="statuses" rules={[{ required: true }]}>
+            <Form.Item name="statuses">
               <AsnCheckboxGroup
                 style={{ width: '200px' }}
                 options={optionsStatus}
@@ -85,7 +85,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             </Form.Item>
           </Panel>
           <Panel header="Region" key="7">
-            <Form.Item name="regions" rules={[{ required: true }]}>
+            <Form.Item name="regions">
               <AsnCheckboxGroup
                 style={{ width: '158px' }}
                 options={optionsRegion}
