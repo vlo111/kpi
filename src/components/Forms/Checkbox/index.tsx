@@ -84,6 +84,6 @@ export const AssessMentFormCheckBox = styled(Checkbox)`
         border-color: var(--white)
      }
      &.ant-checkbox-wrapper.ant-checkbox-wrapper-disabled{
-        width: 90%
+        width:  ${props => props.id === 'preview' ? '100%' : '90%'};
      }
 `;
