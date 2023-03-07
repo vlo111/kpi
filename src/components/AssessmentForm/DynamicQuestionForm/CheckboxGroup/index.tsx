@@ -1,11 +1,21 @@
 import React from 'react';
 import { Space, Typography } from 'antd';
-import { ICheckboxGroup, OnDeleteCheckboxGroupItemType } from '../../../../types/api/assessment';
+import {
+  IAssessmentCheckbox,
+  ICheckboxGroup,
+  OnDeleteCheckboxGroupItemType
+} from '../../../../types/api/assessment';
 import { FormFinish } from '../../../../types/global';
 import { AsnCheckbox } from '../../../Forms/Checkbox';
 import { AsnForm } from '../../../Forms/Form';
 import { ReactComponent as DeleteIcon } from '../../../../assets/icons/delete.svg';
-import { AnswersInput, IconButton, ScoreContainer, ScoreInputNumber } from '../../assessmentStyle';
+import {
+  AnswersInput,
+  IconButton,
+  ScoreContainer,
+  ScoreInputNumber
+} from '../../assessmentStyle';
+import _ from 'lodash';
 
 const { Title } = Typography;
 
@@ -27,18 +37,46 @@ const CheckboxGroup: React.FC<ICheckboxGroup> = ({
   };
 
   const checkboxGroupChange: FormFinish = (val) => {
-    setCheckbox(val);
+    let checkBoxGroup = _.cloneDeep(checkbox);
+
+    if (checkBoxGroup === undefined) {
+      checkBoxGroup = [
+        {
+          name: contentName[0] as number,
+          value: val
+        }
+      ];
+    } else {
+      checkBoxGroup.map((c: IAssessmentCheckbox) => {
+        if (c.name === contentName[0]) {
+          c.value = val;
+        }
+
+        return c;
+      });
+    }
+
+    setCheckbox(checkBoxGroup);
   };
 
   const onDeleteCheckboxGroupItem: OnDeleteCheckboxGroupItemType = (
     remove,
     name
   ) => {
-    setCheckbox(
-      checkbox.filter((item) => {
-        return item !== name;
-      })
-    );
+    if (checkbox !== undefined) {
+      const checkBoxGroup = _.cloneDeep(checkbox);
+
+      checkBoxGroup.map((c: IAssessmentCheckbox) => {
+        if (c.name === contentName[0]) {
+          _.remove(c.value, (n) => n === name);
+        }
+
+        return c;
+      });
+
+      setCheckbox(checkBoxGroup);
+    }
+
     remove(name);
     calcScores();
     checkboxScoreCalc();
@@ -47,7 +85,7 @@ const CheckboxGroup: React.FC<ICheckboxGroup> = ({
   return (
     <>
       <AsnCheckbox.Group
-        value={checkbox}
+        value={checkbox?.find((c) => c.name === contentName[0])?.value ?? []}
         onChange={checkboxGroupChange}
         style={{
           width: '100%'
@@ -65,7 +103,7 @@ const CheckboxGroup: React.FC<ICheckboxGroup> = ({
           >
             <AsnCheckbox
               value={key}
-              onChange={(key) => {
+              onChange={() => {
                 form.setFieldValue(
                   ['questions', contentName[0], 'answers', name, 'score'],
                   0
@@ -90,7 +128,9 @@ const CheckboxGroup: React.FC<ICheckboxGroup> = ({
               </AsnForm.Item>
             </AsnCheckbox>
             <Space>
-              {Boolean(checkbox.includes(key)) && (
+              {checkbox
+                ?.find((c) => c.name === contentName[0])
+                ?.value.includes(key) === true && (
                 <ScoreContainer key={key}>
                   <Title
                     level={5}

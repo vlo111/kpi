@@ -38,14 +38,13 @@ const DynamicQuestionForm: React.FC<IDynamicQuestionForm> = ({
   assessmentData
 }) => {
   const [addOder, setAddOder] = useState(true);
-
   const form = AsnForm.useFormInstance();
 
+  const answerTypeForm =
+    form.getFieldsValue().questions?.[contentName[0]].answerType;
+
   useEffect(() => {
-    if (
-      form.getFieldValue(['questions', contentName[0], 'answerType']) ===
-      'OPTION'
-    ) {
+    if (answerTypeForm === 'OPTION') {
       form
         .getFieldValue(['questions', contentName[0], 'answers'])
         ?.forEach((item: IAnswerCreate) => {
@@ -71,12 +70,16 @@ const DynamicQuestionForm: React.FC<IDynamicQuestionForm> = ({
     });
   };
 
+  const checkScore =
+    answerTypeForm === 'CHECKBOX' &&
+    checkbox !== undefined &&
+    checkbox?.length >= 1;
+
   return (
     <AsnForm.List name={contentName}>
       {(answerList, { add, remove }) => (
         <>
-          {form.getFieldsValue().questions?.[contentName[0]].answerType ===
-          'OPTION'
+          {answerTypeForm === 'OPTION'
             ? (
             <RadioGroup
               answerList={answerList}
@@ -89,8 +92,7 @@ const DynamicQuestionForm: React.FC<IDynamicQuestionForm> = ({
               radio={radio}
             />
               )
-            : form.getFieldsValue().questions?.[contentName[0]].answerType ===
-            'CHECKBOX'
+            : answerTypeForm === 'CHECKBOX'
               ? (
             <CheckboxGroup
               setCheckbox={setCheckbox}
@@ -131,8 +133,7 @@ const DynamicQuestionForm: React.FC<IDynamicQuestionForm> = ({
               >
                 +Add Option
               </AddAnswerButton>
-              {form.getFieldsValue().questions?.[contentName[0]].answerType ===
-                'OPTION' && addOder
+              {answerTypeForm === 'OPTION' && addOder
                 ? (
                 <AddAnswerButton
                   className="default"
@@ -143,8 +144,7 @@ const DynamicQuestionForm: React.FC<IDynamicQuestionForm> = ({
                   )
                 : null}
             </ButtonsContainer>
-            {form.getFieldsValue().questions?.[contentName[0]].answerType ===
-              'CHECKBOX' && checkbox.length >= 1
+            {checkScore
               ? (
               <Scores>
                 <Title level={5} style={{ fontWeight: '400' }}>

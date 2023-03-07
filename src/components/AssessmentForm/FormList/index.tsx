@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import QuestionHeader from '../QuestionHeader';
 import QuestionContent from '../QuestionContent';
-import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { AsnForm } from '../../Forms/Form';
 import { Void } from '../../../types/global';
 import {
   IAnswerCreate,
-  IAssessmentFormItems,
-  IQuestion
+  IAssessmentFormItems
 } from '../../../types/api/assessment';
 import { CardContainer } from '../assessmentStyle';
 
@@ -20,11 +18,13 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
   setAnswerType,
   setAllScore,
   preview,
-  assessmentData
+  assessmentData,
+  checkbox,
+  setCheckbox,
+  radio,
+  setRadio
 }) => {
   const form = AsnForm.useFormInstance();
-  const [radio, setRadio] = useState<number | undefined>();
-  const [checkbox, setCheckbox] = useState<CheckboxValueType[]>([]);
   const [checkboxScoreCount, setCheckboxScoreCount] = useState(0);
 
   const calcScores: Void = () => {
@@ -58,36 +58,6 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
     setCheckboxScoreCount(scores);
   };
 
-  useEffect(() => {
-    form.getFieldValue(['questions'])?.forEach((question: IQuestion) => {
-      if (question?.answers?.length > 0 && question?.answerType === 'OPTION') {
-        question?.answers?.forEach(
-          (answer, index) => {
-            if (answer.score > 0) {
-              setRadio(index);
-            }
-          }
-        );
-      }
-      if (
-        question?.answers?.length > 0 &&
-        question?.answerType === 'CHECKBOX'
-      ) {
-        const arr: number[] = [];
-        question?.answers?.forEach((answer, index) => {
-          if (answer.score > 0) {
-            arr.push(index);
-          }
-          setCheckbox(arr);
-        });
-      }
-    });
-    if (form.getFieldValue(['questions', name[0], 'answers']) !== undefined) {
-      calcScores();
-      checkboxScoreCalc();
-    }
-  }, [assessmentData]);
-
   return (
     <CardContainer
       borderTop={'3px solid var(--secondary-green)'}
@@ -110,15 +80,15 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
         preview={preview}
         assessmentData={assessmentData}
         calcScores={calcScores}
-        radio={radio}
-        setRadio={setRadio}
-        checkbox={checkbox}
-        setCheckbox={setCheckbox}
         checkboxScoreCount={checkboxScoreCount}
         checkboxScoreCalc={checkboxScoreCalc}
+        checkbox={checkbox}
+        setCheckbox={setCheckbox}
+        radio={radio}
+        setRadio={setRadio}
       />
     </CardContainer>
   );
 };
 
-export default React.memo(AssessmentFormItems);
+export default AssessmentFormItems;
