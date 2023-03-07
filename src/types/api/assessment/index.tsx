@@ -1,10 +1,9 @@
-import { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { UseMutation, Void } from '../../global';
 import { IOnlyId } from '../activity/template';
 import { ResponseErrorParam } from '../project/get-project';
 import type { StoreValue } from 'rc-field-form/lib/interface';
 import { FormListFieldData } from 'antd';
-import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { RadioChangeEvent } from 'antd/lib/radio';
 
 export interface AssessmentFormData {
@@ -157,6 +156,10 @@ export interface IAssessmentFormItems {
   setAllScore: Dispatch<SetStateAction<number>>
   preview?: boolean
   assessmentData: IResult
+  checkbox: IAssessmentCheckbox[] | undefined
+  setCheckbox: Dispatch<SetStateAction<IAssessmentCheckbox[] | undefined>>
+  radio: IAssessmentRadio[] | undefined
+  setRadio: Dispatch<SetStateAction<IAssessmentRadio[] | undefined>>
 }
 
 export interface IQuestionHeader {
@@ -170,29 +173,40 @@ export interface IQuestionHeader {
   calcScores: Void
 }
 
+export interface IAssessmentCheckbox {
+  name: number
+  value: number[]
+}
+
+export interface IAssessmentRadio {
+  name: number
+  value: number | undefined
+}
+
 export interface IQuestionContent {
   name: Array<string | number>
   answerType: string
   setAllScore: Dispatch<SetStateAction<number>>
   preview?: boolean
   calcScores: Void
-  radio: number | undefined
-  setRadio: Dispatch<SetStateAction<number | undefined>>
-  checkbox: CheckboxValueType[]
-  setCheckbox: Dispatch<SetStateAction<CheckboxValueType[]>>
   checkboxScoreCount: number
   checkboxScoreCalc: Void
   assessmentData: IResult
+  checkbox: IAssessmentCheckbox[] | undefined
+  setCheckbox: Dispatch<SetStateAction<IAssessmentCheckbox[] | undefined>>
+  radio: IAssessmentRadio[] | undefined
+  setRadio: Dispatch<SetStateAction<IAssessmentRadio[] | undefined>>
 }
+
 export interface IDynamicQuestionForm {
   contentName: Array<string | number>
   answerType: string
   calcScores: Void
   preview?: boolean
-  radio: number | undefined
-  setRadio: Dispatch<SetStateAction<number | undefined>>
-  checkbox: CheckboxValueType[]
-  setCheckbox: Dispatch<SetStateAction<CheckboxValueType[]>>
+  radio: IAssessmentRadio[] | undefined
+  setRadio: Dispatch<SetStateAction<IAssessmentRadio[] | undefined>>
+  checkbox: IAssessmentCheckbox[] | undefined
+  setCheckbox: Dispatch<SetStateAction<IAssessmentCheckbox[] | undefined>>
   checkboxScoreCount: number
   checkboxScoreCalc: Void
   assessmentData: IResult
@@ -209,10 +223,10 @@ export interface IPreviewAssessmentModal {
   projectId: string
 }
 export interface ICheckboxGroup {
-  setCheckbox: Dispatch<SetStateAction<CheckboxValueType[]>>
+  setCheckbox: Dispatch<SetStateAction<IAssessmentCheckbox[] | undefined>>
+  checkbox: IAssessmentCheckbox[] | undefined
   checkboxScoreCalc: Void
   calcScores: Void
-  checkbox: CheckboxValueType[]
   answerList: FormListFieldData[]
   contentName: Array<string | number>
   remove: RemoveType
@@ -226,8 +240,8 @@ export interface IRadioGroup {
   preview?: boolean
   calcScores: Void
   setAddOder: Dispatch<SetStateAction<boolean>>
-  setRadio: Dispatch<SetStateAction<number | undefined>>
-  radio: number | undefined
+  radio: IAssessmentRadio[] | undefined
+  setRadio: Dispatch<SetStateAction<IAssessmentRadio[] | undefined>>
 }
 
 export interface INavigateRoteInfoTypes {

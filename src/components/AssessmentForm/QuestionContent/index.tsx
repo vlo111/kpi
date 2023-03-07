@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Typography } from 'antd';
 import { AsnForm } from '../../Forms/Form';
@@ -38,15 +38,16 @@ const QuestionContent: React.FC<IQuestionContent> = ({
   setAllScore,
   preview,
   calcScores,
-  radio,
-  setRadio,
-  checkbox,
-  setCheckbox,
   checkboxScoreCount,
   checkboxScoreCalc,
-  assessmentData
+  assessmentData,
+  setCheckbox,
+  checkbox,
+  radio,
+  setRadio
 }) => {
   const form = AsnForm.useFormInstance();
+
   const onInputNumberChange: Void = () => {
     const allScores = form
       .getFieldValue(['questions'])
@@ -57,6 +58,17 @@ const QuestionContent: React.FC<IQuestionContent> = ({
       );
     setAllScore(allScores);
   };
+
+  useEffect(() => {
+    if (form.getFieldValue(['questions', name[0], 'answers']) !== undefined) {
+      calcScores();
+      checkboxScoreCalc();
+    }
+  }, [assessmentData, radio]);
+
+  const answer = form.getFieldsValue().questions?.[name[0]].answerType;
+
+  const isCheckList = answer === 'OPTION' || answer === 'CHECKBOX';
 
   return (
     <QuestionContentContainer>
@@ -77,8 +89,7 @@ const QuestionContent: React.FC<IQuestionContent> = ({
           }}
         />
       </AsnForm.Item>
-      {form.getFieldsValue().questions?.[name[0]].answerType === 'OPTION' ||
-      form.getFieldsValue().questions?.[name[0]].answerType === 'CHECKBOX'
+      {isCheckList
         ? (
         <DynamicQuestionForm
           contentName={name}
@@ -123,4 +134,4 @@ const QuestionContent: React.FC<IQuestionContent> = ({
   );
 };
 
-export default React.memo(QuestionContent);
+export default QuestionContent;
