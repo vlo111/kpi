@@ -12,7 +12,10 @@ import { ReactComponent as CheckboxIcon } from '../../../assets/icons/checkbox.s
 import { ReactComponent as TextIcon } from '../../../assets/icons/text.svg';
 import { assessmentSelect } from '../../../helpers/constants';
 import { FormFinish, Void } from '../../../types/global';
-import { IQuestionHeader } from '../../../types/api/assessment';
+import {
+  IAnswer,
+  IQuestionHeader
+} from '../../../types/api/assessment';
 import { IconButton } from '../assessmentStyle';
 
 const { Option } = AsnSelect;
@@ -70,8 +73,50 @@ const QuestionHeader: React.FC<IQuestionHeader> = ({
 }) => {
   const form = AsnForm.useFormInstance();
   const onDuplicateForm: Void = () => {
-    setAnswerType(form.getFieldsValue().questions[name[0]].answerType);
-    add(form.getFieldsValue().questions[name[0]]);
+    const questions = form.getFieldsValue().questions;
+
+    const formItem = questions[name[0]];
+
+    let checkbox: number[] = [];
+    let radio: number | undefined;
+
+    const answers = formItem?.answers;
+
+    if (answers?.length > 0) {
+      switch (formItem.answerType) {
+        case 'CHECKBOX': {
+          answers?.forEach((answer: IAnswer, index: number) => {
+            if (answer.score > 0) {
+              if (checkbox === undefined) {
+                checkbox = [index];
+              } else {
+                checkbox.push(index);
+              }
+            }
+          });
+
+          break;
+        }
+        case 'OPTION': {
+          answers?.forEach((answer: IAnswer, index: number) => {
+            if (answer.score > 0) {
+              radio = index;
+            }
+          });
+
+          break;
+        }
+      }
+    }
+
+    if (checkbox.length > 0) {
+      addQuestionChecks(formItem.answerType, questions.length, radio);
+    } else {
+      addQuestionChecks(formItem.answerType, questions.length, checkbox);
+    }
+
+    setAnswerType(formItem.answerType);
+    add(formItem);
   };
 
   const answerTypeChange: FormFinish = (value) => {
@@ -102,7 +147,11 @@ const QuestionHeader: React.FC<IQuestionHeader> = ({
         ]
       });
 
-      addQuestionChecks(value);
+      if (value === 'OPTION') {
+        addQuestionChecks(value, name[0], undefined);
+      } else {
+        addQuestionChecks(value, name[0], []);
+      }
     }
     setAnswerType(value);
   };

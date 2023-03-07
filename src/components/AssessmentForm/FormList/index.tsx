@@ -101,19 +101,19 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
     }
   };
 
-  const addQuestionChecks: (value: string) => void = (value) => {
-    if (value === 'OPTION') {
+  const addQuestionChecks: (type: string, itemName: number, value: any) => void = (type, itemName, value) => {
+    if (type === 'OPTION') {
       let radioGroup = _.cloneDeep(radio);
 
       if (radioGroup === undefined) {
         radioGroup = [{
-          name: name[0] as number,
-          value: undefined
+          name: itemName,
+          value
         }];
       } else {
         radioGroup.push({
-          name: name[0] as number,
-          value: undefined
+          name: itemName,
+          value
         });
       }
 
@@ -123,13 +123,13 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
 
       if (checkboxGroup !== undefined) {
         checkboxGroup.push({
-          name: name[0] as number,
-          value: []
+          name: itemName,
+          value
         });
       } else {
         checkboxGroup = [{
-          name: name[0] as number,
-          value: []
+          name: itemName,
+          value
         }];
       }
 

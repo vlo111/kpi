@@ -174,7 +174,7 @@ export interface IQuestionHeader {
   questionsLists: FormListFieldData[]
   preview?: boolean
   calcScores: Void
-  addQuestionChecks: (value: string) => void
+  addQuestionChecks: (type: string, itemName: number, value: any) => void
 }
 
 export interface IAssessmentCheckbox {
