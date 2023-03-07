@@ -5,9 +5,10 @@ import { AsnForm } from '../../Forms/Form';
 import { Void } from '../../../types/global';
 import {
   IAnswerCreate,
-  IAssessmentFormItems
+  IAssessmentFormItems, RemoveQuestion
 } from '../../../types/api/assessment';
 import { CardContainer } from '../assessmentStyle';
+import _ from 'lodash';
 
 const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
   questionsLists,
@@ -58,6 +59,84 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
     setCheckboxScoreCount(scores);
   };
 
+  const updateNames: any = (items: any) => {
+    if (items !== undefined) {
+      items.forEach((item: { name: number }) => {
+        if (item.name > name[0]) {
+          item.name--;
+        }
+      });
+    }
+
+    return items;
+  };
+
+  const removeQuestion: RemoveQuestion = (n, updateName) => {
+    const checkboxGroup = _.cloneDeep(checkbox);
+
+    const radioGroup = _.cloneDeep(radio);
+
+    if (radioGroup !== undefined) {
+      const radioIndex = radioGroup.findIndex((r) => r.name === n);
+
+      if (radioIndex > -1) {
+        radioGroup.splice(radioIndex, 1);
+      }
+
+      if (updateName) { updateNames(radioGroup); }
+
+      setRadio(() => radioGroup);
+    }
+
+    if (checkboxGroup !== undefined) {
+      const checkboxIndex = checkboxGroup.findIndex((r) => r.name === n);
+
+      if (checkboxIndex > -1) {
+        checkboxGroup.splice(checkboxIndex, 1);
+      }
+
+      if (updateName) { updateNames(checkboxGroup); }
+
+      setCheckbox(() => checkboxGroup);
+    }
+  };
+
+  const addQuestionChecks: (value: string) => void = (value) => {
+    if (value === 'OPTION') {
+      let radioGroup = _.cloneDeep(radio);
+
+      if (radioGroup === undefined) {
+        radioGroup = [{
+          name: name[0] as number,
+          value: undefined
+        }];
+      } else {
+        radioGroup.push({
+          name: name[0] as number,
+          value: undefined
+        });
+      }
+
+      setRadio(radioGroup);
+    } else {
+      let checkboxGroup = _.cloneDeep(checkbox);
+
+      if (checkboxGroup !== undefined) {
+        checkboxGroup.push({
+          name: name[0] as number,
+          value: []
+        });
+      } else {
+        checkboxGroup = [{
+          name: name[0] as number,
+          value: []
+        }];
+      }
+
+      setCheckbox(checkboxGroup);
+    }
+  };
+
   return (
     <CardContainer
       borderTop={'3px solid var(--secondary-green)'}
@@ -65,6 +144,7 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
     >
       <QuestionHeader
         remove={remove}
+        removeQuestion={removeQuestion}
         name={name}
         add={add}
         setAnswerType={setAnswerType}
@@ -72,6 +152,7 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
         questionsLists={questionsLists}
         preview={preview}
         calcScores={calcScores}
+        addQuestionChecks={addQuestionChecks}
       />
       <QuestionContent
         name={name}

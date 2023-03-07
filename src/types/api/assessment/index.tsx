@@ -162,8 +162,11 @@ export interface IAssessmentFormItems {
   setRadio: Dispatch<SetStateAction<IAssessmentRadio[] | undefined>>
 }
 
+export type RemoveQuestion = (n: number, updateName: boolean) => void
+
 export interface IQuestionHeader {
   remove: RemoveType
+  removeQuestion: RemoveQuestion
   name: any
   add: AddType
   setAnswerType: Dispatch<SetStateAction<string>>
@@ -171,6 +174,7 @@ export interface IQuestionHeader {
   questionsLists: FormListFieldData[]
   preview?: boolean
   calcScores: Void
+  addQuestionChecks: (value: string) => void
 }
 
 export interface IAssessmentCheckbox {
@@ -415,4 +419,4 @@ export type OnDeleteCheckboxGroupItemType = (
   remove: RemoveType,
   name: number
 ) => void;
-export type OnAddQuestionType = (add: AddType) => void;
+export type OnAddQuestionType = (add: AddType, name?: number) => void;

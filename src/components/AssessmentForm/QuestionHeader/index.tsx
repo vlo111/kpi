@@ -64,7 +64,9 @@ const QuestionHeader: React.FC<IQuestionHeader> = ({
   answerType,
   questionsLists,
   preview,
-  calcScores
+  calcScores,
+  removeQuestion,
+  addQuestionChecks
 }) => {
   const form = AsnForm.useFormInstance();
   const onDuplicateForm: Void = () => {
@@ -73,6 +75,10 @@ const QuestionHeader: React.FC<IQuestionHeader> = ({
   };
 
   const answerTypeChange: FormFinish = (value) => {
+    removeQuestion(name[0], false);
+
+    addQuestionChecks(value);
+
     if (value === 'SHORT_TEXT') {
       form.setFieldValue(['questions', name[0]], {
         answers: [],
@@ -140,7 +146,6 @@ const QuestionHeader: React.FC<IQuestionHeader> = ({
           ))}
         </AnswerTypeSelect>
       </AsnForm.Item>
-
       <Row align="middle" justify="center" gutter={16}>
         <Col
           style={{
@@ -175,6 +180,7 @@ const QuestionHeader: React.FC<IQuestionHeader> = ({
               onClick={() => {
                 remove(name);
                 calcScores();
+                removeQuestion(name[0], true);
               }}
             >
               <DeleteIcon />
