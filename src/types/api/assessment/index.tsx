@@ -146,6 +146,9 @@ export interface CreateAssessmentIfoModalTypes {
   setFooterButtons: Dispatch<SetStateAction<undefined | IAssessments>>
 }
 
+export type UpdateNames = (items: (IAssessmentCheckbox[] | undefined) | (IAssessmentRadio[] | undefined)) => void
+export type AddQuestionChecks = (type: string, itemName: number, value: any) => void
+
 export interface IAssessmentFormItems {
   questionsLists: FormListFieldData[]
   remove: RemoveType

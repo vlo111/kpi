@@ -4,8 +4,11 @@ import QuestionContent from '../QuestionContent';
 import { AsnForm } from '../../Forms/Form';
 import { Void } from '../../../types/global';
 import {
+  AddQuestionChecks,
   IAnswerCreate,
-  IAssessmentFormItems, RemoveQuestion
+  IAssessmentFormItems,
+  RemoveQuestion,
+  UpdateNames
 } from '../../../types/api/assessment';
 import { CardContainer } from '../assessmentStyle';
 import _ from 'lodash';
@@ -59,7 +62,7 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
     setCheckboxScoreCount(scores);
   };
 
-  const updateNames: any = (items: any) => {
+  const updateNames: UpdateNames = (items) => {
     if (items !== undefined) {
       items.forEach((item: { name: number }) => {
         if (item.name > name[0]) {
@@ -67,8 +70,6 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
         }
       });
     }
-
-    return items;
   };
 
   const removeQuestion: RemoveQuestion = (n, updateName) => {
@@ -101,7 +102,7 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
     }
   };
 
-  const addQuestionChecks: (type: string, itemName: number, value: any) => void = (type, itemName, value) => {
+  const addQuestionChecks: AddQuestionChecks = (type, itemName, value) => {
     if (type === 'OPTION') {
       let radioGroup = _.cloneDeep(radio);
 
