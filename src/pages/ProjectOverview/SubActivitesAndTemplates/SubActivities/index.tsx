@@ -35,6 +35,7 @@ const Container = styled.div`
   }
   .subCardTemplater {
     color: #111b23;
+    margin-bottom: 0;
   }
   .ant-typography strong {
     font-weight: 400;
