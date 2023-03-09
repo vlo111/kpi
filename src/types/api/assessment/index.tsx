@@ -146,6 +146,9 @@ export interface CreateAssessmentIfoModalTypes {
   setFooterButtons: Dispatch<SetStateAction<undefined | IAssessments>>
 }
 
+export type UpdateNames = (items: (IAssessmentCheckbox[] | undefined) | (IAssessmentRadio[] | undefined)) => void
+export type AddQuestionChecks = (type: string, itemName: number, value: any) => void
+
 export interface IAssessmentFormItems {
   questionsLists: FormListFieldData[]
   remove: RemoveType
@@ -162,8 +165,11 @@ export interface IAssessmentFormItems {
   setRadio: Dispatch<SetStateAction<IAssessmentRadio[] | undefined>>
 }
 
+export type RemoveQuestion = (n: number, updateName: boolean) => void
+
 export interface IQuestionHeader {
   remove: RemoveType
+  removeQuestion: RemoveQuestion
   name: any
   add: AddType
   setAnswerType: Dispatch<SetStateAction<string>>
@@ -171,6 +177,7 @@ export interface IQuestionHeader {
   questionsLists: FormListFieldData[]
   preview?: boolean
   calcScores: Void
+  addQuestionChecks: (type: string, itemName: number, value: any) => void
 }
 
 export interface IAssessmentCheckbox {
@@ -395,12 +402,7 @@ export interface IAssessmentSelectItem {
 export interface IButtonContainer {
   marginTop?: string
 }
-export type TUseAssessForm = UseMutation<
-Void,
-any,
-ResponseErrorParam,
-IAssessForm
->;
+export type TUseAssessForm = UseMutation<Void, any, ResponseErrorParam, IAssessForm>;
 export type TUseApplyAssessMentForm = UseMutation<
 Void,
 any,
@@ -420,4 +422,4 @@ export type OnDeleteCheckboxGroupItemType = (
   remove: RemoveType,
   name: number
 ) => void;
-export type OnAddQuestionType = (add: AddType) => void;
+export type OnAddQuestionType = (add: AddType, name?: number) => void;

@@ -12,7 +12,10 @@ import { ReactComponent as CheckboxIcon } from '../../../assets/icons/checkbox.s
 import { ReactComponent as TextIcon } from '../../../assets/icons/text.svg';
 import { assessmentSelect } from '../../../helpers/constants';
 import { FormFinish, Void } from '../../../types/global';
-import { IQuestionHeader } from '../../../types/api/assessment';
+import {
+  IAnswer,
+  IQuestionHeader
+} from '../../../types/api/assessment';
 import { IconButton } from '../assessmentStyle';
 
 const { Option } = AsnSelect;
@@ -64,15 +67,61 @@ const QuestionHeader: React.FC<IQuestionHeader> = ({
   answerType,
   questionsLists,
   preview,
-  calcScores
+  calcScores,
+  removeQuestion,
+  addQuestionChecks
 }) => {
   const form = AsnForm.useFormInstance();
   const onDuplicateForm: Void = () => {
-    setAnswerType(form.getFieldsValue().questions[name[0]].answerType);
-    add(form.getFieldsValue().questions[name[0]]);
+    const questions = form.getFieldsValue().questions;
+
+    const formItem = questions[name[0]];
+
+    let checkbox: number[] = [];
+    let radio: number | undefined;
+
+    const answers = formItem?.answers;
+
+    if (answers?.length > 0) {
+      switch (formItem.answerType) {
+        case 'CHECKBOX': {
+          answers?.forEach((answer: IAnswer, index: number) => {
+            if (answer.score > 0) {
+              if (checkbox === undefined) {
+                checkbox = [index];
+              } else {
+                checkbox.push(index);
+              }
+            }
+          });
+
+          break;
+        }
+        case 'OPTION': {
+          answers?.forEach((answer: IAnswer, index: number) => {
+            if (answer.score > 0) {
+              radio = index;
+            }
+          });
+
+          break;
+        }
+      }
+    }
+
+    if (checkbox.length > 0) {
+      addQuestionChecks(formItem.answerType, questions.length, checkbox);
+    } else {
+      addQuestionChecks(formItem.answerType, questions.length, radio);
+    }
+
+    setAnswerType(formItem.answerType);
+    add(formItem);
   };
 
   const answerTypeChange: FormFinish = (value) => {
+    removeQuestion(name[0], false);
+
     if (value === 'SHORT_TEXT') {
       form.setFieldValue(['questions', name[0]], {
         answers: [],
@@ -97,6 +146,12 @@ const QuestionHeader: React.FC<IQuestionHeader> = ({
           }
         ]
       });
+
+      if (value === 'OPTION') {
+        addQuestionChecks(value, name[0], undefined);
+      } else {
+        addQuestionChecks(value, name[0], []);
+      }
     }
     setAnswerType(value);
   };
@@ -140,7 +195,6 @@ const QuestionHeader: React.FC<IQuestionHeader> = ({
           ))}
         </AnswerTypeSelect>
       </AsnForm.Item>
-
       <Row align="middle" justify="center" gutter={16}>
         <Col
           style={{
@@ -175,6 +229,7 @@ const QuestionHeader: React.FC<IQuestionHeader> = ({
               onClick={() => {
                 remove(name);
                 calcScores();
+                removeQuestion(name[0], true);
               }}
             >
               <DeleteIcon />
