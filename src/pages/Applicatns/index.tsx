@@ -28,7 +28,7 @@ const ApplicantsData: React.FC = () => {
   const [filters, setFilters] = useState<Iseacrh>({
     search: '',
     limit: tableParams.pagination?.pageSize,
-    offset: 0,
+    offset: 1,
     student: undefined,
     income: undefined,
     disability: undefined,
@@ -65,7 +65,7 @@ const ApplicantsData: React.FC = () => {
         total: count
       }
     });
-  }, [JSON.stringify(tableParams), count]);
+  }, [JSON.stringify(tableParams), isLoading, count]);
   useEffect(() => {
     refetch();
   }, [refetch, filters]);
