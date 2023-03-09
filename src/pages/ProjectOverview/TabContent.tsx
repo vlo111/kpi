@@ -46,7 +46,7 @@ const TabContent: React.FC<ITabContent> = ({
   defaultInputActivityId
 }) => {
   const [checkedList, setCheckedList] = useState<CheckboxValueType[]>([]);
-  const [assignedUsersIds, setAssignedUsersIds] = useState<any>([]);
+  const [assignedUsersIds, setAssignedUsersIds] = useState<React.Key[]>([]);
 
   const [indeterminate, setIndeterminate] = useState(true);
   const { Title } = Typography;

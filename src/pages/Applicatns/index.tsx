@@ -11,13 +11,13 @@ import { AsnForm } from '../../components/Forms/Form';
 import { IApplicants, iFinishApplicant, Iseacrh } from './applicantsTypes';
 import Applicant from '../../components/Applicant';
 import { useProject } from '../../hooks/useProject';
-import { HandleTableOnChange } from '../../types/teams';
+import { HandleTableOnChange, TableParams } from '../../types/teams';
 
 const ApplicantsData: React.FC = () => {
   const [result, setResult] = useState<any>();
   const [count, setCount] = useState<number>();
   const { projectId } = useProject();
-  const [tableParams, setTableParams] = useState<any>({
+  const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
       current: 1,
       pageSize: 10,
@@ -120,7 +120,10 @@ const ApplicantsData: React.FC = () => {
     });
     setFilters((prevState) => ({
       ...prevState,
-      offset: tableParams.pagination?.pageSize !== undefined
+      limit: tableParams.pagination?.pageSize,
+      offset:
+      tableParams.pagination?.current !== undefined &&
+      tableParams.pagination?.pageSize !== undefined
         ? (tableParams.pagination?.current - 1) *
           tableParams.pagination?.pageSize
         : 0

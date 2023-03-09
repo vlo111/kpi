@@ -4,7 +4,7 @@ import client from '../client';
 
 const url = 'api/applicant/project/:id';
 
-const useAllAplicants: any = (params: any, id: string, options = { enabled: true }) => {
+const useAllAplicants: any = (params: [], id: string, options = { enabled: true }) => {
   const result = useQuery(
     [url, id, params],
     async () => await client.post(url.replace(':id', id), params),
