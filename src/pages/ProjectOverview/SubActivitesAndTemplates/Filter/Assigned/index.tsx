@@ -9,6 +9,8 @@ export const AssingnesFilter: React.FC<IAssignedFilter> = ({
   setAssignedUsersIds
 }) => {
   const [open, setOpen] = useState(false);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
   const { Title } = Typography;
 
   const hide = (): void => {
@@ -29,6 +31,8 @@ export const AssingnesFilter: React.FC<IAssignedFilter> = ({
         inputActivityId={inputActivityId}
         open={open}
         setOpen={setOpen}
+        setSelectedRowKeys={setSelectedRowKeys}
+        selectedRowKeys={selectedRowKeys}
       />
     </>
   );

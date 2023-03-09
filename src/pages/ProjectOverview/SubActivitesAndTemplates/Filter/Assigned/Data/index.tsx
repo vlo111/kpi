@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Table, Space } from 'antd';
 import { AsnButton } from '../../../../../../components/Forms/Button';
 import { Void } from '../../../../../../types/global';
@@ -64,9 +64,7 @@ const columns = [
   }
 ];
 
-export const AssingnesData: React.FC<IAssignedFilterData> = ({ open, setOpen, inputActivityId, setAssignedUsersIds }) => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-
+export const AssingnesData: React.FC<IAssignedFilterData> = ({ open, setOpen, inputActivityId, setAssignedUsersIds, selectedRowKeys, setSelectedRowKeys }) => {
   const { data: assignedUsers } = useGetAssignedUsersListByInputActivityId(
     inputActivityId,
     { enabled: open }
@@ -90,7 +88,6 @@ export const AssingnesData: React.FC<IAssignedFilterData> = ({ open, setOpen, in
     setOpen(!open);
     setSelectedRowKeys([]);
   };
-
   return (
     <Container>
       <Space size={[40, 16]} direction="vertical">
