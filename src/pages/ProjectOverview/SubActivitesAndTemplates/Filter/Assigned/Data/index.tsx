@@ -4,7 +4,7 @@ import { AsnButton } from '../../../../../../components/Forms/Button';
 import { Void } from '../../../../../../types/global';
 
 import styled from 'styled-components';
-import useGetAssignedUsersListByInputActivityId from '../../../../../../api/Activity/SubActivity/useGetAssinedUsersByInputActivty';
+// import useGetAssignedUsersListByInputActivityId from '../../../../../../api/Activity/SubActivity/useGetAssinedUsersByInputActivty';
 import { AssignedUserType } from '../../../../../../types/api/activity/subActivity';
 import AsnAvatar from '../../../../../../components/Forms/Avatar';
 import { IAssignedFilterData } from '../../../../../../types/project';
@@ -64,12 +64,7 @@ const columns = [
   }
 ];
 
-export const AssingnesData: React.FC<IAssignedFilterData> = ({ open, setOpen, inputActivityId, setAssignedUsersIds, selectedRowKeys, setSelectedRowKeys }) => {
-  const { data: assignedUsers } = useGetAssignedUsersListByInputActivityId(
-    inputActivityId,
-    { enabled: open }
-  );
-
+export const AssingnesData: React.FC<IAssignedFilterData> = ({ open, setOpen, setAssignedUsersIds, selectedRowKeys, setSelectedRowKeys, assignedUsers }) => {
   const onSelectChange = (newSelectedRowKeys: React.Key[]): void => {
     setSelectedRowKeys(newSelectedRowKeys);
   };

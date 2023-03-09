@@ -423,6 +423,7 @@ export interface IAssignedFilterData {
   setAssignedUsersIds: React.Dispatch<React.SetStateAction<React.Key[] | []>>
   selectedRowKeys: React.Key[]
   setSelectedRowKeys: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  assignedUsers: any
 }
 export interface ISubActivities {
   status: string
