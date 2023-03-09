@@ -127,7 +127,7 @@ const DynamicQuestionForm: React.FC<IDynamicQuestionForm> = ({
                   add({
                     title: '',
                     score: 0,
-                    type: answerType
+                    type: answerTypeForm
                   })
                 }
               >

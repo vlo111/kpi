@@ -64,6 +64,10 @@ const RadioGroup: React.FC<IRadioGroup> = ({
           if (c.value === name) {
             c.value = undefined;
           }
+
+          if (c.value !== undefined && !(c.value < name)) {
+            c.value--;
+          }
         }
 
         return c;
