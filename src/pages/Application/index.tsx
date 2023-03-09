@@ -141,6 +141,7 @@ const Application: React.FC = () => {
     if (location?.state?.edit === true) {
       if (!_.isEmpty(singleApplicantData)) {
         setApplicationData(getApplicationData(singleApplicantData));
+        setOnlineSignature(singleApplicantData?.onlineSignature);
         if (
           singleApplicantData.deadline !== undefined &&
           singleApplicantData.deadline !== null
@@ -153,6 +154,7 @@ const Application: React.FC = () => {
     } else {
       if (!_.isEmpty(data)) {
         setApplicationData(data);
+        setOnlineSignature(data?.onlineSignature);
         if (data.deadline !== undefined && data.deadline !== null) {
           setDeadlineDate(new Date(data.deadline).toJSON());
         } else {
@@ -305,7 +307,7 @@ const Application: React.FC = () => {
         {applicationData?.onlineSignature !== undefined && (
           <AsnSwitch
             onChange={(checked) => setOnlineSignature(checked)}
-            defaultChecked={applicationData?.onlineSignature}
+            checked={onlineSignature}
           />
         )}
       </ConditionCard>

@@ -5,6 +5,7 @@ import { Col } from 'antd';
 import { AsnForm } from '../../Forms/Form';
 import { AsnInput } from '../../Forms/Input';
 import { AsnButton } from '../../Forms/Button';
+import { IAnswer } from '../../../types/api/application/applicationForm';
 
 const BottomField = styled.div`
   width: 100%;
@@ -46,7 +47,9 @@ const BottomField = styled.div`
   }
 `;
 
-const DynamicQuestionForm: React.FC = () => {
+const DynamicQuestionForm: React.FC<{
+  singleQuestionData: IAnswer[] | undefined
+}> = ({ singleQuestionData }) => {
   return (
     <BottomField>
       <AsnForm.List name="names">
@@ -75,7 +78,13 @@ const DynamicQuestionForm: React.FC = () => {
                     ]}
                     noStyle
                   >
-                    <AsnInput placeholder="Add option" />
+                    <AsnInput
+                      placeholder="Add option"
+                      disabled={
+                        singleQuestionData !== undefined &&
+                        singleQuestionData[field.name]?.title === 'Other/Այլ'
+                      }
+                    />
                   </AsnForm.Item>
                   {fields.length > 2
                     ? (
@@ -89,7 +98,9 @@ const DynamicQuestionForm: React.FC = () => {
               ))}
             </Col>
             <AsnForm.Item>
-              <AsnButton className='default' onClick={() => add()}>+Add options</AsnButton>
+              <AsnButton className="default" onClick={() => add()}>
+                +Add options
+              </AsnButton>
               <AsnForm.ErrorList errors={errors} />
             </AsnForm.Item>
           </>

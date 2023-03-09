@@ -6,7 +6,9 @@ import { Key } from 'react';
 export interface SearchApplicants {
   filters: any
   serachData: any
-  result: number | undefined
+  result: {
+    count: number
+  }
 }
 export interface DataType {
   key: Key
@@ -41,7 +43,7 @@ export interface filterApplicants {
 }
 export interface iFinishApplicant {
   gender: string
-  age: number[]
+  age?: { from: number, to: number, 0?: number, 1?: number } | undefined
   student: boolean
   statuses: string
   income: boolean
@@ -56,7 +58,7 @@ export interface IPagination {
 }
 
 export interface IprevState {
-  age: any
+  age?: { from: number, to: number } | undefined
   disability: boolean
   gender: string
   income: boolean
@@ -97,7 +99,7 @@ export interface IfilterResult {
 }
 export interface IApplicants {
   data: never[]
-  count: null
+  count?: number | undefined
 }
 
 export interface Ifiltres {
