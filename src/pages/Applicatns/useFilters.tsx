@@ -31,7 +31,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
         >
           <Panel header="Age" key="1">
             <Form.Item name="age" >
-              <Slider range marks={marks} defaultValue={[18, 50]} />
+              <Slider range marks={marks} min={1} defaultValue={[18, 50]} />
             </Form.Item>
           </Panel>
           <Panel header="Gender" key="2">
@@ -48,14 +48,14 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             <Form.Item name="student">
               <Radio.Group>
                 <Space direction="vertical">
-                  <Radio value={false}>Yes</Radio>
-                  <Radio value={true}>No</Radio>
+                  <Radio value={false}>No</Radio>
+                  <Radio value={true}>Yes</Radio>
                 </Space>
               </Radio.Group>
             </Form.Item>
           </Panel>
           <Panel header="Status" key="4">
-            <Form.Item name="statuses" rules={[{ required: true }]}>
+            <Form.Item name="statuses">
               <AsnCheckboxGroup
                 style={{ width: '200px' }}
                 options={optionsStatus}
@@ -85,7 +85,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             </Form.Item>
           </Panel>
           <Panel header="Region" key="7">
-            <Form.Item name="regions" rules={[{ required: true }]}>
+            <Form.Item name="regions">
               <AsnCheckboxGroup
                 style={{ width: '158px' }}
                 options={optionsRegion}

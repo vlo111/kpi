@@ -385,6 +385,14 @@ export interface ITabContent {
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
   defaultInputActivityId: string
 }
+export interface Filters {
+  status?: CheckboxValueType[]
+  assigned?: React.Key[]
+  date?: {
+    from: string
+    to: string
+  }
+}
 
 export interface ISubActivitiesProps {
   subActivities: ISubActivities[] | undefined
