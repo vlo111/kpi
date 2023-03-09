@@ -11,29 +11,31 @@ import { AsnForm } from '../../components/Forms/Form';
 import { IApplicants, iFinishApplicant, Iseacrh } from './applicantsTypes';
 import Applicant from '../../components/Applicant';
 import { useProject } from '../../hooks/useProject';
+import { HandleTableOnChange } from '../../types/teams';
 
 const ApplicantsData: React.FC = () => {
   const [result, setResult] = useState<any>();
-
+  const [count, setCount] = useState<number>();
   const { projectId } = useProject();
+  const [tableParams, setTableParams] = useState<any>({
+    pagination: {
+      current: 1,
+      pageSize: 10,
+      showSizeChanger: false
+    }
+  });
 
   const [filters, setFilters] = useState<Iseacrh>({
     search: '',
-    limit: 100,
+    limit: tableParams.pagination?.pageSize,
     offset: 0,
     student: undefined,
     income: undefined,
     disability: undefined,
     gender: undefined,
-    statuses: undefined
+    statuses: undefined,
+    age: undefined
   });
-
-  const tableParams = {
-    position: 'bottomCenter',
-    pagination: {
-      showSizeChanger: false
-    }
-  };
 
   const [form] = AsnForm.useForm();
   const [open, setOpen] = useState(false);
@@ -48,11 +50,22 @@ const ApplicantsData: React.FC = () => {
   const onClose = (): void => {
     setOpenRow(false);
   };
-  const { refetch } = useAllAplicants(filters, projectId, {
-    onSuccess: (data: React.SetStateAction<IApplicants>): void => {
+
+  const { refetch, isLoading } = useAllAplicants(filters, projectId, {
+    onSuccess: (data: IApplicants): void => {
       setResult(data);
+      setCount(data?.count);
     }
   });
+  useEffect(() => {
+    setTableParams({
+      ...tableParams,
+      pagination: {
+        ...tableParams.pagination,
+        total: count
+      }
+    });
+  }, [JSON.stringify(tableParams), count]);
   useEffect(() => {
     refetch();
   }, [refetch, filters]);
@@ -83,8 +96,8 @@ const ApplicantsData: React.FC = () => {
       age:
         values?.age !== undefined
           ? {
-              from: values?.age?.[0],
-              to: values?.age?.[1]
+              from: values?.age?.[0] ?? values?.age?.from,
+              to: values?.age?.[1] ?? values?.age?.to
             }
           : undefined,
       regions: values?.regions,
@@ -101,9 +114,22 @@ const ApplicantsData: React.FC = () => {
 
   const column = useColumn({ filterData, onFinish, form, setOpen, open });
 
+  const handleTableChange: HandleTableOnChange = (pagination) => {
+    setTableParams({
+      pagination
+    });
+    setFilters((prevState) => ({
+      ...prevState,
+      offset: tableParams.pagination?.pageSize !== undefined
+        ? (tableParams.pagination?.current - 1) *
+          tableParams.pagination?.pageSize
+        : 0
+    }));
+  };
+
   return (
     <Container>
-      <UseSearch filters={filters} serachData={serachData} result={result?.result?.length}/>
+      <UseSearch filters={filters} serachData={serachData} result={result}/>
       <>
         <UseFilterTags
           filters={filters}
@@ -125,7 +151,10 @@ const ApplicantsData: React.FC = () => {
               }
             };
           }}
-          pagination={tableParams.pagination}
+          loading={isLoading}
+          pagination={tableParams?.pagination}
+          onChange={handleTableChange}
+
         />
       </>
       <Drawer width={'80%'} placement="right" onClose={onClose} open={openRow}>
