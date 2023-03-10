@@ -1,10 +1,11 @@
 import React from 'react';
 import { Row, Col } from 'antd';
+import DefaultAnalytics from '../../components/Dashboard/DefaultAnalytics/Index';
 
 const Dashboard: React.FC = () => {
   return (
     <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
-      <Col>Dashboard</Col>
+      <Col><DefaultAnalytics/> </Col>
     </Row>
   );
 };
