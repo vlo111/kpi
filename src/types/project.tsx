@@ -3,6 +3,7 @@ import { Moment } from 'moment';
 import { FormListFieldData } from 'antd';
 import { Void } from './global';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import { AssignedUserType } from './api/activity/subActivity';
 
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
@@ -423,7 +424,8 @@ export interface IAssignedFilterData {
   setAssignedUsersIds: React.Dispatch<React.SetStateAction<React.Key[] | []>>
   selectedRowKeys: React.Key[]
   setSelectedRowKeys: React.Dispatch<React.SetStateAction<React.Key[] | []>>
-  assignedUsers: any
+  assignedUsers: AssignedUserType[] | []
+
 }
 export interface ISubActivities {
   status: string
