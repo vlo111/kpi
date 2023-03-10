@@ -3,12 +3,20 @@ import { Button, Popover, Typography, Col, Row } from 'antd';
 import { AssingnesData } from './Data';
 import { Onchange } from '../../../../../types/global';
 import { IAssignedFilter } from '../../../../../types/project';
+import useGetAssignedUsersListByInputActivityId from '../../../../../api/Activity/SubActivity/useGetAssinedUsersByInputActivty';
 
 export const AssingnesFilter: React.FC<IAssignedFilter> = ({
   inputActivityId,
   setAssignedUsersIds
 }) => {
   const [open, setOpen] = useState(false);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
+  const { data: assignedUsers } = useGetAssignedUsersListByInputActivityId(
+    inputActivityId,
+    { enabled: open }
+  );
+
   const { Title } = Typography;
 
   const hide = (): void => {
@@ -29,6 +37,9 @@ export const AssingnesFilter: React.FC<IAssignedFilter> = ({
         inputActivityId={inputActivityId}
         open={open}
         setOpen={setOpen}
+        setSelectedRowKeys={setSelectedRowKeys}
+        selectedRowKeys={selectedRowKeys}
+        assignedUsers={assignedUsers}
       />
     </>
   );
