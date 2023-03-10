@@ -74,7 +74,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
 
   const onAnswerTypeChange: FormFinish = (value) => {
     setAnswerTypeValue(value);
-    form.resetFields(['question', 'names', 'requiredFiled']);
+    form.resetFields(['question', 'names', 'requiredFiled', 'otherOption']);
   };
 
   useEffect(() => {

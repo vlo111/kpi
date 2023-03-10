@@ -176,9 +176,9 @@ const Application: React.FC = () => {
           formTitle?.current?.input?.value.length > 255)
       ) {
         setIsValidateMessage(true);
-      } else if (validateTitle !== undefined || validateTitle?.length > 0) {
-        // TODO
+      } else if (validateTitle !== undefined && validateTitle?.length > 0) {
         void message.error('Please fill in at least one chart in the field.');
+        setIsValidateMessage(false);
       } else {
         setIsValidateMessage(false);
         applicationData.description =

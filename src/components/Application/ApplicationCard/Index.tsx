@@ -71,7 +71,6 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
       applicationData.applicationFormSections[3].title = title;
     }
   };
-  console.log(validateTitle, cardId);
 
   return (
     <CardContainer
