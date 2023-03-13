@@ -97,3 +97,9 @@ export const DividerLine = styled.span`
     margin: 0px;
   }
 `;
+
+export const ValidateMessage = styled.span`
+font-size: var(--font-normal);
+color: var(--error);
+margin: 4px 0px 1rem !important;
+`;
