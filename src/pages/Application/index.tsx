@@ -8,7 +8,8 @@ import {
   CardContainer,
   CardTitle,
   CustomInput,
-  CustomTextArea
+  CustomTextArea,
+  ValidateMessage
 } from '../../components/Application/applicationStyle';
 import moment, { Moment } from 'moment';
 import TermsAndCondition from '../../components/Application/TermsAndCondition/Index';
@@ -37,12 +38,6 @@ import { getApplicationData } from '../../helpers/utils';
 const ApplicationContainer = styled.div`
   margin: 0 auto;
   width: 67%;
-`;
-
-const ValidateMessage = styled.span`
-  font-size: var(--font-normal);
-  color: var(--error);
-  margin: 4px 0px 1rem !important;
 `;
 
 const ApplicationTitle = styled(Typography.Title)`
@@ -119,6 +114,7 @@ const Application: React.FC = () => {
   });
 
   const [isValidateMessage, setIsValidateMessage] = useState<boolean>(false);
+  const [validateTitle, setValidateTitle] = useState<string[] | undefined>();
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
   const [applicationData, setApplicationData] = useState<
@@ -180,6 +176,9 @@ const Application: React.FC = () => {
           formTitle?.current?.input?.value.length > 255)
       ) {
         setIsValidateMessage(true);
+      } else if (validateTitle !== undefined && validateTitle?.length > 0) {
+        void message.error('Please fill in at least one chart in the field.');
+        setIsValidateMessage(false);
       } else {
         setIsValidateMessage(false);
         applicationData.description =
@@ -285,11 +284,13 @@ const Application: React.FC = () => {
             title={data?.title}
             content={data?.questions}
             description={data?.description}
-            cardId={data?.keyName}
+            cardId={data.keyName}
             isQuestionCardVisible={isQuestionCardVisible}
             setIsQuestionCardVisible={setIsQuestionCardVisible}
             applicationData={applicationData}
             setApplicationData={setApplicationData}
+            validateTitle={validateTitle}
+            setValidateTitle={setValidateTitle}
           />
         )
       )}

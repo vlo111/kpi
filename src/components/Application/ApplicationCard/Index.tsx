@@ -4,7 +4,8 @@ import {
   CardContainer,
   CardTitle,
   CustomButton,
-  CustomInput
+  CustomInput,
+  ValidateMessage
 } from '../applicationStyle';
 import AddQuestionCard from '../AddQuestion/Index';
 import QuestionRowContainer from '../QuestionRow/Index';
@@ -25,7 +26,9 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
   cardId,
   description,
   applicationData,
-  setApplicationData
+  setApplicationData,
+  validateTitle,
+  setValidateTitle
 }) => {
   const [cardTitle, setCardTitle] = useState(title);
   const [answerTypeValue, setAnswerTypeValue] = useState('OPTION');
@@ -48,6 +51,16 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
 
   const onSaveTitle: StringVoidType = (title) => {
     setCardTitle(title);
+    if (title.length < 1) {
+      if (validateTitle === undefined) {
+        setValidateTitle([cardId]);
+      } else {
+        setValidateTitle([...validateTitle, cardId]);
+      }
+    } else {
+      setValidateTitle(validateTitle?.filter((title) => title !== cardId));
+    }
+
     if (cardId === 'personal_info') {
       applicationData.applicationFormSections[0].title = title;
     } else if (cardId === 'educational_info') {
@@ -74,6 +87,17 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
       >
         {cardTitle}
       </CardTitle>
+      {((validateTitle?.includes(cardId)) ?? false)
+        ? (
+        <ValidateMessage
+          style={{
+            marginBottom: '5px'
+          }}
+        >
+          Please fill in at least one chart in the field.
+        </ValidateMessage>
+          )
+        : null}
       <CustomInput
         placeholder="Add description"
         ref={descriptionRef}
