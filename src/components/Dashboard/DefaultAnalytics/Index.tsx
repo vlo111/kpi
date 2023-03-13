@@ -1,12 +1,13 @@
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Row } from 'antd';
 import GeneralInformation from '../GeneralInformation/Index';
 import SubmittedApplications from '../SubmittedApplications';
 
 const DefaultAnalytics: React.FC = () => {
   return (
-    <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
-      <Col>DefaultAnalytics</Col>
+    <Row justify='center' align="top" style={{
+      width: '100%'
+    }}>
       <GeneralInformation/>
       <SubmittedApplications/>
     </Row>
