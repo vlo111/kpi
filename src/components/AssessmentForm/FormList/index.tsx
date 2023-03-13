@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import QuestionHeader from '../QuestionHeader';
 import QuestionContent from '../QuestionContent';
 import { AsnForm } from '../../Forms/Form';
@@ -30,6 +30,13 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
 }) => {
   const form = AsnForm.useFormInstance();
   const [checkboxScoreCount, setCheckboxScoreCount] = useState(0);
+
+  useEffect(() => {
+    if (form.getFieldValue(['questions', name[0], 'answers']) !== undefined) {
+      calcScores();
+      checkboxScoreCalc();
+    }
+  }, [assessmentData, radio, checkbox]);
 
   const calcScores: Void = () => {
     if (form.getFieldValue(['questions', name[0], 'answers'])?.length > 0) {

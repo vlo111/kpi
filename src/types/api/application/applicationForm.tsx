@@ -140,6 +140,8 @@ export interface IApplicationCard {
   description: string | undefined
   applicationData: IApplicant
   setApplicationData: Dispatch<SetStateAction<IApplicant | undefined>>
+  validateTitle: string[] | undefined
+  setValidateTitle: Dispatch<SetStateAction<string[] | undefined>>
 }
 
 export interface IQuestionRowContainer {

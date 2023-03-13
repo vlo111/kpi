@@ -121,8 +121,8 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
             defaultChecked={question?.required}
             disabled={
               !question?.editable ||
-              answerTypeValue === 'OPTION' ||
-              answerTypeValue === 'YES_NO'
+              question?.answerType === 'OPTION' ||
+              question?.answerType === 'YES_NO'
             }
             onChange={handleIsRequiredQuestion}
           />

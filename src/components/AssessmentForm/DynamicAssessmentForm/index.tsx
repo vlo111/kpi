@@ -169,6 +169,8 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
           }
         ]
       });
+
+      initCheckList();
     }
   }, []);
 
