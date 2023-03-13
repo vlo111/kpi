@@ -1,4 +1,4 @@
-import { Col, Row, Typography } from 'antd';
+import { Row, Typography } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as ApplicantsPWDIcon } from '../../../assets/icons/applicants_PWD.svg';
@@ -22,20 +22,23 @@ const TitleContainer = styled(Title)`
 const TitleContent = styled(Title)`
   color: var(--dark-2) !important;
   font-size: 36px !important;
+  margin-bottom: 0rem !important;
 `;
 
 const AnalyticsCard: React.FC<any> = ({ borderLeft }) => {
   return (
-    <CardContainer borderLeft={borderLeft} justify="space-around" align="center">
-      <Col span={24}>
-        <TitleContainer>The number of Users</TitleContainer>
-      </Col>
-      <Col span={4}>
+    <CardContainer borderLeft={borderLeft}>
+      <TitleContainer>The number of Users</TitleContainer>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: '16px',
+        marginTop: '2rem'
+      }}>
         <ApplicantsPWDIcon />
-      </Col>
-      <Col span={20}>
         <TitleContent> 5000</TitleContent>
-      </Col>
+      </div>
     </CardContainer>
   );
 };

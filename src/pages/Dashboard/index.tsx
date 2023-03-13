@@ -6,12 +6,27 @@ import DefaultAnalytics from '../../components/Dashboard/DefaultAnalytics/Index'
 import CustomReport from '../../components/Dashboard/CustomReport/Index';
 
 const CustomTabs = styled(Tabs)`
-
-&.ant-tabs-top > .ant-tabs-nav:before {
-    border-bottom: 1px solid #EBEBEB !important;
+  .ant-tabs-nav {
+    margin: 0px !important;
+  }
+  .ant-tabs-tab-btn {
+    color: var(--dark-2);
+    font-size: var(--headline-font-size);
   }
 
-  .ant-tabs-content-holder{
+  .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: var(--dark-border-ultramarine);
+    font-size: var(--headline-font-size);
+  }
+  .ant-tabs-ink-bar {
+    border-bottom: 2px solid var(--dark-border-ultramarine) !important;
+  }
+
+  &.ant-tabs-top > .ant-tabs-nav:before {
+    border-bottom: 1px solid #ebebeb !important;
+  }
+
+  .ant-tabs-content-holder {
     background: var(--background) !important;
     box-shadow: none;
   }
@@ -23,7 +38,8 @@ const Dashboard: React.FC = () => {
       style={{
         display: 'flex',
         alignItems: 'center',
-        width: '80%'
+        width: '100%',
+        padding: '2rem 2rem 4rem'
       }}
     >
       <CustomTabs
@@ -37,12 +53,11 @@ const Dashboard: React.FC = () => {
           {
             label: 'CustomReport',
             key: '2',
-            children: <CustomReport/>
+            children: <CustomReport />
           }
         ]}
       />
-      <Col>
-      </Col>
+      <Col></Col>
     </Row>
   );
 };

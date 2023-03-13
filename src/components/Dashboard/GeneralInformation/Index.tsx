@@ -2,28 +2,30 @@ import { Col, Row } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
 import AnalyticsCard from '../Card';
+import { TitleContainer } from '../dashboardStyle';
 
-const CardContainer = styled.div<any>`
+const GeneralInformationContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  margin-top: 2rem;
 `;
-
 const GeneralInformation: React.FC = () => {
   return (
-    <CardContainer className="dddddd">
+    <GeneralInformationContainer>
+      <TitleContainer>General Information</TitleContainer>
       <Row gutter={[32, 32]}>
         {[1, 2, 3, 4].map((item) => (
           <Col
             key={item}
             style={{
-              width: '22%'
+              width: '25%'
             }}
           >
             <AnalyticsCard borderLeft="6px solid var(--secondary-light-orage)" />
           </Col>
         ))}
       </Row>
-    </CardContainer>
+    </GeneralInformationContainer>
   );
 };
 export default GeneralInformation;

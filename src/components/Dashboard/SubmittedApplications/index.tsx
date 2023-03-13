@@ -1,10 +1,26 @@
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Col, Row } from 'antd';
+import { TitleContainer } from '../dashboardStyle';
+import AnalyticsCard from '../Card';
 
 const SubmittedApplications: React.FC = () => {
   return (
-    <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
-      <Col>SubmittedApplications</Col>
+    <Row style={{
+      marginTop: '2rem'
+    }} >
+      <TitleContainer>SubmittedApplications</TitleContainer>
+      <Row gutter={[32, 32]}>
+        {[1, 2, 3, 4, 5, 6, 7].map((item) => (
+          <Col
+            key={item}
+            style={{
+              width: '20%'
+            }}
+          >
+            <AnalyticsCard/>
+          </Col>
+        ))}
+      </Row>
     </Row>
   );
 };
