@@ -59,13 +59,6 @@ const QuestionContent: React.FC<IQuestionContent> = ({
     setAllScore(allScores);
   };
 
-  useEffect(() => {
-    if (form.getFieldValue(['questions', name[0], 'answers']) !== undefined) {
-      calcScores();
-      checkboxScoreCalc();
-    }
-  }, [assessmentData, radio]);
-
   const answer = form.getFieldsValue().questions?.[name[0]].answerType;
 
   const isCheckList = answer === 'OPTION' || answer === 'CHECKBOX';

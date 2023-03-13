@@ -108,8 +108,6 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
 
   useEffect(() => {
     if (preview === true || location?.state?.preview === true) {
-      // eslint-disable-next-line no-debugger
-      debugger;
       let cloneAssessmentData = null;
       if (data.result !== undefined) {
         cloneAssessmentData = JSON.parse(JSON.stringify(data?.result));
@@ -125,6 +123,8 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
         ...cloneAssessmentData
       });
       // setAllScore(data?.result?.maximumScore);
+
+      initCheckList();
     }
   }, [data, preview, location?.state?.preview]);
 
@@ -170,8 +170,6 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
         ]
       });
     }
-
-    initCheckList();
   }, []);
 
   const initCheckList: Void = () => {
