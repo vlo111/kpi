@@ -248,7 +248,7 @@ export interface ILearningStatusData {
 export interface ISetting {
   changeable: boolean | undefined
   answerType: string
-  data: string []
+  data: string[]
   id: string | undefined
   projectId: string | undefined
   title: string | undefined
@@ -425,8 +425,16 @@ export interface IAssignedFilterData {
   selectedRowKeys: React.Key[]
   setSelectedRowKeys: React.Dispatch<React.SetStateAction<React.Key[] | []>>
   assignedUsers: AssignedUserType[] | []
-
+  selectedRowId: React.Key[]
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
 }
+export interface IAssingedUser {
+  firstName: string
+  id: string
+  lastName: string
+  photo: string | null
+}
+
 export interface ISubActivities {
   status: string
   title: string
@@ -449,8 +457,7 @@ export interface ISubActivities {
 export interface IStatusFilter {
   setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
   setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
-  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[]>
-  >
+  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[]>>
   checkAll: boolean
   indeterminate: boolean
   checkedList: CheckboxValueType[] | undefined

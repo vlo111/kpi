@@ -28,7 +28,7 @@ const ApplicantsData: React.FC = () => {
   const [filters, setFilters] = useState<Iseacrh>({
     search: '',
     limit: tableParams.pagination?.pageSize,
-    offset: 1,
+    offset: 0,
     student: undefined,
     income: undefined,
     disability: undefined,
