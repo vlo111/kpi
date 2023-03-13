@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Typography } from 'antd';
 import { AsnForm } from '../../Forms/Form';
