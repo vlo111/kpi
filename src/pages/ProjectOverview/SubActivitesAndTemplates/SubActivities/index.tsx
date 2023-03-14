@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Row,
   Space,
@@ -22,7 +23,7 @@ import { AssingnesFilter } from '../Filter/Assigned';
 import { DateFilterCards } from '../Filter/DataPicker';
 import { StatusFilter } from '../Filter/Status';
 import AddSubActivity from '../AddActivity';
-import { useNavigate } from 'react-router-dom';
+
 import AsnAvatar from '../../../../components/Forms/Avatar';
 import { AssignedUserType } from '../../../../types/api/activity/subActivity';
 
@@ -69,6 +70,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
   };
 
   const navigate = useNavigate();
+
   return (
     <>
       <Container>
@@ -148,8 +150,9 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                   <Row
                     gutter={[8, 16]}
                     style={{ padding: '15px 0', cursor: 'pointer' }}
-                    onClick={() =>
-                      navigate(`/project/sub-activity/${item?.subActivityId}`)
+                    onClick={() => {
+                      navigate(`/project/sub-activity/${item?.subActivityId}`);
+                    }
                     }
                   >
                     <Col

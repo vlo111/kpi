@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { Button, Popover, Card, Col, Row, message, Typography } from 'antd';
 import styled from 'styled-components';
 
 import { PATHS } from '../../../../helpers/constants';
 import { ConfirmModal } from '../../../../components/Forms/Modal/Confirm';
-import { IActiveTemplate } from '../../../../types/project';
+import { IActiveTemplate, IOutletContext } from '../../../../types/project';
 import useDuplicateTemplate from '../../../../api/Activity/Template/useDuplicateTemplate';
 import useDeleteActivityTemplate from '../../../../api/Activity/Template/useDeleteActivityTemplate';
 import { ReactComponent as TrashSvg } from '../../../../assets/icons/trash.svg';
@@ -123,13 +123,20 @@ const Popup = styled(Button)`
 export const ActiveTempalate: React.FC<IActiveTemplate> = ({
   templates,
   refetch,
-  setIsOpenCreateActivityModal
+  setIsOpenCreateActivityModal,
+  resultAreaOrder,
+  inputActivityId,
+  activityTitle,
+  resultAreaTitle,
+  setActiveTemplate
 }) => {
   const [show, setShow] = useState<string | boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [templateId, setTemplateId] = useState<string>('');
-  const [openCreateSubActivity, setOpenCreateSubActivity] =
-    useState<boolean>(false);
+  const [openCreateSubActivity, setOpenCreateSubActivity] = useState<boolean>(false);
+
+  const { setProjectOverview } = useOutletContext<IOutletContext>();
+
   const { mutate: deleteActivityTemplate } = useDeleteActivityTemplate({
     onSuccess: () => {
       refetch();
@@ -148,6 +155,7 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
     }
   });
   const navigate = useNavigate();
+
   const title = (id: string, template: any): any => {
     return (
       <Row>
@@ -165,8 +173,16 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
           {template?.used === false && (
             <Popup
               type="link"
-              onClick={() =>
-                navigate(`/${PATHS.ACTIVITYTEMPLATE}`.replace(':id', id))
+              onClick={() => {
+                navigate(`/${PATHS.ACTIVITYTEMPLATE}`.replace(':id', id));
+                setProjectOverview({
+                  areaOrder: resultAreaOrder,
+                  activityId: inputActivityId,
+                  resultAreaTitle,
+                  activityTitle,
+                  templateTab: '2'
+                });
+              }
               }
             >
               <EditSvg />
@@ -179,6 +195,7 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
               onClick={() => {
                 setTemplateId(id);
                 setOpenDeleteModal(true);
+                setActiveTemplate('2');
               }}
             >
               <TrashSvg />
@@ -190,6 +207,7 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
             onClick={() => {
               duplicateTemplate({ id });
               hide();
+              setActiveTemplate('2');
             }}
           >
             <Dublicat />
@@ -218,15 +236,27 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
       id: fileId
     });
   };
+
+  const addTemplates = (): void => {
+    setProjectOverview({
+      areaOrder: resultAreaOrder,
+      activityId: inputActivityId,
+      resultAreaTitle,
+      activityTitle,
+      templateTab: '2'
+    });
+    setIsOpenCreateActivityModal(true);
+  };
+
   return (
     <>
       <Container>
         <Row gutter={[32, 0]} style={{ width: '100%', height: '50vh' }}>
           <Col
             style={{ cursor: 'pointer' }}
-            onClick={() => setIsOpenCreateActivityModal(true)}
+            onClick={() => addTemplates()}
           >
-            <Card className=" card">+Add Templates</Card>
+            <Card className="card">+Add Templates</Card>
           </Col>
           {templates?.map((template) => (
             <Col key={template?.id}>

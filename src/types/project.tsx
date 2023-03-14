@@ -88,6 +88,7 @@ export interface IResultAreas {
   title: string
   id: string
   inputActivities: IInputActivities[]
+  order: number
 }
 export interface IProjectDetailsData {
   id: string
@@ -368,6 +369,11 @@ export interface ISubActivityAndTemplates {
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+  resultAreaOrder: number
+  resultAreaTitle: string
+  activityTitle: string
+  setActiveTemplate: React.Dispatch<React.SetStateAction<string>>
+  activeTemplate: string
 }
 
 export interface IResultAreasTitles {
@@ -376,6 +382,7 @@ export interface IResultAreasTitles {
   index: number
   active: number
   setActive: React.Dispatch<React.SetStateAction<number>>
+  name?: string
 }
 
 export interface ITabContent {
@@ -384,6 +391,10 @@ export interface ITabContent {
   setInputActivityId: React.Dispatch<React.SetStateAction<string | undefined>>
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
   defaultInputActivityId: string
+  areaOrder: number | undefined
+  setActiveTemplate: React.Dispatch<React.SetStateAction<string>>
+  activeTemplate: string
+  isActivityNavigated: string | undefined
 }
 
 export interface ISubActivitiesProps {
@@ -446,6 +457,11 @@ export interface IActiveTemplate {
   templates: IProjectTemplate[]
   refetch: any
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+  resultAreaOrder: number
+  inputActivityId: string
+  resultAreaTitle: string
+  activityTitle: string
+  setActiveTemplate: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface IDataSearchchSubActivity {
@@ -483,4 +499,16 @@ export interface IAddActivity {
 export interface IAttachmentSetting {
   setting: ISetting
   active: boolean
+}
+
+interface IProjectOverviewIds {
+  areaOrder: number | undefined
+  activityId: string | undefined
+  activityTitle?: string
+  resultAreaTitle?: string
+  templateTab?: string
+}
+export interface IOutletContext {
+  projectOverview: IProjectOverviewIds
+  setProjectOverview: React.Dispatch<React.SetStateAction<IProjectOverviewIds>>
 }
