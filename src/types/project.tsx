@@ -248,7 +248,7 @@ export interface ILearningStatusData {
 export interface ISetting {
   changeable: boolean | undefined
   answerType: string
-  data: string []
+  data: string[]
   id: string | undefined
   projectId: string | undefined
   title: string | undefined
@@ -369,6 +369,8 @@ export interface ISubActivityAndTemplates {
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+  selectedRowId: React.Key[]
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
 }
 
 export interface IResultAreasTitles {
@@ -410,11 +412,15 @@ export interface ISubActivitiesProps {
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
   templates: IProjectTemplate[]
+  selectedRowId: React.Key[]
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
 }
 
 export interface IAssignedFilter {
   inputActivityId: string
   setAssignedUsersIds: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  selectedRowId: any
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
 }
 
 export interface IAssignedFilterData {
@@ -425,8 +431,16 @@ export interface IAssignedFilterData {
   selectedRowKeys: React.Key[]
   setSelectedRowKeys: React.Dispatch<React.SetStateAction<React.Key[] | []>>
   assignedUsers: AssignedUserType[] | []
-
+  selectedRowId: React.Key[]
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
 }
+export interface IAssingedUser {
+  firstName: string
+  id: string
+  lastName: string
+  photo: string | null
+}
+
 export interface ISubActivities {
   status: string
   title: string
@@ -449,8 +463,7 @@ export interface ISubActivities {
 export interface IStatusFilter {
   setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
   setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
-  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[]>
-  >
+  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[]>>
   checkAll: boolean
   indeterminate: boolean
   checkedList: CheckboxValueType[] | undefined

@@ -55,7 +55,9 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
   dateSearch,
   templates,
   inputActivityId,
-  setAssignedUsersIds
+  setAssignedUsersIds,
+  selectedRowId,
+  setSelectedRowId
 }) => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
@@ -85,6 +87,8 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
           <AssingnesFilter
             inputActivityId={inputActivityId}
             setAssignedUsersIds={setAssignedUsersIds}
+            selectedRowId={selectedRowId}
+            setSelectedRowId={setSelectedRowId}
           />
           <DateFilterCards
             setDateSearch={setDateSearch}
