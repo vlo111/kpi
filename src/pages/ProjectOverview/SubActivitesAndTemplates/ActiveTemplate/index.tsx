@@ -55,12 +55,6 @@ const Container = styled.div`
     row-gap: 16px !important;
     overflow: auto;
   }
-  .cardClick {
-    position: absolute;
-    z-index: 2 !important;
-    right: 20px;
-    color: var(--dark-1);
-  }
   .ant-card-head-title {
     word-wrap: break-word;
     white-space: initial;
@@ -242,52 +236,49 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
                   handleOpenChange(newOpen, template?.id)
                 }
               >
-                <Button type="link" className="cardClick">
-                  ...
-                </Button>
-              </Popover>
-              <Card
-                className="card"
-                extra={
-                  show === template?.id
-                    ? (
-                    <Paragraph
-                      strong
-                      ellipsis={{
-                        rows: 5
-                      }}
-                      className="activeCardTemplateHover"
-                    >
-                      {template?.description}
-                    </Paragraph>
-                      )
-                    : null
-                }
-                onMouseEnter={() => setShow(template?.id)}
-                onMouseLeave={() => setShow(false)}
-              >
-                <Meta
-                  description={
-                    template?.status === 'DRAFT'
+                <Card
+                  className="card"
+                  extra={
+                    show === template?.id
                       ? (
-                      <div className="draft">DRAFT</div>
+                      <Paragraph
+                        strong
+                        ellipsis={{
+                          rows: 5
+                        }}
+                        className="activeCardTemplateHover"
+                      >
+                        {template?.description}
+                      </Paragraph>
                         )
-                      : (
-                          ''
-                        )
+                      : null
                   }
-                />
-
-                <Paragraph
-                  strong
-                  ellipsis={{
-                    rows: 5
-                  }}
-                  className="activeCardTemplate"
+                  onMouseEnter={() => setShow(template?.id)}
+                  onMouseLeave={() => setShow(false)}
                 >
-                  {template?.title}
-                </Paragraph>
-              </Card>
+                  <Meta
+                    description={
+                      template?.status === 'DRAFT'
+                        ? (
+                        <div className="draft">DRAFT</div>
+                          )
+                        : (
+                            ''
+                          )
+                    }
+                  />
+
+                  <Paragraph
+                    strong
+                    ellipsis={{
+                      rows: 5
+                    }}
+                    className="activeCardTemplate"
+                  >
+                    {template?.title}
+                  </Paragraph>
+                </Card>
+              </Popover>
             </Col>
           ))}
         </Row>
