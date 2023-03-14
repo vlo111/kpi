@@ -4,7 +4,8 @@ import {
   CardContainer,
   CardTitle,
   CustomButton,
-  CustomInput
+  CustomInput,
+  ValidateMessage
 } from '../applicationStyle';
 import AddQuestionCard from '../AddQuestion/Index';
 import QuestionRowContainer from '../QuestionRow/Index';
@@ -15,6 +16,7 @@ import {
   IQuestion
 } from '../../../types/api/application/applicationForm';
 import { addDescription } from '../../../helpers/questionList';
+import { v4 as uuidv4 } from 'uuid';
 
 const ApplicationCard: React.FC<IApplicationCard> = ({
   title,
@@ -24,7 +26,9 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
   cardId,
   description,
   applicationData,
-  setApplicationData
+  setApplicationData,
+  validateTitle,
+  setValidateTitle
 }) => {
   const [cardTitle, setCardTitle] = useState(title);
   const [answerTypeValue, setAnswerTypeValue] = useState('OPTION');
@@ -47,6 +51,16 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
 
   const onSaveTitle: StringVoidType = (title) => {
     setCardTitle(title);
+    if (title.length < 1) {
+      if (validateTitle === undefined) {
+        setValidateTitle([cardId]);
+      } else {
+        setValidateTitle([...validateTitle, cardId]);
+      }
+    } else {
+      setValidateTitle(validateTitle?.filter((title) => title !== cardId));
+    }
+
     if (cardId === 'personal_info') {
       applicationData.applicationFormSections[0].title = title;
     } else if (cardId === 'educational_info') {
@@ -73,6 +87,17 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
       >
         {cardTitle}
       </CardTitle>
+      {((validateTitle?.includes(cardId)) ?? false)
+        ? (
+        <ValidateMessage
+          style={{
+            marginBottom: '5px'
+          }}
+        >
+          Please fill in at least one chart in the field.
+        </ValidateMessage>
+          )
+        : null}
       <CustomInput
         placeholder="Add description"
         ref={descriptionRef}
@@ -83,9 +108,8 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
         ? (
         <>
           {content.map((item: IQuestion, index: number) => (
-            <Fragment key={index}>
+            <Fragment key={item.id !== undefined ? item.id : uuidv4()}>
               <QuestionRowContainer
-                key={index}
                 question={item}
                 index={index}
                 content={content}
@@ -95,6 +119,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
                 isQuestionCardVisible={isQuestionCardVisible}
                 cardId={cardId}
                 setAnswerTypeValue={setAnswerTypeValue}
+                answerTypeValue={answerTypeValue}
                 setSingleQuestionData={setSingleQuestionData}
                 setAddOrUpdateQuestion={setAddOrUpdateQuestion}
                 setQuestionRowIndex={setQuestionRowIndex}
@@ -102,7 +127,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
               {item.answerType === 'YES_NO' && item.relatedQuestions.length > 0
                 ? item.relatedQuestions.map((item, index) => (
                     <QuestionRowContainer
-                      key={index}
+                      key={item.id !== undefined ? item.id : uuidv4()}
                       question={item}
                       index={index}
                       content={content}
@@ -111,6 +136,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
                       setIsQuestionCardVisible={setIsQuestionCardVisible}
                       isQuestionCardVisible={isQuestionCardVisible}
                       cardId={cardId}
+                      answerTypeValue={answerTypeValue}
                       setAnswerTypeValue={setAnswerTypeValue}
                       setSingleQuestionData={setSingleQuestionData}
                       setAddOrUpdateQuestion={setAddOrUpdateQuestion}
@@ -130,6 +156,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
           isQuestionCardVisible={isQuestionCardVisible}
           cardId={cardId}
           applicationData={applicationData}
+          setApplicationData={setApplicationData}
           answerTypeValue={answerTypeValue}
           setAnswerTypeValue={setAnswerTypeValue}
           singleQuestionData={singleQuestionData}

@@ -4,6 +4,7 @@ import { Radio, Space, Typography } from 'antd';
 import { AsnForm } from '../../../Forms/Form';
 import { ReactComponent as DeleteIcon } from '../../../../assets/icons/delete.svg';
 import {
+  IAnswer,
   IAnswerCreate,
   IAssessmentRadio,
   IRadioGroup,
@@ -63,6 +64,10 @@ const RadioGroup: React.FC<IRadioGroup> = ({
           if (c.value === name) {
             c.value = undefined;
           }
+
+          if (c.value !== undefined && !(c.value < name)) {
+            c.value--;
+          }
         }
 
         return c;
@@ -72,6 +77,7 @@ const RadioGroup: React.FC<IRadioGroup> = ({
     }
 
     const field = form.getFieldValue(['questions', contentName[0], 'answers']);
+
     const index = field.findIndex(
       (answer: IAnswerCreate) => answer.type === 'SHORT_TEXT'
     );
@@ -93,8 +99,12 @@ const RadioGroup: React.FC<IRadioGroup> = ({
   };
 
   const radioGroupChange: RadioGroupChangeType = (val) => {
+    const index = form
+      .getFieldValue(['questions', contentName[0], 'answers'])
+      .findIndex((f: IAnswer) => f.score);
+
     form.setFieldValue(
-      ['questions', contentName[0], 'answers', val.target.value - 1, 'score'],
+      ['questions', contentName[0], 'answers', index, 'score'],
       0
     );
 
@@ -110,6 +120,15 @@ const RadioGroup: React.FC<IRadioGroup> = ({
       });
 
       setRadio(radioGroup);
+    } else {
+      const newRadio = [
+        {
+          name: contentName[0] as number,
+          value: val.target.value
+        }
+      ];
+
+      setRadio(newRadio);
     }
 
     calcScores();

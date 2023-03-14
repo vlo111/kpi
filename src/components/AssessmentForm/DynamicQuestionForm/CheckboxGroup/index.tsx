@@ -68,7 +68,13 @@ const CheckboxGroup: React.FC<ICheckboxGroup> = ({
 
       checkBoxGroup.map((c: IAssessmentCheckbox) => {
         if (c.name === contentName[0]) {
-          _.remove(c.value, (n) => n === name);
+          c.value = c.value.filter((c) => c !== name);
+          c.value = c.value.map((c) => {
+            if (c > name) {
+              c--;
+            }
+            return c;
+          });
         }
 
         return c;
@@ -102,7 +108,7 @@ const CheckboxGroup: React.FC<ICheckboxGroup> = ({
             align="baseline"
           >
             <AsnCheckbox
-              value={key}
+              value={name}
               onChange={() => {
                 form.setFieldValue(
                   ['questions', contentName[0], 'answers', name, 'score'],
@@ -130,7 +136,7 @@ const CheckboxGroup: React.FC<ICheckboxGroup> = ({
             <Space>
               {checkbox
                 ?.find((c) => c.name === contentName[0])
-                ?.value.includes(key) === true && (
+                ?.value.includes(name) === true && (
                 <ScoreContainer key={key}>
                   <Title
                     level={5}

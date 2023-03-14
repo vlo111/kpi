@@ -9,7 +9,7 @@ import GetTemplates from '../../api/Activity/Template/useGetActivityTemplates';
 import { AsnButton } from '../../components/Forms/Button';
 import AsnSpin from '../../components/Forms/Spin';
 import SubActivityAndTemplates from './SubActivitesAndTemplates';
-import { ITabContent, IOutletContext } from '../../types/project';
+import { ITabContent, IOutletContext, Filters } from '../../types/project';
 import { ReactComponent as CreateTemplateSvg } from '../../assets/icons/create-template.svg';
 import { ReactComponent as NotAccessSvg } from '../../assets/icons/error_404.svg';
 
@@ -39,7 +39,6 @@ const NotAccessContent = styled(Space)`
     font-size: 14px !important;
   }
 `;
-
 const TabContent: React.FC<ITabContent> = ({
   inputActivityId,
   resultArea,
@@ -64,21 +63,31 @@ const TabContent: React.FC<ITabContent> = ({
   });
 
   const { setProjectOverview } = useOutletContext<IOutletContext>();
+  const [selectedRowId, setSelectedRowId] = useState<React.Key[]>([]);
 
   const { from, to } = dateSearch;
-  const filters =
-    checkedList?.length !== 0 &&
-    assignedUsersIds?.length !== 0 &&
-    from !== '' &&
-    to !== ''
-      ? { status: checkedList, date: dateSearch, assigned: assignedUsersIds }
-      : checkedList?.length !== 0
-        ? { status: checkedList }
-        : assignedUsersIds?.length !== 0
-          ? { assigned: assignedUsersIds }
-          : from !== '' && to !== ''
-            ? { date: dateSearch }
-            : {};
+  const filtersFuinctiomn = (
+    from: string,
+    to: string,
+    checkedList?: CheckboxValueType[],
+    assignedUsersIds?: React.Key[]
+  ): Filters => {
+    const filters: Filters = {};
+
+    if (checkedList?.length !== 0) {
+      filters.status = checkedList;
+    }
+
+    if (assignedUsersIds?.length !== 0) {
+      filters.assigned = assignedUsersIds;
+    }
+
+    if (from !== '' && to !== '') {
+      filters.date = { from, to };
+    }
+
+    return filters;
+  };
   const {
     data: templates,
     isLoading: isLoadingTemplates,
@@ -94,7 +103,7 @@ const TabContent: React.FC<ITabContent> = ({
     error
   } = useGetSubActivities(
     inputActivityId ?? defaultInputActivityId,
-    filters,
+    filtersFuinctiomn(from, to, checkedList, assignedUsersIds),
     {
       enabled: Boolean(inputActivityId ?? defaultInputActivityId)
     }
@@ -171,6 +180,8 @@ const TabContent: React.FC<ITabContent> = ({
                   activityTitle={inputActivity?.title}
                   setActiveTemplate={setActiveTemplate}
                   activeTemplate={activeTemplate}
+                  setSelectedRowId={setSelectedRowId}
+                  selectedRowId={selectedRowId}
                 />
                         )
                       : (

@@ -59,7 +59,9 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
   resultAreaTitle,
   activityTitle,
   setActiveTemplate,
-  activeTemplate
+  activeTemplate,
+  setSelectedRowId,
+  selectedRowId
 }) => {
   const { projectOverview: { templateTab }, setProjectOverview, projectOverview } = useOutletContext<IOutletContext>();
 
@@ -96,6 +98,8 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
             setDateSearch={setDateSearch}
             dateSearch={dateSearch}
             templates={templates}
+            setSelectedRowId={setSelectedRowId}
+            selectedRowId={selectedRowId}
           />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Templates " key="2">

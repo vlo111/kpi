@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import QuestionHeader from '../QuestionHeader';
 import QuestionContent from '../QuestionContent';
 import { AsnForm } from '../../Forms/Form';
 import { Void } from '../../../types/global';
 import {
+  AddQuestionChecks,
   IAnswerCreate,
-  IAssessmentFormItems
+  IAssessmentFormItems,
+  RemoveQuestion,
+  UpdateNames
 } from '../../../types/api/assessment';
 import { CardContainer } from '../assessmentStyle';
+import _ from 'lodash';
 
 const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
   questionsLists,
@@ -26,6 +30,13 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
 }) => {
   const form = AsnForm.useFormInstance();
   const [checkboxScoreCount, setCheckboxScoreCount] = useState(0);
+
+  useEffect(() => {
+    if (form.getFieldValue(['questions', name[0], 'answers']) !== undefined) {
+      calcScores();
+      checkboxScoreCalc();
+    }
+  }, [assessmentData, radio, checkbox]);
 
   const calcScores: Void = () => {
     if (form.getFieldValue(['questions', name[0], 'answers'])?.length > 0) {
@@ -58,6 +69,82 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
     setCheckboxScoreCount(scores);
   };
 
+  const updateNames: UpdateNames = (items) => {
+    if (items !== undefined) {
+      items.forEach((item: { name: number }) => {
+        if (item.name > name[0]) {
+          item.name--;
+        }
+      });
+    }
+  };
+
+  const removeQuestion: RemoveQuestion = (n, updateName) => {
+    const checkboxGroup = _.cloneDeep(checkbox);
+
+    const radioGroup = _.cloneDeep(radio);
+
+    if (radioGroup !== undefined) {
+      const radioIndex = radioGroup.findIndex((r) => r.name === n);
+
+      if (radioIndex > -1) {
+        radioGroup.splice(radioIndex, 1);
+      }
+
+      if (updateName) { updateNames(radioGroup); }
+
+      setRadio(() => radioGroup);
+    }
+
+    if (checkboxGroup !== undefined) {
+      const checkboxIndex = checkboxGroup.findIndex((r) => r.name === n);
+
+      if (checkboxIndex > -1) {
+        checkboxGroup.splice(checkboxIndex, 1);
+      }
+
+      if (updateName) { updateNames(checkboxGroup); }
+
+      setCheckbox(() => checkboxGroup);
+    }
+  };
+
+  const addQuestionChecks: AddQuestionChecks = (type, itemName, value) => {
+    if (type === 'OPTION') {
+      let radioGroup = _.cloneDeep(radio);
+
+      if (radioGroup === undefined) {
+        radioGroup = [{
+          name: itemName,
+          value
+        }];
+      } else {
+        radioGroup.push({
+          name: itemName,
+          value
+        });
+      }
+
+      setRadio(radioGroup);
+    } else {
+      let checkboxGroup = _.cloneDeep(checkbox);
+
+      if (checkboxGroup !== undefined) {
+        checkboxGroup.push({
+          name: itemName,
+          value
+        });
+      } else {
+        checkboxGroup = [{
+          name: itemName,
+          value
+        }];
+      }
+
+      setCheckbox(checkboxGroup);
+    }
+  };
+
   return (
     <CardContainer
       borderTop={'3px solid var(--secondary-green)'}
@@ -65,6 +152,7 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
     >
       <QuestionHeader
         remove={remove}
+        removeQuestion={removeQuestion}
         name={name}
         add={add}
         setAnswerType={setAnswerType}
@@ -72,6 +160,7 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
         questionsLists={questionsLists}
         preview={preview}
         calcScores={calcScores}
+        addQuestionChecks={addQuestionChecks}
       />
       <QuestionContent
         name={name}

@@ -36,6 +36,7 @@ const Container = styled.div`
   }
   .subCardTemplater {
     color: #111b23;
+    margin-bottom: 0;
   }
   .ant-typography strong {
     font-weight: 400;
@@ -55,7 +56,9 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
   dateSearch,
   templates,
   inputActivityId,
-  setAssignedUsersIds
+  setAssignedUsersIds,
+  selectedRowId,
+  setSelectedRowId
 }) => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
@@ -86,6 +89,8 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
           <AssingnesFilter
             inputActivityId={inputActivityId}
             setAssignedUsersIds={setAssignedUsersIds}
+            selectedRowId={selectedRowId}
+            setSelectedRowId={setSelectedRowId}
           />
           <DateFilterCards
             setDateSearch={setDateSearch}

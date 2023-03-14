@@ -3,6 +3,7 @@ import { Moment } from 'moment';
 import { FormListFieldData } from 'antd';
 import { Void } from './global';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import { AssignedUserType } from './api/activity/subActivity';
 
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
@@ -248,7 +249,7 @@ export interface ILearningStatusData {
 export interface ISetting {
   changeable: boolean | undefined
   answerType: string
-  data: string []
+  data: string[]
   id: string | undefined
   projectId: string | undefined
   title: string | undefined
@@ -374,6 +375,8 @@ export interface ISubActivityAndTemplates {
   activityTitle: string
   setActiveTemplate: React.Dispatch<React.SetStateAction<string>>
   activeTemplate: string
+  selectedRowId: React.Key[]
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
 }
 
 export interface IResultAreasTitles {
@@ -396,6 +399,14 @@ export interface ITabContent {
   activeTemplate: string
   isActivityNavigated: string | undefined
 }
+export interface Filters {
+  status?: CheckboxValueType[]
+  assigned?: React.Key[]
+  date?: {
+    from: string
+    to: string
+  }
+}
 
 export interface ISubActivitiesProps {
   subActivities: ISubActivities[] | undefined
@@ -412,11 +423,15 @@ export interface ISubActivitiesProps {
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
   templates: IProjectTemplate[]
+  selectedRowId: React.Key[]
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
 }
 
 export interface IAssignedFilter {
   inputActivityId: string
   setAssignedUsersIds: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  selectedRowId: any
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
 }
 
 export interface IAssignedFilterData {
@@ -424,7 +439,19 @@ export interface IAssignedFilterData {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   inputActivityId: string
   setAssignedUsersIds: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  selectedRowKeys: React.Key[]
+  setSelectedRowKeys: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  assignedUsers: AssignedUserType[] | []
+  selectedRowId: React.Key[]
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
 }
+export interface IAssingedUser {
+  firstName: string
+  id: string
+  lastName: string
+  photo: string | null
+}
+
 export interface ISubActivities {
   status: string
   title: string
@@ -447,8 +474,7 @@ export interface ISubActivities {
 export interface IStatusFilter {
   setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
   setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
-  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[]>
-  >
+  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[]>>
   checkAll: boolean
   indeterminate: boolean
   checkedList: CheckboxValueType[] | undefined

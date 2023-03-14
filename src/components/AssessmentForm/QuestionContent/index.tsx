@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Typography } from 'antd';
 import { AsnForm } from '../../Forms/Form';
@@ -58,13 +58,6 @@ const QuestionContent: React.FC<IQuestionContent> = ({
       );
     setAllScore(allScores);
   };
-
-  useEffect(() => {
-    if (form.getFieldValue(['questions', name[0], 'answers']) !== undefined) {
-      calcScores();
-      checkboxScoreCalc();
-    }
-  }, [assessmentData, radio]);
 
   const answer = form.getFieldsValue().questions?.[name[0]].answerType;
 

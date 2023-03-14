@@ -160,16 +160,18 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
     return (
       <Row>
         <Col>
-          <Popup
-            type="link"
-            onClick={() => {
-              setTemplateId(id);
-              setOpenCreateSubActivity(true);
-            }}
-          >
-            <Plus />
-            Use
-          </Popup>
+          {template?.status !== 'DRAFT' && (
+            <Popup
+              type="link"
+              onClick={() => {
+                setTemplateId(id);
+                setOpenCreateSubActivity(true);
+              }}
+            >
+              <Plus />
+              Use
+            </Popup>
+          )}
           {template?.used === false && (
             <Popup
               type="link"

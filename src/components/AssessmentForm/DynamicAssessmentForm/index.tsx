@@ -31,6 +31,7 @@ import {
   FormItemContainer
 } from '../assessmentStyle';
 import BottomCard from '../BottomCatd';
+import _ from 'lodash';
 
 const { Title } = Typography;
 
@@ -168,6 +169,8 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
           }
         ]
       });
+
+      initCheckList();
     }
   }, []);
 
@@ -243,7 +246,7 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
     }
   };
 
-  const onAddQuestion: OnAddQuestionType = (add) => {
+  const onAddQuestion: OnAddQuestionType = (add, name) => {
     setAnswerType('OPTION');
     add({
       answerType: 'OPTION',
@@ -262,6 +265,15 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
       required: true,
       title: ''
     });
+
+    const radioGroup = _.cloneDeep(radio);
+
+    radioGroup?.push({
+      name: (name as number) + 1,
+      value: undefined
+    });
+
+    setRadio(radioGroup);
   };
 
   const onCreatedAssessmentFinish: FormFinish = (value) => {
@@ -358,7 +370,7 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
                   questionsLists.length <= 50 &&
                   preview !== true
                     ? (
-                    <AddAssessmentButton onClick={() => onAddQuestion(add)}>
+                    <AddAssessmentButton onClick={() => onAddQuestion(add, name)}>
                       <Tooltip
                         placement="topLeft"
                         title={<span>Add a question</span>}

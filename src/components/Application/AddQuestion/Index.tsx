@@ -62,6 +62,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
   isQuestionCardVisible,
   cardId,
   applicationData,
+  setApplicationData,
   answerTypeValue,
   setAnswerTypeValue,
   singleQuestionData,
@@ -73,6 +74,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
 
   const onAnswerTypeChange: FormFinish = (value) => {
     setAnswerTypeValue(value);
+    form.resetFields(['question', 'names', 'requiredFiled', 'otherOption']);
   };
 
   useEffect(() => {
@@ -105,22 +107,23 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
   }, [singleQuestionData]);
 
   const onFinishedForm: FormFinish = (value) => {
+    const applicationDataClone = JSON.parse(JSON.stringify(applicationData));
     if (addOrUpdateQuestion === 'add') {
       if (cardId === 'personal_info') {
-        addQuestion(value, 0, applicationData, answerTypeValue);
+        addQuestion(value, 0, applicationDataClone, answerTypeValue);
       } else if (cardId === 'educational_info') {
-        addQuestion(value, 1, applicationData, answerTypeValue);
+        addQuestion(value, 1, applicationDataClone, answerTypeValue);
       } else if (cardId === 'other_info') {
-        addQuestion(value, 2, applicationData, answerTypeValue);
+        addQuestion(value, 2, applicationDataClone, answerTypeValue);
       } else {
-        addQuestion(value, 3, applicationData, answerTypeValue);
+        addQuestion(value, 3, applicationDataClone, answerTypeValue);
       }
     } else if (addOrUpdateQuestion === 'edit') {
       if (cardId === 'personal_info') {
         updateQuestion(
           value,
           0,
-          applicationData,
+          applicationDataClone,
           questionRowIndex,
           answerTypeValue
         );
@@ -128,7 +131,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
         updateQuestion(
           value,
           1,
-          applicationData,
+          applicationDataClone,
           questionRowIndex,
           answerTypeValue
         );
@@ -136,7 +139,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
         updateQuestion(
           value,
           2,
-          applicationData,
+          applicationDataClone,
           questionRowIndex,
           answerTypeValue
         );
@@ -144,17 +147,19 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
         updateQuestion(
           value,
           3,
-          applicationData,
+          applicationDataClone,
           questionRowIndex,
           answerTypeValue
         );
       }
     }
     form.resetFields();
+    setApplicationData({ ...applicationDataClone });
     setIsQuestionCardVisible(
       isQuestionCardVisible.filter((itemId) => itemId !== cardId)
     );
     setAnswerTypeValue('OPTION');
+    setSingleQuestionData(undefined);
   };
 
   const onCancelAddQuestion: Void = () => {
@@ -238,7 +243,12 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
           <SwitchContainer>
             <span>Required</span>
             <AsnForm.Item name="requiredFiled" valuePropName="checked">
-              <AsnSwitch defaultChecked={true} disabled={(answerTypeValue === 'OPTION' || answerTypeValue === 'YES_NO')} />
+              <AsnSwitch
+                defaultChecked={true}
+                disabled={
+                  answerTypeValue === 'OPTION' || answerTypeValue === 'YES_NO'
+                }
+              />
             </AsnForm.Item>
           </SwitchContainer>
           {answerTypeValue === 'CHECKBOX' || answerTypeValue === 'OPTION'
@@ -254,7 +264,9 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
         </AnswerTypeSpace>
         {answerTypeValue === 'CHECKBOX' || answerTypeValue === 'OPTION'
           ? (
-          <DynamicQuestionForm />
+          <DynamicQuestionForm
+            singleQuestionData={singleQuestionData?.answers}
+          />
             )
           : null}
         <Space

@@ -29,6 +29,7 @@ export interface IRelatedQuestion {
   active: boolean
   answerType: string
   answers: IAnswer[]
+  id?: string
 }
 
 export interface IQuestion {
@@ -138,9 +139,9 @@ export interface IApplicationCard {
   cardId: string
   description: string | undefined
   applicationData: IApplicant
-  setApplicationData: Dispatch<
-  SetStateAction<IApplicant | undefined>
-  >
+  setApplicationData: Dispatch<SetStateAction<IApplicant | undefined>>
+  validateTitle: string[] | undefined
+  setValidateTitle: Dispatch<SetStateAction<string[] | undefined>>
 }
 
 export interface IQuestionRowContainer {
@@ -148,13 +149,12 @@ export interface IQuestionRowContainer {
   index: number
   content: IQuestion[]
   applicationData: IApplicant
-  setApplicationData: Dispatch<
-  SetStateAction<IApplicant | undefined>
-  >
+  setApplicationData: Dispatch<SetStateAction<IApplicant | undefined>>
   setIsQuestionCardVisible: Dispatch<SetStateAction<string[]>>
   isQuestionCardVisible: string[]
   cardId: string
   setAnswerTypeValue: Dispatch<SetStateAction<string>>
+  answerTypeValue: string
   setSingleQuestionData: Dispatch<SetStateAction<IQuestion | undefined>>
   setAddOrUpdateQuestion: Dispatch<SetStateAction<string>>
   setQuestionRowIndex: Dispatch<SetStateAction<number>>
@@ -165,6 +165,7 @@ export interface IAddQuestionCard {
   isQuestionCardVisible: string[]
   cardId: string
   applicationData: IApplicant
+  setApplicationData: Dispatch<SetStateAction<IApplicant | undefined>>
   answerTypeValue: string
   setAnswerTypeValue: Dispatch<SetStateAction<string>>
   singleQuestionData: IQuestion | undefined
@@ -206,4 +207,4 @@ export interface IFormValue {
   requiredFiled: boolean
 }
 
-export type GetApplicationData = (data: IApplicant) => IApplicant
+export type GetApplicationData = (data: IApplicant) => IApplicant;
