@@ -53,7 +53,9 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
   dateSearch,
   setIsOpenCreateActivityModal,
   inputActivityId,
-  setAssignedUsersIds
+  setAssignedUsersIds,
+  setSelectedRowId,
+  selectedRowId
 }) => {
   return (
     <Tab>
@@ -78,6 +80,8 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
           setDateSearch={setDateSearch}
           dateSearch={dateSearch}
           templates={templates}
+          setSelectedRowId={setSelectedRowId}
+          selectedRowId={selectedRowId}
           />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Templates " key="2">

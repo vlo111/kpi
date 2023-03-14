@@ -52,35 +52,52 @@ const columns = [
   {
     title: 'All People',
     render: (item: AssignedUserType) => (
-      <Space direction='horizontal'>
-      <AsnAvatar
-        letter={`${item?.firstName?.charAt(0)}${item?.lastName?.charAt(0)}`}
-        src={item?.photo}
-      />
-      <h4 style={{ padding: 0 }}>{item?.firstName} {item?.lastName}</h4>
+      <Space direction="horizontal">
+        <AsnAvatar
+          letter={`${item?.firstName?.charAt(0)}${item?.lastName?.charAt(0)}`}
+          src={item?.photo}
+        />
+        <h4 style={{ padding: 0 }}>
+          {item?.firstName} {item?.lastName}
+        </h4>
       </Space>
     )
   }
 ];
 
-export const AssingnesData: React.FC<IAssignedFilterData> = ({ open, setOpen, setAssignedUsersIds, selectedRowKeys, setSelectedRowKeys, assignedUsers }) => {
-  const onSelectChange = (newSelectedRowKeys: React.Key[]): void => {
+export const AssingnesData: React.FC<IAssignedFilterData> = ({
+  open,
+  setOpen,
+  setAssignedUsersIds,
+  selectedRowKeys,
+  setSelectedRowKeys,
+  assignedUsers,
+  selectedRowId,
+  setSelectedRowId
+}) => {
+  const onSelectChange = (
+    newSelectedRowKeys: React.Key[],
+    newSelectedRowInfo: any | []
+  ): void => {
     setSelectedRowKeys(newSelectedRowKeys);
+    setSelectedRowId(newSelectedRowInfo);
   };
-
   const rowSelection = {
     selectedRowKeys,
+    selectedRowId,
     onChange: onSelectChange
   };
 
   const filterByUsers = (): void => {
     setAssignedUsersIds(selectedRowKeys);
+    setSelectedRowKeys(selectedRowId);
     setOpen(false);
   };
 
   const cancel: Void = () => {
     setOpen(!open);
     setSelectedRowKeys([]);
+    setAssignedUsersIds([]);
   };
   return (
     <Container>
@@ -100,7 +117,12 @@ export const AssingnesData: React.FC<IAssignedFilterData> = ({ open, setOpen, se
           <AsnButton onClick={cancel} className="default">
             Cancel
           </AsnButton>
-          <AsnButton type="primary" className="primary" htmlType="submit" onClick={filterByUsers}>
+          <AsnButton
+            type="primary"
+            className="primary"
+            htmlType="submit"
+            onClick={filterByUsers}
+          >
             Save
           </AsnButton>
         </Space>
