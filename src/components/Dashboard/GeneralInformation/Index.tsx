@@ -21,7 +21,7 @@ const GeneralInformation: React.FC = () => {
               width: '25%'
             }}
           >
-            <AnalyticsCard borderLeft="6px solid var(--secondary-light-orage)" />
+            <AnalyticsCard borderLeftProp={'6px solid var(--secondary-light-orage)'} />
           </Col>
         ))}
       </Row>

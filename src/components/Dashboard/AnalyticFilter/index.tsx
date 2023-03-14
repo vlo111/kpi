@@ -1,50 +1,168 @@
 import React, { useState, useEffect } from 'react';
-import { Column } from '@ant-design/charts';
-import { ColumnConfig } from '@ant-design/plots';
+import styled from 'styled-components';
+import { Column, ColumnConfig } from '@ant-design/plots';
+
+const CardContainer = styled.div`
+  width: calc(100vw - 300px);
+  height: 400px;
+
+  @media (max-width: 991px) {
+    width: calc(100vw - 200px);
+  }
+`;
 
 const DemoColumn: React.FC = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
 
   useEffect(() => {
-    asyncFetch();
+    setData([
+      {
+        name: 'Արագածոտն',
+        type: 'Submitted applicants',
+        percent: 11.76,
+        count: 2
+      },
+      {
+        name: 'Արագածոտն',
+        type: 'Trained applicants',
+        percent: 1,
+        count: 2
+      },
+      {
+        name: 'Արարատ',
+        type: 'Submitted applicants',
+        percent: 11.76,
+        count: 2
+      },
+      {
+        name: 'Արարատ',
+        type: 'Trained applicants',
+        percent: 5.88,
+        count: 1
+      },
+      {
+        name: 'Արմավիր',
+        type: 'Submitted applicants',
+        percent: 17.65,
+        count: 3
+      },
+      {
+        name: 'Արմավիր',
+        type: 'Trained applicants',
+        percent: 5.88,
+        count: 1
+      },
+      {
+        name: 'Գեղարքունիք',
+        type: 'Submitted applicants',
+        percent: 5.88,
+        count: 1
+      },
+      {
+        name: 'Գեղարքունիք',
+        type: 'Trained applicants',
+        percent: 5,
+        count: 0
+      },
+      {
+        name: 'Երևան',
+        type: 'Submitted applicants',
+        percent: 5.88,
+        count: 1
+      },
+      {
+        name: 'Երևան',
+        type: 'Trained applicants',
+        percent: 6,
+        count: 0
+      },
+      {
+        name: 'Լոռի',
+        type: 'Submitted applicants',
+        percent: 11.76,
+        count: 2
+      },
+      {
+        name: 'Լոռի',
+        type: 'Trained applicants',
+        percent: 5.88,
+        count: 1
+      },
+      {
+        name: 'Կոտայք',
+        type: 'Submitted applicants',
+        percent: 5.88,
+        count: 1
+      },
+      {
+        name: 'Կոտայք',
+        type: 'Trained applicants',
+        percent: 7,
+        count: 0
+      },
+      {
+        name: 'Շիրակ',
+        type: 'Submitted applicants',
+        percent: 11.76,
+        count: 2
+      },
+      {
+        name: 'Շիրակ',
+        type: 'Trained applicants',
+        percent: 8,
+        count: 0
+      },
+      {
+        name: 'Վայոց Ձոր',
+        type: 'Submitted applicants',
+        percent: 5.88,
+        count: 1
+      },
+      {
+        name: 'Վայոց Ձոր',
+        type: 'Trained applicants',
+        percent: 9,
+        count: 0
+      },
+      {
+        name: 'Տավուշ',
+        type: 'Submitted applicants',
+        percent: 11.76,
+        count: 2
+      },
+      {
+        name: 'Տավուշ',
+        type: 'Trained applicants',
+        percent: 9,
+        count: 0
+      }
+    ]);
   }, []);
 
-  const asyncFetch = (): any => {
-    fetch(
-      'https://gw.alipayobjects.com/os/antfincdn/iPY8JFnxdb/dodge-padding.json'
-    )
-      .then((response): any => response.json())
-      .then((json) => setData(json))
-      .catch((error) => {
-        console.log('fetch data failed', error);
-      });
-  };
   const config: ColumnConfig = {
     data,
+    autoFit: true,
+    isRange: true,
     isGroup: true,
-    xField: '月份',
-    yField: '月均降雨量',
-    seriesField: 'name',
-    // 分组柱状图 组内柱子间的间距 (像素级别)
+    xField: 'name',
+    yField: 'percent',
+    seriesField: 'type',
+    color: ['#F6976D', '#68A395'],
     dodgePadding: 0,
-    // 分组柱状图 组间的间距 (像素级别)
-    intervalPadding: 20,
+    minColumnWidth: 20,
+    maxColumnWidth: 40,
     columnStyle: {
-      radius: [5, 5, 0, 0]
+      radius: [4, 4, 0, 0]
     },
     label: {
-      // 可手动配置 label 数据标签位置
       position: 'middle',
-      // 'top', 'middle', 'bottom'
-      // 可配置附加的布局方法
       layout: [
-        // 柱形图数据标签位置自动调整
         {
           type: 'interval-adjust-position'
-        }, // 数据标签防遮挡
+        },
         {
           type: 'interval-hide-overlap'
-        }, // 数据标签文颜色自动调整
+        },
         {
           type: 'adjust-color'
         }
@@ -52,7 +170,11 @@ const DemoColumn: React.FC = () => {
     }
   };
 
-  return <Column {...config} />;
+  return (
+  <CardContainer>
+      <Column {...config} />
+  </CardContainer>
+  );
 };
 
 export default DemoColumn;

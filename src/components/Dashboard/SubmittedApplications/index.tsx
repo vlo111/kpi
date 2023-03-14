@@ -17,7 +17,7 @@ const SubmittedApplications: React.FC = () => {
               width: '20%'
             }}
           >
-            <AnalyticsCard/>
+            <AnalyticsCard borderLeftProp={'0px solid var(--secondary-light-orage)'}/>
           </Col>
         ))}
       </Row>
