@@ -56,6 +56,7 @@ const TabContent: React.FC<ITabContent> = ({
     from: '',
     to: ''
   });
+  const [selectedRowId, setSelectedRowId] = useState<React.Key[]>([]);
 
   const { from, to } = dateSearch;
   const filtersFuinctiomn = (
@@ -139,6 +140,8 @@ const TabContent: React.FC<ITabContent> = ({
                   setDateSearch={setDateSearch}
                   dateSearch={dateSearch}
                   setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
+                  setSelectedRowId={setSelectedRowId}
+                  selectedRowId={selectedRowId}
                 />
                         )
                       : (

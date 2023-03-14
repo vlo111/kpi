@@ -369,6 +369,8 @@ export interface ISubActivityAndTemplates {
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+  selectedRowId: React.Key[]
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
 }
 
 export interface IResultAreasTitles {
@@ -410,11 +412,15 @@ export interface ISubActivitiesProps {
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
   templates: IProjectTemplate[]
+  selectedRowId: React.Key[]
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
 }
 
 export interface IAssignedFilter {
   inputActivityId: string
   setAssignedUsersIds: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  selectedRowId: any
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
 }
 
 export interface IAssignedFilterData {

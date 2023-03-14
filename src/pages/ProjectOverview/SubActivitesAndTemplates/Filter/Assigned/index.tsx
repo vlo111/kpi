@@ -28,11 +28,12 @@ const Container = styled.div`
 
 export const AssingnesFilter: React.FC<IAssignedFilter> = ({
   inputActivityId,
-  setAssignedUsersIds
+  setAssignedUsersIds,
+  setSelectedRowId,
+  selectedRowId
 }) => {
   const [open, setOpen] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [selectedRowId, setSelectedRowId] = useState<any>([]);
 
   const { data: assignedUsers } = useGetAssignedUsersListByInputActivityId(
     inputActivityId,
@@ -72,6 +73,10 @@ export const AssingnesFilter: React.FC<IAssignedFilter> = ({
       />
     </>
   );
+  const showInput = (): void => {
+    setSelectedRowId([]);
+    setAssignedUsersIds([]);
+  };
 
   return (
     <Container>
@@ -94,7 +99,7 @@ export const AssingnesFilter: React.FC<IAssignedFilter> = ({
           </Button>
         </Popover>
         {selectedRowId.length > 0 && (
-          <Tag closable>
+          <Tag closable onClose={showInput}>
             <Avatar.Group maxCount={3}>
               {selectedRowId.map((i: IAssingedUser) => {
                 return (
