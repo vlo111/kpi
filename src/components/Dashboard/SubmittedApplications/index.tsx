@@ -5,9 +5,11 @@ import AnalyticsCard from '../Card';
 
 const SubmittedApplications: React.FC = () => {
   return (
-    <Row style={{
-      marginTop: '2rem'
-    }} >
+    <Row
+      style={{
+        marginTop: '2rem'
+      }}
+    >
       <TitleContainer>SubmittedApplications</TitleContainer>
       <Row gutter={[32, 32]}>
         {[1, 2, 3, 4, 5, 6, 7].map((item) => (
@@ -17,7 +19,9 @@ const SubmittedApplications: React.FC = () => {
               width: '20%'
             }}
           >
-            <AnalyticsCard borderLeftProp={'0px solid var(--secondary-light-orage)'}/>
+            <AnalyticsCard
+              borderLeftProp={'0px solid var(--secondary-light-orage)'}
+            />
           </Col>
         ))}
       </Row>

@@ -5,13 +5,9 @@ import { Column, ColumnConfig } from '@ant-design/plots';
 const CardContainer = styled.div`
   width: calc(100vw - 300px);
   height: 400px;
-
-  @media (max-width: 991px) {
-    width: calc(100vw - 200px);
-  }
 `;
 
-const DemoColumn: React.FC = () => {
+const RegionBreakdown: React.FC = () => {
   const [data, setData] = useState<any>([]);
 
   useEffect(() => {
@@ -177,4 +173,4 @@ const DemoColumn: React.FC = () => {
   );
 };
 
-export default DemoColumn;
+export default RegionBreakdown;
