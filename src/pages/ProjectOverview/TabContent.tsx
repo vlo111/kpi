@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { Tabs, Space, Typography, Row } from 'antd';
 import styled from 'styled-components';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
@@ -8,7 +9,7 @@ import GetTemplates from '../../api/Activity/Template/useGetActivityTemplates';
 import { AsnButton } from '../../components/Forms/Button';
 import AsnSpin from '../../components/Forms/Spin';
 import SubActivityAndTemplates from './SubActivitesAndTemplates';
-import { Filters, ITabContent } from '../../types/project';
+import { ITabContent, IOutletContext, Filters } from '../../types/project';
 import { ReactComponent as CreateTemplateSvg } from '../../assets/icons/create-template.svg';
 import { ReactComponent as NotAccessSvg } from '../../assets/icons/error_404.svg';
 
@@ -43,7 +44,11 @@ const TabContent: React.FC<ITabContent> = ({
   resultArea,
   setInputActivityId,
   setIsOpenCreateActivityModal,
-  defaultInputActivityId
+  defaultInputActivityId,
+  areaOrder,
+  setActiveTemplate,
+  activeTemplate,
+  isActivityNavigated
 }) => {
   const [checkedList, setCheckedList] = useState<CheckboxValueType[]>([]);
   const [assignedUsersIds, setAssignedUsersIds] = useState<React.Key[]>([]);
@@ -56,6 +61,8 @@ const TabContent: React.FC<ITabContent> = ({
     from: '',
     to: ''
   });
+
+  const { setProjectOverview } = useOutletContext<IOutletContext>();
   const [selectedRowId, setSelectedRowId] = useState<React.Key[]>([]);
 
   const { from, to } = dateSearch;
@@ -84,13 +91,15 @@ const TabContent: React.FC<ITabContent> = ({
   const {
     data: templates,
     isLoading: isLoadingTemplates,
-    refetch
+    refetch,
+    isFetching
   } = GetTemplates(inputActivityId ?? defaultInputActivityId, {
     enabled: Boolean(inputActivityId ?? defaultInputActivityId)
   });
   const {
     data: subActivities,
     isLoading: isLoadingSubActivity,
+    isFetching: isFetchingActivities,
     error
   } = useGetSubActivities(
     inputActivityId ?? defaultInputActivityId,
@@ -99,6 +108,34 @@ const TabContent: React.FC<ITabContent> = ({
       enabled: Boolean(inputActivityId ?? defaultInputActivityId)
     }
   );
+
+  const handleActivityChange = (id: string): void => {
+    if (areaOrder !== undefined || isActivityNavigated !== undefined) {
+      setProjectOverview({
+        areaOrder: undefined,
+        activityId: undefined,
+        activityTitle: undefined,
+        resultAreaTitle: undefined,
+        templateTab: undefined
+      });
+    }
+    if (activeTemplate === '2') {
+      setActiveTemplate('1');
+    }
+    setInputActivityId(id);
+  };
+
+  const handleCreateTemplate = (activityTitle: string): void => {
+    setIsOpenCreateActivityModal(true);
+    setProjectOverview({
+      areaOrder,
+      activityId: inputActivityId ?? defaultInputActivityId,
+      resultAreaTitle: resultArea?.title,
+      activityTitle,
+      templateTab: undefined
+    });
+  };
+
   return (
     <Tabs
       activeKey={inputActivityId ?? resultArea?.inputActivities[0]?.id}
@@ -108,16 +145,16 @@ const TabContent: React.FC<ITabContent> = ({
           label: (
             <AntRow
               align="middle"
-              onClick={() => setInputActivityId(inputActivity?.id)}
+              onClick={() => handleActivityChange(inputActivity?.id as string) }
             >
-              1.{+i + 1} {inputActivity?.title}
+              {resultArea?.order}.{+i + 1} {inputActivity?.title}
             </AntRow>
           ),
           key: `${inputActivity?.id ?? i}`,
           children:
             error === null
               ? (
-                  Boolean(isLoadingTemplates) || Boolean(isLoadingSubActivity)
+                  Boolean(isLoadingTemplates) || Boolean(isLoadingSubActivity) || Boolean(isFetching) || Boolean(isFetchingActivities)
                     ? (
                 <AsnSpin />
                       )
@@ -127,9 +164,7 @@ const TabContent: React.FC<ITabContent> = ({
                   subActivities={subActivities}
                   templates={templates}
                   refetch={refetch}
-                  inputActivityId={
-                    inputActivity?.id !== undefined ? inputActivity?.id : ''
-                  }
+                  inputActivityId={inputActivity?.id !== undefined ? inputActivity?.id : ''}
                   setAssignedUsersIds={setAssignedUsersIds}
                   setCheckedList={setCheckedList}
                   setIndeterminate={setIndeterminate}
@@ -140,6 +175,11 @@ const TabContent: React.FC<ITabContent> = ({
                   setDateSearch={setDateSearch}
                   dateSearch={dateSearch}
                   setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
+                  resultAreaOrder={resultArea?.order}
+                  resultAreaTitle={resultArea?.title}
+                  activityTitle={inputActivity?.title}
+                  setActiveTemplate={setActiveTemplate}
+                  activeTemplate={activeTemplate}
                   setSelectedRowId={setSelectedRowId}
                   selectedRowId={selectedRowId}
                 />
@@ -155,9 +195,7 @@ const TabContent: React.FC<ITabContent> = ({
                   <AsnButton
                     style={{ marginTop: '12px' }}
                     className="primary"
-                    onClick={() => {
-                      setIsOpenCreateActivityModal(true);
-                    }}
+                    onClick={() => handleCreateTemplate(inputActivity?.title)}
                   >
                     Create Activity Template
                   </AsnButton>
