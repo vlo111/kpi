@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
 import { Tabs } from 'antd';
 
@@ -8,6 +8,7 @@ import SubActivitySections from '../../components/Project/SubActivity/SubActivit
 import SubActivityHeader from '../../components/Project/SubActivity/SubActivtyHeader';
 import ResultAreasTitles from '../ProjectOverview/ResultAreasTitles';
 import AsnBreadcrumb from '../../components/Forms/Breadcrumb';
+import { IOutletContext } from '../../types/project';
 
 const Wrapper = styled.div<{ mode: string }>`
   padding: ${(props) =>
@@ -48,6 +49,7 @@ const Wrapper = styled.div<{ mode: string }>`
 `;
 
 const SubActivity: React.FC<{}> = () => {
+  const { setProjectOverview } = useOutletContext<IOutletContext>();
   const { id: subActivityId } = useParams<{ id: string }>();
   const [courseTitle, setCourseTitle] = useState('');
   const [activityTitle, setActivityTitle] = useState('');
@@ -65,11 +67,18 @@ const SubActivity: React.FC<{}> = () => {
     setActivityTitle(data?.inputActivity?.title);
     setResultAreaTitle(data?.inputActivity?.resultArea?.title);
     setProjectId(data?.inputActivity?.resultArea?.project?.id);
+    setProjectOverview({
+      areaOrder: data?.inputActivity?.resultArea?.order,
+      activityId: data?.inputActivityId,
+      resultAreaTitle: data?.inputActivity?.resultArea?.title,
+      activityTitle: data?.inputActivity?.title
+    });
   }, [data]);
 
   const mode = (
     projectId !== '' ? data?.sectionsData?.length > 1 : false
   ).toString();
+
   return (
     <Wrapper mode={mode}>
       {Boolean(projectId) && (
@@ -103,6 +112,7 @@ const SubActivity: React.FC<{}> = () => {
                     index={i}
                     active={active}
                     setActive={setActive}
+                    name={'subActivty'}
                   />
                 }
               >
