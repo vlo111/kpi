@@ -28,6 +28,7 @@ export interface IDraggerProps {
   disabled?: boolean
   setReqDocs?: any
   keyName?: string
+  name?: string
 }
 
 export interface IApplicantsList {
@@ -140,6 +141,7 @@ export interface IAssignedUserType {
 export interface IManagerType {
   assignedUsers: IAssignedUserType[]
   color: string | undefined
+  requIredDocs: boolean
 }
 
 export interface ICreateSubActivityProps {

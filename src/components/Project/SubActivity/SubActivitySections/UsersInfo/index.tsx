@@ -10,17 +10,19 @@ import { useParams } from 'react-router-dom';
 
 const SubActivityUsersInfo: React.FC<IManagerType> = ({
   assignedUsers,
-  color
+  color,
+  requIredDocs
 }) => {
   const { Title } = Typography;
   const [open, setOpen] = useState(false);
 
   const { id: subActivityId } = useParams();
   return (
-    <FormWrapper className="users_list" color={color}>
+    <FormWrapper className={requIredDocs ? 'users_reqDoc' : 'users_list'} color={color}>
       <Title level={4} style={{ marginBottom: '2.4vh' }}>
         Assigned People
       </Title>
+      <Space direction="vertical" style={ { justifyContent: 'space-between', height: '250px', width: '100%', overflowY: 'auto' } } >
       <Space direction="vertical" size={0} className="users_content">
         {assignedUsers?.map((item) => (
           <Row
@@ -54,13 +56,6 @@ const SubActivityUsersInfo: React.FC<IManagerType> = ({
           </Row>
         ))}
       </Space>
-      {open && (
-        <AssignUserModal
-          subActivityId={subActivityId}
-          open={open}
-          setOpen={setOpen}
-        />
-      )}
       <Row justify="center">
         <AsnButton
           className="primary"
@@ -70,6 +65,14 @@ const SubActivityUsersInfo: React.FC<IManagerType> = ({
           Manage users
         </AsnButton>
       </Row>
+      </Space>
+      {open && (
+        <AssignUserModal
+          subActivityId={subActivityId}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </FormWrapper>
   );
 };
