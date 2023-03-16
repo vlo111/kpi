@@ -28,7 +28,7 @@ const DefaultContent: React.FC<any> = ({
           />
         </Col>
         <Col span={12}>
-          <SubActivityUsersInfo assignedUsers={assignedUsers} color={color} />
+          <SubActivityUsersInfo assignedUsers={assignedUsers} color={color} requIredDocs={requIredDocs.length >= 1}/>
         </Col>
       </Row>
       <Col>
