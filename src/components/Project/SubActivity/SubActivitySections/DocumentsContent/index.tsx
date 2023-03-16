@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Row, Space } from 'antd';
+import { Col, Row, Space, message } from 'antd';
 
 import DraggerForm from '../SubActivityForms/Dragger';
 import FormWrapper from '../../SubActivityWrapper';
@@ -23,7 +23,7 @@ const SubActivityDocuments: React.FC<any> = ({
       console.log('bbb');
     },
     onError: () => {
-      console.log('');
+      void message.error('Access denied');
     }
   });
 

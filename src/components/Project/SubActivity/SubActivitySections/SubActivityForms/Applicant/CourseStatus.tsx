@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Space } from 'antd';
+import { Space, message } from 'antd';
 
 import DraggerForm from '../Dragger';
 import FormWrapper from '../../../SubActivityWrapper';
@@ -58,7 +58,7 @@ const CourseStatusForm: React.FC<any> = ({
       }
     },
     onError: () => {
-      console.log('aaa');
+      void message.error('Access denied');
     }
   });
 
