@@ -1,8 +1,9 @@
 import React from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { Tabs } from 'antd';
 import styled from 'styled-components';
 
-import { ISubActivityAndTemplates } from '../../../types/project';
+import { ISubActivityAndTemplates, IOutletContext } from '../../../types/project';
 import { ActiveTempalate } from './ActiveTemplate';
 import { SubActivity } from './SubActivities';
 
@@ -54,38 +55,64 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
   setIsOpenCreateActivityModal,
   inputActivityId,
   setAssignedUsersIds,
+  resultAreaOrder,
+  resultAreaTitle,
+  activityTitle,
+  setActiveTemplate,
+  activeTemplate,
   setSelectedRowId,
   selectedRowId
 }) => {
+  const { projectOverview: { templateTab }, setProjectOverview, projectOverview } = useOutletContext<IOutletContext>();
+
+  const handleTabChange = (activeKey: string): void => {
+    setActiveTemplate(activeKey);
+    if (templateTab !== undefined) {
+      setProjectOverview({
+        ...projectOverview,
+        templateTab: undefined
+      });
+    }
+  };
   return (
     <Tab>
       <Tabs
-        defaultActiveKey="1"
+        defaultActiveKey={templateTab ?? activeTemplate}
         style={{
           color: 'var(--dark-2) !important',
           fontSize: 'var(--base-font-size) !important'
         }}
+        onChange={(activeKey) => handleTabChange(activeKey)}
       >
         <Tabs.TabPane tab="Sub Activities" key="1">
           <SubActivity
-          subActivities={subActivities}
-          setCheckAll={setCheckAll}
-          setIndeterminate={setIndeterminate}
-          setCheckedList={setCheckedList}
-          checkAll={checkAll}
-          indeterminate={indeterminate}
-          checkedList={checkedList}
-          inputActivityId={inputActivityId}
-          setAssignedUsersIds={setAssignedUsersIds}
-          setDateSearch={setDateSearch}
-          dateSearch={dateSearch}
-          templates={templates}
-          setSelectedRowId={setSelectedRowId}
-          selectedRowId={selectedRowId}
+            subActivities={subActivities}
+            setCheckAll={setCheckAll}
+            setIndeterminate={setIndeterminate}
+            setCheckedList={setCheckedList}
+            checkAll={checkAll}
+            indeterminate={indeterminate}
+            checkedList={checkedList}
+            inputActivityId={inputActivityId}
+            setAssignedUsersIds={setAssignedUsersIds}
+            setDateSearch={setDateSearch}
+            dateSearch={dateSearch}
+            templates={templates}
+            setSelectedRowId={setSelectedRowId}
+            selectedRowId={selectedRowId}
           />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Templates " key="2">
-          <ActiveTempalate templates={templates} refetch={refetch} setIsOpenCreateActivityModal={setIsOpenCreateActivityModal} />
+          <ActiveTempalate
+            templates={templates}
+            refetch={refetch}
+            setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
+            resultAreaOrder={resultAreaOrder}
+            inputActivityId={inputActivityId}
+            resultAreaTitle={resultAreaTitle}
+            activityTitle={activityTitle}
+            setActiveTemplate={setActiveTemplate}
+          />
         </Tabs.TabPane>
       </Tabs>
     </Tab>

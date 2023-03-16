@@ -78,6 +78,9 @@ export interface IInfoHeader {
   activity?: any
   region?: any
   inputActivityId?: string
+  resultAreaOrder?: number
+  activityId?: string
+  activeTemplate?: string
 }
 
 export type Onchange = (newOpen: boolean) => void;
