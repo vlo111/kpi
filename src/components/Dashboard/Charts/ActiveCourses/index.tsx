@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { Rose, RoseConfig } from '@ant-design/plots';
-
-const CardContainer = styled.div`
-  width: calc(100vw - 689px);
-  height: 400px;
-`;
+import { CardContainer } from '../../dashboardStyle';
 
 const ActiveCourses: React.FC = () => {
   const [data, setData] = useState<any>([]);
@@ -60,6 +55,7 @@ const ActiveCourses: React.FC = () => {
     xField: 'name',
     yField: 'status_all_applicants',
     seriesField: 'name',
+    renderer: 'svg',
     radius: 1,
     color: [
       '#F6976D',
@@ -77,7 +73,7 @@ const ActiveCourses: React.FC = () => {
   };
 
   return (
-    <CardContainer>
+    <CardContainer width={'calc(100vw - 47vw)'}>
       <Rose {...config} />
     </CardContainer>
   );

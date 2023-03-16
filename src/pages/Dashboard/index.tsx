@@ -46,12 +46,12 @@ const Dashboard: React.FC = () => {
         defaultActiveKey="1"
         items={[
           {
-            label: 'DefaultAnalytics',
+            label: 'Default Analytics',
             key: '1',
             children: <DefaultAnalytics />
           },
           {
-            label: 'CustomReport',
+            label: 'Custom report',
             key: '2',
             children: <CustomReport />
           }

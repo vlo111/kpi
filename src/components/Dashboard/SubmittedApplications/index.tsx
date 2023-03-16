@@ -10,7 +10,7 @@ const SubmittedApplications: React.FC = () => {
         marginTop: '2rem'
       }}
     >
-      <TitleContainer>SubmittedApplications</TitleContainer>
+      <TitleContainer>Submitted Applications</TitleContainer>
       <Row gutter={[32, 32]}>
         {[1, 2, 3, 4, 5, 6, 7].map((item) => (
           <Col

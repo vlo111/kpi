@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { Column, ColumnConfig } from '@ant-design/plots';
-
-const CardContainer = styled.div`
-  width: calc(100vw - 300px);
-  height: 400px;
-
-  @media (max-width: 991px) {
-    width: calc(100vw - 200px);
-  }
-`;
+import { CardContainer } from '../../dashboardStyle';
 
 const SectorBreakdown: React.FC = () => {
   const [data, setData] = useState<any>([]);
@@ -99,6 +90,8 @@ const SectorBreakdown: React.FC = () => {
     seriesField: 'type',
     color: ['#F3C262', '#68A395'],
     dodgePadding: 0,
+    renderer: 'svg',
+    padding: 46,
     minColumnWidth: 20,
     maxColumnWidth: 40,
     columnStyle: {
@@ -121,7 +114,7 @@ const SectorBreakdown: React.FC = () => {
   };
 
   return (
-  <CardContainer>
+  <CardContainer width={'calc(100vw - 15.3vw)'}>
       <Column {...config} />
   </CardContainer>
   );

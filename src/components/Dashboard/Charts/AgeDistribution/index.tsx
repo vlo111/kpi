@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { Column, ColumnConfig } from '@ant-design/plots';
-
-const CardContainer = styled.div`
-  width: calc(100vw - 300px);
-  height: 400px;
-`;
+import { CardContainer } from '../../dashboardStyle';
 
 const AgeDistribution: React.FC = () => {
   const [data, setData] = useState<any>([]);
@@ -22,7 +17,7 @@ const AgeDistribution: React.FC = () => {
         name: '0-15',
         type: 'Trained applicants',
         percent: 0.36,
-        count: 1
+        count: 6
       },
       {
         name: '16-21',
@@ -34,7 +29,7 @@ const AgeDistribution: React.FC = () => {
         name: '16-21',
         type: 'Trained applicants',
         percent: 0,
-        count: 0
+        count: 15
       },
       {
         name: '22-29',
@@ -65,10 +60,12 @@ const AgeDistribution: React.FC = () => {
 
   const config: ColumnConfig = {
     data,
-    isRange: true,
     xField: 'name',
     yField: 'count',
     seriesField: 'type',
+    isRange: true,
+    renderer: 'svg',
+    padding: 46,
     color: ['#F6976D', '#68A395'],
     minColumnWidth: 20,
     maxColumnWidth: 40,
@@ -92,9 +89,9 @@ const AgeDistribution: React.FC = () => {
   };
 
   return (
-  <CardContainer>
+    <CardContainer width={'calc(100vw - 47vw)'}>
       <Column {...config} />
-  </CardContainer>
+    </CardContainer>
   );
 };
 

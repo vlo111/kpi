@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { Pie, PieConfig } from '@ant-design/plots';
-
-const CardContainer = styled.div`
-  width: calc(100vw - 300px);
-  height: 400px;
-
-`;
+import { CardContainer } from '../../dashboardStyle';
 
 const DroppedNotEnrolled: React.FC = () => {
   const [data, setData] = useState<any>([]);
@@ -30,8 +24,10 @@ const DroppedNotEnrolled: React.FC = () => {
     data,
     angleField: 'count',
     colorField: 'type',
+    renderer: 'svg',
     radius: 1,
     innerRadius: 0.8,
+    padding: 46,
     color: ['#688EA3', '#F3C262'],
     label: {
       type: 'inner',
@@ -54,17 +50,17 @@ const DroppedNotEnrolled: React.FC = () => {
       title: false,
       content: {
         style: {
-          whiteSpace: 'pre-wrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis'
+          color: '#263238',
+          fontSize: '20px',
+          lineHeight: '14px'
         },
-        content: 'DroppedNotEnrolled'
+        content: 'Dropout rate'
       }
     }
   };
 
   return (
-  <CardContainer>
+  <CardContainer width={'calc(100vw - 58.5vw)'}>
       <Pie {...config}/>
   </CardContainer>
   );

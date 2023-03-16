@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { Pie, PieConfig } from '@ant-design/plots';
-
-const CardContainer = styled.div`
-  width: calc(100vw - 300px);
-  height: 400px;
-`;
+import { CardContainer } from '../../dashboardStyle';
 
 const CompletedApplicants: React.FC = () => {
   const [data, setData] = useState<any>([]);
@@ -31,13 +26,21 @@ const CompletedApplicants: React.FC = () => {
   }, []);
 
   const config: PieConfig = {
-    appendPadding: 10,
     data,
     angleField: 'status_all_applicants',
     colorField: 'name',
     radius: 1,
-    innerRadius: 0.6,
+    innerRadius: 0.7,
+    appendPadding: 10,
+    padding: 36,
+    renderer: 'svg',
     color: ['#FBBC04', '#68A395', '#F6976D'],
+    legend: {
+      position: 'left-bottom',
+      layout: 'vertical',
+      offsetY: -30,
+      itemWidth: 600
+    },
     label: {
       type: 'inner',
       offset: '-50%',
@@ -56,20 +59,19 @@ const CompletedApplicants: React.FC = () => {
       }
     ],
     statistic: {
-      title: false,
-      content: {
+      title: {
         style: {
-          whiteSpace: 'pre-wrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis'
+          color: '#263238',
+          fontSize: '20px',
+          lineHeight: '14px'
         },
-        content: 'CompletedApplicants'
+        formatter: () => 'Completed courses'
       }
     }
   };
 
   return (
-  <CardContainer>
+    <CardContainer width={'calc(100vw - 70vw)'}>
       <Pie {...config}/>
   </CardContainer>
   );
