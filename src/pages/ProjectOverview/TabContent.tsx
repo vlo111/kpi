@@ -146,7 +146,7 @@ const TabContent: React.FC<ITabContent> = ({
             <AntRow
               align="middle"
               onClick={() => {
-                setInputActivityId(inputActivity?.id);
+                handleActivityChange(inputActivity?.id as string);
                 setDateSearch({
                   start: true,
                   from: '',
