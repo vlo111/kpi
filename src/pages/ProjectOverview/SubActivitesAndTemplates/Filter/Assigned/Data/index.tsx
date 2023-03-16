@@ -83,8 +83,8 @@ export const AssingnesData: React.FC<IAssignedFilterData> = ({
     setSelectedRowId(newSelectedRowInfo);
   };
   const rowSelection = {
-    selectedRowKeys,
     selectedRowId,
+    selectedRowKeys: selectedRowId.map((row: any) => row.id),
     onChange: onSelectChange
   };
 
