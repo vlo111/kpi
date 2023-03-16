@@ -15,13 +15,13 @@ const AsnDragger = styled(Dragger)`
   border: 1px dashed var(--dark-border-ultramarine) !important;
   border-radius: 4px;
   .ant-upload {
-    padding: 2.4vh 0;
+    padding: ${(props) => props.id === 'subActivity' ? '6px 0 !important' : '2.4vh 0'};
   }
   &:hover {
     border: 1px dashed var(--dark-border-ultramarine);
   }
   h4.ant-typography {
-    font-size: var(--headline-font-size) !important;
+    font-size: ${(props) => props.id === 'subActivity' ? 'var(--base-font-size)' : 'var(--headline-font-size) !important'};
     color: var(--dark-border-ultramarine) !important;
   }
   svg {
@@ -58,7 +58,8 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   fileList,
   docType,
   setReqDocs,
-  keyName
+  keyName,
+  name
 }) => {
   const { Title } = Typography;
   const { mutate: UploadDoc } = useFileUpload();
@@ -129,6 +130,7 @@ const DraggerForm: React.FC<IDraggerProps> = ({
           {...props}
           fileList={defaultFileList}
           style={{ width: '100%', height: 'inherit' }}
+          id={name}
         >
           <UploadDocument />
           <Title level={4}>{text}</Title>
