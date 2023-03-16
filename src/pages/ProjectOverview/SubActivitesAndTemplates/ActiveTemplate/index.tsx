@@ -152,6 +152,7 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
               onClick={() => {
                 setTemplateId(id);
                 setOpenCreateSubActivity(true);
+                hide();
               }}
             >
               <Plus />
@@ -175,6 +176,7 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
               onClick={() => {
                 setTemplateId(id);
                 setOpenDeleteModal(true);
+                hide();
               }}
             >
               <TrashSvg />

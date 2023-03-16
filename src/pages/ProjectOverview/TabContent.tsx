@@ -108,7 +108,16 @@ const TabContent: React.FC<ITabContent> = ({
           label: (
             <AntRow
               align="middle"
-              onClick={() => setInputActivityId(inputActivity?.id)}
+              onClick={() => {
+                setInputActivityId(inputActivity?.id);
+                setDateSearch({
+                  start: true,
+                  from: '',
+                  to: ''
+                });
+                setCheckedList([]);
+                setAssignedUsersIds([]);
+              }}
             >
               1.{+i + 1} {inputActivity?.title}
             </AntRow>
