@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Pie, PieConfig } from '@ant-design/plots';
-import { CardContainer } from '../../dashboardStyle';
+import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 
 const DroppedNotEnrolled: React.FC = () => {
   const [data, setData] = useState<any>([]);
@@ -60,7 +60,8 @@ const DroppedNotEnrolled: React.FC = () => {
   };
 
   return (
-  <CardContainer width={'calc(100vw - 58.5vw)'}>
+  <CardContainer width={'clamp(200px, 45vw, 100%)'}>
+    <ChartTitleContainer>Learners dropped out before completion</ChartTitleContainer>
       <Pie {...config}/>
   </CardContainer>
   );

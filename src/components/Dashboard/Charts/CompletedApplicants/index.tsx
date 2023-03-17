@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Pie, PieConfig } from '@ant-design/plots';
-import { CardContainer } from '../../dashboardStyle';
+import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 
 const CompletedApplicants: React.FC = () => {
   const [data, setData] = useState<any>([]);
@@ -32,13 +32,13 @@ const CompletedApplicants: React.FC = () => {
     radius: 1,
     innerRadius: 0.7,
     appendPadding: 10,
-    padding: 36,
+    padding: [0, 30, 50],
     renderer: 'svg',
     color: ['#FBBC04', '#68A395', '#F6976D'],
     legend: {
       position: 'left-bottom',
       layout: 'vertical',
-      offsetY: -30,
+      offsetY: -50,
       itemWidth: 600
     },
     label: {
@@ -71,7 +71,8 @@ const CompletedApplicants: React.FC = () => {
   };
 
   return (
-    <CardContainer width={'calc(100vw - 70vw)'}>
+    <CardContainer width={'clamp(250px, 28vw, 100%)'}>
+      <ChartTitleContainer>Enrollment chart for active courses</ChartTitleContainer>
       <Pie {...config}/>
   </CardContainer>
   );

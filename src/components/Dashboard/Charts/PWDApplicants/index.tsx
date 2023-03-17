@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { Column, ColumnConfig } from '@ant-design/plots';
-
-const CardContainer = styled.div`
-  width: calc(100vw - 300px);
-  height: 400px;
-
-  @media (max-width: 991px) {
-    width: calc(100vw - 200px);
-  }
-`;
+import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 
 const PWDApplicants: React.FC = () => {
   const [data, setData] = useState<any>([]);
@@ -17,27 +8,48 @@ const PWDApplicants: React.FC = () => {
   useEffect(() => {
     setData([
       {
-        type: 'PWDs',
-        percent: 16.67
+        name: 'All',
+        type: 'Submitted Applicants',
+        percent: 100,
+        count: 19
       },
       {
+        name: 'All',
+        type: 'PWDs',
+        percent: 3,
+        count: 12
+      },
+      {
+        name: 'PWDs',
+        type: 'Submitted',
+        percent: 15.79,
+        count: 12
+      },
+      {
+        name: 'PWDs',
         type: 'Trained PWDs',
-        percent: 11.11
+        percent: 10.53,
+        count: 9
       }
     ]);
   }, []);
-  /// ///////////////////////////////////////////////////////////////
 
   const config: ColumnConfig = {
     data,
-    autoFit: true,
-    isRange: true,
-    isGroup: true,
     xField: 'name',
-    yField: 'percent',
+    yField: 'count',
     seriesField: 'type',
-    color: ['#F6976D', '#68A395'],
-    dodgePadding: 0,
+    isRange: true,
+    renderer: 'svg',
+    padding: [30, 30, 80],
+    color: ({ type }) => {
+      if (type === 'Submitted Applicants') {
+        return '#EDF0F4';
+      } else if (type === 'PWDs' || type === 'Submitted') {
+        return '#688EA3';
+      }
+      return '#F3C262';
+    },
     minColumnWidth: 20,
     maxColumnWidth: 40,
     columnStyle: {
@@ -60,9 +72,10 @@ const PWDApplicants: React.FC = () => {
   };
 
   return (
-  <CardContainer>
+    <CardContainer width={'clamp(250px, 28vw, 100%)'}>
+      <ChartTitleContainer>PWD submitted applicants and trained PWD learners </ChartTitleContainer>
       <Column {...config} />
-  </CardContainer>
+    </CardContainer>
   );
 };
 

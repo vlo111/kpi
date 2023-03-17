@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Column, ColumnConfig } from '@ant-design/plots';
-import { CardContainer } from '../../dashboardStyle';
+import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 
 const RegionBreakdown: React.FC = () => {
   const [data, setData] = useState<any>([]);
@@ -139,7 +139,7 @@ const RegionBreakdown: React.FC = () => {
     yField: 'percent',
     seriesField: 'type',
     renderer: 'svg',
-    padding: 46,
+    padding: [30, 20, 80],
     color: ['#F6976D', '#68A395'],
     dodgePadding: 0,
     minColumnWidth: 20,
@@ -164,7 +164,8 @@ const RegionBreakdown: React.FC = () => {
   };
 
   return (
-  <CardContainer width={'calc(100vw - 15.3vw)'}>
+  <CardContainer width={'clamp(400px, 82vw, 100%)'}>
+      <ChartTitleContainer>Region breakdown chart</ChartTitleContainer>
       <Column {...config} />
   </CardContainer>
   );

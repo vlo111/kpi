@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Column, ColumnConfig } from '@ant-design/plots';
-import { CardContainer } from '../../dashboardStyle';
+import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 
 const AgeDistribution: React.FC = () => {
   const [data, setData] = useState<any>([]);
@@ -65,7 +65,7 @@ const AgeDistribution: React.FC = () => {
     seriesField: 'type',
     isRange: true,
     renderer: 'svg',
-    padding: 46,
+    padding: [30, 30, 80],
     color: ['#F6976D', '#68A395'],
     minColumnWidth: 20,
     maxColumnWidth: 40,
@@ -89,7 +89,8 @@ const AgeDistribution: React.FC = () => {
   };
 
   return (
-    <CardContainer width={'calc(100vw - 47vw)'}>
+    <CardContainer width={'clamp(400px, 52vw, 100%)'} >
+      <ChartTitleContainer>Age distribution among trained applicants</ChartTitleContainer>
       <Column {...config} />
     </CardContainer>
   );

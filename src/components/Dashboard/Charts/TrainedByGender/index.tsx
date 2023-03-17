@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Column, ColumnConfig } from '@ant-design/plots';
-import { CardContainer } from '../../dashboardStyle';
+import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 
 const TrainedByGender: React.FC = () => {
   const [data, setData] = useState<any>([]);
@@ -41,7 +41,7 @@ const TrainedByGender: React.FC = () => {
     seriesField: 'name',
     isRange: true,
     renderer: 'svg',
-    padding: 46,
+    padding: [30, 30, 80],
     color: ['#F6976D', '#688EA3'],
     minColumnWidth: 20,
     maxColumnWidth: 40,
@@ -70,7 +70,8 @@ const TrainedByGender: React.FC = () => {
   };
 
   return (
-  <CardContainer width={'calc(100vw - 70vw)'}>
+  <CardContainer width={'clamp(250px, 28vw, 100%)'}>
+    <ChartTitleContainer>Trained applicants by gender </ChartTitleContainer>
       <Column {...config} />
   </CardContainer>
   );

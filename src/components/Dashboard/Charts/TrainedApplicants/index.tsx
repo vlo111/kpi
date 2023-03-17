@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { RingProgress, RingProgressConfig } from '@ant-design/plots';
-import { CardContainer } from '../../dashboardStyle';
+import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 
 const TrainedApplicants: React.FC = () => {
   const [data, setData] = useState<any>([]);
@@ -36,7 +36,8 @@ const TrainedApplicants: React.FC = () => {
   };
 
   return (
-  <CardContainer width={'calc(100vw - 58.5vw)'}>
+  <CardContainer width={'clamp(200px, 45vw, 100%)'}>
+    <ChartTitleContainer>Learners completed a course</ChartTitleContainer>
       <RingProgress {...config} />
   </CardContainer>
   );

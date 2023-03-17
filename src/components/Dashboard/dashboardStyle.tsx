@@ -8,6 +8,11 @@ export const TitleContainer = styled(Title)`
   color: var(--dark-border-ultramarine) !important;
 `;
 
+export const ChartTitleContainer = styled(Title)`
+  font-size: var(--base-font-size) !important;
+  color: var(--dark-1) !important;
+`;
+
 export const CardContainer = styled.div<any>`
   background-color: var(--white);
   box-shadow: var(--base-box-shadow);

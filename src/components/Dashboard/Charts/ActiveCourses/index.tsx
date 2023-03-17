@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Rose, RoseConfig } from '@ant-design/plots';
-import { CardContainer } from '../../dashboardStyle';
+import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 
 const ActiveCourses: React.FC = () => {
   const [data, setData] = useState<any>([]);
@@ -73,7 +73,8 @@ const ActiveCourses: React.FC = () => {
   };
 
   return (
-    <CardContainer width={'calc(100vw - 47vw)'}>
+    <CardContainer width={'clamp(400px, 55vw, 100%)'}>
+      <ChartTitleContainer>Enrollment chart for active courses</ChartTitleContainer>
       <Rose {...config} />
     </CardContainer>
   );
