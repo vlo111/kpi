@@ -140,6 +140,7 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
       title={!edit ? 'Add Person' : 'Edit Permission'}
       cancelText="Cancel"
       onCancel={handleCancel}
+      maskClosable = {false}
       footer={[
         <Row key={'action'} gutter={24} justify="center">
           <Col span={9}>
