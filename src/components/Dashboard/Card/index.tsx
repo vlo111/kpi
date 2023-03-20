@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Typography } from 'antd';
-import { ReactComponent as ApplicantsPWDIcon } from '../../../assets/icons/applicants_PWD.svg';
 
 const { Title } = Typography;
 
@@ -40,7 +39,7 @@ const AnalyticsCard: React.FC<any> = ({ borderLeftProp, cardData }) => {
           marginTop: '2rem'
         }}
       >
-        <ApplicantsPWDIcon />
+        {cardData.icon !== undefined ? cardData.icon.icon : null}
         <TitleContent>{cardData.count}</TitleContent>
       </div>
     </CardContainer>
