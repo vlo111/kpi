@@ -74,7 +74,7 @@ const ProjectInformation: React.FC = () => {
         </Space>
       </AsnCard>
       <AsnCard style={{ borderTop: '3px solid var(--secondary-green)' }}>
-        <CardTitle title={'Result areas and Activities'} id={id} />
+        <CardTitle title={'Objectives and Activities'} id={id} />
         {project?.resultAreas?.map((result: IProjectResultAreas) => (
           <Fragment key={result?.id}>
             <Title
