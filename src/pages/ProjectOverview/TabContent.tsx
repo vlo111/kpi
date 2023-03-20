@@ -153,6 +153,7 @@ const TabContent: React.FC<ITabContent> = ({
                 });
                 setCheckedList([]);
                 setAssignedUsersIds([]);
+                setSelectedRowId([]);
               }}
             >
               {resultArea?.order}.{+i + 1} {inputActivity?.title}
