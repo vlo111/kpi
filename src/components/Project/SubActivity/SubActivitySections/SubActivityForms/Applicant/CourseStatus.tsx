@@ -46,7 +46,6 @@ const CourseStatusForm: React.FC<any> = ({
       setActiveKey('1');
     },
     onError: () => {
-      console.log('aaa');
     }
   });
 
@@ -57,9 +56,11 @@ const CourseStatusForm: React.FC<any> = ({
         StartCourse({ id: courseId });
       }
     },
-    onError: () => {
-      void message.error('Access denied');
-    }
+    onError: ({
+      response: {
+        data: { message: error }
+      }
+    }: { response: { data: { message: string } } }) => message.error(error, 2)
   });
 
   const add = (): any => {
