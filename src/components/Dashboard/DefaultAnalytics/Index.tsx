@@ -12,6 +12,7 @@ import SectorBreakdown from '../Charts/SectorBreakdown';
 import PWDApplicants from '../Charts/PWDApplicants';
 import ActiveCourses from '../Charts/ActiveCourses';
 import CompletedApplicants from '../Charts/CompletedApplicants';
+import useGetDashboardData from '../../../api/Dashboard/useGeatDashboardData';
 
 const DefaultAnalyticsContainer = styled.div`
   display: flex;
@@ -33,10 +34,18 @@ const ChartsContainer = styled.div`
 `;
 
 const DefaultAnalytics: React.FC = () => {
+  // const projectId = localStorage.getItem('project');
+
+  const { data, isLoading } = useGetDashboardData(
+    '19e3c880-4bf4-424a-9ad4-4af293f55b47',
+    true
+  );
+  console.log(data.general_info, isLoading);
+
   return (
     <DefaultAnalyticsContainer>
-      <GeneralInformation />
-      <SubmittedApplications />
+      <GeneralInformation generalData = {data.general_info}/>
+      <SubmittedApplications submittedData = {data.submitted_info}/>
       <ChartsContainer>
         <TitleContainer>Data Analytics Filter</TitleContainer>
         <RowContainer>

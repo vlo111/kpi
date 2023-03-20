@@ -9,20 +9,21 @@ const GeneralInformationContainer = styled.div`
   flex-direction: column;
   margin-top: 2rem;
 `;
-const GeneralInformation: React.FC = () => {
+const GeneralInformation: React.FC<any> = ({ generalData }) => {
   return (
     <GeneralInformationContainer>
       <TitleContainer>General Information</TitleContainer>
       <Row gutter={[32, 32]}>
-        {[1, 2, 3, 4].map((item) => (
+        {generalData?.map((item: any) => (
           <Col
-            key={item}
+            key={item.title}
             style={{
               width: '25%'
             }}
           >
             <AnalyticsCard
               borderLeftProp={'6px solid var(--secondary-light-orage)'}
+              cardData={item}
             />
           </Col>
         ))}

@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Row, Col, Tabs } from 'antd';
-// import { AsnTabs } from '../../components/Forms/Tabs';
 import DefaultAnalytics from '../../components/Dashboard/DefaultAnalytics/Index';
 import CustomReport from '../../components/Dashboard/CustomReport/Index';
 

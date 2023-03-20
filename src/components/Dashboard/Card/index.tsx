@@ -27,10 +27,10 @@ const TitleContent = styled(Title)`
   margin-bottom: 0rem !important;
 `;
 
-const AnalyticsCard: React.FC<any> = ({ borderLeftProp }) => {
+const AnalyticsCard: React.FC<any> = ({ borderLeftProp, cardData }) => {
   return (
     <CardContainer borderLeftProp={borderLeftProp}>
-      <TitleContainer>The number of Users</TitleContainer>
+      <TitleContainer>{cardData.title}</TitleContainer>
       <div
         style={{
           display: 'flex',
@@ -41,7 +41,7 @@ const AnalyticsCard: React.FC<any> = ({ borderLeftProp }) => {
         }}
       >
         <ApplicantsPWDIcon />
-        <TitleContent> 5000</TitleContent>
+        <TitleContent>{cardData.count}</TitleContent>
       </div>
     </CardContainer>
   );
