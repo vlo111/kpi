@@ -53,7 +53,12 @@ export interface ICreateSecondStepData {
 }
 
 export interface IOnlyId {
+  [x: string]: any
   id: string
+}
+export interface IOnlyIdAttach {
+  data: (arg0: string, data: any) => import('axios').AxiosResponse<any, any> | PromiseLike<import('axios').AxiosResponse<any, any> | undefined> | undefined
+  id: string | undefined
 }
 
 export interface ICreateTemplateResponse {

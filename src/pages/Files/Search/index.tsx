@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { AutoComplete, message } from 'antd';
+import { AutoComplete } from 'antd';
 import styled from 'styled-components';
 import { isEmpty } from 'lodash';
 
@@ -84,11 +84,7 @@ export const SearchImport: React.FC<ISearchImport> =
           staleTime: 1000 * 60 * 5
         });
 
-    const { mutate: DeleteFile } = useDeleteFile({
-      onError: () => {
-        void message.error('Access denied', 2);
-      }
-    });
+    const { mutate: DeleteFile } = useDeleteFile();
     const onChange = (data: string): void => {
       setSearch(data);
       if (courseId === null) {

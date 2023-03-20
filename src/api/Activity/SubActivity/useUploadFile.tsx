@@ -1,10 +1,13 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import client from '../../client';
+import { message } from 'antd';
 
 const url = 'api/media/upload/file';
 
-const useFileUpload: any = (options = {}) =>
-  useMutation(async (params: { file: any, type: string }) => {
+const useFileUpload: any = () => {
+  const queryClient = useQueryClient();
+  return useMutation(async (params: { file: any, type: string }) => {
     const form = new FormData();
     form.append('file', params.file);
     form.append('type', params.type);
@@ -13,5 +16,19 @@ const useFileUpload: any = (options = {}) =>
         'Content-Type': 'multipart/form-data'
       }
     });
-  }, options);
+  },
+  {
+    onSuccess: () => {
+      setTimeout(() => {
+        void queryClient.invalidateQueries(['/api/sub-activity']);
+      }, 200);
+    },
+    onError: ({
+      response: {
+        data: { message: error }
+      }
+    }) => message.error(error, 2)
+  }
+  );
+};
 export default useFileUpload;
