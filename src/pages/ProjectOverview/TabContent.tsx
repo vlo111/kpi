@@ -13,7 +13,7 @@ import { ITabContent, IOutletContext, Filters } from '../../types/project';
 import { ReactComponent as CreateTemplateSvg } from '../../assets/icons/create-template.svg';
 import { ReactComponent as NotAccessSvg } from '../../assets/icons/error_404.svg';
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 const AntRow = styled(Row)`
   padding: 8px 16px;
@@ -54,7 +54,6 @@ const TabContent: React.FC<ITabContent> = ({
   const [assignedUsersIds, setAssignedUsersIds] = useState<React.Key[]>([]);
 
   const [indeterminate, setIndeterminate] = useState(true);
-  const { Title } = Typography;
   const [checkAll, setCheckAll] = useState(false);
   const [dateSearch, setDateSearch] = useState({
     start: true,
@@ -145,7 +144,17 @@ const TabContent: React.FC<ITabContent> = ({
           label: (
             <AntRow
               align="middle"
-              onClick={() => handleActivityChange(inputActivity?.id as string) }
+              onClick={() => {
+                handleActivityChange(inputActivity?.id as string);
+                setDateSearch({
+                  start: true,
+                  from: '',
+                  to: ''
+                });
+                setCheckedList([]);
+                setAssignedUsersIds([]);
+                setSelectedRowId([]);
+              }}
             >
               {resultArea?.order}.{+i + 1} {inputActivity?.title}
             </AntRow>
