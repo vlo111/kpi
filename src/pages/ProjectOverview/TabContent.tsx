@@ -64,10 +64,11 @@ const TabContent: React.FC<ITabContent> = ({
   const { setProjectOverview } = useOutletContext<IOutletContext>();
   const [selectedRowId, setSelectedRowId] = useState<React.Key[]>([]);
 
-  const { from, to } = dateSearch;
+  const { from, to, start } = dateSearch;
   const filtersFuinctiomn = (
     from: string,
     to: string,
+    start: boolean | undefined,
     checkedList?: CheckboxValueType[],
     assignedUsersIds?: React.Key[]
   ): Filters => {
@@ -81,8 +82,8 @@ const TabContent: React.FC<ITabContent> = ({
       filters.assigned = assignedUsersIds;
     }
 
-    if (from !== '' && to !== '') {
-      filters.date = { from, to };
+    if (from !== '' && to !== '' && start !== undefined) {
+      filters.date = { from, to, start };
     }
 
     return filters;
@@ -102,7 +103,7 @@ const TabContent: React.FC<ITabContent> = ({
     error
   } = useGetSubActivities(
     inputActivityId ?? defaultInputActivityId,
-    filtersFuinctiomn(from, to, checkedList, assignedUsersIds),
+    filtersFuinctiomn(from, to, start, checkedList, assignedUsersIds),
     {
       enabled: Boolean(inputActivityId ?? defaultInputActivityId)
     }
