@@ -10,7 +10,7 @@ import { AsnForm } from '../Forms/Form';
 import { AsnInput, AsnTextArea } from '../Forms/Input';
 import { ICreateTemplateModal, AddManagerHandle } from '../../types/project';
 import { PATHS } from '../../helpers/constants';
-import { ICreateTemplateResponse, IUpdateTemplateMessage } from '../../types/api/activity/template';
+import { ICreateTemplateResponse, IUpdateTemplateMessage, IUpdateTemplateErrorMessage } from '../../types/api/activity/template';
 import getSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
 import useCreateActivityTemplate from '../../api/Activity/Template/useCreateActivityTemplate';
 import useUpdateActivityTemplate from '../../api/Activity/Template/useUpdateActivityTemplate';
@@ -55,7 +55,9 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
       void message.success(successMessage, 2);
       navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', templateId as string)}`);
     },
-    onError: () => message.error('Access Denied', 2)
+    onError: ({ response: { data: { message: errorMessage } } }: IUpdateTemplateErrorMessage) => {
+      void message.error(errorMessage, 2);
+    }
   });
 
   const { data, isFetching } = getSingleTemplate(templateId, { enabled: Boolean(templateId) });

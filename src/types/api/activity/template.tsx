@@ -88,6 +88,7 @@ export interface IUpdateTemplateData {
 }
 
 export interface IUpdateTemplateMessage { data: { result: { successMessage: string } } }
+export interface IUpdateTemplateErrorMessage { response: { data: { message: string } } }
 
 export type CreateActivityTemplate = UseMutation<Void, any, ResponseErrorParam, ICreateTemplateData>;
 export type CreateSecondStepTemplate = UseMutation<Void, any, ResponseErrorParam, ICreateSecondStepData>
