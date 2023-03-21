@@ -56,6 +56,9 @@ const AsnPicker: React.FC<IAsnPicker> = ({ startDate, endDate }) => {
             format="DD/MM/YYYY"
             placeholder="01/01/23"
             disabledDate={(current) => disabledDate(current, 'start')}
+            getPopupContainer={(trigger: HTMLElement) =>
+              trigger.parentElement as HTMLElement
+            }
           />
         </AsnForm.Item>
       </Col>
@@ -73,6 +76,9 @@ const AsnPicker: React.FC<IAsnPicker> = ({ startDate, endDate }) => {
             placeholder="01/01/23"
             disabledDate={(current) => disabledDate(current, 'end')}
             format="DD/MM/YYYY"
+            getPopupContainer={(trigger: HTMLElement) =>
+              trigger.parentElement as HTMLElement
+            }
           />
         </AsnForm.Item>
       </Col>

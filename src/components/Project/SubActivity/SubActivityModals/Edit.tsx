@@ -202,6 +202,7 @@ const EditSubCourse: React.FC<ICreateSubActivityTypes> = ({
       edit={true}
       setActiveTab={setActiveTab}
       activeTab={activeTab}
+      subActivity={subActivity?.manager}
     />
   );
 };

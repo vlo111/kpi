@@ -407,6 +407,7 @@ export interface Filters {
   date?: {
     from: string
     to: string
+    start: boolean
   }
 }
 
