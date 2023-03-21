@@ -28,6 +28,7 @@ const CustomTabs = styled(Tabs)`
   .ant-tabs-content-holder {
     background: var(--background) !important;
     box-shadow: none;
+    width: 100%;
   }
 `;
 

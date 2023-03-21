@@ -1,5 +1,6 @@
 import React from 'react';
-import { Col, Row } from 'antd';
+import styled from 'styled-components';
+import { Col } from 'antd';
 import { TitleContainer } from '../dashboardStyle';
 import AnalyticsCard from '../Card';
 import { ReactComponent as SubmittedApplicants } from '../../../assets/icons/submitted_applicants.svg';
@@ -9,6 +10,12 @@ import { ReactComponent as DroppedApplicants } from '../../../assets/icons/dropp
 import { ReactComponent as NotEnrolledApplicants } from '../../../assets/icons/not-enrolled_learners.svg';
 import { ReactComponent as ApplicantsPWDIcon } from '../../../assets/icons/applicants_PWD.svg';
 import { ReactComponent as TrainedApplicantsDisability } from '../../../assets/icons/trained_PWD.svg';
+
+const SubmittedApplicationsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+`;
 
 const cardsIcon = [
   {
@@ -34,26 +41,29 @@ const cardsIcon = [
   }
 ];
 const SubmittedApplications: React.FC<any> = ({ submittedData }) => {
-  const submittedIconData: any = submittedData?.map((item: any, index: number) => {
-    return {
-      title: item.title,
-      count: item.count,
-      trained_applicants_percent: item.trained_applicants_percent,
-      icon: cardsIcon[index]
-    };
-  });
+  const submittedIconData: any = submittedData?.map(
+    (item: any, index: number) => {
+      return {
+        title: item.title,
+        count: item.count,
+        trained_applicants_percent: item.trained_applicants_percent,
+        icon: cardsIcon[index]
+      };
+    }
+  );
 
   return (
-    <Row
-      style={{
-        marginTop: '2rem'
-      }}
-    >
+    <SubmittedApplicationsContainer>
       <TitleContainer>Submitted Applications</TitleContainer>
-      <Row gutter={[32, 32]}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: '2rem'
+      }} >
         {submittedIconData?.map((item: any) => (
           <Col
-            key={item}
+            key={item.title}
             style={{
               width: '20%'
             }}
@@ -64,8 +74,8 @@ const SubmittedApplications: React.FC<any> = ({ submittedData }) => {
             />
           </Col>
         ))}
-      </Row>
-    </Row>
+      </div>
+    </SubmittedApplicationsContainer>
   );
 };
 export default SubmittedApplications;

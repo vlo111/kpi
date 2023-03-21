@@ -1,6 +1,6 @@
-import { Col, Row } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
+import { Col } from 'antd';
 import AnalyticsCard from '../Card';
 import { TitleContainer } from '../dashboardStyle';
 
@@ -13,12 +13,18 @@ const GeneralInformation: React.FC<any> = ({ generalData }) => {
   return (
     <GeneralInformationContainer>
       <TitleContainer>General Information</TitleContainer>
-      <Row gutter={[32, 32]}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: '2rem'
+
+      }} >
         {generalData?.map((item: any) => (
           <Col
             key={item.title}
             style={{
-              width: '25%'
+              width: '23%'
             }}
           >
             <AnalyticsCard
@@ -27,7 +33,7 @@ const GeneralInformation: React.FC<any> = ({ generalData }) => {
             />
           </Col>
         ))}
-      </Row>
+      </div>
     </GeneralInformationContainer>
   );
 };

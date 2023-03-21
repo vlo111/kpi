@@ -1,38 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Column, ColumnConfig } from '@ant-design/plots';
+import { Column, ColumnConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 
-const PWDApplicants: React.FC = () => {
+const PWDApplicants: React.FC<any> = ({ pwdStatistics }) => {
   const [data, setData] = useState<any>([]);
 
   useEffect(() => {
-    setData([
-      {
-        name: 'All',
-        type: 'Submitted Applicants',
-        percent: 100,
-        count: 19
-      },
-      {
-        name: 'All',
-        type: 'PWDs',
-        percent: 3,
-        count: 12
-      },
-      {
-        name: 'PWDs',
-        type: 'Submitted',
-        percent: 15.79,
-        count: 12
-      },
-      {
-        name: 'PWDs',
-        type: 'Trained PWDs',
-        percent: 10.53,
-        count: 9
-      }
-    ]);
-  }, []);
+    if (pwdStatistics !== undefined) {
+      setData(pwdStatistics);
+    }
+  }, [pwdStatistics]);
 
   const config: ColumnConfig = {
     data,
@@ -72,8 +49,10 @@ const PWDApplicants: React.FC = () => {
   };
 
   return (
-    <CardContainer width={'clamp(250px, 28vw, 100%)'}>
-      <ChartTitleContainer>PWD submitted applicants and trained PWD learners </ChartTitleContainer>
+    <CardContainer width={'clamp(250px, 31vw, 100%)'}>
+      <ChartTitleContainer>
+        PWD submitted applicants and trained PWD learners{' '}
+      </ChartTitleContainer>
       <Column {...config} />
     </CardContainer>
   );

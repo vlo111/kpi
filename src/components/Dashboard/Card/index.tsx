@@ -7,6 +7,8 @@ const { Title } = Typography;
 const CardContainer = styled.div<any>`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 7.5rem;
   background-color: var(--white);
   box-shadow: var(--base-box-shadow);
   padding: 0.5rem 0.5rem 1rem;
@@ -35,8 +37,7 @@ const AnalyticsCard: React.FC<any> = ({ borderLeftProp, cardData }) => {
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
-          gap: '16px',
-          marginTop: '2rem'
+          gap: '16px'
         }}
       >
         {cardData.icon !== undefined ? cardData.icon.icon : null}

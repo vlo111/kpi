@@ -1,29 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Pie, PieConfig } from '@ant-design/plots';
+import { Pie, PieConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 
-const CompletedApplicants: React.FC = () => {
+const CompletedApplicants: React.FC<any> = ({ completedStatistics }) => {
   const [data, setData] = useState<any>([]);
 
   useEffect(() => {
-    setData([
-      {
-        name: 'Dropped',
-        status_all_applicants: 1,
-        status_all_applicants_percent: 0.36
-      },
-      {
-        name: 'Not Enrolled',
-        status_all_applicants: 10,
-        status_all_applicants_percent: 3.64
-      },
-      {
-        name: 'Trained',
-        status_all_applicants: 2,
-        status_all_applicants_percent: 0.73
-      }
-    ]);
-  }, []);
+    setData(completedStatistics);
+  }, [completedStatistics]);
 
   const config: PieConfig = {
     data,
@@ -65,13 +49,13 @@ const CompletedApplicants: React.FC = () => {
           fontSize: '20px',
           lineHeight: '14px'
         },
-        formatter: () => 'Completed courses'
+        content: 'Completed courses'
       }
     }
   };
 
   return (
-    <CardContainer width={'clamp(250px, 28vw, 100%)'}>
+    <CardContainer width={'clamp(250px, 31vw, 100%)'}>
       <ChartTitleContainer>Enrollment chart for active courses</ChartTitleContainer>
       <Pie {...config}/>
   </CardContainer>

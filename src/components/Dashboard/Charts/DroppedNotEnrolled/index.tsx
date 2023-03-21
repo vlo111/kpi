@@ -1,28 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Pie, PieConfig } from '@ant-design/plots';
+import { Pie, PieConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 
-const DroppedNotEnrolled: React.FC = () => {
+const DroppedNotEnrolled: React.FC<any> = ({ notEnrolledStatistics }) => {
   const [data, setData] = useState<any>([]);
 
   useEffect(() => {
-    setData([
-      {
-        type: 'Not-enrolled',
-        percent: 28.57,
-        count: 3
-      },
-      {
-        type: 'Dropped',
-        percent: 71.43,
-        count: 7
-      }
-    ]);
-  }, []);
+    if (notEnrolledStatistics !== undefined) {
+      setData(notEnrolledStatistics);
+    }
+  }, [notEnrolledStatistics]);
 
   const config: PieConfig = {
     data,
-    angleField: 'count',
+    angleField: 'percent',
     colorField: 'type',
     renderer: 'svg',
     radius: 1,
@@ -60,10 +51,12 @@ const DroppedNotEnrolled: React.FC = () => {
   };
 
   return (
-  <CardContainer width={'clamp(200px, 45vw, 100%)'}>
-    <ChartTitleContainer>Learners dropped out before completion</ChartTitleContainer>
-      <Pie {...config}/>
-  </CardContainer>
+    <CardContainer width={'clamp(200px, 41.5vw, 100%)'}>
+      <ChartTitleContainer>
+        Learners dropped out before completion
+      </ChartTitleContainer>
+      <Pie {...config} />
+    </CardContainer>
   );
 };
 

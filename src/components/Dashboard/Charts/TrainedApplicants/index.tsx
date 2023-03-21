@@ -1,45 +1,62 @@
 import React, { useState, useEffect } from 'react';
-import { RingProgress, RingProgressConfig } from '@ant-design/plots';
+import { Pie, PieConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 
-const TrainedApplicants: React.FC = () => {
+const TrainedApplicants: React.FC<any> = ({ trainedStatistics }) => {
   const [data, setData] = useState<any>([]);
 
   useEffect(() => {
-    setData({
-      all_applicants_count_in_done_courses: 5,
-      all_trained_applicants_count_percent: 20,
-      all_enrolled_applicants_count_percent: 80
-    });
-  }, []);
+    if (trainedStatistics !== undefined) {
+      setData(trainedStatistics);
+    }
+  }, [trainedStatistics]);
 
-  const config: RingProgressConfig = {
-    height: 400,
-    width: 400,
-    autoFit: false,
-    percent: data.all_enrolled_applicants_count_percent / 100,
-    color: '#68A395',
-    renderer: 'canvas',
+  const config: PieConfig = {
+    data,
+    angleField: 'percent',
+    colorField: 'type',
+    renderer: 'svg',
+    radius: 1,
+    innerRadius: 0.8,
     padding: 46,
-    innerRadius: 0.85,
-    radius: 0.9,
+    color: ['#EDF0F4', '#68A395'],
+    label: {
+      type: 'inner',
+      offset: '-50%',
+      content: '{value}',
+      style: {
+        textAlign: 'center',
+        fontSize: 14
+      }
+    },
+    interactions: [
+      {
+        type: 'element-selected'
+      },
+      {
+        type: 'element-active'
+      }
+    ],
     statistic: {
-      title: {
+      title: false,
+      content: {
         style: {
           color: '#263238',
           fontSize: '20px',
           lineHeight: '14px'
         },
-        formatter: () => 'Completion rate'
+        content: 'Completion rate'
       }
     }
   };
 
   return (
-  <CardContainer width={'clamp(200px, 45vw, 100%)'}>
-    <ChartTitleContainer>Learners completed a course</ChartTitleContainer>
-      <RingProgress {...config} />
-  </CardContainer>
+    <CardContainer width={'clamp(200px, 41.5vw, 100%)'}>
+      <ChartTitleContainer>
+        Learners dropped out before completion
+      </ChartTitleContainer>
+      <Pie {...config} />
+    </CardContainer>
   );
 };
 

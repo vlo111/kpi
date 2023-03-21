@@ -1,38 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Column, ColumnConfig } from '@ant-design/plots';
+import { Column, ColumnConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 
-const TrainedByGender: React.FC = () => {
+const TrainedByGender: React.FC<any> = ({ genderStatistics }) => {
   const [data, setData] = useState<any>([]);
 
   useEffect(() => {
-    setData([
-      {
-        type: 'Submitted',
-        name: 'Male',
-        percent: 88.73,
-        count: 244
-      },
-      {
-        type: 'Submitted',
-        name: 'Female',
-        percent: 11.27,
-        count: 175
-      },
-      {
-        type: 'Trained',
-        name: 'Male',
-        percent: 12.36,
-        count: 98
-      },
-      {
-        type: 'Trained',
-        name: 'Female',
-        percent: 0.36,
-        count: 85
-      }
-    ]);
-  }, []);
+    if (genderStatistics !== undefined) {
+      setData(genderStatistics);
+    }
+  }, [genderStatistics]);
 
   const config: ColumnConfig = {
     data,
@@ -70,10 +47,10 @@ const TrainedByGender: React.FC = () => {
   };
 
   return (
-  <CardContainer width={'clamp(250px, 28vw, 100%)'}>
-    <ChartTitleContainer>Trained applicants by gender </ChartTitleContainer>
+    <CardContainer width={'clamp(250px, 31vw, 100%)'}>
+      <ChartTitleContainer>Trained applicants by gender </ChartTitleContainer>
       <Column {...config} />
-  </CardContainer>
+    </CardContainer>
   );
 };
 

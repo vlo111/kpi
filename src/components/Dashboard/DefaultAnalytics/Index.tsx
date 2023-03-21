@@ -17,13 +17,13 @@ import useGetDashboardData from '../../../api/Dashboard/useGeatDashboardData';
 const DefaultAnalyticsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 82vw;
+  width: 100%;
 `;
 
 const RowContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 2rem;
+  gap: 2vw;
   margin-bottom: 2rem;
 `;
 
@@ -36,36 +36,47 @@ const ChartsContainer = styled.div`
 const DefaultAnalytics: React.FC = () => {
   // const projectId = localStorage.getItem('project');
 
-  const { data, isLoading } = useGetDashboardData(
+  const { data } = useGetDashboardData(
     '19e3c880-4bf4-424a-9ad4-4af293f55b47',
     true
   );
-  console.log(data.general_info, isLoading);
 
   return (
     <DefaultAnalyticsContainer>
-      <GeneralInformation generalData = {data.general_info}/>
-      <SubmittedApplications submittedData = {data.submitted_info}/>
+      <GeneralInformation generalData={data?.general_info} />
+      <SubmittedApplications submittedData={data?.submitted_info} />
       <ChartsContainer>
         <TitleContainer>Data Analytics Filter</TitleContainer>
         <RowContainer>
-          <AgeDistribution />
-          <TrainedByGender />
+          <AgeDistribution ageStatistics={data?.age_statistic} />
+          <TrainedByGender genderStatistics={data.gender_statistic} />
         </RowContainer>
         <RowContainer>
-          <DroppedNotEnrolled />
-          <TrainedApplicants />
+          <DroppedNotEnrolled
+            notEnrolledStatistics={data?.before_completion_statistic}
+          />
+          <TrainedApplicants
+            trainedStatistics={data?.trained_applicants_statistic}
+          />
         </RowContainer>
         <RowContainer>
-          <RegionBreakdown />
+          <RegionBreakdown regionStatistics={data?.regions_statistic} />
         </RowContainer>
         <RowContainer>
-          <PWDApplicants />
-          <SectorBreakdown />
+          <PWDApplicants
+            pwdStatistics={data?.submitted_applicants_by_disability}
+          />
+          <SectorBreakdown sectorStatistics={data.sectors_statistic} />
         </RowContainer>
         <RowContainer>
-          <ActiveCourses />
-          <CompletedApplicants />
+          <ActiveCourses
+            activeCoursesStatistics={data?.applicants_status_statistic}
+          />
+          <CompletedApplicants
+            completedStatistics={
+              data?.applicants_status_in_done_courses_statistic
+            }
+          />
         </RowContainer>
       </ChartsContainer>
     </DefaultAnalyticsContainer>
