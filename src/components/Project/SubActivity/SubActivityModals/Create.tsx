@@ -197,7 +197,7 @@ const CreateSubCourse: React.FC<ICreateSubActivityTypes> = ({
       activeTab={activeTab}
       setActiveTab={setActiveTab}
       edit={false}
-    />
+       subActivity={subActivity} />
   );
 };
 
