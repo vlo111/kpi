@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Pie, PieConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
+import {
+  IDroppedNotEnrolled,
+  IDroppedNotEnrolledProps
+} from '../../../../types/api/dashboard';
 
-const DroppedNotEnrolled: React.FC<any> = ({ notEnrolledStatistics }) => {
-  const [data, setData] = useState<any>([]);
+const DroppedNotEnrolled: React.FC<IDroppedNotEnrolledProps> = ({
+  notEnrolledStatistics
+}) => {
+  const [data, setData] = useState<IDroppedNotEnrolled[]>([]);
 
   useEffect(() => {
     if (notEnrolledStatistics !== undefined) {
@@ -18,12 +24,18 @@ const DroppedNotEnrolled: React.FC<any> = ({ notEnrolledStatistics }) => {
     renderer: 'svg',
     radius: 1,
     innerRadius: 0.8,
-    padding: 46,
+    padding: [20, 0, 75],
     color: ['#688EA3', '#F3C262'],
+    legend: {
+      position: 'left-bottom',
+      layout: 'vertical',
+      offsetY: -80,
+      offsetX: 0
+    },
     label: {
       type: 'inner',
       offset: '-50%',
-      content: '{value}',
+      content: '',
       style: {
         textAlign: 'center',
         fontSize: 14
@@ -40,12 +52,14 @@ const DroppedNotEnrolled: React.FC<any> = ({ notEnrolledStatistics }) => {
     statistic: {
       title: false,
       content: {
-        style: {
-          color: '#263238',
-          fontSize: '20px',
-          lineHeight: '14px'
-        },
-        content: 'Dropout rate'
+        // content: 'Dropout rate'
+        customHtml: (container, view, datum, data: any) => {
+          // const { width } = container.getBoundingClientRect();
+          const value: number = data[0]?.percent;
+          const text = 'Dropout rate';
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+          return `<div><div style="font-size:20px;font-weight: 400;line-height:20px;">${text}</div> <div style="font-weight: 400;font-size:30px;line-height:30px;">${value}</div> </div>`;
+        }
       }
     }
   };

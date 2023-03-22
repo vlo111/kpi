@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Column, ColumnConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
+import {
+  IPWDApplicants,
+  IPWDApplicantsProps
+} from '../../../../types/api/dashboard';
 
-const PWDApplicants: React.FC<any> = ({ pwdStatistics }) => {
-  const [data, setData] = useState<any>([]);
+const PWDApplicants: React.FC<IPWDApplicantsProps> = ({ pwdStatistics }) => {
+  const [data, setData] = useState<IPWDApplicants[]>([]);
 
   useEffect(() => {
     if (pwdStatistics !== undefined) {
@@ -18,7 +22,7 @@ const PWDApplicants: React.FC<any> = ({ pwdStatistics }) => {
     seriesField: 'type',
     isRange: true,
     renderer: 'svg',
-    padding: [30, 30, 80],
+    padding: [45, 30, 95],
     color: ({ type }) => {
       if (type === 'Submitted Applicants') {
         return '#EDF0F4';
@@ -33,7 +37,7 @@ const PWDApplicants: React.FC<any> = ({ pwdStatistics }) => {
       radius: [4, 4, 0, 0]
     },
     label: {
-      position: 'middle',
+      position: 'top',
       layout: [
         {
           type: 'interval-adjust-position'
@@ -49,7 +53,7 @@ const PWDApplicants: React.FC<any> = ({ pwdStatistics }) => {
   };
 
   return (
-    <CardContainer width={'clamp(250px, 31vw, 100%)'}>
+    <CardContainer width={'clamp(250px, 35vw, 100%)'}>
       <ChartTitleContainer>
         PWD submitted applicants and trained PWD learners{' '}
       </ChartTitleContainer>

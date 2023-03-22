@@ -1,6 +1,14 @@
+import React from 'react';
 import { IAssessmentSelectItem } from '../types/api/assessment';
 import { SliderMarks } from 'antd/lib/slider';
 import { IApplicantAccessStatus, IApplicantDefaultStatus } from '../types/applicant';
+import { ReactComponent as SubmittedApplicants } from '../assets/icons/submitted_applicants.svg';
+import { ReactComponent as TrainedApplicants } from '../assets/icons/trained_learners.svg';
+import { ReactComponent as CurrentlyEnrolledApplicantsCourses } from '../assets/icons/currently_enrolled_learners_courses.svg';
+import { ReactComponent as DroppedApplicants } from '../assets/icons/dropped_learners.svg';
+import { ReactComponent as NotEnrolledApplicants } from '../assets/icons/not-enrolled_learners.svg';
+import { ReactComponent as ApplicantsPWDIcon } from '../assets/icons/applicants_PWD.svg';
+import { ReactComponent as TrainedApplicantsDisability } from '../assets/icons/trained_PWD.svg';
 
 export const PATHS = {
   ROOT: '/',
@@ -270,3 +278,27 @@ export enum AssessmentStatus {
   NotSubmitted = ' Not submitted',
   Scored = ' Scored '
 }
+
+export const dashboardCardsIcon = [
+  {
+    icon: <SubmittedApplicants />
+  },
+  {
+    icon: <TrainedApplicants />
+  },
+  {
+    icon: <CurrentlyEnrolledApplicantsCourses />
+  },
+  {
+    icon: <DroppedApplicants />
+  },
+  {
+    icon: <NotEnrolledApplicants />
+  },
+  {
+    icon: <ApplicantsPWDIcon />
+  },
+  {
+    icon: <TrainedApplicantsDisability />
+  }
+];

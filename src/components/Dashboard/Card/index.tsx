@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Typography } from 'antd';
+import { IAnalyticsCardProps } from '../../../types/api/dashboard';
 
 const { Title } = Typography;
 
-const CardContainer = styled.div<any>`
+const CardContainer = styled.div<{ borderLeftProp: string }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -28,7 +29,10 @@ const TitleContent = styled(Title)`
   margin-bottom: 0rem !important;
 `;
 
-const AnalyticsCard: React.FC<any> = ({ borderLeftProp, cardData }) => {
+const AnalyticsCard: React.FC<IAnalyticsCardProps> = ({
+  borderLeftProp,
+  cardData
+}) => {
   return (
     <CardContainer borderLeftProp={borderLeftProp}>
       <TitleContainer>{cardData.title}</TitleContainer>
@@ -40,8 +44,10 @@ const AnalyticsCard: React.FC<any> = ({ borderLeftProp, cardData }) => {
           gap: '16px'
         }}
       >
-        {cardData.icon !== undefined ? cardData.icon.icon : null}
-        <TitleContent>{cardData.count}</TitleContent>
+        <>
+          {cardData.icon !== undefined ? cardData.icon.icon : null}
+          <TitleContent>{cardData.count}</TitleContent>
+        </>
       </div>
     </CardContainer>
   );

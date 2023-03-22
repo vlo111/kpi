@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Col } from 'antd';
-import { TitleContainer } from '../dashboardStyle';
+import { InfoCardsContainer, TitleContainer } from '../dashboardStyle';
 import AnalyticsCard from '../Card';
-import { ReactComponent as SubmittedApplicants } from '../../../assets/icons/submitted_applicants.svg';
-import { ReactComponent as TrainedApplicants } from '../../../assets/icons/trained_learners.svg';
-import { ReactComponent as CurrentlyEnrolledApplicantsCourses } from '../../../assets/icons/currently_enrolled_learners_courses.svg';
-import { ReactComponent as DroppedApplicants } from '../../../assets/icons/dropped_learners.svg';
-import { ReactComponent as NotEnrolledApplicants } from '../../../assets/icons/not-enrolled_learners.svg';
-import { ReactComponent as ApplicantsPWDIcon } from '../../../assets/icons/applicants_PWD.svg';
-import { ReactComponent as TrainedApplicantsDisability } from '../../../assets/icons/trained_PWD.svg';
+import { dashboardCardsIcon } from '../../../helpers/constants';
+import {
+  ISubmittedApplications,
+  ISubmittedApplicationsProps
+} from '../../../types/api/dashboard';
 
 const SubmittedApplicationsContainer = styled.div`
   display: flex;
@@ -17,55 +15,34 @@ const SubmittedApplicationsContainer = styled.div`
   margin-top: 2rem;
 `;
 
-const cardsIcon = [
-  {
-    icon: <SubmittedApplicants />
-  },
-  {
-    icon: <TrainedApplicants />
-  },
-  {
-    icon: <CurrentlyEnrolledApplicantsCourses />
-  },
-  {
-    icon: <DroppedApplicants />
-  },
-  {
-    icon: <NotEnrolledApplicants />
-  },
-  {
-    icon: <ApplicantsPWDIcon />
-  },
-  {
-    icon: <TrainedApplicantsDisability />
-  }
-];
-const SubmittedApplications: React.FC<any> = ({ submittedData }) => {
-  const submittedIconData: any = submittedData?.map(
-    (item: any, index: number) => {
-      return {
-        title: item.title,
-        count: item.count,
-        trained_applicants_percent: item.trained_applicants_percent,
-        icon: cardsIcon[index]
-      };
-    }
-  );
+const SubmittedApplications: React.FC<ISubmittedApplicationsProps> = ({
+  submittedData
+}) => {
+  const [submittedIconData, setSubmittedIconData] = useState<
+  ISubmittedApplications[]
+  >([]);
+  useEffect(() => {
+    setSubmittedIconData(
+      submittedData?.map((item: ISubmittedApplications, index: number) => {
+        return {
+          title: item.title,
+          count: item.count,
+          trained_applicants_percent: item.trained_applicants_percent,
+          icon: dashboardCardsIcon[index]
+        };
+      })
+    );
+  }, [submittedData]);
 
   return (
     <SubmittedApplicationsContainer>
       <TitleContainer>Submitted Applications</TitleContainer>
-      <div style={{
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: '2rem'
-      }} >
-        {submittedIconData?.map((item: any) => (
+      <InfoCardsContainer>
+        {submittedIconData?.map((item: ISubmittedApplications) => (
           <Col
             key={item.title}
             style={{
-              width: '20%'
+              width: '17%'
             }}
           >
             <AnalyticsCard
@@ -74,7 +51,7 @@ const SubmittedApplications: React.FC<any> = ({ submittedData }) => {
             />
           </Col>
         ))}
-      </div>
+      </InfoCardsContainer>
     </SubmittedApplicationsContainer>
   );
 };

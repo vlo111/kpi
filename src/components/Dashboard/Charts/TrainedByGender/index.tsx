@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Column, ColumnConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
+import {
+  ITrainedByGender,
+  ITrainedByGenderProps
+} from '../../../../types/api/dashboard';
 
-const TrainedByGender: React.FC<any> = ({ genderStatistics }) => {
-  const [data, setData] = useState<any>([]);
+const TrainedByGender: React.FC<ITrainedByGenderProps> = ({
+  genderStatistics
+}) => {
+  const [data, setData] = useState<ITrainedByGender[]>([]);
 
   useEffect(() => {
     if (genderStatistics !== undefined) {
@@ -18,7 +24,7 @@ const TrainedByGender: React.FC<any> = ({ genderStatistics }) => {
     seriesField: 'name',
     isRange: true,
     renderer: 'svg',
-    padding: [30, 30, 80],
+    padding: [45, 30, 95],
     color: ['#F6976D', '#688EA3'],
     minColumnWidth: 20,
     maxColumnWidth: 40,

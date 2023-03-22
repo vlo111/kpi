@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Column, ColumnConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
+import {
+  IRegionBreakdown,
+  IRegionBreakdownProps
+} from '../../../../types/api/dashboard';
 
-const RegionBreakdown: React.FC<any> = ({ regionStatistics }) => {
-  const [data, setData] = useState<any>([]);
+const RegionBreakdown: React.FC<IRegionBreakdownProps> = ({
+  regionStatistics
+}) => {
+  const [data, setData] = useState<IRegionBreakdown[]>([]);
 
   useEffect(() => {
     setData(regionStatistics);
@@ -18,7 +24,7 @@ const RegionBreakdown: React.FC<any> = ({ regionStatistics }) => {
     yField: 'percent',
     seriesField: 'type',
     renderer: 'svg',
-    padding: [30, 20, 80],
+    padding: [45, 20, 95],
     color: ['#F6976D', '#68A395'],
     dodgePadding: 0,
     minColumnWidth: 20,
@@ -43,10 +49,10 @@ const RegionBreakdown: React.FC<any> = ({ regionStatistics }) => {
   };
 
   return (
-  <CardContainer width={'clamp(400px, 84vw, 100%)'}>
+    <CardContainer width={'clamp(400px, 84vw, 100%)'}>
       <ChartTitleContainer>Region breakdown chart</ChartTitleContainer>
       <Column {...config} />
-  </CardContainer>
+    </CardContainer>
   );
 };
 

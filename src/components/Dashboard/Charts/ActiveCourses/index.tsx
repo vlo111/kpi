@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Rose, RoseConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
+import {
+  IActiveCourses,
+  IActiveCoursesProps
+} from '../../../../types/api/dashboard';
 
-const ActiveCourses: React.FC<any> = ({ activeCoursesStatistics }) => {
-  const [data, setData] = useState<any>([]);
+const ActiveCourses: React.FC<IActiveCoursesProps> = ({
+  activeCoursesStatistics
+}) => {
+  const [data, setData] = useState<IActiveCourses[]>([]);
 
   useEffect(() => {
-    setData(activeCoursesStatistics);
+    if (activeCoursesStatistics !== undefined) {
+      setData(activeCoursesStatistics);
+    }
   }, [activeCoursesStatistics]);
 
   const config: RoseConfig = {
@@ -33,7 +41,9 @@ const ActiveCourses: React.FC<any> = ({ activeCoursesStatistics }) => {
 
   return (
     <CardContainer width={'clamp(400px, 52vw, 100%)'}>
-      <ChartTitleContainer>Enrollment chart for active courses</ChartTitleContainer>
+      <ChartTitleContainer>
+        Enrollment chart for active courses
+      </ChartTitleContainer>
       <Rose {...config} />
     </CardContainer>
   );

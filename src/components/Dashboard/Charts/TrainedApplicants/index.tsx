@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Pie, PieConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
+import {
+  ITrainedApplicants,
+  ITrainedApplicantsProps
+} from '../../../../types/api/dashboard';
 
-const TrainedApplicants: React.FC<any> = ({ trainedStatistics }) => {
-  const [data, setData] = useState<any>([]);
+const TrainedApplicants: React.FC<ITrainedApplicantsProps> = ({
+  trainedStatistics
+}) => {
+  const [data, setData] = useState<ITrainedApplicants[]>([]);
 
   useEffect(() => {
     if (trainedStatistics !== undefined) {
@@ -18,12 +24,18 @@ const TrainedApplicants: React.FC<any> = ({ trainedStatistics }) => {
     renderer: 'svg',
     radius: 1,
     innerRadius: 0.8,
-    padding: 46,
+    padding: [20, 0, 75],
     color: ['#EDF0F4', '#68A395'],
+    legend: {
+      position: 'left-bottom',
+      layout: 'vertical',
+      offsetY: -80,
+      offsetX: 0
+    },
     label: {
       type: 'inner',
       offset: '-50%',
-      content: '{value}',
+      content: '',
       style: {
         textAlign: 'center',
         fontSize: 14
@@ -40,12 +52,11 @@ const TrainedApplicants: React.FC<any> = ({ trainedStatistics }) => {
     statistic: {
       title: false,
       content: {
-        style: {
-          color: '#263238',
-          fontSize: '20px',
-          lineHeight: '14px'
-        },
-        content: 'Completion rate'
+        customHtml: (container, view, datum, data: any) => {
+          const value: number = data[0]?.percent;
+          const text = 'Completion rate';
+          return `<div><div style="font-size:20px;font-weight: 400;line-height:20px;">${text}</div> <div style="font-weight: 400;font-size:30px;line-height:30px;">${value}</div> </div>`;
+        }
       }
     }
   };

@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Column, ColumnConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
+import {
+  IAgeDistribution,
+  IAgeDistributionProps
+} from '../../../../types/api/dashboard';
 
-const AgeDistribution: React.FC<any> = ({ ageStatistics }) => {
-  const [data, setData] = useState<any>([]);
+const AgeDistribution: React.FC<IAgeDistributionProps> = ({
+  ageStatistics
+}) => {
+  const [data, setData] = useState<IAgeDistribution[]>([]);
 
   useEffect(() => {
     if (ageStatistics !== undefined) {
@@ -18,7 +24,7 @@ const AgeDistribution: React.FC<any> = ({ ageStatistics }) => {
     seriesField: 'type',
     isRange: true,
     renderer: 'svg',
-    padding: [30, 30, 80],
+    padding: [45, 30, 95],
     color: ['#F6976D', '#68A395'],
     minColumnWidth: 20,
     maxColumnWidth: 40,

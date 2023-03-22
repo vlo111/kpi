@@ -2,25 +2,25 @@ import React from 'react';
 import styled from 'styled-components';
 import { Col } from 'antd';
 import AnalyticsCard from '../Card';
-import { TitleContainer } from '../dashboardStyle';
+import { InfoCardsContainer, TitleContainer } from '../dashboardStyle';
+import {
+  IGeneralInformation,
+  IGeneralInformationProps
+} from '../../../types/api/dashboard';
 
 const GeneralInformationContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
 `;
-const GeneralInformation: React.FC<any> = ({ generalData }) => {
+const GeneralInformation: React.FC<IGeneralInformationProps> = ({
+  generalData
+}) => {
   return (
     <GeneralInformationContainer>
       <TitleContainer>General Information</TitleContainer>
-      <div style={{
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: '2rem'
-
-      }} >
-        {generalData?.map((item: any) => (
+      <InfoCardsContainer>
+        {generalData?.map((item: IGeneralInformation) => (
           <Col
             key={item.title}
             style={{
@@ -33,7 +33,7 @@ const GeneralInformation: React.FC<any> = ({ generalData }) => {
             />
           </Col>
         ))}
-      </div>
+      </InfoCardsContainer>
     </GeneralInformationContainer>
   );
 };

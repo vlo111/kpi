@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Column, ColumnConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
+import {
+  ISectorBreakdown,
+  ISectorBreakdownProps
+} from '../../../../types/api/dashboard';
 
-const SectorBreakdown: React.FC<any> = ({ sectorStatistics }) => {
-  const [data, setData] = useState<any>([]);
+const SectorBreakdown: React.FC<ISectorBreakdownProps> = ({
+  sectorStatistics
+}) => {
+  const [data, setData] = useState<ISectorBreakdown[]>([]);
 
   useEffect(() => {
     setData(sectorStatistics);
@@ -20,7 +26,7 @@ const SectorBreakdown: React.FC<any> = ({ sectorStatistics }) => {
     color: ['#F3C262', '#68A395'],
     dodgePadding: 0,
     renderer: 'svg',
-    padding: [30, 30, 80],
+    padding: [45, 30, 95],
     minColumnWidth: 20,
     maxColumnWidth: 40,
     columnStyle: {
@@ -43,10 +49,13 @@ const SectorBreakdown: React.FC<any> = ({ sectorStatistics }) => {
   };
 
   return (
-  <CardContainer width={'clamp(400px, 52vw, 100%)'}>
-    <ChartTitleContainer>Submitted applicants and trained applicants by course sector breakdown chart</ChartTitleContainer>
+    <CardContainer width={'clamp(400px, 48vw, 100%)'}>
+      <ChartTitleContainer>
+        Submitted applicants and trained applicants by course sector breakdown
+        chart
+      </ChartTitleContainer>
       <Column {...config} />
-  </CardContainer>
+    </CardContainer>
   );
 };
 
