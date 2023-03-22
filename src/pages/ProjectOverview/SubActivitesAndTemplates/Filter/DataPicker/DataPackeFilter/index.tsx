@@ -59,7 +59,7 @@ export const DateFilter: React.FC<IDateFilterCards> = ({
     if (!_.isEmpty(dateSearch.from)) {
       form.setFieldValue('from', moment(dateSearch.from));
       form.setFieldValue('to', moment(dateSearch.to));
-      form.setFieldValue('radio', false);
+      form.setFieldValue('radio', dateSearch.start);
     }
   }, [dateSearch]);
 

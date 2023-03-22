@@ -70,6 +70,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
     });
     setCheckedList([]);
     setAssignedUsersIds([]);
+    setSelectedRowId([]);
   };
 
   const navigate = useNavigate();
