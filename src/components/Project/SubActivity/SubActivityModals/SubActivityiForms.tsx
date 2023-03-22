@@ -44,6 +44,8 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
 
   const { Option } = Select;
   const options = ['Offline', 'Online', 'Blended'];
+  console.log(subActivity);
+
   return (
     <CreateSubActivity
       open={openCreateSubActivity}
@@ -147,11 +149,16 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
             <Row justify="start" align="middle" style={{ padding: '4px 11px' }}>
               <Col>
                 <AsnAvatar
-                  letter={`${firstName?.charAt(0)}${lastName?.charAt(0)}`}
+                  letter={`${
+                    firstName?.charAt(0) ?? subActivity?.firstName?.charAt(0)
+                  }    ${
+                    lastName?.charAt(0) ?? subActivity?.lastName?.charAt(0)
+                  }`}
                 />
               </Col>
               <Col style={{ marginLeft: '8px' }}>
-                {firstName} {lastName}
+                {firstName ?? subActivity?.firstName}{' '}
+                {lastName ?? subActivity?.lastName}
               </Col>
             </Row>
               )}
