@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { Button, Popover, Card, Col, Row, message, Typography } from 'antd';
 import styled from 'styled-components';
 
-import { PATHS } from '../../../../helpers/constants';
+// import { PATHS } from '../../../../helpers/constants';
 import { ConfirmModal } from '../../../../components/Forms/Modal/Confirm';
+import CreateTemplate from '../../../../components/CreateTemplateModal';
 import { IActiveTemplate, IOutletContext } from '../../../../types/project';
 import useDuplicateTemplate from '../../../../api/Activity/Template/useDuplicateTemplate';
 import useDeleteActivityTemplate from '../../../../api/Activity/Template/useDeleteActivityTemplate';
@@ -128,6 +129,7 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [templateId, setTemplateId] = useState<string>('');
   const [openCreateSubActivity, setOpenCreateSubActivity] = useState<boolean>(false);
+  const [editTemplate, setEditTemplate] = useState<boolean>(false);
 
   const { setProjectOverview } = useOutletContext<IOutletContext>();
 
@@ -148,7 +150,7 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
       void message.error('Something went wrong', 2);
     }
   });
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const title = (id: string, template: any): any => {
     return (
@@ -171,7 +173,9 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
             <Popup
               type="link"
               onClick={() => {
-                navigate(`/${PATHS.ACTIVITYTEMPLATE}`.replace(':id', id));
+                // navigate(`/${PATHS.ACTIVITYTEMPLATE}`.replace(':id', id));
+                setTemplateId(id);
+                setEditTemplate(true);
                 setProjectOverview({
                   areaOrder: resultAreaOrder,
                   activityId: inputActivityId,
@@ -330,6 +334,12 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
           templateId={templateId}
         />
       )}
+      {editTemplate && <CreateTemplate
+       isOpenCreateActivityModal={editTemplate}
+       setIsOpenCreateActivityModal={setEditTemplate}
+       edit={true}
+       templateId={templateId}
+        />}
     </>
   );
 };
