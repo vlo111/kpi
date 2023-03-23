@@ -23,7 +23,7 @@ const ActiveCourses: React.FC<IActiveCoursesProps> = ({
     yField: 'status_all_applicants',
     seriesField: 'name',
     renderer: 'svg',
-    radius: 1,
+    radius: 0.9,
     color: [
       '#F6976D',
       '#688EA3',

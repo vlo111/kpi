@@ -21,18 +21,23 @@ const TrainedByGender: React.FC<ITrainedByGenderProps> = ({
     data,
     xField: 'name',
     yField: 'count',
-    seriesField: 'name',
+    seriesField: 'type',
     isRange: true,
     renderer: 'svg',
     padding: [45, 30, 95],
-    color: ['#F6976D', '#688EA3'],
-    minColumnWidth: 20,
-    maxColumnWidth: 40,
-    columnBackground: {
-      style: {
-        fillOpacity: 0.3
+    color: ({ type }): any => {
+      if (type === 'Submitted male') {
+        return 'rgba(246, 151, 109, 0.7)';
+      } else if (type === 'Trained male') {
+        return '#F6976D';
+      } else if (type === 'Submitted female') {
+        return 'rgba(104, 142, 163, 0.7)';
+      } else if (type === 'Trained female') {
+        return '#688EA3';
       }
     },
+    minColumnWidth: 20,
+    maxColumnWidth: 40,
     columnStyle: {
       radius: [4, 4, 0, 0]
     },
