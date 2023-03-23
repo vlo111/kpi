@@ -176,6 +176,7 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
                 // navigate(`/${PATHS.ACTIVITYTEMPLATE}`.replace(':id', id));
                 setTemplateId(id);
                 setEditTemplate(true);
+                hide();
                 setProjectOverview({
                   areaOrder: resultAreaOrder,
                   activityId: inputActivityId,
