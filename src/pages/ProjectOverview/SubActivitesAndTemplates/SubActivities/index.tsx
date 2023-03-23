@@ -154,7 +154,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                     {item?.cardRound}
                   </div>
                   <Row
-                    gutter={[8, 16]}
+                    gutter={[8, 11]}
                     style={{ padding: '15px 0', cursor: 'pointer' }}
                     onClick={() => {
                       navigate(`/project/sub-activity/${item?.subActivityId}`);
@@ -165,17 +165,16 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                       style={{
                         color: 'var(--dark-1)',
                         fontSize: 'var(--headline-font-size)',
-                        display: 'flex',
-                        gap: '3px',
-                        width: '110px',
-                        height: '44px'
+                        width: '160px',
+                        lineHeight: '25px',
+                        height: '45px'
                       }}
                     >
                       <Tooltip title={item?.title}>
                         <Paragraph
                           strong
                           ellipsis={{
-                            rows: 1
+                            rows: 2
                           }}
                           className="subCardTemplater"
                         >
@@ -193,7 +192,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                       {moment(item?.startDate).format('DD/MM/YY')} -{' '}
                       {moment(item?.endDate).format('DD/MM/YY')}
                     </Col>
-                    <Space size={[10, 0]} align="start">
+                    <Space size={[10, 0]} align="start" direction="vertical">
                       <Col>
                         <Tooltip title={item?.subActivity?.sector?.title}>
                           <Paragraph
