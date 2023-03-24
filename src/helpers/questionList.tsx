@@ -3,7 +3,10 @@ import { Col, Row } from 'antd';
 import { ReactComponent as DeleteIcon } from '../assets/icons/delete.svg';
 import { ReactComponent as EditIcon } from '../assets/icons/edit.svg';
 import { FormFinish, NumberVoidType } from '../types/global';
-import { IApplicant, IFormValue } from '../types/api/application/applicationForm';
+import {
+  IApplicant,
+  IFormValue
+} from '../types/api/application/applicationForm';
 
 export const addQuestion = (
   value: IFormValue,
@@ -15,19 +18,20 @@ export const addQuestion = (
     relatedQuestions: [],
     answerType: answerTypeValue,
     title: value.question,
-    answers: value.names !== undefined && value.answerTypeName !== 'YES_NO'
-      ? value.names.map((item: string) => {
-        return {
-          title: item,
-          type: answerTypeValue
-        };
-      })
-      : value.answerTypeName === 'YES_NO'
-        ? [
-            { type: 'OPTION', title: 'Yes/Այո' },
-            { type: 'OPTION', title: 'No/Ոչ' }
-          ]
-        : [],
+    answers:
+      value.names !== undefined && value.answerTypeName !== 'YES_NO'
+        ? value.names.map((item: string) => {
+          return {
+            title: item,
+            type: answerTypeValue
+          };
+        })
+        : value.answerTypeName === 'YES_NO'
+          ? [
+              { type: 'OPTION', title: 'Yes/Այո' },
+              { type: 'OPTION', title: 'No/Ոչ' }
+            ]
+          : [],
     editable: true,
     otherOption: value.otherOption !== undefined ? value.otherOption : false,
     required: value.requiredFiled !== undefined ? value.requiredFiled : true,
@@ -52,19 +56,20 @@ export const updateQuestion = (
       relatedQuestions: [],
       answerType: answerTypeValue,
       title: value.question,
-      answers: value.names !== undefined && value.answerTypeName !== 'YES_NO'
-        ? value.names.map((item: string) => {
-          return {
-            title: item,
-            type: answerTypeValue
-          };
-        })
-        : value.answerTypeName === 'YES_NO'
-          ? [
-              { type: 'OPTION', title: 'Yes/Այո' },
-              { type: 'OPTION', title: 'No/Ոչ' }
-            ]
-          : [],
+      answers:
+        value.names !== undefined && value.answerTypeName !== 'YES_NO'
+          ? value.names.map((item: string) => {
+            return {
+              title: item,
+              type: item === 'Other/Այլ' ? 'SHORT_TEXT' : answerTypeValue
+            };
+          })
+          : value.answerTypeName === 'YES_NO'
+            ? [
+                { type: 'OPTION', title: 'Yes/Այո' },
+                { type: 'OPTION', title: 'No/Ոչ' }
+              ]
+            : [],
       editable: true,
       otherOption: value.otherOption !== undefined ? value.otherOption : false,
       required: value.requiredFiled !== undefined ? value.requiredFiled : true,
