@@ -186,7 +186,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                       <Location /> {item?.subActivity?.region?.title}
                     </Col>
                     <Col
-                      style={{ display: 'flex', gap: '3px', fontSize: '12px' }}
+                      style={{ display: 'flex', gap: '1px', fontSize: '12px' }}
                     >
                       <Calendar />
                       {moment(item?.startDate).format('DD/MM/YY')} -{' '}
