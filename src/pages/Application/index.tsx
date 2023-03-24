@@ -195,9 +195,9 @@ const Application: React.FC = () => {
         applicationData.successMessage =
           successMessage !== null ? successMessage?.current?.input?.value : '';
         applicationData.termsAndConditions = JSON.stringify(
-          form.getFieldValue('conditions') !== undefined
+          form.getFieldValue('conditions')?.[0] != null
             ? form.getFieldValue('conditions')
-            : ['', '']
+            : []
         );
         form.resetFields();
         if (location?.state?.edit === true) {
@@ -222,9 +222,9 @@ const Application: React.FC = () => {
   const onPreviewClick: Void = () => {
     if (applicationData !== undefined) {
       applicationData.termsAndConditions = JSON.stringify(
-        form.getFieldValue('conditions') !== undefined
+        form.getFieldValue('conditions')?.[0] != null
           ? form.getFieldValue('conditions')
-          : ['', '']
+          : []
       );
       applicationData.onlineSignature = onlineSignature;
       setIsOpenCreateActivityModal(true);
