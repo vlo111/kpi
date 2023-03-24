@@ -44,7 +44,6 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
 
   const { Option } = Select;
   const options = ['Offline', 'Online', 'Blended'];
-  console.log(subActivity);
 
   return (
     <CreateSubActivity
