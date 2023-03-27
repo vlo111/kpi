@@ -39,6 +39,7 @@ const WrapperSpace = styled(Space)`
 `;
 
 const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
+
   return (
     <>
       <WrapperSpace direction="vertical">
@@ -71,7 +72,7 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
             Sub-Activity Manager
           </AntCol>
           <AntCol span={12}>
-            {courseData?.manager?.firstName} {courseData?.manager?.lastName}
+            {courseData?.author?.firstName} {courseData?.author?.lastName}
           </AntCol>
         </Row>
         <Row>
