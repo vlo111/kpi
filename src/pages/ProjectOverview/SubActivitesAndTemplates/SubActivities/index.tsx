@@ -113,6 +113,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
     });
     setCheckedList([]);
     setAssignedUsersIds([]);
+    setSelectedRowId([]);
   };
 
   const navigate = useNavigate();
@@ -221,26 +222,27 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                   onOpenChange={(open) => handleOpenChange(open, item?.id)}
                 >
                   <Card
+                    key={i}
                     className={`card ${item?.status === 'INACTIVE'
-                      ? 'cardInactive'
-                      : item?.status === 'DONE'
-                        ? 'cardActive'
-                        : 'carDone'
+                        ? 'cardInactive'
+                        : item?.status === 'DONE'
+                          ? 'cardActive'
+                          : 'carDone'
                       }`}
                   >
                     <div
                       className={`cardRound ${item?.status === 'INACTIVE'
-                        ? 'cardRoundInactive'
-                        : item?.status === 'DONE'
-                          ? 'cardDone'
-                          : ''
+                          ? 'cardRoundInactive'
+                          : item?.status === 'DONE'
+                            ? 'cardDone'
+                            : ''
                         }`}
                     >
                       {item?.cardRound}
                     </div>
                     <PointSvg className='point' />
                     <Row
-                      gutter={[8, 16]}
+                      gutter={[8, 11]}
                       style={{ padding: '15px 0', cursor: 'pointer' }}
                       onClick={() => {
                         navigate(`/project/sub-activity/${item?.subActivityId}`);
@@ -251,17 +253,16 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                         style={{
                           color: 'var(--dark-1)',
                           fontSize: 'var(--headline-font-size)',
-                          display: 'flex',
-                          gap: '3px',
-                          width: '110px',
-                          height: '44px'
+                          width: '160px',
+                          lineHeight: '25px',
+                          height: '45px'
                         }}
                       >
                         <Tooltip title={item?.title}>
                           <Paragraph
                             strong
                             ellipsis={{
-                              rows: 1
+                              rows: 2
                             }}
                             className="subCardTemplater"
                           >
@@ -273,13 +274,13 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                         <Location /> {item?.subActivity?.region?.title}
                       </Col>
                       <Col
-                        style={{ display: 'flex', gap: '3px', fontSize: '12px' }}
+                        style={{ display: 'flex', gap: '1px', fontSize: '12px' }}
                       >
                         <Calendar />
                         {moment(item?.startDate).format('DD/MM/YY')} -{' '}
                         {moment(item?.endDate).format('DD/MM/YY')}
                       </Col>
-                      <Space size={[10, 0]} align="start">
+                      <Space size={[10, 0]} align="start" direction="vertical">
                         <Col>
                           <Tooltip title={item?.subActivity?.sector?.title}>
                             <Paragraph

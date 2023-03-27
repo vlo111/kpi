@@ -124,7 +124,7 @@ const PreviewAssessmentForm: React.FC<any> = ({
             align="center"
             style={{ paddingTop: '30px' }}
           >
-            <Signature/>
+            <Signature view={true}/>
           </Space>
         </AsnForm.Item>}
       </AsnForm>

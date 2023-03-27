@@ -79,6 +79,16 @@ export interface ICreateRequiredDocsData {
     count: number
   }
 }
+export interface IUpdateTemplateData {
+  id: string
+  data: {
+    title: string
+    description: string
+  }
+}
+
+export interface IUpdateTemplateMessage { data: { result: { successMessage: string } } }
+export interface IUpdateTemplateErrorMessage { response: { data: { message: string } } }
 
 export type CreateActivityTemplate = UseMutation<Void, any, ResponseErrorParam, ICreateTemplateData>;
 export type CreateSecondStepTemplate = UseMutation<Void, any, ResponseErrorParam, ICreateSecondStepData>
@@ -97,3 +107,4 @@ export type DeleteSetting = UseMutation<Void, any, ResponseErrorParam, IOnlyId>
 
 export type UpdateSetting = UseMutation<Void, any, ResponseErrorParam, IUpdateSettingData>
 export type UpdateSingleStatus = UseMutation<Void, any, ResponseErrorParam, IOnlyId>
+export type IUpdateActivityTemplate = UseMutation<Void, any, ResponseErrorParam, IUpdateTemplateData>;

@@ -12,12 +12,13 @@ const getSingleTemplate: any = (id: string, options = { enabled: false }) => {
       select: (data) => data.data
     }
   );
-  const { data, isSuccess, refetch, isLoading } = result;
+  const { data, isSuccess, refetch, isLoading, isFetching } = result;
   return {
     data: data?.result,
     isSuccess,
     refetch,
-    isLoading
+    isLoading,
+    isFetching
   };
 };
 

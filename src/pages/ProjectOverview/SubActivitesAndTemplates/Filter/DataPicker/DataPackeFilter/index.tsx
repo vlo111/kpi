@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Col, Space, Radio } from 'antd';
 
@@ -8,6 +8,7 @@ import { AsnForm } from '../../../../../../components/Forms/Form';
 import { AsnDatePicker } from '../../../../../../components/Forms/DatePicker';
 import moment, { Moment } from 'moment';
 import { AsnButton } from '../../../../../../components/Forms/Button';
+import _ from 'lodash';
 
 export const PickerSpace = styled(Space)`
   width: 100%;
@@ -29,7 +30,8 @@ export const PickerSpace = styled(Space)`
 
 export const DateFilter: React.FC<IDateFilterCards> = ({
   setDateSearch,
-  setOpen
+  setOpen,
+  dateSearch
 }) => {
   const [form] = AsnForm.useForm();
   const [startTime, setStartTime] = useState('');
@@ -53,6 +55,14 @@ export const DateFilter: React.FC<IDateFilterCards> = ({
     return current && current < moment(startTime);
   };
 
+  useEffect(() => {
+    if (!_.isEmpty(dateSearch.from)) {
+      form.setFieldValue('from', moment(dateSearch.from));
+      form.setFieldValue('to', moment(dateSearch.to));
+      form.setFieldValue('radio', dateSearch.start);
+    }
+  }, [dateSearch]);
+
   return (
     <>
       <AsnForm onFinish={onFinish} form={form}>
@@ -73,7 +83,7 @@ export const DateFilter: React.FC<IDateFilterCards> = ({
             </AsnForm.Item>
           </Col>
           <Col span={22}>
-            <AsnForm.Item name="to" label="to" rules={[{ required: true }]}>
+            <AsnForm.Item name='to' label="to" rules={[{ required: true }]}>
               <AsnDatePicker
                 placeholder="01/01/23"
                 format="DD/MM/YYYY"

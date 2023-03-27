@@ -211,7 +211,7 @@ const DataResult: React.FC<IDataResult> = ({
                   retainURLParams: false
                 }
               }}
-              style={{ height: window.innerHeight - 332 }}
+              style={{ height: window.innerHeight - 125 }}
             />
           </>
         )}

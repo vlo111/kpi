@@ -43,7 +43,7 @@ const SignatureModal = styled(AsnModal)`
   }
 `;
 
-const Signature: React.FC = () => {
+const Signature: React.FC<{ view?: boolean }> = ({ view }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = (): void => {
@@ -77,6 +77,7 @@ const Signature: React.FC = () => {
           color: 'var(--dark-1)',
           fontWeight: 700
         }}
+        disabled={view === true}
       >
         Online signature / Առցանց ստորագրություն
       </Button>

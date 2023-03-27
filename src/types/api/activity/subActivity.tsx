@@ -159,6 +159,17 @@ export interface ICreateSubActivityProps {
   courseStructure?: string
   projectId?: string
   sectionsCount: number
+  subActivity: {
+    firstName: string
+    lastName: string
+    manager: {
+      email: string
+      emailVerified: boolean
+      firstName: string
+      id: string
+      lastName: string
+    }
+  }
 }
 
 export interface ICourseSettingMap {
