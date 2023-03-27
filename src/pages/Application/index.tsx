@@ -181,12 +181,10 @@ const Application: React.FC = () => {
         void message.error('Please fill in at least one chart in the field.');
         setIsValidateMessage(false);
       } else {
-        const index = form.getFieldValue('conditions')?.lastIndexOf(undefined);/// //////////
-        console.log(index, 'onPublishClick');
-        if (index >= 0) {
-          form.getFieldValue('conditions').splice(index, 1);
-        }
         setIsValidateMessage(false);
+        const filteredCondition = form
+          .getFieldValue('conditions')
+          .filter((item: any) => Boolean(item));
         applicationData.description =
           formDescription.current !== null
             ? formDescription.current.resizableTextArea.textArea.value
@@ -200,14 +198,7 @@ const Application: React.FC = () => {
             : deadlineDate;
         applicationData.successMessage =
           successMessage !== null ? successMessage?.current?.input?.value : '';
-        applicationData.termsAndConditions = JSON.stringify(
-          (form.getFieldValue('conditions')?.lastIndexOf(null) !== -1 ||
-            form.getFieldValue('conditions')?.lastIndexOf('') === -1) &&
-            (form.getFieldValue('conditions')?.lastIndexOf(null) === -1 ||
-              form.getFieldValue('conditions')?.lastIndexOf('') !== -1)
-            ? form.getFieldValue('conditions')
-            : []
-        );
+        applicationData.termsAndConditions = JSON.stringify(filteredCondition);
         form.resetFields();
         if (location?.state?.edit === true) {
           updateApplicationForm({
@@ -230,19 +221,10 @@ const Application: React.FC = () => {
 
   const onPreviewClick: Void = () => {
     if (applicationData !== undefined) {
-      const index = form.getFieldValue('conditions')?.lastIndexOf(undefined);
-      console.log(index, 'onPreviewClick', form.getFieldValue('conditions')); /// ///////
-      if (index >= 0) {
-        form.getFieldValue('conditions').splice(index, 1);
-      }
-      applicationData.termsAndConditions = JSON.stringify(
-        (form.getFieldValue('conditions')?.lastIndexOf(null) !== -1 ||
-          form.getFieldValue('conditions')?.lastIndexOf('') === -1) &&
-          (form.getFieldValue('conditions')?.lastIndexOf(null) === -1 ||
-            form.getFieldValue('conditions')?.lastIndexOf('') !== -1)
-          ? form.getFieldValue('conditions')
-          : []
-      );
+      const filteredCondition = form
+        .getFieldValue('conditions')
+        .filter((item: any) => Boolean(item));
+      applicationData.termsAndConditions = JSON.stringify(filteredCondition);
       applicationData.onlineSignature = onlineSignature;
       setIsOpenCreateActivityModal(true);
       applicationData.description =
