@@ -49,6 +49,8 @@ export const updateQuestion = (
   questionRowIndex: number,
   answerTypeValue: string
 ): void => {
+  value.names = value.otherOption === true ? value.names : value.names?.filter((item) => item !== 'Other/Այլ');
+
   applicationData?.applicationFormSections[sectionNumber].questions?.splice(
     questionRowIndex,
     1,
