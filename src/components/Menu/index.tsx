@@ -113,7 +113,6 @@ export const Menu: React.FC = () => {
     if (pathname.includes('files')) {
       currenPath = ['4'];
     }
-
     setCurrentItem(currenPath);
   }, [pathname]);
 
@@ -125,8 +124,12 @@ export const Menu: React.FC = () => {
         }
         if (projectId !== null && item === menuItemsNavigate[3]) {
           navigate(`/project/${PATHS.FILES}`.replace(':id', projectId));
-        } else {
-          navigate(item);
+        }
+        if (projectId !== null && item === menuItemsNavigate[1]) {
+          navigate(`${PATHS.TEAMS}`.replace(':id', projectId));
+        }
+        if (projectId !== null && item === menuItemsNavigate[2]) {
+          navigate(`${PATHS.APPLICANTS}`.replace(':id', projectId));
         }
       }
     });
