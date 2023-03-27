@@ -10,7 +10,6 @@ import { AsnForm } from '../../Forms/Form';
 import { AsnSwitch } from '../../Forms/Switch';
 import { FormFinish, Void } from '../../../types/global';
 import { answerType } from '../../../helpers/constants';
-import { addQuestion, updateQuestion } from '../../../helpers/questionList';
 import {
   IAddQuestionCard,
   IAnswer
@@ -61,16 +60,12 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
   setIsQuestionCardVisible,
   isQuestionCardVisible,
   cardId,
-  applicationData,
-  setApplicationData,
   answerTypeValue,
   setAnswerTypeValue,
   singleQuestionData,
-  setSingleQuestionData,
-  addOrUpdateQuestion,
-  questionRowIndex
+  setSingleQuestionData
 }) => {
-  const [form] = AsnForm.useForm();
+  const form = AsnForm.useFormInstance();
 
   const onAnswerTypeChange: FormFinish = (value) => {
     setAnswerTypeValue(value);
@@ -106,62 +101,6 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
     }
   }, [singleQuestionData]);
 
-  const onFinishedForm: FormFinish = (value) => {
-    const applicationDataClone = JSON.parse(JSON.stringify(applicationData));
-    if (addOrUpdateQuestion === 'add') {
-      if (cardId === 'personal_info') {
-        addQuestion(value, 0, applicationDataClone, answerTypeValue);
-      } else if (cardId === 'educational_info') {
-        addQuestion(value, 1, applicationDataClone, answerTypeValue);
-      } else if (cardId === 'other_info') {
-        addQuestion(value, 2, applicationDataClone, answerTypeValue);
-      } else {
-        addQuestion(value, 3, applicationDataClone, answerTypeValue);
-      }
-    } else if (addOrUpdateQuestion === 'edit') {
-      if (cardId === 'personal_info') {
-        updateQuestion(
-          value,
-          0,
-          applicationDataClone,
-          questionRowIndex,
-          answerTypeValue
-        );
-      } else if (cardId === 'educational_info') {
-        updateQuestion(
-          value,
-          1,
-          applicationDataClone,
-          questionRowIndex,
-          answerTypeValue
-        );
-      } else if (cardId === 'other_info') {
-        updateQuestion(
-          value,
-          2,
-          applicationDataClone,
-          questionRowIndex,
-          answerTypeValue
-        );
-      } else {
-        updateQuestion(
-          value,
-          3,
-          applicationDataClone,
-          questionRowIndex,
-          answerTypeValue
-        );
-      }
-    }
-    form.resetFields();
-    setApplicationData({ ...applicationDataClone });
-    setIsQuestionCardVisible(
-      isQuestionCardVisible.filter((itemId) => itemId !== cardId)
-    );
-    setAnswerTypeValue('OPTION');
-    setSingleQuestionData(undefined);
-  };
-
   const onCancelAddQuestion: Void = () => {
     setIsQuestionCardVisible(
       isQuestionCardVisible.filter((itemId) => itemId !== cardId)
@@ -172,13 +111,6 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
   };
 
   return (
-    <AsnForm
-      form={form}
-      initialValues={{ names: ['', ''] }}
-      autoComplete="off"
-      onFinish={onFinishedForm}
-      name="addQuestion"
-    >
       <CardContainer
         borderTop={'3px solid var(--secondary-green)'}
         marginTop={'1rem'}
@@ -296,7 +228,6 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
               )}
         </Space>
       </CardContainer>
-    </AsnForm>
   );
 };
 

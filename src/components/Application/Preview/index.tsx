@@ -64,6 +64,12 @@ const PreviewModal: React.FC<IPreviewModal> = ({
     setIsOpenCreateActivityModal(false);
   };
 
+  const conditionsData = JSON.parse(
+    questionData?.termsAndConditions !== undefined
+      ? questionData?.termsAndConditions
+      : '[]'
+  );
+
   return (
     <PreviewModalContent
       footer={false}
@@ -98,13 +104,18 @@ const PreviewModal: React.FC<IPreviewModal> = ({
           />
             )
           : null}
-        <TermsCondition
-          termsConditionData={
-            questionData?.termsAndConditions !== undefined
-              ? questionData?.termsAndConditions
-              : '[]'
-          }
-        />
+        {questionData?.termsAndConditions !== undefined &&
+        conditionsData.length > 0
+          ? (
+          <TermsCondition
+            termsConditionData={
+              questionData?.termsAndConditions !== undefined
+                ? questionData?.termsAndConditions
+                : '[]'
+            }
+          />
+            )
+          : null}
         {questionData?.onlineSignature === true
           ? (
           <Signature>
