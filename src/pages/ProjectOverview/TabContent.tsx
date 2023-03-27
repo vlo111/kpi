@@ -99,6 +99,7 @@ const TabContent: React.FC<ITabContent> = ({
     data: subActivities,
     isLoading: isLoadingSubActivity,
     isFetching: isFetchingActivities,
+    refetch: refetchSubActivities,
     error
   } = useGetSubActivities(
     inputActivityId ?? defaultInputActivityId,
@@ -191,6 +192,7 @@ const TabContent: React.FC<ITabContent> = ({
                   activeTemplate={activeTemplate}
                   setSelectedRowId={setSelectedRowId}
                   selectedRowId={selectedRowId}
+                  refetchSubActivities={refetchSubActivities}
                 />
                         )
                       : (

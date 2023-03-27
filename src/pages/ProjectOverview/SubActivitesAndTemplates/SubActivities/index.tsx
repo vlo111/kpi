@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Row,
   Space,
@@ -24,12 +24,13 @@ import { AssingnesFilter } from '../Filter/Assigned';
 import { DateFilterCards } from '../Filter/DataPicker';
 import { StatusFilter } from '../Filter/Status';
 import AddSubActivity from '../AddActivity';
+import EditSubCourse from '../../../../components/Project/SubActivity/SubActivityModals/Edit';
 
 import AsnAvatar from '../../../../components/Forms/Avatar';
 import { AssignedUserType } from '../../../../types/api/activity/subActivity';
 import { ReactComponent as PointSvg } from '../../../../assets/icons/point.svg';
 import { ReactComponent as EditSvg } from '../../../../assets/icons/edit.svg';
-import { ReactComponent as DeleteSvg } from '../../../../assets/icons/delete.svg';
+// import { ReactComponent as DeleteSvg } from '../../../../assets/icons/delete.svg';
 import { ReactComponent as CloseSvg } from '../../../../assets/icons/closeIcon.svg';
 
 const Container = styled.div`
@@ -89,10 +90,21 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
   inputActivityId,
   setAssignedUsersIds,
   selectedRowId,
-  setSelectedRowId
+  setSelectedRowId,
+  refetchSubActivities
 }) => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
+
+  const [openPopover, setOpenPopover] = useState({
+    show: false,
+    id: ''
+  });
+
+  const [openCreateSubActivity, setOpenCreateSubActivity] = useState<boolean>(false);
+  const [subActivityId, setSubActivityId] = useState('');
+  const { id } = useParams();
+
   const resetFilter: Void = () => {
     setDateSearch({
       start: true,
@@ -105,23 +117,42 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
 
   const navigate = useNavigate();
 
-  const content = (
-    <>
-      <Row style={{ marginBottom: '10px' }} justify='end'>
-        <CloseSvg style={{ float: 'right' }} />
-      </Row>
-      <Space direction='vertical' style={{ width: '100%' }}>
-        <Row align={'middle'} style={{ cursor: 'pointer' }}>
-          <EditSvg style={{ marginRight: '10px' }} />
-          <Paragraph className='tooltip_title'>Edit</Paragraph>
+  const handleOpenChange = (open: boolean, id: string): void => {
+    setOpenPopover({
+      show: open,
+      id
+    });
+  };
+
+  const handleEdit = (subActivityId: string): void => {
+    setSubActivityId(subActivityId);
+    setOpenCreateSubActivity(true);
+    handleOpenChange(false, '');
+  };
+
+  const content = (subActivityId: string): React.ReactElement => {
+    return (
+      <>
+        <Row
+          style={{ marginBottom: '10px' }}
+          justify='end'
+          onClick={() => handleOpenChange(false, '')}
+        >
+          <CloseSvg style={{ float: 'right' }} />
         </Row>
-        <Row align={'middle'} style={{ cursor: 'pointer' }}>
-          <DeleteSvg style={{ marginRight: '10px' }} />
-          <Paragraph className='tooltip_title'>Delete</Paragraph>
-        </Row>
-      </Space>
-    </>
-  );
+        <Space direction='vertical' style={{ width: '100%' }}>
+          <Row align={'middle'} style={{ cursor: 'pointer' }} onClick={() => handleEdit(subActivityId)}>
+            <EditSvg style={{ marginRight: '10px' }} />
+            <Paragraph className='tooltip_title'>Edit</Paragraph>
+          </Row>
+          {/* <Row align={'middle'} style={{ cursor: 'pointer' }}>
+            <DeleteSvg style={{ marginRight: '10px' }} />
+            <Paragraph className='tooltip_title'>Delete</Paragraph>
+          </Row> */}
+        </Space>
+      </>
+    );
+  };
 
   return (
     <>
@@ -181,11 +212,13 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
               </Button>
               {subActivities?.map((item: ISubActivities, i: number) => (
                 <Popover
-                  content={content}
+                  content={() => content(item?.subActivityId)}
                   placement="bottom"
                   trigger="click"
-                  key={i}
+                  key={item?.id}
                   getPopupContainer={(trigger: HTMLElement) => trigger}
+                  open={!!openPopover.show && openPopover.id === item?.id}
+                  onOpenChange={(open) => handleOpenChange(open, item?.id)}
                 >
                   <Card
                     className={`card ${item?.status === 'INACTIVE'
@@ -298,6 +331,15 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
           templates={templates}
         />
       )}
+      {openCreateSubActivity &&
+        <EditSubCourse
+          setOpenCreateSubActivity={setOpenCreateSubActivity}
+          openCreateSubActivity={openCreateSubActivity}
+          projectId={id as string}
+          InputActivityId={subActivityId}
+          refetch={refetchSubActivities}
+        />
+      }
     </>
   );
 };
