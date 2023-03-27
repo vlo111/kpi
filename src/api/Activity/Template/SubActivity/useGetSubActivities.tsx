@@ -13,14 +13,14 @@ const useGetSubActivities: any = (id: string, params: object = {}, options = { e
       select: (data) => data.data
     }
   );
-  const { data, isSuccess, isLoading, error, isFetching } = result;
+  const { data, isSuccess, isLoading, error, isFetching, refetch } = result;
   return {
     ...result,
     error,
     data: isSuccess ? data?.result : [],
     isFetching,
-    isLoading
-    // refetch
+    isLoading,
+    refetch
   };
 };
 

@@ -379,6 +379,7 @@ export interface ISubActivityAndTemplates {
   activeTemplate: string
   selectedRowId: React.Key[]
   setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  refetchSubActivities: any
 }
 
 export interface IResultAreasTitles {
@@ -428,6 +429,7 @@ export interface ISubActivitiesProps {
   templates: IProjectTemplate[]
   selectedRowId: React.Key[]
   setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  refetchSubActivities: any
 }
 
 export interface IAssignedFilter {
@@ -456,6 +458,7 @@ export interface IAssingedUser {
 }
 
 export interface ISubActivities {
+  id: string
   status: string
   title: string
   cardRound: string

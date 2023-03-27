@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Row,
   Space,
@@ -8,7 +8,8 @@ import {
   Col,
   Typography,
   Tooltip,
-  Avatar
+  Avatar,
+  Popover
 } from 'antd';
 import styled from 'styled-components';
 import moment from 'moment';
@@ -23,9 +24,14 @@ import { AssingnesFilter } from '../Filter/Assigned';
 import { DateFilterCards } from '../Filter/DataPicker';
 import { StatusFilter } from '../Filter/Status';
 import AddSubActivity from '../AddActivity';
+import EditSubCourse from '../../../../components/Project/SubActivity/SubActivityModals/Edit';
 
 import AsnAvatar from '../../../../components/Forms/Avatar';
 import { AssignedUserType } from '../../../../types/api/activity/subActivity';
+import { ReactComponent as PointSvg } from '../../../../assets/icons/point.svg';
+import { ReactComponent as EditSvg } from '../../../../assets/icons/edit.svg';
+// import { ReactComponent as DeleteSvg } from '../../../../assets/icons/delete.svg';
+import { ReactComponent as CloseSvg } from '../../../../assets/icons/closeIcon.svg';
 
 const Container = styled.div`
   .ant-select:not(.ant-select-customize-input) .ant-select-selector {
@@ -40,6 +46,32 @@ const Container = styled.div`
   }
   .ant-typography strong {
     font-weight: 400;
+  }
+  .point{
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    width: 20px;
+    top: 5px
+  }
+  .tooltip_title{
+    margin-bottom: 0;
+  }
+  .ant-popover {
+    width: 100%;
+    top: 15px !important;
+  }
+  .ant-popover-content {
+    margin: 0px 10px;
+  }
+  .ant-popover-placement-bottom {
+    padding-top: 0;
+  }
+  .ant-popover-arrow {
+    display: none;
+  }
+  svg{
+    cursor: pointer;
   }
 `;
 const { Paragraph } = Typography;
@@ -58,10 +90,21 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
   inputActivityId,
   setAssignedUsersIds,
   selectedRowId,
-  setSelectedRowId
+  setSelectedRowId,
+  refetchSubActivities
 }) => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
+
+  const [openPopover, setOpenPopover] = useState({
+    show: false,
+    id: ''
+  });
+
+  const [openCreateSubActivity, setOpenCreateSubActivity] = useState<boolean>(false);
+  const [subActivityId, setSubActivityId] = useState('');
+  const { id } = useParams();
+
   const resetFilter: Void = () => {
     setDateSearch({
       start: true,
@@ -74,6 +117,43 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
   };
 
   const navigate = useNavigate();
+
+  const handleOpenChange = (open: boolean, id: string): void => {
+    setOpenPopover({
+      show: open,
+      id
+    });
+  };
+
+  const handleEdit = (subActivityId: string): void => {
+    setSubActivityId(subActivityId);
+    setOpenCreateSubActivity(true);
+    handleOpenChange(false, '');
+  };
+
+  const content = (subActivityId: string): React.ReactElement => {
+    return (
+      <>
+        <Row
+          style={{ marginBottom: '10px' }}
+          justify='end'
+          onClick={() => handleOpenChange(false, '')}
+        >
+          <CloseSvg style={{ float: 'right' }} />
+        </Row>
+        <Space direction='vertical' style={{ width: '100%' }}>
+          <Row align={'middle'} style={{ cursor: 'pointer' }} onClick={() => handleEdit(subActivityId)}>
+            <EditSvg style={{ marginRight: '10px' }} />
+            <Paragraph className='tooltip_title'>Edit</Paragraph>
+          </Row>
+          {/* <Row align={'middle'} style={{ cursor: 'pointer' }}>
+            <DeleteSvg style={{ marginRight: '10px' }} />
+            <Paragraph className='tooltip_title'>Delete</Paragraph>
+          </Row> */}
+        </Space>
+      </>
+    );
+  };
 
   return (
     <>
@@ -132,69 +212,53 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                 + Add Sub Activity
               </Button>
               {subActivities?.map((item: ISubActivities, i: number) => (
-                <Card
-                  key={i}
-                  className={`card ${
-                    item?.status === 'INACTIVE'
-                      ? 'cardInactive'
-                      : item?.status === 'DONE'
-                      ? 'cardActive'
-                      : 'carDone'
-                  }`}
+                <Popover
+                  content={() => content(item?.subActivityId)}
+                  placement="bottom"
+                  trigger="click"
+                  key={item?.id}
+                  getPopupContainer={(trigger: HTMLElement) => trigger}
+                  open={!!openPopover.show && openPopover.id === item?.id}
+                  onOpenChange={(open) => handleOpenChange(open, item?.id)}
                 >
-                  <div
-                    className={`cardRound ${
-                      item?.status === 'INACTIVE'
-                        ? 'cardRoundInactive'
+                  <Card
+                    key={i}
+                    className={`card ${item?.status === 'INACTIVE'
+                        ? 'cardInactive'
                         : item?.status === 'DONE'
-                        ? 'cardDone'
-                        : ''
-                    }`}
+                          ? 'cardActive'
+                          : 'carDone'
+                      }`}
                   >
-                    {item?.cardRound}
-                  </div>
-                  <Row
-                    gutter={[8, 11]}
-                    style={{ padding: '15px 0', cursor: 'pointer' }}
-                    onClick={() => {
-                      navigate(`/project/sub-activity/${item?.subActivityId}`);
-                    }
-                    }
-                  >
-                    <Col
-                      style={{
-                        color: 'var(--dark-1)',
-                        fontSize: 'var(--headline-font-size)',
-                        width: '160px',
-                        lineHeight: '25px',
-                        height: '45px'
-                      }}
+                    <div
+                      className={`cardRound ${item?.status === 'INACTIVE'
+                          ? 'cardRoundInactive'
+                          : item?.status === 'DONE'
+                            ? 'cardDone'
+                            : ''
+                        }`}
                     >
-                      <Tooltip title={item?.title}>
-                        <Paragraph
-                          strong
-                          ellipsis={{
-                            rows: 2
-                          }}
-                          className="subCardTemplater"
-                        >
-                          {item?.title}
-                        </Paragraph>
-                      </Tooltip>
-                    </Col>
-                    <Col style={{ display: 'flex', gap: '3px' }}>
-                      <Location /> {item?.subActivity?.region?.title}
-                    </Col>
-                    <Col
-                      style={{ display: 'flex', gap: '1px', fontSize: '12px' }}
+                      {item?.cardRound}
+                    </div>
+                    <PointSvg className='point' />
+                    <Row
+                      gutter={[8, 11]}
+                      style={{ padding: '15px 0', cursor: 'pointer' }}
+                      onClick={() => {
+                        navigate(`/project/sub-activity/${item?.subActivityId}`);
+                      }
+                      }
                     >
-                      <Calendar />
-                      {moment(item?.startDate).format('DD/MM/YY')} -{' '}
-                      {moment(item?.endDate).format('DD/MM/YY')}
-                    </Col>
-                    <Space size={[10, 0]} align="start" direction="vertical">
-                      <Col>
-                        <Tooltip title={item?.subActivity?.sector?.title}>
+                      <Col
+                        style={{
+                          color: 'var(--dark-1)',
+                          fontSize: 'var(--headline-font-size)',
+                          width: '160px',
+                          lineHeight: '25px',
+                          height: '45px'
+                        }}
+                      >
+                        <Tooltip title={item?.title}>
                           <Paragraph
                             strong
                             ellipsis={{
@@ -202,35 +266,60 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                             }}
                             className="subCardTemplater"
                           >
-                            {item?.subActivity?.sector?.title}
+                            {item?.title}
                           </Paragraph>
                         </Tooltip>
                       </Col>
-                      <Col span={24}>
-                        <Avatar.Group maxCount={2}>
-                          {item?.subActivity?.assignees.map(
-                            (i: AssignedUserType) => {
-                              return (
-                                <Tooltip
-                                  key={i?.id}
-                                  placement="top"
-                                  title={`${i?.firstName} ${i?.lastName}`}
-                                >
-                                  <AsnAvatar
-                                    letter={`${i?.firstName?.charAt(
-                                      0
-                                    )}${i?.lastName?.charAt(0)}`}
-                                    src={i.photo}
-                                  />
-                                </Tooltip>
-                              );
-                            }
-                          )}
-                        </Avatar.Group>
+                      <Col style={{ display: 'flex', gap: '3px' }}>
+                        <Location /> {item?.subActivity?.region?.title}
                       </Col>
-                    </Space>
-                  </Row>
-                </Card>
+                      <Col
+                        style={{ display: 'flex', gap: '1px', fontSize: '12px' }}
+                      >
+                        <Calendar />
+                        {moment(item?.startDate).format('DD/MM/YY')} -{' '}
+                        {moment(item?.endDate).format('DD/MM/YY')}
+                      </Col>
+                      <Space size={[10, 0]} align="start" direction="vertical">
+                        <Col>
+                          <Tooltip title={item?.subActivity?.sector?.title}>
+                            <Paragraph
+                              strong
+                              ellipsis={{
+                                rows: 2
+                              }}
+                              className="subCardTemplater"
+                            >
+                              {item?.subActivity?.sector?.title}
+                            </Paragraph>
+                          </Tooltip>
+                        </Col>
+                        <Col span={24}>
+                          <Avatar.Group maxCount={2}>
+                            {item?.subActivity?.assignees.map(
+                              (i: AssignedUserType) => {
+                                return (
+                                  <Tooltip
+                                    key={i?.id}
+                                    placement="top"
+                                    title={`${i?.firstName} ${i?.lastName}`}
+                                  >
+                                    <AsnAvatar
+                                      letter={`${i?.firstName?.charAt(
+                                        0
+                                      )}${i?.lastName?.charAt(0)}`}
+                                      src={i.photo}
+                                    />
+                                  </Tooltip>
+                                );
+                              }
+                            )}
+                          </Avatar.Group>
+                        </Col>
+                      </Space>
+                    </Row>
+                  </Card>
+                </Popover>
               ))}
             </Row>
           </AsnCardSubActivity>
@@ -243,6 +332,15 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
           templates={templates}
         />
       )}
+      {openCreateSubActivity &&
+        <EditSubCourse
+          setOpenCreateSubActivity={setOpenCreateSubActivity}
+          openCreateSubActivity={openCreateSubActivity}
+          projectId={id as string}
+          InputActivityId={subActivityId}
+          refetch={refetchSubActivities}
+        />
+      }
     </>
   );
 };
