@@ -136,7 +136,7 @@ const ProjectOverview: React.FC = () => {
       <CreateTemplate
         isOpenCreateActivityModal={isOpenCreateActivityModal}
         setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
-        activityId={inputActivityId ?? defaultInputActivityId}
+        activityId={activityId ?? resultAreaId ?? inputActivityId ?? defaultInputActivityId}
       />
     </>
   );
