@@ -33,6 +33,13 @@ const EditSubCourse: React.FC<ICreateSubActivityTypes> = ({
         duration: 3
       });
       setOpenCreateSubActivity(false);
+    },
+    onError: (e: {
+      response: {
+        data: { message: string }
+      }
+    }) => {
+      void message.error(e.response.data.message);
     }
   });
 

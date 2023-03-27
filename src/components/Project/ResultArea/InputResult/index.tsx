@@ -16,8 +16,6 @@ import { Void } from '../../../../types/global';
 import { AsnForm } from '../../../Forms/Form';
 
 const tooltipText = [
-  'Must include at least one result area and at least one expected result measurement.',
-  'Must include at least one result area and at least one expected result measurement.',
   'Code is optional; can contain: A-Z letters, 0-9 digits, symbol (.).',
   'Expected result statement is required; can contain: A-Z letters, 0-9 digits; maximum of 256 characters.',
   'Target for Percentage: Range 1-100.',
@@ -78,7 +76,7 @@ const InputResult: React.FC = () => {
                   id={`ans-title-${field.key}`}
                   className="ans-title result_area_title"
                 >
-                  <span>Input Result Area {order(field.key)} *</span>
+                  <span>Input Objective {order(field.key)} *</span>
                   <Tooltip
                     overlayClassName="result-area-tooltip"
                     placement="right"
@@ -125,7 +123,7 @@ const InputResult: React.FC = () => {
                   add(initialResultArea(fields.length + 1))
                 }
               >
-                +Add Result Area
+                +Add Objective
               </AsnButton>
             </Row>
           </>

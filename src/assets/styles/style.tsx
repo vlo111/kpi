@@ -238,6 +238,7 @@ const GlobalStyle = createGlobalStyle`
     overflow-y: auto !important;
   }
   .filePreviewModal{
+    top: 10px !important;
     width: auto!important;
     height: 500px !important;
   }
@@ -413,6 +414,7 @@ const GlobalStyle = createGlobalStyle`
     border-bottom: 1px solid var(--dark-border-ultramarine) !important;
 
   }
+
 `;
 
 export default GlobalStyle;

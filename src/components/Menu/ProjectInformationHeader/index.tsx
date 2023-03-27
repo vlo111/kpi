@@ -33,6 +33,9 @@ const AntIcon = styled(Icon)`
     vertical-align: -0.225em;
     font-size: var(--font-size-base-medium);
   }
+  svg{
+    width: 14px !important;
+  }
 `;
 const AntCol = styled(Col)`
   color: var(--dark-border-ultramarine);
