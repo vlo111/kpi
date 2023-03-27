@@ -131,13 +131,16 @@ export const Menu: React.FC = () => {
         if (projectId !== null && item === menuItemsNavigate[2]) {
           navigate(`${PATHS.APPLICANTS}`.replace(':id', projectId));
         }
+        if (projectId !== null && item === menuItemsNavigate[4]) {
+          navigate(`${PATHS.ROOT}`.replace(':id', projectId));
+        }
       }
     });
   };
 
   return (
     <MenuLayout>
-      <Header onClick={() => navigate('/')}>
+      <Header onClick={() => navigate(`/project/${PATHS.OVERVIEW}`.replace(':id', projectId))}>
         <LogoSvg />
       </Header>
       <AntMenu
