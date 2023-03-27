@@ -39,7 +39,6 @@ const WrapperSpace = styled(Space)`
 `;
 
 const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
-
   return (
     <>
       <WrapperSpace direction="vertical">
