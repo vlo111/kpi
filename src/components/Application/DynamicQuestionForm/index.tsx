@@ -89,9 +89,7 @@ const DynamicQuestionForm: React.FC<{
                       }
                     />
                   </AsnForm.Item>
-                  {fields.length > 2 &&
-                  (singleQuestionData !== undefined &&
-                    singleQuestionData[field.name]?.title !== 'Other/Այլ')
+                  {fields.length > 2
                     ? (
                     <DeleteIcon
                       className="dynamic-delete-button"
