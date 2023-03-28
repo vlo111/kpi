@@ -71,7 +71,7 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
             Sub-Activity Manager
           </AntCol>
           <AntCol span={12}>
-            {courseData?.manager?.firstName} {courseData?.manager?.lastName}
+            {courseData?.author?.firstName} {courseData?.author?.lastName}
           </AntCol>
         </Row>
         <Row>

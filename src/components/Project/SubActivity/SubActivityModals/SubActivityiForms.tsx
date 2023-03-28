@@ -14,10 +14,10 @@ import { CreateSubActivity } from './CreateModalStyles';
 import { VALIDATE_MESSAGES } from '../../../../helpers/constants';
 import { ICreateSubActivityProps } from '../../../../types/api/activity/subActivity';
 import useGetProjectDetails from '../../../../api/Details/useGetProjectDetails';
-import { useAuth } from '../../../../hooks/useAuth';
 import AsnAvatar from '../../../Forms/Avatar';
-import { IUser } from '../../../../types/auth';
 import CustomInputs from './CustomInputsList';
+import { useAuth } from '../../../../hooks/useAuth';
+import { IUser } from '../../../../types/auth';
 
 const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
   openCreateSubActivity,
@@ -31,15 +31,16 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
   projectId,
   sectionsCount,
   setActiveTab,
-  activeTab
+  activeTab,
+  subActivity
 }) => {
   const { mutate: UploadDoc } = useFileUpload();
   const { projectDetails } = useGetProjectDetails(projectId);
+
+  const { organizations, regions, sectors } = projectDetails;
   const { user } = useAuth();
 
   const { firstName, lastName }: IUser = user;
-
-  const { organizations, regions, sectors } = projectDetails;
 
   const { Option } = Select;
   const options = ['Offline', 'Online', 'Blended'];
@@ -101,7 +102,12 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
           label="Organization"
           rules={[{ required: true }]}
         >
-          <AsnSelect suffixIcon={<ArrowSvg />} getPopupContainer={(trigger: HTMLElement) => trigger.parentElement as HTMLElement}>
+          <AsnSelect
+            suffixIcon={<ArrowSvg />}
+            getPopupContainer={(trigger: HTMLElement) =>
+              trigger.parentElement as HTMLElement
+            }
+          >
             {organizations?.map((organization: any, i: number) => (
               <Option key={i} value={organization?.id}>
                 {organization?.title}
@@ -123,19 +129,41 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
           label="Sub-Activity Manager"
           rules={[{ required: false }]}
         >
-          <Row justify="start" align="middle" style={{ padding: '4px 11px' }}>
-            <Col>
-              <AsnAvatar
-                letter={`${firstName?.charAt(0)}${lastName?.charAt(0)}`}
-              />
-            </Col>
-            <Col style={{ marginLeft: '8px' }}>
+          {edit ?? false
+            ? (
+            <Row justify="start" align="middle" style={{ padding: '4px 11px' }}>
+              <Col>
+                <AsnAvatar
+                  letter={`${subActivity?.firstName?.charAt(
+                    0
+                  )}${subActivity?.lastName?.charAt(0)}`}
+                />
+              </Col>
+              <Col style={{ marginLeft: '8px' }}>
+                {subActivity?.firstName} {subActivity?.lastName}
+              </Col>
+            </Row>
+              )
+            : (
+            <Row justify="start" align="middle" style={{ padding: '4px 11px' }}>
+              <Col>
+                <AsnAvatar
+                  letter={`${firstName?.charAt(0)}${lastName?.charAt(0)}`}
+                />
+              </Col>
+              <Col style={{ marginLeft: '8px' }}>
               {firstName} {lastName}
-            </Col>
-          </Row>
+              </Col>
+            </Row>
+              )}
         </AsnForm.Item>
         <AsnForm.Item name="sector" label="Sector" rules={[{ required: true }]}>
-          <AsnSelect suffixIcon={<ArrowSvg />} getPopupContainer={(trigger: HTMLElement) => trigger.parentElement as HTMLElement}>
+          <AsnSelect
+            suffixIcon={<ArrowSvg />}
+            getPopupContainer={(trigger: HTMLElement) =>
+              trigger.parentElement as HTMLElement
+            }
+          >
             {sectors?.map((sector, i: number) => (
               <Option key={i} value={sector?.id}>
                 {sector?.title}
@@ -144,7 +172,12 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
           </AsnSelect>
         </AsnForm.Item>
         <AsnForm.Item name="region" label="Region" rules={[{ required: true }]}>
-          <AsnSelect suffixIcon={<ArrowSvg />} getPopupContainer={(trigger: HTMLElement) => trigger.parentElement as HTMLElement}>
+          <AsnSelect
+            suffixIcon={<ArrowSvg />}
+            getPopupContainer={(trigger: HTMLElement) =>
+              trigger.parentElement as HTMLElement
+            }
+          >
             {regions?.map((region, i: number) => (
               <Option key={i} value={region?.id}>
                 {region?.title}
@@ -172,7 +205,9 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
               <AsnSelect
                 suffixIcon={<ArrowSvg />}
                 popupClassName="customPopupSelect"
-                getPopupContainer={(trigger: HTMLElement) => trigger.parentElement as HTMLElement}
+                getPopupContainer={(trigger: HTMLElement) =>
+                  trigger.parentElement as HTMLElement
+                }
               >
                 {options.map((i) => (
                   <Option key={i} value={i}>
@@ -188,7 +223,7 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
                     (field) =>
                       field.key === 0 && (
                         <div key={0}>
-                          <Duration sectionIndex={field.key}/>
+                          <Duration sectionIndex={field.key} />
                           <CustomInputs
                             name={[0, 'customInputs']}
                             attachments={attachments}

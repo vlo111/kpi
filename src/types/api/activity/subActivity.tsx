@@ -28,6 +28,7 @@ export interface IDraggerProps {
   disabled?: boolean
   setReqDocs?: any
   keyName?: string
+  name?: string
 }
 
 export interface IApplicantsList {
@@ -140,6 +141,7 @@ export interface IAssignedUserType {
 export interface IManagerType {
   assignedUsers: IAssignedUserType[]
   color: string | undefined
+  requIredDocs: boolean
 }
 
 export interface ICreateSubActivityProps {
@@ -157,6 +159,17 @@ export interface ICreateSubActivityProps {
   courseStructure?: string
   projectId?: string
   sectionsCount: number
+  subActivity: {
+    firstName: string
+    lastName: string
+    manager: {
+      email: string
+      emailVerified: boolean
+      firstName: string
+      id: string
+      lastName: string
+    }
+  }
 }
 
 export interface ICourseSettingMap {

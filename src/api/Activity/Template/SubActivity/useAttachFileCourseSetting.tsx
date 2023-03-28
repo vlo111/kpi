@@ -7,7 +7,7 @@ const useAttacheFilesSubActivitySection: any = (options = {}) =>
   useMutation(
     async (params: IOnlyId) => {
       if (params.id !== undefined) {
-        return await client.post(`${url}/${params.id}/attach/file`);
+        return await client.post(`${url}/${params.id}/attach/file`, params?.data);
       }
     },
     options

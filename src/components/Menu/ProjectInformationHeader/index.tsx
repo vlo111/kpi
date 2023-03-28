@@ -7,7 +7,7 @@ import moment from 'moment';
 import { IOutletContext } from '../../../types/project';
 import { PATHS } from '../../../helpers/constants';
 import { IInfoHeader } from '../../../types/global';
-import { ReactComponent as WarningSvg } from '../../../assets/icons/project-warning.svg';
+import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg';
 import Icon from '@ant-design/icons';
 
 const AntBadge = styled(Badge)`
@@ -32,6 +32,9 @@ const AntIcon = styled(Icon)`
   &.anticon {
     vertical-align: -0.225em;
     font-size: var(--font-size-base-medium);
+  }
+  svg{
+    width: 14px !important;
   }
 `;
 const AntCol = styled(Col)`
@@ -101,7 +104,7 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
                   {project?.status !== 'DRAFT' && project?.id != null && (
                     <Col>
                       <AntIcon
-                        component={WarningSvg}
+                        component={EditSvg}
                         onClick={() => handleEdit(project?.id)}
                       />
                     </Col>
@@ -125,7 +128,7 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
                   </Col>
                   <Col>
                     <AntIcon
-                      component={WarningSvg}
+                      component={EditSvg}
                       onClick={() => {
                         if (inputActivityId != null) {
                           navigate(

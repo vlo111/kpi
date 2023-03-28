@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Col, Typography, UploadProps, message, Upload } from 'antd';
+import { Col, Typography, UploadProps, Upload } from 'antd';
 
 import { ReactComponent as UploadDocument } from '../../../SubActivityIcons/upload-docs.svg';
 import { ReactComponent as LinkIcon } from '../../../SubActivityIcons/link.svg';
@@ -15,13 +15,13 @@ const AsnDragger = styled(Dragger)`
   border: 1px dashed var(--dark-border-ultramarine) !important;
   border-radius: 4px;
   .ant-upload {
-    padding: 2.4vh 0;
+    padding: ${(props) => props.id === 'subActivity' ? '6px 0 !important' : '2.4vh 0'};
   }
   &:hover {
     border: 1px dashed var(--dark-border-ultramarine);
   }
   h4.ant-typography {
-    font-size: var(--headline-font-size) !important;
+    font-size: ${(props) => props.id === 'subActivity' ? 'var(--base-font-size)' : 'var(--headline-font-size) !important'};
     color: var(--dark-border-ultramarine) !important;
   }
   svg {
@@ -53,26 +53,16 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   padding,
   setFileList,
   defaultFileList,
-  setDefaultFileList,
   disabled,
-  fileList,
   docType,
   setReqDocs,
-  keyName
+  keyName,
+  name
 }) => {
   const { Title } = Typography;
   const { mutate: UploadDoc } = useFileUpload();
-  const { mutate: DeleteFile } = useDeleteFile(
-    {
-      onError: () => {
-        void message.error('You need permission to delete the file.');
-      }
-    }
-  );
-  const handleChange: UploadProps['onChange'] = (info) => {
-    const newFileList = [...info.fileList];
-    setDefaultFileList(newFileList);
-  };
+  const { mutate: DeleteFile } = useDeleteFile();
+
   const props: UploadProps = {
     customRequest: (options: any) => {
       const { file, onSuccess, onError: errorStatus } = options;
@@ -106,16 +96,7 @@ const DraggerForm: React.FC<IDraggerProps> = ({
       if (file.originFileObj === undefined) {
         DeleteFile(file.fileName);
       }
-      const newFileList = fileList.filter(
-        (item: { id: string }) => item.id !== file.uid
-      );
-      setFileList([...newFileList]);
-      setDefaultFileList((prevState: any) => [
-        ...prevState,
-        defaultFileList.filter((d: any) => d.uid !== file.uid)
-      ]);
     },
-    onChange: handleChange,
     name: 'file',
     disabled,
     accept: '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx,.png,.jpeg'
@@ -129,6 +110,7 @@ const DraggerForm: React.FC<IDraggerProps> = ({
           {...props}
           fileList={defaultFileList}
           style={{ width: '100%', height: 'inherit' }}
+          id={name}
         >
           <UploadDocument />
           <Title level={4}>{text}</Title>

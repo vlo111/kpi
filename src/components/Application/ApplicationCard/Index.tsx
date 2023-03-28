@@ -15,8 +15,9 @@ import {
   IApplicationCard,
   IQuestion
 } from '../../../types/api/application/applicationForm';
-import { addDescription } from '../../../helpers/questionList';
+import { addDescription, addQuestion, updateQuestion } from '../../../helpers/questionList';
 import { v4 as uuidv4 } from 'uuid';
+import { AsnForm } from '../../Forms/Form';
 
 const ApplicationCard: React.FC<IApplicationCard> = ({
   title,
@@ -30,6 +31,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
   validateTitle,
   setValidateTitle
 }) => {
+  const [form] = AsnForm.useForm();
   const [cardTitle, setCardTitle] = useState(title);
   const [answerTypeValue, setAnswerTypeValue] = useState('OPTION');
   const [addOrUpdateQuestion, setAddOrUpdateQuestion] = useState<string>('add');
@@ -72,6 +74,62 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
     }
   };
 
+  const onFinishedForm: FormFinish = (value) => {
+    const applicationDataClone = JSON.parse(JSON.stringify(applicationData));
+    if (addOrUpdateQuestion === 'add') {
+      if (cardId === 'personal_info') {
+        addQuestion(value, 0, applicationDataClone, answerTypeValue);
+      } else if (cardId === 'educational_info') {
+        addQuestion(value, 1, applicationDataClone, answerTypeValue);
+      } else if (cardId === 'other_info') {
+        addQuestion(value, 2, applicationDataClone, answerTypeValue);
+      } else {
+        addQuestion(value, 3, applicationDataClone, answerTypeValue);
+      }
+    } else if (addOrUpdateQuestion === 'edit') {
+      if (cardId === 'personal_info') {
+        updateQuestion(
+          value,
+          0,
+          applicationDataClone,
+          questionRowIndex,
+          answerTypeValue
+        );
+      } else if (cardId === 'educational_info') {
+        updateQuestion(
+          value,
+          1,
+          applicationDataClone,
+          questionRowIndex,
+          answerTypeValue
+        );
+      } else if (cardId === 'other_info') {
+        updateQuestion(
+          value,
+          2,
+          applicationDataClone,
+          questionRowIndex,
+          answerTypeValue
+        );
+      } else {
+        updateQuestion(
+          value,
+          3,
+          applicationDataClone,
+          questionRowIndex,
+          answerTypeValue
+        );
+      }
+    }
+    form.resetFields();
+    setApplicationData({ ...applicationDataClone });
+    setIsQuestionCardVisible(
+      isQuestionCardVisible.filter((itemId) => itemId !== cardId)
+    );
+    setAnswerTypeValue('OPTION');
+    setSingleQuestionData(undefined);
+  };
+
   return (
     <CardContainer
       borderTop={'3px solid var(--secondary-light-amber)'}
@@ -87,7 +145,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
       >
         {cardTitle}
       </CardTitle>
-      {((validateTitle?.includes(cardId)) ?? false)
+      {validateTitle?.includes(cardId) ?? false
         ? (
         <ValidateMessage
           style={{
@@ -104,6 +162,13 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
         defaultValue={description}
         onBlur={onAddDescription}
       />
+      <AsnForm
+          form={form}
+          initialValues={{ names: ['', ''] }}
+          autoComplete="off"
+          onFinish={onFinishedForm}
+          name="addQuestion"
+        >
       {content.length > 0
         ? (
         <>
@@ -119,7 +184,6 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
                 isQuestionCardVisible={isQuestionCardVisible}
                 cardId={cardId}
                 setAnswerTypeValue={setAnswerTypeValue}
-                answerTypeValue={answerTypeValue}
                 setSingleQuestionData={setSingleQuestionData}
                 setAddOrUpdateQuestion={setAddOrUpdateQuestion}
                 setQuestionRowIndex={setQuestionRowIndex}
@@ -136,7 +200,6 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
                       setIsQuestionCardVisible={setIsQuestionCardVisible}
                       isQuestionCardVisible={isQuestionCardVisible}
                       cardId={cardId}
-                      answerTypeValue={answerTypeValue}
                       setAnswerTypeValue={setAnswerTypeValue}
                       setSingleQuestionData={setSingleQuestionData}
                       setAddOrUpdateQuestion={setAddOrUpdateQuestion}
@@ -151,19 +214,15 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
         : null}
       {isQuestionCardVisible.includes(cardId)
         ? (
-        <AddQuestionCard
-          setIsQuestionCardVisible={setIsQuestionCardVisible}
-          isQuestionCardVisible={isQuestionCardVisible}
-          cardId={cardId}
-          applicationData={applicationData}
-          setApplicationData={setApplicationData}
-          answerTypeValue={answerTypeValue}
-          setAnswerTypeValue={setAnswerTypeValue}
-          singleQuestionData={singleQuestionData}
-          setSingleQuestionData={setSingleQuestionData}
-          addOrUpdateQuestion={addOrUpdateQuestion}
-          questionRowIndex={questionRowIndex}
-        />
+          <AddQuestionCard
+            setIsQuestionCardVisible={setIsQuestionCardVisible}
+            isQuestionCardVisible={isQuestionCardVisible}
+            cardId={cardId}
+            answerTypeValue={answerTypeValue}
+            setAnswerTypeValue={setAnswerTypeValue}
+            singleQuestionData={singleQuestionData}
+            setSingleQuestionData={setSingleQuestionData}
+          />
           )
         : (
         <CustomButton
@@ -176,6 +235,8 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
           +Add question
         </CustomButton>
           )}
+      </AsnForm>
+
     </CardContainer>
   );
 };

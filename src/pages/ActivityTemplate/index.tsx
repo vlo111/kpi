@@ -257,7 +257,7 @@ const ActivityTemplate: React.FC = () => {
 
   return (
     <ActivityTemplateContainer>
-      <CourseTitle>Course activity template</CourseTitle>
+      <CourseTitle>Activity template</CourseTitle>
       <Form
         form={form}
         validateMessages={VALIDATE_MESSAGES}

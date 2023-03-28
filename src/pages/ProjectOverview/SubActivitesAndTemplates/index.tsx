@@ -61,7 +61,8 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
   setActiveTemplate,
   activeTemplate,
   setSelectedRowId,
-  selectedRowId
+  selectedRowId,
+  refetchSubActivities
 }) => {
   const { projectOverview: { templateTab }, setProjectOverview, projectOverview } = useOutletContext<IOutletContext>();
 
@@ -100,6 +101,7 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
             templates={templates}
             setSelectedRowId={setSelectedRowId}
             selectedRowId={selectedRowId}
+            refetchSubActivities={refetchSubActivities}
           />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Templates " key="2">

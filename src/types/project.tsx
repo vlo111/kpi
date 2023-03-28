@@ -227,7 +227,9 @@ export interface IHelpText {
 export interface ICreateTemplateModal {
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
-  activityId: string | undefined
+  activityId?: string | undefined
+  edit?: boolean
+  templateId?: string
 }
 
 export type AddManagerHandle = (values: unknown) => void;
@@ -377,6 +379,7 @@ export interface ISubActivityAndTemplates {
   activeTemplate: string
   selectedRowId: React.Key[]
   setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  refetchSubActivities: any
 }
 
 export interface IResultAreasTitles {
@@ -405,6 +408,7 @@ export interface Filters {
   date?: {
     from: string
     to: string
+    start: boolean
   }
 }
 
@@ -425,6 +429,7 @@ export interface ISubActivitiesProps {
   templates: IProjectTemplate[]
   selectedRowId: React.Key[]
   setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  refetchSubActivities: any
 }
 
 export interface IAssignedFilter {
@@ -453,6 +458,7 @@ export interface IAssingedUser {
 }
 
 export interface ISubActivities {
+  id: string
   status: string
   title: string
   cardRound: string

@@ -23,7 +23,7 @@ const BottomField = styled.div`
   }
 
   .ant-input {
-    width: 95% !important;
+    width: 94% !important;
     border: 1px solid var(--light-border-gray);
   }
   .ant-btn {
@@ -50,6 +50,9 @@ const BottomField = styled.div`
 const DynamicQuestionForm: React.FC<{
   singleQuestionData: IAnswer[] | undefined
 }> = ({ singleQuestionData }) => {
+  const form = AsnForm.useFormInstance();
+  console.log(form.getFieldsValue(), singleQuestionData);
+
   return (
     <BottomField>
       <AsnForm.List name="names">
@@ -86,7 +89,9 @@ const DynamicQuestionForm: React.FC<{
                       }
                     />
                   </AsnForm.Item>
-                  {fields.length > 2
+                  {fields.length > 2 &&
+                  (singleQuestionData !== undefined &&
+                    singleQuestionData[field.name]?.title !== 'Other/Այլ')
                     ? (
                     <DeleteIcon
                       className="dynamic-delete-button"

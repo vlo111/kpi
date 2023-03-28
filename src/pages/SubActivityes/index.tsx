@@ -42,6 +42,9 @@ const Wrapper = styled.div<{ mode: string }>`
       padding: 12px 0 !important;
       background: transparent !important;
     }
+    .ant-tabs-content-holder {
+      padding: 0vh 4.8vw 0vh 4.8vw;
+    }
     .ant-tabs-nav-list .ant-tabs-tab-active {
       background-color: transparent !important;
     }

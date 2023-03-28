@@ -37,7 +37,7 @@ const CardTitle: React.FC<ICourseInfoCardTypes> = ({
     if (title === 'Course General Info') {
       setOpenCreateSubActivity(true);
     }
-    if (title === 'Result areas and Activities' && id != null) {
+    if (title === 'Objectives and Activities' && id != null) {
       navigate(`/project/${id}/steps/0`);
     }
     if (title === 'Project details' && id != null) {

@@ -37,7 +37,7 @@ const ResultAreasTitles: React.FC<IResultAreasTitles> = ({ title, projectItems, 
                 wrap={false}
                 align="middle"
                 onClick={() => setActive(+index + 1)}
-                style={projectItems > 3 ? { width: '70px' } : {}}
+                style={projectItems > 3 && name !== 'subActivty' ? { width: '70px' } : {}}
                 className={name}
             >
                 <AntBadge count={+index + 1} />

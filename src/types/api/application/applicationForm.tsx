@@ -154,7 +154,6 @@ export interface IQuestionRowContainer {
   isQuestionCardVisible: string[]
   cardId: string
   setAnswerTypeValue: Dispatch<SetStateAction<string>>
-  answerTypeValue: string
   setSingleQuestionData: Dispatch<SetStateAction<IQuestion | undefined>>
   setAddOrUpdateQuestion: Dispatch<SetStateAction<string>>
   setQuestionRowIndex: Dispatch<SetStateAction<number>>
@@ -164,14 +163,10 @@ export interface IAddQuestionCard {
   setIsQuestionCardVisible: Dispatch<SetStateAction<string[]>>
   isQuestionCardVisible: string[]
   cardId: string
-  applicationData: IApplicant
-  setApplicationData: Dispatch<SetStateAction<IApplicant | undefined>>
   answerTypeValue: string
   setAnswerTypeValue: Dispatch<SetStateAction<string>>
   singleQuestionData: IQuestion | undefined
   setSingleQuestionData: Dispatch<SetStateAction<IQuestion | undefined>>
-  addOrUpdateQuestion: string
-  questionRowIndex: number
 }
 
 export interface IResult {

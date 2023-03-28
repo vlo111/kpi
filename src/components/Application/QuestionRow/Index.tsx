@@ -7,6 +7,7 @@ import { AsnSwitch } from '../../Forms/Switch';
 import { FormFinish, NumberVoidType, Onchange } from '../../../types/global';
 import { IQuestionRowContainer } from '../../../types/api/application/applicationForm';
 import { contentPopover } from '../../../helpers/questionList';
+import { AsnForm } from '../../Forms/Form';
 
 const CardRow = styled(Space)`
   display: flex;
@@ -41,12 +42,12 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
   isQuestionCardVisible,
   cardId,
   setAnswerTypeValue,
-  answerTypeValue,
   setSingleQuestionData,
   setAddOrUpdateQuestion,
   setQuestionRowIndex
 }) => {
   const [openPopover, setOpenPopover] = useState<boolean>(false);
+  const form = AsnForm.useFormInstance();
 
   const onEditedQuestion: FormFinish = (item) => {
     setQuestionRowIndex(item);
@@ -85,6 +86,8 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
     setIsQuestionCardVisible(
       isQuestionCardVisible.filter((itemId) => itemId !== cardId)
     );
+    form.resetFields(['question', 'names', 'requiredFiled', 'otherOption']);
+    setSingleQuestionData(undefined);
   };
 
   const handleOpenChange: Onchange = (newOpen) => {
@@ -139,7 +142,8 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
             onOpenChange={handleOpenChange}
             open={openPopover}
           >
-            <div style={{ marginLeft: '8px', cursor: 'pointer' }}>
+            <div
+              style={{ marginLeft: '8px', cursor: 'pointer' }}>
               <MenuIcon />
             </div>
           </Popover>

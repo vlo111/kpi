@@ -13,7 +13,7 @@ import { ITabContent, IOutletContext, Filters } from '../../types/project';
 import { ReactComponent as CreateTemplateSvg } from '../../assets/icons/create-template.svg';
 import { ReactComponent as NotAccessSvg } from '../../assets/icons/error_404.svg';
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 const AntRow = styled(Row)`
   padding: 8px 16px;
@@ -54,7 +54,6 @@ const TabContent: React.FC<ITabContent> = ({
   const [assignedUsersIds, setAssignedUsersIds] = useState<React.Key[]>([]);
 
   const [indeterminate, setIndeterminate] = useState(true);
-  const { Title } = Typography;
   const [checkAll, setCheckAll] = useState(false);
   const [dateSearch, setDateSearch] = useState({
     start: true,
@@ -65,10 +64,11 @@ const TabContent: React.FC<ITabContent> = ({
   const { setProjectOverview } = useOutletContext<IOutletContext>();
   const [selectedRowId, setSelectedRowId] = useState<React.Key[]>([]);
 
-  const { from, to } = dateSearch;
+  const { from, to, start } = dateSearch;
   const filtersFuinctiomn = (
     from: string,
     to: string,
+    start: boolean | undefined,
     checkedList?: CheckboxValueType[],
     assignedUsersIds?: React.Key[]
   ): Filters => {
@@ -82,8 +82,8 @@ const TabContent: React.FC<ITabContent> = ({
       filters.assigned = assignedUsersIds;
     }
 
-    if (from !== '' && to !== '') {
-      filters.date = { from, to };
+    if (from !== '' && to !== '' && start !== undefined) {
+      filters.date = { from, to, start };
     }
 
     return filters;
@@ -100,10 +100,11 @@ const TabContent: React.FC<ITabContent> = ({
     data: subActivities,
     isLoading: isLoadingSubActivity,
     isFetching: isFetchingActivities,
+    refetch: refetchSubActivities,
     error
   } = useGetSubActivities(
     inputActivityId ?? defaultInputActivityId,
-    filtersFuinctiomn(from, to, checkedList, assignedUsersIds),
+    filtersFuinctiomn(from, to, start, checkedList, assignedUsersIds),
     {
       enabled: Boolean(inputActivityId ?? defaultInputActivityId)
     }
@@ -145,7 +146,17 @@ const TabContent: React.FC<ITabContent> = ({
           label: (
             <AntRow
               align="middle"
-              onClick={() => handleActivityChange(inputActivity?.id as string) }
+              onClick={() => {
+                handleActivityChange(inputActivity?.id as string);
+                setDateSearch({
+                  start: true,
+                  from: '',
+                  to: ''
+                });
+                setCheckedList([]);
+                setAssignedUsersIds([]);
+                setSelectedRowId([]);
+              }}
             >
               {resultArea?.order}.{+i + 1} {inputActivity?.title}
             </AntRow>
@@ -182,6 +193,7 @@ const TabContent: React.FC<ITabContent> = ({
                   activeTemplate={activeTemplate}
                   setSelectedRowId={setSelectedRowId}
                   selectedRowId={selectedRowId}
+                  refetchSubActivities={refetchSubActivities}
                 />
                         )
                       : (

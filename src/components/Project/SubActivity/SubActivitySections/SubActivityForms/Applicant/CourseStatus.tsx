@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Space } from 'antd';
+import { Space, message } from 'antd';
 
 import DraggerForm from '../Dragger';
 import FormWrapper from '../../../SubActivityWrapper';
@@ -46,7 +46,6 @@ const CourseStatusForm: React.FC<any> = ({
       setActiveKey('1');
     },
     onError: () => {
-      console.log('aaa');
     }
   });
 
@@ -57,9 +56,11 @@ const CourseStatusForm: React.FC<any> = ({
         StartCourse({ id: courseId });
       }
     },
-    onError: () => {
-      console.log('aaa');
-    }
+    onError: ({
+      response: {
+        data: { message: error }
+      }
+    }: { response: { data: { message: string } } }) => message.error(error, 2)
   });
 
   const add = (): any => {
