@@ -56,24 +56,24 @@ export interface ITrainedByGenderProps {
   genderStatistics: ITrainedByGender[]
 }
 
-export interface IDroppedNotEnrolled {
+export interface IDroppedPWD {
   type: string
   percent: number
   count: number
 }
 
-export interface IDroppedNotEnrolledProps {
-  notEnrolledStatistics: IDroppedNotEnrolled[]
+export interface IDroppedPWDProps {
+  pwdDropped: IDroppedPWD[]
 }
 
-export interface ITrainedApplicants {
+export interface INotEnrolledPWD {
   type: string
   percent: number
   count: number
 }
 
-export interface ITrainedApplicantsProps {
-  trainedStatistics: ITrainedApplicants[]
+export interface INotEnrolledPWDProps {
+  pwdNotEnrolled: INotEnrolledPWD[]
 }
 
 export interface IRegionBreakdown {

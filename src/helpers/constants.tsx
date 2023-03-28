@@ -9,6 +9,8 @@ import { ReactComponent as DroppedApplicants } from '../assets/icons/dropped_lea
 import { ReactComponent as NotEnrolledApplicants } from '../assets/icons/not-enrolled_learners.svg';
 import { ReactComponent as ApplicantsPWDIcon } from '../assets/icons/applicants_PWD.svg';
 import { ReactComponent as TrainedApplicantsDisability } from '../assets/icons/trained_PWD.svg';
+import { ReactComponent as NotEnrolledApplicantsDisability } from '../assets/icons/not_enrolled_PWD.svg';
+import { ReactComponent as DroppedApplicantsDisability } from '../assets/icons/dropped_PWD.svg';
 
 export const PATHS = {
   ROOT: '/',
@@ -300,5 +302,11 @@ export const dashboardCardsIcon = [
   },
   {
     icon: <TrainedApplicantsDisability />
+  },
+  {
+    icon: <NotEnrolledApplicantsDisability />
+  },
+  {
+    icon: <DroppedApplicantsDisability />
   }
 ];

@@ -2,18 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { Column, ColumnConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 import {
-  IPWDApplicants,
-  IPWDApplicantsProps
+  INotEnrolledPWD,
+  INotEnrolledPWDProps
 } from '../../../../types/api/dashboard';
 
-const PWDApplicants: React.FC<IPWDApplicantsProps> = ({ pwdStatistics }) => {
-  const [data, setData] = useState<IPWDApplicants[]>([]);
+const NotEnrolledPWD: React.FC<INotEnrolledPWDProps> = ({
+  pwdNotEnrolled
+}) => {
+  const [data, setData] = useState<INotEnrolledPWD[]>([]);
 
   useEffect(() => {
-    if (pwdStatistics !== undefined) {
-      setData(pwdStatistics);
+    if (pwdNotEnrolled !== undefined) {
+      setData(pwdNotEnrolled);
     }
-  }, [pwdStatistics]);
+  }, [pwdNotEnrolled]);
 
   const config: ColumnConfig = {
     data,
@@ -23,13 +25,16 @@ const PWDApplicants: React.FC<IPWDApplicantsProps> = ({ pwdStatistics }) => {
     isRange: true,
     renderer: 'svg',
     padding: [45, 30, 95],
-    color: ({ type }) => {
+    color: ({ type }): any => {
       if (type === 'Submitted Applicants') {
         return '#EDF0F4';
-      } else if (type === 'PWDs' || type === 'Submitted') {
+      } else if (type === 'PWDs') {
         return '#688EA3';
+      } else if (type === 'Submitted') {
+        return '#688EA3';
+      } else if (type === 'Not Enrolled PWDs') {
+        return '#F6976D';
       }
-      return '#68A395';
     },
     minColumnWidth: 20,
     maxColumnWidth: 40,
@@ -37,7 +42,7 @@ const PWDApplicants: React.FC<IPWDApplicantsProps> = ({ pwdStatistics }) => {
       radius: [4, 4, 0, 0]
     },
     label: {
-      position: 'top',
+      position: 'middle',
       layout: [
         {
           type: 'interval-adjust-position'
@@ -53,13 +58,13 @@ const PWDApplicants: React.FC<IPWDApplicantsProps> = ({ pwdStatistics }) => {
   };
 
   return (
-    <CardContainer width={'clamp(250px, 35vw, 100%)'}>
+    <CardContainer width={'clamp(200px, 41.5vw, 100%)'}>
       <ChartTitleContainer>
-        PWD submitted applicants and trained PWD learners{' '}
+        PWD submitted applicants and Not Enrolled PWD learners
       </ChartTitleContainer>
       <Column {...config} />
     </CardContainer>
   );
 };
 
-export default PWDApplicants;
+export default NotEnrolledPWD;

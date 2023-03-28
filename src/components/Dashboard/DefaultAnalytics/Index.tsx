@@ -5,8 +5,8 @@ import SubmittedApplications from '../SubmittedApplications';
 import { TitleContainer } from '../dashboardStyle';
 import AgeDistribution from '../Charts/AgeDistribution';
 import TrainedByGender from '../Charts/TrainedByGender';
-import DroppedNotEnrolled from '../Charts/DroppedNotEnrolled';
-import TrainedApplicants from '../Charts/TrainedApplicants';
+import DroppedPWD from '../Charts/DroppedPWD';
+import NotEnrolledPWD from '../Charts/NotEnrolledPWD';
 import RegionBreakdown from '../Charts/RegionBreakdown';
 import SectorBreakdown from '../Charts/SectorBreakdown';
 import PWDApplicants from '../Charts/PWDApplicants';
@@ -48,23 +48,23 @@ const DefaultAnalytics: React.FC = () => {
       <ChartsContainer>
         <TitleContainer>Data Analytics Filter</TitleContainer>
         <RowContainer>
+          <RegionBreakdown regionStatistics={data?.regions_statistic} />
+        </RowContainer>
+        <RowContainer>
           <AgeDistribution ageStatistics={data?.age_statistic} />
           <TrainedByGender genderStatistics={data.gender_statistic} />
         </RowContainer>
         <RowContainer>
-          <DroppedNotEnrolled
-            notEnrolledStatistics={data?.before_completion_statistic}
+          <NotEnrolledPWD
+            pwdNotEnrolled={data?.pwd_applicants_not_enrolled}
           />
-          <TrainedApplicants
-            trainedStatistics={data?.trained_applicants_statistic}
+          <DroppedPWD
+            pwdDropped={data?.pwd_applicants_dropped}
           />
-        </RowContainer>
-        <RowContainer>
-          <RegionBreakdown regionStatistics={data?.regions_statistic} />
         </RowContainer>
         <RowContainer>
           <PWDApplicants
-            pwdStatistics={data?.submitted_applicants_by_disability}
+            pwdStatistics={data?.pwd_applicants_trined}
           />
           <SectorBreakdown sectorStatistics={data.sectors_statistic} />
         </RowContainer>
