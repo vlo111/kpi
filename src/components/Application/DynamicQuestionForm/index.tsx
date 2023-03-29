@@ -51,7 +51,7 @@ const DynamicQuestionForm: React.FC<{
   singleQuestionData: IAnswer[] | undefined
 }> = ({ singleQuestionData }) => {
   const form = AsnForm.useFormInstance();
-  console.log(form.getFieldsValue(), singleQuestionData);
+  console.log(form.getFieldValue(['names']));
 
   return (
     <BottomField>
@@ -89,7 +89,10 @@ const DynamicQuestionForm: React.FC<{
                       }
                     />
                   </AsnForm.Item>
-                  {fields.length > 2
+                  {fields.length > 2 &&
+                    (singleQuestionData !== undefined
+                      ? singleQuestionData[field.name]?.title !== 'Other/Այլ'
+                      : true)
                     ? (
                     <DeleteIcon
                       className="dynamic-delete-button"

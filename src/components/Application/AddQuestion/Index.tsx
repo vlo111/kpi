@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Space, Typography } from 'antd';
 import { CardContainer } from '../applicationStyle';
 import styled from 'styled-components';
@@ -66,6 +66,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
   setSingleQuestionData
 }) => {
   const form = AsnForm.useFormInstance();
+  const [bool, setBool] = useState(false);
 
   const onAnswerTypeChange: FormFinish = (value) => {
     setAnswerTypeValue(value);
@@ -98,8 +99,9 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
             )
             : ['', '']
       });
+      setBool(true);
     }
-  }, [singleQuestionData]);
+  }, [singleQuestionData, bool, setBool]);
 
   const onCancelAddQuestion: Void = () => {
     setIsQuestionCardVisible(
