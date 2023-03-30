@@ -56,10 +56,9 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
       },
       {
         onSuccess: (data: any) => {
-          const { data: { warnings } } = data;
-          if (warnings.length > 0) {
+          if (data?.data?.warnings?.length > 0) {
             setShowWarnings(true);
-            setWarnings(warnings);
+            setWarnings(data?.data?.warnings);
           }
         }
       }
