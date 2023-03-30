@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { Button, Col, Row, Space, Tooltip, UploadProps } from 'antd';
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/lib/table';
+import moment from 'moment';
 
 import { ReactComponent as NotFoundIcon } from '../../SubActivityIcons/not-users-found.svg';
 import { ReactComponent as DownloadIcon } from '../../../../../assets/icons/download.svg';
 import {
   IApplicantData,
   IApplicantsListFullInfo,
-  IUserListTypes
+  IUserListTypes,
+  IImportApplicantsWarnings
 } from '../../../../../types/api/activity/subActivity';
 import { AsnTable } from '../../../../Forms/Table';
 import FormWrapper from '../../SubActivityWrapper';
@@ -26,6 +28,8 @@ import { ReactComponent as SubmitedSvg } from './icons/submited.svg';
 import { TollTipStatus } from '../../../../../helpers/utils';
 import { ReactComponent as InfoSvg } from '../../../../../assets/icons/info.svg';
 import SubActivityStatus from './Status';
+import { AsnModal } from '../../../../Forms/Modal';
+import { AsnButton } from '../../../../Forms/Button';
 
 const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   color,
@@ -36,6 +40,9 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
 }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [selectedApplicants, setSelectedApplicants] = useState<IApplicantData[]>([]);
+  const [showWarnings, setShowWarnings] = useState<boolean>(false);
+  const [warnings, setWarnings] = useState();
+
   const navigate = useNavigate();
   const { mutate: addFileCourse } = useAttacheFiles();
   const { mutate: importApplicant } = useImportApplicantsIntoExcelFile();
@@ -46,8 +53,17 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
       importApplicant({
         file,
         sectionDataId: courseId
-      });
-      console.log(file);
+      },
+      {
+        onSuccess: (data: any) => {
+          const { data: { warnings } } = data;
+          if (warnings.length > 0) {
+            setShowWarnings(true);
+            setWarnings(warnings);
+          }
+        }
+      }
+      );
     },
     showUploadList: false,
     name: 'file',
@@ -134,6 +150,46 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
     }
   ];
 
+  const warningsColumns = [
+    {
+      title: 'Name/Surname',
+      key: 'fullName',
+      dataIndex: 'fullName'
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email'
+    },
+    {
+      title: 'Phone',
+      key: 'phone',
+      dataIndex: 'phone'
+    },
+    {
+      title: 'Status',
+      render: (item: IImportApplicantsWarnings) => item?.courseMap?.status,
+      key: 'status'
+    },
+    {
+      title: 'Course',
+      render: (item: IImportApplicantsWarnings) => item?.courseMap?.course?.title,
+      key: 'course'
+    },
+    {
+      title: 'Start/End date',
+      render: (item: IImportApplicantsWarnings) => {
+        return (
+          <>
+            <span>{moment(item.courseMap.course.startDate).format('DD.MM.YYYY')}</span>
+            /<span>{moment(item.courseMap.course.endDate).format('DD.MM.YYYY')}</span>
+          </>
+        );
+      },
+      key: 'date'
+    }
+  ];
+
   const onSelectChange = (
     newSelectedRowKeys: React.Key[],
     selectedRows: IApplicantData[]
@@ -147,65 +203,88 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   };
 
   return (
-    <FormWrapper className="users_full_list" margin={0} color={color}>
-      <Space style={{ width: '100%' }} size={[0, 32]} direction="vertical">
-        <Row gutter={[12, 12]} justify="space-between" align="middle">
-          <Col>
-            Applicants{' '}
-            <Button type="link">
-              {' '}
-              <DownloadIcon
-                onClick={() => {
-                  addFileCourse(courseId, {});
+    <>
+      <FormWrapper className="users_full_list" margin={0} color={color}>
+        <Space style={{ width: '100%' }} size={[0, 32]} direction="vertical">
+          <Row gutter={[12, 12]} justify="space-between" align="middle">
+            <Col>
+              Applicants{' '}
+              <Button type="link">
+                {' '}
+                <DownloadIcon
+                  onClick={() => {
+                    addFileCourse(courseId, {});
+                  }}
+                />
+              </Button>
+            </Col>
+            <Col style={{ display: 'flex', gap: '5px' }}>
+              Upload list of applicants
+              <AsnDragger2 {...props} disabled={status === 'DONE'}>
+                <CloudDownloadOutlined />
+              </AsnDragger2>
+            </Col>
+          </Row>
+          {/* eslint-disable-next-line multiline-ternary */}
+          {applicants.length === 0 ? (
+            <>
+              <Row align="middle" justify="center">
+                <NotFoundIcon />
+              </Row>
+              <Row align="middle" justify="center">
+                There are no applicants
+              </Row>
+            </>
+          ) : (
+            <>
+              <AsnTable
+                size="middle"
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      navigate(`/${PATHS.APPLICANT.replace(':id', record.id)}`, {
+                        state: { navigateRouteInfo }
+                      });
+                    }
+                  };
                 }}
+                columns={columns}
+                dataSource={applicants}
+                rowKey="id"
+                pagination={false}
+                rowSelection={rowSelection}
               />
-            </Button>
-          </Col>
-          <Col style={{ display: 'flex', gap: '5px' }}>
-            Upload list of applicants
-            <AsnDragger2 {...props} disabled={status === 'DONE'}>
-              <CloudDownloadOutlined />
-            </AsnDragger2>
-          </Col>
-        </Row>
-        {/* eslint-disable-next-line multiline-ternary */}
-        {applicants.length === 0 ? (
-          <>
-            <Row align="middle" justify="center">
-              <NotFoundIcon />
-            </Row>
-            <Row align="middle" justify="center">
-              There are no applicants
-            </Row>
-          </>
-        ) : (
-          <>
-            <AsnTable
-              size="middle"
-              onRow={(record) => {
-                return {
-                  onClick: () => {
-                    navigate(`/${PATHS.APPLICANT.replace(':id', record.id)}`, {
-                      state: { navigateRouteInfo }
-                    });
-                  }
-                };
-              }}
-              columns={columns}
-              dataSource={applicants}
-              rowKey="id"
-              pagination={false}
-              rowSelection={rowSelection}
-            />
-            <SubActivityStatus
-              status={status}
-              sectionDataId={courseId}
-              applicants={selectedApplicants}
-            />
-          </>
-        )}
-      </Space>
-    </FormWrapper>
+              <SubActivityStatus
+                status={status}
+                sectionDataId={courseId}
+                applicants={selectedApplicants}
+              />
+            </>
+          )}
+        </Space>
+      </FormWrapper>
+      <AsnModal
+        open={showWarnings}
+        footer={false}
+        width={'80%'}
+        title={'The applicant already exists in the sub activity'}
+        onCancel={() => setShowWarnings(false) }
+      >
+        <AsnTable
+          columns={warningsColumns}
+          pagination={false}
+          dataSource={warnings}
+          style={{ overflow: 'auto', maxHeight: '50vh' }}
+        />
+        <AsnButton
+          className='primary'
+          style={{ float: 'right', marginTop: '20px' }}
+          onClick={() => setShowWarnings(false)}
+        >
+          OK
+        </AsnButton>
+      </AsnModal>
+    </>
   );
 };
 
