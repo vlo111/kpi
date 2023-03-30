@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Row, Space } from 'antd';
+import { Col, message, Row, Space } from 'antd';
 
 import DraggerForm from '../SubActivityForms/Dragger';
 import FormWrapper from '../../SubActivityWrapper';
@@ -18,7 +18,12 @@ const SubActivityDocuments: React.FC<any> = ({
   const [defaultFileList, setDefaultFileList] = useState<any>([]);
   const [keyName, setKeyName] = useState('');
   const [reqDocs, setReqDocs] = useState([]);
-  const { mutate: AttachFile } = useAttacheFilesSubActivitySection({});
+  const { mutate: AttachFile } = useAttacheFilesSubActivitySection({
+    onError: (e: { response: { data: { message: string } } }) => {
+      void message.error(e.response.data.message);
+      setDefaultFileList([]);
+    }
+  });
 
   useEffect(() => {
     if (files?.length !== 0) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Col, Typography, UploadProps, message, Upload } from 'antd';
+import { Col, Typography, UploadProps, Upload } from 'antd';
 
 import { ReactComponent as UploadDocument } from '../../../SubActivityIcons/upload-docs.svg';
 import { ReactComponent as LinkIcon } from '../../../SubActivityIcons/link.svg';
@@ -15,13 +15,17 @@ const AsnDragger = styled(Dragger)`
   border: 1px dashed var(--dark-border-ultramarine) !important;
   border-radius: 4px;
   .ant-upload {
-    padding: ${(props) => props.id === 'subActivity' ? '6px 0 !important' : '2.4vh 0'};
+    padding: ${(props) =>
+      props.id === 'subActivity' ? '6px 0 !important' : '2.4vh 0'};
   }
   &:hover {
     border: 1px dashed var(--dark-border-ultramarine);
   }
   h4.ant-typography {
-    font-size: ${(props) => props.id === 'subActivity' ? 'var(--base-font-size)' : 'var(--headline-font-size) !important'};
+    font-size: ${(props) =>
+      props.id === 'subActivity'
+        ? 'var(--base-font-size)'
+        : 'var(--headline-font-size) !important'};
     color: var(--dark-border-ultramarine) !important;
   }
   svg {
@@ -63,17 +67,14 @@ const DraggerForm: React.FC<IDraggerProps> = ({
 }) => {
   const { Title } = Typography;
   const { mutate: UploadDoc } = useFileUpload();
-  const { mutate: DeleteFile } = useDeleteFile(
-    {
-      onError: () => {
-        void message.error('You need permission to delete the file.');
-      }
-    }
-  );
+  const { mutate: DeleteFile } = useDeleteFile();
+  console.log(fileList);
+
   const handleChange: UploadProps['onChange'] = (info) => {
     const newFileList = [...info.fileList];
     setDefaultFileList(newFileList);
   };
+
   const props: UploadProps = {
     customRequest: (options: any) => {
       const { file, onSuccess, onError: errorStatus } = options;
@@ -111,10 +112,6 @@ const DraggerForm: React.FC<IDraggerProps> = ({
         (item: { id: string }) => item.id !== file.uid
       );
       setFileList([...newFileList]);
-      setDefaultFileList((prevState: any) => [
-        ...prevState,
-        defaultFileList.filter((d: any) => d.uid !== file.uid)
-      ]);
     },
     onChange: handleChange,
     name: 'file',
