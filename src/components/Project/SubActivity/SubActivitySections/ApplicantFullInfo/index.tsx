@@ -61,9 +61,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
         {
           onSuccess: (data) => {
             if (!_.isEmpty(data)) {
-              const newData = (data as { data: { data: { warnings: IImportApplicantsWarnings[] } } })
-                .data.data.warnings;
-
+              const newData = (data as { data: { warnings: IImportApplicantsWarnings[] } }).data.warnings;
               if (newData?.length > 0) {
                 setShowWarnings(true);
                 setWarnings(newData);
