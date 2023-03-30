@@ -30,6 +30,7 @@ import { ReactComponent as InfoSvg } from '../../../../../assets/icons/info.svg'
 import SubActivityStatus from './Status';
 import { AsnModal } from '../../../../Forms/Modal';
 import { AsnButton } from '../../../../Forms/Button';
+import _ from 'lodash';
 
 const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   color,
@@ -39,9 +40,11 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   status
 }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [selectedApplicants, setSelectedApplicants] = useState<IApplicantData[]>([]);
+  const [selectedApplicants, setSelectedApplicants] = useState<
+  IApplicantData[]
+  >([]);
   const [showWarnings, setShowWarnings] = useState<boolean>(false);
-  const [warnings, setWarnings] = useState();
+  const [warnings, setWarnings] = useState<IImportApplicantsWarnings[]>();
 
   const navigate = useNavigate();
   const { mutate: addFileCourse } = useAttacheFiles();
@@ -50,18 +53,24 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   const props: UploadProps = {
     customRequest: (options: any) => {
       const { file } = options;
-      importApplicant({
-        file,
-        sectionDataId: courseId
-      },
-      {
-        onSuccess: (data: any) => {
-          if (data?.data?.warnings?.length > 0) {
-            setShowWarnings(true);
-            setWarnings(data?.data?.warnings);
+      importApplicant(
+        {
+          file,
+          sectionDataId: courseId
+        },
+        {
+          onSuccess: (data) => {
+            if (!_.isEmpty(data)) {
+              const newData = (data as { data: { data: { warnings: IImportApplicantsWarnings[] } } })
+                .data.data.warnings;
+
+              if (newData?.length > 0) {
+                setShowWarnings(true);
+                setWarnings(newData);
+              }
+            }
           }
         }
-      }
       );
     },
     showUploadList: false,
@@ -172,7 +181,8 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
     },
     {
       title: 'Course',
-      render: (item: IImportApplicantsWarnings) => item?.courseMap?.course?.title,
+      render: (item: IImportApplicantsWarnings) =>
+        item?.courseMap?.course?.title,
       key: 'course'
     },
     {
@@ -180,8 +190,13 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
       render: (item: IImportApplicantsWarnings) => {
         return (
           <>
-            <span>{moment(item.courseMap.course.startDate).format('DD.MM.YYYY')}</span>
-            /<span>{moment(item.courseMap.course.endDate).format('DD.MM.YYYY')}</span>
+            <span>
+              {moment(item.courseMap.course.startDate).format('DD.MM.YYYY')}
+            </span>
+            /
+            <span>
+              {moment(item.courseMap.course.endDate).format('DD.MM.YYYY')}
+            </span>
           </>
         );
       },
@@ -241,9 +256,12 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                 onRow={(record) => {
                   return {
                     onClick: () => {
-                      navigate(`/${PATHS.APPLICANT.replace(':id', record.id)}`, {
-                        state: { navigateRouteInfo }
-                      });
+                      navigate(
+                        `/${PATHS.APPLICANT.replace(':id', record.id)}`,
+                        {
+                          state: { navigateRouteInfo }
+                        }
+                      );
                     }
                   };
                 }}
@@ -267,7 +285,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
         footer={false}
         width={'80%'}
         title={'The applicant already exists in the sub activity'}
-        onCancel={() => setShowWarnings(false) }
+        onCancel={() => setShowWarnings(false)}
       >
         <AsnTable
           columns={warningsColumns}
@@ -276,7 +294,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
           style={{ overflow: 'auto', maxHeight: '50vh' }}
         />
         <AsnButton
-          className='primary'
+          className="primary"
           style={{ float: 'right', marginTop: '20px' }}
           onClick={() => setShowWarnings(false)}
         >
