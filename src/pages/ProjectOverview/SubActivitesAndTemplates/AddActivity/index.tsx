@@ -85,7 +85,7 @@ const AddSubActivity: React.FC<IAddActivity> = ({
                   }}
                 >
                   <Card className="cardActive">
-                    {template?.title}/{template?.courseStructure}
+                    {template?.title}/{template?.courseStructure === 'ONE_SECTION' ? 'ONE_PHASE' : 'MULTI_SECTION'}
                   </Card>
                 </Col>
                   )
