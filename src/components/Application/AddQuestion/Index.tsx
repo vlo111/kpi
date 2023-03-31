@@ -198,9 +198,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
         </AnswerTypeSpace>
         {answerTypeValue === 'CHECKBOX' || answerTypeValue === 'OPTION'
           ? (
-          <DynamicQuestionForm
-            singleQuestionData={singleQuestionData?.answers}
-          />
+          <DynamicQuestionForm/>
             )
           : null}
         <Space
