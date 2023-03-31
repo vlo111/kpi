@@ -41,7 +41,7 @@ const SubActivityDocuments: React.FC<any> = ({
       );
       setReqDocs(filteredFiles);
     }
-  }, [files]);
+  }, []);
 
   useEffect(() => {
     if (fileList.length > 0) {

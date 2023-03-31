@@ -68,7 +68,6 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   const { Title } = Typography;
   const { mutate: UploadDoc } = useFileUpload();
   const { mutate: DeleteFile } = useDeleteFile();
-  console.log(fileList);
 
   const handleChange: UploadProps['onChange'] = (info) => {
     const newFileList = [...info.fileList];
@@ -85,12 +84,17 @@ const DraggerForm: React.FC<IDraggerProps> = ({
             const {
               data: { result }
             } = options;
-            setFileList((prevState: any) => [
-              ...prevState,
-              { url: result[0], id: file.uid }
-            ]);
+            if (docType === 'SECTION_SETTING_DOCUMENT') {
+              setFileList((prevState: any) => [
+                ...prevState,
+                { url: result[0], id: file.uid }
+              ]);
+            }
             if (docType === 'GENERAL_DOCUMENT') {
-              setFileList([{ url: result[0], id: file.uid }]);
+              setFileList((prevState: any) => [
+                ...prevState,
+                { url: result[0], id: file.uid }
+              ]);
             }
             if (docType === 'REQUIRED_DOCUMENT') {
               setReqDocs((prevState: any) => [
@@ -109,7 +113,7 @@ const DraggerForm: React.FC<IDraggerProps> = ({
         DeleteFile(file.fileName);
       }
       const newFileList = fileList.filter(
-        (item: { id: string }) => item.id !== file.uid
+        (item: { id: string }) => item.id === file.uid
       );
       setFileList([...newFileList]);
     },
@@ -147,4 +151,4 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   );
 };
 
-export default DraggerForm;
+export default React.memo(DraggerForm);
