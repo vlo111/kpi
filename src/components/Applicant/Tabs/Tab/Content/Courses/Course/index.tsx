@@ -3,19 +3,19 @@ import moment from 'moment';
 import styled from 'styled-components';
 import { Col, message, Row, Upload } from 'antd';
 
-import useApplicantAttachFile from '../../../../../api/Applicant/useApplicantAttachFile';
-import useFileUpload from '../../../../../api/Activity/Template/SubActivity/useUploadFile';
+import useApplicantAttachFile from '../../../../../../../api/Applicant/useApplicantAttachFile';
+import useFileUpload from '../../../../../../../api/Activity/Template/SubActivity/useUploadFile';
 
 import {
   IUploadFileError,
   IUploadFileResponse
-} from '../../../../../types/files';
-import { ICourseProps, IStyle, OnUpload } from '../../../../../types/applicant';
+} from '../../../../../../../types/files';
+import { ICourseProps, IStyle, OnUpload } from '../../../../../../../types/applicant';
 
 import {
   ApplicantAccessStatus,
   FileType
-} from '../../../../../helpers/constants';
+} from '../../../../../../../helpers/constants';
 
 import Next from './Next';
 import Note from '../Note';
@@ -127,8 +127,7 @@ const Course: React.FC<ICourseProps> = ({
   isActive,
   isLast,
   isFirst,
-  isLastInactive,
-  applicantId
+  isLastInactive
 }) => {
   const { mutate: attachFile } = useApplicantAttachFile();
 
@@ -227,7 +226,6 @@ const Course: React.FC<ICourseProps> = ({
             applicant={applicant}
             sectionDataId={history?.sectionDataId}
             isAllowEdit={isAllowEdit}
-            applicantId={applicantId}
           />
         </AntRow>
       </CourseItem>

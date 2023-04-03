@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { AsnModal } from '../../../../../Forms/Modal';
-import ApplicantPublicForm from '../../../../../ApplicantPublicForm';
-import PreviewAssessmentForm from '../../../../../PreviewAssessmentForm';
+import { AsnModal } from '../../../../../../../Forms/Modal';
+import ApplicantPublicForm from '../../../../../../../ApplicantPublicForm';
+import PreviewAssessmentForm from '../../../../../../../PreviewAssessmentForm';
 
-import { Void } from '../../../../../../types/global';
+import { Void } from '../../../../../../../../types/global';
 
-import useGetAssessmentFormByCourseId from '../../../../../../api/AssessmentForm/useGetAssessmentFormCourseId';
-import useResendApplicant from '../../../../../../api/Applicant/useResendApplicant';
-import { AssessmentStatus, PATHS } from '../../../../../../helpers/constants';
+import useGetAssessmentFormByCourseId from '../../../../../../../../api/AssessmentForm/useGetAssessmentFormCourseId';
+import useResendApplicant from '../../../../../../../../api/Applicant/useResendApplicant';
+import { AssessmentStatus, PATHS } from '../../../../../../../../helpers/constants';
 import { ReactComponent as ResendSvg } from '../../Icons/resend.svg';
-import { IFiles, IHistory } from '../../../../../../types/applicant';
+import { IFiles, IHistory } from '../../../../../../../../types/applicant';
 
 const Modal = styled(AsnModal)`
   .ant-modal-content {

@@ -3,12 +3,12 @@ import React from 'react';
 import {
   ApplicantAccessStatus,
   ApplicantDefaultStatus
-} from '../../../../../../helpers/constants';
+} from '../../../../../../../../helpers/constants';
 
 import { ReactComponent as NotEnrolledSvg } from '../../Icons/not-enrolled.svg';
 import { ReactComponent as DroppedSvg } from '../../Icons/dropped.svg';
 import styled from 'styled-components';
-import { IStatus } from '../../../../../../types/applicant';
+import { IStatus } from '../../../../../../../../types/applicant';
 
 const StatusSection = styled.div`
   margin-top: -1rem;

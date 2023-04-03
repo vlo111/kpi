@@ -144,13 +144,11 @@ export interface ICourseProps {
   isLast: boolean
   isActive: boolean
   isLastInactive: boolean
-  applicantId: string | undefined
 }
 
 export interface ICourses {
   histories: IHistory[]
   applicant: IApplicant
-  applicantId: string | undefined
 }
 
 export interface IStyle {
@@ -169,7 +167,6 @@ export type StatusItems = TabsProps['items'];
 export interface IApplicantTabs {
   courses: ICourse[]
   applicant: IApplicant
-  applicantId: string | undefined
 }
 
 export interface INote {
@@ -196,7 +193,6 @@ export interface INext {
   applicant: IApplicant
   sectionDataId: string
   isAllowEdit: boolean
-  applicantId: string | undefined
 }
 
 export type OnUpload = (options: { file: any }) => void;

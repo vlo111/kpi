@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Col, Popover, Row as AntRow, Space, Typography } from 'antd';
 import { ReactComponent as NotesSvg } from '../Icons/Notes.svg';
 import { ReactComponent as NotFoundSvg } from '../Icons/not-found.svg';
-import { Void } from '../../../../../types/global';
-import { ReactComponent as CloseIcon } from '../../../../../assets/icons/closeIcon.svg';
+import { Void } from '../../../../../../../types/global';
+import { ReactComponent as CloseIcon } from '../../../../../../../assets/icons/closeIcon.svg';
 import styled from 'styled-components';
-import { INote, ShowNote } from '../../../../../types/applicant';
+import { INote, ShowNote } from '../../../../../../../types/applicant';
 
 const { Title } = Typography;
 
