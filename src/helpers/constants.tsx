@@ -14,7 +14,7 @@ export const PATHS = {
   RESTOREPASSWORD: 'restore-password',
   DASHBOARD: 'dashboard',
   PROJECT: 'project',
-  TEAMS: 'teams/',
+  TEAMS: 'teams',
   PROJECTCREATE: 'create',
   OVERVIEW: 'overview/:id',
   SUBACTIVITY: 'sub-activity/:id',
@@ -249,7 +249,7 @@ export const optionsStatus = [
 ];
 // Age function
 export const marks: SliderMarks = {
-  1: '1',
+  1: '15',
   100: '100'
 };
 export const optionsReason = [
