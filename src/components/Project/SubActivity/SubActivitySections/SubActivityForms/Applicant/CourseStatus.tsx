@@ -60,7 +60,11 @@ const CourseStatusForm: React.FC<any> = ({
       response: {
         data: { message: error }
       }
-    }: { response: { data: { message: string } } }) => message.error(error, 2)
+    }: { response: { data: { message: string } } }) => {
+      setDefaultFileList([]);
+      setFileList([]);
+      return message.error(error, 2);
+    }
   });
 
   const add = (): any => {
