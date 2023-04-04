@@ -3,19 +3,23 @@ import moment from 'moment';
 import styled from 'styled-components';
 import { Col, message, Row, Upload } from 'antd';
 
-import useApplicantAttachFile from '../../../../../api/Applicant/useApplicantAttachFile';
-import useFileUpload from '../../../../../api/Activity/Template/SubActivity/useUploadFile';
+import useApplicantAttachFile from '../../../../../../../api/Applicant/useApplicantAttachFile';
+import useFileUpload from '../../../../../../../api/Activity/Template/SubActivity/useUploadFile';
 
 import {
   IUploadFileError,
   IUploadFileResponse
-} from '../../../../../types/files';
-import { ICourseProps, IStyle, OnUpload } from '../../../../../types/applicant';
+} from '../../../../../../../types/files';
+import {
+  ICourseProps,
+  IStyle,
+  OnUpload
+} from '../../../../../../../types/applicant';
 
 import {
   ApplicantAccessStatus,
   FileType
-} from '../../../../../helpers/constants';
+} from '../../../../../../../helpers/constants';
 
 import Next from './Next';
 import Note from '../Note';
@@ -127,31 +131,32 @@ const Course: React.FC<ICourseProps> = ({
   isActive,
   isLast,
   isFirst,
-  isLastInactive,
-  applicantId
+  isLastInactive
 }) => {
   const { mutate: attachFile } = useApplicantAttachFile();
 
   const { mutate: uploadFile } = useFileUpload();
 
   const onUpload: OnUpload = (options) => {
-    const { file } = options;
-    uploadFile(
-      { file, type: FileType.APPLICANT_DOCUMENT },
-      {
-        onSuccess: ({ data: { result } }: IUploadFileResponse) => {
-          attachFile({
-            id: history.id,
-            files: result
-          });
-        },
-        onError: ({
-          response: {
-            data: { message: error }
-          }
-        }: IUploadFileError) => message.error(error, 2)
-      }
-    );
+    if (history.id !== undefined) {
+      const { file } = options;
+      uploadFile(
+        { file, type: FileType.APPLICANT_DOCUMENT },
+        {
+          onSuccess: ({ data: { result } }: IUploadFileResponse) => {
+            attachFile({
+              id: history.id,
+              files: result
+            });
+          },
+          onError: ({
+            response: {
+              data: { message: error }
+            }
+          }: IUploadFileError) => message.error(error, 2)
+        }
+      );
+    }
   };
 
   const isNotRejected =
@@ -191,7 +196,9 @@ const Course: React.FC<ICourseProps> = ({
                 <Status status={history.status} />
               </Col>
               <Col span={6} className="files">
-                <Files applicantId={applicant.id} history={history} />
+                {history.id !== undefined && (
+                  <Files applicantId={applicant.id} history={history} />
+                )}
               </Col>
               <Col
                 offset={3}
@@ -207,27 +214,24 @@ const Course: React.FC<ICourseProps> = ({
                       accept=".doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx,.png,.jpeg"
                       customRequest={onUpload}
                       maxCount={2}
+                      disabled={history.id === undefined}
                     >
                       <UploadSvg />
                     </Upload>
                   )}
                 </div>
                 <div className="note">
-                  <Note
-                    id={`${history?.id}`}
-                    reasonsForRejection={history.reasonsForRejection}
-                    inactive={!isActive}
-                    text={history.note}
-                  />
+                  <Note history={history} inactive={!isActive} />
                 </div>
               </Col>
             </AntRow>
           </Col>
           <Next
             applicant={applicant}
-            sectionDataId={history?.sectionDataId}
+            sectionDataId={
+              'sectionDataId' in history ? history?.sectionDataId : ''
+            }
             isAllowEdit={isAllowEdit}
-            applicantId={applicantId}
           />
         </AntRow>
       </CourseItem>

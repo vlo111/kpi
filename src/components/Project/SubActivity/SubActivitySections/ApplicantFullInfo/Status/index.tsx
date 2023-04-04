@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Row } from 'antd';
 
-import { ReactComponent as ArrowSvg } from '../../../../../Applicant/Status/Courses/Icons/arrow.svg';
+import { ReactComponent as ArrowSvg } from '../../../../../Applicant/Tabs/Tab/Content/Courses/Icons/arrow.svg';
 
 import { ConfirmModal } from '../../../../../Forms/Modal/Confirm';
 import useFinishApplicant from '../../../../../../api/Applicant/useFinishApplicant';
@@ -10,8 +10,8 @@ import { AsnCol } from '../../../../../Forms/Col';
 import { AsnButton } from '../../../../../Forms/Button';
 import { IApplicantData } from '../../../../../../types/api/activity/subActivity';
 import styled from 'styled-components';
-import ApproveModal from '../../../../../Applicant/Status/Courses/Course/Approve';
-import RejectModal from '../../../../../Applicant/Status/Courses/Course/Reject';
+import ApproveModal from '../../../../../Applicant/Tabs/Tab/Content/Courses/Course/Approve';
+import RejectModal from '../../../../../Applicant/Tabs/Tab/Content/Courses/Course/Reject';
 
 interface ISubActivityStatus {
   sectionDataId: string
