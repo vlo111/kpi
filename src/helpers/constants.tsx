@@ -249,7 +249,7 @@ export const optionsStatus = [
 ];
 // Age function
 export const marks: SliderMarks = {
-  1: '15',
+  1: '1',
   100: '100'
 };
 export const optionsReason = [

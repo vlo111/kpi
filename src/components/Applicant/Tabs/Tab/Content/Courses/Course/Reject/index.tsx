@@ -2,16 +2,16 @@ import React from 'react';
 import { Space, Typography } from 'antd';
 import styled from 'styled-components';
 
-import { AsnForm } from '../../../../../Forms/Form';
-import { AsnModal } from '../../../../../Forms/Modal';
-import { AsnButton } from '../../../../../Forms/Button';
-import { AsnTextArea } from '../../../../../Forms/Input';
-import { AsnCheckboxGroup } from '../../../../../Forms/Checkbox';
+import { AsnForm } from '../../../../../../../Forms/Form';
+import { AsnModal } from '../../../../../../../Forms/Modal';
+import { AsnButton } from '../../../../../../../Forms/Button';
+import { AsnTextArea } from '../../../../../../../Forms/Input';
+import { AsnCheckboxGroup } from '../../../../../../../Forms/Checkbox';
 
-import { FormFinish } from '../../../../../../types/global';
-import { IApproveModalProps } from '../../../../../../types/applicant';
-import { optionsReason } from '../../../../../../helpers/constants';
-import useRejectApplicant from '../../../../../../api/Applicant/useReject';
+import { FormFinish } from '../../../../../../../../types/global';
+import { IApproveModalProps } from '../../../../../../../../types/applicant';
+import { optionsReason } from '../../../../../../../../helpers/constants';
+import useRejectApplicant from '../../../../../../../../api/Applicant/useReject';
 
 const { Title } = Typography;
 
