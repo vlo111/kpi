@@ -270,3 +270,17 @@ export enum AssessmentStatus {
   NotSubmitted = ' Not submitted',
   Scored = ' Scored '
 }
+
+export const defaultRegions = [
+  'Yerevan',
+  'Aragatsotn',
+  'Ararat',
+  'Armavir',
+  'Gegharkunik',
+  'Kotayk',
+  'Lori',
+  'Shirak',
+  'Syunik',
+  'Tavush',
+  'Vayots Dzor'
+];
