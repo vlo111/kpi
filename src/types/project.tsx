@@ -107,6 +107,7 @@ export interface IProjectDetails {
 }
 
 export interface IProjectDetailsItems {
+  regions?: string[]
   title: string
   name: string
   onDelete: (
@@ -543,4 +544,17 @@ interface IProjectOverviewIds {
 export interface IOutletContext {
   projectOverview: IProjectOverviewIds
   setProjectOverview: React.Dispatch<React.SetStateAction<IProjectOverviewIds>>
+}
+
+export interface IProjectRegion {
+  updatedAt: string | null
+  title: string
+  projectId: string
+  id: string
+  deletedAt: string | null
+  createdAt: string | null
+}
+
+export interface IUpdateRegionErrorMessage {
+  response: { data: { message: string } }
 }
