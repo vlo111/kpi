@@ -6,7 +6,6 @@ import { Text } from './Text';
 import { INoteContent } from '../../../../../../../../types/applicant';
 
 const Content: React.FC<INoteContent> = ({ text, reasonsForRejection, onClose }) => {
-  console.log(text);
   return (
     <>
       <Header onClose={onClose} />

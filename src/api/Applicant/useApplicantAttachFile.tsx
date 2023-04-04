@@ -18,7 +18,7 @@ const useApplicantAttachFile: UseApplicantAttachFile = () => {
   }, {
     onSuccess: () => {
       void queryClient.invalidateQueries([
-        'api/applicant/:id/project/:projectId'
+        'api/applicant/:id/course/:sectionDataId/history'
       ]);
       void message.success('Successfully attached to the status', 2);
     },
