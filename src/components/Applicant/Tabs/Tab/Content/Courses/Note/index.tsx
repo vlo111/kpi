@@ -9,7 +9,6 @@ const Note: React.FC<INote> = ({ inactive, history }) => {
   const [showNote, setShowNote] = useState<ShowNote>(false);
 
   const changeOpen: Void = () => {
-    debugger;
     if (!inactive) {
       setShowNote(showNote === (history.id ?? '') ? false : (history.id ?? ''));
     }
