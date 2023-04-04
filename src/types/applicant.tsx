@@ -176,7 +176,7 @@ export interface INote {
 
 export interface INoteContent {
   text: string | undefined
-  reasonsForRejection: string[] | undefined
+  reasonsForRejection: string[] | null
   onClose: (close: boolean) => void
 }
 

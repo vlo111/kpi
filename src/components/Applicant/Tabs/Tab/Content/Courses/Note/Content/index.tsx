@@ -9,7 +9,7 @@ const Content: React.FC<INoteContent> = ({ text, reasonsForRejection, onClose })
   return (
     <>
       <Header onClose={onClose} />
-      {reasonsForRejection !== undefined && (
+      {reasonsForRejection !== null && (
         <Rejection reasonsForRejection={reasonsForRejection} />
       )}
       {text !== undefined ? <Text text={text} /> : <NotFound />}
