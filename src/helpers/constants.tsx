@@ -249,7 +249,7 @@ export const optionsStatus = [
 ];
 // Age function
 export const marks: SliderMarks = {
-  1: '15',
+  1: '1',
   100: '100'
 };
 export const optionsReason = [
@@ -270,3 +270,17 @@ export enum AssessmentStatus {
   NotSubmitted = ' Not submitted',
   Scored = ' Scored '
 }
+
+export const defaultRegions = [
+  'Yerevan',
+  'Aragatsotn',
+  'Ararat',
+  'Armavir',
+  'Gegharkunik',
+  'Kotayk',
+  'Lori',
+  'Shirak',
+  'Syunik',
+  'Tavush',
+  'Vayots Dzor'
+];

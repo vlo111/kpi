@@ -107,6 +107,7 @@ export interface IsLoading { isLoading: boolean }
 interface ProjectDetailsData {
   projectDetails: ProjectDetails
   isLoading: boolean
+  isFetching: boolean
 }
 
 export type UseGetProjectDetails = (id: any, options?: { enabled: boolean }) => ProjectDetailsData
