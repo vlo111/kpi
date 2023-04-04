@@ -148,16 +148,11 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
             <Row justify="start" align="middle" style={{ padding: '4px 11px' }}>
               <Col>
                 <AsnAvatar
-                  letter={`${
-                    firstName?.charAt(0) ?? subActivity?.firstName?.charAt(0)
-                  }    ${
-                    lastName?.charAt(0) ?? subActivity?.lastName?.charAt(0)
-                  }`}
+                  letter={`${firstName?.charAt(0)}${lastName?.charAt(0)}`}
                 />
               </Col>
               <Col style={{ marginLeft: '8px' }}>
-                {firstName ?? subActivity?.firstName}{' '}
-                {lastName ?? subActivity?.lastName}
+              {firstName} {lastName}
               </Col>
             </Row>
               )}

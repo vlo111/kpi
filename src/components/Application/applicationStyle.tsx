@@ -95,6 +95,7 @@ export const DividerLine = styled.span`
   }
   .ant-divider-horizontal {
     margin: 0px;
+    width: 50vw;
   }
 `;
 

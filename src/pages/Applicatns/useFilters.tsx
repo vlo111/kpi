@@ -10,7 +10,7 @@ import { Void } from '../../types/global';
 
 export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
   const hide: Void = () => {
-    setOpen();
+    setOpen(false);
   };
 
   const onFinishFailed = (): void => {
@@ -109,7 +109,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             <AsnButton className="primary" htmlType="submit">
               Add Filter
             </AsnButton>
-          </Space>{' '}
+          </Space>
         </Form.Item>
       </Form>
     </ContentAssingersFilter>

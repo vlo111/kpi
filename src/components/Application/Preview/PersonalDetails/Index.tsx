@@ -1,8 +1,13 @@
 import React, { Fragment } from 'react';
-import { Radio, Space } from 'antd';
+import { Divider, Radio, Space } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
-import { CardTitle, ModalText, DetailsContainer } from '../../applicationStyle';
+import {
+  CardTitle,
+  ModalText,
+  DetailsContainer,
+  DividerLine
+} from '../../applicationStyle';
 import { AsnInput } from '../../../Forms/Input';
 import { AsnSelect } from '../../../Forms/Select';
 import { AsnDatePicker } from '../../../Forms/DatePicker';
@@ -52,12 +57,22 @@ const PersonalDetails: React.FC<IPersonalDetails> = ({
             <Radio.Group value={question?.answers[0]?.title}>
               <Space direction="vertical">
                 {question?.answers?.map((answer: IAnswer) => (
-                  <Radio
+                  <Fragment
                     key={answer.id !== undefined ? answer.id : uuidv4()}
-                    value={answer.title}
                   >
-                    {answer.title}
-                  </Radio>
+                    {answer.title?.includes('Other')
+                      ? (
+                      <DividerLine>
+                        <Radio value={answer.title} />
+                        <Divider orientation="left" plain>
+                          {answer.title}
+                        </Divider>
+                      </DividerLine>
+                        )
+                      : (
+                      <Radio value={answer.title}>{answer.title}</Radio>
+                        )}
+                  </Fragment>
                 ))}
               </Space>
             </Radio.Group>

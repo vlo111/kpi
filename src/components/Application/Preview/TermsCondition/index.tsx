@@ -14,8 +14,18 @@ const TermsCondition: React.FC<{ termsConditionData: string }> = ({
       </CardTitle>
       {conditionsData?.map((condition: string, index: number) => (
         <Fragment key={index}>
-          <ModalText style={{ margin: '1rem 0 0.5rem' }}>{condition}</ModalText>
-          <AsnCheckbox defaultChecked={true}>I agree / Համաձայն եմ</AsnCheckbox>
+          {condition?.length > 0
+            ? (
+            <>
+              <ModalText style={{ margin: '1rem 0 0.5rem' }}>
+                {condition}
+              </ModalText>
+              <AsnCheckbox defaultChecked={true}>
+                I agree / Համաձայն եմ
+              </AsnCheckbox>
+            </>
+              )
+            : null}
         </Fragment>
       ))}
     </DetailsContainer>

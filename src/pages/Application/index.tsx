@@ -163,8 +163,9 @@ const Application: React.FC = () => {
   useEffect(() => {
     form.setFieldsValue({
       conditions:
-        applicationData?.termsAndConditions !== undefined &&
-        JSON.parse(applicationData?.termsAndConditions)
+        applicationData?.termsAndConditions !== undefined
+          ? JSON.parse(applicationData?.termsAndConditions)
+          : []
     });
   }, [applicationData]);
 
@@ -181,6 +182,9 @@ const Application: React.FC = () => {
         setIsValidateMessage(false);
       } else {
         setIsValidateMessage(false);
+        const filteredCondition = form
+          .getFieldValue('conditions')
+          .filter((item: any) => Boolean(item));
         applicationData.description =
           formDescription.current !== null
             ? formDescription.current.resizableTextArea.textArea.value
@@ -194,11 +198,7 @@ const Application: React.FC = () => {
             : deadlineDate;
         applicationData.successMessage =
           successMessage !== null ? successMessage?.current?.input?.value : '';
-        applicationData.termsAndConditions = JSON.stringify(
-          form.getFieldValue('conditions') !== undefined
-            ? form.getFieldValue('conditions')
-            : ['', '']
-        );
+        applicationData.termsAndConditions = JSON.stringify(filteredCondition);
         form.resetFields();
         if (location?.state?.edit === true) {
           updateApplicationForm({
@@ -221,11 +221,10 @@ const Application: React.FC = () => {
 
   const onPreviewClick: Void = () => {
     if (applicationData !== undefined) {
-      applicationData.termsAndConditions = JSON.stringify(
-        form.getFieldValue('conditions') !== undefined
-          ? form.getFieldValue('conditions')
-          : ['', '']
-      );
+      const filteredCondition = form
+        .getFieldValue('conditions')
+        .filter((item: any) => Boolean(item));
+      applicationData.termsAndConditions = JSON.stringify(filteredCondition);
       applicationData.onlineSignature = onlineSignature;
       setIsOpenCreateActivityModal(true);
       applicationData.description =

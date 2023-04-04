@@ -265,3 +265,14 @@ any,
 ResponseErrorParam,
 IAssignUserParams
 >;
+
+export interface IImportApplicantsWarnings {
+  courseMap: {
+    status: string
+    course: {
+      title: string
+      startDate: string
+      endDate: string
+    }
+  }
+}

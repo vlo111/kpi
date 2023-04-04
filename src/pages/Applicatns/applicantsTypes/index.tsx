@@ -105,5 +105,5 @@ export interface IApplicants {
 export interface Ifiltres {
   form: FormInstance<string>
   onFinish: () => void
-  setOpen: () => boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
