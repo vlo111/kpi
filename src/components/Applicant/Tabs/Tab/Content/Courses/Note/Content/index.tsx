@@ -6,13 +6,14 @@ import { Text } from './Text';
 import { INoteContent } from '../../../../../../../../types/applicant';
 
 const Content: React.FC<INoteContent> = ({ text, reasonsForRejection, onClose }) => {
+  console.log(text);
   return (
     <>
       <Header onClose={onClose} />
       {reasonsForRejection !== null && (
         <Rejection reasonsForRejection={reasonsForRejection} />
       )}
-      {text !== undefined ? <Text text={text} /> : <NotFound />}
+      {text !== null && text !== undefined ? <Text text={text} /> : <NotFound />}
     </>
   );
 };
