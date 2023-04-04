@@ -51,6 +51,9 @@ const Container = styled.div`
   }
   .ant-card-head {
     border-bottom: 0;
+    position: absolute;
+    top: 0 ;
+    width: 100%;
   }
   .ant-row {
     row-gap: 16px !important;
