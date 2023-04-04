@@ -40,6 +40,7 @@ import AssessMentForm from './pages/FillAssessmentForm';
 import FilledOutAssessmentForm from './pages/FilledOutAssessmentForm';
 import ApplicantsData from './pages/Applicatns';
 import Invitation from './pages/Auth/Invitation';
+import SubActivitiesList from './pages/SubActivitiesList';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -68,6 +69,7 @@ export const router = createBrowserRouter(
           <Route path={PATHS.FILES} element={<Files />} />
           <Route path={PATHS.SUBACTIVITY} element={<SubActivity />} />
         </Route>
+        <Route path={PATHS.SUBACTIVITIES} element={<SubActivitiesList />} />
         <Route path={PATHS.PROJECTINFORMATION} element={<ProjectInformation />} />
         <Route path={PATHS.COURSEINFORMATION} element={<CourseInformation />} />
         <Route path={PATHS.USERPROFILE} element={<UserProfile />} />

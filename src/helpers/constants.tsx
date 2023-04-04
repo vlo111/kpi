@@ -36,7 +36,8 @@ export const PATHS = {
   ASSESSMENTFORMCREATE: 'assessment-form/create/:id',
   FILLEDOUTASSESSMENTFORM: 'assessment-form/assess/:id',
   APPLICANTS: 'applicants',
-  INVITATION: 'accept-invitation'
+  INVITATION: 'accept-invitation',
+  SUBACTIVITIES: 'sub-activities-list/:id'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -59,6 +60,7 @@ export const MenuItems = [
   'Team',
   'Applicants',
   'Files',
+  'Sub Activities',
   'Product Guide',
   'Keyboard Shortcuts'
 ];
@@ -67,7 +69,8 @@ export const menuItemsNavigate = [
   '/project/create',
   '/teams',
   '/applicants',
-  '/files'
+  '/files',
+  '/sub-activities-list'
 ];
 
 export const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$/;
