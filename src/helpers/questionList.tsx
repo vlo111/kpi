@@ -49,7 +49,15 @@ export const updateQuestion = (
   questionRowIndex: number,
   answerTypeValue: string
 ): void => {
-  value.names = value.otherOption === true ? value.names : value.names?.filter((item) => item !== 'Other/Այլ');
+  if (value.names?.includes('Other/Այլ') ?? false) {
+    const index: any = value.names?.indexOf('Other/Այլ');
+    const otherItem: any = value.names?.splice(index, 1)[0];
+    value.names?.splice(value.names?.length, 1, otherItem);
+  }
+  value.names =
+    value.otherOption === true
+      ? value.names
+      : value.names?.filter((item) => item !== 'Other/Այլ');
 
   applicationData?.applicationFormSections[sectionNumber].questions?.splice(
     questionRowIndex,
