@@ -5,14 +5,11 @@ import SubmittedApplications from '../SubmittedApplications';
 import { TitleContainer } from '../dashboardStyle';
 import AgeDistribution from '../Charts/AgeDistribution';
 import TrainedByGender from '../Charts/TrainedByGender';
-import DroppedPWD from '../Charts/DroppedPWD';
-import NotEnrolledPWD from '../Charts/NotEnrolledPWD';
 import RegionBreakdown from '../Charts/RegionBreakdown';
 import SectorBreakdown from '../Charts/SectorBreakdown';
 import PWDApplicants from '../Charts/PWDApplicants';
 import ActiveCourses from '../Charts/ActiveCourses';
 import CompletedApplicants from '../Charts/CompletedApplicants';
-import useGetDashboardData from '../../../api/Dashboard/useGeatDashboardData';
 
 const DefaultAnalyticsContainer = styled.div`
   display: flex;
@@ -33,14 +30,7 @@ const ChartsContainer = styled.div`
   margin-top: 2rem;
 `;
 
-const DefaultAnalytics: React.FC = () => {
-  // const projectId = localStorage.getItem('project');
-
-  const { data } = useGetDashboardData(
-    '19e3c880-4bf4-424a-9ad4-4af293f55b47',
-    true
-  );
-
+const DefaultAnalytics: React.FC<any> = ({ data }) => {
   return (
     <DefaultAnalyticsContainer>
       <GeneralInformation generalData={data?.general_info} />
@@ -55,17 +45,7 @@ const DefaultAnalytics: React.FC = () => {
           <TrainedByGender genderStatistics={data.gender_statistic} />
         </RowContainer>
         <RowContainer>
-          <NotEnrolledPWD
-            pwdNotEnrolled={data?.pwd_applicants_not_enrolled}
-          />
-          <DroppedPWD
-            pwdDropped={data?.pwd_applicants_dropped}
-          />
-        </RowContainer>
-        <RowContainer>
-          <PWDApplicants
-            pwdStatistics={data?.pwd_applicants_trined}
-          />
+          <PWDApplicants pwdStatistics={data?.pwd_applicants_done_courses} />
           <SectorBreakdown sectorStatistics={data.sectors_statistic} />
         </RowContainer>
         <RowContainer>

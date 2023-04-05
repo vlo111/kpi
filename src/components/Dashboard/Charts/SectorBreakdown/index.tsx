@@ -51,8 +51,7 @@ const SectorBreakdown: React.FC<ISectorBreakdownProps> = ({
   return (
     <CardContainer width={'clamp(400px, 48vw, 100%)'}>
       <ChartTitleContainer>
-        Submitted applicants and trained applicants by course sector breakdown
-        chart
+        Applicants by course sector breakdown chart
       </ChartTitleContainer>
       <Column {...config} />
     </CardContainer>

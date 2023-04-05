@@ -21,7 +21,7 @@ const RegionBreakdown: React.FC<IRegionBreakdownProps> = ({
     isRange: true,
     isGroup: true,
     xField: 'name',
-    yField: 'percent',
+    yField: 'count',
     seriesField: 'type',
     renderer: 'svg',
     padding: [45, 20, 95],

@@ -27,6 +27,7 @@ const TitleContent = styled(Title)`
   color: var(--dark-2) !important;
   font-size: 36px !important;
   margin-bottom: 0rem !important;
+  font-weight: 400 !important;
 `;
 
 const AnalyticsCard: React.FC<IAnalyticsCardProps> = ({

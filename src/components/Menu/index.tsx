@@ -113,19 +113,22 @@ export const Menu: React.FC = () => {
   const onNavigateHandle: (ev: MenuInfo) => void = (ev) => {
     menuItemsNavigate.forEach((item, i) => {
       if (+ev.key === i + 1) {
+        if (projectId !== null && item === menuItemsNavigate[0]) {
+          navigate(`${PATHS.DASHBOARD}`.replace(':id', projectId));
+        }
         if (projectId !== null && item === menuItemsNavigate[1]) {
           navigate(`/project/${PATHS.OVERVIEW}`.replace(':id', projectId));
         }
         if (projectId !== null && item === menuItemsNavigate[4]) {
           navigate(`/project/${PATHS.FILES}`.replace(':id', projectId));
         }
-        if (projectId !== null && item === menuItemsNavigate[1]) {
+        if (projectId !== null && item === menuItemsNavigate[2]) {
           navigate(`${PATHS.TEAMS}`.replace(':id', projectId));
         }
-        if (projectId !== null && item === menuItemsNavigate[2]) {
+        if (projectId !== null && item === menuItemsNavigate[3]) {
           navigate(`${PATHS.APPLICANTS}`.replace(':id', projectId));
         }
-        if (projectId !== null && item === menuItemsNavigate[4]) {
+        if (projectId !== null && item === menuItemsNavigate[5]) {
           navigate(`${PATHS.ROOT}`.replace(':id', projectId));
         }
       }

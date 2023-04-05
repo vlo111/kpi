@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { Row, Col, Tabs } from 'antd';
 import DefaultAnalytics from '../../components/Dashboard/DefaultAnalytics/Index';
 import CustomReport from '../../components/Dashboard/CustomReport/Index';
+import useGetDashboardData from '../../api/Dashboard/useGetDashboardData';
+import { ReactComponent as Analytics } from '../../assets/icons/analytics.svg';
+import moment from 'moment';
 
 const CustomTabs = styled(Tabs)`
   .ant-tabs-nav {
@@ -32,7 +35,21 @@ const CustomTabs = styled(Tabs)`
   }
 `;
 
+const AnalyticsTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0rem 3rem
+`;
+
 const Dashboard: React.FC = () => {
+  // const projectId = localStorage.getItem('project');
+
+  const { data } = useGetDashboardData(
+    '19e3c880-4bf4-424a-9ad4-4af293f55b47',
+    true
+  );
+
   return (
     <Row
       style={{
@@ -42,13 +59,34 @@ const Dashboard: React.FC = () => {
         padding: '2rem 2rem 4rem'
       }}
     >
+      <AnalyticsTitle>
+        <Analytics />
+        <span
+          style={{
+            fontSize: 'var(--headline-font-size)',
+            color: 'var(--dark-border-ultramarine)',
+            borderRight: '2px solid var(--dark-border-ultramarine)',
+            padding: '0px 10px 0px 7px'
+          }}
+        >
+          {data?.title}
+        </span>
+        <span
+         style={{
+           fontSize: 'var(--base-font-size)',
+           color: 'var(--dark-2)',
+           padding: '0px 10px'
+         }}>
+          {moment(data?.startDate).format('MM/DD/YYYY')}{' '}-{' '}{moment(data?.endDate).format('MM/DD/YYYY')}
+        </span>
+      </AnalyticsTitle>
       <CustomTabs
         defaultActiveKey="1"
         items={[
           {
             label: 'Default Analytics',
             key: '1',
-            children: <DefaultAnalytics />
+            children: <DefaultAnalytics data={data} />
           },
           {
             label: 'Custom report',

@@ -295,28 +295,28 @@ export const dashboardCardsIcon = [
     icon: <SubmittedApplicants />
   },
   {
-    icon: <TrainedApplicants />
-  },
-  {
     icon: <CurrentlyEnrolledApplicantsCourses />
-  },
-  {
-    icon: <DroppedApplicants />
   },
   {
     icon: <NotEnrolledApplicants />
   },
   {
-    icon: <ApplicantsPWDIcon />
+    icon: <DroppedApplicants />
   },
   {
-    icon: <TrainedApplicantsDisability />
+    icon: <TrainedApplicants />
+  },
+  {
+    icon: <ApplicantsPWDIcon />
   },
   {
     icon: <NotEnrolledApplicantsDisability />
   },
   {
     icon: <DroppedApplicantsDisability />
+  },
+  {
+    icon: <TrainedApplicantsDisability />
   }
 ];
 

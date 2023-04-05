@@ -26,13 +26,13 @@ const TrainedByGender: React.FC<ITrainedByGenderProps> = ({
     renderer: 'svg',
     padding: [45, 30, 95],
     color: ({ type }): any => {
-      if (type === 'Submitted male') {
+      if (type === 'Submitted Male') {
         return 'rgba(246, 151, 109, 0.7)';
-      } else if (type === 'Trained male') {
+      } else if (type === 'Trained Male') {
         return '#F6976D';
-      } else if (type === 'Submitted female') {
+      } else if (type === 'Submitted Female') {
         return 'rgba(104, 142, 163, 0.7)';
-      } else if (type === 'Trained female') {
+      } else if (type === 'Trained Female') {
         return '#688EA3';
       }
     },

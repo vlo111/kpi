@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Column, ColumnConfig } from '@ant-design/charts';
+import { Pie, PieConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 import {
   IPWDApplicants,
@@ -15,49 +15,57 @@ const PWDApplicants: React.FC<IPWDApplicantsProps> = ({ pwdStatistics }) => {
     }
   }, [pwdStatistics]);
 
-  const config: ColumnConfig = {
+  const config: PieConfig = {
     data,
-    xField: 'name',
-    yField: 'count',
-    seriesField: 'type',
-    isRange: true,
+    angleField: 'count',
+    colorField: 'name',
+    radius: 1,
+    innerRadius: 0.7,
+    appendPadding: 10,
+    padding: [0, 0, 75, 20],
     renderer: 'svg',
-    padding: [45, 30, 95],
-    color: ({ type }) => {
-      if (type === 'Submitted Applicants') {
-        return '#EDF0F4';
-      } else if (type === 'PWDs' || type === 'Submitted') {
-        return '#688EA3';
-      }
-      return '#68A395';
-    },
-    minColumnWidth: 20,
-    maxColumnWidth: 40,
-    columnStyle: {
-      radius: [4, 4, 0, 0]
+    color: ['#FBBC04', '#68A395', '#F6976D'],
+    legend: {
+      position: 'left-bottom',
+      layout: 'vertical',
+      offsetY: -70,
+      itemWidth: 600
     },
     label: {
-      position: 'top',
-      layout: [
-        {
-          type: 'interval-adjust-position'
+      type: 'inner',
+      offset: '-50%',
+      content: '',
+      style: {
+        textAlign: 'center',
+        fontSize: 14
+      }
+    },
+    interactions: [
+      {
+        type: 'element-selected'
+      },
+      {
+        type: 'element-active'
+      }
+    ],
+    statistic: {
+      title: {
+        style: {
+          color: '#263238',
+          fontSize: '20px',
+          lineHeight: '20px'
         },
-        {
-          type: 'interval-hide-overlap'
-        },
-        {
-          type: 'adjust-color'
-        }
-      ]
+        content: 'Completed courses'
+      }
     }
   };
 
   return (
     <CardContainer width={'clamp(250px, 35vw, 100%)'}>
       <ChartTitleContainer>
-        PWD submitted applicants and trained PWD learners{' '}
+      Completed the course learners PWD
       </ChartTitleContainer>
-      <Column {...config} />
+      <Pie {...config} />
     </CardContainer>
   );
 };
