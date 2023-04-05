@@ -22,6 +22,9 @@ const SubActivityDocuments: React.FC<any> = ({
     onError: (e: { response: { data: { message: string } } }) => {
       void message.error(e.response.data.message);
       setDefaultFileList([]);
+    },
+    onSuccess: () => {
+      setFileList([]);
     }
   });
 
@@ -58,7 +61,10 @@ const SubActivityDocuments: React.FC<any> = ({
   }, [fileList]);
 
   return (
-    <FormWrapper className={requIredDocs?.length >= 1 ? 'documents_info' : 'required_doc'} color={color}>
+    <FormWrapper
+      className={requIredDocs?.length >= 1 ? 'documents_info' : 'required_doc'}
+      color={color}
+    >
       <DraggerForm
         text="File/Documents"
         docType="GENERAL_DOCUMENT"
@@ -107,7 +113,10 @@ const SubActivityDocuments: React.FC<any> = ({
                 <Col
                   style={{ textAlign: 'start', display: 'flex' }}
                   span={8}
-                  onClick={() => setKeyName(doc.title)}
+                  onClick={() => {
+                    console.log('ssssss', doc.title);
+                    setKeyName(doc.title);
+                  }}
                 >
                   <DraggerForm
                     text="File/Documents"
@@ -126,12 +135,12 @@ const SubActivityDocuments: React.FC<any> = ({
                     keyName={keyName}
                   />
                   <Row
-                   style={{
-                     whiteSpace: 'nowrap',
-                     overflow: 'hidden',
-                     textOverflow: 'ellipsis'
-                   }}
-                    >
+                    style={{
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis'
+                    }}
+                  >
                     {doc.title}
                   </Row>
                 </Col>
