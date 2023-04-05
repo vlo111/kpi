@@ -21,7 +21,9 @@ const SubActivityDocuments: React.FC<any> = ({
   const { mutate: AttachFile } = useAttacheFilesSubActivitySection({
     onError: (e: { response: { data: { message: string } } }) => {
       void message.error(e.response.data.message);
-      setDefaultFileList([]);
+      setDefaultFileList(defaultFileList.filter(
+        (i: any) => i.lastModifiedDate === undefined
+      ));
     },
     onSuccess: () => {
       setFileList([]);
