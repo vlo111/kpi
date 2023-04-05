@@ -47,6 +47,7 @@ const ProjectDetailsStyle = styled.div`
     display: flex;
     justify-content: end;
     gap: 5rem;
+  }
 `;
 
 export const ProjectDetails: React.FC<IStepsUpdate> = ({ isUpdate }) => {

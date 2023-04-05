@@ -13,11 +13,12 @@ const useGetProjectDetails: UseGetProjectDetails = (id, options = { enabled: tru
       select: (data) => data?.data
     }
   );
-  const { data, isSuccess, isLoading } = result;
+  const { data, isSuccess, isLoading, isFetching } = result;
   return {
     ...result,
     projectDetails: isSuccess ? data?.result : [],
-    isLoading
+    isLoading,
+    isFetching
   };
 };
 

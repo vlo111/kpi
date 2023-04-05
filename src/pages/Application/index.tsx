@@ -81,11 +81,13 @@ const Application: React.FC = () => {
   const [form] = AsnForm.useForm();
 
   const { data, isLoading } = getApplicationFormDefault(courseId, {
-    enabled: location?.state?.edit !== true
+    enabled: location?.state?.edit !== true,
+    cacheTime: 0
   });
 
   const { data: singleApplicantData } = useSingleApplicationForm(courseId, {
-    enabled: location?.state?.edit === true
+    enabled: location?.state?.edit === true,
+    cacheTime: 0
   });
 
   const { mutate: createApplicationFn } = createApplicationForm({
