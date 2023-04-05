@@ -24,7 +24,7 @@ const useRejectApplicant: UseRejectApplicant = () => {
     {
       onSuccess: () => {
         void queryClient.invalidateQueries([
-          'api/applicant/:id/project/:projectId'
+          'api/applicant/:id/course/:sectionDataId/history'
         ]);
 
         void queryClient.invalidateQueries([

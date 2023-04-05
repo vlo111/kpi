@@ -12,7 +12,7 @@ const Content: React.FC<INoteContent> = ({ text, reasonsForRejection, onClose })
       {reasonsForRejection !== null && (
         <Rejection reasonsForRejection={reasonsForRejection} />
       )}
-      {text !== undefined ? <Text text={text} /> : <NotFound />}
+      {text !== null && text !== undefined ? <Text text={text} /> : <NotFound />}
     </>
   );
 };
