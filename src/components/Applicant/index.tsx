@@ -133,7 +133,7 @@ const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
         {setValue(ApplicantInfo.CourseSource, applicant?.informedAboutUs)}
       </>
     ),
-    []
+    [applicant]
   );
 
   const user = useMemo(
