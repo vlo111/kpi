@@ -25,7 +25,7 @@ export const PATHS = {
   CONFIRMATION: 'confirm-email',
   FORGOTPASSWORD: 'forgot-password',
   RESTOREPASSWORD: 'restore-password',
-  DASHBOARD: 'dashboard',
+  DASHBOARD: 'dashboard/:id',
   PROJECT: 'project',
   TEAMS: 'teams',
   PROJECTCREATE: 'create',

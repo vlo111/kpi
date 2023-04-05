@@ -6,6 +6,7 @@ import CustomReport from '../../components/Dashboard/CustomReport/Index';
 import useGetDashboardData from '../../api/Dashboard/useGetDashboardData';
 import { ReactComponent as Analytics } from '../../assets/icons/analytics.svg';
 import moment from 'moment';
+import { useParams } from 'react-router-dom';
 
 const CustomTabs = styled(Tabs)`
   .ant-tabs-nav {
@@ -39,16 +40,12 @@ const AnalyticsTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 1rem 0rem 3rem
+  margin: 1rem 0rem 3rem;
 `;
 
 const Dashboard: React.FC = () => {
-  // const projectId = localStorage.getItem('project');
-
-  const { data } = useGetDashboardData(
-    '19e3c880-4bf4-424a-9ad4-4af293f55b47',
-    true
-  );
+  const { id: projectId } = useParams();
+  const { data } = useGetDashboardData(projectId, true);
 
   return (
     <Row
@@ -72,12 +69,14 @@ const Dashboard: React.FC = () => {
           {data?.title}
         </span>
         <span
-         style={{
-           fontSize: 'var(--base-font-size)',
-           color: 'var(--dark-2)',
-           padding: '0px 10px'
-         }}>
-          {moment(data?.startDate).format('MM/DD/YYYY')}{' '}-{' '}{moment(data?.endDate).format('MM/DD/YYYY')}
+          style={{
+            fontSize: 'var(--base-font-size)',
+            color: 'var(--dark-2)',
+            padding: '0px 10px'
+          }}
+        >
+          {moment(data?.startDate).format('MM/DD/YYYY')} -{' '}
+          {moment(data?.endDate).format('MM/DD/YYYY')}
         </span>
       </AnalyticsTitle>
       <CustomTabs
