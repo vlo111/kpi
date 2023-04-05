@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 
-import { AsnButton } from '../../../../../Forms/Button';
-import { ConfirmModal } from '../../../../../Forms/Modal/Confirm';
+import { AsnButton } from '../../../../../../../Forms/Button';
+import { ConfirmModal } from '../../../../../../../Forms/Modal/Confirm';
 
-import { ApplicantAccessStatus } from '../../../../../../helpers/constants';
-import useMoveApplicant from '../../../../../../api/Applicant/useMoveApplicant';
-import useFinishApplicant from '../../../../../../api/Applicant/useFinishApplicant';
+import { ApplicantAccessStatus } from '../../../../../../../../helpers/constants';
+import useMoveApplicant from '../../../../../../../../api/Applicant/useMoveApplicant';
+import useFinishApplicant from '../../../../../../../../api/Applicant/useFinishApplicant';
 
-import { IMove } from '../../../../../../types/applicant';
+import { IMove } from '../../../../../../../../types/applicant';
 import { ReactComponent as ArrowSvg } from '../../Icons/arrow.svg';
-import { AsnCol } from '../../../../../Forms/Col';
+import { AsnCol } from '../../../../../../../Forms/Col';
 
 const Move: React.FC<IMove> = ({ sectionDataId, applicantId, status }) => {
   const [openFinish, setOpenFinish] = useState<boolean>(false);

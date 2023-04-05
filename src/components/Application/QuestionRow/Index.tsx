@@ -88,6 +88,7 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
     );
     form.resetFields(['question', 'names', 'requiredFiled', 'otherOption']);
     setSingleQuestionData(undefined);
+    setAnswerTypeValue('OPTION');
   };
 
   const handleOpenChange: Onchange = (newOpen) => {

@@ -1,7 +1,10 @@
 import React from 'react';
 import { IAssessmentSelectItem } from '../types/api/assessment';
 import { SliderMarks } from 'antd/lib/slider';
-import { IApplicantAccessStatus, IApplicantDefaultStatus } from '../types/applicant';
+import {
+  IApplicantAccessStatus,
+  IApplicantDefaultStatus
+} from '../types/applicant';
 import { ReactComponent as SubmittedApplicants } from '../assets/icons/submitted_applicants.svg';
 import { ReactComponent as TrainedApplicants } from '../assets/icons/trained_learners.svg';
 import { ReactComponent as CurrentlyEnrolledApplicantsCourses } from '../assets/icons/currently_enrolled_learners_courses.svg';
@@ -24,7 +27,7 @@ export const PATHS = {
   RESTOREPASSWORD: 'restore-password',
   DASHBOARD: 'dashboard',
   PROJECT: 'project',
-  TEAMS: 'teams/',
+  TEAMS: 'teams',
   PROJECTCREATE: 'create',
   OVERVIEW: 'overview/:id',
   SUBACTIVITY: 'sub-activity/:id',
@@ -194,18 +197,18 @@ export enum SectionName {
 export enum Placeholders {
   phone = '+(374) XXXXXX',
   date = 'DD/MM/YYYY',
-  email = 'yourmail@analysed.ai'
+  email = 'yourmail@analysed.ai',
 }
 
 export enum KeyName {
   phone = 'phone',
   dob = 'dob',
-  email = 'email'
+  email = 'email',
 }
 
 export enum ErrorRequireMessages {
   checkbox = 'Please chose one of the fields',
-  input = 'Please enter the field'
+  input = 'Please enter the field',
 }
 
 export const defaultLimit = {
@@ -266,19 +269,25 @@ export const optionsReason = [
   { label: 'Personal issues', value: 'Personal issues' },
   { label: 'Change of plans', value: 'Change of plans' },
   { label: 'Not-eligible', value: 'Not-eligible' },
-  { label: 'Pro-assessment insufficient scores', value: 'Pro-assessment insufficient scores' },
+  {
+    label: 'Pro-assessment insufficient scores',
+    value: 'Pro-assessment insufficient scores'
+  },
   { label: 'Wrong choice of the course', value: 'Wrong choice of the course' },
-  { label: 'Interview insufficient score', value: 'Interview insufficient score' }
+  {
+    label: 'Interview insufficient score',
+    value: 'Interview insufficient score'
+  }
 ];
 
 export enum FileType {
-  APPLICANT_DOCUMENT = 'APPLICANT_DOCUMENT'
+  APPLICANT_DOCUMENT = 'APPLICANT_DOCUMENT',
 }
 
 export enum AssessmentStatus {
   NotAssessed = ' Not assessed',
   NotSubmitted = ' Not submitted',
-  Scored = ' Scored '
+  Scored = ' Scored ',
 }
 
 export const dashboardCardsIcon = [
@@ -309,4 +318,18 @@ export const dashboardCardsIcon = [
   {
     icon: <DroppedApplicantsDisability />
   }
+];
+
+export const defaultRegions = [
+  'Yerevan',
+  'Aragatsotn',
+  'Ararat',
+  'Armavir',
+  'Gegharkunik',
+  'Kotayk',
+  'Lori',
+  'Shirak',
+  'Syunik',
+  'Tavush',
+  'Vayots Dzor'
 ];

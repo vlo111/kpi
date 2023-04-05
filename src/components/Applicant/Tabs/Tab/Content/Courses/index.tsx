@@ -3,7 +3,7 @@ import { Col, Row } from 'antd';
 import styled from 'styled-components';
 
 import Course from './Course';
-import { ICourses } from '../../../../types/applicant';
+import { ICourses } from '../../../../../../types/applicant';
 
 const CoursesStyle = styled.div`
   display: flex;
@@ -85,7 +85,7 @@ const AntRow = styled(Row)`
   }
 `;
 
-const Courses: React.FC<ICourses> = ({ histories, applicant, applicantId }) => {
+const Courses: React.FC<ICourses> = ({ histories, applicant }) => {
   return (
     <div>
       <AntRow align="middle" className="title">
@@ -103,7 +103,6 @@ const Courses: React.FC<ICourses> = ({ histories, applicant, applicantId }) => {
             isLastInactive={history.id === undefined && histories.length - 1 === index}
             isLast={history.id === undefined ? false : histories.length - 1 === index}
             isActive={history?.id !== undefined}
-            applicantId={applicantId}
           />
         ))}
       </CoursesStyle>

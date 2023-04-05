@@ -21,7 +21,7 @@ const useFileUpload: any = () => {
     onSuccess: () => {
       setTimeout(() => {
         void queryClient.invalidateQueries(['/api/sub-activity']);
-      }, 200);
+      }, 0);
     },
     onError: ({
       response: {

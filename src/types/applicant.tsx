@@ -138,19 +138,17 @@ export type ImportApplicantList = UseMutation<Void, any, ResponseErrorParam, Imp
 export type OnNoteHandler = ChangeEventHandler<HTMLTextAreaElement>;
 
 export interface ICourseProps {
-  history: IHistory
+  history: IHistory | { id: undefined, status: string }
   applicant: IApplicant
   isFirst: boolean
   isLast: boolean
   isActive: boolean
   isLastInactive: boolean
-  applicantId: string | undefined
 }
 
 export interface ICourses {
-  histories: IHistory[]
+  histories: IHistory[] | Array<{ id: undefined, status: string }>
   applicant: IApplicant
-  applicantId: string | undefined
 }
 
 export interface IStyle {
@@ -169,14 +167,17 @@ export type StatusItems = TabsProps['items'];
 export interface IApplicantTabs {
   courses: ICourse[]
   applicant: IApplicant
-  applicantId: string | undefined
 }
 
 export interface INote {
-  id: string
-  text: string
   inactive: boolean
+  history: IHistory | { id: undefined, status: string }
+}
+
+export interface INoteContent {
+  text: string | undefined
   reasonsForRejection: string[] | null
+  onClose: (close: boolean) => void
 }
 
 export type ShowNote = boolean | string;
@@ -196,7 +197,6 @@ export interface INext {
   applicant: IApplicant
   sectionDataId: string
   isAllowEdit: boolean
-  applicantId: string | undefined
 }
 
 export type OnUpload = (options: { file: any }) => void;

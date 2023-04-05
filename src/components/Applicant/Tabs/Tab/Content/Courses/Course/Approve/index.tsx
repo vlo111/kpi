@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { Space } from 'antd';
 import styled from 'styled-components';
 
-import { AsnButton } from '../../../../../Forms/Button';
-import { AsnModal } from '../../../../../Forms/Modal';
-import { AsnTextArea } from '../../../../../Forms/Input';
+import { AsnButton } from '../../../../../../../Forms/Button';
+import { AsnModal } from '../../../../../../../Forms/Modal';
+import { AsnTextArea } from '../../../../../../../Forms/Input';
 
 import {
   IApproveModalProps,
   OnNoteHandler
-} from '../../../../../../types/applicant';
-import { Void } from '../../../../../../types/global';
-import useApproveApplicant from '../../../../../../api/Applicant/useApprove';
+} from '../../../../../../../../types/applicant';
+import { Void } from '../../../../../../../../types/global';
+import useApproveApplicant from '../../../../../../../../api/Applicant/useApprove';
 
 const AntModal = styled(AsnModal)`
   .ant-modal-content {
