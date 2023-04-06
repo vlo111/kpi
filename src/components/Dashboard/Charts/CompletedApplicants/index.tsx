@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Pie, PieConfig } from '@ant-design/charts';
+import { Datum, Pie, PieConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 import {
   ICompletedApplicants,
@@ -12,8 +12,20 @@ const CompletedApplicants: React.FC<ICompletedApplicantsProps> = ({
   const [data, setData] = useState<ICompletedApplicants[]>([]);
 
   useEffect(() => {
-    setData(completedStatistics);
+    if (completedStatistics !== undefined) {
+      setData(completedStatistics);
+    }
   }, [completedStatistics]);
+
+  const color: string | string[] | ((datum: Datum, defaultColor?: string) => string) = ({ name }) => {
+    if (name === 'Trained') {
+      return '#68A395';
+    } else if (name === 'Dropped') {
+      return '#FBBC04';
+    } else {
+      return '#F6976D';
+    }
+  };
 
   const config: PieConfig = {
     data,
@@ -24,7 +36,7 @@ const CompletedApplicants: React.FC<ICompletedApplicantsProps> = ({
     appendPadding: 10,
     padding: [0, 0, 75, 20],
     renderer: 'svg',
-    color: ['#FBBC04', '#68A395', '#F6976D'],
+    color,
     legend: {
       position: 'left-bottom',
       layout: 'vertical',
@@ -53,9 +65,12 @@ const CompletedApplicants: React.FC<ICompletedApplicantsProps> = ({
         style: {
           color: '#263238',
           fontSize: '20px',
-          lineHeight: '20px'
+          lineHeight: '20px',
+          whiteSpace: 'pre-wrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis'
         },
-        content: 'Completed courses'
+        content: 'Submitted\nlearners'
       }
     }
   };
@@ -63,7 +78,7 @@ const CompletedApplicants: React.FC<ICompletedApplicantsProps> = ({
   return (
     <CardContainer width={'clamp(250px, 31vw, 100%)'}>
       <ChartTitleContainer>
-        Enrollment chart for active courses
+        Enrollment chart for completed courses
       </ChartTitleContainer>
       <Pie {...config} />
     </CardContainer>

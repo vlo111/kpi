@@ -24,7 +24,7 @@ const SectorBreakdown: React.FC<ISectorBreakdownProps> = ({
     yField: 'percent',
     seriesField: 'type',
     color: ['#F3C262', '#68A395'],
-    dodgePadding: 0,
+    dodgePadding: 0.1,
     renderer: 'svg',
     padding: [45, 30, 95],
     minColumnWidth: 20,

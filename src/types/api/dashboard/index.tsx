@@ -108,3 +108,23 @@ export interface ICompletedApplicants {
 export interface ICompletedApplicantsProps {
   completedStatistics: ICompletedApplicants[]
 }
+
+export interface IAnalyticData {
+  projectId?: string
+  title?: string
+  startDate?: string
+  endDate?: string
+  general_info: IGeneralInformation[]
+  submitted_info: ISubmittedApplications[]
+  gender_statistic: ITrainedByGender[]
+  age_statistic: IAgeDistribution[]
+  regions_statistic: IRegionBreakdown[]
+  applicants_status_in_done_courses_statistic: ICompletedApplicants[]
+  applicants_status_statistic: IActiveCourses[]
+  sectors_statistic: ISectorBreakdown[]
+  pwd_applicants_done_courses: IPWDApplicants[]
+}
+
+export interface IAnalyticDataProps {
+  data: IAnalyticData
+}
