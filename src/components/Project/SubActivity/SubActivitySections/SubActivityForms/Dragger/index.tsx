@@ -84,12 +84,10 @@ const DraggerForm: React.FC<IDraggerProps> = ({
             const {
               data: { result }
             } = options;
-            if (docType === 'SECTION_SETTING_DOCUMENT') {
-              setFileList((prevState: any) => [
-                ...prevState,
-                { url: result[0], id: file.uid }
-              ]);
-            }
+            setFileList((prevState: any) => [
+              ...prevState,
+              { url: result[0], id: file.uid }
+            ]);
             if (docType === 'GENERAL_DOCUMENT') {
               setFileList((prevState: any) => [
                 ...prevState,

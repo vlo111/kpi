@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Menu as AntMenu } from 'antd';
-// import { ReactComponent as DashboardSvg } from '../../assets/icons/dashboard.svg';
+import { ReactComponent as DashboardSvg } from '../../assets/icons/dashboard.svg';
 import { ReactComponent as ProjectSvg } from '../../assets/icons/project.svg';
 import { ReactComponent as TeamSvg } from '../../assets/icons/team.svg';
 import { ReactComponent as ApplicantsSvg } from '../../assets/icons/aplicants.svg';
@@ -103,15 +103,9 @@ export const Menu: React.FC = () => {
   const [currentItem, setCurrentItem] = useState(['1']);
 
   useEffect(() => {
-    let currenPath = [
-      `${
-        menuItemsNavigate.indexOf(
-          pathname.includes('project') ? menuItemsNavigate[0] : pathname
-        ) + 1
-      }`
-    ];
+    let currenPath = [`${menuItemsNavigate.indexOf(pathname.includes('project') ? menuItemsNavigate[1] : pathname) + 1}`];
     if (pathname.includes('files')) {
-      currenPath = ['4'];
+      currenPath = ['5'];
     }
     setCurrentItem(currenPath);
   }, [pathname]);
@@ -120,18 +114,21 @@ export const Menu: React.FC = () => {
     menuItemsNavigate.forEach((item, i) => {
       if (+ev.key === i + 1) {
         if (projectId !== null && item === menuItemsNavigate[0]) {
-          navigate(`/project/${PATHS.OVERVIEW}`.replace(':id', projectId));
-        }
-        if (projectId !== null && item === menuItemsNavigate[3]) {
-          navigate(`/project/${PATHS.FILES}`.replace(':id', projectId));
+          navigate(`${PATHS.DASHBOARD}`.replace(':id', projectId));
         }
         if (projectId !== null && item === menuItemsNavigate[1]) {
-          navigate(`${PATHS.TEAMS}`.replace(':id', projectId));
-        }
-        if (projectId !== null && item === menuItemsNavigate[2]) {
-          navigate(`${PATHS.APPLICANTS}`.replace(':id', projectId));
+          navigate(`/project/${PATHS.OVERVIEW}`.replace(':id', projectId));
         }
         if (projectId !== null && item === menuItemsNavigate[4]) {
+          navigate(`/project/${PATHS.FILES}`.replace(':id', projectId));
+        }
+        if (projectId !== null && item === menuItemsNavigate[2]) {
+          navigate(`${PATHS.TEAMS}`.replace(':id', projectId));
+        }
+        if (projectId !== null && item === menuItemsNavigate[3]) {
+          navigate(`${PATHS.APPLICANTS}`.replace(':id', projectId));
+        }
+        if (projectId !== null && item === menuItemsNavigate[5]) {
           navigate(`${PATHS.ROOT}`.replace(':id', projectId));
         }
       }
@@ -149,7 +146,7 @@ export const Menu: React.FC = () => {
         onClick={onNavigateHandle}
         selectedKeys={currentItem}
         items={[
-          // DashboardSvg,
+          DashboardSvg,
           ProjectSvg,
           TeamSvg,
           ApplicantsSvg,
