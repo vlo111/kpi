@@ -64,7 +64,7 @@ const DataResult: React.FC<IDataResult> = ({
   isFetchingCourseFiles
 }) => {
   const [fileName, setFileName] = useState('');
-  const [viewPdf, setViewPdf] = useState<any>(null);
+  const [viewPdf, setViewPdf] = useState<string | null >(null);
   const [opens, setOpens] = useState<boolean>(false);
 
   const handlePagination = (page: number): void => {
@@ -105,7 +105,7 @@ const DataResult: React.FC<IDataResult> = ({
   }
 
 
-  const getFileExtension = (fileName: string) => {
+  const getFileExtension = (fileName: string | null) => {
     if (!fileName) {
       return "";
     }
