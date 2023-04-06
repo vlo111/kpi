@@ -242,18 +242,6 @@ const DataResult: React.FC<IDataResult> = ({
               style={{ height: window.innerHeight - 125 }}
             /> 
       )}
-            {/* <DocViewer
-              documents={[{ uri: viewPdf }]}
-              pluginRenderers={DocViewerRenderers}
-              config={{
-                header: {
-                  disableHeader: false,
-                  disableFileName: false,
-                  retainURLParams: false
-                }
-              }}
-              style={{ height: window.innerHeight - 125 }}
-            /> */}
           </>
         )}
       </Modal>
