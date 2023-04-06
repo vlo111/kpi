@@ -412,8 +412,20 @@ const GlobalStyle = createGlobalStyle`
   canvas{
     border: 1px solid var(--dark-5);
     border-bottom: 1px solid var(--dark-border-ultramarine) !important;
-
   }
+  .pg-viewer-wrapper {
+    text-align: center;
+  .photo-viewer-container{
+    height: calc(91vh - 40px) !important;
+  }
+  .document-container{
+    height: calc(91vh - 40px) !important;
+    text-align: center;
+  }
+}
+video{
+  height: calc(91vh - 40px) !important;
+}
 
 `;
 
