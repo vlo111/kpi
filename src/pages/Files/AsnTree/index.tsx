@@ -181,7 +181,6 @@ export const AsnTreeFiles: React.FC<IFilesProps> = ({
           style={{ color: 'var(--dark-border-ultramarine)', fontSize: 'var(--base-font-size)' }}
           onClick={() => fetchAllFiles()}
         >
-          {' '}
           All Files ({filesCount})
         </Button>
       </Title>
