@@ -113,7 +113,6 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
   const { data, isLoading } = !preview
     ? useSingleApplicationForm(id ?? '', {
       onSuccess: (data: IApplicant) => {
-        // console.log(''success');
       },
       onError: (data: IApplicant) => {
         navigate(`/${PATHS.ERROR_403}`);
@@ -141,7 +140,8 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
     title,
     description,
     termsAndConditions,
-    onlineSignature
+    onlineSignature,
+    onlineSignaturePath
   } = data ?? {};
 
   useEffect(() => {
@@ -251,22 +251,22 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
       const educationalInfo = getField(SectionName.educationalInfo);
       const otherInfo = getField(SectionName.otherInfo);
       const professionalInfo = getField(SectionName.professionalInfo);
+      const onlineSignaturePath = getField(SectionName.onlineSignaturePath);
 
       personalInfo.forEach((p: any) => {
         if (p.keyName === KeyName.dob) {
           p.answers[0].text = p.answers[0].text.toJSON();
         }
       });
-
       const data = personalInfo.concat(
         educationalInfo,
         otherInfo,
         professionalInfo
       );
-
       createApplicant({
         id,
-        data
+        data,
+        onlineSignaturePath
       });
     } catch (e) {
       console.log(e);
@@ -288,6 +288,8 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
             sections={applicationFormSections}
             terms={termsAndConditions}
             online={onlineSignature}
+            onlineSignaturePath={onlineSignaturePath}
+            preview={preview}
           />
           {!preview && (
             <AsnButton

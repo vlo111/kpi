@@ -87,7 +87,7 @@ const PreviewAssessmentForm: React.FC<any> = ({
     >
       <AsnTitle level={2}>{data?.title ?? assessmentForm?.title}</AsnTitle>
       <AsnParagraph style={{ marginBottom: '60px' }}>
-        Pre-assessment form for course
+        {(data?.type ?? assessmentForm?.type) === 'PRE_ASSESSMENT' ? 'Pre-assessment' : 'Post-assessment'} form for {assessmentForm?.sectionDataTitle ?? ''} course
       </AsnParagraph>
       <AsnForm layout="vertical" name="preassesment">
         <AsnForm.Item

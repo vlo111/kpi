@@ -45,6 +45,8 @@ export interface IApplicationForm {
   sections: IApplicationFormSections[]
   terms: string | undefined
   online: boolean | undefined
+  onlineSignaturePath: string | undefined
+  preview: boolean
 }
 
 export interface IApplicationFormItems {
@@ -85,6 +87,8 @@ export type OnOtherChangeHandler = (value: React.ChangeEvent<HTMLInputElement>) 
 export interface ITermsConditionsProps {
   text: string | undefined
   onlineSignature: boolean | undefined
+  onlineSignaturePath: string | undefined
+  preview: boolean
 }
 
 export type GetField = (name: SectionName) => any
