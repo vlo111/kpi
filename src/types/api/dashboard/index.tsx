@@ -1,3 +1,5 @@
+import { Datum } from '@ant-design/charts';
+
 export interface IGeneralInformation {
   title: string
   count: number
@@ -128,3 +130,5 @@ export interface IAnalyticData {
 export interface IAnalyticDataProps {
   data: IAnalyticData
 }
+
+export type ConfigColorType = string | string[] | ((datum: Datum, defaultColor?: string) => string)

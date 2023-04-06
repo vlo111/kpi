@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Datum, Pie, PieConfig } from '@ant-design/charts';
+import { Pie, PieConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 import {
+  ConfigColorType,
   IPWDApplicants,
   IPWDApplicantsProps
 } from '../../../../types/api/dashboard';
@@ -15,7 +16,7 @@ const PWDApplicants: React.FC<IPWDApplicantsProps> = ({ pwdStatistics }) => {
     }
   }, [pwdStatistics]);
 
-  const color: string | string[] | ((datum: Datum, defaultColor?: string) => string) = ({ name }) => {
+  const color: ConfigColorType = ({ name }) => {
     if (name === 'Trained PWD') {
       return '#68A395';
     } else if (name === 'Dropped PWD') {

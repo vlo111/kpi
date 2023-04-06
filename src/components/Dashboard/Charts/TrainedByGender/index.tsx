@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Column, ColumnConfig, Datum } from '@ant-design/charts';
+import { Column, ColumnConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 import {
+  ConfigColorType,
   ITrainedByGender,
   ITrainedByGenderProps
 } from '../../../../types/api/dashboard';
@@ -17,7 +18,7 @@ const TrainedByGender: React.FC<ITrainedByGenderProps> = ({
     }
   }, [genderStatistics]);
 
-  const color: string | string[] | ((datum: Datum, defaultColor?: string) => string) = ({ type }) => {
+  const color: ConfigColorType = ({ type }) => {
     if (type === 'Submitted Male') {
       return 'rgba(246, 151, 109, 0.7)';
     } else if (type === 'Trained Male') {

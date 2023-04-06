@@ -24,6 +24,7 @@ const ActiveCourses: React.FC<IActiveCoursesProps> = ({
     seriesField: 'name',
     renderer: 'svg',
     radius: 0.9,
+    padding: [0, 0, 60, 0],
     label: {
       type: 'inner',
       offset: '-50%',

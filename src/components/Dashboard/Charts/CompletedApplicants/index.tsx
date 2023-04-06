@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Datum, Pie, PieConfig } from '@ant-design/charts';
+import { Pie, PieConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 import {
+  ConfigColorType,
   ICompletedApplicants,
   ICompletedApplicantsProps
 } from '../../../../types/api/dashboard';
@@ -17,7 +18,7 @@ const CompletedApplicants: React.FC<ICompletedApplicantsProps> = ({
     }
   }, [completedStatistics]);
 
-  const color: string | string[] | ((datum: Datum, defaultColor?: string) => string) = ({ name }) => {
+  const color: ConfigColorType = ({ name }) => {
     if (name === 'Trained') {
       return '#68A395';
     } else if (name === 'Dropped') {
