@@ -59,7 +59,8 @@ const FillAssessMentForm: React.FC = () => {
     const clonedValues = _.cloneDeep(values);
     const requestBody = {
       email: clonedValues.email,
-      apply: clonedValues?.apply.filter((item: { checkboxIds: string[] | undefined }) => delete item.checkboxIds)
+      apply: clonedValues?.apply.filter((item: { checkboxIds: string[] | undefined }) => delete item.checkboxIds),
+      onlineSignaturePath: clonedValues.onlineSignaturePath
     };
 
     applyForm({ id, requestBody }, {
@@ -85,7 +86,7 @@ const FillAssessMentForm: React.FC = () => {
     return <AsnSpin />;
   }
 
-  const { title, questions, sectionDataTitle } = assessmentForm;
+  const { title, questions, sectionDataTitle, type } = assessmentForm;
 
   const initalValue = questions.map((question: IQuestion) => {
     return {
@@ -103,7 +104,7 @@ const FillAssessMentForm: React.FC = () => {
         footer={false}
       >
         <AsnTitle level={2}>{title}</AsnTitle>
-        <AsnParagraph style={{ marginBottom: '60px' }}>Pre-assessment form for {sectionDataTitle} course</AsnParagraph>
+        <AsnParagraph style={{ marginBottom: '60px' }}>{type === 'PRE_ASSESSMENT' ? 'Pre-assessment' : 'Post-assessment' } form for {sectionDataTitle} course</AsnParagraph>
         <AsnForm
           form={form}
           layout='vertical'
@@ -153,7 +154,11 @@ const FillAssessMentForm: React.FC = () => {
             )}
           </AsnForm.List>
          {assessmentForm.onlineSignature &&
-          <AsnForm.Item>
+          <AsnForm.Item
+          name='onlineSignaturePath'
+          rules={[{ required: true, message: 'Please enter online signature' }]}
+          validateTrigger={['onChange', 'onBlur']}
+          >
             <Space direction='horizontal' align='center' style={{ paddingTop: '30px' }}>
               <Signature/>
             </Space>
