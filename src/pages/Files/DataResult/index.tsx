@@ -10,7 +10,7 @@ import AsnSpin from '../../../components/Forms/Spin';
 import { IDataResult } from '../../../types/files';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import { Void } from '../../../types/global';
-import FileViewer from "react-file-viewer";
+import FileViewer from 'react-file-viewer';
 const Result = styled.div`
   .ant-collapse > .ant-collapse-item > .ant-collapse-header {
     align-items: center;
@@ -104,17 +104,16 @@ const DataResult: React.FC<IDataResult> = ({
     return <AsnSpin />;
   }
 
-
   const getFileExtension = (fileName: string | null) => {
-    if (!fileName) {
-      return "";
+    if (fileName == null) {
+      return '';
     }
-    return fileName.slice((fileName.lastIndexOf(".") - 1 >>> 0) + 2).toLowerCase();
+    return fileName.slice((fileName.lastIndexOf('.') - 1 >>> 0) + 2).toLowerCase();
   };
 
   const fileExtension = getFileExtension(viewPdf);
 
-  const isVideo = ["mp4", "avi", "flv", "ogv"].includes(fileExtension);
+  const isVideo = ['mp4', 'avi', 'flv', 'ogv'].includes(fileExtension);
 
   return (
     <Result>
@@ -204,7 +203,7 @@ const DataResult: React.FC<IDataResult> = ({
               )
             : (
         <NoAttachments />
-              )}      
+              )}
       <Modal
         open={opens}
         onCancel={handleCancel}
@@ -213,22 +212,22 @@ const DataResult: React.FC<IDataResult> = ({
       >
         {viewPdf !== null && (
           <>
-             {fileExtension === "doc" && (
+             {fileExtension === 'doc' && (
         <FileViewer fileType="doc" filePath={viewPdf} />
-      )}
-      {fileExtension === "docx" && (
+             )}
+      {fileExtension === 'docx' && (
         <FileViewer fileType="docx" filePath={viewPdf} />
       )}
-       {fileExtension === "png" && (
+       {fileExtension === 'png' && (
         <FileViewer fileType="png" filePath={viewPdf} />
-      )}
-      {fileExtension === "pdf" && (
+       )}
+      {fileExtension === 'pdf' && (
         <FileViewer fileType="pdf" filePath={viewPdf} />
       )}
       {isVideo && (
         <video src={viewPdf} controls />
       )}
-      {fileExtension === "xlsx" && (
+      {fileExtension === 'xlsx' && (
         <DocViewer
               documents={[{ uri: viewPdf }]}
               pluginRenderers={DocViewerRenderers}
@@ -240,7 +239,7 @@ const DataResult: React.FC<IDataResult> = ({
                 }
               }}
               style={{ height: window.innerHeight - 125 }}
-            /> 
+            />
       )}
           </>
         )}
