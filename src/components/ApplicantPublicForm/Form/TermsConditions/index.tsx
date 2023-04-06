@@ -17,7 +17,9 @@ const TermsConditionsContainer = styled.div`
 
 const TermsConditions: React.FC<ITermsConditionsProps> = ({
   text,
-  onlineSignature
+  onlineSignature,
+  onlineSignaturePath,
+  preview
 }) => {
   return (
     <TermsConditionsContainer>
@@ -43,9 +45,13 @@ const TermsConditions: React.FC<ITermsConditionsProps> = ({
           </div>
         ))}
       {onlineSignature !== undefined && onlineSignature && (
-        <Form.Item name="onlineSignature">
+        <Form.Item
+        name="onlineSignaturePath"
+        rules={[{ required: true, message: 'Please enter online signature' }]}
+        validateTrigger={['onChange', 'onBlur']}
+         >
           <DividerLine>
-             <Signature/>
+             <Signature view={preview} url={onlineSignaturePath}/>
           </DividerLine>
         </Form.Item>
       )}

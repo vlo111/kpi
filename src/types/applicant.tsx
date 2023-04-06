@@ -110,6 +110,7 @@ export interface IPreAssessMentForm {
   preAssessmentCheckedAt: string
   postAssessmentAppliedAt: string
   postAssessmentCheckedAt: string
+  onlineSignaturePath: string
 }
 export interface IGetApplicantForm {
   checker: {

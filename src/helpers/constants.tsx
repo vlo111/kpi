@@ -179,6 +179,7 @@ export enum SectionName {
   educationalInfo = 'educational_info',
   otherInfo = 'other_info',
   professionalInfo = 'professional_info',
+  onlineSignaturePath = 'onlineSignaturePath'
 }
 
 export enum Placeholders {
