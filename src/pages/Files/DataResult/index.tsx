@@ -104,7 +104,7 @@ const DataResult: React.FC<IDataResult> = ({
     return <AsnSpin />;
   }
 
-  const getFileExtension = (fileName: string | null) => {
+  const getFileExtension = (fileName: string | null): any => {
     if (fileName == null) {
       return '';
     }

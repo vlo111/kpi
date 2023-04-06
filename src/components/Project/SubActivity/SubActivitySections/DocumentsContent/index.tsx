@@ -22,7 +22,7 @@ const SubActivityDocuments: React.FC<any> = ({
     onError: (e: { response: { data: { message: string } } }) => {
       void message.error(e.response.data.message);
       setDefaultFileList(defaultFileList.filter(
-        (i: { lastModifiedDate: string | undefined; }) => i.lastModifiedDate === undefined
+        (i: { lastModifiedDate: string | undefined }) => i.lastModifiedDate === undefined
       ));
     },
     onSuccess: () => {
