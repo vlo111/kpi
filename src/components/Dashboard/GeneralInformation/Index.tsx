@@ -24,7 +24,7 @@ const GeneralInformation: React.FC<IGeneralInformationProps> = ({
           <Col
             key={item.title}
             style={{
-              width: '23%'
+              width: '22%'
             }}
           >
             <AnalyticsCard

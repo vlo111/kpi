@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Row, Col, Tabs } from 'antd';
 import DefaultAnalytics from '../../components/Dashboard/DefaultAnalytics/Index';
-import CustomReport from '../../components/Dashboard/CustomReport/Index';
+// import CustomReport from '../../components/Dashboard/CustomReport/Index';
 import useGetDashboardData from '../../api/Dashboard/useGetDashboardData';
 import { ReactComponent as Analytics } from '../../assets/icons/analytics.svg';
 import moment from 'moment';
@@ -39,8 +39,7 @@ const CustomTabs = styled(Tabs)`
 const AnalyticsTitle = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin: 1rem 0rem 3rem;
+  padding: 4.5rem 0rem 1rem 2rem;
 `;
 
 const Dashboard: React.FC = () => {
@@ -48,14 +47,7 @@ const Dashboard: React.FC = () => {
   const { data } = useGetDashboardData(projectId, true);
 
   return (
-    <Row
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        width: '100%',
-        padding: '2rem 2rem 4rem'
-      }}
-    >
+    <>
       <AnalyticsTitle>
         <Analytics />
         <span
@@ -75,27 +67,36 @@ const Dashboard: React.FC = () => {
             padding: '0px 10px'
           }}
         >
-          {moment(data?.startDate).format('MM/DD/YYYY')} -{' '}
-          {moment(data?.endDate).format('MM/DD/YYYY')}
+          {moment(data?.startDate).format('DD/MM/YYYY')} - {' '}
+          {moment(data?.endDate).format('DD/MM/YYYY')}
         </span>
       </AnalyticsTitle>
-      <CustomTabs
-        defaultActiveKey="1"
-        items={[
-          {
-            label: 'Default Analytics',
-            key: '1',
-            children: <DefaultAnalytics data={data} />
-          },
-          {
-            label: 'Custom report',
-            key: '2',
-            children: <CustomReport />
-          }
-        ]}
-      />
-      <Col></Col>
-    </Row>
+      <Row
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          width: '100%',
+          padding: '2rem 2rem 4rem'
+        }}
+      >
+        <CustomTabs
+          defaultActiveKey="1"
+          items={[
+            {
+              label: 'Default Analytics',
+              key: '1',
+              children: <DefaultAnalytics data={data} />
+            }
+            // {
+            //   label: 'Custom report',
+            //   key: '2',
+            //   children: <CustomReport />
+            // }
+          ]}
+        />
+        <Col></Col>
+      </Row>
+    </>
   );
 };
 export default Dashboard;

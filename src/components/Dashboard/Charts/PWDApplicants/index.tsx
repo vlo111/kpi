@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Pie, PieConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 import {
+  ConfigColorType,
   IPWDApplicants,
   IPWDApplicantsProps
 } from '../../../../types/api/dashboard';
@@ -15,6 +16,16 @@ const PWDApplicants: React.FC<IPWDApplicantsProps> = ({ pwdStatistics }) => {
     }
   }, [pwdStatistics]);
 
+  const color: ConfigColorType = ({ name }) => {
+    if (name === 'Trained PWD') {
+      return '#68A395';
+    } else if (name === 'Dropped PWD') {
+      return '#FBBC04';
+    } else {
+      return '#F6976D';
+    }
+  };
+
   const config: PieConfig = {
     data,
     angleField: 'count',
@@ -24,7 +35,7 @@ const PWDApplicants: React.FC<IPWDApplicantsProps> = ({ pwdStatistics }) => {
     appendPadding: 10,
     padding: [0, 0, 75, 20],
     renderer: 'svg',
-    color: ['#FBBC04', '#68A395', '#F6976D'],
+    color,
     legend: {
       position: 'left-bottom',
       layout: 'vertical',
@@ -53,9 +64,12 @@ const PWDApplicants: React.FC<IPWDApplicantsProps> = ({ pwdStatistics }) => {
         style: {
           color: '#263238',
           fontSize: '20px',
-          lineHeight: '20px'
+          lineHeight: '20px',
+          whiteSpace: 'pre-wrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis'
         },
-        content: 'Completed courses'
+        content: 'Submitted\napplicants\nPWD'
       }
     }
   };

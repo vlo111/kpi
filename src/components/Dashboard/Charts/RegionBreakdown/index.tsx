@@ -24,9 +24,9 @@ const RegionBreakdown: React.FC<IRegionBreakdownProps> = ({
     yField: 'count',
     seriesField: 'type',
     renderer: 'svg',
-    padding: [45, 20, 95],
+    padding: [45, 20, 95, 30],
     color: ['#F6976D', '#68A395'],
-    dodgePadding: 0,
+    dodgePadding: 0.1,
     minColumnWidth: 20,
     maxColumnWidth: 40,
     columnStyle: {

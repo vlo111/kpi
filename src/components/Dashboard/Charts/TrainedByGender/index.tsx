@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Column, ColumnConfig } from '@ant-design/charts';
 import { CardContainer, ChartTitleContainer } from '../../dashboardStyle';
 import {
+  ConfigColorType,
   ITrainedByGender,
   ITrainedByGenderProps
 } from '../../../../types/api/dashboard';
@@ -17,6 +18,18 @@ const TrainedByGender: React.FC<ITrainedByGenderProps> = ({
     }
   }, [genderStatistics]);
 
+  const color: ConfigColorType = ({ type }) => {
+    if (type === 'Submitted Male') {
+      return 'rgba(246, 151, 109, 0.7)';
+    } else if (type === 'Trained Male') {
+      return '#F6976D';
+    } else if (type === 'Submitted Female') {
+      return 'rgba(104, 142, 163, 0.7)';
+    } else {
+      return '#688EA3';
+    }
+  };
+
   const config: ColumnConfig = {
     data,
     xField: 'name',
@@ -25,17 +38,7 @@ const TrainedByGender: React.FC<ITrainedByGenderProps> = ({
     isRange: true,
     renderer: 'svg',
     padding: [45, 30, 95],
-    color: ({ type }): any => {
-      if (type === 'Submitted Male') {
-        return 'rgba(246, 151, 109, 0.7)';
-      } else if (type === 'Trained Male') {
-        return '#F6976D';
-      } else if (type === 'Submitted Female') {
-        return 'rgba(104, 142, 163, 0.7)';
-      } else if (type === 'Trained Female') {
-        return '#688EA3';
-      }
-    },
+    color,
     minColumnWidth: 20,
     maxColumnWidth: 40,
     columnStyle: {
@@ -59,7 +62,7 @@ const TrainedByGender: React.FC<ITrainedByGenderProps> = ({
 
   return (
     <CardContainer width={'clamp(250px, 31vw, 100%)'}>
-      <ChartTitleContainer>Trained applicants by gender </ChartTitleContainer>
+      <ChartTitleContainer>Applicants by gender</ChartTitleContainer>
       <Column {...config} />
     </CardContainer>
   );

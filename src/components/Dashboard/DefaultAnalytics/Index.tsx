@@ -10,6 +10,7 @@ import SectorBreakdown from '../Charts/SectorBreakdown';
 import PWDApplicants from '../Charts/PWDApplicants';
 import ActiveCourses from '../Charts/ActiveCourses';
 import CompletedApplicants from '../Charts/CompletedApplicants';
+import { IAnalyticDataProps } from '../../../types/api/dashboard';
 
 const DefaultAnalyticsContainer = styled.div`
   display: flex;
@@ -30,19 +31,19 @@ const ChartsContainer = styled.div`
   margin-top: 2rem;
 `;
 
-const DefaultAnalytics: React.FC<any> = ({ data }) => {
+const DefaultAnalytics: React.FC<IAnalyticDataProps> = ({ data }) => {
   return (
     <DefaultAnalyticsContainer>
       <GeneralInformation generalData={data?.general_info} />
       <SubmittedApplications submittedData={data?.submitted_info} />
       <ChartsContainer>
-        <TitleContainer>Data Analytics Filter</TitleContainer>
+        <TitleContainer>Data Analytics Charts</TitleContainer>
         <RowContainer>
           <RegionBreakdown regionStatistics={data?.regions_statistic} />
         </RowContainer>
         <RowContainer>
           <AgeDistribution ageStatistics={data?.age_statistic} />
-          <TrainedByGender genderStatistics={data.gender_statistic} />
+          <TrainedByGender genderStatistics={data?.gender_statistic} />
         </RowContainer>
         <RowContainer>
           <PWDApplicants pwdStatistics={data?.pwd_applicants_done_courses} />

@@ -67,20 +67,20 @@ export const VALIDATE_MESSAGES = {
   }
 };
 export const MenuItems = [
-  'Dashboard',
   'Project',
   'Team',
   'Applicants',
   'Files',
+  'Dashboard',
   'Product Guide',
   'Keyboard Shortcuts'
 ];
 export const menuItemsNavigate = [
-  '/dashboard',
   '/project/create',
   '/teams',
   '/applicants',
-  '/files'
+  '/files',
+  '/dashboard'
 ];
 
 export const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$/;
