@@ -1,6 +1,19 @@
+import React from 'react';
 import { IAssessmentSelectItem } from '../types/api/assessment';
 import { SliderMarks } from 'antd/lib/slider';
-import { IApplicantAccessStatus, IApplicantDefaultStatus } from '../types/applicant';
+import {
+  IApplicantAccessStatus,
+  IApplicantDefaultStatus
+} from '../types/applicant';
+import { ReactComponent as SubmittedApplicants } from '../assets/icons/submitted_applicants.svg';
+import { ReactComponent as TrainedApplicants } from '../assets/icons/trained_learners.svg';
+import { ReactComponent as CurrentlyEnrolledApplicantsCourses } from '../assets/icons/currently_enrolled_learners_courses.svg';
+import { ReactComponent as DroppedApplicants } from '../assets/icons/dropped_learners.svg';
+import { ReactComponent as NotEnrolledApplicants } from '../assets/icons/not-enrolled_learners.svg';
+import { ReactComponent as ApplicantsPWDIcon } from '../assets/icons/applicants_PWD.svg';
+import { ReactComponent as TrainedApplicantsDisability } from '../assets/icons/trained_PWD.svg';
+import { ReactComponent as NotEnrolledApplicantsDisability } from '../assets/icons/not_enrolled_PWD.svg';
+import { ReactComponent as DroppedApplicantsDisability } from '../assets/icons/dropped_PWD.svg';
 
 export const PATHS = {
   ROOT: '/',
@@ -12,7 +25,7 @@ export const PATHS = {
   CONFIRMATION: 'confirm-email',
   FORGOTPASSWORD: 'forgot-password',
   RESTOREPASSWORD: 'restore-password',
-  DASHBOARD: 'dashboard',
+  DASHBOARD: 'dashboard/:id',
   PROJECT: 'project',
   TEAMS: 'teams',
   PROJECTCREATE: 'create',
@@ -55,22 +68,22 @@ export const VALIDATE_MESSAGES = {
   }
 };
 export const MenuItems = [
-  // 'Dashboard',
   'Project',
+  'Sub Activities',
   'Team',
   'Applicants',
   'Files',
-  'Sub Activities',
+  'Dashboard',
   'Product Guide',
   'Keyboard Shortcuts'
 ];
 export const menuItemsNavigate = [
-  // '/dashboard',
   '/project/create',
+  '/sub-activities-list',
   '/teams',
   '/applicants',
   '/files',
-  '/sub-activities-list'
+  '/dashboard'
 ];
 
 export const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$/;
@@ -182,23 +195,24 @@ export enum SectionName {
   educationalInfo = 'educational_info',
   otherInfo = 'other_info',
   professionalInfo = 'professional_info',
+  onlineSignaturePath = 'onlineSignaturePath'
 }
 
 export enum Placeholders {
   phone = '+(374) XXXXXX',
   date = 'DD/MM/YYYY',
-  email = 'yourmail@analysed.ai'
+  email = 'yourmail@analysed.ai',
 }
 
 export enum KeyName {
   phone = 'phone',
   dob = 'dob',
-  email = 'email'
+  email = 'email',
 }
 
 export enum ErrorRequireMessages {
   checkbox = 'Please chose one of the fields',
-  input = 'Please enter the field'
+  input = 'Please enter the field',
 }
 
 export const defaultLimit = {
@@ -259,20 +273,56 @@ export const optionsReason = [
   { label: 'Personal issues', value: 'Personal issues' },
   { label: 'Change of plans', value: 'Change of plans' },
   { label: 'Not-eligible', value: 'Not-eligible' },
-  { label: 'Pro-assessment insufficient scores', value: 'Pro-assessment insufficient scores' },
+  {
+    label: 'Pro-assessment insufficient scores',
+    value: 'Pro-assessment insufficient scores'
+  },
   { label: 'Wrong choice of the course', value: 'Wrong choice of the course' },
-  { label: 'Interview insufficient score', value: 'Interview insufficient score' }
+  {
+    label: 'Interview insufficient score',
+    value: 'Interview insufficient score'
+  }
 ];
 
 export enum FileType {
-  APPLICANT_DOCUMENT = 'APPLICANT_DOCUMENT'
+  APPLICANT_DOCUMENT = 'APPLICANT_DOCUMENT',
 }
 
 export enum AssessmentStatus {
   NotAssessed = ' Not assessed',
   NotSubmitted = ' Not submitted',
-  Scored = ' Scored '
+  Scored = ' Scored ',
 }
+
+export const dashboardCardsIcon = [
+  {
+    icon: <SubmittedApplicants />
+  },
+  {
+    icon: <CurrentlyEnrolledApplicantsCourses />
+  },
+  {
+    icon: <NotEnrolledApplicants />
+  },
+  {
+    icon: <DroppedApplicants />
+  },
+  {
+    icon: <TrainedApplicants />
+  },
+  {
+    icon: <ApplicantsPWDIcon />
+  },
+  {
+    icon: <NotEnrolledApplicantsDisability />
+  },
+  {
+    icon: <DroppedApplicantsDisability />
+  },
+  {
+    icon: <TrainedApplicantsDisability />
+  }
+];
 
 export const defaultRegions = [
   'Yerevan',

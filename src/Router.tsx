@@ -17,7 +17,7 @@ import ResendConfirmation from './pages/Auth/ResendConfirmation';
 import Confirmation from './pages/Auth/Confirmation';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import ResetPassword from './pages/Auth/ResetPassword';
-// import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard';
 import UserProfile from './pages/Profile';
 import ChangePassword from './pages/Profile/ChangePassword';
 import ProjectOverview from './pages/ProjectOverview';
@@ -57,7 +57,7 @@ export const router = createBrowserRouter(
         </Route>
       </Route>
       <Route element={<PrivateRoutes/>} errorElement={<ErrorBoundary />}>
-        {/* <Route path={PATHS.DASHBOARD} element={<Dashboard />} /> */}
+        <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
         <Route path={PATHS.TEAMS} element={<UsersTeam />} />
         <Route path={PATHS.PROJECT}>
           {/* <Route index element={<CreateProject />} /> */}

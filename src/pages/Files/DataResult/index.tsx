@@ -10,7 +10,7 @@ import AsnSpin from '../../../components/Forms/Spin';
 import { IDataResult } from '../../../types/files';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import { Void } from '../../../types/global';
-
+import FileViewer from 'react-file-viewer';
 const Result = styled.div`
   .ant-collapse > .ant-collapse-item > .ant-collapse-header {
     align-items: center;
@@ -64,7 +64,7 @@ const DataResult: React.FC<IDataResult> = ({
   isFetchingCourseFiles
 }) => {
   const [fileName, setFileName] = useState('');
-  const [viewPdf, setViewPdf] = useState<null | string>(null);
+  const [viewPdf, setViewPdf] = useState<string | null >(null);
   const [opens, setOpens] = useState<boolean>(false);
 
   const handlePagination = (page: number): void => {
@@ -103,6 +103,17 @@ const DataResult: React.FC<IDataResult> = ({
   ) {
     return <AsnSpin />;
   }
+
+  const getFileExtension = (fileName: string | null): any => {
+    if (fileName == null) {
+      return '';
+    }
+    return fileName.slice((fileName.lastIndexOf('.') - 1 >>> 0) + 2).toLowerCase();
+  };
+
+  const fileExtension = getFileExtension(viewPdf);
+
+  const isVideo = ['mp4', 'avi', 'flv', 'ogv'].includes(fileExtension);
 
   return (
     <Result>
@@ -201,7 +212,23 @@ const DataResult: React.FC<IDataResult> = ({
       >
         {viewPdf !== null && (
           <>
-            <DocViewer
+             {fileExtension === 'doc' && (
+        <FileViewer fileType="doc" filePath={viewPdf} />
+             )}
+      {fileExtension === 'docx' && (
+        <FileViewer fileType="docx" filePath={viewPdf} />
+      )}
+       {fileExtension === 'png' && (
+        <FileViewer fileType="png" filePath={viewPdf} />
+       )}
+      {fileExtension === 'pdf' && (
+        <FileViewer fileType="pdf" filePath={viewPdf} />
+      )}
+      {isVideo && (
+        <video src={viewPdf} controls />
+      )}
+      {fileExtension === 'xlsx' && (
+        <DocViewer
               documents={[{ uri: viewPdf }]}
               pluginRenderers={DocViewerRenderers}
               config={{
@@ -213,6 +240,7 @@ const DataResult: React.FC<IDataResult> = ({
               }}
               style={{ height: window.innerHeight - 125 }}
             />
+      )}
           </>
         )}
       </Modal>
