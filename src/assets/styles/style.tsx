@@ -265,9 +265,23 @@ const GlobalStyle = createGlobalStyle`
   .table-row-dark{
     background-color: var(--primary-light-3);
     cursor: pointer;
+    .ant-table-cell-fix-left{
+      background-color: var(--primary-light-3);
+      box-shadow: var(--base-box-shadow);
+    }
+    .ant-table-cell-fix-right{
+      background-color: var(--primary-light-3);
+      box-shadow: var(--base-box-shadow);
+    }
   }
   .table-row-light{
     cursor: pointer;
+    .ant-table-cell-fix-left{
+      box-shadow: var(--base-box-shadow);
+    }
+    .ant-table-cell-fix-right{
+      box-shadow: var(--base-box-shadow);
+    }
   }
 
   .customCascaderPopup{

@@ -5,7 +5,7 @@ import { ReactComponent as ProjectSvg } from '../../assets/icons/project.svg';
 import { ReactComponent as TeamSvg } from '../../assets/icons/team.svg';
 import { ReactComponent as ApplicantsSvg } from '../../assets/icons/aplicants.svg';
 import { ReactComponent as ProductGuideSvg } from '../../assets/icons/product-guide.svg';
-import { ReactComponent as SubActivitiesListSvg } from '../../assets/icons/calendar.svg';
+import { ReactComponent as SubActivitiesListSvg } from '../../assets/icons/sub-activities.svg';
 import { ReactComponent as ShortcutsSvg } from '../../assets/icons/shortcuts.svg';
 import { ReactComponent as LogoSvg } from '../../assets/icons/menu-logo.svg';
 import { ReactComponent as FolderSvg } from '../../assets/icons/folder.svg';

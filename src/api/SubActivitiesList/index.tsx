@@ -17,7 +17,7 @@ const useGetProjectAllSubActivitiesList: any = (id: string, params: object = {},
   return {
     ...result,
     error,
-    data: isSuccess ? data?.result : [],
+    data: isSuccess ? data : [],
     isFetching,
     isLoading,
     refetch
