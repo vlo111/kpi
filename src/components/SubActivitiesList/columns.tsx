@@ -5,6 +5,7 @@ import moment from 'moment';
 import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg';
 import { ReactComponent as SubActivitiesFilterIcon } from '../../assets/icons/sub-activities-filter.svg';
 import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg';
+import { getColumnSearchProps } from './TitleFilter';
 // import { FilterOutlined } from '@ant-design/icons';
 // import { Void } from '../../types/global';
 
@@ -17,44 +18,58 @@ export const Button = styled.button`
 
 // const today = new Date();
 const { Paragraph } = Typography;
-const onDeleteClick = (e: any): void => {
-  e.stopPropagation();
-  console.log('????????????????????');
-};
-const onEditClick = (e: any): void => {
-  e.stopPropagation();
-  console.log('onEditClick?');
-};
 
-export const useColumn = (): any => {
+export const useColumn = (
+  setOpenCreateSubActivity: any,
+  setInputActivityId: any,
+  columnsData: any
+): any => {
   //   const handleOpenChange = (newOpen: boolean): Void => {
   //     return setOpen(newOpen);
   //   };
+  const onDeleteClick = (e: any): void => {
+    e.stopPropagation();
+    console.log('????????????????????');
+  };
+  const onEditClick = (e: any, id: any): void => {
+    e.stopPropagation();
+    setInputActivityId(id);
+    setOpenCreateSubActivity(true);
+  };
   return [
     {
-      title: 'Title',
+      ...getColumnSearchProps('title', columnsData),
+      title: () => (
+        <div
+          style={{
+            width: '9rem'
+          }}
+        >
+          Title
+        </div>
+      ),
       dataIndex: 'title',
       key: 1,
       ellipsis: false,
       fixed: 'left',
       width: 200,
-      filters: [
-        {
-          text: 'Joe',
-          value: 'Joe'
-        },
-        {
-          text: 'John',
-          value: 'John'
-        }
-      ],
-      onFilter: (value: string) => console.log(),
+      // filters: [
+      //   {
+      //     text: 'Joe',
+      //     value: 'Joe'
+      //   },
+      //   {
+      //     text: 'John',
+      //     value: 'John'
+      //   }
+      // ],
+      onFilter: (value: string) => console.log('title'),
       filterIcon: () => <SubActivitiesFilterIcon />,
       render: (text: string, record: { title: string }) => {
         return (
           <Paragraph
             style={{
-              width: '150px',
+              width: '9rem',
               marginBottom: '0rem'
             }}
             ellipsis={{
@@ -67,6 +82,7 @@ export const useColumn = (): any => {
       }
     },
     {
+      // ...getColumnSearchProps('title'),
       title: 'Status',
       dataIndex: 'status',
       key: 2,
@@ -115,7 +131,15 @@ export const useColumn = (): any => {
       }
     },
     {
-      title: 'Description',
+      title: () => (
+        <div
+          style={{
+            width: '9rem'
+          }}
+        >
+          Description
+        </div>
+      ),
       key: 4,
       dataIndex: 'description',
       ellipsis: false,
@@ -139,7 +163,8 @@ export const useColumn = (): any => {
         return (
           <Paragraph
             style={{
-              marginBottom: '0rem'
+              marginBottom: '0rem',
+              width: '9rem'
             }}
             strong
             ellipsis={{
@@ -153,7 +178,15 @@ export const useColumn = (): any => {
       }
     },
     {
-      title: 'Sub Activities manager',
+      title: () => (
+        <div
+          style={{
+            width: '200px'
+          }}
+        >
+          Sub Activities manager
+        </div>
+      ),
       key: 5,
       dataIndex: 'subActivitiesManager',
       ellipsis: false,
@@ -242,7 +275,15 @@ export const useColumn = (): any => {
       }
     },
     {
-      title: 'Start Date',
+      title: () => (
+        <div
+          style={{
+            width: '7rem'
+          }}
+        >
+          Start Date
+        </div>
+      ),
       key: 8,
       dataIndex: 'startDate',
       ellipsis: false,
@@ -262,7 +303,7 @@ export const useColumn = (): any => {
         return (
           <Paragraph
             style={{
-              width: '150px',
+              width: '7rem',
               marginBottom: '0rem'
             }}
           >
@@ -272,7 +313,15 @@ export const useColumn = (): any => {
       }
     },
     {
-      title: 'End Date',
+      title: () => (
+        <div
+          style={{
+            width: '7rem'
+          }}
+        >
+          End Date
+        </div>
+      ),
       key: 9,
       dataIndex: 'endDate',
       ellipsis: false,
@@ -292,7 +341,7 @@ export const useColumn = (): any => {
         return (
           <Paragraph
             style={{
-              width: '150px',
+              width: '7rem',
               marginBottom: '0rem'
             }}
           >
@@ -302,7 +351,15 @@ export const useColumn = (): any => {
       }
     },
     {
-      title: 'Teaching Mode',
+      title: () => (
+        <div
+          style={{
+            width: '150px'
+          }}
+        >
+          Teaching Mode
+        </div>
+      ),
       key: 1,
       dataIndex: 'teachingMode',
       ellipsis: false,
@@ -368,7 +425,15 @@ export const useColumn = (): any => {
       }
     },
     {
-      title: 'Partner organization',
+      title: () => (
+        <div
+          style={{
+            width: '200px'
+          }}
+        >
+          Partner organization
+        </div>
+      ),
       key: 12,
       dataIndex: 'partnerOrganization',
       ellipsis: false,
@@ -407,7 +472,7 @@ export const useColumn = (): any => {
       title: '',
       key: 'action',
       width: 50,
-      render: (text: string, record: { vulnerabilities: string }) => {
+      render: (text: string, record: { subActivity: { id: string } }) => {
         return (
           <div
             style={{
@@ -416,7 +481,7 @@ export const useColumn = (): any => {
               gap: '13px'
             }}
           >
-            <Button onClick={onEditClick}>
+            <Button onClick={(e) => onEditClick(e, record?.subActivity?.id)}>
               <EditIcon />
             </Button>
             <Button onClick={onDeleteClick}>

@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useGetProjectAllSubActivitiesList from '../../api/SubActivitiesList';
 import { HandleTableOnChange } from '../../types/teams';
 import { PATHS } from '../../helpers/constants';
+import EditSubCourse from '../Project/SubActivity/SubActivityModals/Edit';
 
 export const Container = styled.div`
   background: var(--white);
@@ -82,13 +83,17 @@ export const Container = styled.div`
     font-size: var(--base-font-size);
     border-right: none !important;
   }
-  .ant-pagination-options{
+  .ant-pagination-options {
     display: none;
   }
 `;
 
 const SubActivitiesTable: React.FC = () => {
   const navigate = useNavigate();
+  const { id: projectId } = useParams<{ id: string }>();
+  const [openCreateSubActivity, setOpenCreateSubActivity] =
+    useState<boolean>(false);
+  const [inputActivityId, setInputActivityId] = useState<string>('');
   const [tablePagination, setTablePagination] = useState<any>({
     current: 1,
     pageSize: 20
@@ -105,13 +110,14 @@ const SubActivitiesTable: React.FC = () => {
   //   duration: undefined,
   //   teachingModes: [],
   //   partnerOrganization: ''
-  const column = useColumn();
-  const { id: projectId } = useParams<{ id: string }>();
-
-  const { data, isLoading } = useGetProjectAllSubActivitiesList(projectId, {
-    limit: tablePagination.pageSize,
-    offset: tablePagination.current
-  });
+  const { data, isLoading, refetch } = useGetProjectAllSubActivitiesList(
+    projectId,
+    {
+      limit: tablePagination.pageSize,
+      offset: tablePagination.current
+    }
+  );
+  const column = useColumn(setOpenCreateSubActivity, setInputActivityId, data?.result);
 
   const handleTableChange: HandleTableOnChange = (pagination) => {
     setTablePagination({
@@ -153,6 +159,15 @@ const SubActivitiesTable: React.FC = () => {
         pagination={tablePagination}
         onChange={handleTableChange}
       />
+      {openCreateSubActivity && (
+        <EditSubCourse
+          projectId={projectId}
+          refetch={refetch}
+          setOpenCreateSubActivity={setOpenCreateSubActivity}
+          openCreateSubActivity={openCreateSubActivity}
+          InputActivityId={inputActivityId}
+        />
+      )}
     </Container>
   );
 };
