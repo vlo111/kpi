@@ -337,3 +337,21 @@ export const defaultRegions = [
   'Tavush',
   'Vayots Dzor'
 ];
+
+export const subActivityTableFilterStatus = [
+  {
+    name: 'Inactive',
+    value: 'INACTIVE',
+    id: '1'
+  },
+  {
+    name: 'Active',
+    value: 'ACTIVE',
+    id: '2'
+  },
+  {
+    name: 'Completed',
+    value: 'DONE',
+    id: '3'
+  }
+];

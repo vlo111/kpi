@@ -117,7 +117,7 @@ const SubActivitiesTable: React.FC = () => {
       offset: tablePagination.current
     }
   );
-  const column = useColumn(setOpenCreateSubActivity, setInputActivityId, data?.result);
+  const column = useColumn(setOpenCreateSubActivity, setInputActivityId, data?.filterData);
 
   const handleTableChange: HandleTableOnChange = (pagination) => {
     setTablePagination({

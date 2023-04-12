@@ -5,7 +5,9 @@ import moment from 'moment';
 import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg';
 import { ReactComponent as SubActivitiesFilterIcon } from '../../assets/icons/sub-activities-filter.svg';
 import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg';
-import { getColumnSearchProps } from './TitleFilter';
+import { getColumnSearchProps } from './InputFilter';
+import { getColumnSearchPropsCheckbox } from './CheckboxFilters';
+import { subActivityTableFilterStatus } from '../../helpers/constants';
 // import { FilterOutlined } from '@ant-design/icons';
 // import { Void } from '../../types/global';
 
@@ -22,23 +24,24 @@ const { Paragraph } = Typography;
 export const useColumn = (
   setOpenCreateSubActivity: any,
   setInputActivityId: any,
-  columnsData: any
+  filterData: any
 ): any => {
-  //   const handleOpenChange = (newOpen: boolean): Void => {
-  //     return setOpen(newOpen);
-  //   };
+  console.log(filterData);
+
   const onDeleteClick = (e: any): void => {
     e.stopPropagation();
     console.log('????????????????????');
   };
+
   const onEditClick = (e: any, id: any): void => {
     e.stopPropagation();
     setInputActivityId(id);
     setOpenCreateSubActivity(true);
   };
+
   return [
     {
-      ...getColumnSearchProps('title', columnsData),
+      ...getColumnSearchProps('title'),
       title: () => (
         <div
           style={{
@@ -53,16 +56,6 @@ export const useColumn = (
       ellipsis: false,
       fixed: 'left',
       width: 200,
-      // filters: [
-      //   {
-      //     text: 'Joe',
-      //     value: 'Joe'
-      //   },
-      //   {
-      //     text: 'John',
-      //     value: 'John'
-      //   }
-      // ],
       onFilter: (value: string) => console.log('title'),
       filterIcon: () => <SubActivitiesFilterIcon />,
       render: (text: string, record: { title: string }) => {
@@ -82,7 +75,7 @@ export const useColumn = (
       }
     },
     {
-      // ...getColumnSearchProps('title'),
+      ...getColumnSearchPropsCheckbox('Status', subActivityTableFilterStatus),
       title: 'Status',
       dataIndex: 'status',
       key: 2,
@@ -90,39 +83,29 @@ export const useColumn = (
       filterIcon: () => <SubActivitiesFilterIcon />,
       filters: [
         {
-          text: 'Joe',
-          value: 'Joe'
+          text: 'Active',
+          value: 'Active'
         },
         {
-          text: 'John',
-          value: 'John'
+          text: 'Completed',
+          value: 'Completed'
         }
       ],
-      onFilter: (value: string) => console.log(),
       render: (text: string, record: { status: string }) => {
         const upperCase = `${record?.status[0]}${record?.status
           .toLowerCase()
           .slice(1)}`;
-        return upperCase;
+        const status = upperCase === 'Done' ? 'Completed' : upperCase;
+        return status;
       }
     },
     {
+      ...getColumnSearchPropsCheckbox('Organization', filterData?.organizations),
       title: 'Organization',
       dataIndex: 'organization',
       key: 3,
       ellipsis: false,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      filters: [
-        {
-          text: 'Joe',
-          value: 'Joe'
-        },
-        {
-          text: 'John',
-          value: 'John'
-        }
-      ],
-      onFilter: (value: string) => console.log(),
       render: (
         text: string,
         record: { subActivity: { organization: { title: string } } }
@@ -181,7 +164,7 @@ export const useColumn = (
       title: () => (
         <div
           style={{
-            width: '200px'
+            width: '12.5rem'
           }}
         >
           Sub Activities manager
@@ -212,7 +195,46 @@ export const useColumn = (
         return (
           <Paragraph
             style={{
-              width: '200px',
+              width: '12.5rem',
+              marginBottom: '0rem'
+            }}
+            strong
+            ellipsis={{
+              rows: 1
+            }}
+            className="tableName"
+          >
+            {` ${record?.subActivity?.manager?.firstName} ${record?.subActivity?.manager?.lastName}`}
+          </Paragraph>
+        );
+      }
+    },
+    {
+      ...getColumnSearchPropsCheckbox('Assigned People', filterData?.assignees),
+      title: () => (
+        <div
+          style={{
+            width: '9.5rem'
+          }}
+        >
+          Assigned People
+        </div>
+      ),
+      key: 5,
+      dataIndex: 'subActivitiesManager',
+      ellipsis: false,
+      width: 200,
+      filterIcon: () => <SubActivitiesFilterIcon />,
+      render: (
+        text: string,
+        record: {
+          subActivity: { manager: { firstName: string, lastName: string } }
+        }
+      ) => {
+        return (
+          <Paragraph
+            style={{
+              width: '9.5rem',
               marginBottom: '0rem'
             }}
             strong
