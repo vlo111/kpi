@@ -80,7 +80,6 @@ const DraggerForm: React.FC<any> = ({
   const handlePreview =  (file: any) => {
     setViewPdf(file?.thumbUrl)
   }
-  console.log(reqDocs, '>>>>>>>>>>', fileList);
   
   const handleChange: UploadProps["onChange"] = (info) => {
     const newFileList = [...info.fileList];
