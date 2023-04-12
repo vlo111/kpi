@@ -11,7 +11,6 @@ import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import { Void } from "../../../../../../types/global";
 import FileViewer from "react-file-viewer";
-import { useQueryClient } from "@tanstack/react-query";
 
 const { Dragger } = Upload;
 
@@ -72,17 +71,7 @@ const DraggerForm: React.FC<any> = ({
   reqDocs,
 }) => {
   const { Title } = Typography;
-  const { mutate: UploadDoc } = useFileUpload({
-    onError: (e: { response: { data: { message: string } } }) => {
-      void message.error(e.response.data.message);
-      setDefaultFileList(defaultFileList.filter(
-        (i: { lastModifiedDate: string | undefined }) => i.lastModifiedDate === undefined
-      ));
-    },
-    onSuccess: () => {
-      void message.success('Upload file', 2);
-    }
-  });
+  const { mutate: UploadDoc } = useFileUpload();
   const { mutate: DeleteFile } = useDeleteFile();
   const [opens, setOpens] = useState<boolean>(false);
   const [viewPdf, setViewPdf] = useState<string | null >(null);
