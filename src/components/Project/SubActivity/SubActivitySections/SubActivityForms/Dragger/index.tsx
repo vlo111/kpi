@@ -136,11 +136,14 @@ const DraggerForm: React.FC<any> = ({
         defaultFileList.filter((d: any) => d.uid !== file.uid)
       ]);
 
-
-       const newFileListDone = reqDocs?.filter(
+if(file?.status === 'done'){
+    const newFileListDone = reqDocs?.filter(
          (item: { id: string }) => item?.id !== file?.id        
        );
        setReqDocs([...newFileListDone]);
+}
+
+     
     },
     showUploadList: {
       showDownloadIcon: true,
