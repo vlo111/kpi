@@ -11,6 +11,7 @@ import { EyeOutlined } from '@ant-design/icons';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import { Void } from '../../../../../../types/global';
 import FileViewer from 'react-file-viewer';
+import { IDraggerProps } from '../../../../../../types/api/activity/subActivity';
 
 const { Dragger } = Upload;
 
@@ -56,7 +57,7 @@ export const AsnDragger2 = styled(Dragger)`
   }
 `;
 
-const DraggerForm: React.FC<any> = ({
+const DraggerForm: React.FC<IDraggerProps> = ({
   text,
   padding,
   setFileList,

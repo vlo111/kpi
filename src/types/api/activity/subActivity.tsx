@@ -29,6 +29,7 @@ export interface IDraggerProps {
   setReqDocs?: any
   keyName?: string
   name?: string
+  reqDocs?: any
 }
 
 export interface IApplicantsList {
