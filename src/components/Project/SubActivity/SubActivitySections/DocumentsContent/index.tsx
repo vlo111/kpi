@@ -39,7 +39,7 @@ const SubActivityDocuments: React.FC<any> = ({
           fileName: file.name,
           thumbUrl: file.path,
           status: 'done',
-          id: file.id,
+          id: file.id
         };
       });
       setDefaultFileList(newFile);
@@ -129,7 +129,7 @@ const SubActivityDocuments: React.FC<any> = ({
                     docType="REQUIRED_DOCUMENT"
                     disabled={status === 'INACTIVE' ||
                       reqDocs.filter(
-                        (i: { keyname: string; }) => i.keyname === doc.title
+                        (i: { keyname: string }) => i.keyname === doc.title
                       ).length === doc.count}
                     fileList={fileList}
                     setFileList={setFileList}
@@ -137,7 +137,7 @@ const SubActivityDocuments: React.FC<any> = ({
                     setDefaultFileList={setDefaultFileList}
                     keyName={keyName}
                     />
-                    
+
                   <Row
                     style={{
                       whiteSpace: 'nowrap',
