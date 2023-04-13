@@ -11,7 +11,7 @@ const { Title } = Typography;
 
 const PopupContainer = styled.div`
   padding: 1rem 1rem 2rem;
-  width: 25vw;
+  /* width: 25vw; */
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -53,10 +53,31 @@ export const getColumnSearchPropsCheckbox = (
     });
   } else if (filteredValue !== undefined && dataIndex === 'Assigned People') {
     filteredValue = filteredValue?.map((item: any) => {
-    //   const name = `${item.firstname} ${item.lastname}`;
+      //   const name = `${item.firstname} ${item.lastname}`;
       return {
         name: item?.firstname,
         value: item.id,
+        id: item.id
+      };
+    });
+  } else if (
+    filteredValue !== undefined &&
+    dataIndex === 'Sub Activities manager'
+  ) {
+    filteredValue = filteredValue?.map((item: any) => {
+      //   const name = `${item.firstname} ${item.lastname}`;
+      return {
+        name: item?.firstname,
+        value: item.id,
+        id: item.id
+      };
+    });
+  } else if (filteredValue !== undefined && dataIndex === 'Sector') {
+    filteredValue = filteredValue?.map((item: any) => {
+      //   const name = `${item.firstname} ${item.lastname}`;
+      return {
+        name: item?.title,
+        value: item.title,
         id: item.id
       };
     });
@@ -90,7 +111,9 @@ export const getColumnSearchPropsCheckbox = (
           ))}
         </AsnCheckbox.Group>
         <ButtonContainer>
-          <AsnButton className="default">Cancel</AsnButton>
+          <AsnButton className="default" onClick={() => close()}>
+            Cancel
+          </AsnButton>
           <AsnButton className="primary">Next</AsnButton>
         </ButtonContainer>
       </PopupContainer>

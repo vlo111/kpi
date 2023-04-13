@@ -7,7 +7,11 @@ import { ReactComponent as SubActivitiesFilterIcon } from '../../assets/icons/su
 import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg';
 import { getColumnSearchProps } from './InputFilter';
 import { getColumnSearchPropsCheckbox } from './CheckboxFilters';
-import { subActivityTableFilterStatus } from '../../helpers/constants';
+import {
+  subActivityFilterTeachingMode,
+  subActivityListRegionsFilter,
+  subActivityTableFilterStatus
+} from '../../helpers/constants';
 // import { FilterOutlined } from '@ant-design/icons';
 // import { Void } from '../../types/global';
 
@@ -100,7 +104,10 @@ export const useColumn = (
       }
     },
     {
-      ...getColumnSearchPropsCheckbox('Organization', filterData?.organizations),
+      ...getColumnSearchPropsCheckbox(
+        'Organization',
+        filterData?.organizations
+      ),
       title: 'Organization',
       dataIndex: 'organization',
       key: 3,
@@ -114,6 +121,7 @@ export const useColumn = (
       }
     },
     {
+      ...getColumnSearchProps('description'),
       title: () => (
         <div
           style={{
@@ -127,17 +135,6 @@ export const useColumn = (
       dataIndex: 'description',
       ellipsis: false,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      filters: [
-        {
-          text: 'Joe',
-          value: 'Joe'
-        },
-        {
-          text: 'John',
-          value: 'John'
-        }
-      ],
-      onFilter: (value: string) => console.log(),
       render: (text: string, record: { description: string }) => {
         let subString = record?.description.slice(0, 20);
         if (record?.description?.length > 20) {
@@ -161,6 +158,10 @@ export const useColumn = (
       }
     },
     {
+      ...getColumnSearchPropsCheckbox(
+        'Sub Activities manager',
+        filterData?.manager
+      ),
       title: () => (
         <div
           style={{
@@ -175,17 +176,6 @@ export const useColumn = (
       ellipsis: false,
       width: 200,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      filters: [
-        {
-          text: 'Joe',
-          value: 'Joe'
-        },
-        {
-          text: 'John',
-          value: 'John'
-        }
-      ],
-      onFilter: (value: string) => console.log(),
       render: (
         text: string,
         record: {
@@ -249,22 +239,12 @@ export const useColumn = (
       }
     },
     {
+      ...getColumnSearchPropsCheckbox('Sector', filterData?.sectors),
       title: 'Sector',
       key: 6,
       dataIndex: 'sector',
       ellipsis: true,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      filters: [
-        {
-          text: 'Joe',
-          value: 'Joe'
-        },
-        {
-          text: 'John',
-          value: 'John'
-        }
-      ],
-      onFilter: (value: string) => console.log(),
       render: (
         text: string,
         record: { subActivity: { sector: { title: string } } }
@@ -273,22 +253,12 @@ export const useColumn = (
       }
     },
     {
+      ...getColumnSearchPropsCheckbox('Region', subActivityListRegionsFilter),
       title: 'Region',
       key: 7,
       dataIndex: 'region',
       ellipsis: false,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      filters: [
-        {
-          text: 'Joe',
-          value: 'Joe'
-        },
-        {
-          text: 'John',
-          value: 'John'
-        }
-      ],
-      onFilter: (value: string) => console.log(),
       render: (
         text: string,
         record: { subActivity: { region: { title: string } } }
@@ -373,6 +343,10 @@ export const useColumn = (
       }
     },
     {
+      ...getColumnSearchPropsCheckbox(
+        'Teaching Mode',
+        subActivityFilterTeachingMode
+      ),
       title: () => (
         <div
           style={{
@@ -411,22 +385,12 @@ export const useColumn = (
       }
     },
     {
+      ...getColumnSearchProps('duration'),
       title: 'Duration',
       key: 11,
-      dataIndex: 'Duration',
+      dataIndex: 'duration',
       ellipsis: false,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      filters: [
-        {
-          text: 'Joe',
-          value: 'Joe'
-        },
-        {
-          text: 'John',
-          value: 'John'
-        }
-      ],
-      onFilter: (value: string) => console.log(),
       render: (
         text: string,
         record: { data: { durationInfo: { duration: number } } }
@@ -447,6 +411,7 @@ export const useColumn = (
       }
     },
     {
+      ...getColumnSearchProps('partner organization'),
       title: () => (
         <div
           style={{
@@ -460,17 +425,6 @@ export const useColumn = (
       dataIndex: 'partnerOrganization',
       ellipsis: false,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      filters: [
-        {
-          text: 'Joe',
-          value: 'Joe'
-        },
-        {
-          text: 'John',
-          value: 'John'
-        }
-      ],
-      onFilter: (value: string) => console.log(),
       render: (text: string, record: { data: { customInputs: any } }) => {
         const partnerOrganization = record?.data?.customInputs?.filter(
           (item: any) => item?.partner_organization !== undefined
