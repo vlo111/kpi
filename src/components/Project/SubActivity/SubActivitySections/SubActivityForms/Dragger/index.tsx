@@ -134,15 +134,15 @@ const DraggerForm: React.FC<any> = ({
           (item: { id: string }) => item?.id !== file?.id
         );
         setReqDocs([...newFileListDone]);
-        setDefaultFileList((prevState: any) => [
-          ...prevState,
-          defaultFileList.filter((d: any) => d.uid !== file.uid)
-        ]);
-        const newFileList = fileList.filter(
-          (item: { id: string }) => item.id !== file.uid
-        );
-        setFileList([...newFileList]);
       }
+      setDefaultFileList((prevState: any) => [
+        ...prevState,
+        defaultFileList.filter((d: any) => d.uid !== file.uid)
+      ]);
+      const newFileList = fileList.filter(
+        (item: { id: string }) => item.id !== file.uid
+      );
+      setFileList([...newFileList]);
     },
     showUploadList: {
       showDownloadIcon: true,
