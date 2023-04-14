@@ -1,43 +1,44 @@
 import React from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/closeIcon.svg';
 import { Button } from '../columns';
 import { AsnCheckbox } from '../../Forms/Checkbox';
-import { Typography } from 'antd';
+// import { Typography } from 'antd';
 import { IStatusItem } from '../../../types/api/subActivityTable';
 import { AsnButton } from '../../Forms/Button';
+import { ButtonContainer, CustomCheckbox, PopupContainer, PopupHeader, PopupTitle } from '../filterPopupStyle';
 
-const { Title } = Typography;
+// const { Title } = Typography;
 
-const PopupContainer = styled.div`
-  padding: 1rem 1rem 2rem;
-  /* width: 25vw; */
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
+// const PopupContainer = styled.div`
+//   padding: 1rem 1rem 2rem;
+//   /* width: 25vw; */
+//   display: flex;
+//   flex-direction: column;
+//   gap: 1rem;
+// `;
 
-const CustomCheckbox = styled(AsnCheckbox)`
-  margin-left: 0px !important;
-`;
+// const CustomCheckbox = styled(AsnCheckbox)`
+//   margin-left: 0px !important;
+// `;
 
-const PopupTitle = styled(Title)`
-  font-size: var(--headline-font-size) !important;
-  font-weight: var(--font-semibold) !important;
-`;
+// const PopupTitle = styled(Title)`
+//   font-size: var(--headline-font-size) !important;
+//   font-weight: var(--font-semibold) !important;
+// `;
 
-const PopupHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
+// const PopupHeader = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+// `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: 3rem;
-`;
+// const ButtonContainer = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: flex-end;
+//   gap: 3rem;
+// `;
 
 export const getColumnSearchPropsCheckbox = (
   dataIndex: string,
@@ -91,7 +92,7 @@ export const getColumnSearchPropsCheckbox = (
       clearFilters,
       close
     }: any) => (
-      <PopupContainer onKeyDown={(e) => e.stopPropagation()}>
+      <PopupContainer onKeyDown={(e: any) => e.stopPropagation()}>
         <PopupHeader>
           <PopupTitle>{dataIndex}</PopupTitle>
           <Button onClick={() => close()}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Typography } from 'antd';
+import { Avatar, Tooltip, Typography } from 'antd';
 import moment from 'moment';
 import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg';
 import { ReactComponent as SubActivitiesFilterIcon } from '../../assets/icons/sub-activities-filter.svg';
@@ -12,8 +12,8 @@ import {
   subActivityListRegionsFilter,
   subActivityTableFilterStatus
 } from '../../helpers/constants';
-// import { FilterOutlined } from '@ant-design/icons';
-// import { Void } from '../../types/global';
+import { getColumnCalendarProps } from './CalendarFilter';
+import AsnAvatar from '../Forms/Avatar';
 
 export const Button = styled.button`
   border: none;
@@ -22,7 +22,6 @@ export const Button = styled.button`
   width: 20px;
 `;
 
-// const today = new Date();
 const { Paragraph } = Typography;
 
 export const useColumn = (
@@ -30,8 +29,6 @@ export const useColumn = (
   setInputActivityId: any,
   filterData: any
 ): any => {
-  console.log(filterData);
-
   const onDeleteClick = (e: any): void => {
     e.stopPropagation();
     console.log('????????????????????');
@@ -218,23 +215,37 @@ export const useColumn = (
       render: (
         text: string,
         record: {
-          subActivity: { manager: { firstName: string, lastName: string } }
+          subActivity: {
+            assignees: Array<{
+              firstName: string
+              lastName: string
+              id: string
+              photo: string
+            }>
+          }
         }
       ) => {
         return (
-          <Paragraph
-            style={{
-              width: '9.5rem',
-              marginBottom: '0rem'
-            }}
-            strong
-            ellipsis={{
-              rows: 1
-            }}
-            className="tableName"
-          >
-            {` ${record?.subActivity?.manager?.firstName} ${record?.subActivity?.manager?.lastName}`}
-          </Paragraph>
+          <Avatar.Group maxCount={4}>
+            {record?.subActivity?.assignees.map(
+              (i: { firstName: string, lastName: string, id: string, photo: string }) => {
+                return (
+                  <Tooltip
+                    key={i?.id}
+                    placement="top"
+                    title={`${i?.firstName} ${i?.lastName}`}
+                  >
+                    <AsnAvatar
+                      letter={`${i?.firstName?.charAt(0)}${i?.lastName?.charAt(
+                        0
+                      )}`}
+                      src={i.photo}
+                    />
+                  </Tooltip>
+                );
+              }
+            )}
+          </Avatar.Group>
         );
       }
     },
@@ -267,6 +278,7 @@ export const useColumn = (
       }
     },
     {
+      ...getColumnCalendarProps('Start Date'),
       title: () => (
         <div
           style={{
@@ -280,17 +292,6 @@ export const useColumn = (
       dataIndex: 'startDate',
       ellipsis: false,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      filters: [
-        {
-          text: 'Joe',
-          value: 'Joe'
-        },
-        {
-          text: 'John',
-          value: 'John'
-        }
-      ],
-      onFilter: (value: string) => console.log(),
       render: (text: string, record: { startDate: string }) => {
         return (
           <Paragraph
@@ -305,6 +306,7 @@ export const useColumn = (
       }
     },
     {
+      ...getColumnCalendarProps('End Date'),
       title: () => (
         <div
           style={{
@@ -318,17 +320,6 @@ export const useColumn = (
       dataIndex: 'endDate',
       ellipsis: false,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      filters: [
-        {
-          text: 'Joe',
-          value: 'Joe'
-        },
-        {
-          text: 'John',
-          value: 'John'
-        }
-      ],
-      onFilter: (value: string) => console.log(),
       render: (text: string, record: { endDate: string }) => {
         return (
           <Paragraph
@@ -360,17 +351,6 @@ export const useColumn = (
       dataIndex: 'teachingMode',
       ellipsis: false,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      filters: [
-        {
-          text: 'Joe',
-          value: 'Joe'
-        },
-        {
-          text: 'John',
-          value: 'John'
-        }
-      ],
-      onFilter: (value: string) => console.log(),
       render: (text: string, record: { data: { teachingMode: string } }) => {
         return (
           <Paragraph
