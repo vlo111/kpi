@@ -4,6 +4,7 @@ import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import DocumentDonload from '../Popover/Pdf';
 
+import { ConfirmModal } from '../../../components/Forms/Modal/Confirm';
 import { IResultWrapper, IFiles } from '../../../types/files';
 import { ReactComponent as ImgSvg } from '../UploadImg/upload-img.svg';
 import { ReactComponent as PdfSvg } from '../UploadImg/pdf.svg';
@@ -25,6 +26,8 @@ const ResultWrapper: React.FC<IResultWrapper> = ({ files, onRemoveFile, setOpens
     id: '',
     show: false
   });
+  const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
+  const [docName, setDocName] = useState('');
 
   const uploadImgfile = (file: IFiles): ReactElement | undefined => {
     const ext = file.name?.split('.').pop();
@@ -69,6 +72,12 @@ const ResultWrapper: React.FC<IResultWrapper> = ({ files, onRemoveFile, setOpens
     setViewPdf(name);
   };
 
+  const handleDelete = (name: string): void => {
+    setDocName(name);
+    hide();
+    setOpenConfirmModal(true);
+  };
+
   const content = (name: string, path: string): ReactElement => {
     return (
       <>
@@ -80,10 +89,7 @@ const ResultWrapper: React.FC<IResultWrapper> = ({ files, onRemoveFile, setOpens
           <EyeOutlined />
           preview
         </Button>
-        <Button type="link" onClick={() => {
-          hide();
-          onRemoveFile(name);
-        }}>
+        <Button type="link" onClick={() => handleDelete(name) }>
           {' '}
           <DeleteOutlined />
           delete
@@ -94,6 +100,7 @@ const ResultWrapper: React.FC<IResultWrapper> = ({ files, onRemoveFile, setOpens
   };
 
   return (
+    <>
     <Row gutter={[10, 50]} style={all ? { overflow: 'auto', width: '100%', padding: '30px 0', background: 'white' } : {}} >
       {files?.map((file) => (
         <Popover
@@ -129,6 +136,16 @@ const ResultWrapper: React.FC<IResultWrapper> = ({ files, onRemoveFile, setOpens
         </Popover>
       ))}
     </Row>
+    <ConfirmModal
+       styles={{ gap: '6rem' }}
+       yes="Delete"
+       no="Cancel"
+       open={openConfirmModal}
+       title="Are you sure you want to delete the file?"
+       onSubmit={() => onRemoveFile(docName) }
+       onCancel={() => setOpenConfirmModal(false)}
+       />
+    </>
   );
 };
 

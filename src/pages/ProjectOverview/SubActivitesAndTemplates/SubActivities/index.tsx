@@ -25,6 +25,7 @@ import { StatusFilter } from '../Filter/Status';
 import AddSubActivity from '../AddActivity';
 import EditSubCourse from '../../../../components/Project/SubActivity/SubActivityModals/Edit';
 import AsnAvatar from '../../../../components/Forms/Avatar';
+import { ConfirmModal } from '../../../../components/Forms/Modal/Confirm';
 import useDeleteSubActivity from '../../../../api/Activity/SubActivity/useDeleteSubActivity';
 
 import { AssignedUserType } from '../../../../types/api/activity/subActivity';
@@ -97,6 +98,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
 }) => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
 
   const [openPopover, setOpenPopover] = useState({
     show: false,
@@ -105,6 +107,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
 
   const [openCreateSubActivity, setOpenCreateSubActivity] = useState<boolean>(false);
   const [subActivityId, setSubActivityId] = useState('');
+  const [courseId, setCourseId] = useState('');
 
   const { mutate: deleteCourse } = useDeleteSubActivity(
     {
@@ -146,7 +149,9 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
   };
 
   const handleDeleteCourse = (id: string): void => {
-    deleteCourse({ id });
+    setCourseId(id);
+    setOpenConfirmModal(true);
+    handleOpenChange(false, '');
   };
 
   const content = (subActivityId: string, id: string): React.ReactElement => {
@@ -359,6 +364,15 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
           refetch={refetchSubActivities}
         />
       }
+      <ConfirmModal
+       styles={{ gap: '6rem' }}
+       yes="Delete"
+       no="Cancel"
+       open={openConfirmModal}
+       title="Are you sure you want to delete the course?"
+       onSubmit={() => deleteCourse({ id: courseId })}
+       onCancel={() => setOpenConfirmModal(false)}
+       />
     </>
   );
 };
