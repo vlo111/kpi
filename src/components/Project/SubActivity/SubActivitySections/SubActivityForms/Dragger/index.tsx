@@ -4,14 +4,13 @@ import { Col, Typography, UploadProps, Upload, Modal } from 'antd';
 
 import { ReactComponent as UploadDocument } from '../../../SubActivityIcons/upload-docs.svg';
 import { ReactComponent as LinkIcon } from '../../../SubActivityIcons/link.svg';
-// import { IDraggerProps } from '../../../../../../types/api/activity/subActivity';
 import useFileUpload from '../../../../../../api/Activity/SubActivity/useUploadFile';
 import useDeleteFile from '../../../../../../api/Files/useDeleteFile';
 import { EyeOutlined } from '@ant-design/icons';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import { Void } from '../../../../../../types/global';
 import FileViewer from 'react-file-viewer';
-import { IDraggerProps } from '../../../../../../types/api/activity/subActivity';
+import { IDraggerProps, IfilePreview } from '../../../../../../types/api/activity/subActivity';
 
 const { Dragger } = Upload;
 
@@ -76,11 +75,11 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   const { mutate: DeleteFile } = useDeleteFile({
   });
   const [opens, setOpens] = useState<boolean>(false);
-  const [viewPdf, setViewPdf] = useState<string | null >(null);
+  const [viewPdf, setViewPdf] = useState<string | null>(null);
 
-  const handlePreview = (file: any): any => {
+  const handlePreview = (file: IfilePreview) => {    
     return (
-      setViewPdf(file?.thumbUrl)
+      setViewPdf(file?.thumbUrl !== undefined ? file?.thumbUrl : null)
     );
   };
 

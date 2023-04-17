@@ -32,6 +32,15 @@ export interface IDraggerProps {
   reqDocs?: any
 }
 
+export interface IfilePreview{
+  fileName?: string
+  id?: string
+  name?: string
+  status?: string
+  thumbUrl?:  string | null  
+  uid?: string
+
+}
 export interface IApplicantsList {
   id: string
   email: string
