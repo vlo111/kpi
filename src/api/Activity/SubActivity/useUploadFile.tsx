@@ -20,10 +20,8 @@ const useFileUpload: any = () => {
     },
     {
       onSuccess: () => {
-        setTimeout(() => {
           void queryClient.invalidateQueries(['api/sub-activity/course']);
           void queryClient.invalidateQueries(['/api/sub-activity']);
-        }, 10);
       },
       onError: ({
         response: {
