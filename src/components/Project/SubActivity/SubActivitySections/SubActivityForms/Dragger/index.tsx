@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Col, Typography, UploadProps, Upload, Modal } from 'antd';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Col, Typography, UploadProps, Upload, Modal } from "antd";
 
-import { ReactComponent as UploadDocument } from '../../../SubActivityIcons/upload-docs.svg';
-import { ReactComponent as LinkIcon } from '../../../SubActivityIcons/link.svg';
-import useFileUpload from '../../../../../../api/Activity/SubActivity/useUploadFile';
-import useDeleteFile from '../../../../../../api/Files/useDeleteFile';
-import { EyeOutlined } from '@ant-design/icons';
-import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
-import { Void } from '../../../../../../types/global';
-import FileViewer from 'react-file-viewer';
-import { IDraggerProps, IfilePreview } from '../../../../../../types/api/activity/subActivity';
+import { ReactComponent as UploadDocument } from "../../../SubActivityIcons/upload-docs.svg";
+import { ReactComponent as LinkIcon } from "../../../SubActivityIcons/link.svg";
+import useFileUpload from "../../../../../../api/Activity/SubActivity/useUploadFile";
+import useDeleteFile from "../../../../../../api/Files/useDeleteFile";
+import { EyeOutlined } from "@ant-design/icons";
+import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
+import { Void } from "../../../../../../types/global";
+import FileViewer from "react-file-viewer";
+import {
+  IDraggerProps,
+  IfilePreview,
+} from "../../../../../../types/api/activity/subActivity";
 
 const { Dragger } = Upload;
 
@@ -20,16 +23,16 @@ const AsnDragger = styled(Dragger)`
   border-radius: 4px;
   .ant-upload {
     padding: ${(props) =>
-      props.id === 'subActivity' ? '6px 0 !important' : '2.4vh 0'};
+      props.id === "subActivity" ? "6px 0 !important" : "2.4vh 0"};
   }
   &:hover {
     border: 1px dashed var(--dark-border-ultramarine);
   }
   h4.ant-typography {
     font-size: ${(props) =>
-      props.id === 'subActivity'
-        ? 'var(--base-font-size)'
-        : 'var(--headline-font-size) !important'};
+      props.id === "subActivity"
+        ? "var(--base-font-size)"
+        : "var(--headline-font-size) !important"};
     color: var(--dark-border-ultramarine) !important;
   }
   svg {
@@ -68,29 +71,26 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   setReqDocs,
   keyName,
   name,
-  reqDocs
+  reqDocs,
 }) => {
   const { Title } = Typography;
   const { mutate: UploadDoc } = useFileUpload();
-  const { mutate: DeleteFile } = useDeleteFile({
-  });
+  const { mutate: DeleteFile } = useDeleteFile({});
   const [opens, setOpens] = useState<boolean>(false);
   const [viewPdf, setViewPdf] = useState<string | null>(null);
 
-  const handlePreview = (file: IfilePreview) => {    
-    return (
-      setViewPdf(file?.thumbUrl !== undefined ? file?.thumbUrl : null)
-    );
+  const handlePreview = (file: IfilePreview) => {
+    return setViewPdf(file?.thumbUrl !== undefined ? file?.thumbUrl : null);
   };
 
-  const handleChange: UploadProps['onChange'] = (info) => {
+  const handleChange: UploadProps["onChange"] = (info) => {
     const newFileList = [...info.fileList];
     setDefaultFileList(newFileList);
   };
 
   const handleCancel: Void = () => {
     setOpens(false);
-    setViewPdf('');
+    setViewPdf("");
   };
 
   const props: UploadProps = {
@@ -101,26 +101,26 @@ const DraggerForm: React.FC<IDraggerProps> = ({
         {
           onSuccess: (options: any) => {
             const {
-              data: { result }
+              data: { result },
             } = options;
             setFileList((prevState: any) => [
               ...prevState,
-              { url: result[0], id: file.uid }
+              { url: result[0], id: file.uid },
             ]);
 
-            if (docType === 'GENERAL_DOCUMENT') {
+            if (docType === "GENERAL_DOCUMENT") {
               setFileList([{ url: result[0], id: file.uid }]);
             }
-            if (docType === 'REQUIRED_DOCUMENT') {
+            if (docType === "REQUIRED_DOCUMENT") {
               setReqDocs((prevState: any) => [
                 ...prevState,
-                { keyname: keyName }
+                { keyname: keyName },
               ]);
             }
 
-            onSuccess('ok');
+            onSuccess("ok");
           },
-          onError: () => errorStatus()
+          onError: () => errorStatus(),
         }
       );
     },
@@ -129,7 +129,7 @@ const DraggerForm: React.FC<IDraggerProps> = ({
         DeleteFile(file.fileName);
       }
 
-      if (file?.status === 'done') {
+      if (file?.status === "done") {
         const newFileListDone = reqDocs?.filter(
           (item: { id: string }) => item?.id !== file?.id
         );
@@ -137,7 +137,7 @@ const DraggerForm: React.FC<IDraggerProps> = ({
       }
       setDefaultFileList((prevState: any) => [
         ...prevState,
-        defaultFileList.filter((d: any) => d.uid !== file.uid)
+        defaultFileList.filter((d: any) => d.uid !== file.uid),
       ]);
       const newFileList = fileList.filter(
         (item: { id: string }) => item.id !== file.uid
@@ -154,96 +154,95 @@ const DraggerForm: React.FC<IDraggerProps> = ({
           }}
         />
       ),
-      showRemoveIcon: true
+      showRemoveIcon: true,
     },
     onChange: handleChange,
-    name: 'file',
+    name: "file",
     disabled,
-    accept: '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx,.png,.jpeg'
+    accept: ".doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx,.png,.jpeg",
   };
 
   const getFileExtension = (fileName: any): any => {
     if (fileName == null) {
-      return '';
+      return "";
     }
-    return fileName.slice(((fileName.lastIndexOf('.') - 1) >>> 0) + 2).toLowerCase();
+    return fileName
+      .slice(((fileName.lastIndexOf(".") - 1) >>> 0) + 2)
+      .toLowerCase();
   };
 
   const fileExtension = getFileExtension(viewPdf);
 
-  const isVideo = ['mp4', 'avi', 'flv', 'ogv'].includes(fileExtension);
+  const isVideo = ["mp4", "avi", "flv", "ogv"].includes(fileExtension);
 
   return (
-    <Col style={{ padding: padding ?? '0' }}>
-      {docType !== 'REQUIRED_DOCUMENT'
-        ? (
+    <Col style={{ padding: padding ?? "0" }}>
+      {docType !== "REQUIRED_DOCUMENT" ? (
         <AsnDragger
           {...props}
           fileList={defaultFileList}
-          style={{ width: '100%', height: 'inherit' }}
+          style={{ width: "100%", height: "inherit" }}
           id={name}
           onPreview={handlePreview}
-
         >
           <UploadDocument />
           <Title level={4}>{text}</Title>
         </AsnDragger>
-          )
-        : (
+      ) : (
         <AsnDragger2
           {...props}
           fileList={defaultFileList}
-          style={{ width: '100%', height: 'inherit' }}
+          style={{ width: "100%", height: "inherit" }}
           showUploadList={false}
-          onPreview={handlePreview}>
+          onPreview={handlePreview}
+        >
           <LinkIcon />
         </AsnDragger2>
-          )}
+      )}
 
-          <Modal
-            open={opens}
-            onCancel={handleCancel}
-            okText={''}
-            className="filePreviewModal"
-          >
-            {viewPdf !== null && (
-              <>
-                {fileExtension === 'doc' && (
-                  <FileViewer fileType="doc" filePath={viewPdf} />
-                )}
-                {fileExtension === 'docx' && (
-                  <FileViewer fileType="docx" filePath={viewPdf} />
-                )}
-                {fileExtension === 'png' && (
-                  <FileViewer fileType="png" filePath={viewPdf} />
-                )}
-                {fileExtension === 'pdf' && (
-                  <FileViewer fileType="pdf" filePath={viewPdf} />
-                )}
-                {fileExtension === 'jpeg' && (
-                  <FileViewer fileType="jpeg" filePath={viewPdf} />
-                )}
-                {isVideo && <video src={viewPdf} controls />}
-                {fileExtension === 'xlsx' && (
-                  <DocViewer
-                    documents={[{ uri: viewPdf }]}
-                    pluginRenderers={DocViewerRenderers}
-                    config={{
-                      header: {
-                        disableHeader: false,
-                        disableFileName: false,
-                        retainURLParams: false
-                      }
-                    }}
-                    style={{ height: window.innerHeight - 125 }}
-                  />
-                )}
-              </>
+      <Modal
+        open={opens}
+        onCancel={handleCancel}
+        okText={""}
+        className="filePreviewModal"
+      >
+        {viewPdf !== null && (
+          <>
+            {fileExtension === "doc" && (
+              <FileViewer fileType="doc" filePath={viewPdf} />
             )}
-          </Modal>
-
+            {fileExtension === "docx" && (
+              <FileViewer fileType="docx" filePath={viewPdf} />
+            )}
+            {fileExtension === "png" && (
+              <FileViewer fileType="png" filePath={viewPdf} />
+            )}
+            {fileExtension === "pdf" && (
+              <FileViewer fileType="pdf" filePath={viewPdf} />
+            )}
+            {fileExtension === "jpeg" && (
+              <FileViewer fileType="jpeg" filePath={viewPdf} />
+            )}
+            {isVideo && <video src={viewPdf} controls />}
+            {fileExtension === "xlsx" && (
+              <DocViewer
+                documents={[{ uri: viewPdf }]}
+                pluginRenderers={DocViewerRenderers}
+                config={{
+                  header: {
+                    disableHeader: false,
+                    disableFileName: false,
+                    retainURLParams: false,
+                  },
+                }}
+                style={{ height: window.innerHeight - 125 }}
+              />
+            )}
+          </>
+        )}
+      </Modal>
     </Col>
   );
 };
 
-export default (DraggerForm);
+export default DraggerForm;
