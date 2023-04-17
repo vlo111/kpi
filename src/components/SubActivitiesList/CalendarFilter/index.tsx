@@ -1,15 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/closeIcon.svg';
-import { Button } from '../columns';
 import { Calendar } from 'antd';
+import moment from 'moment';
 import {
+  Button,
   ButtonContainer,
   PopupContainer,
   PopupHeader,
   PopupTitle
 } from '../filterPopupStyle';
 import { AsnButton } from '../../Forms/Button';
+import { TVoid } from '../../../types/global';
 
 const PopupCalendar = styled(Calendar)`
   .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
@@ -25,6 +27,11 @@ const PopupCalendar = styled(Calendar)`
     }
   }
 
+  .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner:before{
+    border: 1px solid var(--dark-border-ultramarine) !important;
+    border-radius: 50% !important;
+  }
+
   .ant-picker-calendar-header .ant-select {
     :hover {
       .ant-select-selector {
@@ -34,13 +41,23 @@ const PopupCalendar = styled(Calendar)`
   }
 `;
 
-export const getColumnCalendarProps = (dataIndex: string): any => {
-  const onPanelChange = (day: any): any => {
-    console.log(day, 'onPanelChange');
+export const getColumnCalendarProps = (
+  dataIndex: string,
+  setSearchData: any,
+  searchData: any,
+  key: string
+): any => {
+  let newDate: string;
+  const onCalendarChange = (date: any): any => {
+    newDate = moment(date).format();
   };
 
-  const onCalendarChange = (date: any): any => {
-    console.log(date, 'onCalendarChange');
+  const onNextClick: TVoid = (close) => {
+    setSearchData({
+      ...searchData,
+      [key]: newDate
+    });
+    close();
   };
 
   return {
@@ -64,12 +81,14 @@ export const getColumnCalendarProps = (dataIndex: string): any => {
             <CloseIcon />
           </Button>
         </PopupHeader>
-        <PopupCalendar fullscreen={false} onPanelChange={onPanelChange} onChange={onCalendarChange}/>
+        <PopupCalendar fullscreen={false} onChange={onCalendarChange} />
         <ButtonContainer>
           <AsnButton className="default" onClick={() => close()}>
             Cancel
           </AsnButton>
-          <AsnButton className="primary">Next</AsnButton>
+          <AsnButton className="primary" onClick={() => onNextClick(close)}>
+            Next
+          </AsnButton>
         </ButtonContainer>
       </PopupContainer>
     )

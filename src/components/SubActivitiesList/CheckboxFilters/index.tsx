@@ -1,88 +1,87 @@
 import React from 'react';
-// import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/closeIcon.svg';
-import { Button } from '../columns';
 import { AsnCheckbox } from '../../Forms/Checkbox';
-// import { Typography } from 'antd';
 import { IStatusItem } from '../../../types/api/subActivityTable';
 import { AsnButton } from '../../Forms/Button';
-import { ButtonContainer, CustomCheckbox, PopupContainer, PopupHeader, PopupTitle } from '../filterPopupStyle';
-
-// const { Title } = Typography;
-
-// const PopupContainer = styled.div`
-//   padding: 1rem 1rem 2rem;
-//   /* width: 25vw; */
-//   display: flex;
-//   flex-direction: column;
-//   gap: 1rem;
-// `;
-
-// const CustomCheckbox = styled(AsnCheckbox)`
-//   margin-left: 0px !important;
-// `;
-
-// const PopupTitle = styled(Title)`
-//   font-size: var(--headline-font-size) !important;
-//   font-weight: var(--font-semibold) !important;
-// `;
-
-// const PopupHeader = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-between;
-// `;
-
-// const ButtonContainer = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: flex-end;
-//   gap: 3rem;
-// `;
+import {
+  Button,
+  ButtonContainer,
+  CustomCheckbox,
+  PopupContainer,
+  PopupHeader,
+  PopupTitle
+} from '../filterPopupStyle';
 
 export const getColumnSearchPropsCheckbox = (
   dataIndex: string,
-  filteredValue: IStatusItem[]
+  filteredValue: IStatusItem[],
+  setSearchData: any,
+  searchData: any,
+  key: string
 ): any => {
+  let checkboxValue: any;
   if (filteredValue !== undefined && dataIndex === 'Organization') {
     filteredValue = filteredValue?.map((item: any) => {
       return {
-        name: item.title,
-        value: item.title,
-        id: item.id
+        name: item?.title,
+        value: item?.id,
+        id: item?.id
       };
     });
   } else if (filteredValue !== undefined && dataIndex === 'Assigned People') {
     filteredValue = filteredValue?.map((item: any) => {
-      //   const name = `${item.firstname} ${item.lastname}`;
+      const fullName: string = `${item?.firstname as string} ${
+        item?.lastname as string
+      }`;
       return {
-        name: item?.firstname,
-        value: item.id,
-        id: item.id
+        name: fullName,
+        value: item?.id,
+        id: item?.id
       };
     });
   } else if (
     filteredValue !== undefined &&
     dataIndex === 'Sub Activities manager'
   ) {
-    filteredValue = filteredValue?.map((item: any) => {
-      //   const name = `${item.firstname} ${item.lastname}`;
+    filteredValue = filteredValue?.map((item) => {
+      const fullName: string = `${item?.firstname as string} ${
+        item?.lastname as string
+      }`;
       return {
-        name: item?.firstname,
-        value: item.id,
-        id: item.id
+        name: fullName,
+        value: item?.id,
+        id: item?.id
       };
     });
   } else if (filteredValue !== undefined && dataIndex === 'Sector') {
     filteredValue = filteredValue?.map((item: any) => {
-      //   const name = `${item.firstname} ${item.lastname}`;
       return {
         name: item?.title,
-        value: item.title,
-        id: item.id
+        value: item?.id,
+        id: item?.id
       };
     });
   }
+
+  const onCheckboxChange = (value: any): void => {
+    checkboxValue = value;
+  };
+
+  const onNextClick = (close: any): void => {
+    if (checkboxValue?.length > 0) {
+      setSearchData({
+        ...searchData,
+        [key]: checkboxValue
+      });
+      close();
+    } else {
+      setSearchData({
+        ...searchData,
+        [key]: undefined
+      });
+      close();
+    }
+  };
 
   return {
     filterDropdown: ({
@@ -104,6 +103,7 @@ export const getColumnSearchPropsCheckbox = (
             display: 'flex',
             flexDirection: 'column'
           }}
+          onChange={onCheckboxChange}
         >
           {filteredValue?.map((item: IStatusItem) => (
             <CustomCheckbox value={item.value} key={item.id}>
@@ -115,7 +115,9 @@ export const getColumnSearchPropsCheckbox = (
           <AsnButton className="default" onClick={() => close()}>
             Cancel
           </AsnButton>
-          <AsnButton className="primary">Next</AsnButton>
+          <AsnButton className="primary" onClick={() => onNextClick(close)}>
+            Next
+          </AsnButton>
         </ButtonContainer>
       </PopupContainer>
     )

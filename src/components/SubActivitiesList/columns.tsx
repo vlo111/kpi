@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Avatar, Tooltip, Typography } from 'antd';
 import moment from 'moment';
 import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg';
@@ -14,27 +13,22 @@ import {
 } from '../../helpers/constants';
 import { getColumnCalendarProps } from './CalendarFilter';
 import AsnAvatar from '../Forms/Avatar';
-
-export const Button = styled.button`
-  border: none;
-  background: none;
-  cursor: pointer;
-  width: 20px;
-`;
+import { Button } from './filterPopupStyle';
 
 const { Paragraph } = Typography;
 
 export const useColumn = (
   setOpenCreateSubActivity: any,
   setInputActivityId: any,
-  filterData: any
+  filterData: any,
+  setSearchData: any,
+  searchData: any
 ): any => {
   const onDeleteClick = (e: any): void => {
     e.stopPropagation();
-    console.log('????????????????????');
   };
 
-  const onEditClick = (e: any, id: any): void => {
+  const onEditClick = (e: any, id: string): void => {
     e.stopPropagation();
     setInputActivityId(id);
     setOpenCreateSubActivity(true);
@@ -42,7 +36,12 @@ export const useColumn = (
 
   return [
     {
-      ...getColumnSearchProps('title'),
+      ...getColumnSearchProps(
+        'title',
+        setSearchData,
+        searchData,
+        'courseTitle'
+      ),
       title: () => (
         <div
           style={{
@@ -57,7 +56,6 @@ export const useColumn = (
       ellipsis: false,
       fixed: 'left',
       width: 200,
-      onFilter: (value: string) => console.log('title'),
       filterIcon: () => <SubActivitiesFilterIcon />,
       render: (text: string, record: { title: string }) => {
         return (
@@ -76,7 +74,13 @@ export const useColumn = (
       }
     },
     {
-      ...getColumnSearchPropsCheckbox('Status', subActivityTableFilterStatus),
+      ...getColumnSearchPropsCheckbox(
+        'Status',
+        subActivityTableFilterStatus,
+        setSearchData,
+        searchData,
+        'status'
+      ),
       title: 'Status',
       dataIndex: 'status',
       key: 2,
@@ -103,7 +107,10 @@ export const useColumn = (
     {
       ...getColumnSearchPropsCheckbox(
         'Organization',
-        filterData?.organizations
+        filterData?.organizations,
+        setSearchData,
+        searchData,
+        'organizations'
       ),
       title: 'Organization',
       dataIndex: 'organization',
@@ -118,7 +125,12 @@ export const useColumn = (
       }
     },
     {
-      ...getColumnSearchProps('description'),
+      ...getColumnSearchProps(
+        'description',
+        setSearchData,
+        searchData,
+        'courseDescription'
+      ),
       title: () => (
         <div
           style={{
@@ -157,7 +169,10 @@ export const useColumn = (
     {
       ...getColumnSearchPropsCheckbox(
         'Sub Activities manager',
-        filterData?.manager
+        filterData?.manager,
+        setSearchData,
+        searchData,
+        'managers'
       ),
       title: () => (
         <div
@@ -197,7 +212,13 @@ export const useColumn = (
       }
     },
     {
-      ...getColumnSearchPropsCheckbox('Assigned People', filterData?.assignees),
+      ...getColumnSearchPropsCheckbox(
+        'Assigned People',
+        filterData?.assignees,
+        setSearchData,
+        searchData,
+        'assigned'
+      ),
       title: () => (
         <div
           style={{
@@ -228,7 +249,12 @@ export const useColumn = (
         return (
           <Avatar.Group maxCount={4}>
             {record?.subActivity?.assignees.map(
-              (i: { firstName: string, lastName: string, id: string, photo: string }) => {
+              (i: {
+                firstName: string
+                lastName: string
+                id: string
+                photo: string
+              }) => {
                 return (
                   <Tooltip
                     key={i?.id}
@@ -250,7 +276,13 @@ export const useColumn = (
       }
     },
     {
-      ...getColumnSearchPropsCheckbox('Sector', filterData?.sectors),
+      ...getColumnSearchPropsCheckbox(
+        'Sector',
+        filterData?.sectors,
+        setSearchData,
+        searchData,
+        'sectors'
+      ),
       title: 'Sector',
       key: 6,
       dataIndex: 'sector',
@@ -264,7 +296,13 @@ export const useColumn = (
       }
     },
     {
-      ...getColumnSearchPropsCheckbox('Region', subActivityListRegionsFilter),
+      ...getColumnSearchPropsCheckbox(
+        'Region',
+        subActivityListRegionsFilter,
+        setSearchData,
+        searchData,
+        'regions'
+      ),
       title: 'Region',
       key: 7,
       dataIndex: 'region',
@@ -278,7 +316,12 @@ export const useColumn = (
       }
     },
     {
-      ...getColumnCalendarProps('Start Date'),
+      ...getColumnCalendarProps(
+        'Start Date',
+        setSearchData,
+        searchData,
+        'startDate'
+      ),
       title: () => (
         <div
           style={{
@@ -306,7 +349,12 @@ export const useColumn = (
       }
     },
     {
-      ...getColumnCalendarProps('End Date'),
+      ...getColumnCalendarProps(
+        'End Date',
+        setSearchData,
+        searchData,
+        'endDate'
+      ),
       title: () => (
         <div
           style={{
@@ -336,7 +384,10 @@ export const useColumn = (
     {
       ...getColumnSearchPropsCheckbox(
         'Teaching Mode',
-        subActivityFilterTeachingMode
+        subActivityFilterTeachingMode,
+        setSearchData,
+        searchData,
+        'teachingModes'
       ),
       title: () => (
         <div
@@ -365,7 +416,12 @@ export const useColumn = (
       }
     },
     {
-      ...getColumnSearchProps('duration'),
+      ...getColumnSearchProps(
+        'duration',
+        setSearchData,
+        searchData,
+        'duration'
+      ),
       title: 'Duration',
       key: 11,
       dataIndex: 'duration',
@@ -391,7 +447,12 @@ export const useColumn = (
       }
     },
     {
-      ...getColumnSearchProps('partner organization'),
+      ...getColumnSearchProps(
+        'partner organization',
+        setSearchData,
+        searchData,
+        'partnerOrganization'
+      ),
       title: () => (
         <div
           style={{
@@ -419,13 +480,20 @@ export const useColumn = (
               rows: 1
             }}
           >
-            {partnerOrganization[0].partner_organization}
+            {partnerOrganization[0]?.partner_organization}
           </Paragraph>
         );
       }
     },
     {
-      title: '',
+      title: () => (
+        <div
+          style={{
+            width: '50px'
+          }}
+        >
+        </div>
+      ),
       key: 'action',
       width: 50,
       render: (text: string, record: { subActivity: { id: string } }) => {
@@ -434,7 +502,8 @@ export const useColumn = (
             style={{
               display: 'flex',
               flexDirection: 'row',
-              gap: '13px'
+              gap: '13px',
+              width: '50px'
             }}
           >
             <Button onClick={(e) => onEditClick(e, record?.subActivity?.id)}>

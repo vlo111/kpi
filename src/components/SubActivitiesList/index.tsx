@@ -4,17 +4,18 @@ import { Table } from 'antd';
 import { useColumn } from './columns';
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetProjectAllSubActivitiesList from '../../api/SubActivitiesList';
-import { HandleTableOnChange } from '../../types/teams';
 import { PATHS } from '../../helpers/constants';
 import EditSubCourse from '../Project/SubActivity/SubActivityModals/Edit';
+import { IFilteredData } from '../../types/api/subActivityTable';
+import { AsnButton } from '../Forms/Button';
+import { Void } from '../../types/global';
 
 export const Container = styled.div`
   background: var(--white);
   box-shadow: var(--base-box-shadow);
-  /* border-radius: 20px 20px 0px 0px; */
   margin: 16px 16px 0px 16px;
   overflow: hidden;
-  height: 91vh;
+  height: 85vh;
 
   .ant-input-group-wrapper {
     width: 400px;
@@ -88,6 +89,14 @@ export const Container = styled.div`
   }
 `;
 
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 16px 0px 16px;
+
+`;
+
 const SubActivitiesTable: React.FC = () => {
   const navigate = useNavigate();
   const { id: projectId } = useParams<{ id: string }>();
@@ -98,28 +107,49 @@ const SubActivitiesTable: React.FC = () => {
     current: 1,
     pageSize: 20
   });
-  // status: [],
-  //   assigned: [],
-  //   startDate: '',
-  //   endDate: '',
-  //   courseTitle: '',
-  //   courseDescription: '',
-  //   organizations: [],
-  //   sectors: [],
-  //   regions: [],
-  //   duration: undefined,
-  //   teachingModes: [],
-  //   partnerOrganization: ''
+  const [searchData, setSearchData] = useState<IFilteredData>({
+    status: undefined,
+    assigned: undefined,
+    startDate: undefined,
+    endDate: undefined,
+    courseTitle: undefined,
+    courseDescription: undefined,
+    organizations: undefined,
+    sectors: undefined,
+    regions: undefined,
+    duration: undefined,
+    teachingModes: undefined,
+    partnerOrganization: undefined,
+    managers: undefined
+  });
+
+  useEffect((): void => {
+    const data: { [key: string]: string | string[] | undefined } = {};
+    for (const k of Object.keys(searchData).filter(
+      (item) => searchData[item] !== undefined
+    )) {
+      data[k] = searchData[k];
+    }
+    setSearchData(data);
+  }, [setSearchData]);
+
   const { data, isLoading, refetch } = useGetProjectAllSubActivitiesList(
     projectId,
     {
       limit: tablePagination.pageSize,
-      offset: tablePagination.current
+      offset: (tablePagination.current - 1) * 20,
+      ...searchData
     }
   );
-  const column = useColumn(setOpenCreateSubActivity, setInputActivityId, data?.filterData);
+  const column = useColumn(
+    setOpenCreateSubActivity,
+    setInputActivityId,
+    data?.filterData,
+    setSearchData,
+    searchData
+  );
 
-  const handleTableChange: HandleTableOnChange = (pagination) => {
+  const handleTableChange: any = (pagination: any) => {
     setTablePagination({
       ...pagination,
       pageSize: 20
@@ -131,44 +161,69 @@ const SubActivitiesTable: React.FC = () => {
       ...tablePagination,
       total: data?.count
     });
-  }, [isLoading, data?.count]);
+  }, [isLoading, data]);
+
+  const onClearFilters: Void = () => {
+    setSearchData({
+      status: undefined,
+      assigned: undefined,
+      startDate: undefined,
+      endDate: undefined,
+      courseTitle: undefined,
+      courseDescription: undefined,
+      organizations: undefined,
+      sectors: undefined,
+      regions: undefined,
+      duration: undefined,
+      teachingModes: undefined,
+      partnerOrganization: undefined,
+      managers: undefined
+    });
+  };
 
   return (
-    <Container>
-      <Table
-        columns={column}
-        dataSource={data?.result}
-        rowKey={(record) => record?.id}
-        rowClassName={(record, index) =>
-          index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
-        }
-        onRow={(record, index) => {
-          return {
-            onClick: (event) => {
-              event.preventDefault();
-              navigate(
-                `/project/${PATHS.SUBACTIVITY.replace(
-                  ':id',
-                  record?.subActivity?.id
-                )}`
-              );
-            }
-          };
-        }}
-        loading={isLoading}
-        pagination={tablePagination}
-        onChange={handleTableChange}
-      />
-      {openCreateSubActivity && (
-        <EditSubCourse
-          projectId={projectId}
-          refetch={refetch}
-          setOpenCreateSubActivity={setOpenCreateSubActivity}
-          openCreateSubActivity={openCreateSubActivity}
-          InputActivityId={inputActivityId}
+    <>
+      <ButtonContainer>
+        <AsnButton className="default" onClick={onClearFilters}>Clear filters</AsnButton>
+        <AsnButton className="default">Add Sub-Activity</AsnButton>
+      </ButtonContainer>
+      <Container>
+        <Table
+          columns={column}
+          dataSource={data?.result}
+          rowKey={(record) => record?.id}
+          // scroll={{ x: '117vw', y: '73vh' }}
+          rowClassName={(record, index) =>
+            index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
+          }
+          onRow={(record, index) => {
+            return {
+              onClick: (event) => {
+                event.preventDefault();
+                navigate(
+                  `/project/${PATHS.SUBACTIVITY.replace(
+                    ':id',
+                    record?.subActivity?.id
+                  )}`
+                );
+              }
+            };
+          }}
+          loading={isLoading}
+          pagination={tablePagination}
+          onChange={handleTableChange}
         />
-      )}
-    </Container>
+        {openCreateSubActivity && (
+          <EditSubCourse
+            projectId={projectId}
+            refetch={refetch}
+            setOpenCreateSubActivity={setOpenCreateSubActivity}
+            openCreateSubActivity={openCreateSubActivity}
+            InputActivityId={inputActivityId}
+          />
+        )}
+      </Container>
+    </>
   );
 };
 export default SubActivitiesTable;

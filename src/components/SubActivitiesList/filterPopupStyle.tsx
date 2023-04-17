@@ -34,3 +34,10 @@ export const ButtonContainer = styled.div`
   justify-content: flex-end;
   gap: 3rem;
 `;
+
+export const Button = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 20px;
+`;

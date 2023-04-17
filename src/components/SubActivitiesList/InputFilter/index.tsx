@@ -2,9 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { AsnInput } from '../../Forms/Input';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/closeIcon.svg';
-import { Button } from '../columns';
-
-// import { AsnButton } from '../../Forms/Button';
+import { Button } from '../filterPopupStyle';
 
 const FilterInput = styled(AsnInput)`
   width: 100% !important;
@@ -19,7 +17,25 @@ const FilterInput = styled(AsnInput)`
   }
 `;
 
-export const getColumnSearchProps = (dataIndex: string): any => {
+export const getColumnSearchProps = (
+  dataIndex: string,
+  setSearchData: any,
+  searchData: any,
+  key: string
+): any => {
+  const onSearchChange = (e: any): void => {
+    if (e.target.value.length >= 3) {
+      setSearchData({
+        ...searchData,
+        [key]: e.target.value
+      });
+    } else if (e.target.value.length === 0) {
+      setSearchData({
+        ...searchData,
+        [key]: undefined
+      });
+    }
+  };
   return {
     filterDropdown: ({
       setSelectedKeys,
@@ -36,9 +52,18 @@ export const getColumnSearchProps = (dataIndex: string): any => {
           flexDirection: 'row',
           gap: '3rem'
         }}
-        onKeyDown={(e) => e.stopPropagation()}
+        onKeyDown={(e) => {
+          e.stopPropagation();
+          if (e.code === 'Enter') {
+            close();
+          }
+        }}
       >
-        <FilterInput placeholder={`Search ${dataIndex}`} />
+        <FilterInput
+          placeholder={`Search ${dataIndex}`}
+          onChange={onSearchChange}
+          defaultValue={searchData[key]}
+        />
         <Button onClick={() => close()}>
           <CloseIcon />
         </Button>
