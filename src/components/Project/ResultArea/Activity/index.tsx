@@ -11,6 +11,7 @@ import { HeaderElement, TollTipText } from '../../../../helpers/utils';
 import { ReactComponent as DeleteSvg } from '../../../../assets/icons/delete.svg';
 import { ReactComponent as InfoSvg } from '../../../../assets/icons/info.svg';
 import {
+  IInputActivities,
   IProjectModalDelete,
   OnDeleteBoxHandler, ResultAreaOrder
 } from '../../../../types/project';
@@ -54,8 +55,8 @@ const InputActivity: React.FC<{ resultId: number }> = ({
       const deletedFields = form.getFieldValue(deleteName) ?? [];
 
       const currentId = title === 'InputActivity'
-        ? form.getFieldsValue().resultAreas[resultId].inputActivities[field ?? ''].id
-        : form.getFieldsValue().resultAreas[resultId].inputActivities[activityName ?? ''].milestones[field].id;
+        ? form.getFieldValue(['resultAreas', resultId, 'inputActivities', field, 'id'])
+        : form.getFieldValue(['resultAreas', resultId, 'inputActivities', activityName ?? '', 'milestones', field, 'id']);
 
       if (currentId !== undefined) {
         const updateDeletedIds = deletedFields.concat(currentId);
@@ -64,6 +65,14 @@ const InputActivity: React.FC<{ resultId: number }> = ({
       }
 
       remove(field);
+
+      form.setFieldValue(
+        ['resultAreas', resultId, 'inputActivities'],
+        form.getFieldValue(['resultAreas', resultId, 'inputActivities']).map((d: IInputActivities, i: number) => {
+          d.order = i + 1;
+          return d;
+        })
+      );
     }
     setOpenDeleteResultModal(false);
   };
