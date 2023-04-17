@@ -3,10 +3,11 @@ import client from '../client';
 
 const useCreateApplicant: any = (options = {}) =>
   useMutation(
-    async (params: { id: string, data: any }) => {
+    async (params: { id: string, data: any, onlineSignaturePath: string }) => {
       if (params.id !== undefined) {
         return await client.post(`api/application-form/${params.id}/apply`, {
-          apply: params.data
+          apply: params.data,
+          onlineSignaturePath: params.onlineSignaturePath
         });
       }
     },

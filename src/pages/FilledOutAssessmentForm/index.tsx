@@ -147,8 +147,7 @@ const FilledOutAssessmentForm: React.FC = () => {
             >
               {(preAssessmentForm?.onlineSignature ?? postAssessmentForm?.onlineSignature) &&
                 <>
-                  <AsnParagraph className="main">Online Signature</AsnParagraph>
-                  <Signature view={true} />
+                  <Signature view={true} url={preAssessmentForm?.onlineSignaturePath ?? postAssessmentForm?.onlineSignaturePath } />
                 </>
               }
               <Space direction="horizontal">

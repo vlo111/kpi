@@ -1,10 +1,13 @@
 import React, { useState, useRef } from 'react';
-import { Button, Space } from 'antd';
+import { Button, Space, message } from 'antd';
 import SignatureCanvas from 'react-signature-canvas';
 
 import { AsnModal } from '../Forms/Modal';
 import styled from 'styled-components';
 import { AsnButton } from '../Forms/Button';
+import { AsnForm } from '../Forms/Form';
+import userImageUpload from '../../api/UserProfile/useUserImageUpload';
+import _ from 'lodash';
 
 const SignatureModal = styled(AsnModal)`
   .ant-modal-content {
@@ -43,8 +46,12 @@ const SignatureModal = styled(AsnModal)`
   }
 `;
 
-const Signature: React.FC<{ view?: boolean }> = ({ view }) => {
+const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [imageURL, setImageURL] = useState<string | undefined>();
+
+  const form = AsnForm.useFormInstance();
+  const { mutate: uploadImage } = userImageUpload();
 
   const showModal = (): void => {
     return setIsModalOpen(true);
@@ -54,22 +61,37 @@ const Signature: React.FC<{ view?: boolean }> = ({ view }) => {
     setIsModalOpen(false);
   };
 
-  const [imageURL, setImageURL] = useState<string | undefined>();
-
   const sigCanvas = useRef<SignatureCanvas>(null);
 
   const handleClear = (): void => {
     sigCanvas.current?.clear();
   };
 
-  const handleSave = (): void => {
-    const dataUrl = sigCanvas.current?.toDataURL('image/png');
+  const handleSave = async (): Promise<void> => {
+    const dataUrl = sigCanvas?.current?.getTrimmedCanvas().toDataURL();
+    const blob = await fetch(dataUrl as string)
+      .then(async res => await res.blob())
+      .catch(err => console.log(err));
+    const file = new File([blob as Blob], 'signature.png', { type: 'image/png' });
+    uploadImage(file, {
+      onSuccess: (data) => {
+        if (!_.isEmpty(data)) {
+          const newData = (data as { data: { result: string[] } }).data.result;
+          if (newData?.length > 0) {
+            form.setFieldValue('onlineSignaturePath', newData[0]);
+          }
+        }
+      },
+      onError: () => {
+        void message.error('Something went wrong, Please enter online signature again', 2);
+      }
+    });
     setImageURL(dataUrl);
   };
 
   return (
-    <Space direction="horizontal">
-      <Button
+    <Space wrap>
+       <Button
         type="link"
         onClick={showModal}
         style={{
@@ -118,7 +140,7 @@ const Signature: React.FC<{ view?: boolean }> = ({ view }) => {
             className="primary"
             htmlType="submit"
             onClick={() => {
-              handleSave();
+              void handleSave();
               handleCancel();
             }}
           >
@@ -126,18 +148,18 @@ const Signature: React.FC<{ view?: boolean }> = ({ view }) => {
           </AsnButton>
         </Space>
       </SignatureModal>
-      {imageURL !== null && Boolean(imageURL)
+      {imageURL !== null && (Boolean(imageURL) || Boolean(url))
         ? (
-        <img
-          src={imageURL}
-          alt="Signature"
-          style={{
-            display: 'block',
-            margin: '0 auto',
-            width: '200px',
-            height: '100px'
-          }}
-        />
+          <img
+            src={imageURL ?? url}
+            alt="Signature"
+            style={{
+              display: 'block',
+              margin: '0 auto',
+              width: '100px',
+              height: '50px'
+            }}
+          />
           )
         : null}
     </Space>

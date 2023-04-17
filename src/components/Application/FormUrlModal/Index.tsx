@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Void } from '../../../types/global';
 import { AsnButton } from '../../Forms/Button';
 import { AsnModal } from '../../Forms/Modal';
-import { ReactComponent as SuccessCreatedIcon } from '../../../assets/icons/success-created.svg.svg';
+import { ReactComponent as SuccessCreatedIcon } from '../../../assets/icons/success-created.svg';
 import { PATHS } from '../../../helpers/constants';
 import { useNavigate } from 'react-router-dom';
 import { IFormUrlModal } from '../../../types/api/application/applicationForm';

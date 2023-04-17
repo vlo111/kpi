@@ -8,7 +8,9 @@ import { IApplicationForm } from '../../../types/application';
 const ApplicationForm: React.FC<IApplicationForm> = ({
   sections,
   terms,
-  online
+  online,
+  onlineSignaturePath,
+  preview
 }) => {
   return (
     <>
@@ -21,7 +23,7 @@ const ApplicationForm: React.FC<IApplicationForm> = ({
           section={item}
         />
       ))}
-      <TermsConditions text={terms} onlineSignature={online} />
+      <TermsConditions text={terms} preview={preview} onlineSignature={online} onlineSignaturePath={onlineSignaturePath} />
     </>
   );
 };

@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { AsnButton } from '../../../Forms/Button';
 import DefaultContent from './DefaultContent';
-import { ReactComponent as Settings } from '../../../../assets/icons/setting.svg';
 import CourseStatusForm from './SubActivityForms/Applicant/CourseStatus';
 import { colors } from '../../../../types/api/activity/subActivity';
 
@@ -103,19 +102,6 @@ const SubActivitySections: React.FC<any> = ({
   return (
     <SectionsWrapper color={filteredColor[0]?.color}>
       <Space direction="vertical" style={{ width: '100%' }}>
-        <Title
-          level={4}
-          style={{
-            color: 'var(--dark-border-ultramarine)',
-            fontWeight: 'var(--font-normal)',
-            marginRight: '8vw',
-            display: 'flex',
-            alignItems: 'center'
-          }}
-        >
-          Course Roadmap
-          <Settings className="settings_svg" />
-        </Title>
         <Tabs
           activeKey={activeKey}
           onChange={handleTabChange}

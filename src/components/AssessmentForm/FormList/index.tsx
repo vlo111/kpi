@@ -72,7 +72,7 @@ const AssessmentFormItems: React.FC<IAssessmentFormItems> = ({
   const updateNames: UpdateNames = (items) => {
     if (items !== undefined) {
       items.forEach((item: { name: number }) => {
-        if (item.name > name[0]) {
+        if (item.name > Number(name[0])) {
           item.name--;
         }
       });
