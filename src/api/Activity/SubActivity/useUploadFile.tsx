@@ -20,8 +20,8 @@ const useFileUpload: any = () => {
     },
     {
       onSuccess: () => {
-          void queryClient.invalidateQueries(['api/sub-activity/course']);
-          void queryClient.invalidateQueries(['/api/sub-activity']);
+        void queryClient.invalidateQueries(['api/sub-activity/course']);
+        void queryClient.invalidateQueries(['/api/sub-activity']);
       },
       onError: ({
         response: {
