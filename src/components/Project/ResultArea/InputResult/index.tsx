@@ -11,7 +11,13 @@ import { ConfirmModal } from '../../../Forms/Modal/Confirm';
 import { TollTipText, HeaderElement } from '../../../../helpers/utils';
 import { ReactComponent as InfoSvg } from '../../../../assets/icons/info.svg';
 import { ReactComponent as DeleteSvg } from '../../../../assets/icons/delete.svg';
-import { DeleteResultArea, IProjectResultAreaDelete, IResultAreaData, ResultAreaOrder } from '../../../../types/project';
+import {
+  DeleteResultArea,
+  IProjectResultAreaDelete,
+  IResultAreaData,
+  IResultAreas,
+  ResultAreaOrder
+} from '../../../../types/project';
 import { Void } from '../../../../types/global';
 import { AsnForm } from '../../../Forms/Form';
 
@@ -26,14 +32,17 @@ const initialResultArea: (order: number) => IResultAreaData = (order) => ({
   title: '',
   order,
   expectedResults: [{ measurement: 'NUMBER' }],
-  inputActivities: [{ title: '', order: 1, milestones: [{ measurement: 'NUMBER' }] }]
+  inputActivities: [
+    { title: '', order: 1, milestones: [{ measurement: 'NUMBER' }] }
+  ]
 });
 
 const InputResult: React.FC = () => {
   const form: FormInstance = AsnForm.useFormInstance();
 
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<boolean>();
-  const [selectDeleteId, setSelectDeleteId] = useState<IProjectResultAreaDelete>();
+  const [selectDeleteId, setSelectDeleteId] =
+    useState<IProjectResultAreaDelete>();
 
   const onSubmitDelete: Void = () => {
     if (selectDeleteId !== undefined) {
@@ -52,6 +61,14 @@ const InputResult: React.FC = () => {
       }
 
       remove(field);
+
+      form.setFieldValue(
+        'resultAreas',
+        form.getFieldValue('resultAreas').map((d: IResultAreas, i: number) => {
+          d.order = i + 1;
+          return d;
+        })
+      );
     }
     setOpenDeleteResultModal(false);
   };
@@ -76,7 +93,7 @@ const InputResult: React.FC = () => {
                   id={`ans-title-${field.key}`}
                   className="ans-title result_area_title"
                 >
-                  <span>Input Objective {order(field.key)} *</span>
+                  <span>Input Objective {order(field.name)} *</span>
                   <Tooltip
                     overlayClassName="result-area-tooltip"
                     placement="right"
@@ -94,13 +111,13 @@ const InputResult: React.FC = () => {
                         header={HeaderElement(
                           field.key,
                           [field.name, 'title'],
-                          `${order(field.key)}.`,
+                          `${order(field.name)}.`,
                           'Example: Skill gap reduced',
                           'result_area_header_'
                         )}
                       >
-                        <InputExpectedResult resultId={field.key} />
-                        <InputActivity resultId={field.key} />
+                        <InputExpectedResult resultId={field.name} />
+                        <InputActivity resultId={field.name} />
                       </Panel>
                     </AsnCollapse>
                   </div>
@@ -119,9 +136,7 @@ const InputResult: React.FC = () => {
               <AsnButton
                 className="transparent"
                 value="Create"
-                onClick={() =>
-                  add(initialResultArea(fields.length + 1))
-                }
+                onClick={() => add(initialResultArea(fields.length + 1))}
               >
                 +Add Objective
               </AsnButton>

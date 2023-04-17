@@ -7,8 +7,7 @@ import { AsnForm } from '../../components/Forms/Form';
 import useGetResultArea from '../../api/ResultArea/useGetResultArea';
 import useCreateResultArea from '../../api/ResultArea/useCreateResultArea';
 import {
-  IStepsUpdate,
-  ProjectErrorResponse
+  IStepsUpdate
 } from '../../types/project';
 import useUpdateResultArea from '../../api/ResultArea/useUpdateResultArea';
 import { PATHS } from '../../helpers/constants';
@@ -143,17 +142,19 @@ export const ResultArea: React.FC<IStepsUpdate> = ({ isUpdate }) => {
     }
   };
 
-  const onError: ProjectErrorResponse = ({ response }) => {
-    console.log('error', response);
-  };
-
   const { mutate: createResultArea } = useCreateResultArea({
     onSuccess,
-    onError
+    onError: (e: {
+      response: {
+        data: { message: string }
+      }
+    }) => {
+      void message.error(e.response.data.message);
+    }
   });
 
   const { mutate: updateResultArea } = useUpdateResultArea({
-    onSuccess: () => {},
+    onSuccess,
     onError: (e: {
       response: {
         data: { message: string }
