@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Tooltip, Typography } from 'antd';
+import { Typography } from 'antd';
 import moment from 'moment';
 import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg';
 import { ReactComponent as SubActivitiesFilterIcon } from '../../assets/icons/sub-activities-filter.svg';
@@ -12,23 +12,47 @@ import {
   subActivityTableFilterStatus
 } from '../../helpers/constants';
 import { getColumnCalendarProps } from './CalendarFilter';
-import AsnAvatar from '../Forms/Avatar';
 import { Button } from './filterPopupStyle';
+import {
+  IAction,
+  IDuration,
+  IPartnerOrganization,
+  IRegion,
+  ISector,
+  ISubActivitiesManager,
+  ITeachingMode,
+  TAction,
+  TColumnType,
+  IAssignedPeople,
+  IOrganization
+} from '../../types/api/subActivityTable';
+import AvatarComponent from './AvatarComponent';
+import styled from 'styled-components';
 
 const { Paragraph } = Typography;
 
-export const useColumn = (
-  setOpenCreateSubActivity: any,
-  setInputActivityId: any,
-  filterData: any,
-  setSearchData: any,
-  searchData: any
-): any => {
-  const onDeleteClick = (e: any): void => {
+const CustomParagraph = styled(Paragraph)<{ width: string }>`
+  width: ${(props) => props.width};
+  margin-bottom: "0rem";
+`;
+
+export const useColumn: TColumnType = (
+  setOpenCreateSubActivity,
+  setInputActivityId,
+  filterData,
+  setSearchData,
+  searchData,
+  setOpenConfirmModal,
+  setCheckboxValues,
+  checkboxValues
+) => {
+  const onDeleteClick: TAction = (e, id) => {
     e.stopPropagation();
+    setOpenConfirmModal(true);
+    setInputActivityId(id);
   };
 
-  const onEditClick = (e: any, id: string): void => {
+  const onEditClick: TAction = (e, id): void => {
     e.stopPropagation();
     setInputActivityId(id);
     setOpenCreateSubActivity(true);
@@ -59,17 +83,14 @@ export const useColumn = (
       filterIcon: () => <SubActivitiesFilterIcon />,
       render: (text: string, record: { title: string }) => {
         return (
-          <Paragraph
-            style={{
-              width: '9rem',
-              marginBottom: '0rem'
-            }}
+          <CustomParagraph
+            width="9rem"
             ellipsis={{
               rows: 1
             }}
           >
             {record?.title}
-          </Paragraph>
+          </CustomParagraph>
         );
       }
     },
@@ -79,23 +100,15 @@ export const useColumn = (
         subActivityTableFilterStatus,
         setSearchData,
         searchData,
-        'status'
+        'status',
+        setCheckboxValues,
+        checkboxValues
       ),
       title: 'Status',
       dataIndex: 'status',
       key: 2,
       ellipsis: false,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      filters: [
-        {
-          text: 'Active',
-          value: 'Active'
-        },
-        {
-          text: 'Completed',
-          value: 'Completed'
-        }
-      ],
       render: (text: string, record: { status: string }) => {
         const upperCase = `${record?.status[0]}${record?.status
           .toLowerCase()
@@ -110,17 +123,16 @@ export const useColumn = (
         filterData?.organizations,
         setSearchData,
         searchData,
-        'organizations'
+        'organizations',
+        setCheckboxValues,
+        checkboxValues
       ),
       title: 'Organization',
       dataIndex: 'organization',
       key: 3,
       ellipsis: false,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      render: (
-        text: string,
-        record: { subActivity: { organization: { title: string } } }
-      ) => {
+      render: (text: string, record: IOrganization) => {
         return record?.subActivity?.organization?.title;
       }
     },
@@ -150,19 +162,14 @@ export const useColumn = (
           subString += '...';
         }
         return (
-          <Paragraph
-            style={{
-              marginBottom: '0rem',
-              width: '9rem'
-            }}
-            strong
+          <CustomParagraph
+            width="9rem"
             ellipsis={{
               rows: 1
             }}
-            className="tableName"
           >
             {subString}
-          </Paragraph>
+          </CustomParagraph>
         );
       }
     },
@@ -172,7 +179,9 @@ export const useColumn = (
         filterData?.manager,
         setSearchData,
         searchData,
-        'managers'
+        'managers',
+        setCheckboxValues,
+        checkboxValues
       ),
       title: () => (
         <div
@@ -191,23 +200,18 @@ export const useColumn = (
       render: (
         text: string,
         record: {
-          subActivity: { manager: { firstName: string, lastName: string } }
+          subActivity: ISubActivitiesManager
         }
       ) => {
         return (
-          <Paragraph
-            style={{
-              width: '12.5rem',
-              marginBottom: '0rem'
-            }}
-            strong
+          <CustomParagraph
+            width="12.5rem"
             ellipsis={{
               rows: 1
             }}
-            className="tableName"
           >
             {` ${record?.subActivity?.manager?.firstName} ${record?.subActivity?.manager?.lastName}`}
-          </Paragraph>
+          </CustomParagraph>
         );
       }
     },
@@ -217,7 +221,9 @@ export const useColumn = (
         filterData?.assignees,
         setSearchData,
         searchData,
-        'assigned'
+        'assigned',
+        setCheckboxValues,
+        checkboxValues
       ),
       title: () => (
         <div
@@ -229,50 +235,12 @@ export const useColumn = (
         </div>
       ),
       key: 5,
-      dataIndex: 'subActivitiesManager',
+      dataIndex: 'assignedPeople',
       ellipsis: false,
       width: 200,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      render: (
-        text: string,
-        record: {
-          subActivity: {
-            assignees: Array<{
-              firstName: string
-              lastName: string
-              id: string
-              photo: string
-            }>
-          }
-        }
-      ) => {
-        return (
-          <Avatar.Group maxCount={4}>
-            {record?.subActivity?.assignees.map(
-              (i: {
-                firstName: string
-                lastName: string
-                id: string
-                photo: string
-              }) => {
-                return (
-                  <Tooltip
-                    key={i?.id}
-                    placement="top"
-                    title={`${i?.firstName} ${i?.lastName}`}
-                  >
-                    <AsnAvatar
-                      letter={`${i?.firstName?.charAt(0)}${i?.lastName?.charAt(
-                        0
-                      )}`}
-                      src={i.photo}
-                    />
-                  </Tooltip>
-                );
-              }
-            )}
-          </Avatar.Group>
-        );
+      render: (text: string, record: IAssignedPeople) => {
+        return <AvatarComponent record={record?.subActivity?.assignees} />;
       }
     },
     {
@@ -281,17 +249,16 @@ export const useColumn = (
         filterData?.sectors,
         setSearchData,
         searchData,
-        'sectors'
+        'sectors',
+        setCheckboxValues,
+        checkboxValues
       ),
       title: 'Sector',
       key: 6,
       dataIndex: 'sector',
       ellipsis: true,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      render: (
-        text: string,
-        record: { subActivity: { sector: { title: string } } }
-      ) => {
+      render: (text: string, record: ISector) => {
         return record?.subActivity?.sector?.title;
       }
     },
@@ -301,17 +268,16 @@ export const useColumn = (
         subActivityListRegionsFilter,
         setSearchData,
         searchData,
-        'regions'
+        'regions',
+        setCheckboxValues,
+        checkboxValues
       ),
       title: 'Region',
       key: 7,
       dataIndex: 'region',
       ellipsis: false,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      render: (
-        text: string,
-        record: { subActivity: { region: { title: string } } }
-      ) => {
+      render: (text: string, record: IRegion) => {
         return record?.subActivity?.region?.title;
       }
     },
@@ -337,14 +303,9 @@ export const useColumn = (
       filterIcon: () => <SubActivitiesFilterIcon />,
       render: (text: string, record: { startDate: string }) => {
         return (
-          <Paragraph
-            style={{
-              width: '7rem',
-              marginBottom: '0rem'
-            }}
-          >
+          <CustomParagraph width="7rem">
             {moment(record?.startDate).format('DD.MM.YYYY')}
-          </Paragraph>
+          </CustomParagraph>
         );
       }
     },
@@ -370,14 +331,9 @@ export const useColumn = (
       filterIcon: () => <SubActivitiesFilterIcon />,
       render: (text: string, record: { endDate: string }) => {
         return (
-          <Paragraph
-            style={{
-              width: '7rem',
-              marginBottom: '0rem'
-            }}
-          >
+          <CustomParagraph width="7rem">
             {moment(record?.endDate).format('DD.MM.YYYY')}
-          </Paragraph>
+          </CustomParagraph>
         );
       }
     },
@@ -387,7 +343,9 @@ export const useColumn = (
         subActivityFilterTeachingMode,
         setSearchData,
         searchData,
-        'teachingModes'
+        'teachingModes',
+        setCheckboxValues,
+        checkboxValues
       ),
       title: () => (
         <div
@@ -402,16 +360,11 @@ export const useColumn = (
       dataIndex: 'teachingMode',
       ellipsis: false,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      render: (text: string, record: { data: { teachingMode: string } }) => {
+      render: (text: string, record: ITeachingMode) => {
         return (
-          <Paragraph
-            style={{
-              width: '150px',
-              marginBottom: '0rem'
-            }}
-          >
+          <CustomParagraph width="9rem">
             {record?.data?.teachingMode}
-          </Paragraph>
+          </CustomParagraph>
         );
       }
     },
@@ -427,22 +380,16 @@ export const useColumn = (
       dataIndex: 'duration',
       ellipsis: false,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      render: (
-        text: string,
-        record: { data: { durationInfo: { duration: number } } }
-      ) => {
+      render: (text: string, record: IDuration) => {
         return (
-          <Paragraph
-            style={{
-              width: '100px',
-              marginBottom: '0rem'
-            }}
+          <CustomParagraph
+            width="6.5rem"
             ellipsis={{
               rows: 1
             }}
           >
             {`${record?.data?.durationInfo?.duration} h`}
-          </Paragraph>
+          </CustomParagraph>
         );
       }
     },
@@ -466,22 +413,20 @@ export const useColumn = (
       dataIndex: 'partnerOrganization',
       ellipsis: false,
       filterIcon: () => <SubActivitiesFilterIcon />,
-      render: (text: string, record: { data: { customInputs: any } }) => {
+      render: (text: string, record: IPartnerOrganization) => {
         const partnerOrganization = record?.data?.customInputs?.filter(
-          (item: any) => item?.partner_organization !== undefined
+          (item: { partner_organization: string }) =>
+            item?.partner_organization !== undefined
         );
         return (
-          <Paragraph
-            style={{
-              width: '200px',
-              marginBottom: '0rem'
-            }}
+          <CustomParagraph
+            width="12.5rem"
             ellipsis={{
               rows: 1
             }}
           >
             {partnerOrganization[0]?.partner_organization}
-          </Paragraph>
+          </CustomParagraph>
         );
       }
     },
@@ -491,12 +436,11 @@ export const useColumn = (
           style={{
             width: '50px'
           }}
-        >
-        </div>
+        ></div>
       ),
       key: 'action',
       width: 50,
-      render: (text: string, record: { subActivity: { id: string } }) => {
+      render: (text: string, record: IAction) => {
         return (
           <div
             style={{
@@ -509,7 +453,7 @@ export const useColumn = (
             <Button onClick={(e) => onEditClick(e, record?.subActivity?.id)}>
               <EditIcon />
             </Button>
-            <Button onClick={onDeleteClick}>
+            <Button onClick={(e) => onDeleteClick(e, record?.id)}>
               <DeleteIcon />
             </Button>
           </div>

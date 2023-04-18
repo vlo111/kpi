@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import { AsnInput } from '../../Forms/Input';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/closeIcon.svg';
 import { Button } from '../filterPopupStyle';
+import {
+  TChangeEventType,
+  TSearchPropsType
+} from '../../../types/api/subActivityTable';
 
 const FilterInput = styled(AsnInput)`
   width: 100% !important;
@@ -17,13 +21,13 @@ const FilterInput = styled(AsnInput)`
   }
 `;
 
-export const getColumnSearchProps = (
-  dataIndex: string,
-  setSearchData: any,
-  searchData: any,
-  key: string
-): any => {
-  const onSearchChange = (e: any): void => {
+export const getColumnSearchProps: TSearchPropsType = (
+  dataIndex,
+  setSearchData,
+  searchData,
+  key
+) => {
+  const onSearchChange: TChangeEventType = (e) => {
     if (e.target.value.length >= 3) {
       setSearchData({
         ...searchData,
@@ -37,13 +41,7 @@ export const getColumnSearchProps = (
     }
   };
   return {
-    filterDropdown: ({
-      setSelectedKeys,
-      selectedKeys,
-      confirm,
-      clearFilters,
-      close
-    }: any) => (
+    filterDropdown: ({ close }: any) => (
       <div
         style={{
           padding: 8,
@@ -62,7 +60,7 @@ export const getColumnSearchProps = (
         <FilterInput
           placeholder={`Search ${dataIndex}`}
           onChange={onSearchChange}
-          defaultValue={searchData[key]}
+          value={searchData[key]}
         />
         <Button onClick={() => close()}>
           <CloseIcon />

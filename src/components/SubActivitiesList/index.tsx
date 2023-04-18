@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Table } from 'antd';
+import { Table, message } from 'antd';
 import { useColumn } from './columns';
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetProjectAllSubActivitiesList from '../../api/SubActivitiesList';
 import { PATHS } from '../../helpers/constants';
 import EditSubCourse from '../Project/SubActivity/SubActivityModals/Edit';
-import { IFilteredData } from '../../types/api/subActivityTable';
+import { IFilteredData, IPagination } from '../../types/api/subActivityTable';
 import { AsnButton } from '../Forms/Button';
 import { Void } from '../../types/global';
+import { ConfirmModal } from '../Forms/Modal/Confirm';
+import useDeleteSubActivity from '../../api/Activity/SubActivity/useDeleteSubActivity';
+import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 
 export const Container = styled.div`
   background: var(--white);
@@ -94,7 +97,6 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 16px 16px 0px 16px;
-
 `;
 
 const SubActivitiesTable: React.FC = () => {
@@ -103,7 +105,9 @@ const SubActivitiesTable: React.FC = () => {
   const [openCreateSubActivity, setOpenCreateSubActivity] =
     useState<boolean>(false);
   const [inputActivityId, setInputActivityId] = useState<string>('');
-  const [tablePagination, setTablePagination] = useState<any>({
+  const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
+  const [checkboxValues, setCheckboxValues] = useState<CheckboxValueType[] | []>([]);
+  const [tablePagination, setTablePagination] = useState<IPagination>({
     current: 1,
     pageSize: 20
   });
@@ -124,7 +128,7 @@ const SubActivitiesTable: React.FC = () => {
   });
 
   useEffect((): void => {
-    const data: { [key: string]: string | string[] | undefined } = {};
+    const data: { [key: string]: string | string[] | undefined | CheckboxValueType[] } = {};
     for (const k of Object.keys(searchData).filter(
       (item) => searchData[item] !== undefined
     )) {
@@ -132,6 +136,21 @@ const SubActivitiesTable: React.FC = () => {
     }
     setSearchData(data);
   }, [setSearchData]);
+
+  const { mutate: deleteCourse } = useDeleteSubActivity({
+    onSuccess: () => {
+      refetch();
+    },
+    onError: ({
+      response: {
+        data: { message: errorMessage }
+      }
+    }: {
+      response: { data: { message: string } }
+    }) => {
+      void message.error(errorMessage, 2);
+    }
+  });
 
   const { data, isLoading, refetch } = useGetProjectAllSubActivitiesList(
     projectId,
@@ -141,15 +160,19 @@ const SubActivitiesTable: React.FC = () => {
       ...searchData
     }
   );
+
   const column = useColumn(
     setOpenCreateSubActivity,
     setInputActivityId,
     data?.filterData,
     setSearchData,
-    searchData
+    searchData,
+    setOpenConfirmModal,
+    setCheckboxValues,
+    checkboxValues
   );
 
-  const handleTableChange: any = (pagination: any) => {
+  const handleTableChange: any = (pagination: IPagination) => {
     setTablePagination({
       ...pagination,
       pageSize: 20
@@ -179,12 +202,15 @@ const SubActivitiesTable: React.FC = () => {
       partnerOrganization: undefined,
       managers: undefined
     });
+    setCheckboxValues([]);
   };
 
   return (
     <>
       <ButtonContainer>
-        <AsnButton className="default" onClick={onClearFilters}>Clear filters</AsnButton>
+        <AsnButton className="default" onClick={onClearFilters}>
+          Clear filters
+        </AsnButton>
         <AsnButton className="default">Add Sub-Activity</AsnButton>
       </ButtonContainer>
       <Container>
@@ -192,7 +218,7 @@ const SubActivitiesTable: React.FC = () => {
           columns={column}
           dataSource={data?.result}
           rowKey={(record) => record?.id}
-          // scroll={{ x: '117vw', y: '73vh' }}
+          // scroll={{ x: 'calc(100vw + 600px)', y: 'calc(100vh - 250px)' }}
           rowClassName={(record, index) =>
             index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
           }
@@ -222,6 +248,18 @@ const SubActivitiesTable: React.FC = () => {
             InputActivityId={inputActivityId}
           />
         )}
+        <ConfirmModal
+          styles={{ gap: '6rem' }}
+          yes="Delete"
+          no="Cancel"
+          open={openConfirmModal}
+          title="Are you sure you want to delete the course?"
+          onSubmit={() => {
+            deleteCourse({ id: inputActivityId });
+            setOpenConfirmModal(false);
+          }}
+          onCancel={() => setOpenConfirmModal(false)}
+        />
       </Container>
     </>
   );

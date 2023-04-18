@@ -1,7 +1,10 @@
 import React from 'react';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/closeIcon.svg';
 import { AsnCheckbox } from '../../Forms/Checkbox';
-import { IStatusItem } from '../../../types/api/subActivityTable';
+import {
+  IStatusItem,
+  TSearchPropsCheckboxType
+} from '../../../types/api/subActivityTable';
 import { AsnButton } from '../../Forms/Button';
 import {
   Button,
@@ -11,17 +14,19 @@ import {
   PopupHeader,
   PopupTitle
 } from '../filterPopupStyle';
+import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 
-export const getColumnSearchPropsCheckbox = (
-  dataIndex: string,
-  filteredValue: IStatusItem[],
-  setSearchData: any,
-  searchData: any,
-  key: string
-): any => {
-  let checkboxValue: any;
+export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
+  dataIndex,
+  filteredValue,
+  setSearchData,
+  searchData,
+  key,
+  setCheckboxValues,
+  checkboxValues
+) => {
   if (filteredValue !== undefined && dataIndex === 'Organization') {
-    filteredValue = filteredValue?.map((item: any) => {
+    filteredValue = filteredValue?.map((item) => {
       return {
         name: item?.title,
         value: item?.id,
@@ -29,7 +34,7 @@ export const getColumnSearchPropsCheckbox = (
       };
     });
   } else if (filteredValue !== undefined && dataIndex === 'Assigned People') {
-    filteredValue = filteredValue?.map((item: any) => {
+    filteredValue = filteredValue?.map((item) => {
       const fullName: string = `${item?.firstname as string} ${
         item?.lastname as string
       }`;
@@ -54,7 +59,7 @@ export const getColumnSearchPropsCheckbox = (
       };
     });
   } else if (filteredValue !== undefined && dataIndex === 'Sector') {
-    filteredValue = filteredValue?.map((item: any) => {
+    filteredValue = filteredValue?.map((item) => {
       return {
         name: item?.title,
         value: item?.id,
@@ -63,15 +68,15 @@ export const getColumnSearchPropsCheckbox = (
     });
   }
 
-  const onCheckboxChange = (value: any): void => {
-    checkboxValue = value;
+  const onCheckboxChange = (value: CheckboxValueType[]): void => {
+    setCheckboxValues(value);
   };
 
   const onNextClick = (close: any): void => {
-    if (checkboxValue?.length > 0) {
+    if (checkboxValues?.length > 0) {
       setSearchData({
         ...searchData,
-        [key]: checkboxValue
+        [key]: checkboxValues
       });
       close();
     } else {
@@ -84,17 +89,14 @@ export const getColumnSearchPropsCheckbox = (
   };
 
   return {
-    filterDropdown: ({
-      setSelectedKeys,
-      selectedKeys,
-      confirm,
-      clearFilters,
-      close
-    }: any) => (
-      <PopupContainer onKeyDown={(e: any) => e.stopPropagation()}>
+    filterDropdown: ({ close }: any) => (
+      <PopupContainer>
         <PopupHeader>
           <PopupTitle>{dataIndex}</PopupTitle>
-          <Button onClick={() => close()}>
+          <Button onClick={() => {
+            close();
+            setCheckboxValues([]);
+          }}>
             <CloseIcon />
           </Button>
         </PopupHeader>
@@ -104,6 +106,7 @@ export const getColumnSearchPropsCheckbox = (
             flexDirection: 'column'
           }}
           onChange={onCheckboxChange}
+          value={checkboxValues}
         >
           {filteredValue?.map((item: IStatusItem) => (
             <CustomCheckbox value={item.value} key={item.id}>
@@ -112,7 +115,13 @@ export const getColumnSearchPropsCheckbox = (
           ))}
         </AsnCheckbox.Group>
         <ButtonContainer>
-          <AsnButton className="default" onClick={() => close()}>
+          <AsnButton
+            className="default"
+            onClick={() => {
+              close();
+              setCheckboxValues([]);
+            }}
+          >
             Cancel
           </AsnButton>
           <AsnButton className="primary" onClick={() => onNextClick(close)}>

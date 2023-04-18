@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/closeIcon.svg';
 import { Calendar } from 'antd';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import {
   Button,
   ButtonContainer,
@@ -12,6 +12,7 @@ import {
 } from '../filterPopupStyle';
 import { AsnButton } from '../../Forms/Button';
 import { TVoid } from '../../../types/global';
+import { TColumnCalendarPropsType } from '../../../types/api/subActivityTable';
 
 const PopupCalendar = styled(Calendar)`
   .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
@@ -41,14 +42,14 @@ const PopupCalendar = styled(Calendar)`
   }
 `;
 
-export const getColumnCalendarProps = (
-  dataIndex: string,
-  setSearchData: any,
-  searchData: any,
-  key: string
-): any => {
+export const getColumnCalendarProps: TColumnCalendarPropsType = (
+  dataIndex,
+  setSearchData,
+  searchData,
+  key
+) => {
   let newDate: string;
-  const onCalendarChange = (date: any): any => {
+  const onCalendarChange = (date: Moment): void => {
     newDate = moment(date).format();
   };
 
@@ -62,18 +63,10 @@ export const getColumnCalendarProps = (
 
   return {
     filterDropdown: ({
-      setSelectedKeys,
-      selectedKeys,
-      confirm,
-      clearFilters,
       close
     }: any) => (
       <PopupContainer
         width="25vw"
-        onKeyDown={(e: any) => e.stopPropagation()}
-        getPopupContainer={(trigger: HTMLElement) =>
-          trigger.parentElement as HTMLElement
-        }
       >
         <PopupHeader>
           <PopupTitle>{dataIndex}</PopupTitle>

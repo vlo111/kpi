@@ -5,7 +5,7 @@ import { AsnCheckbox } from '../Forms/Checkbox';
 
 const { Title } = Typography;
 
-export const PopupContainer = styled.div<any>`
+export const PopupContainer = styled.div<{ width?: string }>`
   padding: 1rem 1rem 2rem;
   width: ${(props) => props.width};
   display: flex;
