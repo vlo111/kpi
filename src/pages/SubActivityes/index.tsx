@@ -107,7 +107,7 @@ const SubActivity: React.FC<{}> = () => {
           {data?.sectionsData?.map(
             (item: { title: string, id: string }, i: number) => (
               <Tabs.TabPane
-                key={item.title}
+                key={item.id}
                 tab={
                   <ResultAreasTitles
                     title={item.title}
