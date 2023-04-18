@@ -79,6 +79,12 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
           const newData = (data as { data: { result: string[] } }).data.result;
           if (newData?.length > 0) {
             form.setFieldValue('onlineSignaturePath', newData[0]);
+            form.setFields([
+              {
+                name: 'onlineSignaturePath',
+                errors: []
+              }
+            ]);
           }
         }
       },
