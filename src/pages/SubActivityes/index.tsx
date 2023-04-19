@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
 import { Tabs } from 'antd';
 
@@ -8,6 +8,7 @@ import SubActivitySections from '../../components/Project/SubActivity/SubActivit
 import SubActivityHeader from '../../components/Project/SubActivity/SubActivtyHeader';
 import ResultAreasTitles from '../ProjectOverview/ResultAreasTitles';
 import AsnBreadcrumb from '../../components/Forms/Breadcrumb';
+import { IOutletContext } from '../../types/project';
 
 const Wrapper = styled.div<{ mode: string }>`
   padding: ${(props) =>
@@ -41,6 +42,9 @@ const Wrapper = styled.div<{ mode: string }>`
       padding: 12px 0 !important;
       background: transparent !important;
     }
+    .ant-tabs-content-holder {
+      padding: 0vh 4.8vw 0vh 4.8vw;
+    }
     .ant-tabs-nav-list .ant-tabs-tab-active {
       background-color: transparent !important;
     }
@@ -48,6 +52,7 @@ const Wrapper = styled.div<{ mode: string }>`
 `;
 
 const SubActivity: React.FC<{}> = () => {
+  const { setProjectOverview } = useOutletContext<IOutletContext>();
   const { id: subActivityId } = useParams<{ id: string }>();
   const [courseTitle, setCourseTitle] = useState('');
   const [activityTitle, setActivityTitle] = useState('');
@@ -65,11 +70,18 @@ const SubActivity: React.FC<{}> = () => {
     setActivityTitle(data?.inputActivity?.title);
     setResultAreaTitle(data?.inputActivity?.resultArea?.title);
     setProjectId(data?.inputActivity?.resultArea?.project?.id);
+    setProjectOverview({
+      areaOrder: data?.inputActivity?.resultArea?.order,
+      activityId: data?.inputActivityId,
+      resultAreaTitle: data?.inputActivity?.resultArea?.title,
+      activityTitle: data?.inputActivity?.title
+    });
   }, [data]);
 
   const mode = (
     projectId !== '' ? data?.sectionsData?.length > 1 : false
   ).toString();
+
   return (
     <Wrapper mode={mode}>
       {Boolean(projectId) && (
@@ -95,7 +107,7 @@ const SubActivity: React.FC<{}> = () => {
           {data?.sectionsData?.map(
             (item: { title: string, id: string }, i: number) => (
               <Tabs.TabPane
-                key={item.title}
+                key={item.id}
                 tab={
                   <ResultAreasTitles
                     title={item.title}
@@ -103,15 +115,17 @@ const SubActivity: React.FC<{}> = () => {
                     index={i}
                     active={active}
                     setActive={setActive}
+                    name={'subActivty'}
                   />
                 }
               >
-                <SubActivityHeader activity={item} region={data.region} />
+                <SubActivityHeader inputActivityId={data?.id} activity={item} region={data?.region} />
                 <SubActivitySections
                   activity={item}
+                  navigateRouteInfo={{ courseTitle, inputActivityTitle: activityTitle, resultAreaTitle, courseId: data?.id }}
                   refetch={refetch}
                   index={i}
-                  manager={data?.manager}
+                  assignedUsers={data?.assignees}
                   applicationForm={data?.applicationForm}
                 />
               </Tabs.TabPane>
@@ -122,14 +136,16 @@ const SubActivity: React.FC<{}> = () => {
       {data?.sectionsData?.length === 1 && (
         <>
           <SubActivityHeader
+            inputActivityId={data?.id}
             activity={data?.sectionsData[0]}
             region={data.region}
           />
           <SubActivitySections
             refetch={refetch}
+            navigateRouteInfo={{ courseTitle, inputActivityTitle: activityTitle, resultAreaTitle, courseId: data?.id }}
             activity={data?.sectionsData[0]}
             index={0}
-            manager={data?.manager}
+            assignedUsers={data?.assignees}
             applicationForm={data?.applicationForm}
           />
         </>

@@ -13,9 +13,14 @@ export const AsnForm = styled(Form)`
       border-color: var(--error) !important;
     }
   }
+  
+  .ant-form-item {
+    margin: ${props => props.name === 'preassesment' ? '0 0 32px' : ''};
+  }
 
   .ant-form-item-explain-error {
     color: var(--error);
+    padding-top:  ${props => props.name === 'preassesment' ? '5px' : ''};
   }
 
   .ant-form-item-label {
@@ -24,11 +29,12 @@ export const AsnForm = styled(Form)`
     > label {
       overflow: hidden;
       display: block;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      text-overflow: ${props => (props.name === 'preassesment') || (props.name === 'preassesment-assess') ? 'initial' : 'ellipsis'};
+      white-space: ${props => (props.name === 'preassesment') || (props.name === 'preassesment-assess') ? 'initial' : 'nowrap'};
       padding: 0;
       color: var(--dark-2);
       font-size: var(--base-font-size);
+      width:  ${props => props.name === 'preassesment-assess' ? '85%' : '100%'};
     }
   }
   
@@ -47,5 +53,8 @@ export const AsnForm = styled(Form)`
       line-height: 1;
       content: "*";
     }
+  }
+  &.ant-form-vertical .ant-form-item-row{
+    width:  ${props => (props.name === 'preassesment') || (props.name === 'preassesment-assess') ? '100%' : ''}
   }
 `;

@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Table, Space, Row, Col } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
+import React from 'react';
+import { Table, Space } from 'antd';
 import { AsnButton } from '../../../../../../components/Forms/Button';
-import { UserOutlined } from '@ant-design/icons';
-import { Void, DataType } from '../../../../../../types/global';
+import { Void } from '../../../../../../types/global';
 
 import styled from 'styled-components';
+import { AssignedUserType } from '../../../../../../types/api/activity/subActivity';
+import AsnAvatar from '../../../../../../components/Forms/Avatar';
+import { IAssignedFilterData } from '../../../../../../types/project';
 
 const Container = styled.div`
   .ant-table-thead > tr > th {
@@ -39,7 +40,7 @@ const Container = styled.div`
   }
   .ant-checkbox .ant-checkbox-inner {
     background-color: white;
-    border-color: #d9d9d9;
+    border-color: var(--dark-2) !important;
   }
   .ant-checkbox-checked .ant-checkbox-inner {
     background-color: var(--dark-border-ultramarine);
@@ -47,57 +48,65 @@ const Container = styled.div`
   }
 `;
 
-const columns: ColumnsType<DataType> = [
-  {
-    title: '',
-    dataIndex: '',
-    render: (text) => <UserOutlined />
-  },
+const columns = [
   {
     title: 'All People',
-    dataIndex: 'name'
+    render: (item: AssignedUserType) => (
+      <Space direction="horizontal">
+        <AsnAvatar
+          letter={`${item?.firstName?.charAt(0)}${item?.lastName?.charAt(0)}`}
+          src={item?.photo}
+        />
+        <h4 style={{ padding: 0 }}>
+          {item?.firstName} {item?.lastName}
+        </h4>
+      </Space>
+    )
   }
 ];
 
-const data: DataType[] = [];
-for (let i = 0; i < 30; i++) {
-  data.push({
-    key: i,
-    name: `$ Edward King ${i}  `
-  });
-}
-export const AssingnesData: React.FC<{ open: boolean
-  setOpen: (open: boolean) => void }> = ({
+export const AssingnesData: React.FC<IAssignedFilterData> = ({
   open,
-  setOpen
+  setOpen,
+  setAssignedUsersIds,
+  selectedRowKeys,
+  setSelectedRowKeys,
+  assignedUsers,
+  selectedRowId,
+  setSelectedRowId
 }) => {
-  const cancel: Void = () => {
-    setOpen(!open);
-  };
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  console.log(columns);
-
-  const onSelectChange = (newSelectedRowKeys: React.Key[]): void => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+  const onSelectChange = (
+    newSelectedRowKeys: React.Key[],
+    newSelectedRowInfo: any | []
+  ): void => {
     setSelectedRowKeys(newSelectedRowKeys);
+    setSelectedRowId(newSelectedRowInfo);
   };
-
   const rowSelection = {
-    selectedRowKeys,
+    selectedRowId,
+    selectedRowKeys: selectedRowId.map((row: any) => row.id),
     onChange: onSelectChange
   };
-  const hasSelected = selectedRowKeys.length > 0;
 
+  const filterByUsers = (): void => {
+    setAssignedUsersIds(selectedRowKeys);
+    setSelectedRowKeys(selectedRowId);
+    setOpen(false);
+  };
+
+  const cancel: Void = () => {
+    setOpen(!open);
+    setSelectedRowKeys([]);
+    setAssignedUsersIds([]);
+  };
   return (
     <Container>
       <Space size={[40, 16]} direction="vertical">
-        <Row style={{ gap: '15px' }}>
-          <Col>{hasSelected ? `Selected ${selectedRowKeys.length} ` : ''}</Col>
-        </Row>
         <Table
           rowSelection={rowSelection}
           columns={columns}
-          dataSource={data}
+          dataSource={assignedUsers}
+          rowKey={(record) => record?.id}
           pagination={false}
           style={{ marginBottom: '40px' }}
         />
@@ -105,8 +114,15 @@ export const AssingnesData: React.FC<{ open: boolean
           size={[40, 16]}
           style={{ display: 'flex', justifyContent: 'center' }}
         >
-          <AsnButton onClick={cancel}>Cancel</AsnButton>
-          <AsnButton type="primary" htmlType="submit">
+          <AsnButton onClick={cancel} className="default">
+            Cancel
+          </AsnButton>
+          <AsnButton
+            type="primary"
+            className="primary"
+            htmlType="submit"
+            onClick={filterByUsers}
+          >
             Save
           </AsnButton>
         </Space>

@@ -1,24 +1,29 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import client from '../client';
+import { IApplicant } from '../../types/api/application/applicationForm1';
 
 export const url = 'api/application-form/:id';
 
-const useSingleApplicationForm: any = (id: string, options = { enabled: false }) => {
-  const result = useQuery(
-    [url, id],
-    async () => await client.get(url.replace(':id', id)),
-    {
-      select: (data) => data?.data,
-      retry: false,
-      ...options
-    }
-  );
-  const { data, isSuccess } = result;
+export type ApplicantUseQuery = UseQueryResult<IApplicant>;
 
-  return {
-    ...result,
-    data: isSuccess ? data : {}
-  };
+const useSingleApplicationForm: any = (id: string, options: any) => {
+  try {
+    const result: ApplicantUseQuery = useQuery(
+      [url, id],
+      async () => await client.get(url.replace(':id', id)),
+      {
+        retry: false,
+        select: (data) => data?.data,
+        ...options
+      }
+    );
+
+    const { data, isLoading } = result;
+
+    return { data, isLoading };
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export default useSingleApplicationForm;

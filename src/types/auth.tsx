@@ -28,6 +28,10 @@ export interface IUser {
   updatedAt?: string
   id: string
   accessToken?: string
+  projects: Array<{
+    id: string
+    permissionType: string
+  }>
 }
 
 export interface ISuccessMessage {

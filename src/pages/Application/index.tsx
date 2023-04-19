@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { InputRef, Space, Typography } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
+import { InputRef, message, Space, Typography } from 'antd';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ApplicationCard from '../../components/Application/ApplicationCard/Index';
 import { ReactComponent as SuccessIcon } from '../../assets/icons/success.svg';
@@ -9,9 +8,10 @@ import {
   CardContainer,
   CardTitle,
   CustomInput,
-  CustomTextArea
+  CustomTextArea,
+  ValidateMessage
 } from '../../components/Application/applicationStyle';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import TermsAndCondition from '../../components/Application/TermsAndCondition/Index';
 import PreviewModal from '../../components/Application/Preview';
 import { AsnButton } from '../../components/Forms/Button';
@@ -19,22 +19,25 @@ import { AsnSwitch } from '../../components/Forms/Switch';
 import { Void } from '../../types/global';
 import { AsnDatePicker } from '../../components/Forms/DatePicker';
 import { AsnInput } from '../../components/Forms/Input';
-import { ICardsData, IIsAddTermsConditions } from '../../types/project';
 import getApplicationFormDefault from '../../api/ApplicationForm/useGetApplicationFormDefault';
 import createApplicationForm from '../../api/ApplicationForm/useCreateApplicationForm';
-import { IApplicationsOption } from '../../types/api/application/applicationForm';
+import {
+  IApplicant,
+  IApplicationFormSections,
+  IApplicationsOption,
+  IResult
+} from '../../types/api/application/applicationForm';
 import FormUrlModal from '../../components/Application/FormUrlModal/Index';
 import { PATHS } from '../../helpers/constants';
+import useSingleApplicationForm from '../../api/ApplicationForm/useGetSingleApplicationForm';
+import useUpdateApplicationForm from '../../api/ApplicationForm/useUpdateApplicationForm';
+import { AsnForm } from '../../components/Forms/Form';
+import _ from 'lodash';
+import { getApplicationData } from '../../helpers/utils';
 
 const ApplicationContainer = styled.div`
   margin: 0 auto;
   width: 67%;
-`;
-
-const ValidateMessage = styled.span`
-  font-size: var(--font-normal);
-  color: var(--error);
-  margin: 4px 0px 1rem !important;
 `;
 
 const ApplicationTitle = styled(Typography.Title)`
@@ -66,11 +69,26 @@ const ConditionCard = styled(Space)`
   }
 `;
 
+const CustomDatePicker = styled(AsnDatePicker)`
+  width: 100%;
+  height: 3.5rem;
+`;
+
 const Application: React.FC = () => {
   const { id: courseId } = useParams<{ id: string | undefined }>();
-  const { data } = getApplicationFormDefault(courseId, {});
   const location = useLocation();
   const navigate = useNavigate();
+  const [form] = AsnForm.useForm();
+
+  const { data, isLoading } = getApplicationFormDefault(courseId, {
+    enabled: location?.state?.edit !== true,
+    cacheTime: 0
+  });
+
+  const { data: singleApplicantData } = useSingleApplicationForm(courseId, {
+    enabled: location?.state?.edit === true,
+    cacheTime: 0
+  });
 
   const { mutate: createApplicationFn } = createApplicationForm({
     onSuccess: (options: IApplicationsOption) => {
@@ -78,89 +96,152 @@ const Application: React.FC = () => {
       setFormUrlModal(true);
       setCreatedItemResponse(data);
     },
-    onError: (err: any) => {
-      console.log(err);
+    onError: () => {
+      void message.error('Publishing failed. Please try again.');
+    }
+  });
+
+  const { mutate: updateApplicationForm } = useUpdateApplicationForm({
+    onSuccess: () => {
+      navigate(
+        `/project/${PATHS.SUBACTIVITY.replace(
+          ':id',
+          location?.state?.SubActivityId
+        )}`
+      );
+    },
+    onError: () => {
+      void message.error('Publishing failed. Please try again.');
     }
   });
 
   const [isValidateMessage, setIsValidateMessage] = useState<boolean>(false);
+  const [validateTitle, setValidateTitle] = useState<string[] | undefined>();
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
-  const [termsConditionsValue, setTermsConditionsValue] = useState<any>({});
-  const [applicationData, setApplicationData] = useState<any>({});
+  const [applicationData, setApplicationData] = useState<
+  IApplicant | undefined
+  >();
   const [onlineSignature, setOnlineSignature] = useState<boolean>(true);
   const [formUrlModal, setFormUrlModal] = useState<boolean>(false);
-  const [createdItemInfo, setCreatedItemResponse] = useState({});
-  const [deadlineDate, setDeadlineDate] = useState<string>('');
-  const [isAddTermsConditions, setIsAddTermsConditions] = useState<
-  IIsAddTermsConditions[]
-  >([
-    {
-      id: uuidv4(),
-      placeholder: 'Type the agreement text'
-    },
-    {
-      id: uuidv4(),
-      placeholder: 'Type the agreement text'
-    }
-  ]);
+  const [createdItemInfo, setCreatedItemResponse] = useState<
+  IResult | undefined
+  >();
+  const [deadlineDate, setDeadlineDate] = useState<string | undefined | null>();
   const [isQuestionCardVisible, setIsQuestionCardVisible] = useState<string[]>(
     []
   );
-  const formTitle = useRef<InputRef>(null);
   const formDescription = useRef<any>(null);
   const successMessage = useRef<InputRef>(null);
+  const formTitle = useRef<InputRef>(null);
 
   useEffect(() => {
-    setApplicationData(data);
-  }, [data]);
+    if (location?.state?.edit === true) {
+      if (!_.isEmpty(singleApplicantData)) {
+        setApplicationData(getApplicationData(singleApplicantData));
+        setOnlineSignature(singleApplicantData?.onlineSignature);
+        if (
+          singleApplicantData.deadline !== undefined &&
+          singleApplicantData.deadline !== null
+        ) {
+          setDeadlineDate(new Date(singleApplicantData.deadline).toJSON());
+        } else {
+          setDeadlineDate(undefined);
+        }
+      }
+    } else {
+      if (!_.isEmpty(data)) {
+        setApplicationData(data);
+        setOnlineSignature(data?.onlineSignature);
+        if (data.deadline !== undefined && data.deadline !== null) {
+          setDeadlineDate(new Date(data.deadline).toJSON());
+        } else {
+          setDeadlineDate(undefined);
+        }
+      }
+    }
+  }, [isLoading, singleApplicantData]);
 
   useEffect(() => {
-    const applicationDataParse =
-      applicationData?.termsAndConditions !== undefined
-        ? JSON.parse(applicationData?.termsAndConditions)
-        : [];
-    setTermsConditionsValue({
-      condition0: applicationDataParse[0],
-      condition1: applicationDataParse[1]
+    form.setFieldsValue({
+      conditions:
+        applicationData?.termsAndConditions !== undefined
+          ? JSON.parse(applicationData?.termsAndConditions)
+          : []
     });
   }, [applicationData]);
 
-  const termsConditionsValueArray = useCallback((): string[] => {
-    const termsConditionsArr = [];
-    for (const key in termsConditionsValue) {
-      termsConditionsArr.push(termsConditionsValue[key]);
-    }
-    return termsConditionsArr;
-  }, [termsConditionsValue]);
-
   const onPublishClick: Void = () => {
-    if (
-      formTitle?.current?.input?.value.length !== undefined &&
-      (formTitle?.current?.input?.value.length < 1 ||
-        formTitle?.current?.input?.value.length > 255)
-    ) {
-      setIsValidateMessage(true);
-    } else {
-      setIsValidateMessage(false);
+    if (applicationData !== undefined) {
+      if (
+        formTitle?.current?.input?.value.length !== undefined &&
+        (formTitle?.current?.input?.value.length < 1 ||
+          formTitle?.current?.input?.value.length > 255)
+      ) {
+        setIsValidateMessage(true);
+      } else if (validateTitle !== undefined && validateTitle?.length > 0) {
+        void message.error('Please fill in at least one chart in the field.');
+        setIsValidateMessage(false);
+      } else {
+        setIsValidateMessage(false);
+        const filteredCondition = form
+          .getFieldValue('conditions')
+          .filter((item: any) => Boolean(item));
+        applicationData.description =
+          formDescription.current !== null
+            ? formDescription.current.resizableTextArea.textArea.value
+            : '';
+        applicationData.title =
+          formTitle !== null ? formTitle?.current?.input?.value : '';
+        applicationData.onlineSignature = onlineSignature;
+        applicationData.deadline =
+          deadlineDate === data.deadline || deadlineDate === undefined
+            ? null
+            : deadlineDate;
+        applicationData.successMessage =
+          successMessage !== null ? successMessage?.current?.input?.value : '';
+        applicationData.termsAndConditions = JSON.stringify(filteredCondition);
+        form.resetFields();
+        if (location?.state?.edit === true) {
+          updateApplicationForm({
+            id: courseId,
+            data: {
+              ...applicationData
+            }
+          });
+        } else {
+          createApplicationFn({
+            id: courseId,
+            data: {
+              ...applicationData
+            }
+          });
+        }
+      }
+    }
+  };
+
+  const onPreviewClick: Void = () => {
+    if (applicationData !== undefined) {
+      const filteredCondition = form
+        .getFieldValue('conditions')
+        .filter((item: any) => Boolean(item));
+      applicationData.termsAndConditions = JSON.stringify(filteredCondition);
+      applicationData.onlineSignature = onlineSignature;
+      setIsOpenCreateActivityModal(true);
       applicationData.description =
         formDescription.current !== null
-          ? formDescription.current.resizableTextArea.textArea.value
+          ? formDescription?.current?.resizableTextArea?.textArea?.value
           : '';
       applicationData.title =
         formTitle !== null ? formTitle?.current?.input?.value : '';
-      applicationData.onlineSignature = onlineSignature;
-      applicationData.deadline = deadlineDate;
-      applicationData.termsAndConditions = JSON.stringify(
-        termsConditionsValueArray()
-      );
-      createApplicationFn({
-        id: courseId,
-        data: {
-          ...applicationData
-        }
-      });
+      applicationData.successMessage =
+        successMessage !== null ? successMessage?.current?.input?.value : '';
     }
+  };
+
+  const disabledDateEndPicker = (current: Moment): boolean => {
+    return current < moment(new Date());
   };
 
   return (
@@ -169,15 +250,17 @@ const Application: React.FC = () => {
       <Typography.Title level={5} style={{ fontWeight: 'var(--font-normal)' }}>
         Form Title
       </Typography.Title>
-      <AsnInput
-        ref={formTitle}
-        style={{
-          border: 'none',
-          width: '100%',
-          marginBottom: isValidateMessage ? '0rem' : '1rem'
-        }}
-        placeholder={data?.title}
-      />
+      {applicationData?.title !== undefined && (
+        <AsnInput
+          ref={formTitle}
+          style={{
+            border: 'none',
+            width: '100%',
+            marginBottom: isValidateMessage ? '0rem' : '1rem'
+          }}
+          defaultValue={applicationData?.title}
+        />
+      )}
       {isValidateMessage
         ? (
         <ValidateMessage>
@@ -188,29 +271,33 @@ const Application: React.FC = () => {
       <Typography.Title level={5} style={{ fontWeight: 'var(--font-normal)' }}>
         Description
       </Typography.Title>
-      <CustomTextArea
-        style={{ border: 'none', marginBottom: '2rem' }}
-        placeholder={data?.description}
-        ref={formDescription}
-      />
-      {applicationData?.applicationFormSections?.map((data: ICardsData) => (
-        <ApplicationCard
-          key={data?.keyName}
-          title={data?.title}
-          content={data?.questions}
-          cardId={data?.keyName}
-          isQuestionCardVisible={isQuestionCardVisible}
-          setIsQuestionCardVisible={setIsQuestionCardVisible}
-          applicationData={applicationData}
-          setApplicationData={setApplicationData}
+      {applicationData?.description !== undefined && (
+        <CustomTextArea
+          style={{ border: 'none', marginBottom: '2rem' }}
+          defaultValue={applicationData?.description}
+          ref={formDescription}
         />
-      ))}
-      <TermsAndCondition
-        isAddTermsConditions={isAddTermsConditions}
-        termsConditionsValue={termsConditionsValue}
-        setTermsConditionsValue={setTermsConditionsValue}
-        setIsAddTermsConditions={setIsAddTermsConditions}
-      />
+      )}
+      {applicationData?.applicationFormSections?.map(
+        (data: IApplicationFormSections) => (
+          <ApplicationCard
+            key={data?.keyName}
+            title={data?.title}
+            content={data?.questions}
+            description={data?.description}
+            cardId={data.keyName}
+            isQuestionCardVisible={isQuestionCardVisible}
+            setIsQuestionCardVisible={setIsQuestionCardVisible}
+            applicationData={applicationData}
+            setApplicationData={setApplicationData}
+            validateTitle={validateTitle}
+            setValidateTitle={setValidateTitle}
+          />
+        )
+      )}
+      <AsnForm name="dynamic_form_nest_item" form={form} autoComplete="off">
+        <TermsAndCondition />
+      </AsnForm>
       <ConditionCard>
         <span
           style={{
@@ -219,10 +306,12 @@ const Application: React.FC = () => {
         >
           Online signature
         </span>
-        <AsnSwitch
-          onChange={(checked) => setOnlineSignature(checked)}
-          checked={onlineSignature}
-        />
+        {applicationData?.onlineSignature !== undefined && (
+          <AsnSwitch
+            onChange={(checked) => setOnlineSignature(checked)}
+            checked={onlineSignature}
+          />
+        )}
       </ConditionCard>
       <CardContainer
         borderTop={'3px solid var(--secondary-light-amber)'}
@@ -239,15 +328,21 @@ const Application: React.FC = () => {
         )}
       </CardContainer>
       <CardTitle>Set deadline (optional):</CardTitle>
-      <ConditionCard>
-        <AsnDatePicker
+      {applicationData !== undefined && (
+        <CustomDatePicker
+          getPopupContainer={(trigger) => trigger}
+          disabledDate={disabledDateEndPicker}
           style={{ border: 'none', flexDirection: 'row-reverse' }}
           onChange={(date, dateString) =>
             setDeadlineDate(new Date(dateString).toJSON())
           }
-          defaultValue={moment(new Date(), 'DD.MM.YYYY')}
+          value={
+            deadlineDate !== null && deadlineDate !== undefined
+              ? moment(new Date(deadlineDate).toJSON())
+              : undefined
+          }
         />
-      </ConditionCard>
+      )}
       <Space
         direction="horizontal"
         size={60}
@@ -257,39 +352,33 @@ const Application: React.FC = () => {
           margin: '3.75rem 0px'
         }}
       >
-        <AsnButton className="default" onClick={() => {
-          if (location?.state?.SubActivityId !== undefined) {
-            navigate(`/project/${PATHS.SUBACTIVITY.replace(':id', location?.state?.SubActivityId)}`);
-          }
-        }}>Cancel</AsnButton>
         <AsnButton
           className="default"
           onClick={() => {
-            applicationData.termsAndConditions = JSON.stringify(
-              termsConditionsValueArray()
-            );
-            applicationData.onlineSignature = onlineSignature;
-            setIsOpenCreateActivityModal(true);
-            applicationData.description =
-              formDescription.current !== null
-                ? formDescription.current.resizableTextArea.textArea.value
-                : '';
-            applicationData.title =
-              formTitle !== null ? formTitle?.current?.input?.value : '';
+            if (location?.state?.SubActivityId !== undefined) {
+              navigate(
+                `/project/${PATHS.SUBACTIVITY.replace(
+                  ':id',
+                  location?.state?.SubActivityId
+                )}`
+              );
+            }
           }}
         >
+          Cancel
+        </AsnButton>
+        <AsnButton className="default" onClick={onPreviewClick}>
           Preview
         </AsnButton>
         <AsnButton className="primary" onClick={onPublishClick}>
-          Publish
+          {location?.state?.edit !== true ? 'Publish' : 'Update'}
         </AsnButton>
       </Space>
       <PreviewModal
         questionData={applicationData}
-        createApplicationFn={createApplicationFn}
         isOpenCreateActivityModal={isOpenCreateActivityModal}
         setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
-        courseId={courseId}
+        onPublishClick={onPublishClick}
       />
       <FormUrlModal
         formUrlModal={formUrlModal}

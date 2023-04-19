@@ -6,12 +6,13 @@ import SubActivityUsersInfo from '../UsersInfo';
 import SubActivityUsersFullInfo from '../ApplicantFullInfo';
 
 const DefaultContent: React.FC<any> = ({
-  manager,
+  assignedUsers,
   status,
   requIredDocs,
   color,
   applicants,
   courseId,
+  navigateRouteInfo,
   files
 }) => {
   return (
@@ -27,11 +28,11 @@ const DefaultContent: React.FC<any> = ({
           />
         </Col>
         <Col span={12}>
-          <SubActivityUsersInfo manager={manager} color={color} />
+          <SubActivityUsersInfo assignedUsers={assignedUsers} color={color} requIredDocs={requIredDocs.length >= 1}/>
         </Col>
       </Row>
       <Col>
-        {status === 'ACTIVE' && <SubActivityUsersFullInfo color={color} applicants={applicants}/>}
+        {(status === 'ACTIVE' || status === 'DONE' || applicants?.length > 0) && <SubActivityUsersFullInfo navigateRouteInfo={navigateRouteInfo} status={status} color={color} applicants={applicants} courseId={courseId} />}
       </Col>
     </Space>
   );

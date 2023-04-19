@@ -27,20 +27,53 @@ const Wrapper = styled(Col)<{ color: string | undefined }>`
     margin: 0 !important;
   }
   .users_list {
-    .ant-space-item:first-child {
-      min-height: calc(35vh - 14.4vh);
-      max-height: calc(35vh - 14.4vh);
+    min-height: 300px;
+    .users_content{
+      width: 100%;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    .assigned_list_item{
+      margin-bottom: 12px;
+      padding-bottom: 8px;
     }
   }
-  .users_list,
+
   .documents_info {
     padding: 0 !important;
-
+    min-height: 350px;
+    position: relative;
     .ant-upload-list{
       position: absolute !important;
-      top: 240px !important;
+      bottom: 10px;
       width: 100% !important;
-      max-height: 50px !important;
+      max-height: 105px !important;
+    }
+    .ant-col {
+      position: unset;
+    }
+  }
+  .required_doc {
+    padding: 0 !important;
+    min-height: 300px !important;
+    .ant-upload-list {
+      position: unset;
+      top: 0;
+      width: 100% !important;
+      max-height: 230px !important;
+      margin-top: 10px;
+    }
+  }
+  .users_reqDoc{
+    min-height: 350px;
+    .users_content{
+      width: 100%;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    .assigned_list_item{
+      margin-bottom: 12px;
+      padding-bottom: 8px;
     }
   }
   .participant_form,

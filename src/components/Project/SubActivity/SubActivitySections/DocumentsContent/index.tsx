@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Row, Space } from 'antd';
+import { Col, message, Row, Space } from 'antd';
 
 import DraggerForm from '../SubActivityForms/Dragger';
 import FormWrapper from '../../SubActivityWrapper';
@@ -19,11 +19,14 @@ const SubActivityDocuments: React.FC<any> = ({
   const [keyName, setKeyName] = useState('');
   const [reqDocs, setReqDocs] = useState([]);
   const { mutate: AttachFile } = useAttacheFilesSubActivitySection({
-    onSuccess: () => {
-      console.log('bbb');
+    onError: (e: { response: { data: { message: string } } }) => {
+      void message.error(e.response.data.message);
+      setDefaultFileList(defaultFileList.filter(
+        (i: { lastModifiedDate: string | undefined }) => i.lastModifiedDate === undefined
+      ));
     },
-    onError: () => {
-      console.log('');
+    onSuccess: () => {
+      setFileList([]);
     }
   });
 
@@ -43,7 +46,7 @@ const SubActivityDocuments: React.FC<any> = ({
       );
       setReqDocs(filteredFiles);
     }
-  }, [files]);
+  }, []);
 
   useEffect(() => {
     if (fileList.length > 0) {
@@ -60,7 +63,10 @@ const SubActivityDocuments: React.FC<any> = ({
   }, [fileList]);
 
   return (
-    <FormWrapper className="documents_info" color={color}>
+    <FormWrapper
+      className={requIredDocs?.length >= 1 ? 'documents_info' : 'required_doc'}
+      color={color}
+    >
       <DraggerForm
         text="File/Documents"
         docType="GENERAL_DOCUMENT"
@@ -69,6 +75,7 @@ const SubActivityDocuments: React.FC<any> = ({
         setFileList={setFileList}
         defaultFileList={defaultFileList}
         setDefaultFileList={setDefaultFileList}
+        name="subActivity"
       />
       {requIredDocs.length >= 1 && (
         <Space
@@ -76,14 +83,14 @@ const SubActivityDocuments: React.FC<any> = ({
           style={{
             width: '100%',
             borderBottom: '0.5px solid var(--dark-border-ultramarine)',
-            padding: '16px 0'
+            padding: '1vh 0'
           }}
         >
           <Row
             align="middle"
             justify="space-between"
             style={{
-              fontSize: 'var(--base-font-size)',
+              fontSize: 'var(--font-size-semismall)',
               color: 'var(--dark-2)'
             }}
           >
@@ -97,18 +104,21 @@ const SubActivityDocuments: React.FC<any> = ({
               Downloaded
             </Col>
           </Row>
-          <Col style={{ padding: '0', maxHeight: '60px', overflowY: 'scroll' }}>
+          <Col style={{ padding: '0', maxHeight: '85px', overflowY: 'auto' }}>
             {requIredDocs?.map((doc: { title: string, count: number }) => (
               <Row
                 align="middle"
                 justify="space-between"
-                style={{ color: 'var(--dark-4)' }}
+                style={{ color: 'var(--dark-4)', marginBottom: '5px' }}
                 key={doc.title}
               >
                 <Col
                   style={{ textAlign: 'start', display: 'flex' }}
                   span={8}
-                  onClick={() => setKeyName(doc.title)}
+                  onClick={() => {
+                    console.log('ssssss', doc.title);
+                    setKeyName(doc.title);
+                  }}
                 >
                   <DraggerForm
                     text="File/Documents"
@@ -126,7 +136,15 @@ const SubActivityDocuments: React.FC<any> = ({
                     setDefaultFileList={setDefaultFileList}
                     keyName={keyName}
                   />
-                  <Row>{doc.title}</Row>
+                  <Row
+                    style={{
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis'
+                    }}
+                  >
+                    {doc.title}
+                  </Row>
                 </Col>
                 <Col style={{ textAlign: 'center' }} span={8}>
                   {doc.count}

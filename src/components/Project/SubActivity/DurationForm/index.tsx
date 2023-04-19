@@ -5,7 +5,9 @@ import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { ReactComponent as DurationSvg } from '../SubActivityIcons/duration.svg';
 import { AsnForm } from '../../../Forms/Form';
 
-const Duration: React.FC = () => {
+const Duration: React.FC<{ sectionIndex: number | string }> = ({
+  sectionIndex
+}) => {
   const form = AsnForm.useFormInstance();
   const [checkSkills, setCheckSkills] = useState(true);
   const [checkTechnical, setCheckTechnical] = useState(true);
@@ -15,6 +17,7 @@ const Duration: React.FC = () => {
   const parser = (formattedValue: any): any => {
     return parseInt(formattedValue.replace(/[^\d]/g, ''));
   };
+
   const selectBefore = (
     <Row
       justify={'center'}
@@ -33,20 +36,16 @@ const Duration: React.FC = () => {
     <>
       <AsnForm.Item
         className="duration_section"
-        name="Duration_FF"
+        name={[sectionIndex, 'duration_ff']}
         label="Duration"
-        rules={[{ required: form.getFieldValue('duration') === 0 }]}
+        rules={[
+          {
+            required:
+              form.getFieldValue(['sectionsData', sectionIndex, 'duration']) ===
+              0
+          }
+        ]}
       >
-        <AsnForm.Item name="duration" className="duration_header">
-          <InputNumber
-            addonAfter="hr"
-            disabled
-            min={1}
-            name="test"
-            addonBefore={selectBefore}
-            className="duration_header"
-          />
-        </AsnForm.Item>
         <Space
           direction="horizontal"
           align="center"
@@ -56,16 +55,27 @@ const Duration: React.FC = () => {
           <AsnForm.Item>
             <Checkbox
               checked={checkTechnical}
-              disabled={!checkTechnical}
               onChange={(e: CheckboxChangeEvent) => {
                 if (checkTechnical) {
-                  const technicalNum = form.getFieldValue(
+                  const technicalNum = form.getFieldValue([
+                    'sectionsData',
+                    sectionIndex,
                     'duration_technical_number'
-                  );
-                  const durationNum = form.getFieldValue('duration');
+                  ]);
+                  const durationNum = form.getFieldValue([
+                    'sectionsData',
+                    sectionIndex,
+                    'duration'
+                  ]);
                   const val = durationNum - technicalNum;
-                  form.setFieldValue('duration', val);
-                  form.setFieldValue('duration_technical_number', null);
+                  form.setFieldValue(
+                    ['sectionsData', sectionIndex, 'duration'],
+                    val
+                  );
+                  form.setFieldValue(
+                    ['sectionsData', sectionIndex, 'duration_technical_number'],
+                    null
+                  );
                 }
                 setCheckTechnical(e.target.checked);
               }}
@@ -73,17 +83,24 @@ const Duration: React.FC = () => {
               Technical skills
             </Checkbox>
           </AsnForm.Item>
-          <AsnForm.Item name="duration_technical_number">
+          <AsnForm.Item name={[sectionIndex, 'duration_technical_number']}>
             <InputNumber
+              disabled={!checkTechnical}
               addonAfter="hr"
               min={0}
               formatter={formatter}
               parser={parser}
-              onChange={(value: number | null) => {
-                const skillsNumber = form.getFieldValue('duration_soft_number');
-                // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+              onChange={(value: number) => {
+                const skillsNumber: number = form.getFieldValue([
+                  'sectionsData',
+                  sectionIndex,
+                  'duration_soft_number'
+                ]);
                 const dur = skillsNumber + value;
-                form.setFieldValue('duration', dur);
+                form.setFieldValue(
+                  ['sectionsData', sectionIndex, 'duration'],
+                  dur
+                );
                 if (value !== null && value < 1) {
                   setCheckTechnical(false);
                 } else if (value === null) {
@@ -100,15 +117,28 @@ const Duration: React.FC = () => {
           <AsnForm.Item>
             <Checkbox
               checked={checkSkills}
-              disabled={!checkSkills}
               onChange={(e: CheckboxChangeEvent) => {
                 if (checkSkills) {
-                  const skillNum = form.getFieldValue('duration_soft_number');
-                  const durationNum = form.getFieldValue('duration');
+                  const skillNum = form.getFieldValue([
+                    'sectionsData',
+                    sectionIndex,
+                    'duration_soft_number'
+                  ]);
+                  const durationNum = form.getFieldValue([
+                    'sectionsData',
+                    sectionIndex,
+                    'duration'
+                  ]);
                   const val = durationNum - skillNum;
                   console.log(val);
-                  form.setFieldValue('duration', val);
-                  form.setFieldValue('duration_soft_number', null);
+                  form.setFieldValue(
+                    ['sectionsData', sectionIndex, 'duration'],
+                    val
+                  );
+                  form.setFieldValue(
+                    ['sectionsData', sectionIndex, 'duration_soft_number'],
+                    null
+                  );
                 }
                 setCheckSkills(e.target.checked);
               }}
@@ -116,18 +146,23 @@ const Duration: React.FC = () => {
               Soft skills
             </Checkbox>
           </AsnForm.Item>
-          <AsnForm.Item name="duration_soft_number">
+          <AsnForm.Item name={[sectionIndex, 'duration_soft_number']}>
             <InputNumber
+              disabled={!checkSkills}
               addonAfter="hr"
               formatter={formatter}
               parser={parser}
-              onChange={(value: number | null) => {
-                const technicalNumber = form.getFieldValue(
+              onChange={(value: number) => {
+                const technicalNumber: number = form.getFieldValue([
+                  'sectionsData',
+                  sectionIndex,
                   'duration_technical_number'
-                );
-                // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+                ]);
                 const dur = technicalNumber + value;
-                form.setFieldValue('duration', dur);
+                form.setFieldValue(
+                  ['sectionsData', sectionIndex, 'duration'],
+                  dur
+                );
                 if (value !== null && value < 1) {
                   setCheckSkills(false);
                 } else if (value === null) {
@@ -141,6 +176,19 @@ const Duration: React.FC = () => {
             />
           </AsnForm.Item>
         </Space>
+        <AsnForm.Item
+          name={[sectionIndex, 'duration']}
+          className="duration_header"
+        >
+          <InputNumber
+            addonAfter="hr"
+            disabled
+            min={1}
+            name="test"
+            addonBefore={selectBefore}
+            className="duration_header"
+          />
+        </AsnForm.Item>
       </AsnForm.Item>
     </>
   );

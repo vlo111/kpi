@@ -72,9 +72,10 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
   const form = AsnForm.useFormInstance();
 
   const onClosedAddVisibleField: Void = () => {
+    setQuestionType('');
     setIsVisibleAddField(false);
     setItem(null);
-    form.resetFields();
+    form.resetFields(['question', 'answerType', 'names']);
   };
 
   const onSelectChange: FormFinish = (value) => {
@@ -118,7 +119,7 @@ const CreateFields: React.FC<ICreateFieldsProps> = ({
             { required: true, message: 'Please enter a valid Answer Type' }
           ]}
         >
-          <AsnSelect onChange={onSelectChange} placeholder="Choose answer type">
+          <AsnSelect onChange={onSelectChange} placeholder="Choose answer type" getPopupContainer={trigger => trigger.parentNode}>
             {answerTypeOptions.map((option) => (
               <Option
                 key={option}

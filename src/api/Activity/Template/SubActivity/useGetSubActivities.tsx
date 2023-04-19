@@ -9,15 +9,18 @@ const useGetSubActivities: any = (id: string, params: object = {}, options = { e
     async () => await client.post(`${url}/${id}`, params),
     {
       ...options,
+      retry: false,
       select: (data) => data.data
     }
   );
-  const { data, isSuccess, isLoading } = result;
+  const { data, isSuccess, isLoading, error, isFetching, refetch } = result;
   return {
     ...result,
+    error,
     data: isSuccess ? data?.result : [],
-    isLoading
-    // refetch
+    isFetching,
+    isLoading,
+    refetch
   };
 };
 

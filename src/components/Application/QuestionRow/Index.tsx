@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Col, Popover, Row, Space } from 'antd';
-import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
+import { Popover, Space } from 'antd';
 import { ReactComponent as MenuIcon } from '../../../assets/icons/md-menu.svg';
-import { ReactComponent as EditIcon } from '../../../assets/icons/edit.svg';
 
 import { AsnSwitch } from '../../Forms/Switch';
 import { FormFinish, NumberVoidType, Onchange } from '../../../types/global';
-import { IQuestionRowContainer } from '../../../types/project';
+import { IQuestionRowContainer } from '../../../types/api/application/applicationForm';
+import { contentPopover } from '../../../helpers/questionList';
+import { AsnForm } from '../../Forms/Form';
 
 const CardRow = styled(Space)`
   display: flex;
@@ -47,6 +47,7 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
   setQuestionRowIndex
 }) => {
   const [openPopover, setOpenPopover] = useState<boolean>(false);
+  const form = AsnForm.useFormInstance();
 
   const onEditedQuestion: FormFinish = (item) => {
     setQuestionRowIndex(item);
@@ -58,9 +59,36 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
   };
 
   const onDeletedQuestion: NumberVoidType = (item) => {
-    content.splice(item, 1);
-    setApplicationData({ ...applicationData });
+    const applicationDataClone = JSON.parse(JSON.stringify(applicationData));
+    if (cardId === 'personal_info') {
+      applicationDataClone?.applicationFormSections[0]?.questions.splice(
+        item,
+        1
+      );
+    } else if (cardId === 'educational_info') {
+      applicationDataClone?.applicationFormSections[1]?.questions.splice(
+        item,
+        1
+      );
+    } else if (cardId === 'other_info') {
+      applicationDataClone?.applicationFormSections[2]?.questions.splice(
+        item,
+        1
+      );
+    } else {
+      applicationDataClone?.applicationFormSections[3]?.questions.splice(
+        item,
+        1
+      );
+    }
+    setApplicationData({ ...applicationDataClone });
     setOpenPopover(!openPopover);
+    setIsQuestionCardVisible(
+      isQuestionCardVisible.filter((itemId) => itemId !== cardId)
+    );
+    form.resetFields(['question', 'names', 'requiredFiled', 'otherOption']);
+    setSingleQuestionData(undefined);
+    setAnswerTypeValue('OPTION');
   };
 
   const handleOpenChange: Onchange = (newOpen) => {
@@ -70,23 +98,6 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
   const handleIsRequiredQuestion: FormFinish = (check) => {
     content[index].required = check;
   };
-  const contentPopover: (i: any) => JSX.Element = (item) => (
-    <Row
-      style={{
-        fontSize: 'var(--font-size-small)',
-        color: 'var(--dark-2)',
-        cursor: 'pointer'
-      }}
-      gutter={[8, 8]}
-    >
-      <Col onClick={() => onEditedQuestion(item)} span={24}>
-        <EditIcon /> Edit
-      </Col>
-      <Col onClick={() => onDeletedQuestion(item)} span={24}>
-        <DeleteIcon /> Delete
-      </Col>
-    </Row>
-  );
 
   return (
     <CardRow direction="horizontal">
@@ -109,27 +120,38 @@ const QuestionRowContainer: React.FC<IQuestionRowContainer> = ({
                   ? 'Multiple answers'
                   : 'DD/MM/YYYY'}
         </ChoseType>
-        <AsnSwitch
-          defaultChecked={question?.active}
-          disabled={!question?.editable}
-          onChange={handleIsRequiredQuestion}
-        />
+        {question?.required !== undefined && (
+          <AsnSwitch
+            defaultChecked={question?.required}
+            disabled={
+              !question?.editable ||
+              question?.answerType === 'OPTION' ||
+              question?.answerType === 'YES_NO'
+            }
+            onChange={handleIsRequiredQuestion}
+          />
+        )}
         {question?.editable
           ? (
           <Popover
             placement="topLeft"
-            content={() => contentPopover(index)}
+            content={() =>
+              contentPopover(index, onEditedQuestion, onDeletedQuestion)
+            }
             trigger="click"
             overlayClassName="menuPopover"
             onOpenChange={handleOpenChange}
             open={openPopover}
           >
-            <div style={{ marginLeft: '8px', cursor: 'pointer' }}>
+            <div
+              style={{ marginLeft: '8px', cursor: 'pointer' }}>
               <MenuIcon />
             </div>
           </Popover>
             )
-          : <div style={{ width: '11px' }}></div>}
+          : (
+          <div style={{ width: '11px' }}></div>
+            )}
       </span>
     </CardRow>
   );

@@ -1,13 +1,13 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Col, Row, Badge, Divider, Typography } from 'antd';
+import { useNavigate, useOutletContext } from 'react-router-dom';
+import { Col, Row, Badge, Divider } from 'antd';
 import styled from 'styled-components';
 import moment from 'moment';
 
+import { IOutletContext } from '../../../types/project';
 import { PATHS } from '../../../helpers/constants';
 import { IInfoHeader } from '../../../types/global';
-import { ReactComponent as WarningSvg } from '../../../assets/icons/project-warning.svg';
-import { ReactComponent as PeopleSvg } from '../../../assets/icons/people.svg';
+import { ReactComponent as EditSvg } from '../../../assets/icons/edit.svg';
 import Icon from '@ant-design/icons';
 
 const AntBadge = styled(Badge)`
@@ -33,75 +33,85 @@ const AntIcon = styled(Icon)`
     vertical-align: -0.225em;
     font-size: var(--font-size-base-medium);
   }
+  svg{
+    width: 14px !important;
+  }
 `;
-const { Text } = Typography;
+const AntCol = styled(Col)`
+  color: var(--dark-border-ultramarine);
+  font-size : var(--headline-font-size);
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 const ProjectInformationHeader: React.FC<IInfoHeader> = ({
   overview,
   project,
   padding,
   activity,
-  region
+  region,
+  inputActivityId,
+  resultAreaOrder,
+  activityId,
+  activeTemplate
 }) => {
   const navigate = useNavigate();
+  const { setProjectOverview } = useOutletContext<IOutletContext>();
+
+  const handleEdit = (id: string): void => {
+    navigate(`/${PATHS.PROJECTINFORMATION}`.replace(':id', id));
+    setProjectOverview({
+      areaOrder: resultAreaOrder,
+      activityId,
+      templateTab: activeTemplate
+    });
+  };
+
   return (
-    <Row style={{ padding }}>
-      <Col span={24}>
-        <Row gutter={[16, 0]}>
-            <Col
-              span={4}
-              style={{
-                color: 'var(--dark-border-ultramarine)',
-                fontSize: 'var(--headline-font-size)'
-              }}
-            >
-              {project?.title ?? activity?.title}
+  <Row style={{ padding }}>
+    <Col span={24}>
+      <Row gutter={[16, 0]}>
+        <AntCol
+          span={4}
+        >
+          {project?.title ?? activity?.title}
+        </AntCol>
+        <Col span={14} offset={1} style={{ color: 'var(--dark-1)', wordBreak: 'break-all' }}>
+          {project?.description ?? activity?.data?.description}
+          <Row align="middle" style={{ marginTop: '20px' }}>
+            <Col>
+              <AntBadge
+                color={activity?.status === 'INACTIVE'
+                  ? 'var(--dark-4)'
+                  : activity?.status === 'ACTIVE'
+                    ? 'var(--primary-light-orange)'
+                    : 'var(--secondary-green)'
+                }
+                text={activity?.status ?? 'Active'}
+              />
+              <AntDivider type="vertical" />
             </Col>
-          <Col span={14} offset={1} style={{ color: 'var(--dark-1)' }}>
-            { project?.description ?? activity?.data?.description}
-            <Row align="middle" style={{ marginTop: '20px' }}>
-              <Col>
-                <AntBadge color="var(--secondary-green)" text="Active" />
-                <AntDivider type="vertical" />
-              </Col>
-              {overview === true
-                ? (
+            {overview === true
+              ? (
                 <>
                   <Col style={{ fontSize: 'var(--base-font-size)' }}>
                     {moment(project?.startDate).format('DD/MM/YYYY')} -
                     {moment(project?.endDate).format('DD/MM/YYYY')}
                     <AntDivider type="vertical" />
                   </Col>
-                  <Col>
-                    <AntIcon component={PeopleSvg} />
-                    <Text
-                      underline={true}
-                      style={{
-                        fontSize: 'var(--base-font-size)',
-                        marginLeft: '8px'
-                      }}
-                    >
-                      1
-                    </Text>
-                    <AntDivider type="vertical" />
-                  </Col>
                   {project?.status !== 'DRAFT' && project?.id != null && (
                     <Col>
                       <AntIcon
-                        component={WarningSvg}
-                        onClick={() =>
-                          navigate(
-                            `/${PATHS.PROJECTINFORMATION}`.replace(
-                              ':id',
-                              project?.id
-                            )
-                          )
-                        }
+                        component={EditSvg}
+                        onClick={() => handleEdit(project?.id)}
                       />
                     </Col>
                   )}
                 </>
-                  )
-                : (
+                )
+              : (
                 <>
                   <Col style={{ fontSize: 'var(--base-font-size)' }}>
                     {moment(activity.data?.startDate).format(
@@ -118,24 +128,27 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
                   </Col>
                   <Col>
                     <AntIcon
-                      component={WarningSvg}
-                      // onClick={() =>
-                      //   navigate(
-                      //     `/${PATHS.COURSEINFORMATION}`.replace(
-                      //       ':id',
-                      //       activity?.id
-                      //     )
-                      //   )
-                      // }
+                      component={EditSvg}
+                      onClick={() => {
+                        if (inputActivityId != null) {
+                          navigate(
+                            `/${PATHS.COURSEINFORMATION}`.replace(
+                              ':id',
+                              inputActivityId
+                            )
+                          );
+                        }
+                      }
+                      }
                     />
                   </Col>
                 </>
-                  )}
-            </Row>
-          </Col>
-        </Row>
-      </Col>
-    </Row>
+                )}
+          </Row>
+        </Col>
+      </Row>
+    </Col>
+  </Row>
   );
 };
 export default ProjectInformationHeader;

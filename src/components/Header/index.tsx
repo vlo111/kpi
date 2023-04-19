@@ -10,8 +10,8 @@ import { PATHS } from '../../helpers/constants';
 import { clearLocalStorage } from '../../hooks/useLocalStorage';
 import { useAuth } from '../../hooks/useAuth';
 import { CaretDownOutlined } from '@ant-design/icons';
-import { ReactComponent as Notification } from '../../assets/icons/notification.svg';
-import { ReactComponent as Setting } from '../../assets/icons/setting.svg';
+// import { ReactComponent as Notification } from '../../assets/icons/notification.svg';
+// import { ReactComponent as Setting } from '../../assets/icons/setting.svg';
 
 const HeaderLayout = styled(Layout)`
   background: var(--white);
@@ -76,12 +76,12 @@ export const Header: React.FC = () => {
   return (
     <HeaderLayout>
       <Row justify="end" align="middle">
-        <Col>
-          <Notification />
-        </Col>
-        <Col>
-          <Setting />
-        </Col>
+        {/* <Col> */}
+        {/*   <Notification /> */}
+        {/* </Col> */}
+        {/* <Col> */}
+        {/*   <Setting /> */}
+        {/* </Col> */}
         <Col>
           <Dropdown overlay={newMenu} trigger={['click']}>
             <Space>

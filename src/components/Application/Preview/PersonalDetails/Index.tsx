@@ -1,13 +1,21 @@
 import React, { Fragment } from 'react';
-import { Radio, Space } from 'antd';
+import { Divider, Radio, Space } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
-import { CardTitle, ModalText, DetailsContainer } from '../../applicationStyle';
+import {
+  CardTitle,
+  ModalText,
+  DetailsContainer,
+  DividerLine
+} from '../../applicationStyle';
 import { AsnInput } from '../../../Forms/Input';
 import { AsnSelect } from '../../../Forms/Select';
 import { AsnDatePicker } from '../../../Forms/DatePicker';
-import { IAnswers } from '../../../../types/project';
 import { AsnCheckbox } from '../../../Forms/Checkbox';
+import {
+  IAnswer,
+  IPersonalDetails
+} from '../../../../types/api/application/applicationForm';
 
 const RegionSelect = styled(AsnSelect)`
   .ant-select-selector {
@@ -17,14 +25,16 @@ const RegionSelect = styled(AsnSelect)`
   }
 `;
 
-const PersonalDetails: React.FC<any> = ({ personalDetailsData }) => {
+const PersonalDetails: React.FC<IPersonalDetails> = ({
+  personalDetailsData
+}) => {
   return (
     <DetailsContainer>
       <CardTitle>{personalDetailsData.title}</CardTitle>
       <ModalText style={{ marginTop: '0.5rem' }}>
         {personalDetailsData?.description}
       </ModalText>
-      {personalDetailsData?.questions?.map((question: any) => (
+      {personalDetailsData?.questions?.map((question) => (
         <Fragment key={question.id !== undefined ? question.id : uuidv4()}>
           <ModalText style={{ margin: '1rem 0rem 0.3rem' }}>
             {question.title}
@@ -44,12 +54,25 @@ const PersonalDetails: React.FC<any> = ({ personalDetailsData }) => {
                 )
               : question?.answerType === 'OPTION'
                 ? (
-            <Radio.Group value="Female/Իգական">
+            <Radio.Group value={question?.answers[0]?.title}>
               <Space direction="vertical">
-                {question?.answers?.map((answer: IAnswers) => (
-                  <Radio key={answer.id !== undefined ? answer.id : uuidv4() } value={answer.title}>
-                    {answer.title}
-                  </Radio>
+                {question?.answers?.map((answer: IAnswer) => (
+                  <Fragment
+                    key={answer.id !== undefined ? answer.id : uuidv4()}
+                  >
+                    {answer.title?.includes('Other')
+                      ? (
+                      <DividerLine>
+                        <Radio value={answer.title} />
+                        <Divider orientation="left" plain>
+                          {answer.title}
+                        </Divider>
+                      </DividerLine>
+                        )
+                      : (
+                      <Radio value={answer.title}>{answer.title}</Radio>
+                        )}
+                  </Fragment>
                 ))}
               </Space>
             </Radio.Group>
@@ -58,8 +81,11 @@ const PersonalDetails: React.FC<any> = ({ personalDetailsData }) => {
                   ? (
             <Radio.Group value="Yes/Այո">
               <Space direction="vertical">
-                {question?.answers?.map((answer: IAnswers) => (
-                  <Radio key={answer.id !== undefined ? answer.id : uuidv4() } value={answer.title}>
+                {question?.answers?.map((answer: IAnswer) => (
+                  <Radio
+                    key={answer.id !== undefined ? answer.id : uuidv4()}
+                    value={answer.title}
+                  >
                     {answer.title}
                   </Radio>
                 ))}
@@ -72,7 +98,7 @@ const PersonalDetails: React.FC<any> = ({ personalDetailsData }) => {
                       )
                     : (
             <Space direction="vertical">
-              {question?.answers?.map((answer: IAnswers, index: number) => (
+              {question?.answers?.map((answer: IAnswer, index: number) => (
                 <AsnCheckbox defaultChecked={index === 0} key={answer.id}>
                   {answer.title}
                 </AsnCheckbox>

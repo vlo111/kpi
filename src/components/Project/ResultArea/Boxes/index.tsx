@@ -77,7 +77,7 @@ const Boxes: React.FC<ProjectInputBoxProps> = ({
             <AsnForm.Item
               name={[item.name, 'statement']}
               label={firstLabel('Input expected result statement', index)}
-              rules={[{ required: true, min: 2, max: 256 }]}
+              rules={[{ required: true, min: 2, max: 2048 }]}
             >
               <AsnTextArea
                 placeholder={

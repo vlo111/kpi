@@ -1,19 +1,23 @@
-import React from 'react';
-import { Col, Divider as AntDivider, Row as AntRow, Typography } from 'antd';
+import React, { useMemo } from 'react';
+import {
+  Col,
+  Divider as AntDivider,
+  Row as AntRow,
+  Typography,
+  Spin
+} from 'antd';
+import moment from 'moment';
 import styled from 'styled-components';
+import { useLocation, useParams } from 'react-router-dom';
+
 import AsnAvatar from '../../components/Forms/Avatar';
-import ApplicantTabs from './Status';
-import { useParams } from 'react-router-dom';
+import ApplicantTabs from './Tabs';
 import useGetApplicant from '../../api/Applicant/useGetApplicant';
 import { ApplicantInfo } from '../../helpers/constants';
-import moment from 'moment';
-
-interface ApplicantRow {
-  children: React.ReactNode
-  width?: number
-  height?: number
-  style?: any
-}
+import { ApplicantRow, IApplicantProps, SetValue } from '../../types/applicant';
+import { INavigateRoteInfoTypes } from '../../types/api/assessment';
+import { useProject } from '../../hooks/useProject';
+import Breadcrumb from './Breadcrumb';
 
 const Row = styled(AntRow)<ApplicantRow>`
   height: auto;
@@ -26,6 +30,14 @@ const ApplicantProfile = styled(Col)`
   border-top: 3px solid var(--dark-border-ultramarine);
   box-shadow: var(--base-box-shadow);
   border-radius: 20px;
+
+  .applicant-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
 `;
 
 const Divider = styled(AntDivider)`
@@ -69,90 +81,116 @@ const InfoRow = styled(Row)`
   }
 `;
 
-const setValue: (key: string, value: string | undefined) => JSX.Element = (
-  key,
-  value = ''
-) => (
+const setValue: SetValue = (key, value = '') => (
   <AntRow>
     <Col span={10}>
       <strong>{key}:</strong>
     </Col>
     <Col span={10}>
-      <p>{value}</p>
+      <p className="applicant-text" title={value}>
+        {value}
+      </p>
     </Col>
   </AntRow>
 );
 
-const Applicant: React.FC = () => {
+const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
   const { id } = useParams();
+  const {
+    state
+  }: { state: { navigateRouteInfo: INavigateRoteInfoTypes } | null } =
+    useLocation();
 
-  const { applicant: { applicant, courses } = {} } = useGetApplicant(id);
+  const { projectId }: { projectId: string } = useProject();
 
-  const getApplicantInfo = (
-    <>
-      <AntTitle level={4}>{ApplicantInfo.PersonalTitle}</AntTitle>
-      {setValue(
-        ApplicantInfo.Birthdate,
-        moment(applicant?.dob).format('DD/MM/YYYY')
-      )}
-      {setValue(ApplicantInfo.Region, applicant?.region)}
-      {setValue(ApplicantInfo.Community, applicant?.community)}
-      {setValue(ApplicantInfo.Gender, applicant?.gender)}
-      <AntTitle level={4}>{ApplicantInfo.EducationTitle}</AntTitle>
-      {setValue(ApplicantInfo.Student, applicant?.student)}
-      {setValue(ApplicantInfo.EducationLevel, applicant?.educationLevel)}
-      {setValue(ApplicantInfo.PaidJob, '-')}
-      {setValue(ApplicantInfo.WorkOrganisation, applicant?.workOrganization)}
-      <AntTitle level={4}>{ApplicantInfo.OtherInfoTitle}</AntTitle>
-      {setValue(ApplicantInfo.VulnerabilityType, applicant?.vulnerabilities)}
-      {setValue(ApplicantInfo.CourseSource, '-')}
-    </>
+  const { applicant, courses, isLoading } =
+    useGetApplicant(applicantId ?? id) ?? {};
+
+  const getApplicantInfo = useMemo(
+    () => (
+      <>
+        <AntTitle level={4}>{ApplicantInfo.PersonalTitle}</AntTitle>
+        {setValue(
+          ApplicantInfo.Birthdate,
+          moment(applicant?.dob).format('DD/MM/YYYY')
+        )}
+        {setValue(ApplicantInfo.Region, applicant?.region)}
+        {setValue(ApplicantInfo.Community, applicant?.community)}
+        {setValue(ApplicantInfo.Gender, applicant?.gender)}
+
+        <AntTitle level={4}>{ApplicantInfo.EducationTitle}</AntTitle>
+        {setValue(ApplicantInfo.Student, applicant?.student)}
+        {setValue(ApplicantInfo.EducationLevel, applicant?.educationLevel)}
+        {setValue(ApplicantInfo.PaidJob, applicant?.income)}
+        {setValue(ApplicantInfo.Position, applicant?.position ?? '-')}
+        {setValue(
+          ApplicantInfo.WorkOrganisation,
+          applicant?.workOrganisation ?? '-'
+        )}
+
+        <AntTitle level={4}>{ApplicantInfo.OtherInfoTitle}</AntTitle>
+        {setValue(ApplicantInfo.VulnerabilityType, applicant?.vulnerabilities)}
+        {setValue(ApplicantInfo.CourseSource, applicant?.informedAboutUs)}
+      </>
+    ),
+    [applicant]
   );
 
+  const user = useMemo(
+    () => ({
+      firstName: applicant?.fullName.charAt(0).toUpperCase() ?? '',
+      lastName:
+        applicant?.fullName.split(' ')[1]?.charAt(0)?.toUpperCase() ?? ''
+    }),
+    [applicant]
+  );
+
+  const isBreadcrumb =
+    applicantId === undefined && state !== null && applicant !== undefined;
+
   return (
-    <Row height={100} style={{ padding: '2rem 4rem' }} gutter={[0, 32]}>
-      <Row>
-        <Col>
-          <InfoRow>
-            <Col className="path">
-              <p>
-                {'Objective 1 > Activity 1.3 > Python Course > Applicants >'}
-              </p>
-              <p>{applicant?.fullName}</p>
-            </Col>
-          </InfoRow>
-        </Col>
+    <Spin spinning={isLoading}>
+      <Row height={100} style={{ padding: '2rem 4rem' }} gutter={[0, 32]}>
+        {isBreadcrumb && (
+          <Breadcrumb
+            projectId={projectId}
+            state={state}
+            applicantName={applicant.fullName}
+          />
+        )}
+        <Row>
+          <ApplicantProfile span={24}>
+            <Row gutter={10} style={{ padding: '1rem' }}>
+              <Col span={8} style={{ height: '60%' }}>
+                <InfoRow>
+                  <Col span={24}>
+                    <AsnAvatar letter={`${user.firstName}${user.lastName}`} />
+                  </Col>
+                  <Col span={24}>
+                    <AntTitle level={4}>{applicant?.fullName}</AntTitle>
+                  </Col>
+                  <Col className="content" span={24}>
+                    {applicant?.email}
+                  </Col>
+                  <Col className="content" span={24}>
+                    {applicant?.phone}
+                  </Col>
+                </InfoRow>
+              </Col>
+              <Divider type={'vertical'} />
+              <Col span={12}>{getApplicantInfo}</Col>
+            </Row>
+          </ApplicantProfile>
+        </Row>
+        <Row>
+          <Col span={24}>
+            {applicant !== undefined && courses !== undefined && (
+              <ApplicantTabs applicant={applicant} courses={courses} />
+            )}
+          </Col>
+        </Row>
       </Row>
-      <Row>
-        <ApplicantProfile span={24}>
-          <Row gutter={10} style={{ padding: '1rem' }}>
-            <Col span={8} style={{ height: '60%' }}>
-              <InfoRow>
-                <Col span={24}>
-                  <AsnAvatar size={80} letter={'VV'} />
-                </Col>
-                <Col span={24}>
-                  <AntTitle level={4}>{applicant?.fullName}</AntTitle>
-                </Col>
-                <Col className="content" span={24}>
-                  {applicant?.email}
-                </Col>
-                <Col className="content" span={24}>
-                  {applicant?.phone}
-                </Col>
-              </InfoRow>
-            </Col>
-            <Divider type={'vertical'} />
-            <Col span={12}>{getApplicantInfo}</Col>
-          </Row>
-        </ApplicantProfile>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <ApplicantTabs applicant={applicant?.fullName ?? ''} courses={courses} />
-        </Col>
-      </Row>
-    </Row>
+    </Spin>
   );
 };
 

@@ -8,11 +8,12 @@ const GetTemplates: any = (activityId: string, options = { enabled: false }) => 
     [url, activityId],
     async () => await client.get(`${url}/${activityId}/templates`),
     {
+      retry: false,
       ...options,
       select: (data) => data.data
     }
   );
-  const { data, isSuccess, refetch, isLoading } = result;
+  const { data, isSuccess, refetch, isLoading, isFetching } = result;
 
   return {
     ...result,
@@ -20,6 +21,7 @@ const GetTemplates: any = (activityId: string, options = { enabled: false }) => 
     count: data?.count,
     has_more: data?.count,
     isLoading,
+    isFetching,
     refetch
   };
 };

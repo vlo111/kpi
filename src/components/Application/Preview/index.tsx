@@ -2,7 +2,7 @@ import React from 'react';
 import { Divider, Space, Typography } from 'antd';
 import styled from 'styled-components';
 import { Void } from '../../../types/global';
-import { IFontWeight, IPreviewModal } from '../../../types/project';
+import { IFontWeight } from '../../../types/project';
 import { AsnButton } from '../../Forms/Button';
 import { AsnModal } from '../../Forms/Modal';
 import { ModalText } from '../applicationStyle';
@@ -11,6 +11,7 @@ import OtherInformation from './OtherInformation';
 import PersonalDetails from './PersonalDetails/Index';
 import TermsCondition from './TermsCondition';
 import ProfessionalSkills from './ProfessionalSkills/Index';
+import { IPreviewModal } from '../../../types/api/application/applicationForm';
 
 const PreviewModalContent = styled(AsnModal)`
   .ant-modal-content {
@@ -57,21 +58,18 @@ const PreviewModal: React.FC<IPreviewModal> = ({
   questionData,
   isOpenCreateActivityModal,
   setIsOpenCreateActivityModal,
-  createApplicationFn,
-  courseId
+  onPublishClick
 }) => {
   const handleCancel: Void = () => {
     setIsOpenCreateActivityModal(false);
   };
 
-  const onPublishClick: Void = () => {
-    createApplicationFn({
-      id: courseId,
-      data: {
-        ...questionData
-      }
-    });
-  };
+  const conditionsData = JSON.parse(
+    questionData?.termsAndConditions !== undefined
+      ? questionData?.termsAndConditions
+      : '[]'
+  );
+
   return (
     <PreviewModalContent
       footer={false}
@@ -83,47 +81,42 @@ const PreviewModal: React.FC<IPreviewModal> = ({
         <ModalTitle fontWeight={'500'}>Preview of Application form</ModalTitle>
         <ModalTitle>{questionData?.title}</ModalTitle>
         <ModalText>{questionData?.description}</ModalText>
-        <PersonalDetails
-          personalDetailsData={
-            questionData?.applicationFormSections !== undefined
-              ? questionData?.applicationFormSections[0]
-              : {}
-          }
-        />
-        <EducationWork
-          educationWorkData={
-            questionData?.applicationFormSections !== undefined
-              ? questionData?.applicationFormSections[1]
-              : {}
-          }
-        />
-        <OtherInformation
-          otherInformationData={
-            questionData?.applicationFormSections !== undefined
-              ? questionData?.applicationFormSections[2]
-              : {}
-          }
-        />
+        {questionData !== undefined && (
+          <PersonalDetails
+            personalDetailsData={questionData?.applicationFormSections?.[0]}
+          />
+        )}
+        {questionData !== undefined && (
+          <EducationWork
+            educationWorkData={questionData?.applicationFormSections?.[1]}
+          />
+        )}
+        {questionData !== undefined && (
+          <OtherInformation
+            otherInformationData={questionData?.applicationFormSections?.[2]}
+          />
+        )}
         {questionData?.applicationFormSections !== undefined &&
         questionData?.applicationFormSections[3]?.questions?.length > 0
           ? (
           <ProfessionalSkills
-            professionalSkills={
-              questionData?.applicationFormSections !== undefined
-                ? questionData?.applicationFormSections[3]
-                : {}
+            professionalSkills={questionData?.applicationFormSections?.[3]}
+          />
+            )
+          : null}
+        {questionData?.termsAndConditions !== undefined &&
+        conditionsData.length > 0
+          ? (
+          <TermsCondition
+            termsConditionData={
+              questionData?.termsAndConditions !== undefined
+                ? questionData?.termsAndConditions
+                : '[]'
             }
           />
             )
           : null}
-        <TermsCondition
-          termsConditionData={
-            questionData?.termsAndConditions !== undefined
-              ? questionData?.termsAndConditions
-              : '[]'
-          }
-        />
-        {questionData.onlineSignature
+        {questionData?.onlineSignature === true
           ? (
           <Signature>
             <Divider orientation="left" plain>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Space } from 'antd';
+import { Space, message } from 'antd';
 
 import DraggerForm from '../Dragger';
 import FormWrapper from '../../../SubActivityWrapper';
@@ -17,7 +17,8 @@ const CourseStatusForm: React.FC<any> = ({
   statusTitle,
   applicationForm,
   courseStatus,
-  refetch
+  refetch,
+  navigateRouteInfo
 }) => {
   const [fileList, setFileList] = useState<any>([]);
   const [defaultFileList, setDefaultFileList] = useState<any>([]);
@@ -45,7 +46,6 @@ const CourseStatusForm: React.FC<any> = ({
       setActiveKey('1');
     },
     onError: () => {
-      console.log('aaa');
     }
   });
 
@@ -56,8 +56,14 @@ const CourseStatusForm: React.FC<any> = ({
         StartCourse({ id: courseId });
       }
     },
-    onError: () => {
-      console.log('aaa');
+    onError: ({
+      response: {
+        data: { message: error }
+      }
+    }: { response: { data: { message: string } } }) => {
+      setDefaultFileList([]);
+      setFileList([]);
+      return message.error(error, 2);
     }
   });
 
@@ -80,6 +86,7 @@ const CourseStatusForm: React.FC<any> = ({
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 64]}>
       <FormWrapper className="applicant_form" color={color}>
         <CourseHeaderStatus
+          navigateRouteInfo={navigateRouteInfo}
           title={statusTitle}
           courseStatus={courseStatus}
           courseId={courseId}

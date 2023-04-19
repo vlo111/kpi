@@ -81,7 +81,7 @@ const CourseSection: React.FC = () => {
           fontSize: 'var(--headline-font-size)'
         }}
       >
-        <span>Section and learning statuses</span>
+        <span>Phases:  Input course Phases name and choose their learning stauses </span>
       </Space>
       <Space direction="vertical" size={32} style={{ width: '100%' }}>
         {data?.sections?.map((section: ISectionData, index: number) => (
@@ -102,7 +102,7 @@ const CourseSection: React.FC = () => {
           onClick={onAddSection}
           style={{ width: '88%', marginTop: '2rem' }}
         >
-          +Add Section
+          +Add Phase
         </AsnButton>
           )
         : null}

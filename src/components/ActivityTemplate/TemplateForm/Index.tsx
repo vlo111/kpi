@@ -12,12 +12,19 @@ const BottomField = styled.div`
   gap: 1rem;
   margin-top: 0.5rem;
   padding: 1rem 1rem 1rem 2rem;
+  margin-bottom: 1rem;
 
-  .ant-form-item-control-input-content {
+  .ant-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .formInputContainer {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 11px;
+    gap: 11px !important;
     margin-right: 10px;
   }
 
@@ -45,12 +52,12 @@ const DynamicForm: React.FC = () => {
           <>
             <Col
               style={{
-                maxHeight: '13rem',
+                maxHeight: '11rem',
                 overflow: 'auto'
               }}
             >
               {fields.map((field) => (
-                <Form.Item key={field.key}>
+                <div className="formInputContainer" key={field.key}>
                   <Form.Item
                     {...field}
                     validateTrigger={['onChange', 'onBlur']}
@@ -75,7 +82,7 @@ const DynamicForm: React.FC = () => {
                     />
                       )
                     : null}
-                </Form.Item>
+                </div>
               ))}
             </Col>
             <Form.Item>

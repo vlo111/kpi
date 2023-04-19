@@ -122,7 +122,7 @@ const ActivityTemplate: React.FC = () => {
   const [isVisibleAddField, setIsVisibleAddField] = useState<boolean>(false);
   const [questionType, setQuestionType] = useState('');
   const [helpTextValue, setHelpTextValue] = useState<IHelpText[] | []>([]);
-  const [item, setItem] = useState<ICreatedFieldItem | null>(null);
+  const [rowItem, setRowItem] = useState<ICreatedFieldItem | null>(null);
 
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -163,21 +163,35 @@ const ActivityTemplate: React.FC = () => {
 
   const onFinish: FormFinish = (values) => {
     if (templateId != null) {
-      if (item !== null) {
+      if (rowItem !== null) {
         updateTemplateSetting({
-          id: item.id,
+          id: rowItem.setting.id,
           data: {
-            answerType: questionType,
+            answerType:
+              values.answerType === 'Short Text'
+                ? 'SHORT_TEXT'
+                : values.answerType === 'Number'
+                  ? 'NUMBER'
+                  : values.answerType === 'Attachment'
+                    ? 'ATTACHMENT'
+                    : 'DROPDOWN',
             title: values.question,
             data: questionType === 'DROPDOWN' ? [...values.names] : []
           }
         });
-        form.resetFields();
+        form.resetFields(['question', 'answerType', 'names']);
       } else {
         createTemplateSetting({
           id: templateId,
           data: {
-            answerType: questionType,
+            answerType:
+              values.answerType === 'Short Text'
+                ? 'SHORT_TEXT'
+                : values.answerType === 'Number'
+                  ? 'NUMBER'
+                  : values.answerType === 'Attachment'
+                    ? 'ATTACHMENT'
+                    : 'DROPDOWN',
             title: values.question,
             data: questionType === 'DROPDOWN' ? [...values.names] : []
           }
@@ -186,7 +200,8 @@ const ActivityTemplate: React.FC = () => {
     }
     setIsVisibleAddField(false);
     setQuestionType('');
-    form.resetFields();
+    setRowItem(null);
+    form.resetFields(['question', 'answerType', 'names']);
   };
 
   const onNextClick: Void = () => {
@@ -203,8 +218,8 @@ const ActivityTemplate: React.FC = () => {
         createSecondStepTemplateFn({
           id: templateId,
           data: {
-            applicationForm: form.getFieldValue('includeForm'),
-            courseStructure: form.getFieldValue('courseStructure')
+            applicationForm: form.getFieldValue('includeForm') ?? [],
+            courseStructure: form.getFieldValue('courseStructure') ?? 'ONE_SECTION'
           }
         });
       }
@@ -212,57 +227,49 @@ const ActivityTemplate: React.FC = () => {
   };
 
   useEffect(() => {
-    if (item !== null) {
+    if (rowItem !== null) {
       form.setFieldsValue({
-        question: item.title,
+        question: rowItem.setting.title,
         answerType:
-          item.answerType === 'SHORT_TEXT'
+          rowItem.setting.answerType === 'SHORT_TEXT'
             ? 'Short Text'
-            : item.answerType === 'NUMBER'
+            : rowItem.setting.answerType === 'NUMBER'
               ? 'Number'
-              : item.answerType === 'ATTACHMENT'
+              : rowItem.setting.answerType === 'ATTACHMENT'
                 ? 'Attachment'
-                : 'Dropdown options'
+                : 'Dropdown options',
+        names:
+          rowItem.setting.answerType === 'DROPDOWN' ? rowItem.setting.data : []
       });
     }
-  }, [item]);
+  }, [rowItem]);
 
   useEffect(() => {
-    if (data?.courseStructure !== null && data?.applicationForm !== null) {
+    if (data !== undefined) {
       form.setFieldsValue({
-        includeForm: data?.applicationForm,
-        courseStructure: data?.courseStructure
+        includeForm:
+          form.getFieldValue('includeForm') !== undefined
+            ? form.getFieldValue('includeForm')
+            : data?.applicationForm,
+        courseStructure:
+          form.getFieldValue('courseStructure') !== undefined
+            ? form.getFieldValue('courseStructure')
+            : data?.courseStructure === null
+              ? 'ONE_SECTION'
+              : data?.courseStructure
       });
     }
   }, [data]);
 
-  const initFields = [
-    {
-      name: ['names'],
-      value: (item?.data as string[])?.length <= 0 ? [''] : item?.data
-    },
-    {
-      name: ['helpText'],
-      value: ['']
-    },
-    {
-      name: ['courseStructure'],
-      value:
-        form.getFieldValue('courseStructure') === undefined
-          ? 'ONE_SECTION'
-          : form.getFieldValue('courseStructure')
-    }
-  ];
-
   return (
     <ActivityTemplateContainer>
-      <CourseTitle>Course activity template</CourseTitle>
+      <CourseTitle>Activity template</CourseTitle>
       <Form
-        fields={initFields}
         form={form}
         validateMessages={VALIDATE_MESSAGES}
         onFinish={onFinish}
         autoComplete="off"
+        initialValues={{ names: [''] }}
       >
         {data?.courseSettingMap?.map((item: ICreatedFieldItem) => (
           <QuestionsRow
@@ -273,7 +280,7 @@ const ActivityTemplate: React.FC = () => {
             setHelpTextValue={setHelpTextValue}
             helpTextValue={helpTextValue}
             refetch={refetch}
-            setItem={setItem}
+            setItem={setRowItem}
           />
         ))}
         {!isVisibleAddField
@@ -290,9 +297,9 @@ const ActivityTemplate: React.FC = () => {
           <CreateFields
             setIsVisibleAddField={setIsVisibleAddField}
             questionType={questionType}
-            item={item}
+            item={rowItem}
             setQuestionType={setQuestionType}
-            setItem={setItem}
+            setItem={setRowItem}
           />
             )}
         <FormsStructureContainer>
@@ -309,7 +316,7 @@ const ActivityTemplate: React.FC = () => {
             </Col>
             <Col span={24}>
               <Form.Item name="includeForm">
-                <AsnCheckbox.Group>
+                <AsnCheckbox.Group disabled={data?.status === 'PUBLISHED'}>
                   <AsnCheckbox
                     width="2rem"
                     height="2rem"
@@ -357,7 +364,7 @@ const ActivityTemplate: React.FC = () => {
             </Col>
             <Col span={24}>
               <Form.Item name="courseStructure">
-                <Radio.Group>
+                <Radio.Group disabled={data?.status === 'PUBLISHED'}>
                   <Radio
                     value={'ONE_SECTION'}
                     style={{
@@ -365,7 +372,7 @@ const ActivityTemplate: React.FC = () => {
                       color: 'var(--dark-2)'
                     }}
                   >
-                    One Section
+                    One Phase
                   </Radio>
                   <Radio
                     value={'MULTI_SECTION'}
@@ -374,7 +381,7 @@ const ActivityTemplate: React.FC = () => {
                       color: 'var(--dark-2)'
                     }}
                   >
-                    Multi-Section
+                    Multi-Phase
                   </Radio>
                 </Radio.Group>
               </Form.Item>

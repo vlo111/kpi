@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Row, Typography } from 'antd';
 
 import { AsnButton } from '../../../../../Forms/Button';
@@ -7,18 +7,44 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PATHS } from '../../../../../../helpers/constants';
 import { ICourseStatusInfo } from '../../../../../../types/api/activity/subActivity';
 import useStartSubActivityCourse from '../../../../../../api/Activity/SubActivity/useStartSubActivityCourse';
+import {
+  EnumAssessmentFormTypes,
+  IAssessments
+} from '../../../../../../types/api/assessment';
+import { useProject } from '../../../../../../hooks/useProject';
+import CreateAssessmentInfoModal from '../../../../../AssessmentForm/CreateAssessmentInfoModal/AssessmentCreateInfoModal';
+import PreviewAssessmentModal from '../../../../../AssessmentForm/PreviewAssessmentModal';
 
-const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicationForm, courseId, refetchSingleStatus, courseStatus }) => {
+const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({
+  navigateRouteInfo,
+  title,
+  form,
+  applicationForm,
+  courseId,
+  refetchSingleStatus,
+  courseStatus
+}) => {
   const { Title } = Typography;
+  const { projectId } = useProject();
+  const [openModal, setOpenModal] = useState(false);
+  const [openPreviewAssessmentModal, setOpenPreviewAssessmentModal] =
+    useState(false);
+  const [footerButtons, setFooterButtons] = useState<IAssessments | undefined>(
+    undefined
+  );
+  const [enumTypes, setEnumTypes] =
+    useState<EnumAssessmentFormTypes>('PRE_ASSESSMENT');
   const navigate = useNavigate();
   const { id: SubActivityId } = useParams();
 
   const { mutate: StartCourse } = useStartSubActivityCourse({
     onSuccess: () => {
-      navigate(`/${PATHS.APPLICATIONFORM.replace(':id', courseId)}`, { state: { SubActivityId } });
+      navigate(`/${PATHS.APPLICATIONFORM.replace(':id', courseId)}`, {
+        state: { SubActivityId }
+      });
     },
     onError: () => {
-      console.log('aaa');
+      console.log('err');
     }
   });
 
@@ -26,7 +52,20 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
     if (courseId !== undefined && courseStatus === 'INACTIVE') {
       StartCourse({ id: courseId });
     } else {
-      navigate(`/${PATHS.APPLICATIONFORM.replace(':id', courseId)}`, { state: { SubActivityId } });
+      navigate(`/${PATHS.APPLICATIONFORM.replace(':id', courseId)}`, {
+        state: { SubActivityId }
+      });
+    }
+  };
+
+  const createAssessmentForm = (type: EnumAssessmentFormTypes): void => {
+    if (type === 'APPLICATION') {
+      navigate(`/${PATHS.APPLICATIONFORM.replace(':id', courseId)}`, {
+        state: { SubActivityId }
+      });
+    } else {
+      setEnumTypes(type);
+      setOpenModal(true);
     }
   };
 
@@ -44,7 +83,11 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
                 {applicationForm.includes('APPLICATION') && (
                   <>
                     <Row justify="center" style={{ width: '100%' }}>
-                      <AsnButton className="primary" type="primary" onClick={publicCourse}>
+                      <AsnButton
+                        className="primary"
+                        type="primary"
+                        onClick={publicCourse}
+                      >
                         Publish Application form
                       </AsnButton>
                     </Row>
@@ -59,7 +102,14 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
               </>
                 )
               : (
-              <ApplicationFormItem form={form} refetchSingleStatus={refetchSingleStatus} />
+              <ApplicationFormItem
+                createAssessmentForm={createAssessmentForm}
+                formType="APPLICATION"
+                form={form}
+                courseId={courseId}
+                refetchSingleStatus={refetchSingleStatus}
+                navigateRouteInfo={navigateRouteInfo}
+              />
                 )}
           </>
         );
@@ -81,7 +131,11 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
                 {applicationForm.includes('ASSESSMENT') && (
                   <>
                     <Row justify="center" style={{ width: '100%' }}>
-                      <AsnButton className="primary" type="primary">
+                      <AsnButton
+                        className="primary"
+                        type="primary"
+                        onClick={() => createAssessmentForm('PRE_ASSESSMENT')}
+                      >
                         Publish Pre-assessment form
                       </AsnButton>
                     </Row>
@@ -96,7 +150,14 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
               </>
                 )
               : (
-              <ApplicationFormItem form={form} refetchSingleStatus={refetchSingleStatus} />
+              <ApplicationFormItem
+                createAssessmentForm={createAssessmentForm}
+                formType="PRE_ASSESSMENT"
+                form={form}
+                navigateRouteInfo={navigateRouteInfo}
+                courseId={courseId}
+                refetchSingleStatus={refetchSingleStatus}
+              />
                 )}
           </>
         );
@@ -118,7 +179,11 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
                 {applicationForm.includes('ASSESSMENT') && (
                   <>
                     <Row justify="center" style={{ width: '100%' }}>
-                      <AsnButton className="primary" type="primary">
+                      <AsnButton
+                        className="primary"
+                        type="primary"
+                        onClick={() => createAssessmentForm('POST_ASSESSMENT')}
+                      >
                         Publish Post-assessment form
                       </AsnButton>
                     </Row>
@@ -133,7 +198,14 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
               </>
                 )
               : (
-              <ApplicationFormItem form={form} refetchSingleStatus={refetchSingleStatus} />
+              <ApplicationFormItem
+                createAssessmentForm={createAssessmentForm}
+                navigateRouteInfo={navigateRouteInfo}
+                courseId={courseId}
+                formType="POST_ASSESSMENT"
+                form={form}
+                refetchSingleStatus={refetchSingleStatus}
+              />
                 )}
           </>
         );
@@ -147,7 +219,34 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({ title, form, applicat
         return null;
     }
   };
-  return <>{renderCurrentSelectionTitle()}</>;
+  return (
+    <>
+      {renderCurrentSelectionTitle()}
+      {openModal && (
+        <CreateAssessmentInfoModal
+          navigateRouteInfo={navigateRouteInfo}
+          courseId={courseId}
+          type={enumTypes}
+          projectId={projectId}
+          open={openModal}
+          setOpen={setOpenModal}
+          setOpenPreviewAssessmentModal={setOpenPreviewAssessmentModal}
+          footerButtons={footerButtons}
+          setFooterButtons={setFooterButtons}
+        />
+      )}
+      <PreviewAssessmentModal
+        openPreviewAssessmentModal={openPreviewAssessmentModal}
+        setOpenPreviewAssessmentModal={setOpenPreviewAssessmentModal}
+        setOpenModal={setOpenModal}
+        footerButtons={footerButtons}
+        courseId={courseId}
+        navigateRouteInfo={navigateRouteInfo}
+        type={enumTypes}
+        projectId={projectId}
+      />
+    </>
+  );
 };
 
 export default CourseHeaderStatus;

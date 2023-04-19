@@ -1,6 +1,6 @@
 import { Typography } from 'antd';
 import styled from 'styled-components';
-import { ICardContainer } from '../../types/project';
+import { ICardContainer } from '../../types/api/application/applicationForm';
 import { AsnButton } from '../Forms/Button';
 import { AsnInput, AsnTextArea } from '../Forms/Input';
 
@@ -73,9 +73,7 @@ export const DetailsContainer = styled.div`
       background-color: var(--dark-border-ultramarine);
     }
   }
-  .ant-radio-group {
-    margin-top: 1rem;
-  }
+
 `;
 
 export const DividerLine = styled.span`
@@ -97,5 +95,12 @@ export const DividerLine = styled.span`
   }
   .ant-divider-horizontal {
     margin: 0px;
+    width: 50vw;
   }
+`;
+
+export const ValidateMessage = styled.span`
+font-size: var(--font-normal);
+color: var(--error);
+margin: 4px 0px 1rem !important;
 `;

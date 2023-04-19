@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Space, Typography } from 'antd';
 import { CardContainer } from '../applicationStyle';
 import styled from 'styled-components';
@@ -9,8 +9,11 @@ import { AsnSelect } from '../../Forms/Select';
 import { AsnForm } from '../../Forms/Form';
 import { AsnSwitch } from '../../Forms/Switch';
 import { FormFinish, Void } from '../../../types/global';
-import { IAddQuestionCard } from '../../../types/project';
 import { answerType } from '../../../helpers/constants';
+import {
+  IAddQuestionCard,
+  IAnswer
+} from '../../../types/api/application/applicationForm';
 
 const { Option } = AsnSelect;
 
@@ -57,19 +60,17 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
   setIsQuestionCardVisible,
   isQuestionCardVisible,
   cardId,
-  applicationData,
-  setApplicationData,
   answerTypeValue,
   setAnswerTypeValue,
   singleQuestionData,
-  setSingleQuestionData,
-  addOrUpdateQuestion,
-  questionRowIndex
+  setSingleQuestionData
 }) => {
-  const [form] = AsnForm.useForm();
+  const form = AsnForm.useFormInstance();
+  const [bool, setBool] = useState(false);
 
   const onAnswerTypeChange: FormFinish = (value) => {
     setAnswerTypeValue(value);
+    form.resetFields(['question', 'names', 'requiredFiled', 'otherOption']);
   };
 
   useEffect(() => {
@@ -82,7 +83,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
         otherOption:
           Object.keys(singleQuestionData).length > 0
             ? singleQuestionData?.otherOption
-            : true,
+            : false,
         question:
           Object.keys(singleQuestionData).length > 0
             ? singleQuestionData?.title
@@ -93,241 +94,14 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
             : answerTypeValue,
         names:
           Object.keys(singleQuestionData).length > 0
-            ? singleQuestionData?.answers?.map((answer: any) => answer.title)
+            ? singleQuestionData?.answers?.map(
+              (answer: IAnswer) => answer.title
+            )
             : ['', '']
       });
+      setBool(true);
     }
-  }, [singleQuestionData]);
-
-  const onFinishedForm: FormFinish = (value) => {
-    if (addOrUpdateQuestion === 'add') {
-      if (cardId === 'personal_info') {
-        applicationData?.applicationFormSections[0].questions?.push({
-          relatedQuestions: [],
-          answerType: answerTypeValue,
-          title: value.question,
-          answers:
-            value.names !== undefined && value.answerTypeName !== 'YES_NO'
-              ? value.names.map((item: string) => {
-                return {
-                  title: item,
-                  type: answerTypeValue
-                };
-              })
-              : value.answerTypeName === 'YES_NO'
-                ? [
-                    { type: 'OPTION', title: 'Yes/Այո' },
-                    { type: 'OPTION', title: 'No/Ոչ' }
-                  ]
-                : [],
-          editable: true,
-          otherOption:
-            value.otherOption !== undefined ? value.otherOption : false,
-          required: value.requiredFiled !== undefined ? value.requiredFiled : true,
-          active: true
-        });
-      } else if (cardId === 'educational_info') {
-        applicationData?.applicationFormSections[1].questions?.push({
-          relatedQuestions: [],
-          answerType: answerTypeValue,
-          title: value.question,
-          answers:
-            value.names !== undefined && value.answerTypeName !== 'YES_NO'
-              ? value.names.map((item: string) => {
-                return {
-                  title: item,
-                  type: answerTypeValue
-                };
-              })
-              : value.answerTypeName === 'YES_NO'
-                ? [
-                    { type: 'OPTION', title: 'Yes/Այո' },
-                    { type: 'OPTION', title: 'No/Ոչ' }
-                  ]
-                : [],
-          editable: true,
-          otherOption:
-            value.otherOption !== undefined ? value.otherOption : false,
-          required: value.requiredFiled !== undefined ? value.requiredFiled : true,
-          active: true
-        });
-      } else if (cardId === 'other_info') {
-        applicationData?.applicationFormSections[2].questions?.push({
-          relatedQuestions: [],
-          answerType: answerTypeValue,
-          title: value.question,
-          answers:
-            value.names !== undefined && value.answerTypeName !== 'YES_NO'
-              ? value.names.map((item: string) => {
-                return {
-                  title: item,
-                  type: answerTypeValue
-                };
-              })
-              : value.answerTypeName === 'YES_NO'
-                ? [
-                    { type: 'OPTION', title: 'Yes/Այո' },
-                    { type: 'OPTION', title: 'No/Ոչ' }
-                  ]
-                : [],
-          editable: true,
-          otherOption:
-            value.otherOption !== undefined ? value.otherOption : false,
-          required: value.requiredFiled !== undefined ? value.requiredFiled : true,
-          active: true
-        });
-      } else {
-        applicationData?.applicationFormSections[3].questions?.push({
-          relatedQuestions: [],
-          answerType: answerTypeValue,
-          title: value.question,
-          answers:
-            value.names !== undefined && value.answerTypeName !== 'YES_NO'
-              ? value.names.map((item: string) => {
-                return {
-                  title: item,
-                  type: answerTypeValue
-                };
-              })
-              : value.answerTypeName === 'YES_NO'
-                ? [
-                    { type: 'OPTION', title: 'Yes/Այո' },
-                    { type: 'OPTION', title: 'No/Ոչ' }
-                  ]
-                : [],
-          editable: true,
-          otherOption:
-            value.otherOption !== undefined ? value.otherOption : false,
-          required: value.requiredFiled !== undefined ? value.requiredFiled : true,
-          active: true
-        });
-      }
-    } else if (addOrUpdateQuestion === 'edit') {
-      if (cardId === 'personal_info') {
-        applicationData?.applicationFormSections[0].questions?.splice(
-          questionRowIndex,
-          1,
-          {
-            relatedQuestions: [],
-            answerType: answerTypeValue,
-            title: value.question,
-            answers:
-              value.names !== undefined && value.answerTypeName !== 'YES_NO'
-                ? value.names.map((item: string) => {
-                  return {
-                    title: item,
-                    type: answerTypeValue
-                  };
-                })
-                : value.answerTypeName === 'YES_NO'
-                  ? [
-                      { type: 'OPTION', title: 'Yes/Այո' },
-                      { type: 'OPTION', title: 'No/Ոչ' }
-                    ]
-                  : [],
-            editable: true,
-            otherOption:
-              value.otherOption !== undefined ? value.otherOption : false,
-            required: value.requiredFiled !== undefined ? value.requiredFiled : true,
-            active: true
-          }
-        );
-      } else if (cardId === 'educational_info') {
-        applicationData?.applicationFormSections[1].questions?.splice(
-          questionRowIndex,
-          1,
-          {
-            relatedQuestions: [],
-            answerType: answerTypeValue,
-            title: value.question,
-            answers:
-              value.names !== undefined && value.answerTypeName !== 'YES_NO'
-                ? value.names.map((item: string) => {
-                  return {
-                    title: item,
-                    type: answerTypeValue
-                  };
-                })
-                : value.answerTypeName === 'YES_NO'
-                  ? [
-                      { type: 'OPTION', title: 'Yes/Այո' },
-                      { type: 'OPTION', title: 'No/Ոչ' }
-                    ]
-                  : [],
-            editable: true,
-            otherOption:
-              value.otherOption !== undefined ? value.otherOption : false,
-            required: value.requiredFiled !== undefined ? value.requiredFiled : true,
-            active: true
-          }
-        );
-      } else if (cardId === 'other_info') {
-        applicationData?.applicationFormSections[2].questions?.splice(
-          questionRowIndex,
-          1,
-          {
-            relatedQuestions: [],
-            answerType: answerTypeValue,
-            title: value.question,
-            answers:
-              value.names !== undefined && value.answerTypeName !== 'YES_NO'
-                ? value.names.map((item: string) => {
-                  return {
-                    title: item,
-                    type: answerTypeValue
-                  };
-                })
-                : value.answerTypeName === 'YES_NO'
-                  ? [
-                      { type: 'OPTION', title: 'Yes/Այո' },
-                      { type: 'OPTION', title: 'No/Ոչ' }
-                    ]
-                  : [],
-            editable: true,
-            otherOption:
-              value.otherOption !== undefined ? value.otherOption : false,
-            required: value.requiredFiled !== undefined ? value.requiredFiled : true,
-            active: true
-          }
-        );
-      } else {
-        applicationData?.applicationFormSections[3].questions?.splice(
-          questionRowIndex,
-          1,
-          {
-            relatedQuestions: [],
-            answerType: answerTypeValue,
-            title: value.question,
-            answers:
-              value.names !== undefined && value.answerTypeName !== 'YES_NO'
-                ? value.names.map((item: string) => {
-                  return {
-                    title: item,
-                    type: answerTypeValue
-                  };
-                })
-                : value.answerTypeName === 'YES_NO'
-                  ? [
-                      { type: 'OPTION', title: 'Yes/Այո' },
-                      { type: 'OPTION', title: 'No/Ոչ' }
-                    ]
-                  : [],
-            editable: true,
-            otherOption:
-              value.otherOption !== undefined ? value.otherOption : false,
-            required: value.requiredFiled !== undefined ? value.requiredFiled : true,
-            active: true
-          }
-        );
-      }
-    }
-    setApplicationData({ ...applicationData });
-    form.resetFields();
-    setIsQuestionCardVisible(
-      isQuestionCardVisible.filter((itemId) => itemId !== cardId)
-    );
-    setAnswerTypeValue('OPTION');
-  };
+  }, [singleQuestionData, bool, setBool]);
 
   const onCancelAddQuestion: Void = () => {
     setIsQuestionCardVisible(
@@ -335,17 +109,10 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
     );
     form.resetFields();
     setAnswerTypeValue('OPTION');
-    setSingleQuestionData({});
+    setSingleQuestionData(undefined);
   };
 
   return (
-    <AsnForm
-      form={form}
-      initialValues={{ names: ['', ''] }}
-      autoComplete="off"
-      onFinish={onFinishedForm}
-      name="addQuestion"
-    >
       <CardContainer
         borderTop={'3px solid var(--secondary-green)'}
         marginTop={'1rem'}
@@ -410,7 +177,12 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
           <SwitchContainer>
             <span>Required</span>
             <AsnForm.Item name="requiredFiled" valuePropName="checked">
-              <AsnSwitch defaultChecked={true} />
+              <AsnSwitch
+                defaultChecked={true}
+                disabled={
+                  answerTypeValue === 'OPTION' || answerTypeValue === 'YES_NO'
+                }
+              />
             </AsnForm.Item>
           </SwitchContainer>
           {answerTypeValue === 'CHECKBOX' || answerTypeValue === 'OPTION'
@@ -418,7 +190,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
             <SwitchContainer>
               <span>{'"Other" option'}</span>
               <AsnForm.Item name="otherOption" valuePropName="checked">
-                <AsnSwitch defaultChecked={true} />
+                <AsnSwitch />
               </AsnForm.Item>
             </SwitchContainer>
               )
@@ -426,7 +198,7 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
         </AnswerTypeSpace>
         {answerTypeValue === 'CHECKBOX' || answerTypeValue === 'OPTION'
           ? (
-          <DynamicQuestionForm />
+          <DynamicQuestionForm/>
             )
           : null}
         <Space
@@ -456,7 +228,6 @@ const AddQuestionCard: React.FC<IAddQuestionCard> = ({
               )}
         </Space>
       </CardContainer>
-    </AsnForm>
   );
 };
 

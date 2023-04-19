@@ -8,10 +8,10 @@ const { Text } = Typography;
 
 const AntRow = styled(Row)`
   padding: 8px 16px;
-  width: 16vw !important;
+  width: ${(props) => props?.className === 'subActivty' ? '16vw !important' : '16vw'};
 `;
 
-const ResultAreasTitles: React.FC<IResultAreasTitles> = ({ title, projectItems, index, active, setActive }) => {
+const ResultAreasTitles: React.FC<IResultAreasTitles> = ({ title, projectItems, index, active, setActive, name }) => {
   const AntBadge = styled(Badge)`
     margin-right: 4px;
     .ant-badge-count {
@@ -23,6 +23,7 @@ const ResultAreasTitles: React.FC<IResultAreasTitles> = ({ title, projectItems, 
       border-radius: 100%;
     }
   `;
+
   return (
         <Tooltip
             title={title}
@@ -36,7 +37,8 @@ const ResultAreasTitles: React.FC<IResultAreasTitles> = ({ title, projectItems, 
                 wrap={false}
                 align="middle"
                 onClick={() => setActive(+index + 1)}
-                style={projectItems > 3 ? { width: '70px' } : {}}
+                style={projectItems > 3 && name !== 'subActivty' ? { width: '70px' } : {}}
+                className={name}
             >
                 <AntBadge count={+index + 1} />
                 {projectItems <= 4 && (

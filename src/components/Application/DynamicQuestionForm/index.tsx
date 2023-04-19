@@ -18,7 +18,7 @@ const BottomField = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 11px;
+    gap: 6px;
   }
 
   .ant-input {
@@ -44,9 +44,20 @@ const BottomField = styled.div`
   .ant-form-item {
     margin: 0 0 8px !important;
   }
+
+  .deletedInput {
+    display: flex;
+    width: 26px;
+  }
 `;
 
 const DynamicQuestionForm: React.FC = () => {
+  const form = AsnForm.useFormInstance();
+
+  const other: () => boolean = () => Boolean(answers.includes('Other/Այլ'));
+
+  const answers = AsnForm.useWatch('names', form);
+
   return (
     <BottomField>
       <AsnForm.List name="names">
@@ -75,21 +86,33 @@ const DynamicQuestionForm: React.FC = () => {
                     ]}
                     noStyle
                   >
-                    <AsnInput placeholder="Add option" />
+                    <AsnInput
+                      placeholder="Add option"
+                      disabled={answers?.[field?.name] === 'Other/Այլ'}
+                    />
                   </AsnForm.Item>
-                  {fields.length > 2
+                  {answers?.length === 3 && other()
                     ? (
+                        fields.length > 3
+                      )
+                    : fields.length > 2 &&
+                    answers[field.name] !== 'Other/Այլ'
+                      ? (
                     <DeleteIcon
                       className="dynamic-delete-button"
                       onClick={() => remove(field.name)}
                     />
-                      )
-                    : null}
+                        )
+                      : (
+                    <div className="deletedInput"></div>
+                        )}
                 </AsnForm.Item>
               ))}
             </Col>
             <AsnForm.Item>
-              <AsnButton className='default' onClick={() => add()}>+Add options</AsnButton>
+              <AsnButton className="default" onClick={() => add()}>
+                +Add options
+              </AsnButton>
               <AsnForm.ErrorList errors={errors} />
             </AsnForm.Item>
           </>

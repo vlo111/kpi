@@ -7,8 +7,7 @@ import { AsnForm } from '../../components/Forms/Form';
 import useGetResultArea from '../../api/ResultArea/useGetResultArea';
 import useCreateResultArea from '../../api/ResultArea/useCreateResultArea';
 import {
-  IStepsUpdate,
-  ProjectErrorResponse
+  IStepsUpdate
 } from '../../types/project';
 import useUpdateResultArea from '../../api/ResultArea/useUpdateResultArea';
 import { PATHS } from '../../helpers/constants';
@@ -16,6 +15,7 @@ import AsnSpin from '../../components/Forms/Spin1';
 import { IUseGetResultArea } from '../../types/api/project/get-project';
 import { validateResultArea } from '../../helpers/utils';
 import { InputResultArea } from '../../components/Project/ResultArea';
+import { message } from 'antd';
 
 const ProjectInputForm = styled(AsnForm)`
   width: clamp(19rem, 73vw, 90rem);
@@ -142,18 +142,26 @@ export const ResultArea: React.FC<IStepsUpdate> = ({ isUpdate }) => {
     }
   };
 
-  const onError: ProjectErrorResponse = ({ response }) => {
-    console.log('error', response);
-  };
-
   const { mutate: createResultArea } = useCreateResultArea({
     onSuccess,
-    onError
+    onError: (e: {
+      response: {
+        data: { message: string }
+      }
+    }) => {
+      void message.error(e.response.data.message);
+    }
   });
 
   const { mutate: updateResultArea } = useUpdateResultArea({
     onSuccess,
-    onError
+    onError: (e: {
+      response: {
+        data: { message: string }
+      }
+    }) => {
+      void message.error(e.response.data.message);
+    }
   });
 
   const onFinish: Void = () => {

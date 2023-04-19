@@ -36,16 +36,37 @@ export const AsnCardSubActivity = styled(Card)`
   }
   .cardInactive {
     background: var(--dark-5);
-    border-top: 2px solid var(--dark-5);
+    border-top: 2px solid var(--dark-5) !important;
     box-shadow: 0px 4px 4px rgba(104, 163, 149, 0.2);
   }
   .cardActive {
     background: rgba(104, 163, 149, 0.05);
-    border-top: 2px solid var(--secondary-green);
+    border-top: 2px solid var(--secondary-green) !important;
+    border: 2px solid var(--secondary-green) !important;
     box-shadow: 0px 4px 4px rgba(104, 163, 149, 0.2);
+    ::before {
+      position: absolute;
+      left: 51px;
+      content: "🗸";
+      z-index: 2;
+      top: -19px;
+      color: var(--secondary-green);
+      font-size: 25px;
+    }
   }
   .cardRoundInactive {
     border: 2px solid var(--dark-5);
+  }
+  .carDone {
+    ::before {
+      position: absolute;
+      left: 55px;
+      content: "...";
+      z-index: 2;
+      top: -22px;
+      color: var(--secondary-light-orage);
+      font-size: 20px;
+    }
   }
   .active {
     border: 2px solid var(--secondary-green);
@@ -59,5 +80,8 @@ export const AsnCardSubActivity = styled(Card)`
   }
   .ant-select:not(.ant-select-customize-input) .ant-select-selector {
     border: none !important;
+  }
+  .cardDone {
+    border: 2px solid #68a395 !important;
   }
 `;

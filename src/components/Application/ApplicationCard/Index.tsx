@@ -4,13 +4,20 @@ import {
   CardContainer,
   CardTitle,
   CustomButton,
-  CustomInput
+  CustomInput,
+  ValidateMessage
 } from '../applicationStyle';
 import AddQuestionCard from '../AddQuestion/Index';
-import { IApplicationCard, IContent } from '../../../types/project';
 import QuestionRowContainer from '../QuestionRow/Index';
 import { FormFinish, StringVoidType } from '../../../types/global';
 import { InputRef } from 'antd';
+import {
+  IApplicationCard,
+  IQuestion
+} from '../../../types/api/application/applicationForm';
+import { addDescription, addQuestion, updateQuestion } from '../../../helpers/questionList';
+import { v4 as uuidv4 } from 'uuid';
+import { AsnForm } from '../../Forms/Form';
 
 const ApplicationCard: React.FC<IApplicationCard> = ({
   title,
@@ -18,40 +25,44 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
   isQuestionCardVisible,
   setIsQuestionCardVisible,
   cardId,
+  description,
   applicationData,
-  setApplicationData
+  setApplicationData,
+  validateTitle,
+  setValidateTitle
 }) => {
+  const [form] = AsnForm.useForm();
   const [cardTitle, setCardTitle] = useState(title);
   const [answerTypeValue, setAnswerTypeValue] = useState('OPTION');
   const [addOrUpdateQuestion, setAddOrUpdateQuestion] = useState<string>('add');
-  const [questionRowIndex, setQuestionRowIndex] = useState<
-  number | undefined
-  >();
-  const [singleQuestionData, setSingleQuestionData] = useState<
-  IContent | undefined | {}
-  >();
+  const [questionRowIndex, setQuestionRowIndex] = useState<number>(0);
+  const [singleQuestionData, setSingleQuestionData] = useState<IQuestion>();
   const descriptionRef = useRef<InputRef>(null);
 
   const onAddDescription: FormFinish = (event) => {
-    if (event.key === 'Enter') {
-      if (cardId === 'personal_info') {
-        applicationData.applicationFormSections[0].description =
-          descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
-      } else if (cardId === 'educational_info') {
-        applicationData.applicationFormSections[1].description =
-          descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
-      } else if (cardId === 'other_info') {
-        applicationData.applicationFormSections[2].description =
-          descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
-      } else {
-        applicationData.applicationFormSections[3].description =
-          descriptionRef !== null ? descriptionRef?.current?.input?.value : '';
-      }
+    if (cardId === 'personal_info') {
+      addDescription(applicationData, 0, descriptionRef);
+    } else if (cardId === 'educational_info') {
+      addDescription(applicationData, 1, descriptionRef);
+    } else if (cardId === 'other_info') {
+      addDescription(applicationData, 2, descriptionRef);
+    } else {
+      addDescription(applicationData, 3, descriptionRef);
     }
   };
 
-  const onSaveTitle: StringVoidType = (title: string) => {
+  const onSaveTitle: StringVoidType = (title) => {
     setCardTitle(title);
+    if (title.length < 1) {
+      if (validateTitle === undefined) {
+        setValidateTitle([cardId]);
+      } else {
+        setValidateTitle([...validateTitle, cardId]);
+      }
+    } else {
+      setValidateTitle(validateTitle?.filter((title) => title !== cardId));
+    }
+
     if (cardId === 'personal_info') {
       applicationData.applicationFormSections[0].title = title;
     } else if (cardId === 'educational_info') {
@@ -61,6 +72,62 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
     } else {
       applicationData.applicationFormSections[3].title = title;
     }
+  };
+
+  const onFinishedForm: FormFinish = (value) => {
+    const applicationDataClone = JSON.parse(JSON.stringify(applicationData));
+    if (addOrUpdateQuestion === 'add') {
+      if (cardId === 'personal_info') {
+        addQuestion(value, 0, applicationDataClone, answerTypeValue);
+      } else if (cardId === 'educational_info') {
+        addQuestion(value, 1, applicationDataClone, answerTypeValue);
+      } else if (cardId === 'other_info') {
+        addQuestion(value, 2, applicationDataClone, answerTypeValue);
+      } else {
+        addQuestion(value, 3, applicationDataClone, answerTypeValue);
+      }
+    } else if (addOrUpdateQuestion === 'edit') {
+      if (cardId === 'personal_info') {
+        updateQuestion(
+          value,
+          0,
+          applicationDataClone,
+          questionRowIndex,
+          answerTypeValue
+        );
+      } else if (cardId === 'educational_info') {
+        updateQuestion(
+          value,
+          1,
+          applicationDataClone,
+          questionRowIndex,
+          answerTypeValue
+        );
+      } else if (cardId === 'other_info') {
+        updateQuestion(
+          value,
+          2,
+          applicationDataClone,
+          questionRowIndex,
+          answerTypeValue
+        );
+      } else {
+        updateQuestion(
+          value,
+          3,
+          applicationDataClone,
+          questionRowIndex,
+          answerTypeValue
+        );
+      }
+    }
+    form.resetFields();
+    setApplicationData({ ...applicationDataClone });
+    setIsQuestionCardVisible(
+      isQuestionCardVisible.filter((itemId) => itemId !== cardId)
+    );
+    setAnswerTypeValue('OPTION');
+    setSingleQuestionData(undefined);
   };
 
   return (
@@ -78,18 +145,36 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
       >
         {cardTitle}
       </CardTitle>
+      {validateTitle?.includes(cardId) ?? false
+        ? (
+        <ValidateMessage
+          style={{
+            marginBottom: '5px'
+          }}
+        >
+          Please fill in at least one chart in the field.
+        </ValidateMessage>
+          )
+        : null}
       <CustomInput
         placeholder="Add description"
         ref={descriptionRef}
-        onKeyDown={onAddDescription}
+        defaultValue={description}
+        onBlur={onAddDescription}
       />
+      <AsnForm
+          form={form}
+          initialValues={{ names: ['', ''] }}
+          autoComplete="off"
+          onFinish={onFinishedForm}
+          name="addQuestion"
+        >
       {content.length > 0
         ? (
         <>
-          {content.map((item: IContent, index: number) => (
-            <Fragment key={index}>
+          {content.map((item: IQuestion, index: number) => (
+            <Fragment key={item.id !== undefined ? item.id : uuidv4()}>
               <QuestionRowContainer
-                key={index}
                 question={item}
                 index={index}
                 content={content}
@@ -104,9 +189,9 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
                 setQuestionRowIndex={setQuestionRowIndex}
               />
               {item.answerType === 'YES_NO' && item.relatedQuestions.length > 0
-                ? item.relatedQuestions.map((item: IContent, index: number) => (
+                ? item.relatedQuestions.map((item, index) => (
                     <QuestionRowContainer
-                      key={index}
+                      key={item.id !== undefined ? item.id : uuidv4()}
                       question={item}
                       index={index}
                       content={content}
@@ -129,19 +214,15 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
         : null}
       {isQuestionCardVisible.includes(cardId)
         ? (
-        <AddQuestionCard
-          setIsQuestionCardVisible={setIsQuestionCardVisible}
-          isQuestionCardVisible={isQuestionCardVisible}
-          cardId={cardId}
-          applicationData={applicationData}
-          setApplicationData={setApplicationData}
-          answerTypeValue={answerTypeValue}
-          setAnswerTypeValue={setAnswerTypeValue}
-          singleQuestionData={singleQuestionData}
-          setSingleQuestionData={setSingleQuestionData}
-          addOrUpdateQuestion={addOrUpdateQuestion}
-          questionRowIndex={questionRowIndex}
-        />
+          <AddQuestionCard
+            setIsQuestionCardVisible={setIsQuestionCardVisible}
+            isQuestionCardVisible={isQuestionCardVisible}
+            cardId={cardId}
+            answerTypeValue={answerTypeValue}
+            setAnswerTypeValue={setAnswerTypeValue}
+            singleQuestionData={singleQuestionData}
+            setSingleQuestionData={setSingleQuestionData}
+          />
           )
         : (
         <CustomButton
@@ -154,6 +235,8 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
           +Add question
         </CustomButton>
           )}
+      </AsnForm>
+
     </CardContainer>
   );
 };

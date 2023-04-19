@@ -1,7 +1,6 @@
 import React from 'react';
-import Dragger from 'antd/lib/upload/Dragger';
 import styled from 'styled-components';
-import { Col, Typography, UploadProps } from 'antd';
+import { Col, Typography, UploadProps, Upload } from 'antd';
 
 import { ReactComponent as UploadDocument } from '../../../SubActivityIcons/upload-docs.svg';
 import { ReactComponent as LinkIcon } from '../../../SubActivityIcons/link.svg';
@@ -9,18 +8,24 @@ import { IDraggerProps } from '../../../../../../types/api/activity/subActivity'
 import useFileUpload from '../../../../../../api/Activity/SubActivity/useUploadFile';
 import useDeleteFile from '../../../../../../api/Files/useDeleteFile';
 
+const { Dragger } = Upload;
+
 const AsnDragger = styled(Dragger)`
   background: transparent !important;
   border: 1px dashed var(--dark-border-ultramarine) !important;
   border-radius: 4px;
   .ant-upload {
-    padding: 2.4vh 0;
+    padding: ${(props) =>
+      props.id === 'subActivity' ? '6px 0 !important' : '2.4vh 0'};
   }
   &:hover {
     border: 1px dashed var(--dark-border-ultramarine);
   }
   h4.ant-typography {
-    font-size: var(--headline-font-size) !important;
+    font-size: ${(props) =>
+      props.id === 'subActivity'
+        ? 'var(--base-font-size)'
+        : 'var(--headline-font-size) !important'};
     color: var(--dark-border-ultramarine) !important;
   }
   svg {
@@ -31,7 +36,7 @@ const AsnDragger = styled(Dragger)`
   }
 `;
 
-const AsnDragger2 = styled(Dragger)`
+export const AsnDragger2 = styled(Dragger)`
   background: transparent !important;
   border: none !important;
   text-align: start !important;
@@ -57,7 +62,8 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   fileList,
   docType,
   setReqDocs,
-  keyName
+  keyName,
+  name
 }) => {
   const { Title } = Typography;
   const { mutate: UploadDoc } = useFileUpload();
@@ -66,8 +72,8 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   const handleChange: UploadProps['onChange'] = (info) => {
     const newFileList = [...info.fileList];
     setDefaultFileList(newFileList);
-    console.log(info.fileList);
   };
+
   const props: UploadProps = {
     customRequest: (options: any) => {
       const { file, onSuccess, onError: errorStatus } = options;
@@ -83,7 +89,10 @@ const DraggerForm: React.FC<IDraggerProps> = ({
               { url: result[0], id: file.uid }
             ]);
             if (docType === 'GENERAL_DOCUMENT') {
-              setFileList([{ url: result[0], id: file.uid }]);
+              setFileList((prevState: any) => [
+                ...prevState,
+                { url: result[0], id: file.uid }
+              ]);
             }
             if (docType === 'REQUIRED_DOCUMENT') {
               setReqDocs((prevState: any) => [
@@ -102,18 +111,14 @@ const DraggerForm: React.FC<IDraggerProps> = ({
         DeleteFile(file.fileName);
       }
       const newFileList = fileList.filter(
-        (item: { id: string }) => item.id !== file.uid
+        (item: { id: string }) => item.id === file.uid
       );
       setFileList([...newFileList]);
-      setDefaultFileList((prevState: any) => [
-        ...prevState,
-        defaultFileList.filter((d: any) => d.uid !== file.uid)
-      ]);
     },
     onChange: handleChange,
     name: 'file',
     disabled,
-    accept: '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx'
+    accept: '.doc,.docx,.pdf,.gif,.mp4,.avi,.flv,.ogv,.xlsx,.png,.jpeg'
   };
 
   return (
@@ -124,6 +129,7 @@ const DraggerForm: React.FC<IDraggerProps> = ({
           {...props}
           fileList={defaultFileList}
           style={{ width: '100%', height: 'inherit' }}
+          id={name}
         >
           <UploadDocument />
           <Title level={4}>{text}</Title>
@@ -143,4 +149,4 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   );
 };
 
-export default DraggerForm;
+export default React.memo(DraggerForm);

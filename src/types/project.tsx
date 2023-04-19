@@ -3,6 +3,7 @@ import { Moment } from 'moment';
 import { FormListFieldData } from 'antd';
 import { Void } from './global';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import { AssignedUserType } from './api/activity/subActivity';
 
 export interface ICreateTemplate {
   isOpenCreateActivityModal: boolean
@@ -60,10 +61,7 @@ export interface ProjectInputBoxProps {
   list: FormListFieldData[]
   add: (defaultValue?: any, insertIndex?: number | undefined) => void
   remove: (index: number | number[]) => void
-  onDelete: (
-    remove: (index: number | number[]) => void,
-    field: number,
-  ) => void
+  onDelete: (remove: (index: number | number[]) => void, field: number) => void
 }
 
 export interface IResultBox {
@@ -91,6 +89,7 @@ export interface IResultAreas {
   title: string
   id: string
   inputActivities: IInputActivities[]
+  order: number
 }
 export interface IProjectDetailsData {
   id: string
@@ -108,9 +107,14 @@ export interface IProjectDetails {
 }
 
 export interface IProjectDetailsItems {
+  regions?: string[]
   title: string
   name: string
-  onDelete: (remove: (name: string) => void, fields: string, title: string) => void
+  onDelete: (
+    remove: (name: string) => void,
+    fields: string,
+    title: string
+  ) => void
 }
 
 export interface IProjectModalDelete {
@@ -130,16 +134,23 @@ export type OnDeleteBoxHandler = (
   field: number,
   title: string,
   activityName?: number
-) => void
+) => void;
 
 export type OnDeleteExpectedHandler = (
   remove: (index: number | number[]) => void,
   field: number
-) => void
+) => void;
 
-export type ProjectDetailsDelete = (remove: (name: string) => void, fields: string, title: string) => void
+export type ProjectDetailsDelete = (
+  remove: (name: string) => void,
+  fields: string,
+  title: string
+) => void;
 
-export type DeleteResultArea = (remove: (name: number | number[]) => void, field: number) => void
+export type DeleteResultArea = (
+  remove: (name: number | number[]) => void,
+  field: number
+) => void;
 
 export interface ProjectDetails {
   organizations: IOrganizations[]
@@ -203,7 +214,12 @@ export interface IProjectDetailsProps {
   details: IProjectDetailsData[]
 }
 
-export interface IResulAreaConfirmModal { open: boolean, onSave: Void, onCancel: Void, onNotSave: Void }
+export interface IResulAreaConfirmModal {
+  open: boolean
+  onSave: Void
+  onCancel: Void
+  onNotSave: Void
+}
 export interface IHelpText {
   id: string
   value: string
@@ -212,10 +228,12 @@ export interface IHelpText {
 export interface ICreateTemplateModal {
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
-  activityId: string | undefined
+  activityId?: string | undefined
+  edit?: boolean
+  templateId?: string
 }
 
-export type AddManagerHandle = (values: unknown) => void
+export type AddManagerHandle = (values: unknown) => void;
 
 export interface ILearningStatusData {
   applicationForm: string[]
@@ -229,11 +247,12 @@ export interface ILearningStatusData {
   sections: object[]
   status: string
   title: string
-
 }
 
 export interface ISetting {
   changeable: boolean | undefined
+  answerType: string
+  data: string[]
   id: string | undefined
   projectId: string | undefined
   title: string | undefined
@@ -325,9 +344,9 @@ export interface IQuestionsRow {
   refetch: any
 }
 
-export type SetProjectId = (id: string) => void
+export type SetProjectId = (id: string) => void;
 
-export type ResultAreaOrder = (index: number) => number
+export type ResultAreaOrder = (index: number) => number;
 
 export interface IProjectTemplate {
   courseStructure: string
@@ -343,13 +362,25 @@ export interface ISubActivityAndTemplates {
   subActivities: ISubActivities[]
   setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
   setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
-  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[] | undefined>>
+  setCheckedList: React.Dispatch<
+  React.SetStateAction<CheckboxValueType[] | []>
+  >
   checkAll: boolean
+  inputActivityId: string
+  setAssignedUsersIds: React.Dispatch<React.SetStateAction<React.Key[] | []>>
   indeterminate: boolean
   checkedList: CheckboxValueType[] | undefined
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+  resultAreaOrder: number
+  resultAreaTitle: string
+  activityTitle: string
+  setActiveTemplate: React.Dispatch<React.SetStateAction<string>>
+  activeTemplate: string
+  selectedRowId: React.Key[]
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  refetchSubActivities: any
 }
 
 export interface IResultAreasTitles {
@@ -358,6 +389,7 @@ export interface IResultAreasTitles {
   index: number
   active: number
   setActive: React.Dispatch<React.SetStateAction<number>>
+  name?: string
 }
 
 export interface ITabContent {
@@ -366,27 +398,76 @@ export interface ITabContent {
   setInputActivityId: React.Dispatch<React.SetStateAction<string | undefined>>
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
   defaultInputActivityId: string
+  areaOrder: number | undefined
+  setActiveTemplate: React.Dispatch<React.SetStateAction<string>>
+  activeTemplate: string
+  isActivityNavigated: string | undefined
+}
+export interface Filters {
+  status?: CheckboxValueType[]
+  assigned?: React.Key[]
+  date?: {
+    from: string
+    to: string
+    start: boolean
+  }
 }
 
 export interface ISubActivitiesProps {
   subActivities: ISubActivities[] | undefined
   setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
   setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
-  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[] | undefined>>
+  setCheckedList: React.Dispatch<
+  React.SetStateAction<CheckboxValueType[] | []>
+  >
   checkAll: boolean
   indeterminate: boolean
+  inputActivityId: string
+  setAssignedUsersIds: React.Dispatch<React.SetStateAction<React.Key[] | []>>
   checkedList: CheckboxValueType[] | undefined
   setDateSearch: React.Dispatch<React.SetStateAction<IDataSearchchSubActivity>>
   dateSearch: IDataSearchchSubActivity
   templates: IProjectTemplate[]
+  selectedRowId: React.Key[]
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  refetchSubActivities: any
 }
+
+export interface IAssignedFilter {
+  inputActivityId: string
+  setAssignedUsersIds: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  selectedRowId: any
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+}
+
+export interface IAssignedFilterData {
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  inputActivityId: string
+  setAssignedUsersIds: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  selectedRowKeys: React.Key[]
+  setSelectedRowKeys: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+  assignedUsers: AssignedUserType[] | []
+  selectedRowId: React.Key[]
+  setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
+}
+export interface IAssingedUser {
+  firstName: string
+  id: string
+  lastName: string
+  photo: string | null
+}
+
 export interface ISubActivities {
+  id: string
+  status: string
   title: string
   cardRound: string
   subActivityId: string
   startDate: string
   endDate: string
   subActivity: {
+    [x: string]: any
     status: string
     region: {
       title: string
@@ -400,7 +481,7 @@ export interface ISubActivities {
 export interface IStatusFilter {
   setCheckAll: React.Dispatch<React.SetStateAction<boolean>>
   setIndeterminate: React.Dispatch<React.SetStateAction<boolean>>
-  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[] | undefined>>
+  setCheckedList: React.Dispatch<React.SetStateAction<CheckboxValueType[]>>
   checkAll: boolean
   indeterminate: boolean
   checkedList: CheckboxValueType[] | undefined
@@ -409,6 +490,11 @@ export interface IActiveTemplate {
   templates: IProjectTemplate[]
   refetch: any
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
+  resultAreaOrder: number
+  inputActivityId: string
+  resultAreaTitle: string
+  activityTitle: string
+  setActiveTemplate: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface IDataSearchchSubActivity {
@@ -422,133 +508,21 @@ export interface IDateFilterCards {
   dateSearch: IDataSearchchSubActivity
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>
 }
-export type StepsHeaderText = (mode: string) => string
+export type StepsHeaderText = (mode: string) => string;
 
-export interface IStepsUpdate { isUpdate: boolean }
-
-export interface IResultsUpdate { createOrUpdate: Void, isUpdate: boolean }
-
-export interface IContent {
-  active: boolean
-  answerType: string
-  answers: []
-  description?: string
-  editable: boolean
-  helpText?: string
-  id?: string
-  keyName?: string
-  otherOption: boolean
-  relatedQuestions: []
-  required: boolean
-  title: string
+export interface IStepsUpdate {
+  isUpdate: boolean
 }
 
-export interface ICardsData {
-  allowedEmpty: boolean
-  description: string
-  editable: boolean
-  keyName: string
-  questions: IContent[]
-  title: string
-
-}
-
-export interface IIsAddTermsConditions {
-  id?: string
-  placeholder?: string
-}
-
-export interface IAddQuestionCard {
-  setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
-  isQuestionCardVisible: string[]
-  cardId: string
-  applicationData: any
-  setApplicationData: React.Dispatch<React.SetStateAction<any>>
-  answerTypeValue: string
-  setAnswerTypeValue: React.Dispatch<React.SetStateAction<string>>
-  singleQuestionData: IContent | undefined | any
-  setSingleQuestionData: React.Dispatch<React.SetStateAction< IContent | undefined | any>>
-  addOrUpdateQuestion: string
-  questionRowIndex: number | undefined
-}
-export interface IQuestionRowContainer {
-  question: IContent
-  index: number
-  content: IContent[]
-  applicationData: any
-  setApplicationData: React.Dispatch<React.SetStateAction<any>>
-  setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
-  isQuestionCardVisible: string[]
-  cardId: string
-  setAnswerTypeValue: React.Dispatch<React.SetStateAction<string>>
-  setSingleQuestionData: React.Dispatch<React.SetStateAction< IContent | undefined | any>>
-  setAddOrUpdateQuestion: React.Dispatch<React.SetStateAction<string>>
-  setQuestionRowIndex: React.Dispatch<React.SetStateAction<number | undefined>>
-}
-
-export interface IApplicationCard {
-  title: string
-  content: IContent[] | []
-  isQuestionCardVisible: string[]
-  setIsQuestionCardVisible: React.Dispatch<React.SetStateAction<string[]>>
-  cardId: string
-  applicationData: any
-  setApplicationData: React.Dispatch<React.SetStateAction<any>>
-}
-
-export interface ITermsAndCondition {
-  setTermsConditionsValue: React.Dispatch<React.SetStateAction<any>>
-  termsConditionsValue: any
-  setIsAddTermsConditions: React.Dispatch<React.SetStateAction<IIsAddTermsConditions[]>>
-  isAddTermsConditions: IIsAddTermsConditions[]
+export interface IResultsUpdate {
+  createOrUpdate: Void
+  isUpdate: boolean
 }
 
 export interface IFontWeight {
   fontWeight?: string
 }
 
-export interface IApplicationData {
-  applicationFormSections: ICardsData[]
-  deadline: string
-  description: string
-  onlineSignature: boolean
-  successMessage: string
-  termsAndConditions: string
-  title: string
-}
-
-export interface IPreviewModal {
-  questionData: IApplicationData
-  isOpenCreateActivityModal: boolean
-  setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
-  createApplicationFn: any
-  courseId: string | undefined
-}
-
-export interface ICardContainer {
-  borderTop?: string
-  marginTop?: string
-  marginBottom?: string
-}
-
-export interface IAnswers {
-  id: string
-  title: string
-  type: string
-}
-export interface IEducationWorkQuestion {
-  answerType: string
-  answers: IAnswers[]
-  description: string | null
-  editable: boolean
-  helpText: string | null
-  id: string
-  keyName: string
-  otherOption: boolean
-  relatedQuestions: any
-  required: boolean
-  title: string
-}
 export interface IAddActivity {
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: React.Dispatch<React.SetStateAction<boolean>>
@@ -557,10 +531,30 @@ export interface IAddActivity {
 
 export interface IAttachmentSetting {
   setting: ISetting
+  active: boolean
 }
 
-export interface IFormUrlModal {
-  formUrlModal: boolean
-  setFormUrlModal: React.Dispatch<React.SetStateAction<boolean>>
-  responseIds: any
+interface IProjectOverviewIds {
+  areaOrder: number | undefined
+  activityId: string | undefined
+  activityTitle?: string
+  resultAreaTitle?: string
+  templateTab?: string
+}
+export interface IOutletContext {
+  projectOverview: IProjectOverviewIds
+  setProjectOverview: React.Dispatch<React.SetStateAction<IProjectOverviewIds>>
+}
+
+export interface IProjectRegion {
+  updatedAt: string | null
+  title: string
+  projectId: string
+  id: string
+  deletedAt: string | null
+  createdAt: string | null
+}
+
+export interface IUpdateRegionErrorMessage {
+  response: { data: { message: string } }
 }

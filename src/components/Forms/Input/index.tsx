@@ -35,7 +35,9 @@ const primaryStyle = css`
       box-shadow: none !important;
     }
   }
-
+  .ant-input-number-input{
+    height: 44px;
+  }
   &.ant-input-number-focused:not(.ant-input-number-status-error) {
     border: 1px solid var(--dark-5);
     box-shadow: none;
@@ -54,6 +56,9 @@ const primaryStyle = css`
     .ant-input-number-handler-wrap {
       display: none;
     }
+  }
+  &.ant-input-number-disabled{
+    color: var(--dark-1)
   }
 `;
 

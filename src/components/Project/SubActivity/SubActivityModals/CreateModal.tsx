@@ -252,7 +252,7 @@ const CreateSubActivityModal: React.FC<ICreateSubActivityProps> = ({ templateId,
                 ))}
               </AsnSelect>
             </AsnForm.Item>
-            <Duration />
+            <Duration sectionIndex={0}/>
             <AsnForm.Item
               name="partner_organization"
               label="Partner organization"

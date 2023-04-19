@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { AsnButton } from '../../../Forms/Button';
 import DefaultContent from './DefaultContent';
-import { ReactComponent as Settings } from '../../../../assets/icons/setting.svg';
 import CourseStatusForm from './SubActivityForms/Applicant/CourseStatus';
 import { colors } from '../../../../types/api/activity/subActivity';
 
@@ -86,9 +85,10 @@ const SectionsWrapper = styled.div<{ color: string | undefined }>`
 const SubActivitySections: React.FC<any> = ({
   activity,
   index,
-  manager,
+  assignedUsers,
   applicationForm,
-  refetch
+  refetch,
+  navigateRouteInfo
 }) => {
   const { Title } = Typography;
   const { TabPane } = Tabs;
@@ -102,31 +102,18 @@ const SubActivitySections: React.FC<any> = ({
   return (
     <SectionsWrapper color={filteredColor[0]?.color}>
       <Space direction="vertical" style={{ width: '100%' }}>
-        <Title
-          level={4}
-          style={{
-            color: 'var(--dark-border-ultramarine)',
-            fontWeight: 'var(--font-normal)',
-            marginRight: '8vw',
-            display: 'flex',
-            alignItems: 'center'
-          }}
-        >
-          Course Roadmap
-          <Settings className="settings_svg" />
-        </Title>
         <Tabs
           activeKey={activeKey}
           onChange={handleTabChange}
           className="custom_section_tabs"
         >
           <TabPane forceRender key="1">
-            {activity?.status === 'INACTIVE' && (
+            {(activity?.status === 'INACTIVE') && (
               <Row justify="center">
                 <AsnButton
                   type="primary"
                   className="primary"
-                  disabled={activity?.status === 'INACTIVE' && index !== 0}
+                  disabled={(activity?.status === 'INACTIVE' && activity?.applicants?.length === 0) && index !== 0}
                   style={{ width: '35vw' }}
                   onClick={() => {
                     setActiveKey(
@@ -139,14 +126,14 @@ const SubActivitySections: React.FC<any> = ({
               </Row>
             )}
             <DefaultContent
-              manager={manager}
+              navigateRouteInfo={navigateRouteInfo}
+              assignedUsers={assignedUsers}
               applicants={activity?.applicants}
               color={filteredColor[0]?.color}
               status={activity?.status}
               courseId={activity?.id}
               files={activity?.section?.files}
-              requIredDocs={activity?.section?.requiredDocuments
-              }
+              requIredDocs={activity?.section?.requiredDocuments}
             />
           </TabPane>
           {activity?.section?.sectionSettingMap?.map((item: any) => (
@@ -162,6 +149,7 @@ const SubActivitySections: React.FC<any> = ({
               }
             >
               <CourseStatusForm
+                navigateRouteInfo={navigateRouteInfo}
                 setActiveKey={setActiveKey}
                 id={item?.setting?.id}
                 courseStatus={activity?.status}

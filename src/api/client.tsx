@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 // import { PATHS } from '../helpers/constants';
 import { logOut } from '../helpers/utils';
 
@@ -10,7 +10,7 @@ const client = axios.create({
 });
 
 client.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config: any) => {
     const token: string | null = JSON.parse(
       localStorage.getItem('token') as string
     );

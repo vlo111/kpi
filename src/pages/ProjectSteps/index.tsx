@@ -116,11 +116,11 @@ export const ProjectSteps: React.FC = () => {
   const headerText: StepsHeaderText = (mode) => {
     if (Mode.Update === mode) {
       return index === '0'
-        ? 'Update Result Area and Activities'
+        ? 'Update Objective and Activities'
         : 'Update Project details';
     } else {
       return index === '0'
-        ? 'To create a new project, please input at least one Result Area and at least one Activity'
+        ? 'To create a new project, please input Objectives and Expected Results'
         : 'To create a new project, please input Project details';
     }
   };
