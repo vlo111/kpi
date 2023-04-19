@@ -62,7 +62,8 @@ const SubActivity: React.FC<{}> = () => {
   const [active, setActive] = useState<number>(1);
 
   const onChange = (key: string): void => {
-    setCourseTitle(key);
+    const courseTitle = data?.sectionsData?.filter((item: { id: string }) => item.id === key)[0].title;
+    setCourseTitle(courseTitle);
   };
 
   useEffect(() => {
