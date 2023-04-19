@@ -3,6 +3,7 @@ import { Typography } from 'antd';
 import moment from 'moment';
 import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg';
 import { ReactComponent as SubActivitiesFilterIcon } from '../../assets/icons/sub-activities-filter.svg';
+import { ReactComponent as SubActivitiesFilteredDataIcon } from '../../assets/icons/filtered-data-icon.svg';
 import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg';
 import { getColumnSearchProps } from './InputFilter';
 import { getColumnSearchPropsCheckbox } from './CheckboxFilters';
@@ -32,7 +33,7 @@ import styled from 'styled-components';
 const { Paragraph } = Typography;
 
 const CustomParagraph = styled(Paragraph)<{ width: string }>`
-  width: ${(props) => props.width};
+  width: ${(props) => props.width} !important;
   margin-bottom: "0rem";
 `;
 
@@ -44,7 +45,9 @@ export const useColumn: TColumnType = (
   searchData,
   setOpenConfirmModal,
   setCheckboxValues,
-  checkboxValues
+  checkboxValues,
+  assignCheckboxValues,
+  setAssignCheckboxValues
 ) => {
   const onDeleteClick: TAction = (e, id) => {
     e.stopPropagation();
@@ -79,12 +82,18 @@ export const useColumn: TColumnType = (
       key: 1,
       ellipsis: false,
       fixed: 'left',
-      width: 200,
-      filterIcon: () => <SubActivitiesFilterIcon />,
+      filterIcon: () =>
+        searchData.courseTitle === undefined
+          ? (
+          <SubActivitiesFilterIcon />
+            )
+          : (
+          <SubActivitiesFilteredDataIcon />
+            ),
       render: (text: string, record: { title: string }) => {
         return (
           <CustomParagraph
-            width="9rem"
+            width="10rem"
             ellipsis={{
               rows: 1
             }}
@@ -102,19 +111,45 @@ export const useColumn: TColumnType = (
         searchData,
         'status',
         setCheckboxValues,
-        checkboxValues
+        checkboxValues,
+        assignCheckboxValues,
+        setAssignCheckboxValues
       ),
-      title: 'Status',
+      title: () => (
+        <div
+          style={{
+            width: '5rem'
+          }}
+        >
+          Status
+        </div>
+      ),
       dataIndex: 'status',
       key: 2,
       ellipsis: false,
-      filterIcon: () => <SubActivitiesFilterIcon />,
+      filterIcon: () =>
+        searchData.status === undefined
+          ? (
+          <SubActivitiesFilterIcon />
+            )
+          : (
+          <SubActivitiesFilteredDataIcon />
+            ),
       render: (text: string, record: { status: string }) => {
         const upperCase = `${record?.status[0]}${record?.status
           .toLowerCase()
           .slice(1)}`;
         const status = upperCase === 'Done' ? 'Completed' : upperCase;
-        return status;
+        return (
+          <CustomParagraph
+            width="6rem"
+            ellipsis={{
+              rows: 1
+            }}
+          >
+            {status}
+          </CustomParagraph>
+        );
       }
     },
     {
@@ -125,15 +160,41 @@ export const useColumn: TColumnType = (
         searchData,
         'organizations',
         setCheckboxValues,
-        checkboxValues
+        checkboxValues,
+        assignCheckboxValues,
+        setAssignCheckboxValues
       ),
-      title: 'Organization',
+      title: (
+        <div
+          style={{
+            width: '8rem'
+          }}
+        >
+          Organization
+        </div>
+      ),
       dataIndex: 'organization',
       key: 3,
       ellipsis: false,
-      filterIcon: () => <SubActivitiesFilterIcon />,
+      filterIcon: () =>
+        searchData.organizations === undefined
+          ? (
+          <SubActivitiesFilterIcon />
+            )
+          : (
+          <SubActivitiesFilteredDataIcon />
+            ),
       render: (text: string, record: IOrganization) => {
-        return record?.subActivity?.organization?.title;
+        return (
+          <CustomParagraph
+            width="9rem"
+            ellipsis={{
+              rows: 1
+            }}
+          >
+            {record?.subActivity?.organization?.title}
+          </CustomParagraph>
+        );
       }
     },
     {
@@ -155,7 +216,14 @@ export const useColumn: TColumnType = (
       key: 4,
       dataIndex: 'description',
       ellipsis: false,
-      filterIcon: () => <SubActivitiesFilterIcon />,
+      filterIcon: () =>
+        searchData.courseDescription === undefined
+          ? (
+          <SubActivitiesFilterIcon />
+            )
+          : (
+          <SubActivitiesFilteredDataIcon />
+            ),
       render: (text: string, record: { description: string }) => {
         let subString = record?.description.slice(0, 20);
         if (record?.description?.length > 20) {
@@ -163,7 +231,7 @@ export const useColumn: TColumnType = (
         }
         return (
           <CustomParagraph
-            width="9rem"
+            width="10rem"
             ellipsis={{
               rows: 1
             }}
@@ -181,7 +249,9 @@ export const useColumn: TColumnType = (
         searchData,
         'managers',
         setCheckboxValues,
-        checkboxValues
+        checkboxValues,
+        assignCheckboxValues,
+        setAssignCheckboxValues
       ),
       title: () => (
         <div
@@ -195,8 +265,14 @@ export const useColumn: TColumnType = (
       key: 5,
       dataIndex: 'subActivitiesManager',
       ellipsis: false,
-      width: 200,
-      filterIcon: () => <SubActivitiesFilterIcon />,
+      filterIcon: () =>
+        searchData.managers === undefined
+          ? (
+          <SubActivitiesFilterIcon />
+            )
+          : (
+          <SubActivitiesFilteredDataIcon />
+            ),
       render: (
         text: string,
         record: {
@@ -205,7 +281,7 @@ export const useColumn: TColumnType = (
       ) => {
         return (
           <CustomParagraph
-            width="12.5rem"
+            width="13.5rem"
             ellipsis={{
               rows: 1
             }}
@@ -223,7 +299,9 @@ export const useColumn: TColumnType = (
         searchData,
         'assigned',
         setCheckboxValues,
-        checkboxValues
+        checkboxValues,
+        assignCheckboxValues,
+        setAssignCheckboxValues
       ),
       title: () => (
         <div
@@ -237,10 +315,20 @@ export const useColumn: TColumnType = (
       key: 5,
       dataIndex: 'assignedPeople',
       ellipsis: false,
-      width: 200,
-      filterIcon: () => <SubActivitiesFilterIcon />,
+      filterIcon: () =>
+        searchData.assigned === undefined
+          ? (
+          <SubActivitiesFilterIcon />
+            )
+          : (
+          <SubActivitiesFilteredDataIcon />
+            ),
       render: (text: string, record: IAssignedPeople) => {
-        return <AvatarComponent record={record?.subActivity?.assignees} />;
+        return (
+          <div style={{ width: '10.5rem' }}>
+            <AvatarComponent record={record?.subActivity?.assignees} />
+          </div>
+        );
       }
     },
     {
@@ -251,15 +339,36 @@ export const useColumn: TColumnType = (
         searchData,
         'sectors',
         setCheckboxValues,
-        checkboxValues
+        checkboxValues,
+        assignCheckboxValues,
+        setAssignCheckboxValues
       ),
-      title: 'Sector',
+      title: () => (
+        <div
+          style={{
+            width: '4.5rem'
+          }}
+        >
+          Sector
+        </div>
+      ),
       key: 6,
       dataIndex: 'sector',
       ellipsis: true,
-      filterIcon: () => <SubActivitiesFilterIcon />,
+      filterIcon: () =>
+        searchData.sectors === undefined
+          ? (
+          <SubActivitiesFilterIcon />
+            )
+          : (
+          <SubActivitiesFilteredDataIcon />
+            ),
       render: (text: string, record: ISector) => {
-        return record?.subActivity?.sector?.title;
+        return (
+          <CustomParagraph width="5.5rem">
+            {record?.subActivity?.sector?.title}
+          </CustomParagraph>
+        );
       }
     },
     {
@@ -270,15 +379,36 @@ export const useColumn: TColumnType = (
         searchData,
         'regions',
         setCheckboxValues,
-        checkboxValues
+        checkboxValues,
+        assignCheckboxValues,
+        setAssignCheckboxValues
       ),
-      title: 'Region',
+      title: () => (
+        <div
+          style={{
+            width: '4.5rem'
+          }}
+        >
+          Region
+        </div>
+      ),
       key: 7,
       dataIndex: 'region',
       ellipsis: false,
-      filterIcon: () => <SubActivitiesFilterIcon />,
+      filterIcon: () =>
+        searchData.regions === undefined
+          ? (
+          <SubActivitiesFilterIcon />
+            )
+          : (
+          <SubActivitiesFilteredDataIcon />
+            ),
       render: (text: string, record: IRegion) => {
-        return record?.subActivity?.region?.title;
+        return (
+          <CustomParagraph width="5.5rem">
+            {record?.subActivity?.region?.title}
+          </CustomParagraph>
+        );
       }
     },
     {
@@ -300,10 +430,17 @@ export const useColumn: TColumnType = (
       key: 8,
       dataIndex: 'startDate',
       ellipsis: false,
-      filterIcon: () => <SubActivitiesFilterIcon />,
+      filterIcon: () =>
+        searchData.startDate === undefined
+          ? (
+          <SubActivitiesFilterIcon />
+            )
+          : (
+          <SubActivitiesFilteredDataIcon />
+            ),
       render: (text: string, record: { startDate: string }) => {
         return (
-          <CustomParagraph width="7rem">
+          <CustomParagraph width="8rem">
             {moment(record?.startDate).format('DD.MM.YYYY')}
           </CustomParagraph>
         );
@@ -328,10 +465,17 @@ export const useColumn: TColumnType = (
       key: 9,
       dataIndex: 'endDate',
       ellipsis: false,
-      filterIcon: () => <SubActivitiesFilterIcon />,
+      filterIcon: () =>
+        searchData.endDate === undefined
+          ? (
+          <SubActivitiesFilterIcon />
+            )
+          : (
+          <SubActivitiesFilteredDataIcon />
+            ),
       render: (text: string, record: { endDate: string }) => {
         return (
-          <CustomParagraph width="7rem">
+          <CustomParagraph width="8rem">
             {moment(record?.endDate).format('DD.MM.YYYY')}
           </CustomParagraph>
         );
@@ -345,7 +489,9 @@ export const useColumn: TColumnType = (
         searchData,
         'teachingModes',
         setCheckboxValues,
-        checkboxValues
+        checkboxValues,
+        assignCheckboxValues,
+        setAssignCheckboxValues
       ),
       title: () => (
         <div
@@ -359,10 +505,17 @@ export const useColumn: TColumnType = (
       key: 1,
       dataIndex: 'teachingMode',
       ellipsis: false,
-      filterIcon: () => <SubActivitiesFilterIcon />,
+      filterIcon: () =>
+        searchData.teachingModes === undefined
+          ? (
+          <SubActivitiesFilterIcon />
+            )
+          : (
+          <SubActivitiesFilteredDataIcon />
+            ),
       render: (text: string, record: ITeachingMode) => {
         return (
-          <CustomParagraph width="9rem">
+          <CustomParagraph width="10rem">
             {record?.data?.teachingMode}
           </CustomParagraph>
         );
@@ -379,7 +532,14 @@ export const useColumn: TColumnType = (
       key: 11,
       dataIndex: 'duration',
       ellipsis: false,
-      filterIcon: () => <SubActivitiesFilterIcon />,
+      filterIcon: () =>
+        searchData.duration === undefined
+          ? (
+          <SubActivitiesFilterIcon />
+            )
+          : (
+          <SubActivitiesFilteredDataIcon />
+            ),
       render: (text: string, record: IDuration) => {
         return (
           <CustomParagraph
@@ -412,7 +572,14 @@ export const useColumn: TColumnType = (
       key: 12,
       dataIndex: 'partnerOrganization',
       ellipsis: false,
-      filterIcon: () => <SubActivitiesFilterIcon />,
+      filterIcon: () =>
+        searchData.partnerOrganization === undefined
+          ? (
+          <SubActivitiesFilterIcon />
+            )
+          : (
+          <SubActivitiesFilteredDataIcon />
+            ),
       render: (text: string, record: IPartnerOrganization) => {
         const partnerOrganization = record?.data?.customInputs?.filter(
           (item: { partner_organization: string }) =>
@@ -434,12 +601,11 @@ export const useColumn: TColumnType = (
       title: () => (
         <div
           style={{
-            width: '50px'
+            width: '40px'
           }}
         ></div>
       ),
       key: 'action',
-      width: 50,
       render: (text: string, record: IAction) => {
         return (
           <div
@@ -447,7 +613,7 @@ export const useColumn: TColumnType = (
               display: 'flex',
               flexDirection: 'row',
               gap: '13px',
-              width: '50px'
+              width: '40px'
             }}
           >
             <Button onClick={(e) => onEditClick(e, record?.subActivity?.id)}>

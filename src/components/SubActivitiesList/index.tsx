@@ -107,6 +107,7 @@ const SubActivitiesTable: React.FC = () => {
   const [inputActivityId, setInputActivityId] = useState<string>('');
   const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
   const [checkboxValues, setCheckboxValues] = useState<CheckboxValueType[] | []>([]);
+  const [assignCheckboxValues, setAssignCheckboxValues] = useState<CheckboxValueType[] | []>([]);
   const [tablePagination, setTablePagination] = useState<IPagination>({
     current: 1,
     pageSize: 20
@@ -134,6 +135,7 @@ const SubActivitiesTable: React.FC = () => {
     )) {
       data[k] = searchData[k];
     }
+
     setSearchData(data);
   }, [setSearchData]);
 
@@ -169,7 +171,9 @@ const SubActivitiesTable: React.FC = () => {
     searchData,
     setOpenConfirmModal,
     setCheckboxValues,
-    checkboxValues
+    checkboxValues,
+    assignCheckboxValues,
+    setAssignCheckboxValues
   );
 
   const handleTableChange: any = (pagination: IPagination) => {
@@ -203,6 +207,7 @@ const SubActivitiesTable: React.FC = () => {
       managers: undefined
     });
     setCheckboxValues([]);
+    setAssignCheckboxValues([]);
   };
 
   return (
@@ -218,7 +223,7 @@ const SubActivitiesTable: React.FC = () => {
           columns={column}
           dataSource={data?.result}
           rowKey={(record) => record?.id}
-          // scroll={{ x: 'calc(100vw + 600px)', y: 'calc(100vh - 250px)' }}
+          scroll={{ x: 'auto', y: 'calc(100vh - 250px)' }}
           rowClassName={(record, index) =>
             index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
           }

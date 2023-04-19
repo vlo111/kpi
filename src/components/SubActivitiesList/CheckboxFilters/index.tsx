@@ -23,7 +23,9 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
   searchData,
   key,
   setCheckboxValues,
-  checkboxValues
+  checkboxValues,
+  assignCheckboxValues,
+  setAssignCheckboxValues
 ) => {
   if (filteredValue !== undefined && dataIndex === 'Organization') {
     filteredValue = filteredValue?.map((item) => {
@@ -69,14 +71,21 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
   }
 
   const onCheckboxChange = (value: CheckboxValueType[]): void => {
-    setCheckboxValues(value);
+    if (dataIndex === 'Assigned People') {
+      setAssignCheckboxValues(value);
+    } else {
+      setCheckboxValues(value);
+    }
   };
 
   const onNextClick = (close: any): void => {
-    if (checkboxValues?.length > 0) {
+    if (checkboxValues?.length > 0 || assignCheckboxValues?.length > 0) {
       setSearchData({
         ...searchData,
-        [key]: checkboxValues
+        [key]:
+          dataIndex === 'Assigned People'
+            ? assignCheckboxValues
+            : checkboxValues
       });
       close();
     } else {
@@ -93,10 +102,13 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
       <PopupContainer>
         <PopupHeader>
           <PopupTitle>{dataIndex}</PopupTitle>
-          <Button onClick={() => {
-            close();
-            setCheckboxValues([]);
-          }}>
+          <Button
+            onClick={() => {
+              close();
+              setCheckboxValues([]);
+              setAssignCheckboxValues([]);
+            }}
+          >
             <CloseIcon />
           </Button>
         </PopupHeader>
@@ -106,7 +118,11 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
             flexDirection: 'column'
           }}
           onChange={onCheckboxChange}
-          value={checkboxValues}
+          value={
+            dataIndex === 'Assigned People'
+              ? assignCheckboxValues
+              : checkboxValues
+          }
         >
           {filteredValue?.map((item: IStatusItem) => (
             <CustomCheckbox value={item.value} key={item.id}>

@@ -31,7 +31,7 @@ export interface IFilteredData {
   organizations?: string[] | undefined
   sectors?: string[] | undefined
   regions?: string[] | undefined
-  duration?: string | undefined
+  duration?: undefined | number
   teachingModes?: string[] | undefined
   partnerOrganization?: string | undefined
 }
@@ -123,8 +123,14 @@ export type TColumnType = (
   setSearchData: React.Dispatch<React.SetStateAction<IFilteredData>>,
   searchData: IFilteredData,
   setOpenConfirmModal: React.Dispatch<React.SetStateAction<boolean>>,
-  setCheckboxValues: React.Dispatch<React.SetStateAction<CheckboxValueType[] | []>>,
-  checkboxValues: CheckboxValueType[] | []
+  setCheckboxValues: React.Dispatch<
+  React.SetStateAction<CheckboxValueType[] | []>
+  >,
+  checkboxValues: CheckboxValueType[] | [],
+  assignCheckboxValues: CheckboxValueType[] | [],
+  setAssignCheckboxValues: React.Dispatch<
+  React.SetStateAction<CheckboxValueType[] | []>
+  >
 ) => any;
 
 export type TSearchPropsCheckboxType = (
@@ -133,15 +139,21 @@ export type TSearchPropsCheckboxType = (
   setSearchData: React.Dispatch<React.SetStateAction<IFilteredData>>,
   searchData: IFilteredData,
   key: string,
-  setCheckboxValues: React.Dispatch<React.SetStateAction<CheckboxValueType[] | []>>,
-  checkboxValues: CheckboxValueType[] | []
+  setCheckboxValues: React.Dispatch<
+  React.SetStateAction<CheckboxValueType[] | []>
+  >,
+  checkboxValues: CheckboxValueType[] | [],
+  assignCheckboxValues: CheckboxValueType[] | [],
+  setAssignCheckboxValues: React.Dispatch<
+  React.SetStateAction<CheckboxValueType[] | []>
+  >
 ) => any;
 
 export type TColumnCalendarPropsType = (
   dataIndex: string,
   setSearchData: React.Dispatch<React.SetStateAction<IFilteredData>>,
   searchData: IFilteredData,
-  key: string,
+  key: string
 ) => any;
 
 export type TSearchPropsType = (
@@ -151,7 +163,5 @@ export type TSearchPropsType = (
   key: string
 ) => any;
 
-export type TChangeEventType = (
-  e: React.ChangeEvent<HTMLInputElement>
-) => void;
+export type TChangeEventType = (e: React.ChangeEvent<HTMLInputElement>) => void;
 export type TChangeEventTypes = (checkedValue: CheckboxValueType[]) => void;
