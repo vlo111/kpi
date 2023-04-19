@@ -49,7 +49,8 @@ export const PATHS = {
   ASSESSMENTFORMCREATE: 'assessment-form/create/:id',
   FILLEDOUTASSESSMENTFORM: 'assessment-form/assess/:id',
   APPLICANTS: 'applicants',
-  INVITATION: 'accept-invitation'
+  INVITATION: 'accept-invitation',
+  ADDSUBACTIVITY: 'create-subactivity'
 };
 
 export const VALIDATE_MESSAGES = {
