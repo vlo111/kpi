@@ -11,6 +11,7 @@ import { IDataResult } from '../../../types/files';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import { Void } from '../../../types/global';
 import FileViewer from 'react-file-viewer';
+
 const Result = styled.div`
   .ant-collapse > .ant-collapse-item > .ant-collapse-header {
     align-items: center;
@@ -221,9 +222,23 @@ const DataResult: React.FC<IDataResult> = ({
        {fileExtension === 'png' && (
         <FileViewer fileType="png" filePath={viewPdf} />
        )}
-      {fileExtension === 'pdf' && (
+           {fileExtension === 'pdf' && (
+                <DocViewer
+                documents={[{ uri: viewPdf }]}
+                pluginRenderers={DocViewerRenderers}
+                config={{
+                  header: {
+                    disableHeader: false,
+                    disableFileName: false,
+                    retainURLParams: false
+                  }
+                }}
+                style={{ height: window.innerHeight - 125 }}
+              />
+           )}
+      {/* {fileExtension === 'pdf' && (
         <FileViewer fileType="pdf" filePath={viewPdf} />
-      )}
+      )} */}
       {isVideo && (
         <video src={viewPdf} controls />
       )}
