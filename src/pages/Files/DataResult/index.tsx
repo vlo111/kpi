@@ -236,9 +236,6 @@ const DataResult: React.FC<IDataResult> = ({
                 style={{ height: window.innerHeight - 125 }}
               />
            )}
-      {/* {fileExtension === 'pdf' && (
-        <FileViewer fileType="pdf" filePath={viewPdf} />
-      )} */}
       {isVideo && (
         <video src={viewPdf} controls />
       )}
