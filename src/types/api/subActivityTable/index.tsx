@@ -1,4 +1,5 @@
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import { ColumnType } from 'antd/lib/table';
 
 export interface IStatusItem {
   name?: string
@@ -147,21 +148,21 @@ export type TSearchPropsCheckboxType = (
   setAssignCheckboxValues: React.Dispatch<
   React.SetStateAction<CheckboxValueType[] | []>
   >
-) => any;
+) => ColumnType<IStatusItem>;
 
 export type TColumnCalendarPropsType = (
   dataIndex: string,
   setSearchData: React.Dispatch<React.SetStateAction<IFilteredData>>,
   searchData: IFilteredData,
   key: string
-) => any;
+) => ColumnType<IFilteredData>;
 
 export type TSearchPropsType = (
   dataIndex: string,
   setSearchData: React.Dispatch<React.SetStateAction<IFilteredData>>,
   searchData: IFilteredData,
   key: string
-) => any;
+) => ColumnType<any>;
 
 export type TChangeEventType = (e: React.ChangeEvent<HTMLInputElement>) => void;
 export type TChangeEventTypes = (checkedValue: CheckboxValueType[]) => void;

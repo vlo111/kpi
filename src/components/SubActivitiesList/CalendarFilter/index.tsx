@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/closeIcon.svg';
+import { ReactComponent as SubActivitiesFilterIcon } from '../../../assets/icons/sub-activities-filter.svg';
+import { ReactComponent as SubActivitiesFilteredDataIcon } from '../../../assets/icons/filtered-data-icon.svg';
 import { Calendar } from 'antd';
 import moment, { Moment } from 'moment';
 import {
@@ -64,7 +66,7 @@ export const getColumnCalendarProps: TColumnCalendarPropsType = (
   return {
     filterDropdown: ({
       close
-    }: any) => (
+    }) => (
       <PopupContainer
         width="25vw"
       >
@@ -84,6 +86,14 @@ export const getColumnCalendarProps: TColumnCalendarPropsType = (
           </AsnButton>
         </ButtonContainer>
       </PopupContainer>
-    )
+    ),
+    filterIcon: () =>
+      searchData[key] === undefined
+        ? (
+          <SubActivitiesFilterIcon />
+          )
+        : (
+          <SubActivitiesFilteredDataIcon />
+          )
   };
 };

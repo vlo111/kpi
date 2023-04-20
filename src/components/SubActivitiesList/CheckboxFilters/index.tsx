@@ -1,5 +1,7 @@
 import React from 'react';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/closeIcon.svg';
+import { ReactComponent as SubActivitiesFilterIcon } from '../../../assets/icons/sub-activities-filter.svg';
+import { ReactComponent as SubActivitiesFilteredDataIcon } from '../../../assets/icons/filtered-data-icon.svg';
 import { AsnCheckbox } from '../../Forms/Checkbox';
 import {
   IStatusItem,
@@ -98,7 +100,7 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
   };
 
   return {
-    filterDropdown: ({ close }: any) => (
+    filterDropdown: ({ close }) => (
       <PopupContainer>
         <PopupHeader>
           <PopupTitle>{dataIndex}</PopupTitle>
@@ -145,6 +147,14 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
           </AsnButton>
         </ButtonContainer>
       </PopupContainer>
-    )
+    ),
+    filterIcon: () =>
+      searchData[key] === undefined
+        ? (
+          <SubActivitiesFilterIcon />
+          )
+        : (
+          <SubActivitiesFilteredDataIcon />
+          )
   };
 };
