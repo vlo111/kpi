@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
-import { Form, Row, Spin } from 'antd';
+import { Form, Row, Spin, message } from 'antd';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -28,7 +28,7 @@ import { KeyName, PATHS, SectionName } from '../../helpers/constants';
 import { getRelatedQuestions, getAnswers } from '../../helpers/applicationForm';
 
 import { ReactComponent as SuccessfulIcon } from '../../assets/icons/successful.svg';
-import { IApplicantPublicForm } from '../../types/applicant';
+import { IApplicantPublicForm, IErrorMessage } from '../../types/applicant';
 
 const FillApplicationFormContainer = styled.div`
   padding: 3rem 3.75rem 3.75rem;
@@ -132,7 +132,13 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
         setIsSuccessPublishModal(true);
       }, 500);
     },
-    onError: () => {}
+    onError: ({
+      response: {
+        data: { message: error }
+      }
+    }: IErrorMessage) => {
+      void message.error(error, 2);
+    }
   });
 
   const {

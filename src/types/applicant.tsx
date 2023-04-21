@@ -260,3 +260,8 @@ export interface IGetApplicants {
 }
 
 export type TUseGetApllicants = (id: string, search: string | undefined, offset: number, limit: number, options?: AssessmentFormOptions) => IGetApplicants
+export interface IErrorMessage {
+  response: {
+    data: { message: string }
+  }
+}
