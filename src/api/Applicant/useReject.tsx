@@ -28,7 +28,7 @@ const useRejectApplicant: UseRejectApplicant = () => {
         ]);
 
         void queryClient.invalidateQueries([
-          '/api/sub-activity'
+          '/api/applicant/course/:sectionDataId'
         ]);
 
         void message.success('successfully rejected', 2);

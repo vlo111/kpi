@@ -90,7 +90,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                 setShowWarnings(true);
                 setWarnings(newData);
               }
-            }
+            };
           }
         }
       );
@@ -246,8 +246,8 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
     if (e.target.value.length === 1) {
       setSearch(undefined);
     }
-    if (e.target.value.length > 1) {
-      setSearch(e.target.value);
+    if (e.target.value.trim().length > 1) {
+      setSearch(e.target.value.trim());
     }
     setOffset(0);
   };
@@ -309,7 +309,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                   columns={columns}
                   dataSource={applicants}
                   rowKey="id"
-                  pagination={applicantCounts > 10 ? { current: offset / 10 + 1, total: applicantCounts, pageSize: 10 } : false}
+                  pagination={applicantCounts > 10 ? { current: offset / 10 + 1, total: applicantCounts, pageSize: 10, showSizeChanger: false } : false}
                   rowSelection={rowSelection}
                   onChange={handlePagination}
                   loading={isLoading}
