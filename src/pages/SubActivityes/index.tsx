@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Tabs } from 'antd';
 
 import GetSingleSubActivity from '../../api/Activity/SubActivity/useGetSingleSubActivity';
+import useGetApplicants from '../../api/Applicant/useGetApplicants';
 import SubActivitySections from '../../components/Project/SubActivity/SubActivitySections';
 import SubActivityHeader from '../../components/Project/SubActivity/SubActivtyHeader';
 import ResultAreasTitles from '../ProjectOverview/ResultAreasTitles';
@@ -60,8 +61,17 @@ const SubActivity: React.FC<{}> = () => {
   const [projectId, setProjectId] = useState('');
   const { data, refetch } = GetSingleSubActivity(subActivityId, { courseInfo: false }, {});
   const [active, setActive] = useState<number>(1);
+  const [search, setSearch] = useState<string | undefined>(undefined);
+  const [courseId, setCourseId] = useState<string | undefined>(undefined);
+  const [tabIndex, setTabIndex] = useState<number>(0);
+  const [offset, setOffset] = useState<number>(0);
+
+  const { data: applicants, isLoading } = useGetApplicants(courseId ?? data?.sectionsData[0]?.id, search, offset, 10, { enabled: Boolean(courseId ?? data?.sectionsData[0]?.id) });
 
   const onChange = (key: string): void => {
+    setCourseId(key);
+    const index = data?.sectionsData?.findIndex((item: { id: string }) => item.id === key);
+    setTabIndex(index);
     const courseTitle = data?.sectionsData?.filter((item: { id: string }) => item.id === key)[0].title;
     setCourseTitle(courseTitle);
   };
@@ -128,6 +138,13 @@ const SubActivity: React.FC<{}> = () => {
                   index={i}
                   assignedUsers={data?.assignees}
                   applicationForm={data?.applicationForm}
+                  applicants={tabIndex === i && applicants?.result}
+                  setOffset={setOffset}
+                  offset={offset}
+                  applicantCounts={applicants?.count}
+                  isLoading={isLoading}
+                  setSearch={setSearch}
+                  search={search}
                 />
               </Tabs.TabPane>
             )
@@ -148,6 +165,13 @@ const SubActivity: React.FC<{}> = () => {
             index={0}
             assignedUsers={data?.assignees}
             applicationForm={data?.applicationForm}
+            applicants={applicants?.result}
+            setOffset={setOffset}
+            offset={offset}
+            applicantCounts={applicants?.count}
+            isLoading={isLoading}
+            setSearch={setSearch}
+            search={search}
           />
         </>
       )}

@@ -236,3 +236,27 @@ export interface IApplicantPublicForm {
   sectionDataId?: string
   type?: string
 }
+
+interface IResultApplicant {
+  email: string
+  id: string
+  fullname: string
+  postassessmentscore: null | string
+  postassessmentsubmitted: boolean
+  preassessmentscore: null | string
+  preassessmentsubmitted: boolean
+  status: string
+}
+export interface ISingleApplicant {
+  count: number
+  has_more: boolean
+  result: IResultApplicant[]
+}
+
+export interface IGetApplicants {
+  data: ISingleApplicant
+  isSuccess: boolean
+  isLoading: boolean
+}
+
+export type TUseGetApllicants = (id: string, search: string | undefined, offset: number, limit: number, options?: AssessmentFormOptions) => IGetApplicants
