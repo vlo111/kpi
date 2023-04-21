@@ -236,3 +236,9 @@ export interface IApplicantPublicForm {
   sectionDataId?: string
   type?: string
 }
+
+export interface IErrorMessage {
+  response: {
+    data: { message: string }
+  }
+}
