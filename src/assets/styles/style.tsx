@@ -417,6 +417,8 @@ const GlobalStyle = createGlobalStyle`
     text-align: center;
   .photo-viewer-container{
     height: calc(91vh - 40px) !important;
+    width: 100% !important;
+
     img{
       height: auto !important;
       width: 100% !important;
