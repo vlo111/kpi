@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Col, Row, Space, Tooltip, UploadProps } from 'antd';
+import { Button, Col, Row, Space, Tooltip, UploadProps, Input } from 'antd';
+import styled from 'styled-components';
 import { CloudDownloadOutlined } from '@ant-design/icons';
-import { ColumnsType } from 'antd/lib/table';
+import { ColumnsType, TablePaginationConfig } from 'antd/lib/table';
 import moment from 'moment';
 
 import { ReactComponent as NotFoundIcon } from '../../SubActivityIcons/not-users-found.svg';
@@ -32,12 +33,35 @@ import { AsnModal } from '../../../../Forms/Modal';
 import { AsnButton } from '../../../../Forms/Button';
 import _ from 'lodash';
 
+const AntTable = styled(AsnTable)`
+  .ant-table-pagination.ant-pagination {
+    margin: 32px 0px 0px 0px;
+  }
+`;
+const AsnInput = styled(Input)`
+  height: 32px;
+  border-radius: 10px;
+  max-width: 300px;
+  &.ant-input {
+    :hover {border-color: var(--dark-border-ultramarine)};
+    :focus {border-color: var(--dark-border-ultramarine);
+      box-shadow: none; 
+    }
+  }
+`;
+
 const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   color,
   applicants,
   courseId,
   navigateRouteInfo,
-  status
+  status,
+  setOffset,
+  offset,
+  applicantCounts,
+  isLoading,
+  setSearch,
+  search
 }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [selectedApplicants, setSelectedApplicants] = useState<
@@ -66,7 +90,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                 setShowWarnings(true);
                 setWarnings(newData);
               }
-            }
+            };
           }
         }
       );
@@ -79,8 +103,8 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   const columns: ColumnsType<IUserListTypes> = [
     {
       title: 'Name Surname',
-      key: 'fullName',
-      dataIndex: 'fullName'
+      key: 'fullname',
+      dataIndex: 'fullname'
     },
     {
       title: 'Email',
@@ -214,12 +238,26 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
     onChange: onSelectChange
   };
 
+  const handlePagination = (pagination: TablePaginationConfig): void => {
+    const { current } = pagination;
+    setOffset((current as number - 1) * 10);
+  };
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if (e.target.value.length === 1) {
+      setSearch(undefined);
+    }
+    if (e.target.value.trim().length > 1) {
+      setSearch(e.target.value.trim());
+    }
+    setOffset(0);
+  };
+
   return (
     <>
       <FormWrapper className="users_full_list" margin={0} color={color}>
         <Space style={{ width: '100%' }} size={[0, 32]} direction="vertical">
-          <Row gutter={[12, 12]} justify="space-between" align="middle">
-            <Col>
+          <Row justify="space-between" align="middle">
+            <Col span={14} style={{ display: 'flex', alignItems: 'center' }}>
               Applicants{' '}
               <Button type="link">
                 {' '}
@@ -229,6 +267,10 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                   }}
                 />
               </Button>
+               { (applicants?.length > 0 || search?.length > 0) && <AsnInput
+                placeholder='Search...'
+                onChange={handleSearch}
+                />}
             </Col>
             <Col style={{ display: 'flex', gap: '5px' }}>
               Upload list of applicants
@@ -238,7 +280,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
             </Col>
           </Row>
           {/* eslint-disable-next-line multiline-ternary */}
-          {applicants.length === 0 ? (
+          {applicants?.length === 0 ? (
             <>
               <Row align="middle" justify="center">
                 <NotFoundIcon />
@@ -247,35 +289,38 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                 There are no applicants
               </Row>
             </>
-          ) : (
-            <>
-              <AsnTable
-                size="middle"
-                onRow={(record) => {
-                  return {
-                    onClick: () => {
-                      navigate(
-                        `/${PATHS.APPLICANT.replace(':id', record.id)}`,
-                        {
-                          state: { navigateRouteInfo }
-                        }
-                      );
-                    }
-                  };
-                }}
-                columns={columns}
-                dataSource={applicants}
-                rowKey="id"
-                pagination={false}
-                rowSelection={rowSelection}
-              />
-              <SubActivityStatus
-                status={status}
-                sectionDataId={courseId}
-                applicants={selectedApplicants}
-              />
-            </>
-          )}
+          )
+            : (
+              <>
+                <AntTable
+                  size="middle"
+                  onRow={(record) => {
+                    return {
+                      onClick: () => {
+                        navigate(
+                          `/${PATHS.APPLICANT.replace(':id', record.id)}`,
+                          {
+                            state: { navigateRouteInfo }
+                          }
+                        );
+                      }
+                    };
+                  }}
+                  columns={columns}
+                  dataSource={applicants}
+                  rowKey="id"
+                  pagination={applicantCounts > 10 ? { current: offset / 10 + 1, total: applicantCounts, pageSize: 10, showSizeChanger: false } : false}
+                  rowSelection={rowSelection}
+                  onChange={handlePagination}
+                  loading={isLoading}
+                />
+                <SubActivityStatus
+                  status={status}
+                  sectionDataId={courseId}
+                  applicants={selectedApplicants}
+                />
+              </>
+              )}
         </Space>
       </FormWrapper>
       <AsnModal

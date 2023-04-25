@@ -89,7 +89,11 @@ const ProjectInformationHeader: React.FC<IInfoHeader> = ({
                     ? 'var(--primary-light-orange)'
                     : 'var(--secondary-green)'
                 }
-                text={activity?.status ?? 'Active'}
+                text={
+                  activity?.status === 'DONE'
+                    ? 'COMPLETED'
+                    : activity?.status ?? 'Active'
+                }
               />
               <AntDivider type="vertical" />
             </Col>

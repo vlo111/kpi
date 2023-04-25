@@ -25,7 +25,7 @@ const useApproveApplicant: UseApproveApplicant = () => {
         ]);
 
         void queryClient.invalidateQueries([
-          '/api/sub-activity'
+          '/api/applicant/course/:sectionDataId'
         ]);
 
         void message.success('successfully approved', 2);

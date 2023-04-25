@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
-import { Form, Row, Space, Spin, Typography } from 'antd';
+import { Form, Row, Space, Spin, Typography, message } from 'antd';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -30,7 +30,7 @@ import { getRelatedQuestions, getAnswers } from '../../helpers/applicationForm';
 import { ReactComponent as SuccessfulIcon } from '../../assets/icons/successful.svg';
 import { ReactComponent as NotAccessSvg } from '../../assets/icons/error_404.svg';
 
-import { IApplicantPublicForm } from '../../types/applicant';
+import { IApplicantPublicForm, IErrorMessage } from '../../types/applicant';
 
 const { Title } = Typography;
 
@@ -158,7 +158,13 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
         setIsSuccessPublishModal(true);
       }, 500);
     },
-    onError: () => {}
+    onError: ({
+      response: {
+        data: { message: error }
+      }
+    }: IErrorMessage) => {
+      void message.error(error, 2);
+    }
   });
 
   const {
