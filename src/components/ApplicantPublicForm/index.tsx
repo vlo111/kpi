@@ -307,7 +307,7 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
 
   return (
     <Spin spinning={isLoading}>
-      {data?.activeDeadline === true && (
+      { (data?.activeDeadline === true || data?.activeDeadline === undefined) && (
         <FillApplicationFormContainer>
           <AsnForm
             form={form}
