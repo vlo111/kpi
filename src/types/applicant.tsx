@@ -77,9 +77,11 @@ interface IGetApplicant { isLoading?: boolean, applicant: IApplicant, courses: I
 export type UseGetApplicant = (id: string | undefined) => IGetApplicant | undefined
 
 export interface IApproveModalProps {
-  applicants: Array<{ id: string, fullName: string }>
+  applicants: Array<{ id: string, fullName: string, fullname?: string }>
   open: string
   onCancel: () => void
+  setSelectedRowKeys?: React.Dispatch<React.SetStateAction<React.Key[]>>
+  setOffset?: React.Dispatch<React.SetStateAction<number>>
 }
 export interface ImportParams {
   sectionDataId: string
