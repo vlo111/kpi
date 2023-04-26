@@ -24,7 +24,7 @@ import useGetForm from '../../api/Applicant/useGetForm';
 import useCreateApplicant from '../../api/Applicant/useApplyApplicant';
 import useSingleApplicationForm from '../../api/ApplicationForm/useGetSingleApplicationForm';
 
-import { KeyName, PATHS, SectionName } from '../../helpers/constants';
+import { FormScrollToErrorOptions, KeyName, PATHS, SectionName } from '../../helpers/constants';
 import { getRelatedQuestions, getAnswers } from '../../helpers/applicationForm';
 
 import { ReactComponent as SuccessfulIcon } from '../../assets/icons/successful.svg';
@@ -314,6 +314,7 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
             onFinish={onFinish}
             autoComplete="off"
             disabled={preview}
+            scrollToFirstError={FormScrollToErrorOptions}
           >
             <SectionTitle className="title">{title}</SectionTitle>
             <FormText>{description}</FormText>
