@@ -64,8 +64,8 @@ const AntRadio = styled(AsnRadio)`
 `;
 
 const TemplateCard: React.FC<any> = ({ template }) => {
-//   console.log(template);
   const { title, description, applicationForm, courseStructure, phasesCount } = template;
+
   return (
         <AsnCard>
             <Space direction='vertical' style={{ width: '100%' }} size={12}>
@@ -97,8 +97,8 @@ const TemplateCard: React.FC<any> = ({ template }) => {
                         </Space>
                     </AsnCol>
                     <AsnCol span={14}>
-                        <Space direction='horizontal' size={10}>
-                            <AsnParagraph>One Section:</AsnParagraph>
+                        <Space direction='horizontal' size={17}>
+                            <AsnParagraph>One Phase:</AsnParagraph>
                             <AntRadio disabled checked={courseStructure === 'ONE_SECTION'} />
                         </Space>
                     </AsnCol>
@@ -112,7 +112,7 @@ const TemplateCard: React.FC<any> = ({ template }) => {
                     </AsnCol>
                     <AsnCol span={14}>
                         <Space direction='horizontal' style={{ width: '100%' }} size={5}>
-                            <AsnParagraph>Multi Section:</AsnParagraph>
+                            <AsnParagraph>Multi Phases:</AsnParagraph>
                             <AntRadio disabled checked={courseStructure === 'MULTI_SECTION'} />
                             {courseStructure === 'MULTI_SECTION' && <AsnInput addonBefore={phasesCount} disabled value={'phases'} /> }
                         </Space>

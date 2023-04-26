@@ -4,10 +4,11 @@ import client from '../../client';
 
 const url = '/api/activity/templates/project/:id';
 
-const useGetTemplates: any = (id: string, search: string, offset: number, limit: number, options = { enabled: true }) => {
+const useGetTemplates: any = (id: string, search: string, offset: number, limit: number, filters: any, options = { enabled: true }) => {
+  const { courseStructure, applicationForm } = filters;
   const result = useQuery(
-    [url, id],
-    async () => await client.post(url.replace(':id', id), { offset, limit, search }),
+    [url, id, search, offset, filters],
+    async () => await client.post(url.replace(':id', id), { offset, limit, search, applicationForm, courseStructure }),
     {
       select: (data) => data?.data,
       ...options

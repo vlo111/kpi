@@ -1,33 +1,15 @@
 import React, { useState } from 'react';
-import { Tabs, TabsProps, AutoComplete, Row, Col, Space, Typography, Popover } from 'antd';
+import { Tabs, TabsProps, Row, Space, Pagination } from 'antd';
 import styled from 'styled-components';
 
-import TemplateCard from './TemplateCard';
+import ActiveTemplates from './ActiveTemplates';
 import AsnBreadcrumb from '../../components/Forms/Breadcrumb';
+
 import useGetTemplates from '../../api/Activity/SubActivity/useGetTemplates';
-
-import { ReactComponent as FilterSvg } from '../../assets/icons/filter.svg';
-import { AsnCheckbox } from '../../components/Forms/Checkbox';
-import { AsnButton } from '../../components/Forms/Button';
-
-const { Text } = Typography;
-
-const AsnAutoComplete = styled(AutoComplete)`
-    width: 20vw;
-    &.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
-        border-radius: 10px;
-    }
-    &.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
-        border-color: var(--dark-border-ultramarine);
-    }
-    &.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
-    border-color: var(--dark-border-ultramarine);
-}
-`;
 
 const AsnTabs = styled(Tabs)`
  &.ant-tabs {
-    padding: 0px 30px 20px 30px;
+    padding: 0px 30px 80px 30px;
 }
 .ant-tabs-tab {
     font-size: var(--headline-font-size);
@@ -42,96 +24,76 @@ const AsnTabs = styled(Tabs)`
     background-color: var(--dark-border-ultramarine);
 }
 `;
-const AsnText = styled(Text)`
-  color: var(--dark-border-ultramarine);
-  font-size: var(--base-font-size);
-  cursor: pointer;
-  font-weight: var( --font-semibold);
-  margin-right: 16px;
-`;
 
-const AsnPopover = styled(Popover)`
-  &.ant-popover-arrow {
-    display: none
+const AsnPagination = styled(Pagination)`
+  .ant-pagination-item-link {
+    border: none !important;
+    background: var(--background);
+  }
+  .ant-pagination-item {
+    border: none;
+  }
+  .ant-pagination-item {
+    background: var(--background);
+  }
+  .ant-pagination-item-active {
+    border-radius: 100%;
+    background: var(--background-active-pagination);
+  }
+  .ant-pagination-item-active a {
+    color: var(--active-pagination);
   }
 `;
 
 const AddSubActivity: React.FC = () => {
   const id = JSON.parse(localStorage.getItem('project') as string);
+
   const [offset, setOffset] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
+  const [filters, setFilters] = useState<{ applicationForm: string[], courseStructure: undefined | string }>({
+    courseStructure: undefined,
+    applicationForm: []
+  });
+  const [activeTab, setActiveTab] = useState<string>('1');
 
-  const { data } = useGetTemplates(id, search, offset, 12, { enabled: Boolean(id) });
-  console.log(data);
+  const { data, isLoading } = useGetTemplates(id, (search.length > 1 || search === '') ? search : '', offset, 12, filters, { enabled: Boolean(id) });
+
+  const { count } = data;
+
   const onChange = (key: string): void => {
-    console.log(key);
+    setActiveTab(key);
   };
+
+  const handlePagination = (page: number): void => {
+    setOffset((page - 1) * 12);
+  };
+
   const items: TabsProps['items'] = [
     {
       key: '1',
       label: 'Courses',
-      children: <>
-        <Space direction='horizontal' style={{ padding: '16px 0px', justifyContent: 'space-between', width: '100%' }}>
-          <AsnAutoComplete
-            placeholder="Search..."
-          />
-          <Space.Compact style={{ alignItems: 'center' }}>
-            <AsnText underline>Clean filters</AsnText>
-            <AsnPopover
-              content={
-                <>
-                  <AsnCheckbox.Group>
-                    <Space direction='vertical'>
-                      <AsnCheckbox>Application form</AsnCheckbox>
-                      <AsnCheckbox>Assessment form</AsnCheckbox>
-                      <AsnCheckbox>One Phase</AsnCheckbox>
-                      <AsnCheckbox>Multi Phase</AsnCheckbox>
-                      <AsnButton
-                        className='primary'
-                        style={{
-                          height: '32px',
-                          float: 'right',
-                          padding: '4px 15px'
-                        }}
-                      >
-                        Filter
-                      </AsnButton>
-                    </Space>
-                  </AsnCheckbox.Group>
-                </>
-              }
-              trigger="click"
-              open={true}
-              placement="bottomRight"
-              showArrow={false}
-              getPopupContainer={(trigger: HTMLElement) => trigger?.parentElement as HTMLElement}
-            >
-              <FilterSvg style={{ cursor: 'pointer' }} />
-            </AsnPopover>
-          </Space.Compact>
-        </Space>
-        <Row gutter={[20, 20]}>
-          {data?.result?.map((template: any, i: number) => (
-            <Col key={i} xxl={{ span: 8 }} xl={{ span: 12, pull: 0, push: 0 }} md={{ span: 18, pull: 3, push: 3 }} xs={{ span: 24 }}>
-              <TemplateCard template={template} />
-            </Col>
-          ))}
-        </Row>
-      </>
+      children: <ActiveTemplates
+        search={search}
+        setSearch={setSearch}
+        setOffset={setOffset}
+        setFilters={setFilters}
+        isLoading={isLoading}
+        templates={data?.result}
+      />
     },
     {
       key: '2',
       label: 'Workspace',
-      children: 'Content of Tab Pane 2'
+      children: 'Content of Workspace'
     },
     {
       key: '3',
       label: 'Events',
-      children: 'Content of Tab Pane 3'
+      children: 'Content of Events'
     }
   ];
   return (
-    <>
+    <Space style={{ minHeight: '100%', position: 'relative', width: '100%' }} direction='vertical'>
       <Row style={{ padding: '10px 30px' }}>
         <AsnBreadcrumb
           routes={[
@@ -147,7 +109,24 @@ const AddSubActivity: React.FC = () => {
         />
       </Row>
       <AsnTabs defaultActiveKey="1" items={items} onChange={onChange} />
-    </>
+      {(count > 12 && activeTab === '1') && <Row
+        align={'middle'}
+        justify={'center'}
+        style={{
+          position: 'absolute',
+          bottom: 15,
+          width: '100%'
+        }}
+      >
+        <AsnPagination
+          showSizeChanger={false}
+          current={offset / 12 + 1}
+          pageSize={12}
+          total={count}
+          onChange={handlePagination}
+        />
+      </Row>}
+    </Space>
   );
 };
 
