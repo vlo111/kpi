@@ -57,9 +57,12 @@ export const router = createBrowserRouter(
           <Route path={PATHS.RESTOREPASSWORD} element={<ResetPassword />} />
         </Route>
       </Route>
-      <Route element={<PrivateRoutes/>} errorElement={<ErrorBoundary />}>
+      <Route element={<PrivateRoutes />} errorElement={<ErrorBoundary />}>
         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
-        <Route path={PATHS.ADDSUBACTIVITY} element={<AddSubActivity />} />
+        <Route path={PATHS.SUB_ABCTIVITIES}>
+          <Route path={PATHS.ADDSUBACTIVITY} element={<AddSubActivity />} />
+          <Route path={PATHS.SUBACTIVITIES} element={<SubActivitiesList />} />
+        </Route>
         <Route path={PATHS.TEAMS} element={<UsersTeam />} />
         <Route path={PATHS.PROJECT}>
           {/* <Route index element={<CreateProject />} /> */}
@@ -71,7 +74,6 @@ export const router = createBrowserRouter(
           <Route path={PATHS.FILES} element={<Files />} />
           <Route path={PATHS.SUBACTIVITY} element={<SubActivity />} />
         </Route>
-        <Route path={PATHS.SUBACTIVITIES} element={<SubActivitiesList />} />
         <Route path={PATHS.PROJECTINFORMATION} element={<ProjectInformation />} />
         <Route path={PATHS.COURSEINFORMATION} element={<CourseInformation />} />
         <Route path={PATHS.USERPROFILE} element={<UserProfile />} />

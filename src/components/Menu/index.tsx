@@ -108,7 +108,7 @@ export const Menu: React.FC = () => {
     if (pathname.includes('files')) {
       currenPath = ['5'];
     }
-    if (pathname.includes('sub-activities-list')) {
+    if (pathname.includes('sub-activities')) {
       currenPath = ['2'];
     }
     if (pathname.includes('dashboard')) {
@@ -130,7 +130,7 @@ export const Menu: React.FC = () => {
           navigate(`/project/${PATHS.FILES}`.replace(':id', projectId));
         }
         if (projectId !== null && item === menuItemsNavigate[1]) {
-          navigate(`/${PATHS.SUBACTIVITIES}`.replace(':id', projectId));
+          navigate(`/sub-activities/${PATHS.SUBACTIVITIES}`.replace(':id', projectId));
         }
         if (projectId !== null && item === menuItemsNavigate[2]) {
           navigate(`${PATHS.TEAMS}`.replace(':id', projectId));

@@ -10,6 +10,7 @@ import { AsnForm } from '../../components/Forms/Form';
 import AsnSpin from '../../components/Forms/Spin';
 
 import { TVoid } from '../../types/global';
+import { IActiveTemplatesProps } from '../../types/api/activity/subActivity';
 import { ReactComponent as FilterSvg } from '../../assets/icons/filter.svg';
 
 const { Text } = Typography;
@@ -44,13 +45,13 @@ const AsnPopover = styled(Popover)`
   }
 `;
 
-const ActiveTemplates: React.FC<any> = ({ search, setSearch, setOffset, setFilters, isLoading, templates }) => {
+const ActiveTemplates: React.FC<IActiveTemplatesProps> = ({ search, setSearch, setOffset, setFilters, isLoading, templates }) => {
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
   const [form] = AsnForm.useForm();
 
   const handleSearch = (value: string): void => {
-    setSearch(value.trim());
+    setSearch(value);
     setOffset(0);
   };
 
@@ -81,68 +82,70 @@ const ActiveTemplates: React.FC<any> = ({ search, setSearch, setOffset, setFilte
   return (
     <>
       <Space direction='horizontal' style={{ padding: '16px 0px', justifyContent: 'space-between', width: '100%' }}>
-          <AsnAutoComplete
-            placeholder="Search..."
-            onSearch={handleSearch}
-            value={search}
-          />
-          <Space.Compact style={{ alignItems: 'center' }}>
-            <AsnText underline onClick={resetTemplates}>Clean filters</AsnText>
-            <AsnPopover
-              content={
-                <AsnForm form={form} onFinish={onFinish}>
-                  <Space direction='vertical'>
-                    <AsnForm.Item name="applicationForm" style={{ margin: 0 }}>
-                      <AsnCheckbox.Group style={{ width: '150px' }}>
-                        <Space direction='vertical'>
-                          <AsnCheckbox value='APPLICATION'>Application form</AsnCheckbox>
-                          <AsnCheckbox value='ASSESSMENT'>Assessment form</AsnCheckbox>
-                        </Space>
-                      </AsnCheckbox.Group>
-                    </AsnForm.Item>
-                    <AsnForm.Item name="courseStructure" style={{ margin: 0 }}>
-                      <AsnRadio.Group>
-                        <Space direction='vertical'>
-                          <AsnRadio value='ONE_SECTION'>One Phase</AsnRadio>
-                          <AsnRadio value='MULTI_SECTION'>Multi Phase</AsnRadio>
-                        </Space>
-                      </AsnRadio.Group>
-                    </AsnForm.Item>
-                    <AsnButton
-                      className='primary'
-                      htmlType='submit'
-                      style={{
-                        height: '32px',
-                        float: 'right',
-                        padding: '4px 15px'
-                      }}
-                    >
-                      Filter
-                    </AsnButton>
-                  </Space>
-                </AsnForm>
-              }
-              trigger="click"
-              open={showFilters}
-              placement="bottomRight"
-              showArrow={false}
-              getPopupContainer={(trigger: HTMLElement) => trigger?.parentElement as HTMLElement}
-              onOpenChange={(open) => setShowFilters(open)}
-            >
-              <FilterSvg style={{ cursor: 'pointer' }} />
-            </AsnPopover>
-          </Space.Compact>
-        </Space>
-        {isLoading === true
-          ? <AsnSpin />
-          : (<Row gutter={[20, 20]}>
-          {templates?.map((template: any, i: number) => (
-            <Col key={i} xxl={{ span: 8 }} xl={{ span: 12, pull: 0, push: 0 }} md={{ span: 18, pull: 3, push: 3 }} xs={{ span: 24 }}>
-              <TemplateCard template={template} />
-            </Col>
-          ))}
+        <AsnAutoComplete
+          placeholder="Search..."
+          onSearch={handleSearch}
+          value={search}
+        />
+        <Space.Compact style={{ alignItems: 'center' }}>
+          <AsnText underline onClick={resetTemplates}>Clean filters</AsnText>
+          <AsnPopover
+            content={
+              <AsnForm form={form} onFinish={onFinish}>
+                <Space direction='vertical'>
+                  <AsnForm.Item name="applicationForm" style={{ margin: 0 }}>
+                    <AsnCheckbox.Group style={{ width: '150px' }}>
+                      <Space direction='vertical'>
+                        <AsnCheckbox value='APPLICATION'>Application form</AsnCheckbox>
+                        <AsnCheckbox value='ASSESSMENT'>Assessment form</AsnCheckbox>
+                      </Space>
+                    </AsnCheckbox.Group>
+                  </AsnForm.Item>
+                  <AsnForm.Item name="courseStructure" style={{ margin: 0 }}>
+                    <AsnRadio.Group>
+                      <Space direction='vertical'>
+                        <AsnRadio value='ONE_SECTION'>One Phase</AsnRadio>
+                        <AsnRadio value='MULTI_SECTION'>Multi Phase</AsnRadio>
+                      </Space>
+                    </AsnRadio.Group>
+                  </AsnForm.Item>
+                  <AsnButton
+                    className='primary'
+                    htmlType='submit'
+                    style={{
+                      height: '32px',
+                      float: 'right',
+                      padding: '4px 15px'
+                    }}
+                  >
+                    Filter
+                  </AsnButton>
+                </Space>
+              </AsnForm>
+            }
+            trigger="click"
+            open={showFilters}
+            placement="bottomRight"
+            showArrow={false}
+            getPopupContainer={(trigger: HTMLElement) => trigger?.parentElement as HTMLElement}
+            onOpenChange={(open) => setShowFilters(open)}
+          >
+            <FilterSvg style={{ cursor: 'pointer' }} />
+          </AsnPopover>
+        </Space.Compact>
+      </Space>
+      {isLoading
+        ? <AsnSpin />
+        : (<Row gutter={[20, 20]}>
+          {templates?.length === 0
+            ? <Col span={24} style={{ textAlign: 'center' }}>No Templates</Col>
+            : templates?.map((template, i: number) => (
+              <Col key={i} xxl={{ span: 8 }} xl={{ span: 12, pull: 0, push: 0 }} md={{ span: 18, pull: 3, push: 3 }} xs={{ span: 24 }}>
+                <TemplateCard template={template} />
+              </Col>
+            ))}
         </Row>)}
-        </>
+    </>
   );
 };
 

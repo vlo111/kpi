@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Tabs, TabsProps, Row, Space, Pagination } from 'antd';
 import styled from 'styled-components';
 
 import ActiveTemplates from './ActiveTemplates';
 import AsnBreadcrumb from '../../components/Forms/Breadcrumb';
 
+import { IFiltersActiveTemplates } from '../../types/api/activity/subActivity';
 import useGetTemplates from '../../api/Activity/SubActivity/useGetTemplates';
 
 const AsnTabs = styled(Tabs)`
@@ -46,17 +48,25 @@ const AsnPagination = styled(Pagination)`
 `;
 
 const AddSubActivity: React.FC = () => {
-  const id = JSON.parse(localStorage.getItem('project') as string);
+  const { id } = useParams();
 
   const [offset, setOffset] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
-  const [filters, setFilters] = useState<{ applicationForm: string[] | undefined, courseStructure: undefined | string }>({
+  const [filters, setFilters] = useState<IFiltersActiveTemplates>({
     courseStructure: undefined,
     applicationForm: undefined
   });
+
   const [activeTab, setActiveTab] = useState<string>('1');
 
-  const { data, isLoading } = useGetTemplates(id, (search.length > 1 || search === '') ? search : '', offset, 12, filters, { enabled: Boolean(id) });
+  const { data, isLoading } = useGetTemplates(
+    id as string,
+    (search.trim().length > 1 || search === '') ? search.trim() : '',
+    offset,
+    12,
+    filters,
+    { enabled: Boolean(id) }
+  );
 
   const { count } = data;
 
@@ -98,11 +108,11 @@ const AddSubActivity: React.FC = () => {
         <AsnBreadcrumb
           routes={[
             {
-              path: '',
+              path: `/sub-activities/list/${id as string}`,
               breadcrumbName: 'Sub-Activities'
             },
             {
-              path: '',
+              path: `/sub-activities/list/${id as string}`,
               breadcrumbName: 'Active Templates'
             }
           ]}

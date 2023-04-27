@@ -5,6 +5,7 @@ import { Card, Row, Col, Typography, Space, Input } from 'antd';
 import CreateSubCourse from '../../components/Project/SubActivity/SubActivityModals/Create';
 import { AsnCheckbox } from '../../components/Forms/Checkbox';
 import { AsnRadio } from '../../components/Forms/Radio';
+import { IActiveTemplate } from '../../types/api/activity/subActivity';
 
 const { Paragraph } = Typography;
 
@@ -64,7 +65,7 @@ const AntRadio = styled(AsnRadio)`
    }
 `;
 
-const TemplateCard: React.FC<any> = ({ template }) => {
+const TemplateCard: React.FC<{ template: IActiveTemplate }> = ({ template }) => {
   const [openCreateSubActivity, setOpenCreateSubActivity] = useState<boolean>(false);
 
   const { title, description, applicationForm, courseStructure, phasesCount, id } = template;
@@ -97,7 +98,7 @@ const TemplateCard: React.FC<any> = ({ template }) => {
                         <AsnCol span={10}>
                             <Space direction='horizontal' size={9}>
                                 <AsnParagraph> Application form:</AsnParagraph>
-                                <AntCheckbox disabled checked={applicationForm.includes('APPLICATION')} />
+                                <AntCheckbox disabled checked={applicationForm.includes('APPLICATION' as never) } />
                             </Space>
                         </AsnCol>
                         <AsnCol span={14}>
@@ -111,7 +112,7 @@ const TemplateCard: React.FC<any> = ({ template }) => {
                         <AsnCol span={10}>
                             <Space direction='horizontal'>
                                 <AsnParagraph>Assessment form:</AsnParagraph>
-                                <AntCheckbox disabled checked={applicationForm.includes('ASSESSMENT')} />
+                                <AntCheckbox disabled checked={applicationForm.includes('ASSESSMENT' as never)} />
                             </Space>
                         </AsnCol>
                         <AsnCol span={14}>

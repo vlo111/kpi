@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-
+import { TUseGetTemplates } from '../../../types/api/activity/subActivity';
 import client from '../../client';
 
 const url = '/api/activity/templates/project/:id';
 
-const useGetTemplates: any = (id: string, search: string, offset: number, limit: number, filters: any, options = { enabled: true }) => {
+const useGetTemplates: TUseGetTemplates = (id, search, offset, limit, filters, options = { enabled: true }) => {
   const { courseStructure, applicationForm } = filters;
   const result = useQuery(
     [url, id, search, offset, filters],
@@ -14,21 +14,11 @@ const useGetTemplates: any = (id: string, search: string, offset: number, limit:
       ...options
     }
   );
-  const { data, isSuccess, isFetching } = result;
+  const { data, isSuccess } = result;
   return {
     ...result,
-    data: isSuccess ? data : [],
-    isFetching
+    data: isSuccess ? data : []
   };
 };
 
 export default useGetTemplates;
-// {
-//     "search": "string",
-//     "applicationForm": [
-//       "APPLICATION"
-//     ],
-//     "courseStructure": "ONE_SECTION",
-//     "limit": 50,
-//     "offset": 0
-//   }

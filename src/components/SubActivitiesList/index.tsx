@@ -216,7 +216,7 @@ const SubActivitiesTable: React.FC = () => {
         <AsnButton className="default" onClick={onClearFilters}>
           Clear filters
         </AsnButton>
-        <AsnButton className="default">Add Sub-Activity</AsnButton>
+        <AsnButton className="default" onClick={() => navigate(`/sub-activities/${PATHS.ADDSUBACTIVITY.replace(':id', projectId as string)}`)}>Add Sub-Activity</AsnButton>
       </ButtonContainer>
       <Container>
         <Table

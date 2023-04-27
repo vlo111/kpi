@@ -50,8 +50,9 @@ export const PATHS = {
   FILLEDOUTASSESSMENTFORM: 'assessment-form/assess/:id',
   APPLICANTS: 'applicants',
   INVITATION: 'accept-invitation',
-  SUBACTIVITIES: 'sub-activities-list/:id',
-  ADDSUBACTIVITY: 'create-subactivity'
+  SUBACTIVITIES: 'list/:id',
+  ADDSUBACTIVITY: 'create/:id',
+  SUB_ABCTIVITIES: 'sub-activities'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -80,7 +81,7 @@ export const MenuItems = [
 ];
 export const menuItemsNavigate = [
   '/project/create',
-  '/sub-activities-list',
+  '/sub-activities',
   '/teams',
   '/applicants',
   '/files',
