@@ -61,7 +61,9 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   applicantCounts,
   isLoading,
   setSearch,
-  search
+  search,
+  sectionsCount,
+  tabIndex
 }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [selectedApplicants, setSelectedApplicants] = useState<
@@ -318,6 +320,8 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                   status={status}
                   sectionDataId={courseId}
                   applicants={selectedApplicants}
+                  sectionsCount={sectionsCount}
+                  tabIndex={tabIndex}
                 />
               </>
               )}

@@ -19,7 +19,9 @@ const DefaultContent: React.FC<any> = ({
   applicantCounts,
   isLoading,
   setSearch,
-  search
+  search,
+  sectionsCount,
+  tabIndex
 }) => {
   return (
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 32]}>
@@ -50,6 +52,8 @@ const DefaultContent: React.FC<any> = ({
           isLoading={isLoading}
           setSearch={setSearch}
           search={search}
+          sectionsCount={sectionsCount}
+          tabIndex={tabIndex}
         />}
       </Col>
     </Space>
