@@ -245,7 +245,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
     setOffset((current as number - 1) * 10);
   };
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    if (e.target.value.length === 1) {
+    if (e.target.value.length === 1 || e.target.value === '') {
       setSearch(undefined);
     }
     if (e.target.value.trim().length > 1) {
@@ -322,6 +322,8 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                   applicants={selectedApplicants}
                   sectionsCount={sectionsCount}
                   tabIndex={tabIndex}
+                  setSelectedRowKeys={setSelectedRowKeys}
+                  setOffset={setOffset}
                 />
               </>
               )}
