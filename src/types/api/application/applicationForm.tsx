@@ -108,7 +108,6 @@ export interface IPreviewModal {
   questionData: IApplicant | undefined
   isOpenCreateActivityModal: boolean
   setIsOpenCreateActivityModal: Dispatch<SetStateAction<boolean>>
-  onPublishClick: Void
 }
 
 export interface IPersonalDetails {

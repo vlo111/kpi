@@ -357,6 +357,15 @@ export interface IFooterButtons {
   type: string
   active: boolean
 }
+export interface IPreviewAssessmentForm {
+  data?: IResult
+  isPreviewForm?: boolean
+  setIsPreviewForm?: React.Dispatch<React.SetStateAction<boolean>> | any
+  setOpenPreviewAssessmentForm?: React.Dispatch<React.SetStateAction<boolean>> | any
+  openPreviewAssessmentForm?: boolean
+  formId?: string | undefined | any
+  applicantPreview?: boolean
+}
 
 export interface IAssessmentForms {
   preview?: boolean

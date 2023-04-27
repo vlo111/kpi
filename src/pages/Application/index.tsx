@@ -378,7 +378,6 @@ const Application: React.FC = () => {
         questionData={applicationData}
         isOpenCreateActivityModal={isOpenCreateActivityModal}
         setIsOpenCreateActivityModal={setIsOpenCreateActivityModal}
-        onPublishClick={onPublishClick}
       />
       <FormUrlModal
         formUrlModal={formUrlModal}
