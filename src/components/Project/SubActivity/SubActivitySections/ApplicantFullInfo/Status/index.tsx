@@ -25,7 +25,7 @@ const StatusRow = styled(Row)<any>`
   .next {
     position: absolute;
     padding: 0;
-    right: ${(props) => props.right}; // 18rem;
+    right: ${(props) => props.right};
     z-index: 2;
   }
 
