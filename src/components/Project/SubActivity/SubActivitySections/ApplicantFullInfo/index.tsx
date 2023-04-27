@@ -238,7 +238,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
             </Col>
           </Row>
           {/* eslint-disable-next-line multiline-ternary */}
-          {applicants.length === 0 ? (
+          {applicants?.length === 0 ? (
             <>
               <Row align="middle" justify="center">
                 <NotFoundIcon />

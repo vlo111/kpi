@@ -50,9 +50,9 @@ const AddSubActivity: React.FC = () => {
 
   const [offset, setOffset] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
-  const [filters, setFilters] = useState<{ applicationForm: string[], courseStructure: undefined | string }>({
+  const [filters, setFilters] = useState<{ applicationForm: string[] | undefined, courseStructure: undefined | string }>({
     courseStructure: undefined,
-    applicationForm: []
+    applicationForm: undefined
   });
   const [activeTab, setActiveTab] = useState<string>('1');
 

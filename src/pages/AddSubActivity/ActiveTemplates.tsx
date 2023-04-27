@@ -55,7 +55,15 @@ const ActiveTemplates: React.FC<any> = ({ search, setSearch, setOffset, setFilte
   };
 
   const onFinish: TVoid = (values) => {
-    setFilters(values);
+    const { applicationForm, courseStructure } = values;
+    if (applicationForm === undefined) {
+      setFilters({
+        applicationForm: [],
+        courseStructure
+      });
+    } else {
+      setFilters(values);
+    }
     setOffset(0);
     setShowFilters(false);
   };
@@ -64,7 +72,7 @@ const ActiveTemplates: React.FC<any> = ({ search, setSearch, setOffset, setFilte
     setOffset(0);
     setFilters({
       courseStructure: undefined,
-      applicationForm: []
+      applicationForm: undefined
     });
     setSearch('');
     form.resetFields();
@@ -87,7 +95,7 @@ const ActiveTemplates: React.FC<any> = ({ search, setSearch, setOffset, setFilte
                     <AsnForm.Item name="applicationForm" style={{ margin: 0 }}>
                       <AsnCheckbox.Group style={{ width: '150px' }}>
                         <Space direction='vertical'>
-                          <AsnCheckbox value='APPLICATION' >Application form</AsnCheckbox>
+                          <AsnCheckbox value='APPLICATION'>Application form</AsnCheckbox>
                           <AsnCheckbox value='ASSESSMENT'>Assessment form</AsnCheckbox>
                         </Space>
                       </AsnCheckbox.Group>

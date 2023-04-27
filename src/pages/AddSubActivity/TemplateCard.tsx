@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Card, Row, Col, Typography, Space, Input } from 'antd';
 
+import CreateSubCourse from '../../components/Project/SubActivity/SubActivityModals/Create';
 import { AsnCheckbox } from '../../components/Forms/Checkbox';
 import { AsnRadio } from '../../components/Forms/Radio';
 
@@ -64,62 +65,73 @@ const AntRadio = styled(AsnRadio)`
 `;
 
 const TemplateCard: React.FC<any> = ({ template }) => {
-  const { title, description, applicationForm, courseStructure, phasesCount } = template;
+  const [openCreateSubActivity, setOpenCreateSubActivity] = useState<boolean>(false);
+
+  const { title, description, applicationForm, courseStructure, phasesCount, id } = template;
 
   return (
-        <AsnCard>
-            <Space direction='vertical' style={{ width: '100%' }} size={12}>
-                <AsnRow justify={'space-between'}>
-                    <AsnCol span={8}>
-                        Template Name:
-                    </AsnCol>
-                    <AsnCol span={16}>
-                        <AsnParagraph ellipsis={{ rows: 1, expandable: true, symbol: 'View More' }} style={{ color: 'var(--dark-3)' }}>
-                            {title}
-                        </AsnParagraph>
-                    </AsnCol>
-                </AsnRow>
-                <AsnRow justify={'space-between'}>
-                    <AsnCol span={8}>
-                        Description:
-                    </AsnCol>
-                    <AsnCol span={16} >
-                        <AsnParagraph ellipsis={{ rows: 1, expandable: true, symbol: 'View More' }} style={{ color: 'var(--dark-3)' }}>
-                            {description}
-                        </AsnParagraph>
-                    </AsnCol>
-                </AsnRow>
-                <AsnRow>
-                    <AsnCol span={10}>
-                        <Space direction='horizontal' size={9}>
-                            <AsnParagraph> Application form:</AsnParagraph>
-                            <AntCheckbox disabled checked={applicationForm.includes('APPLICATION')} />
-                        </Space>
-                    </AsnCol>
-                    <AsnCol span={14}>
-                        <Space direction='horizontal' size={17}>
-                            <AsnParagraph>One Phase:</AsnParagraph>
-                            <AntRadio disabled checked={courseStructure === 'ONE_SECTION'} />
-                        </Space>
-                    </AsnCol>
-                </AsnRow>
-                <AsnRow align={'middle'}>
-                    <AsnCol span={10}>
-                        <Space direction='horizontal'>
-                            <AsnParagraph>Assessment form:</AsnParagraph>
-                            <AntCheckbox disabled checked={applicationForm.includes('ASSESSMENT')} />
-                        </Space>
-                    </AsnCol>
-                    <AsnCol span={14}>
-                        <Space direction='horizontal' style={{ width: '100%' }} size={5}>
-                            <AsnParagraph>Multi Phases:</AsnParagraph>
-                            <AntRadio disabled checked={courseStructure === 'MULTI_SECTION'} />
-                            {courseStructure === 'MULTI_SECTION' && <AsnInput addonBefore={phasesCount} disabled value={'phases'} /> }
-                        </Space>
-                    </AsnCol>
-                </AsnRow>
-            </Space>
-        </AsnCard>
+        <>
+            <AsnCard style={{ cursor: 'pointer' }} onClick={() => setOpenCreateSubActivity(true) }>
+                <Space direction='vertical' style={{ width: '100%' }} size={12}>
+                    <AsnRow justify={'space-between'}>
+                        <AsnCol span={8}>
+                            Template Name:
+                        </AsnCol>
+                        <AsnCol span={16}>
+                            <AsnParagraph ellipsis={{ rows: 1, expandable: true, symbol: 'View More' }} style={{ color: 'var(--dark-3)' }}>
+                                {title}
+                            </AsnParagraph>
+                        </AsnCol>
+                    </AsnRow>
+                    <AsnRow justify={'space-between'}>
+                        <AsnCol span={8}>
+                            Description:
+                        </AsnCol>
+                        <AsnCol span={16} >
+                            <AsnParagraph ellipsis={{ rows: 1, expandable: true, symbol: 'View More' }} style={{ color: 'var(--dark-3)' }}>
+                                {description}
+                            </AsnParagraph>
+                        </AsnCol>
+                    </AsnRow>
+                    <AsnRow>
+                        <AsnCol span={10}>
+                            <Space direction='horizontal' size={9}>
+                                <AsnParagraph> Application form:</AsnParagraph>
+                                <AntCheckbox disabled checked={applicationForm.includes('APPLICATION')} />
+                            </Space>
+                        </AsnCol>
+                        <AsnCol span={14}>
+                            <Space direction='horizontal' size={17}>
+                                <AsnParagraph>One Phase:</AsnParagraph>
+                                <AntRadio disabled checked={courseStructure === 'ONE_SECTION'} />
+                            </Space>
+                        </AsnCol>
+                    </AsnRow>
+                    <AsnRow align={'middle'}>
+                        <AsnCol span={10}>
+                            <Space direction='horizontal'>
+                                <AsnParagraph>Assessment form:</AsnParagraph>
+                                <AntCheckbox disabled checked={applicationForm.includes('ASSESSMENT')} />
+                            </Space>
+                        </AsnCol>
+                        <AsnCol span={14}>
+                            <Space direction='horizontal' style={{ width: '100%' }} size={5}>
+                                <AsnParagraph>Multi Phases:</AsnParagraph>
+                                <AntRadio disabled checked={courseStructure === 'MULTI_SECTION'} />
+                                {courseStructure === 'MULTI_SECTION' && <AsnInput addonBefore={phasesCount} disabled value={'phases'} />}
+                            </Space>
+                        </AsnCol>
+                    </AsnRow>
+                </Space>
+            </AsnCard>
+            {openCreateSubActivity && (
+                <CreateSubCourse
+                    openCreateSubActivity={openCreateSubActivity}
+                    setOpenCreateSubActivity={setOpenCreateSubActivity}
+                    templateId={id}
+                />
+            )}
+        </>
   );
 };
 
