@@ -21,7 +21,7 @@ interface ISubActivityStatus {
   tabIndex: number
 }
 
-const StatusRow = styled(Row)<any>`
+const StatusRow = styled(Row)<{ right: string }>`
   .next {
     position: absolute;
     padding: 0;
