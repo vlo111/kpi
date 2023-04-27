@@ -28,7 +28,6 @@ const ApplicantsData: React.FC = () => {
   const [filters, setFilters] = useState<Iseacrh>({
     search: '',
     limit: tableParams.pagination?.pageSize,
-    offset: 0,
     student: undefined,
     income: undefined,
     disability: undefined,
@@ -51,12 +50,21 @@ const ApplicantsData: React.FC = () => {
     setOpenRow(false);
   };
 
-  const { refetch, isLoading } = useAllAplicants(filters, projectId, {
+  const { refetch, isLoading } = useAllAplicants({
+    ...filters,
+    offset:
+    tableParams.pagination?.current !== undefined &&
+    tableParams.pagination?.pageSize !== undefined
+      ? (tableParams.pagination?.current - 1) *
+        tableParams.pagination?.pageSize
+      : 0
+  }, projectId, {
     onSuccess: (data: IApplicants): void => {
       setResult(data);
       setCount(data?.count);
     }
   });
+
   useEffect(() => {
     setTableParams({
       ...tableParams,
@@ -66,6 +74,7 @@ const ApplicantsData: React.FC = () => {
       }
     });
   }, [JSON.stringify(tableParams), isLoading, count]);
+
   useEffect(() => {
     refetch();
   }, [refetch, filters]);
@@ -118,16 +127,6 @@ const ApplicantsData: React.FC = () => {
     setTableParams({
       pagination
     });
-    setFilters((prevState) => ({
-      ...prevState,
-      limit: tableParams.pagination?.pageSize,
-      offset:
-      tableParams.pagination?.current !== undefined &&
-      tableParams.pagination?.pageSize !== undefined
-        ? (tableParams.pagination?.current - 1) *
-          tableParams.pagination?.pageSize
-        : 0
-    }));
   };
 
   return (
