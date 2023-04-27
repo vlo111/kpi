@@ -96,7 +96,9 @@ const AntModal = styled(AsnModal)`
 const ApproveModal: React.FC<IApproveModalProps> = ({
   applicants,
   open,
-  onCancel
+  onCancel,
+  setOffset,
+  setSelectedRowKeys
 }) => {
   const [form] = AsnForm.useForm();
 
@@ -107,6 +109,13 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
       ...form.getFieldsValue(),
       sectionId: open,
       applicantIds: applicants.map((a) => a.id)
+    }, {
+      onSuccess: () => {
+        if (setSelectedRowKeys !== undefined && setOffset !== undefined) {
+          setSelectedRowKeys([]);
+          setOffset(0);
+        }
+      }
     });
 
     form.resetFields();
@@ -138,7 +147,7 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
           }}
         >
           {applicants.map((a, index) => (
-            <p key={a.id}>{`${a.fullName}${
+            <p key={a.id}>{`${a.fullName ?? a.fullname}${
               applicants.length - 1 !== index ? ',' : ''
             }`}</p>
           ))}
