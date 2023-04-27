@@ -22,7 +22,7 @@ const useImportApplicantsIntoExcelFile: ImportApplicantList = () => {
     },
     {
       onSuccess: () => {
-        void queryClient.invalidateQueries(['/api/sub-activity']);
+        void queryClient.invalidateQueries(['/api/applicant/course/:sectionDataId']);
         void message.success('Applicants have been successfully added');
       },
       onError: () => {

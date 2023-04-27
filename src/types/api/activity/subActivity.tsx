@@ -44,6 +44,12 @@ export interface IApplicantsListFullInfo {
   courseId: string
   navigateRouteInfo: INavigateRoteInfoTypes
   status: string
+  setOffset: React.Dispatch<React.SetStateAction<number>>
+  offset: number
+  applicantCounts: number
+  isLoading: boolean
+  setSearch: React.Dispatch<React.SetStateAction<string | undefined>>
+  search: string
 }
 
 export interface ICourseStatusInfo {

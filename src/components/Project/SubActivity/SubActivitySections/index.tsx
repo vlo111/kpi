@@ -88,7 +88,14 @@ const SubActivitySections: React.FC<any> = ({
   assignedUsers,
   applicationForm,
   refetch,
-  navigateRouteInfo
+  navigateRouteInfo,
+  applicants,
+  setOffset,
+  offset,
+  applicantCounts,
+  isLoading,
+  setSearch,
+  search
 }) => {
   const { Title } = Typography;
   const { TabPane } = Tabs;
@@ -128,12 +135,18 @@ const SubActivitySections: React.FC<any> = ({
             <DefaultContent
               navigateRouteInfo={navigateRouteInfo}
               assignedUsers={assignedUsers}
-              applicants={activity?.applicants}
+              applicants={applicants}
               color={filteredColor[0]?.color}
               status={activity?.status}
               courseId={activity?.id}
               files={activity?.section?.files}
               requIredDocs={activity?.section?.requiredDocuments}
+              setOffset={setOffset}
+              offset={offset}
+              applicantCounts={applicantCounts}
+              isLoading={isLoading}
+              setSearch={setSearch}
+              search={search}
             />
           </TabPane>
           {activity?.section?.sectionSettingMap?.map((item: any) => (

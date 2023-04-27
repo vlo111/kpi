@@ -50,7 +50,8 @@ export const PATHS = {
   FILLEDOUTASSESSMENTFORM: 'assessment-form/assess/:id',
   APPLICANTS: 'applicants',
   INVITATION: 'accept-invitation',
-  SUBACTIVITIES: 'sub-activities-list/:id'
+  SUBACTIVITIES: 'sub-activities-list/:id',
+  ADDSUBACTIVITY: 'create-subactivity'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -266,7 +267,7 @@ export const optionsStatus = [
 ];
 // Age function
 export const marks: SliderMarks = {
-  1: '1',
+  15: '15',
   100: '100'
 };
 export const optionsReason = [

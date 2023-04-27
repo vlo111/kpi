@@ -11,7 +11,8 @@ const GlobalStyle = createGlobalStyle`
     --secondary-light-orage: #F6976D;
     --secondary-light-amber: #F3C262;
     --primary-light-orange: #F07760;
-
+    
+    --dark-0: rgba(0,0,0,.85);
     --dark-1: #111B23;
     --dark-2: #263238;
     --dark-3: #5E647B;
@@ -431,6 +432,13 @@ const GlobalStyle = createGlobalStyle`
     text-align: center;
   .photo-viewer-container{
     height: calc(91vh - 40px) !important;
+    width: 100% !important;
+
+    img{
+      height: auto !important;
+      width: 100% !important;
+    }
+    
   }
   .document-container{
     height: calc(91vh - 40px) !important;
