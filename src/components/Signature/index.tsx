@@ -104,6 +104,8 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
           style={{
             fontSize: 'var(--base-font-size)',
             color: 'var(--dark-1)',
+            whiteSpace: 'normal',
+            wordWrap: 'break-word',
             fontWeight: 700
           }}
           disabled={view === true}
