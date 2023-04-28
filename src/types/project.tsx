@@ -546,6 +546,12 @@ export interface IOutletContext {
   setProjectOverview: React.Dispatch<React.SetStateAction<IProjectOverviewIds>>
 }
 
+export interface IErrorMessage {
+  response: {
+    data: { message: string }
+  }
+}
+
 export interface IProjectRegion {
   updatedAt: string | null
   title: string
