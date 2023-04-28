@@ -7,6 +7,7 @@ import useGetDashboardData from '../../api/Dashboard/useGetDashboardData';
 import { ReactComponent as Analytics } from '../../assets/icons/analytics.svg';
 import moment from 'moment';
 import { useParams } from 'react-router-dom';
+import AsnSpin from '../../components/Forms/Spin';
 
 const CustomTabs = styled(Tabs)`
   .ant-tabs-nav {
@@ -44,7 +45,11 @@ const AnalyticsTitle = styled.div`
 
 const Dashboard: React.FC = () => {
   const { id: projectId } = useParams();
-  const { data } = useGetDashboardData(projectId, true);
+  const { data, isLoading } = useGetDashboardData(projectId, true);
+
+  if (isLoading === true) {
+    return <AsnSpin />;
+  }
 
   return (
     <>
