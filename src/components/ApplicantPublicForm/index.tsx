@@ -341,9 +341,7 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
         <NotAccessContent direction="vertical">
           <NotAccessSvg />
           <Title level={3}>We are sorry,</Title>
-          <Title level={5}>
-            but you don’t have access to this page or resource
-          </Title>
+          <Title level={5}>the Application form is expired</Title>
         </NotAccessContent>
       )}
       <AsnModal
