@@ -102,6 +102,7 @@ const SubActivityAndTemplates: React.FC<ISubActivityAndTemplates> = ({
             setSelectedRowId={setSelectedRowId}
             selectedRowId={selectedRowId}
             refetchSubActivities={refetchSubActivities}
+            refetch={refetch}
           />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Templates " key="2">
