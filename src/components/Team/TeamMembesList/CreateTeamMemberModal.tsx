@@ -140,7 +140,7 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
       title={!edit ? 'Add Person' : 'Edit Permission'}
       cancelText="Cancel"
       onCancel={handleCancel}
-      maskClosable = {false}
+      maskClosable={false}
       footer={[
         <Row key={'action'} gutter={24} justify="center">
           <Col span={9}>
@@ -231,6 +231,7 @@ const AddTeamMemberModal: React.FC<ShowDeleteUserModal> = ({
             allowClear
             bordered={false}
             changeOnSelect
+            maxTagTextLength={20}
           />
         </AsnForm.Item>
         <AsnForm.Item name="permissionType" initialValue={'VIEW'}>
