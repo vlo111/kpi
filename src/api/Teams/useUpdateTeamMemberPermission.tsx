@@ -27,11 +27,7 @@ const useUpdateMemberPermissionsId: UpdateMemberPermissionsId = ({
         void onSuccess();
         void queryClient.invalidateQueries([USE_GET_TEAM_LIST]);
       },
-      onError: ({
-        response: {
-          data: { message: error }
-        }
-      }) => message.error(error, 2)
+      onError: () => message.error('Something went wrong !!', 2)
     }
   );
 };
