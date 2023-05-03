@@ -57,8 +57,7 @@ const Signature = styled.span`
 const PreviewModal: React.FC<IPreviewModal> = ({
   questionData,
   isOpenCreateActivityModal,
-  setIsOpenCreateActivityModal,
-  onPublishClick
+  setIsOpenCreateActivityModal
 }) => {
   const handleCancel: Void = () => {
     setIsOpenCreateActivityModal(false);
@@ -139,9 +138,6 @@ const PreviewModal: React.FC<IPreviewModal> = ({
             onClick={() => setIsOpenCreateActivityModal(false)}
           >
             Back
-          </AsnButton>
-          <AsnButton className="primary" onClick={onPublishClick}>
-            Publish
           </AsnButton>
         </Space>
       </PreviewContainer>

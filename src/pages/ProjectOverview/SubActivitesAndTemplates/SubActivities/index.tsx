@@ -94,7 +94,8 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
   setAssignedUsersIds,
   selectedRowId,
   setSelectedRowId,
-  refetchSubActivities
+  refetchSubActivities,
+  refetch
 }) => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
@@ -113,6 +114,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
     {
       onSuccess: () => {
         refetchSubActivities();
+        refetch();
       },
       onError: ({ response: { data: { message: errorMessage } } }: { response: { data: { message: string } } }) => {
         void message.error(errorMessage, 2);

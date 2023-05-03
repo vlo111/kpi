@@ -145,6 +145,8 @@ const SubActivity: React.FC<{}> = () => {
                   isLoading={isLoading}
                   setSearch={setSearch}
                   search={search}
+                  sectionsCount={data?.sectionsData?.length}
+                  tabIndex={tabIndex}
                 />
               </Tabs.TabPane>
             )
@@ -172,6 +174,8 @@ const SubActivity: React.FC<{}> = () => {
             isLoading={isLoading}
             setSearch={setSearch}
             search={search}
+            sectionsCount={data?.sectionsData?.length}
+            tabIndex={tabIndex}
           />
         </>
       )}

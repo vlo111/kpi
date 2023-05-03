@@ -17,15 +17,17 @@ interface ISubActivityStatus {
   sectionDataId: string
   applicants: IApplicantData[]
   status: string
+  sectionsCount: number
+  tabIndex: number
   setSelectedRowKeys?: React.Dispatch<React.SetStateAction<React.Key[]>>
   setOffset?: React.Dispatch<React.SetStateAction<number>>
 }
 
-const StatusRow = styled(Row)`
+const StatusRow = styled(Row)<{ right: string }>`
   .next {
     position: absolute;
     padding: 0;
-    right: 18rem;
+    right: ${(props) => props.right};
     z-index: 2;
   }
 
@@ -49,6 +51,8 @@ const SubActivityStatus: React.FC<ISubActivityStatus> = ({
   sectionDataId,
   applicants,
   status,
+  sectionsCount,
+  tabIndex,
   setOffset,
   setSelectedRowKeys
 }) => {
@@ -62,7 +66,16 @@ const SubActivityStatus: React.FC<ISubActivityStatus> = ({
 
   return (
     <>
-      <StatusRow className="content">
+      <StatusRow
+        className="content"
+        right={
+          sectionsCount === 1
+            ? '9rem'
+            : sectionsCount > 1 && tabIndex === sectionsCount - 1
+              ? '9rem'
+              : '18rem'
+        }
+      >
         {status !== 'DONE' && (
           <>
             <AsnCol span={24} className="next">
@@ -92,14 +105,21 @@ const SubActivityStatus: React.FC<ISubActivityStatus> = ({
               Finish
             </AsnButton>
           )}
-          <AsnButton
-            icon={<ArrowSvg />}
-            className="move primary"
-            onClick={() => setOpenMove(!openMove)}
-            disabled={!(applicants.length > 0)}
-          >
-            Move
-          </AsnButton>
+          {sectionsCount === 1
+            ? null
+            : sectionsCount > 1 &&
+            tabIndex === sectionsCount - 1
+              ? null
+              : (
+            <AsnButton
+              icon={<ArrowSvg />}
+              className="move primary"
+              onClick={() => setOpenMove(!openMove)}
+              disabled={!(applicants.length > 0)}
+            >
+              Move
+            </AsnButton>
+                )}
         </AsnCol>
       </StatusRow>
       <ConfirmModal

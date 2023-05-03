@@ -72,7 +72,7 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
           )}
           {filters?.income !== undefined && (
             <Tag onClose={() => closeFilter('income')} closable>
-              {`Income: ${filters?.income ? 'yes' : 'no'}`}
+              {`Paid job: ${filters?.income ? 'yes' : 'no'}`}
             </Tag>
           )}
           {filters?.disability !== undefined && (
