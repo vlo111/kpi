@@ -431,6 +431,7 @@ export interface ISubActivitiesProps {
   selectedRowId: React.Key[]
   setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
   refetchSubActivities: any
+  refetch: any
 }
 
 export interface IAssignedFilter {
