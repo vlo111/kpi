@@ -14,6 +14,7 @@ const useDeleteFile: any = () => {
     {
       onSuccess: () => {
         void message.success('Deleted file', 2);
+        void queryClient.invalidateQueries(['api/sub-activity/course']);
         void queryClient.invalidateQueries(['/api/sub-activity']);
       },
       onError: ({

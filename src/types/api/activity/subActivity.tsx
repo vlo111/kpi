@@ -29,8 +29,17 @@ export interface IDraggerProps {
   setReqDocs?: any
   keyName?: string
   name?: string
+  reqDocs?: any
 }
 
+export interface IfilePreview {
+  fileName?: string
+  id?: string
+  name?: string
+  status?: string
+  thumbUrl?: string | null
+  uid?: string
+}
 export interface IApplicantsList {
   id: string
   email: string
@@ -265,7 +274,12 @@ export type GetAssignedUsersListByInputActivityId = (
   options?: FormOptions
 ) => UseGetAssignedUsersResponse;
 
-export type AttachFileSubActivity = UseMutation<Void, any, ResponseErrorParam, IAttachFileSubActivity>;
+export type AttachFileSubActivity = UseMutation<
+Void,
+any,
+ResponseErrorParam,
+IAttachFileSubActivity
+>;
 
 export type AssignUserInCourse = UseMutation<
 Void,
