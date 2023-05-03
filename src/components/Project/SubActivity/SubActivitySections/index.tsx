@@ -95,7 +95,9 @@ const SubActivitySections: React.FC<any> = ({
   applicantCounts,
   isLoading,
   setSearch,
-  search
+  search,
+  sectionsCount,
+  tabIndex
 }) => {
   const { Title } = Typography;
   const { TabPane } = Tabs;
@@ -147,6 +149,8 @@ const SubActivitySections: React.FC<any> = ({
               isLoading={isLoading}
               setSearch={setSearch}
               search={search}
+              sectionsCount={sectionsCount}
+              tabIndex={tabIndex}
             />
           </TabPane>
           {activity?.section?.sectionSettingMap?.map((item: any) => (

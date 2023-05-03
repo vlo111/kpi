@@ -50,6 +50,8 @@ export interface IApplicantsListFullInfo {
   isLoading: boolean
   setSearch: React.Dispatch<React.SetStateAction<string | undefined>>
   search: string
+  sectionsCount: number
+  tabIndex: number
 }
 
 export interface ICourseStatusInfo {
