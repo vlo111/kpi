@@ -288,6 +288,13 @@ const GlobalStyle = createGlobalStyle`
       padding: 6px 0;
       margin-right: 1px;
       max-height: 142px;
+      position: relative;
+      max-width: 13rem !important;
+      padding-right: 10px;
+    }
+    .ant-cascader-menu-item-expand-icon {
+      position: absolute;
+      right: 0px;
     }
     .ant-cascader-checkbox-checked .ant-cascader-checkbox-inner{
       background-color: var(--dark-border-ultramarine);
