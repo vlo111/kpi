@@ -31,6 +31,9 @@ export const renderQuestionForm: RenderQuestionForm = (
       break;
     }
     case KeyName.dob: {
+      props.rules = [
+        { required: props.required }
+      ];
       props.placeholder = Placeholders.date;
       break;
     }
