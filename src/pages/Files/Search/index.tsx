@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { AutoComplete } from 'antd';
+import React from 'react';
+import { Input } from 'antd';
 import styled from 'styled-components';
 import { isEmpty } from 'lodash';
 
-import { defaultLimit } from '../../../helpers/constants';
 import DataResult from '../DataResult';
-import { ISearchImport, IPaginate, ICourseFiles, IFiles } from '../../../types/files';
+import { ISearchImport, ICourseFiles, IFiles } from '../../../types/files';
 import useDeleteFile from '../../../api/Files/useDeleteFile';
-import useGetAllSearchFile from '../../../api/Files/useGetSearchAllFile';
-import useGetSearchCourseFile from '../../../api/Files/useGetSearchCourseFile';
 
 const SearchImportData = styled.div`
   width: 100%;
@@ -51,7 +47,6 @@ export const SearchImport: React.FC<ISearchImport> =
     courseFiles,
     courseId,
     refetch,
-    search,
     setSearch,
     folderFiles,
     folderId,
@@ -61,40 +56,29 @@ export const SearchImport: React.FC<ISearchImport> =
     setFolderName,
     refetchFolderFiles,
     refetchAllFiles,
-    setPaginate,
+    setOffset,
     filesCount,
-    currentPage,
     isFetchingAllFiles,
-    isFetchingCourseFiles
+    isFetchingCourseFiles,
+    offset
   }) => {
-    const [searchPaginate, setSearchPaginate] = useState<IPaginate>(defaultLimit);
-    const { id } = useParams();
-    const { limit, offset, currentPage: searchCurrentPage } = searchPaginate;
-
-    const { data: allfileSearch, isFetching: isFetchingAllFilesSearch, refetch: refetchAllFilesSearch } = useGetAllSearchFile(id, search, offset, limit, {
-      enabled: ((search !== undefined) && search.length > 2 && (courseId === null || courseId === '')),
-      staleTime: 1000 * 60 * 5
-    });
-    const { data: { result: searchFilesCourse }, isFetching: isFetchingSearchCourseFiles } =
-      useGetSearchCourseFile(
-        courseId,
-        search,
-        {
-          enabled: (Boolean(courseId) && (search !== undefined) && search.length > 2),
-          staleTime: 1000 * 60 * 5
-        });
-
     const { mutate: DeleteFile } = useDeleteFile();
-    const onChange = (data: string): void => {
-      setSearch(data);
+    const onChange = (data: React.ChangeEvent<HTMLInputElement>): void => {
+      if (data.target.value === '') {
+        setSearch(undefined);
+      }
       if (courseId === null) {
-        setSearchPaginate({
-          offset: 0,
-          limit: 24,
-          currentPage: 1
-        });
+        setOffset(0);
       }
     };
+
+    const onPressEnter = (e: React.SyntheticEvent<HTMLInputElement>): void => {
+      if (e.currentTarget.value.trim().length > 0) {
+        setSearch(e.currentTarget.value.trim());
+        setOffset(0);
+      }
+    };
+
     const onRemoveFile = (name: string | undefined): void => {
       DeleteFile(name, {
         onSuccess: () => {
@@ -113,31 +97,22 @@ export const SearchImport: React.FC<ISearchImport> =
       });
     };
     const filterSendingData = (): ICourseFiles | IFiles[] => {
-      if (allfileSearch?.result?.length >= 0 && (courseId === '' || courseId === null)) {
-        return allfileSearch?.result;
-      } else if ((!isEmpty(courseFiles) && folderId === '' && ((search !== undefined) && search.length <= 2))) {
+      if ((!isEmpty(courseFiles) && folderId === '')) {
         return courseFiles;
       } else if (folderId !== '') {
         return folderFiles;
-      } else if (((search !== undefined) && search.length > 2)) {
-        return searchFilesCourse;
       } else {
         return files;
       }
     };
 
-    useEffect(() => {
-      if (search.length > 2 && courseId === null) {
-        void refetchAllFilesSearch();
-      }
-    }, [offset, limit, search]);
     return (
       <SearchImportData>
         {(folderId === '') && <Search>
-          <AutoComplete
-            value={search}
-            style={{ width: 300 }}
+          <Input
+            style={{ width: 300, borderRadius: '10px' }}
             onChange={onChange}
+            onPressEnter={onPressEnter}
             placeholder="Search..."
           />
         </Search>
@@ -154,16 +129,10 @@ export const SearchImport: React.FC<ISearchImport> =
             setFolderId={setFolderId}
             setFolderName={setFolderName}
             refetchFolderFiles={refetchFolderFiles}
-            isFetchingAllFilesSearch={isFetchingAllFilesSearch}
-            isFetchingSearchCourseFiles={isFetchingSearchCourseFiles}
-            setPaginate={setPaginate}
+            setOffset={setOffset}
             filesCount={filesCount}
             refetchAllFiles={refetchAllFiles}
-            setSearchPaginate={setSearchPaginate}
-            search={search}
-            allFilesSearchCount={allfileSearch?.count}
-            currentPage={currentPage}
-            searchCurrentPage={searchCurrentPage}
+            offset={offset}
             isFetchingAllFiles={isFetchingAllFiles}
             isFetchingCourseFiles={isFetchingCourseFiles}
           />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { AutoComplete, Row, Space, Typography } from 'antd';
+import { Input, Row, Space, Typography } from 'antd';
 import { SearchApplicants } from './applicantsTypes';
 
 const { Title } = Typography;
@@ -7,10 +7,20 @@ const { Title } = Typography;
 const UseSearch: React.FC<SearchApplicants> = ({
   filters,
   serachData,
-  result
+  result,
+  setOffset
 }) => {
-  const onChange = (data: string): void => {
-    serachData(data);
+  const onChange = (data: React.ChangeEvent<HTMLInputElement>): void => {
+    if (data.target.value === '') {
+      serachData(undefined);
+    }
+  };
+
+  const onPressEnter = (e: React.SyntheticEvent<HTMLInputElement>): void => {
+    if (e.currentTarget.value.trim().length > 0) {
+      serachData(e.currentTarget.value.trim());
+      setOffset(0);
+    }
   };
 
   return (
@@ -22,10 +32,10 @@ const UseSearch: React.FC<SearchApplicants> = ({
         <Title level={4} style={{ color: 'var(--dark-border-ultramarine)' }}>
           Applicants
         </Title>
-        <AutoComplete
-          value={filters?.search}
+        <Input
           style={{ width: 300 }}
           onChange={onChange}
+          onPressEnter={onPressEnter}
           placeholder="Search..."
         />
         <Row style={{ position: 'absolute', right: '25px', top: '111px', border: '1px solid #D9D9D9', padding: ' 4px 20px' }}>
