@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Col, Typography, UploadProps, Upload, Modal } from 'antd';
+import { Col, Typography, UploadProps, Upload, Modal, message } from 'antd';
 
 import { ReactComponent as UploadDocument } from '../../../SubActivityIcons/upload-docs.svg';
 import { ReactComponent as LinkIcon } from '../../../SubActivityIcons/link.svg';
@@ -14,6 +14,7 @@ import {
   IDraggerProps,
   IfilePreview
 } from '../../../../../../types/api/activity/subActivity';
+import { useQueryClient } from '@tanstack/react-query';
 
 const { Dragger } = Upload;
 
@@ -74,10 +75,13 @@ const DraggerForm: React.FC<IDraggerProps> = ({
   reqDocs
 }) => {
   const { Title } = Typography;
-  const { mutate: UploadDoc } = useFileUpload();
-  const { mutate: DeleteFile } = useDeleteFile({});
   const [opens, setOpens] = useState<boolean>(false);
   const [viewPdf, setViewPdf] = useState<string | null>(null);
+
+  const queryClient = useQueryClient();
+
+  const { mutate: UploadDoc } = useFileUpload();
+  const { mutate: DeleteFile, error } = useDeleteFile();
 
   const handlePreview = (file: IfilePreview): void => {
     return setViewPdf(file?.thumbUrl !== undefined ? file?.thumbUrl : null);
@@ -120,13 +124,31 @@ const DraggerForm: React.FC<IDraggerProps> = ({
 
             onSuccess('ok');
           },
-          onError: () => errorStatus()
+          onError: () => {
+            errorStatus();
+          }
         }
       );
     },
     onRemove: (file: any) => {
       if (file.originFileObj === undefined) {
-        DeleteFile(file.fileName);
+        DeleteFile(file.fileName, {
+          onSuccess: () => {
+            void message.success('Deleted file', 2);
+            void queryClient.invalidateQueries(['api/sub-activity/course']);
+            void queryClient.invalidateQueries(['/api/sub-activity']);
+          },
+          onError: (e: {
+            response: {
+              data: { message: string }
+            }
+          }) => {
+            setDefaultFileList((prevNewFileList: any) => {
+              return [...prevNewFileList, file];
+            });
+            void message.error(e.response.data.message);
+          }
+        });
       }
 
       if (file?.status === 'done') {
@@ -135,14 +157,16 @@ const DraggerForm: React.FC<IDraggerProps> = ({
         );
         setReqDocs([...newFileListDone]);
       }
-      setDefaultFileList((prevState: any) => [
-        ...prevState,
-        defaultFileList.filter((d: any) => d.uid !== file.uid)
-      ]);
-      const newFileList = fileList.filter(
-        (item: { id: string }) => item.id !== file.uid
-      );
-      setFileList([...newFileList]);
+      if (error !== null) {
+        setDefaultFileList((prevState: any) => [
+          ...prevState,
+          defaultFileList.filter((d: any) => d.uid !== file.uid)
+        ]);
+        const newFileList = fileList.filter(
+          (item: { id: string }) => item.id !== file.uid
+        );
+        setFileList([...newFileList]);
+      }
     },
     showUploadList: {
       showDownloadIcon: true,
