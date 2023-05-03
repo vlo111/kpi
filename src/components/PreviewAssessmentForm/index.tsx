@@ -8,10 +8,9 @@ import { AsnForm } from '../Forms/Form';
 import ShortTextType from './ShortTextType';
 import OptionType from './OptionType';
 import CheckBoxType from './CheckBoxType';
-import { IQuestion } from '../../types/api/assessment';
+import { IPreviewAssessmentForm, IQuestion } from '../../types/api/assessment';
 import { AsnModal } from '../Forms/Modal';
 import { AsnButton } from '../Forms/Button';
-import { Void } from '../../types/global';
 import getAssessmentFormbyId from '../../api/AssessmentForm/useGetAssessmentFormById';
 import Signature from '../Signature';
 
@@ -45,12 +44,10 @@ const AsnParagraph = styled(Paragraph)`
   text-align: center;
 `;
 
-const PreviewAssessmentForm: React.FC<any> = ({
+const PreviewAssessmentForm: React.FC<IPreviewAssessmentForm> = ({
   data,
   isPreviewForm,
   setIsPreviewForm,
-  courseId,
-  createAssessmentForm,
   setOpenPreviewAssessmentForm,
   openPreviewAssessmentForm,
   formId,
@@ -61,15 +58,6 @@ const PreviewAssessmentForm: React.FC<any> = ({
   if (isFetching) {
     return <AsnSpin />;
   }
-
-  const onPublishClick: Void = () => {
-    createAssessmentForm({
-      id: courseId,
-      data: {
-        ...data
-      }
-    });
-  };
 
   const handleCancel = (): void => {
     if (openPreviewAssessmentForm === true) {
@@ -133,7 +121,7 @@ const PreviewAssessmentForm: React.FC<any> = ({
           width: '100%',
           display: 'flex',
           justifyContent: 'flex-end',
-          margin: '3.5rem 0rem'
+          margin: '3.5rem 0rem 0rem'
         }}
         size={60}
       >
@@ -141,10 +129,7 @@ const PreviewAssessmentForm: React.FC<any> = ({
           className="default"
           onClick={() => setIsPreviewForm(false)}
         >
-          Cancel
-        </AsnButton>
-        <AsnButton className="primary" onClick={onPublishClick}>
-          Publish
+          Back
         </AsnButton>
       </Space>}
     </PreviewModalContent>

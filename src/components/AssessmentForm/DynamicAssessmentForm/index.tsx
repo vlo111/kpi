@@ -122,7 +122,6 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
       form.setFieldsValue({
         ...cloneAssessmentData
       });
-      // setAllScore(data?.result?.maximumScore);
 
       initCheckList();
     }
@@ -422,8 +421,6 @@ const AssessmentForms: React.FC<IAssessmentForms> = ({
       <PreviewAssessmentForm
         isPreviewForm={isPreviewForm}
         setIsPreviewForm={setIsPreviewForm}
-        createAssessmentForm={createAssessmentForm}
-        courseId={courseId}
         data={{
           maximumScore: allScore,
           type: location?.state?.type,
