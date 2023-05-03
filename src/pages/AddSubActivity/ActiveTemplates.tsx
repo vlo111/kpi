@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AutoComplete, Row, Col, Space, Typography, Popover } from 'antd';
+import { Input, Row, Col, Space, Typography, Popover } from 'antd';
 import styled from 'styled-components';
 
 import TemplateCard from './TemplateCard';
@@ -15,17 +15,9 @@ import { ReactComponent as FilterSvg } from '../../assets/icons/filter.svg';
 
 const { Text } = Typography;
 
-const AsnAutoComplete = styled(AutoComplete)`
+const AsnInput = styled(Input)`
     width: 20vw;
-    &.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
-        border-radius: 10px;
-    }
-    &.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
-        border-color: var(--dark-border-ultramarine);
-    }
-    &.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
-    border-color: var(--dark-border-ultramarine);
-}
+    border-radius: 10px;
 `;
 
 const AsnText = styled(Text)`
@@ -50,9 +42,18 @@ const ActiveTemplates: React.FC<IActiveTemplatesProps> = ({ search, setSearch, s
 
   const [form] = AsnForm.useForm();
 
-  const handleSearch = (value: string): void => {
-    setSearch(value);
-    setOffset(0);
+  const onChange = (data: React.ChangeEvent<HTMLInputElement>): void => {
+    if (data.target.value === '') {
+      setSearch('');
+      setOffset(0);
+    }
+  };
+
+  const onPressEnter = (e: React.SyntheticEvent<HTMLInputElement>): void => {
+    if (e.currentTarget.value.trim().length > 0) {
+      setSearch(e.currentTarget.value.trim());
+      setOffset(0);
+    }
   };
 
   const onFinish: TVoid = (values) => {
@@ -82,10 +83,10 @@ const ActiveTemplates: React.FC<IActiveTemplatesProps> = ({ search, setSearch, s
   return (
     <>
       <Space direction='horizontal' style={{ padding: '16px 0px', justifyContent: 'space-between', width: '100%' }}>
-        <AsnAutoComplete
+        <AsnInput
           placeholder="Search..."
-          onSearch={handleSearch}
-          value={search}
+          onChange={onChange}
+          onPressEnter={onPressEnter}
         />
         <Space.Compact style={{ alignItems: 'center' }}>
           <AsnText underline onClick={resetTemplates}>Clean filters</AsnText>
