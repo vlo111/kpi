@@ -241,6 +241,10 @@ const GlobalStyle = createGlobalStyle`
     top: 10px !important;
     width: auto!important;
     height: 500px !important;
+
+    .ant-modal-body{
+      padding: 3.5rem 1.5rem 1.5rem;
+    }
   }
   .applicantsFilter{
     .ant-popover-title{

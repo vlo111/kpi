@@ -121,7 +121,6 @@ const DraggerForm: React.FC<IDraggerProps> = ({
                 { keyname: keyName }
               ]);
             }
-
             onSuccess('ok');
           },
           onError: () => {
@@ -137,25 +136,26 @@ const DraggerForm: React.FC<IDraggerProps> = ({
             void message.success('Deleted file', 2);
             void queryClient.invalidateQueries(['api/sub-activity/course']);
             void queryClient.invalidateQueries(['/api/sub-activity']);
+            if (file?.status === 'done') {
+              const newFileListDone = reqDocs?.filter(
+                (item: { id: string }) => item?.id !== file?.id
+              );
+              setReqDocs([...newFileListDone]);
+            }
           },
           onError: (e: {
             response: {
               data: { message: string }
             }
           }) => {
-            setDefaultFileList((prevNewFileList: any) => {
-              return [...prevNewFileList, file];
-            });
+            const index = defaultFileList.findIndex(
+              (item: any) => item.id === file.id
+            );
+            defaultFileList.splice(index, 1, file);
+            setDefaultFileList(defaultFileList);
             void message.error(e.response.data.message);
           }
         });
-      }
-
-      if (file?.status === 'done') {
-        const newFileListDone = reqDocs?.filter(
-          (item: { id: string }) => item?.id !== file?.id
-        );
-        setReqDocs([...newFileListDone]);
       }
       if (error !== null) {
         setDefaultFileList((prevState: any) => [

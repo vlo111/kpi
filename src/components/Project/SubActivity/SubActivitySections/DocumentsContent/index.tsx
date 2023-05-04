@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { Col, message, Row, Space } from 'antd';
 
 import DraggerForm from '../SubActivityForms/Dragger';
@@ -30,7 +30,7 @@ const SubActivityDocuments: React.FC<any> = ({
     }
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (files?.length > 0) {
       const newFile = files?.map((file: any, i: number) => {
         return {
