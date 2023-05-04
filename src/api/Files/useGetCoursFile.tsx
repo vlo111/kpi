@@ -4,10 +4,10 @@ import client from '../client';
 
 const url = '/api/file/course/:id';
 
-const useGetCoursFile: any = (id: string, options = { enabled: true }) => {
+const useGetCoursFile: any = (id: string, search: string | undefined, options = { enabled: true }) => {
   const result = useQuery(
-    [url, id],
-    async () => await client.get(url.replace(':id', id)),
+    [url, id, search],
+    async () => await client.get(url.replace(':id', id), { params: { search } }),
     {
       select: (data) => data?.data,
       ...options
