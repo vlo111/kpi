@@ -52,8 +52,8 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
     onSuccess: () => {
       refetchSingleStatus();
     },
-    onError: () => {
-      console.log('err');
+    onError: (e: { response: { data: { message: string } } }) => {
+      void message.error(e.response.data.message);
     }
   });
   const { mutate: deleteApplicationFormById } = useDeleteApplicationForm({
@@ -83,6 +83,9 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
     changeStatusAssessmentFormDataById({
       onSuccess: () => {
         refetchSingleStatus();
+      },
+      onError: (e: { response: { data: { message: string } } }) => {
+        void message.error(e.response.data.message);
       }
     });
 
