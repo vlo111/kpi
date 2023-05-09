@@ -106,13 +106,14 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
             color: 'var(--dark-1)',
             whiteSpace: 'normal',
             wordWrap: 'break-word',
-            fontWeight: 700
+            fontWeight: 700,
+            padding: '4px 15px 4px 0px'
           }}
           disabled={view === true}
         >
           Online signature / Առցանց ստորագրություն
         </Button>
-        {imageURL === undefined && <Divider
+        {(imageURL === undefined && (view === false || view === undefined)) && <Divider
           type='horizontal'
           orientation={'center'}
           style={{

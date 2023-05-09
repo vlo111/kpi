@@ -142,7 +142,7 @@ const FilledOutAssessmentForm: React.FC = () => {
               direction="horizontal"
               align="center"
             style={(preAssessmentForm?.onlineSignature ?? postAssessmentForm?.onlineSignature)
-              ? { float: 'right', paddingTop: '30px' }
+              ? { justifyContent: 'space-between', paddingTop: '30px', width: '100%' }
               : { paddingTop: '30px' }}
             >
               {(preAssessmentForm?.onlineSignature ?? postAssessmentForm?.onlineSignature) &&
