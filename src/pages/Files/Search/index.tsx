@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from 'antd';
+import { Input, message } from 'antd';
 import styled from 'styled-components';
 import { isEmpty } from 'lodash';
 
@@ -93,6 +93,13 @@ export const SearchImport: React.FC<ISearchImport> =
           if (courseId === null && folderId === '') {
             void refetchAllFiles();
           }
+        },
+        onError: (e: {
+          response: {
+            data: { message: string }
+          }
+        }) => {
+          void message.error(e.response.data.message);
         }
       });
     };
