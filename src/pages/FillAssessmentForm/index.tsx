@@ -70,13 +70,20 @@ const FillAssessMentForm: React.FC = () => {
           window.location.replace('https://www.google.com/');
         }, 1000);
       },
-      onError: ({ response: { status } }: { response: { status: number } }) => {
+      onError: ({
+        response: {
+          status,
+          data: { message: errorMessage }
+        }
+      }: {
+        response: { status: number, data: { message: string } }
+      }) => {
         if (status === 404) {
           form.scrollToField(['email'], FormScrollToErrorOptions);
           form.setFields([{ name: 'email', errors: ['Applicant with this email does not exists'] }]);
           setError(true);
         } else {
-          void message.error('Something went wrong', 2);
+          void message.error(errorMessage, 2);
         }
       }
     });
