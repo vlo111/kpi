@@ -244,10 +244,18 @@ const DraggerForm: React.FC<IDraggerProps> = ({
               <FileViewer fileType="png" filePath={viewPdf} />
             )}
             {fileExtension === 'pdf' && (
-              <FileViewer fileType="pdf" filePath={viewPdf} />
-            )}
-            {fileExtension === 'jpeg' && (
-              <FileViewer fileType="jpeg" filePath={viewPdf} />
+              <DocViewer
+                documents={[{ uri: viewPdf }]}
+                pluginRenderers={DocViewerRenderers}
+                config={{
+                  header: {
+                    disableHeader: false,
+                    disableFileName: false,
+                    retainURLParams: false
+                  }
+                }}
+                style={{ height: window.innerHeight - 125 }}
+              />
             )}
             {isVideo && <video src={viewPdf} controls />}
             {fileExtension === 'xlsx' && (
