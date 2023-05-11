@@ -39,10 +39,11 @@ const AsnPopover = styled(Popover)`
 
 const ActiveTemplates: React.FC<IActiveTemplatesProps> = ({ search, setSearch, setOffset, setFilters, isLoading, templates }) => {
   const [showFilters, setShowFilters] = useState<boolean>(false);
-
+  const [searchValue, setSearchValue] = useState<string>('');
   const [form] = AsnForm.useForm();
 
   const onChange = (data: React.ChangeEvent<HTMLInputElement>): void => {
+    setSearchValue(data.target.value);
     if (data.target.value === '') {
       setSearch('');
       setOffset(0);
@@ -71,6 +72,7 @@ const ActiveTemplates: React.FC<IActiveTemplatesProps> = ({ search, setSearch, s
   };
 
   const resetTemplates = (): void => {
+    setSearchValue('');
     setOffset(0);
     setFilters({
       courseStructure: undefined,
@@ -87,6 +89,7 @@ const ActiveTemplates: React.FC<IActiveTemplatesProps> = ({ search, setSearch, s
           placeholder="Search..."
           onChange={onChange}
           onPressEnter={onPressEnter}
+          value={searchValue}
         />
         <Space.Compact style={{ alignItems: 'center' }}>
           <AsnText underline onClick={resetTemplates}>Clean filters</AsnText>
