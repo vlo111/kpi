@@ -35,7 +35,7 @@ const Grading: React.FC<IGradingAssessmentForm> = ({
   return (
     <Row justify='end'>
       <Col>
-        {grading && !activateSave &&
+        {grading && (activateSave === false) &&
           <AsnForm.Item name={[i, 'score']} >
             <AsnInputNumber
               className='primary'
@@ -48,7 +48,7 @@ const Grading: React.FC<IGradingAssessmentForm> = ({
             />
           </AsnForm.Item>
         }
-        {!activateSave && <Space direction='horizontal' align='center'>
+        {(activateSave === false) && <Space direction='horizontal' align='center'>
           <AsnParagraph className='main' disabled={grading}>Auto-grading</AsnParagraph>
           <AsnSwitch style={{ backgroundColor: 'var(--secondary-green)' }} checked={grading} onChange={(e) => handleGrading(e)} />
           <AsnParagraph className='main' disabled={!grading}>Manual grading</AsnParagraph>
