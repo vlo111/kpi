@@ -9,6 +9,7 @@ export interface SearchApplicants {
   result: {
     count: number
   }
+  setOffset: React.Dispatch<React.SetStateAction<number>>
 }
 export interface DataType {
   key: Key

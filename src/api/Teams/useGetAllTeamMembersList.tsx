@@ -19,7 +19,7 @@ const useGetAllTeamsList: (
     }
   );
 
-  const { data, isSuccess, refetch, isLoading } = result;
+  const { data, isSuccess, refetch, isLoading, isFetching } = result;
 
   return {
     ...result,
@@ -27,7 +27,8 @@ const useGetAllTeamsList: (
     count: data?.count,
     has_more: data?.count,
     isLoading,
-    refetch
+    refetch,
+    isFetching
   };
 };
 

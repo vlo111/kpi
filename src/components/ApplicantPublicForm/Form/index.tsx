@@ -23,7 +23,12 @@ const ApplicationForm: React.FC<IApplicationForm> = ({
           section={item}
         />
       ))}
-      <TermsConditions text={terms} preview={preview} onlineSignature={online} onlineSignaturePath={onlineSignaturePath} />
+      <TermsConditions
+        text={terms}
+        preview={preview}
+        onlineSignature={online}
+        onlineSignaturePath={onlineSignaturePath}
+      />
     </>
   );
 };

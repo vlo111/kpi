@@ -72,7 +72,9 @@ const AntModal = styled(AsnModal)`
 const ApproveModal: React.FC<IApproveModalProps> = ({
   applicants,
   open,
-  onCancel
+  onCancel,
+  setSelectedRowKeys,
+  setOffset
 }) => {
   const [noteText, setNoteText] = useState<string>();
   const { mutate: approveApplicant } = useApproveApplicant();
@@ -82,6 +84,13 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
       sectionId: open,
       applicantIds: applicants.map((a) => a.id),
       note: noteText
+    }, {
+      onSuccess: () => {
+        if (setSelectedRowKeys !== undefined && setOffset !== undefined) {
+          setSelectedRowKeys([]);
+          setOffset(0);
+        }
+      }
     });
 
     void onCancel();
@@ -106,8 +115,8 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
         className="name"
         style={{ justifyContent: applicants.length === 1 ? 'center' : 'start' }}
       >
-        {applicants.map((a, index) => (
-          <p key={a.id}>{`${a.fullName}${applicants.length - 1 !== index ? ',' : ''}`}</p>
+        {applicants?.map((a, index) => (
+          <p key={a.id}>{`${a.fullname ?? a.fullName}${applicants?.length - 1 !== index ? ',' : ''}`}</p>
         ))}
       </Space>
       <Space className="add-note">

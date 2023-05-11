@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { Col, message, Row, Space } from 'antd';
 
 import DraggerForm from '../SubActivityForms/Dragger';
@@ -30,14 +30,16 @@ const SubActivityDocuments: React.FC<any> = ({
     }
   });
 
-  useEffect(() => {
-    if (files?.length !== 0) {
+  useLayoutEffect(() => {
+    if (files?.length > 0) {
       const newFile = files?.map((file: any, i: number) => {
         return {
           uid: `${i++}`,
           name: file.originalName,
           fileName: file.name,
-          thumbUrl: file.path
+          thumbUrl: file.path,
+          status: 'done',
+          id: file.id
         };
       });
       setDefaultFileList(newFile);
@@ -46,7 +48,7 @@ const SubActivityDocuments: React.FC<any> = ({
       );
       setReqDocs(filteredFiles);
     }
-  }, []);
+  }, [files]);
 
   useEffect(() => {
     if (fileList.length > 0) {
@@ -76,6 +78,8 @@ const SubActivityDocuments: React.FC<any> = ({
         defaultFileList={defaultFileList}
         setDefaultFileList={setDefaultFileList}
         name="subActivity"
+        reqDocs={reqDocs}
+        setReqDocs={setReqDocs}
       />
       {requIredDocs.length >= 1 && (
         <Space
@@ -116,7 +120,6 @@ const SubActivityDocuments: React.FC<any> = ({
                   style={{ textAlign: 'start', display: 'flex' }}
                   span={8}
                   onClick={() => {
-                    console.log('ssssss', doc.title);
                     setKeyName(doc.title);
                   }}
                 >
@@ -124,18 +127,17 @@ const SubActivityDocuments: React.FC<any> = ({
                     text="File/Documents"
                     setReqDocs={setReqDocs}
                     docType="REQUIRED_DOCUMENT"
-                    disabled={
-                      status === 'INACTIVE' ||
+                    disabled={status === 'INACTIVE' ||
                       reqDocs.filter(
                         (i: { keyname: string }) => i.keyname === doc.title
-                      ).length === doc.count
-                    }
+                      ).length === doc.count}
                     fileList={fileList}
                     setFileList={setFileList}
                     defaultFileList={defaultFileList}
                     setDefaultFileList={setDefaultFileList}
                     keyName={keyName}
-                  />
+                    />
+
                   <Row
                     style={{
                       whiteSpace: 'nowrap',

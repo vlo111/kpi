@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { Col, List, Popover, Row, Switch, Typography } from 'antd';
+import { Col, List, Popover, Row, Switch, Typography, message } from 'antd';
 import styled from 'styled-components';
 
 import { ReactComponent as DeleteIcon } from '../../../../../../assets/icons/delete.svg';
@@ -52,16 +52,22 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
     onSuccess: () => {
       refetchSingleStatus();
     },
-    onError: () => {
-      console.log('err');
+    onError: (e: { response: { data: { message: string } } }) => {
+      void message.error(e.response.data.message);
     }
   });
   const { mutate: deleteApplicationFormById } = useDeleteApplicationForm({
     onSuccess: () => {
       refetchSingleStatus();
     },
-    onError: () => {
-      console.log('err');
+    onError: (error: {
+      response: {
+        data: {
+          message: string
+        }
+      }
+    }) => {
+      void message.error(error.response.data.message, 2);
     }
   });
   const { mutate: duplicateApplicationFormById } = duplicateApplicationForm({
@@ -77,12 +83,24 @@ const ApplicationFormItem: React.FC<IApplicationFormItem> = ({
     changeStatusAssessmentFormDataById({
       onSuccess: () => {
         refetchSingleStatus();
+      },
+      onError: (e: { response: { data: { message: string } } }) => {
+        void message.error(e.response.data.message);
       }
     });
 
   const { mutate: deleteAssessmentFormById } = useDeleteAssessmentFormDataById({
     onSuccess: () => {
       refetchSingleStatus();
+    },
+    onError: (error: {
+      response: {
+        data: {
+          message: string
+        }
+      }
+    }) => {
+      void message.error(error.response.data.message, 2);
     }
   });
 

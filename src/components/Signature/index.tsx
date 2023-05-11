@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Button, Space, message } from 'antd';
+import { Button, Space, message, Divider } from 'antd';
 import SignatureCanvas from 'react-signature-canvas';
 
 import { AsnModal } from '../Forms/Modal';
@@ -48,7 +48,7 @@ const SignatureModal = styled(AsnModal)`
 
 const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [imageURL, setImageURL] = useState<string | undefined>();
+  const [imageURL, setImageURL] = useState<string | undefined>(undefined);
 
   const form = AsnForm.useFormInstance();
   const { mutate: uploadImage } = userImageUpload();
@@ -68,6 +68,7 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
   };
 
   const handleSave = async (): Promise<void> => {
+    if ((sigCanvas?.current?.isEmpty()) === true) return;
     const dataUrl = sigCanvas?.current?.getTrimmedCanvas().toDataURL();
     const blob = await fetch(dataUrl as string)
       .then(async res => await res.blob())
@@ -97,18 +98,31 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
 
   return (
     <Space wrap>
-       <Button
-        type="link"
-        onClick={showModal}
-        style={{
-          fontSize: 'var(--base-font-size)',
-          color: 'var(--dark-1)',
-          fontWeight: 700
-        }}
-        disabled={view === true}
-      >
-        Online signature / Առցանց ստորագրություն
-      </Button>
+      <Space wrap onClick={showModal} style={{ cursor: 'pointer' }} align='start'>
+        <Button
+          type="link"
+          style={{
+            fontSize: 'var(--base-font-size)',
+            color: 'var(--dark-1)',
+            whiteSpace: 'normal',
+            wordWrap: 'break-word',
+            fontWeight: 700,
+            padding: '4px 15px 4px 0px'
+          }}
+          disabled={view === true}
+        >
+          Online signature / Առցանց ստորագրություն
+        </Button>
+        {(imageURL === undefined && (view === false || view === undefined)) && <Divider
+          type='horizontal'
+          orientation={'center'}
+          style={{
+            width: '180px',
+            borderColor: 'var(--dark)',
+            margin: '32 0 0 0'
+          }}
+        />}
+      </Space>
       <SignatureModal
         footer={false}
         open={isModalOpen}

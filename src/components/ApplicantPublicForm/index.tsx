@@ -24,7 +24,7 @@ import useGetForm from '../../api/Applicant/useGetForm';
 import useCreateApplicant from '../../api/Applicant/useApplyApplicant';
 import useSingleApplicationForm from '../../api/ApplicationForm/useGetSingleApplicationForm';
 
-import { KeyName, PATHS, SectionName } from '../../helpers/constants';
+import { FormScrollToErrorOptions, KeyName, PATHS, SectionName } from '../../helpers/constants';
 import { getRelatedQuestions, getAnswers } from '../../helpers/applicationForm';
 
 import { ReactComponent as SuccessfulIcon } from '../../assets/icons/successful.svg';
@@ -314,6 +314,7 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
             onFinish={onFinish}
             autoComplete="off"
             disabled={preview}
+            scrollToFirstError={FormScrollToErrorOptions}
           >
             <SectionTitle className="title">{title}</SectionTitle>
             <FormText>{description}</FormText>
@@ -340,9 +341,7 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
         <NotAccessContent direction="vertical">
           <NotAccessSvg />
           <Title level={3}>We are sorry,</Title>
-          <Title level={5}>
-            but you don’t have access to this page or resource
-          </Title>
+          <Title level={5}>the Application form is expired</Title>
         </NotAccessContent>
       )}
       <AsnModal

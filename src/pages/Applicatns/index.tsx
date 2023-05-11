@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Table, Drawer } from 'antd';
 
 import UseSearch from './useSearch';
@@ -11,23 +11,17 @@ import { AsnForm } from '../../components/Forms/Form';
 import { IApplicants, iFinishApplicant, Iseacrh } from './applicantsTypes';
 import Applicant from '../../components/Applicant';
 import { useProject } from '../../hooks/useProject';
-import { HandleTableOnChange, TableParams } from '../../types/teams';
+import { HandleTableOnChange } from '../../types/teams';
 
 const ApplicantsData: React.FC = () => {
   const [result, setResult] = useState<any>();
   const [count, setCount] = useState<number>();
   const { projectId } = useProject();
-  const [tableParams, setTableParams] = useState<TableParams>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-      showSizeChanger: false
-    }
-  });
+  const [offset, setOffset] = useState<number>(0);
 
   const [filters, setFilters] = useState<Iseacrh>({
-    search: '',
-    limit: tableParams.pagination?.pageSize,
+    search: undefined,
+    limit: 10,
     student: undefined,
     income: undefined,
     disability: undefined,
@@ -52,32 +46,13 @@ const ApplicantsData: React.FC = () => {
 
   const { refetch, isLoading } = useAllAplicants({
     ...filters,
-    offset:
-    tableParams.pagination?.current !== undefined &&
-    tableParams.pagination?.pageSize !== undefined
-      ? (tableParams.pagination?.current - 1) *
-        tableParams.pagination?.pageSize
-      : 0
+    offset
   }, projectId, {
     onSuccess: (data: IApplicants): void => {
       setResult(data);
       setCount(data?.count);
     }
   });
-
-  useEffect(() => {
-    setTableParams({
-      ...tableParams,
-      pagination: {
-        ...tableParams.pagination,
-        total: count
-      }
-    });
-  }, [JSON.stringify(tableParams), isLoading, count]);
-
-  useEffect(() => {
-    refetch();
-  }, [refetch, filters]);
 
   const serachData = useCallback(
     (search: string) => {
@@ -124,14 +99,13 @@ const ApplicantsData: React.FC = () => {
   const column = useColumn({ filterData, onFinish, form, setOpen, open });
 
   const handleTableChange: HandleTableOnChange = (pagination) => {
-    setTableParams({
-      pagination
-    });
+    const { current } = pagination;
+    setOffset((current as number - 1) * 10);
   };
 
   return (
     <Container>
-      <UseSearch filters={filters} serachData={serachData} result={result}/>
+      <UseSearch setOffset={setOffset} filters={filters} serachData={serachData} result={result}/>
       <>
         <UseFilterTags
           filters={filters}
@@ -154,7 +128,12 @@ const ApplicantsData: React.FC = () => {
             };
           }}
           loading={isLoading}
-          pagination={tableParams?.pagination}
+          pagination={{
+            current: offset / 10 + 1,
+            pageSize: 10,
+            showSizeChanger: false,
+            total: count
+          }}
           onChange={handleTableChange}
 
         />

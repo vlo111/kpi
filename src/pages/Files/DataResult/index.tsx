@@ -51,36 +51,21 @@ const DataResult: React.FC<IDataResult> = ({
   setFolderId,
   setFolderName,
   refetchFolderFiles,
-  isFetchingAllFilesSearch,
-  isFetchingSearchCourseFiles,
-  setPaginate,
   filesCount,
   refetchAllFiles,
-  setSearchPaginate,
-  search,
-  allFilesSearchCount,
-  currentPage,
-  searchCurrentPage,
   isFetchingAllFiles,
-  isFetchingCourseFiles
+  isFetchingCourseFiles,
+  setOffset,
+  offset
 }) => {
   const [fileName, setFileName] = useState('');
   const [viewPdf, setViewPdf] = useState<string | null >(null);
   const [opens, setOpens] = useState<boolean>(false);
 
   const handlePagination = (page: number): void => {
-    search.length > 2
-      ? setSearchPaginate({
-        offset: page === 1 ? 0 : (page - 1) * 24,
-        limit: 24,
-        currentPage: page
-      })
-      : setPaginate({
-        offset: page === 1 ? 0 : (page - 1) * 24,
-        limit: 24,
-        currentPage: page
-      });
+    setOffset((page - 1) * 24);
   };
+
   const handleCancel: Void = () => {
     setOpens(false);
     void refetchAllFiles();
@@ -97,8 +82,6 @@ const DataResult: React.FC<IDataResult> = ({
   const { Panel } = Collapse;
   if (
     isFetchingFolderFiles ||
-    isFetchingSearchCourseFiles ||
-    isFetchingAllFilesSearch ||
     isFetchingAllFiles ||
     isFetchingCourseFiles
   ) {
@@ -156,13 +139,9 @@ const DataResult: React.FC<IDataResult> = ({
           >
             <AsnPagination
               showSizeChanger={false}
-              current={search.length > 2 ? searchCurrentPage : currentPage}
+              current={(offset / 24) + 1}
               pageSize={24}
-              total={
-                search.length > 2
-                  ? Number(allFilesSearchCount)
-                  : Number(filesCount)
-              }
+              total={Number(filesCount)}
               onChange={handlePagination}
             />
           </Row>

@@ -7,7 +7,7 @@ import Grading from './Grading';
 import { IAnswersProps, IAnswer } from '../../types/api/assessment';
 import { FormItemWrapperCol, TotalScoreQuestion, AnswerScore, AnswerWrapper, AsnParagraph } from './styles';
 
-const OptionType: React.FC<IAnswersProps> = ({ question, i, setAllScore, allScore }) => {
+const OptionType: React.FC<IAnswersProps> = ({ question, i, setAllScore, allScore, activateSave }) => {
   const { title, answers, required, score, userEarnedScore, assessedScore } = question;
   const [grading, setGrading] = useState<boolean>(false);
   const [earnedScore, setEarnedScore] = useState<number>(userEarnedScore);
@@ -62,6 +62,7 @@ const OptionType: React.FC<IAnswersProps> = ({ question, i, setAllScore, allScor
           i={i}
           setAllScore={setAllScore}
           allScore={allScore}
+          activateSave={activateSave}
         />
       }
     </FormItemWrapperCol >

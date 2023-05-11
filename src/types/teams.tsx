@@ -93,7 +93,8 @@ export interface SearchHeaderTypes {
   totalCount: number
   edit: boolean
   permissionsList: PermissionsResult
-  setSearchText: React.Dispatch<React.SetStateAction<string>>
+  setSearchText: React.Dispatch<React.SetStateAction<string | undefined>>
+  setOffset: React.Dispatch<React.SetStateAction<number>>
 }
 
 export interface UpdateUserAllInfo {
@@ -103,8 +104,10 @@ export interface UpdateUserAllInfo {
 
 export interface ITeamMembersTypes {
   setTotalCount: React.Dispatch<React.SetStateAction<number>>
-  searchText: string
+  searchText: string | undefined
   permissionsList: PermissionsResult
+  setOffset: React.Dispatch<React.SetStateAction<number>>
+  offset: number
 }
 
 export interface PermissionsResult {
@@ -241,6 +244,7 @@ export interface UseGetAllTeamsListResult {
   has_more: TeamData['has_more']
   isLoading: boolean
   refetch: any
+  isFetching: boolean
 }
 
 export interface DeleteTeamMemberData {

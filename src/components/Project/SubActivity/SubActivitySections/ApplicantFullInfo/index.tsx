@@ -61,7 +61,9 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   applicantCounts,
   isLoading,
   setSearch,
-  search
+  search,
+  sectionsCount,
+  tabIndex
 }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [selectedApplicants, setSelectedApplicants] = useState<
@@ -242,14 +244,19 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
     const { current } = pagination;
     setOffset((current as number - 1) * 10);
   };
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    if (e.target.value.length === 1) {
-      setSearch(undefined);
-    }
-    if (e.target.value.trim().length > 1) {
-      setSearch(e.target.value.trim());
+
+  const handleSearch = (e: React.SyntheticEvent<HTMLInputElement>): void => {
+    if (e.currentTarget.value.trim().length > 0) {
+      setSearch(e.currentTarget.value.trim());
     }
     setOffset(0);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if (e.target.value === '') {
+      setSearch(undefined);
+      setOffset(0);
+    }
   };
 
   return (
@@ -269,7 +276,8 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
               </Button>
                { (applicants?.length > 0 || search?.length > 0) && <AsnInput
                 placeholder='Search...'
-                onChange={handleSearch}
+                onPressEnter={handleSearch}
+                onChange={handleChange}
                 />}
             </Col>
             <Col style={{ display: 'flex', gap: '5px' }}>
@@ -318,6 +326,10 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                   status={status}
                   sectionDataId={courseId}
                   applicants={selectedApplicants}
+                  sectionsCount={sectionsCount}
+                  tabIndex={tabIndex}
+                  setSelectedRowKeys={setSelectedRowKeys}
+                  setOffset={setOffset}
                 />
               </>
               )}

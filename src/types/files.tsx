@@ -23,8 +23,7 @@ export interface ISearchImport {
   }
   courseId: string | null
   refetch: () => Promise<UseQueryResult>
-  setSearch: React.Dispatch<React.SetStateAction<string>>
-  search: string
+  setSearch: React.Dispatch<React.SetStateAction<string | undefined>>
   folderFiles: IFiles[]
   folderId: string
   isFetchingFolderFiles: boolean
@@ -33,11 +32,11 @@ export interface ISearchImport {
   setFolderName: React.Dispatch<React.SetStateAction<string>>
   refetchFolderFiles: () => Promise<UseQueryResult>
   refetchAllFiles: () => Promise<UseQueryResult>
-  setPaginate: React.Dispatch<React.SetStateAction<IPaginate>>
+  setOffset: React.Dispatch<React.SetStateAction<number>>
   filesCount: string
-  currentPage: number
   isFetchingAllFiles: boolean
   isFetchingCourseFiles: boolean
+  offset: number
 }
 export interface IDataResult {
   fileList: IFiles[] | ICourseFiles | any
@@ -50,18 +49,12 @@ export interface IDataResult {
   setFolderId: React.Dispatch<React.SetStateAction<string>>
   setFolderName: React.Dispatch<React.SetStateAction<string>>
   refetchFolderFiles: () => Promise<UseQueryResult>
-  isFetchingAllFilesSearch: boolean
-  isFetchingSearchCourseFiles: boolean
-  setPaginate: React.Dispatch<React.SetStateAction<IPaginate>>
   filesCount: string
   refetchAllFiles: () => Promise<UseQueryResult>
-  setSearchPaginate: React.Dispatch<React.SetStateAction<IPaginate>>
-  search: string
-  allFilesSearchCount: string
-  currentPage: number
-  searchCurrentPage: number
   isFetchingAllFiles: boolean
   isFetchingCourseFiles: boolean
+  setOffset: React.Dispatch<React.SetStateAction<number>>
+  offset: number
 }
 
 export interface IFilesProps {
@@ -70,8 +63,8 @@ export interface IFilesProps {
   courseFiles: ICourseFiles
   refetchAllFiles: () => Promise<UseQueryResult>
   isFetching: boolean
-  setSearch: React.Dispatch<React.SetStateAction<string>>
-  search: string
+  setSearch: React.Dispatch<React.SetStateAction<string | undefined>>
+  search: string | undefined
   setFolderId: React.Dispatch<React.SetStateAction<string>>
   isFetchingFolderFiles: boolean
   setFolderName: React.Dispatch<React.SetStateAction<string>>

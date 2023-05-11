@@ -12,7 +12,6 @@ import { AsnTable } from '../../Forms/Table';
 import {
   HandleTableOnChange,
   ITeamMembersTypes,
-  TableParams,
   UpdateUserAllInfo,
   User
 } from '../../../types/teams';
@@ -30,7 +29,9 @@ const ApplicantList = styled.div`
 const TeamsList: React.FC<ITeamMembersTypes> = ({
   setTotalCount,
   permissionsList,
-  searchText
+  searchText,
+  setOffset,
+  offset
 }) => {
   const [openApplicantDeleteModal, setOpenApplicantDeleteModal] = useState('');
   const { projectId } = useProject();
@@ -120,11 +121,10 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
       render: (item: User) => {
         return (
           <Space
-            className={`${
-              item?.emailVerified
+            className={`${item?.emailVerified
                 ? 'user_status_resolved'
                 : 'user_status_pending'
-            }`}
+              }`}
             style={{ width: '100%', justifyContent: 'center' }}
             direction="horizontal"
           >
@@ -167,30 +167,19 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
     }
   ];
 
-  const [tableParams, setTableParams] = useState<TableParams>({
-    pagination: {
-      current: 1,
-      pageSize: 11,
-      showSizeChanger: false
-    }
-  });
-
   const {
     data: membersListInfo,
     isLoading,
     refetch,
-    count
+    count,
+    isFetching
   } = useGetAllTeamsList({
-    limit: tableParams.pagination?.pageSize,
-    search: searchText?.length > 3 ? searchText : undefined,
-    offset:
-      tableParams.pagination?.current !== undefined &&
-      tableParams.pagination?.pageSize !== undefined
-        ? (tableParams.pagination?.current - 1) *
-          tableParams.pagination?.pageSize
-        : 0,
+    limit: 11,
+    search: searchText,
+    offset,
     projectId
-  });
+  }
+  );
 
   const { mutate: deletePermission } = useDeleteTeamMemberPermissionByInfo({
     onSuccess: () => {
@@ -202,22 +191,14 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
     }
   });
 
-  useEffect(() => {
-    setTableParams({
-      ...tableParams,
-      pagination: {
-        ...tableParams.pagination,
-        total: count
-      }
-    });
-    setTotalCount(count);
-  }, [JSON.stringify(tableParams), isLoading, count]);
-
   const handleTableChange: HandleTableOnChange = (pagination) => {
-    setTableParams({
-      pagination
-    });
+    const { current } = pagination;
+    setOffset((current as number - 1) * 11);
   };
+
+  useEffect(() => {
+    setTotalCount(count);
+  }, [isFetching]);
 
   return (
     <ApplicantList>
@@ -227,7 +208,12 @@ const TeamsList: React.FC<ITeamMembersTypes> = ({
         columns={columns}
         rowKey={(record) => record?.id}
         dataSource={membersListInfo}
-        pagination={tableParams.pagination}
+        pagination={{
+          current: offset / 11 + 1,
+          pageSize: 11,
+          showSizeChanger: false,
+          total: count
+        }}
         loading={isLoading}
         onChange={handleTableChange}
       />
