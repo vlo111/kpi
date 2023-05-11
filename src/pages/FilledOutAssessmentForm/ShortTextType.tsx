@@ -26,7 +26,7 @@ const ShortTextType: React.FC<IAnswersProps> = ({ question, i, activateSave }) =
             {answers[0].text}
           </AsnParagraph>
           {
-            assessedScore === undefined && !activateSave &&
+            assessedScore === undefined && (activateSave === false) &&
             <Row justify='end'>
               <AsnForm.Item style={{ margin: 0 }} name={[i, 'score']}>
                 <AsnInputNumber

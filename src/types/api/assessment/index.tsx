@@ -301,7 +301,7 @@ export interface IAnswersProps {
   i: number
   setAllScore?: React.Dispatch<React.SetStateAction<number | undefined>>
   allScore?: number | undefined
-  activateSave: boolean
+  activateSave?: boolean
 }
 export interface IAssessmentFormAssess {
   id: string
@@ -322,7 +322,7 @@ export interface IGradingAssessmentForm {
   userEarnedScore: number
   setAllScore?: React.Dispatch<React.SetStateAction<number | undefined>>
   allScore?: number | undefined
-  activateSave: boolean
+  activateSave?: boolean
 }
 
 export interface IAssessAnswer {
