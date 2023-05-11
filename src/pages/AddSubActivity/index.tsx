@@ -94,12 +94,12 @@ const AddSubActivity: React.FC = () => {
     {
       key: '2',
       label: 'Workspace',
-      children: 'Content of Workspace'
+      children: 'No Results'
     },
     {
       key: '3',
       label: 'Events',
-      children: 'Content of Events'
+      children: 'No Results'
     }
   ];
   return (
