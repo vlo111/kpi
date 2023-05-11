@@ -102,6 +102,7 @@ const AddSubActivity: React.FC = () => {
       children: 'No Results'
     }
   ];
+
   return (
     <Space style={{ minHeight: '100%', position: 'relative', width: '100%' }} direction='vertical'>
       <Row style={{ padding: '10px 30px' }}>

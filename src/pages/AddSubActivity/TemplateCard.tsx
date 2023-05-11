@@ -72,7 +72,7 @@ const TemplateCard: React.FC<{ template: IActiveTemplate }> = ({ template }) => 
 
   return (
         <>
-            <AsnCard style={{ cursor: 'pointer' }} onClick={() => setOpenCreateSubActivity(true) }>
+            <AsnCard style={{ cursor: 'pointer' }} onClick={() => setOpenCreateSubActivity(true)}>
                 <Space direction='vertical' style={{ width: '100%' }} size={12}>
                     <AsnRow justify={'space-between'}>
                         <AsnCol span={8}>
@@ -89,7 +89,11 @@ const TemplateCard: React.FC<{ template: IActiveTemplate }> = ({ template }) => 
                             Description:
                         </AsnCol>
                         <AsnCol span={16} >
-                            <AsnParagraph ellipsis={{ rows: 1, expandable: true, symbol: 'View More' }} style={{ color: 'var(--dark-3)' }}>
+                            <AsnParagraph
+                                onClick={(e) => e.stopPropagation()}
+                                ellipsis={{ rows: 1, expandable: true, symbol: 'View More' }}
+                                style={{ color: 'var(--dark-3)', cursor: 'default' }}
+                            >
                                 {description}
                             </AsnParagraph>
                         </AsnCol>
@@ -98,7 +102,7 @@ const TemplateCard: React.FC<{ template: IActiveTemplate }> = ({ template }) => 
                         <AsnCol span={10}>
                             <Space direction='horizontal' size={9}>
                                 <AsnParagraph> Application form:</AsnParagraph>
-                                <AntCheckbox disabled checked={applicationForm.includes('APPLICATION' as never) } />
+                                <AntCheckbox disabled checked={applicationForm.includes('APPLICATION' as never)} />
                             </Space>
                         </AsnCol>
                         <AsnCol span={14}>
