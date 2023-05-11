@@ -26,6 +26,8 @@ import Signature from '../../components/Signature';
 
 const FilledOutAssessmentForm: React.FC = () => {
   const [allScore, setAllScore] = useState<number | undefined>();
+  const [activateSave, setActivateSave] = useState<boolean>(false);
+
   const navigate = useNavigate();
   const [form] = AsnForm.useForm();
 
@@ -90,6 +92,10 @@ const FilledOutAssessmentForm: React.FC = () => {
     setAllScore(allScores);
   };
 
+  const handleCancel = (): void => {
+    activateSave ? setActivateSave(false) : navigate(-1);
+  };
+
   return (
     <FormWrapper justify="center">
       <AsnForm
@@ -123,14 +129,14 @@ const FilledOutAssessmentForm: React.FC = () => {
               {(preAssessmentForm?.questions ?? postAssessmentForm?.questions).map((question, i: number) =>
                 question.answerType === 'SHORT_TEXT'
                   ? (
-                    <ShortTextType key={i} question={question} i={i} />
+                    <ShortTextType activateSave={activateSave} key={i} question={question} i={i} />
                     )
                   : question.answerType === 'OPTION'
                     ? (
-                      <OptionType key={i} question={question} i={i} setAllScore={setAllScore} allScore={allScore} />
+                      <OptionType activateSave={activateSave} key={i} question={question} i={i} setAllScore={setAllScore} allScore={allScore} />
                       )
                     : (
-                      <CheckBoxType key={i} question={question} i={i} setAllScore={setAllScore} allScore={allScore} />
+                      <CheckBoxType activateSave={activateSave} key={i} question={question} i={i} setAllScore={setAllScore} allScore={allScore} />
                       )
               )}
             </Space>
@@ -141,13 +147,13 @@ const FilledOutAssessmentForm: React.FC = () => {
             <Space
               direction="horizontal"
               align="center"
-            style={(preAssessmentForm?.onlineSignature ?? postAssessmentForm?.onlineSignature)
-              ? { justifyContent: 'space-between', paddingTop: '30px', width: '100%' }
-              : { paddingTop: '30px' }}
+              style={(preAssessmentForm?.onlineSignature ?? postAssessmentForm?.onlineSignature)
+                ? { justifyContent: 'space-between', paddingTop: '30px', width: '100%' }
+                : { paddingTop: '30px', justifyContent: 'end', width: '100%' }}
             >
               {(preAssessmentForm?.onlineSignature ?? postAssessmentForm?.onlineSignature) &&
                 <>
-                  <Signature view={true} url={preAssessmentForm?.onlineSignaturePath ?? postAssessmentForm?.onlineSignaturePath } />
+                  <Signature view={true} url={preAssessmentForm?.onlineSignaturePath ?? postAssessmentForm?.onlineSignaturePath} />
                 </>
               }
               <Space direction="horizontal">
@@ -182,19 +188,26 @@ const FilledOutAssessmentForm: React.FC = () => {
               <>
                 <AsnButton
                   className="default"
-                  onClick={() => navigate(-1)}
+                  onClick={handleCancel}
                 >
                   Cancel
                 </AsnButton>
-                <AsnForm.Item>
+                {!activateSave && <AsnButton
+                  className="primary"
+                  style={{ marginTop: '30px' }}
+                  onClick={() => setActivateSave(true)}
+                >
+                  Assess
+                </AsnButton>}
+                {activateSave && <AsnForm.Item>
                   <AsnButton
                     className="primary"
                     htmlType="submit"
                     style={{ marginTop: '30px' }}
                   >
-                    Assess
+                    Save
                   </AsnButton>
-                </AsnForm.Item>
+                </AsnForm.Item>}
               </>
               )
             : (

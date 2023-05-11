@@ -6,7 +6,7 @@ import { AsnForm } from '../../components/Forms/Form';
 import { IAnswersProps } from '../../types/api/assessment';
 import { FormItemWrapperCol, TotalScoreQuestion, AsnParagraph } from './styles';
 
-const ShortTextType: React.FC<IAnswersProps> = ({ question, i }) => {
+const ShortTextType: React.FC<IAnswersProps> = ({ question, i, activateSave }) => {
   const { title, required, score, answers, userEarnedScore, assessedScore } = question;
   const [earnedScore, setEarnedScore] = useState<number>(userEarnedScore);
 
@@ -26,7 +26,7 @@ const ShortTextType: React.FC<IAnswersProps> = ({ question, i }) => {
             {answers[0].text}
           </AsnParagraph>
           {
-            assessedScore === undefined &&
+            assessedScore === undefined && !activateSave &&
             <Row justify='end'>
               <AsnForm.Item style={{ margin: 0 }} name={[i, 'score']}>
                 <AsnInputNumber
@@ -36,6 +36,7 @@ const ShortTextType: React.FC<IAnswersProps> = ({ question, i }) => {
                   min={0}
                   onChange={(e) => setEarnedScore(e as number)}
                   style={{ float: 'right' }}
+                  onPressEnter={(e) => e.preventDefault()}
                 />
               </AsnForm.Item>
             </Row>
