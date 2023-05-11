@@ -26,7 +26,7 @@ import Signature from '../../components/Signature';
 
 const FilledOutAssessmentForm: React.FC = () => {
   const [allScore, setAllScore] = useState<number | undefined>();
-  const [activateSave, setActivateSave] = useState<boolean>(false);
+  const [activateSave, setActivateSave] = useState<boolean | undefined>(false);
 
   const navigate = useNavigate();
   const [form] = AsnForm.useForm();
@@ -93,7 +93,7 @@ const FilledOutAssessmentForm: React.FC = () => {
   };
 
   const handleCancel = (): void => {
-    activateSave ? setActivateSave(false) : navigate(-1);
+    activateSave === true ? setActivateSave(false) : navigate(-1);
   };
 
   return (
@@ -192,14 +192,14 @@ const FilledOutAssessmentForm: React.FC = () => {
                 >
                   Cancel
                 </AsnButton>
-                {!activateSave && <AsnButton
+                {activateSave === false && <AsnButton
                   className="primary"
                   style={{ marginTop: '30px' }}
                   onClick={() => setActivateSave(true)}
                 >
                   Assess
                 </AsnButton>}
-                {activateSave && <AsnForm.Item>
+                {activateSave === true && <AsnForm.Item>
                   <AsnButton
                     className="primary"
                     htmlType="submit"
