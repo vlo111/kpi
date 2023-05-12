@@ -315,6 +315,7 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
             autoComplete="off"
             disabled={preview}
             scrollToFirstError={FormScrollToErrorOptions}
+            onKeyDown={(e) => e.preventDefault()}
           >
             <SectionTitle className="title">{title}</SectionTitle>
             <FormText>{description}</FormText>

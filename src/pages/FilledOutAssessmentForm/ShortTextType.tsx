@@ -36,7 +36,6 @@ const ShortTextType: React.FC<IAnswersProps> = ({ question, i, activateSave }) =
                   min={0}
                   onChange={(e) => setEarnedScore(e as number)}
                   style={{ float: 'right' }}
-                  onPressEnter={(e) => e.preventDefault()}
                 />
               </AsnForm.Item>
             </Row>

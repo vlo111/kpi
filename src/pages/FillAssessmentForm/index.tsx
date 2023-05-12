@@ -118,6 +118,7 @@ const FillAssessMentForm: React.FC = () => {
           onFinish={onFinish}
           name="preassesment"
           scrollToFirstError={FormScrollToErrorOptions}
+          onKeyDown={(e) => e.preventDefault()}
         >
           <AsnForm.Item
             name="email"
