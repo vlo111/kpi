@@ -97,7 +97,7 @@ const FilledOutAssessmentForm: React.FC = () => {
   };
 
   return (
-    <FormWrapper justify="center">
+    <FormWrapper justify="center" onKeyDown={(e) => e.preventDefault()}>
       <AsnForm
         form={form}
         layout="vertical"
