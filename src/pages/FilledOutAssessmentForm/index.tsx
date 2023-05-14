@@ -96,8 +96,14 @@ const FilledOutAssessmentForm: React.FC = () => {
     activateSave === true ? setActivateSave(false) : navigate(-1);
   };
 
+  const handleKeyPress = (event: { key: string, preventDefault: () => void }): void => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
+
   return (
-    <FormWrapper justify="center" onKeyDown={(e) => e.preventDefault()}>
+    <FormWrapper justify="center" onKeyDown={handleKeyPress}>
       <AsnForm
         form={form}
         layout="vertical"

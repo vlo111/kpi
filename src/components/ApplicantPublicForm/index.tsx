@@ -304,6 +304,11 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
       console.log(e);
     }
   };
+  const handleKeyPress = (event: { key: string, preventDefault: () => void }): void => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
 
   return (
     <Spin spinning={isLoading}>
@@ -315,7 +320,7 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
             autoComplete="off"
             disabled={preview}
             scrollToFirstError={FormScrollToErrorOptions}
-            onKeyDown={(e) => e.preventDefault()}
+            onKeyDown={handleKeyPress}
           >
             <SectionTitle className="title">{title}</SectionTitle>
             <FormText>{description}</FormText>

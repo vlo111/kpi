@@ -32,8 +32,14 @@ const Grading: React.FC<IGradingAssessmentForm> = ({
     setGrading(e);
   };
 
+  const handleKeyDown = (event: { key: string, preventDefault: () => void }): void => {
+    if (event.key === ' ') {
+      event.preventDefault();
+    }
+  };
+
   return (
-    <Row justify='end'>
+    <Row justify='end' onKeyDown={handleKeyDown}>
       <Col>
         {grading && (activateSave === false) &&
           <AsnForm.Item name={[i, 'score']} >
