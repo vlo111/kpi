@@ -60,5 +60,3 @@ const OptionType: React.FC<IAnswersProps> = ({ question, i }) => {
 };
 
 export default OptionType;
-// 0c83f395-3a58-4334-8abd-530e98e4b25c
-// 937ac0c0-37f3-453c-9f48-5e222b745ddd
