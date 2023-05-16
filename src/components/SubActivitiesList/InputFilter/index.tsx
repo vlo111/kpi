@@ -7,6 +7,7 @@ import { ReactComponent as SubActivitiesFilteredDataIcon } from '../../../assets
 import { Button } from '../filterPopupStyle';
 import {
   TChangeEventType,
+  TOnSearchChange,
   TSearchPropsType
 } from '../../../types/api/subActivityTable';
 
@@ -27,50 +28,63 @@ export const getColumnSearchProps: TSearchPropsType = (
   dataIndex,
   setSearchData,
   searchData,
-  key
+  key,
+  setTablePagination,
+  inputValues,
+  setInputValues
 ) => {
-  const onSearchChange: TChangeEventType = (e) => {
-    if (e.target.value.length >= 3 && dataIndex !== 'duration') {
+  const onSearchKeyPress: TChangeEventType = (close) => {
+    if (inputValues[key].length >= 1 && dataIndex !== 'duration') {
       setSearchData({
         ...searchData,
-        [key]: e.target.value
+        [key]: inputValues[key]?.trim()
       });
-    } else if (e.target.value.length > 0 && dataIndex === 'duration') {
+      setTablePagination({
+        current: 1,
+        pageSize: 20
+      });
+    } else if (inputValues[key].length > 0 && dataIndex === 'duration') {
       const numberValue =
-        e.target.value.length > 0 ? Number(e.target.value) : undefined;
-
+        inputValues[key].length > 0 ? Number(inputValues[key]?.trim()) : undefined;
       setSearchData({
         ...searchData,
         [key]: numberValue
       });
-    } else if (e.target.value.length === 0) {
+      setTablePagination({
+        current: 1,
+        pageSize: 20
+      });
+    } else if (inputValues[key].length === 0) {
       setSearchData({
         ...searchData,
         [key]: undefined
       });
     }
+    close();
+  };
+
+  const onSearchChange: TOnSearchChange = (e) => {
+    setInputValues({
+      ...inputValues,
+      [key]: e.target.value
+    });
   };
   return {
     filterDropdown: ({ close }) => (
       <div
         style={{
-          padding: 8,
+          padding: '8px',
           width: '350px',
           display: 'flex',
           flexDirection: 'row',
-          gap: '3rem'
-        }}
-        onKeyDown={(e) => {
-          e.stopPropagation();
-          if (e.code === 'Enter') {
-            close();
-          }
+          gap: '1rem'
         }}
       >
         <FilterInput
           placeholder={`Search ${dataIndex}`}
           onChange={onSearchChange}
-          value={searchData[key]}
+          onPressEnter={() => onSearchKeyPress(close)}
+          value={inputValues[key]}
         />
         <Button onClick={() => close()}>
           <CloseIcon />

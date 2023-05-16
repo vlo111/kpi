@@ -2,7 +2,7 @@ import { Typography } from 'antd';
 import styled from 'styled-components';
 import { AsnCheckbox } from '../Forms/Checkbox';
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 
 export const PopupContainer = styled.div<{ width?: string }>`
   padding: 1rem 1rem 2rem;
@@ -39,4 +39,13 @@ export const Button = styled.button`
   background: none;
   cursor: pointer;
   width: 20px;
+`;
+
+export const CustomParagraph = styled(Paragraph)<{ width: string }>`
+  width: ${(props) => props.width} !important;
+  margin-bottom: "0rem";
+`;
+
+export const CustomTitle = styled.div<{ width: string }>`
+  width: ${(props) => props.width} !important;
 `;

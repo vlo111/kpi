@@ -1,8 +1,5 @@
 import React from 'react';
-import { Typography } from 'antd';
 import moment from 'moment';
-import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg';
-import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg';
 import { getColumnSearchProps } from './InputFilter';
 import { getColumnSearchPropsCheckbox } from './CheckboxFilters';
 import {
@@ -11,7 +8,7 @@ import {
   subActivityTableFilterStatus
 } from '../../helpers/constants';
 import { getColumnCalendarProps } from './CalendarFilter';
-import { Button } from './filterPopupStyle';
+import { CustomParagraph, CustomTitle } from './filterPopupStyle';
 import {
   IAction,
   IDuration,
@@ -20,20 +17,12 @@ import {
   ISector,
   ISubActivitiesManager,
   ITeachingMode,
-  TAction,
   TColumnType,
   IAssignedPeople,
   IOrganization
 } from '../../types/api/subActivityTable';
 import AvatarComponent from './AvatarComponent';
-import styled from 'styled-components';
-
-const { Paragraph } = Typography;
-
-export const CustomParagraph = styled(Paragraph)<{ width: string }>`
-  width: ${(props) => props.width} !important;
-  margin-bottom: "0rem";
-`;
+import ColumnsAction from './columnsAction';
 
 export const useColumn: TColumnType = (
   setOpenCreateSubActivity,
@@ -44,40 +33,23 @@ export const useColumn: TColumnType = (
   setOpenConfirmModal,
   setCheckboxValues,
   checkboxValues,
-  assignCheckboxValues,
-  setAssignCheckboxValues
+  setTablePagination,
+  inputValues,
+  setInputValues
 ) => {
-  const onDeleteClick: TAction = (e, id) => {
-    e.stopPropagation();
-    setOpenConfirmModal(true);
-    setInputActivityId(id);
-  };
-
-  const onEditClick: TAction = (e, id): void => {
-    e.stopPropagation();
-    setInputActivityId(id);
-    setOpenCreateSubActivity(true);
-  };
-
   return [
     {
       ...getColumnSearchProps(
         'title',
         setSearchData,
         searchData,
-        'courseTitle'
+        'courseTitle',
+        setTablePagination,
+        inputValues,
+        setInputValues
       ),
-      title: () => (
-        <div
-          style={{
-            width: '9rem'
-          }}
-        >
-          Title
-        </div>
-      ),
+      title: () => <CustomTitle width="9rem">Title</CustomTitle>,
       dataIndex: 'title',
-      key: 1,
       ellipsis: false,
       fixed: 'left',
       render: (text: string, record: { title: string }) => {
@@ -102,20 +74,10 @@ export const useColumn: TColumnType = (
         'status',
         setCheckboxValues,
         checkboxValues,
-        assignCheckboxValues,
-        setAssignCheckboxValues
+        setTablePagination
       ),
-      title: () => (
-        <div
-          style={{
-            width: '5rem'
-          }}
-        >
-          Status
-        </div>
-      ),
+      title: () => <CustomTitle width="5rem">Status</CustomTitle>,
       dataIndex: 'status',
-      key: 2,
       ellipsis: false,
       render: (text: string, record: { status: string }) => {
         const upperCase = `${record?.status[0]}${record?.status
@@ -143,20 +105,10 @@ export const useColumn: TColumnType = (
         'organizations',
         setCheckboxValues,
         checkboxValues,
-        assignCheckboxValues,
-        setAssignCheckboxValues
+        setTablePagination
       ),
-      title: (
-        <div
-          style={{
-            width: '8rem'
-          }}
-        >
-          Organization
-        </div>
-      ),
+      title: <CustomTitle width="8rem">Organization</CustomTitle>,
       dataIndex: 'organization',
-      key: 3,
       ellipsis: false,
       render: (text: string, record: IOrganization) => {
         return (
@@ -176,18 +128,12 @@ export const useColumn: TColumnType = (
         'description',
         setSearchData,
         searchData,
-        'courseDescription'
+        'courseDescription',
+        setTablePagination,
+        inputValues,
+        setInputValues
       ),
-      title: () => (
-        <div
-          style={{
-            width: '9rem'
-          }}
-        >
-          Description
-        </div>
-      ),
-      key: 4,
+      title: () => <CustomTitle width="9rem">Description</CustomTitle>,
       dataIndex: 'description',
       ellipsis: false,
       render: (text: string, record: { description: string }) => {
@@ -216,19 +162,11 @@ export const useColumn: TColumnType = (
         'managers',
         setCheckboxValues,
         checkboxValues,
-        assignCheckboxValues,
-        setAssignCheckboxValues
+        setTablePagination
       ),
       title: () => (
-        <div
-          style={{
-            width: '12.5rem'
-          }}
-        >
-          Sub Activities manager
-        </div>
+        <CustomTitle width="12.5rem">Sub Activities manager</CustomTitle>
       ),
-      key: 5,
       dataIndex: 'subActivitiesManager',
       ellipsis: false,
       render: (
@@ -258,19 +196,9 @@ export const useColumn: TColumnType = (
         'assigned',
         setCheckboxValues,
         checkboxValues,
-        assignCheckboxValues,
-        setAssignCheckboxValues
+        setTablePagination
       ),
-      title: () => (
-        <div
-          style={{
-            width: '9.5rem'
-          }}
-        >
-          Assigned People
-        </div>
-      ),
-      key: 5,
+      title: () => <CustomTitle width="9.5rem">Assigned People</CustomTitle>,
       dataIndex: 'assignedPeople',
       ellipsis: false,
       render: (text: string, record: IAssignedPeople) => {
@@ -290,19 +218,9 @@ export const useColumn: TColumnType = (
         'sectors',
         setCheckboxValues,
         checkboxValues,
-        assignCheckboxValues,
-        setAssignCheckboxValues
+        setTablePagination
       ),
-      title: () => (
-        <div
-          style={{
-            width: '4.5rem'
-          }}
-        >
-          Sector
-        </div>
-      ),
-      key: 6,
+      title: () => <CustomTitle width="4.5rem">Sector</CustomTitle>,
       dataIndex: 'sector',
       ellipsis: true,
       render: (text: string, record: ISector) => {
@@ -322,19 +240,9 @@ export const useColumn: TColumnType = (
         'regions',
         setCheckboxValues,
         checkboxValues,
-        assignCheckboxValues,
-        setAssignCheckboxValues
+        setTablePagination
       ),
-      title: () => (
-        <div
-          style={{
-            width: '4.5rem'
-          }}
-        >
-          Region
-        </div>
-      ),
-      key: 7,
+      title: () => <CustomTitle width="4.5rem">Region</CustomTitle>,
       dataIndex: 'region',
       ellipsis: false,
       render: (text: string, record: IRegion) => {
@@ -350,18 +258,10 @@ export const useColumn: TColumnType = (
         'Start Date',
         setSearchData,
         searchData,
-        'startDate'
+        'startDate',
+        setTablePagination
       ),
-      title: () => (
-        <div
-          style={{
-            width: '7rem'
-          }}
-        >
-          Start Date
-        </div>
-      ),
-      key: 8,
+      title: () => <CustomTitle width="7rem">Start Date</CustomTitle>,
       dataIndex: 'startDate',
       ellipsis: false,
       render: (text: string, record: { startDate: string }) => {
@@ -377,18 +277,10 @@ export const useColumn: TColumnType = (
         'End Date',
         setSearchData,
         searchData,
-        'endDate'
+        'endDate',
+        setTablePagination
       ),
-      title: () => (
-        <div
-          style={{
-            width: '7rem'
-          }}
-        >
-          End Date
-        </div>
-      ),
-      key: 9,
+      title: () => <CustomTitle width="7rem">End Date</CustomTitle>,
       dataIndex: 'endDate',
       ellipsis: false,
       render: (text: string, record: { endDate: string }) => {
@@ -408,19 +300,9 @@ export const useColumn: TColumnType = (
         'teachingModes',
         setCheckboxValues,
         checkboxValues,
-        assignCheckboxValues,
-        setAssignCheckboxValues
+        setTablePagination
       ),
-      title: () => (
-        <div
-          style={{
-            width: '150px'
-          }}
-        >
-          Teaching Mode
-        </div>
-      ),
-      key: 1,
+      title: () => <CustomTitle width="9.3rem">Teaching Mode</CustomTitle>,
       dataIndex: 'teachingMode',
       ellipsis: false,
       render: (text: string, record: ITeachingMode) => {
@@ -436,10 +318,12 @@ export const useColumn: TColumnType = (
         'duration',
         setSearchData,
         searchData,
-        'duration'
+        'duration',
+        setTablePagination,
+        inputValues,
+        setInputValues
       ),
       title: 'Duration',
-      key: 11,
       dataIndex: 'duration',
       ellipsis: false,
       render: (text: string, record: IDuration) => {
@@ -460,18 +344,14 @@ export const useColumn: TColumnType = (
         'partner organization',
         setSearchData,
         searchData,
-        'partnerOrganization'
+        'partnerOrganization',
+        setTablePagination,
+        inputValues,
+        setInputValues
       ),
       title: () => (
-        <div
-          style={{
-            width: '200px'
-          }}
-        >
-          Partner organization
-        </div>
+        <CustomTitle width="12.5rem">Partner organization</CustomTitle>
       ),
-      key: 12,
       dataIndex: 'partnerOrganization',
       ellipsis: false,
       render: (text: string, record: IPartnerOrganization) => {
@@ -492,31 +372,15 @@ export const useColumn: TColumnType = (
       }
     },
     {
-      title: () => (
-        <div
-          style={{
-            width: '40px'
-          }}
-        ></div>
-      ),
-      key: 'action',
+      title: () => <CustomTitle width="2.5rem"></CustomTitle>,
       render: (text: string, record: IAction) => {
         return (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              gap: '13px',
-              width: '40px'
-            }}
-          >
-            <Button onClick={(e) => onEditClick(e, record?.subActivity?.id)}>
-              <EditIcon />
-            </Button>
-            <Button onClick={(e) => onDeleteClick(e, record?.id)}>
-              <DeleteIcon />
-            </Button>
-          </div>
+          <ColumnsAction
+            setInputActivityId={setInputActivityId}
+            setOpenCreateSubActivity={setOpenCreateSubActivity}
+            setOpenConfirmModal={setOpenConfirmModal}
+            record={record}
+          />
         );
       },
       fixed: 'right'

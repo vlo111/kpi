@@ -6,7 +6,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useGetProjectAllSubActivitiesList from '../../api/SubActivitiesList';
 import { PATHS } from '../../helpers/constants';
 import EditSubCourse from '../Project/SubActivity/SubActivityModals/Edit';
-import { IFilteredData, IPagination } from '../../types/api/subActivityTable';
+import {
+  ICheckboxValues,
+  IFilteredData,
+  IInputValues,
+  IPagination
+} from '../../types/api/subActivityTable';
 import { AsnButton } from '../Forms/Button';
 import { Void } from '../../types/global';
 import { ConfirmModal } from '../Forms/Modal/Confirm';
@@ -98,44 +103,67 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
   padding: 16px 16px 0px 16px;
 `;
-
+const checkboxSelected = {
+  status: [],
+  organizations: [],
+  managers: [],
+  assigned: [],
+  sectors: [],
+  regions: [],
+  teachingModes: []
+};
+const searchDataObject: IFilteredData = {
+  status: undefined,
+  assigned: undefined,
+  startDate: undefined,
+  endDate: undefined,
+  courseTitle: undefined,
+  courseDescription: undefined,
+  organizations: undefined,
+  sectors: undefined,
+  regions: undefined,
+  duration: undefined,
+  teachingModes: undefined,
+  partnerOrganization: undefined,
+  managers: undefined
+};
+const inputChangeValues = {
+  courseTitle: '',
+  courseDescription: '',
+  duration: '',
+  partnerOrganization: ''
+};
 const SubActivitiesTable: React.FC = () => {
   const navigate = useNavigate();
-  const { id: projectId } = useParams<{ id: string }>();
+  const { id: projectId } = useParams<{ id: string | undefined }>();
   const [openCreateSubActivity, setOpenCreateSubActivity] =
     useState<boolean>(false);
   const [inputActivityId, setInputActivityId] = useState<string>('');
   const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
-  const [checkboxValues, setCheckboxValues] = useState<CheckboxValueType[] | []>([]);
-  const [assignCheckboxValues, setAssignCheckboxValues] = useState<CheckboxValueType[] | []>([]);
+  const [checkboxValues, setCheckboxValues] = useState<ICheckboxValues>({
+    ...checkboxSelected
+  });
+  const [inputValues, setInputValues] = useState<IInputValues>({
+    ...inputChangeValues
+  });
   const [tablePagination, setTablePagination] = useState<IPagination>({
     current: 1,
     pageSize: 20
   });
   const [searchData, setSearchData] = useState<IFilteredData>({
-    status: undefined,
-    assigned: undefined,
-    startDate: undefined,
-    endDate: undefined,
-    courseTitle: undefined,
-    courseDescription: undefined,
-    organizations: undefined,
-    sectors: undefined,
-    regions: undefined,
-    duration: undefined,
-    teachingModes: undefined,
-    partnerOrganization: undefined,
-    managers: undefined
+    ...searchDataObject
   });
 
   useEffect((): void => {
-    const data: { [key: string]: string | string[] | undefined | CheckboxValueType[] } = {};
+    const data: {
+      [key: string]: string | string[] | undefined | CheckboxValueType[]
+    } = {};
     for (const k of Object.keys(searchData).filter(
-      (item) => searchData[item] !== undefined
+      (item) =>
+        searchData[item] !== undefined
     )) {
       data[k] = searchData[k];
     }
-
     setSearchData(data);
   }, [setSearchData]);
 
@@ -172,8 +200,9 @@ const SubActivitiesTable: React.FC = () => {
     setOpenConfirmModal,
     setCheckboxValues,
     checkboxValues,
-    assignCheckboxValues,
-    setAssignCheckboxValues
+    setTablePagination,
+    inputValues,
+    setInputValues
   );
 
   const handleTableChange: any = (pagination: IPagination) => {
@@ -192,37 +221,37 @@ const SubActivitiesTable: React.FC = () => {
 
   const onClearFilters: Void = () => {
     setSearchData({
-      status: undefined,
-      assigned: undefined,
-      startDate: undefined,
-      endDate: undefined,
-      courseTitle: undefined,
-      courseDescription: undefined,
-      organizations: undefined,
-      sectors: undefined,
-      regions: undefined,
-      duration: undefined,
-      teachingModes: undefined,
-      partnerOrganization: undefined,
-      managers: undefined
+      ...searchDataObject
     });
-    setCheckboxValues([]);
-    setAssignCheckboxValues([]);
+    setCheckboxValues({ ...checkboxSelected });
+    setInputValues({ ...inputChangeValues });
   };
 
   return (
     <>
       <ButtonContainer>
         <AsnButton className="default" onClick={onClearFilters}>
-          Clear filters
+          Clean filters
         </AsnButton>
-        <AsnButton className="default" onClick={() => navigate(`/sub-activities/${PATHS.ADDSUBACTIVITY.replace(':id', projectId as string)}`)}>Add Sub-Activity</AsnButton>
+        <AsnButton
+          className="default"
+          onClick={() =>
+            navigate(
+              `/sub-activities/${PATHS.ADDSUBACTIVITY.replace(
+                ':id',
+                projectId as string
+              )}`
+            )
+          }
+        >
+          Add Sub-Activity
+        </AsnButton>
       </ButtonContainer>
       <Container>
         <Table
           columns={column}
           dataSource={data?.result}
-          rowKey={(record) => record?.id}
+          rowKey={(record) => record?.id as string}
           scroll={{ x: 'auto', y: 'calc(100vh - 250px)' }}
           rowClassName={(record, index) =>
             index % 2 === 0 ? 'table-row-light' : 'table-row-dark'

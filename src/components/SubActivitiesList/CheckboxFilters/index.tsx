@@ -26,8 +26,7 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
   key,
   setCheckboxValues,
   checkboxValues,
-  assignCheckboxValues,
-  setAssignCheckboxValues
+  setTablePagination
 ) => {
   if (filteredValue !== undefined && dataIndex === 'Organization') {
     filteredValue = filteredValue?.map((item) => {
@@ -73,29 +72,33 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
   }
 
   const onCheckboxChange = (value: CheckboxValueType[]): void => {
-    if (dataIndex === 'Assigned People') {
-      setAssignCheckboxValues(value);
-    } else {
-      setCheckboxValues(value);
-    }
+    setCheckboxValues({
+      ...checkboxValues,
+      [key]: value
+    });
   };
 
-  const onNextClick = (close: any): void => {
-    if (checkboxValues?.length > 0 || assignCheckboxValues?.length > 0) {
+  const onNextClick = (close: { (): void, (): void }): void => {
+    if (checkboxValues[key]?.length > 0) {
       setSearchData({
         ...searchData,
-        [key]:
-          dataIndex === 'Assigned People'
-            ? assignCheckboxValues
-            : checkboxValues
+        [key]: checkboxValues[key]
       });
       close();
+      setTablePagination({
+        current: 1,
+        pageSize: 20
+      });
     } else {
       setSearchData({
         ...searchData,
         [key]: undefined
       });
       close();
+      setTablePagination({
+        current: 1,
+        pageSize: 20
+      });
     }
   };
 
@@ -107,8 +110,7 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
           <Button
             onClick={() => {
               close();
-              setCheckboxValues([]);
-              setAssignCheckboxValues([]);
+              setCheckboxValues({ ...checkboxValues, [key]: [] });
             }}
           >
             <CloseIcon />
@@ -120,11 +122,7 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
             flexDirection: 'column'
           }}
           onChange={onCheckboxChange}
-          value={
-            dataIndex === 'Assigned People'
-              ? assignCheckboxValues
-              : checkboxValues
-          }
+          value={checkboxValues[key]}
         >
           {filteredValue?.map((item: IStatusItem) => (
             <CustomCheckbox value={item.value} key={item.id}>
@@ -137,10 +135,14 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
             className="default"
             onClick={() => {
               close();
-              setCheckboxValues([]);
+              setCheckboxValues({ ...checkboxValues, [key]: [] });
+              setSearchData({
+                ...searchData,
+                [key]: undefined
+              });
             }}
           >
-            Cancel
+            Clean
           </AsnButton>
           <AsnButton className="primary" onClick={() => onNextClick(close)}>
             Next
@@ -151,10 +153,10 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
     filterIcon: () =>
       searchData[key] === undefined
         ? (
-          <SubActivitiesFilterIcon />
+        <SubActivitiesFilterIcon />
           )
         : (
-          <SubActivitiesFilteredDataIcon />
+        <SubActivitiesFilteredDataIcon />
           )
   };
 };

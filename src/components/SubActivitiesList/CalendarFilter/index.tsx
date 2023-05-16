@@ -30,7 +30,7 @@ const PopupCalendar = styled(Calendar)`
     }
   }
 
-  .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner:before{
+  .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner:before {
     border: 1px solid var(--dark-border-ultramarine) !important;
     border-radius: 50% !important;
   }
@@ -48,7 +48,8 @@ export const getColumnCalendarProps: TColumnCalendarPropsType = (
   dataIndex,
   setSearchData,
   searchData,
-  key
+  key,
+  setTablePagination
 ) => {
   let newDate: string;
   const onCalendarChange = (date: Moment): void => {
@@ -61,15 +62,15 @@ export const getColumnCalendarProps: TColumnCalendarPropsType = (
       [key]: newDate
     });
     close();
+    setTablePagination({
+      current: 1,
+      pageSize: 20
+    });
   };
 
   return {
-    filterDropdown: ({
-      close
-    }) => (
-      <PopupContainer
-        width="25vw"
-      >
+    filterDropdown: ({ close }) => (
+      <PopupContainer width="25vw">
         <PopupHeader>
           <PopupTitle>{dataIndex}</PopupTitle>
           <Button onClick={() => close()}>
@@ -90,10 +91,10 @@ export const getColumnCalendarProps: TColumnCalendarPropsType = (
     filterIcon: () =>
       searchData[key] === undefined
         ? (
-          <SubActivitiesFilterIcon />
+        <SubActivitiesFilterIcon />
           )
         : (
-          <SubActivitiesFilteredDataIcon />
+        <SubActivitiesFilteredDataIcon />
           )
   };
 };

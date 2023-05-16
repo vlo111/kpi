@@ -1,3 +1,4 @@
+import { ColumnsType } from 'antd/es/table';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { ColumnType } from 'antd/lib/table';
 
@@ -35,8 +36,13 @@ export interface IFilteredData {
   duration?: undefined | number
   teachingModes?: string[] | undefined
   partnerOrganization?: string | undefined
+  managers?: string[] | undefined
 }
-
+export interface IParams extends IFilteredData {
+  limit: number
+  offset: number
+  total?: number
+}
 export interface IPagination {
   current: number
   pageSize: number
@@ -84,6 +90,13 @@ export interface IAssignees {
   photo: string
 }
 
+export interface IColumnsAction {
+  setInputActivityId: React.Dispatch<React.SetStateAction<string>>
+  setOpenCreateSubActivity: React.Dispatch<React.SetStateAction<boolean>>
+  setOpenConfirmModal: React.Dispatch<React.SetStateAction<boolean>>
+  record: IAction
+}
+
 export interface IAssigneesProps {
   record: IAssignees[]
 }
@@ -116,7 +129,8 @@ export type AssignedPeopleItemType = (item: IAssignedPeopleItem) => {
   id: string
 };
 
-export type TAction = (e: any, id: string) => void;
+export type TAction = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => void;
+export type TOnSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => void;
 export type TColumnType = (
   setOpenCreateSubActivity: React.Dispatch<React.SetStateAction<boolean>>,
   setInputActivityId: React.Dispatch<React.SetStateAction<string>>,
@@ -124,15 +138,37 @@ export type TColumnType = (
   setSearchData: React.Dispatch<React.SetStateAction<IFilteredData>>,
   searchData: IFilteredData,
   setOpenConfirmModal: React.Dispatch<React.SetStateAction<boolean>>,
-  setCheckboxValues: React.Dispatch<
-  React.SetStateAction<CheckboxValueType[] | []>
-  >,
-  checkboxValues: CheckboxValueType[] | [],
-  assignCheckboxValues: CheckboxValueType[] | [],
-  setAssignCheckboxValues: React.Dispatch<
-  React.SetStateAction<CheckboxValueType[] | []>
-  >
-) => any;
+  setCheckboxValues: React.Dispatch<React.SetStateAction<ICheckboxValues>>,
+  checkboxValues: ICheckboxValues,
+  setTablePagination: React.Dispatch<React.SetStateAction<IPagination>>,
+  inputValues: IInputValues,
+  setInputValues: React.Dispatch<React.SetStateAction<IInputValues>>
+) => ColumnsType<any>;
+
+export interface UseAssessmentFormResult {
+  data: { filterData: IAllFiltered, count: number, result: any }
+  refetch: any
+  isLoading: boolean
+}
+
+export interface IInputValues {
+  [key: string]: string[] | string | CheckboxValueType[] | any
+  courseTitle: string
+  courseDescription: string
+  duration: string | number
+  partnerOrganization: string
+}
+
+export interface ICheckboxValues {
+  [key: string]: string[] | string | CheckboxValueType[] | any
+  status: string[] | []
+  organizations: string[] | []
+  managers: string[] | []
+  assigned: string[] | []
+  sectors: string[] | []
+  regions: string[] | []
+  teachingModes: string[] | []
+}
 
 export type TSearchPropsCheckboxType = (
   dataIndex: string,
@@ -140,29 +176,33 @@ export type TSearchPropsCheckboxType = (
   setSearchData: React.Dispatch<React.SetStateAction<IFilteredData>>,
   searchData: IFilteredData,
   key: string,
-  setCheckboxValues: React.Dispatch<
-  React.SetStateAction<CheckboxValueType[] | []>
-  >,
-  checkboxValues: CheckboxValueType[] | [],
-  assignCheckboxValues: CheckboxValueType[] | [],
-  setAssignCheckboxValues: React.Dispatch<
-  React.SetStateAction<CheckboxValueType[] | []>
-  >
+  setCheckboxValues: React.Dispatch<React.SetStateAction<ICheckboxValues>>,
+  checkboxValues: ICheckboxValues,
+  setTablePagination: React.Dispatch<React.SetStateAction<IPagination>>
 ) => ColumnType<IStatusItem>;
 
 export type TColumnCalendarPropsType = (
   dataIndex: string,
   setSearchData: React.Dispatch<React.SetStateAction<IFilteredData>>,
   searchData: IFilteredData,
-  key: string
+  key: string,
+  setTablePagination: React.Dispatch<React.SetStateAction<IPagination>>
 ) => ColumnType<IFilteredData>;
 
 export type TSearchPropsType = (
   dataIndex: string,
   setSearchData: React.Dispatch<React.SetStateAction<IFilteredData>>,
   searchData: IFilteredData,
-  key: string
-) => ColumnType<any>;
+  key: string,
+  setTablePagination: React.Dispatch<React.SetStateAction<IPagination>>,
+  inputValues: IInputValues,
+  setInputValues: React.Dispatch<React.SetStateAction<IInputValues>>
+) => ColumnType<HTMLElement>;
 
-export type TChangeEventType = (e: React.ChangeEvent<HTMLInputElement>) => void;
+export type TChangeEventType = (close: { (): void, (): void }) => void;
 export type TChangeEventTypes = (checkedValue: CheckboxValueType[]) => void;
+export type useGetProjectAllSubActivitiesListTypes = (
+  id: string | undefined,
+  params: IParams,
+  options?: { enabled: boolean }
+) => UseAssessmentFormResult;
