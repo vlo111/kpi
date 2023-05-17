@@ -252,7 +252,6 @@ const SubActivitiesTable: React.FC = () => {
           columns={column}
           dataSource={data?.result}
           rowKey={(record) => record?.id as string}
-          scroll={{ x: 'auto', y: 'calc(100vh - 250px)' }}
           rowClassName={(record, index) =>
             index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
           }

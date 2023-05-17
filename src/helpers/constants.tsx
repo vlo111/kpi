@@ -340,64 +340,6 @@ export const defaultRegions = [
   'Vayots Dzor'
 ];
 
-export const subActivityListRegionsFilter = [
-  {
-    name: 'Yerevan',
-    value: 'Yerevan',
-    id: '1'
-  },
-  {
-    name: 'Aragatsotn',
-    value: 'Aragatsotn',
-    id: '2'
-  },
-  {
-    name: 'Ararat',
-    value: 'Ararat',
-    id: '3'
-  },
-  {
-    name: 'Armavir',
-    value: 'Armavir',
-    id: '4'
-  },
-  {
-    name: 'Gegharkunik',
-    value: 'Gegharkunik',
-    id: '5'
-  },
-  {
-    name: 'Kotayk',
-    value: 'Kotayk',
-    id: '6'
-  },
-  {
-    name: 'Lori',
-    value: 'Lori',
-    id: '7'
-  },
-  {
-    name: 'Shirak',
-    value: 'Shirak',
-    id: '8'
-  },
-  {
-    name: 'Syunik',
-    value: 'Syunik',
-    id: '9'
-  },
-  {
-    name: 'Tavush',
-    value: 'Tavush',
-    id: '10'
-  },
-  {
-    name: 'Vayots Dzor',
-    value: 'Vayots Dzor',
-    id: '11'
-  }
-];
-
 export const subActivityTableFilterStatus = [
   {
     name: 'Inactive',

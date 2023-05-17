@@ -69,8 +69,15 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
         id: item?.id
       };
     });
+  } else if (filteredValue !== undefined && dataIndex === 'Region') {
+    filteredValue = filteredValue?.map((item) => {
+      return {
+        name: item?.title,
+        value: item?.id,
+        id: item?.id
+      };
+    });
   }
-
   const onCheckboxChange = (value: CheckboxValueType[]): void => {
     setCheckboxValues({
       ...checkboxValues,

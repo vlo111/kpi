@@ -121,6 +121,7 @@ export interface IAllFiltered {
   manager: IFilteredPeople[]
   organizations: IFiltered[]
   sectors: IFiltered[]
+  regions: IFiltered[]
 }
 
 export type AssignedPeopleItemType = (item: IAssignedPeopleItem) => {
@@ -129,8 +130,12 @@ export type AssignedPeopleItemType = (item: IAssignedPeopleItem) => {
   id: string
 };
 
-export type TAction = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => void;
+export type TAction = (
+  e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  id: string
+) => void;
 export type TOnSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => void;
+export type TOnSearchChangeNumber = (value: number | string | null) => void;
 export type TColumnType = (
   setOpenCreateSubActivity: React.Dispatch<React.SetStateAction<boolean>>,
   setInputActivityId: React.Dispatch<React.SetStateAction<string>>,

@@ -39,6 +39,18 @@ export const Button = styled.button`
   background: none;
   cursor: pointer;
   width: 20px;
+  position: relative;
+
+  :hover {
+    svg {
+      position: absolute;
+      z-index: 20;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+    }
+  }
 `;
 
 export const CustomParagraph = styled(Paragraph)<{ width: string }>`

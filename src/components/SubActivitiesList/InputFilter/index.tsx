@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { AsnInput } from '../../Forms/Input';
+import { AsnInput, AsnInputNumber } from '../../Forms/Input';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/closeIcon.svg';
 import { ReactComponent as SubActivitiesFilterIcon } from '../../../assets/icons/sub-activities-filter.svg';
 import { ReactComponent as SubActivitiesFilteredDataIcon } from '../../../assets/icons/filtered-data-icon.svg';
@@ -8,6 +8,7 @@ import { Button } from '../filterPopupStyle';
 import {
   TChangeEventType,
   TOnSearchChange,
+  TOnSearchChangeNumber,
   TSearchPropsType
 } from '../../../types/api/subActivityTable';
 
@@ -16,6 +17,22 @@ const FilterInput = styled(AsnInput)`
   box-shadow: inset 3px 0px 6px rgba(42, 85, 120, 0.16);
   border-radius: 10px;
   border: none !important;
+  :hover {
+    border: none !important;
+  }
+  :focus {
+    box-shadow: inset 3px 0px 6px rgba(42, 85, 120, 0.16) !important;
+  }
+`;
+const FilterInputNumber = styled(AsnInputNumber)`
+  width: 100% !important;
+  box-shadow: inset 3px 0px 6px rgba(42, 85, 120, 0.16);
+  border-radius: 10px;
+  border: none !important;
+
+  input {
+    height: 44px !important;
+  }
   :hover {
     border: none !important;
   }
@@ -43,12 +60,14 @@ export const getColumnSearchProps: TSearchPropsType = (
         current: 1,
         pageSize: 20
       });
-    } else if (inputValues[key].length > 0 && dataIndex === 'duration') {
-      const numberValue =
-        inputValues[key].length > 0 ? Number(inputValues[key]?.trim()) : undefined;
+    } else if (
+      dataIndex === 'duration' &&
+      typeof inputValues.duration === 'number' &&
+      inputValues.duration > 0
+    ) {
       setSearchData({
         ...searchData,
-        [key]: numberValue
+        [key]: inputValues.duration
       });
       setTablePagination({
         current: 1,
@@ -69,6 +88,13 @@ export const getColumnSearchProps: TSearchPropsType = (
       [key]: e.target.value
     });
   };
+
+  const onSearchChangeNumber: TOnSearchChangeNumber = (value) => {
+    setInputValues({
+      ...inputValues,
+      [key]: value
+    });
+  };
   return {
     filterDropdown: ({ close }) => (
       <div
@@ -80,12 +106,23 @@ export const getColumnSearchProps: TSearchPropsType = (
           gap: '1rem'
         }}
       >
-        <FilterInput
-          placeholder={`Search ${dataIndex}`}
-          onChange={onSearchChange}
-          onPressEnter={() => onSearchKeyPress(close)}
-          value={inputValues[key]}
-        />
+        {key === 'duration'
+          ? (
+          <FilterInputNumber
+            placeholder={`Search ${dataIndex}`}
+            onChange={onSearchChangeNumber}
+            onPressEnter={() => onSearchKeyPress(close)}
+            value={inputValues[key]}
+          />
+            )
+          : (
+          <FilterInput
+            placeholder={`Search ${dataIndex}`}
+            onChange={onSearchChange}
+            onPressEnter={() => onSearchKeyPress(close)}
+            value={inputValues[key]}
+          />
+            )}
         <Button onClick={() => close()}>
           <CloseIcon />
         </Button>

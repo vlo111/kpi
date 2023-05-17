@@ -4,7 +4,6 @@ import { getColumnSearchProps } from './InputFilter';
 import { getColumnSearchPropsCheckbox } from './CheckboxFilters';
 import {
   subActivityFilterTeachingMode,
-  subActivityListRegionsFilter,
   subActivityTableFilterStatus
 } from '../../helpers/constants';
 import { getColumnCalendarProps } from './CalendarFilter';
@@ -234,7 +233,7 @@ export const useColumn: TColumnType = (
     {
       ...getColumnSearchPropsCheckbox(
         'Region',
-        subActivityListRegionsFilter,
+        filterData?.regions,
         setSearchData,
         searchData,
         'regions',
@@ -350,7 +349,7 @@ export const useColumn: TColumnType = (
         setInputValues
       ),
       title: () => (
-        <CustomTitle width="12.5rem">Partner organization</CustomTitle>
+        <CustomTitle width="12rem">Partner organization</CustomTitle>
       ),
       dataIndex: 'partnerOrganization',
       ellipsis: false,
@@ -361,7 +360,7 @@ export const useColumn: TColumnType = (
         );
         return (
           <CustomParagraph
-            width="12.5rem"
+            width="12rem"
             ellipsis={{
               rows: 1
             }}
