@@ -5,6 +5,7 @@ import { ReactComponent as ProjectSvg } from '../../assets/icons/project.svg';
 import { ReactComponent as TeamSvg } from '../../assets/icons/team.svg';
 import { ReactComponent as ApplicantsSvg } from '../../assets/icons/aplicants.svg';
 import { ReactComponent as ProductGuideSvg } from '../../assets/icons/product-guide.svg';
+import { ReactComponent as SubActivitiesListSvg } from '../../assets/icons/sub-activities.svg';
 import { ReactComponent as ShortcutsSvg } from '../../assets/icons/shortcuts.svg';
 import { ReactComponent as LogoSvg } from '../../assets/icons/menu-logo.svg';
 import { ReactComponent as FolderSvg } from '../../assets/icons/folder.svg';
@@ -105,10 +106,13 @@ export const Menu: React.FC = () => {
   useEffect(() => {
     let currenPath = [`${menuItemsNavigate.indexOf(pathname.includes('project') ? menuItemsNavigate[0] : pathname) + 1}`];
     if (pathname.includes('files')) {
-      currenPath = ['4'];
+      currenPath = ['5'];
+    }
+    if (pathname.includes('sub-activities')) {
+      currenPath = ['2'];
     }
     if (pathname.includes('dashboard')) {
-      currenPath = ['5'];
+      currenPath = ['6'];
     }
     setCurrentItem(currenPath ?? ['1']);
   }, [pathname]);
@@ -116,22 +120,25 @@ export const Menu: React.FC = () => {
   const onNavigateHandle: (ev: MenuInfo) => void = (ev) => {
     menuItemsNavigate.forEach((item, i) => {
       if (+ev.key === i + 1) {
-        if (projectId !== null && item === menuItemsNavigate[4]) {
+        if (projectId !== null && item === menuItemsNavigate[5]) {
           navigate(`${PATHS.DASHBOARD}`.replace(':id', projectId));
         }
         if (projectId !== null && item === menuItemsNavigate[0]) {
           navigate(`/project/${PATHS.OVERVIEW}`.replace(':id', projectId));
         }
-        if (projectId !== null && item === menuItemsNavigate[3]) {
+        if (projectId !== null && item === menuItemsNavigate[4]) {
           navigate(`/project/${PATHS.FILES}`.replace(':id', projectId));
         }
         if (projectId !== null && item === menuItemsNavigate[1]) {
-          navigate(`${PATHS.TEAMS}`.replace(':id', projectId));
+          navigate(`/sub-activities/${PATHS.SUBACTIVITIES}`.replace(':id', projectId));
         }
         if (projectId !== null && item === menuItemsNavigate[2]) {
+          navigate(`${PATHS.TEAMS}`.replace(':id', projectId));
+        }
+        if (projectId !== null && item === menuItemsNavigate[3]) {
           navigate(`${PATHS.APPLICANTS}`.replace(':id', projectId));
         }
-        if (projectId !== null && item === menuItemsNavigate[5]) {
+        if (projectId !== null && item === menuItemsNavigate[6]) {
           navigate(`${PATHS.ROOT}`.replace(':id', projectId));
         }
       }
@@ -150,6 +157,7 @@ export const Menu: React.FC = () => {
         selectedKeys={currentItem}
         items={[
           ProjectSvg,
+          SubActivitiesListSvg,
           TeamSvg,
           ApplicantsSvg,
           FolderSvg,

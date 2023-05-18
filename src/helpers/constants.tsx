@@ -49,7 +49,10 @@ export const PATHS = {
   ASSESSMENTFORMCREATE: 'assessment-form/create/:id',
   FILLEDOUTASSESSMENTFORM: 'assessment-form/assess/:id',
   APPLICANTS: 'applicants',
-  INVITATION: 'accept-invitation'
+  INVITATION: 'accept-invitation',
+  SUBACTIVITIES: 'list/:id',
+  ADDSUBACTIVITY: 'create/:id',
+  SUB_ABCTIVITIES: 'sub-activities'
 };
 
 export const VALIDATE_MESSAGES = {
@@ -68,6 +71,7 @@ export const VALIDATE_MESSAGES = {
 };
 export const MenuItems = [
   'Project',
+  'Sub Activities',
   'Team',
   'Applicants',
   'Files',
@@ -77,6 +81,7 @@ export const MenuItems = [
 ];
 export const menuItemsNavigate = [
   '/project/create',
+  '/sub-activities',
   '/teams',
   '/applicants',
   '/files',
@@ -192,7 +197,7 @@ export enum SectionName {
   educationalInfo = 'educational_info',
   otherInfo = 'other_info',
   professionalInfo = 'professional_info',
-  onlineSignaturePath = 'onlineSignaturePath'
+  onlineSignaturePath = 'onlineSignaturePath',
 }
 
 export enum Placeholders {
@@ -333,4 +338,40 @@ export const defaultRegions = [
   'Syunik',
   'Tavush',
   'Vayots Dzor'
+];
+
+export const subActivityTableFilterStatus = [
+  {
+    name: 'Inactive',
+    value: 'INACTIVE',
+    id: '1'
+  },
+  {
+    name: 'Active',
+    value: 'ACTIVE',
+    id: '2'
+  },
+  {
+    name: 'Completed',
+    value: 'DONE',
+    id: '3'
+  }
+];
+
+export const subActivityFilterTeachingMode = [
+  {
+    name: 'Online',
+    value: 'Online',
+    id: '1'
+  },
+  {
+    name: 'Offline',
+    value: 'Offline',
+    id: '2'
+  },
+  {
+    name: 'Blended',
+    value: 'Blended',
+    id: '3'
+  }
 ];
