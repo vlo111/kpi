@@ -47,32 +47,36 @@ export const getColumnSearchProps: TSearchPropsType = (
   searchData,
   key,
   setTablePagination,
+  tablePagination,
   inputValues,
   setInputValues
 ) => {
   const onSearchKeyPress: TChangeEventType = (close) => {
-    if (inputValues[key].length >= 1 && dataIndex !== 'duration') {
+    if (dataIndex !== 'duration' && inputValues[key].length >= 1) {
       setSearchData({
         ...searchData,
         [key]: inputValues[key]?.trim()
       });
       setTablePagination({
-        current: 1,
-        pageSize: 20
+        ...tablePagination,
+        current: 1
+        // pageSize: 20
       });
-    } else if (
-      dataIndex === 'duration' &&
-      typeof inputValues.duration === 'number' &&
-      inputValues.duration > 0
-    ) {
-      setSearchData({
-        ...searchData,
-        [key]: inputValues.duration
-      });
-      setTablePagination({
-        current: 1,
-        pageSize: 20
-      });
+    } else if (dataIndex === 'duration') {
+      if (
+        typeof inputValues.duration === 'number' &&
+        inputValues.duration > 0
+      ) {
+        setSearchData({
+          ...searchData,
+          [key]: inputValues.duration
+        });
+      } else {
+        setSearchData({
+          ...searchData,
+          [key]: undefined
+        });
+      }
     } else if (inputValues[key].length === 0) {
       setSearchData({
         ...searchData,
@@ -113,6 +117,7 @@ export const getColumnSearchProps: TSearchPropsType = (
             onChange={onSearchChangeNumber}
             onPressEnter={() => onSearchKeyPress(close)}
             value={inputValues[key]}
+            min={0}
           />
             )
           : (

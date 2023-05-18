@@ -146,6 +146,7 @@ export type TColumnType = (
   setCheckboxValues: React.Dispatch<React.SetStateAction<ICheckboxValues>>,
   checkboxValues: ICheckboxValues,
   setTablePagination: React.Dispatch<React.SetStateAction<IPagination>>,
+  tablePagination: IPagination,
   inputValues: IInputValues,
   setInputValues: React.Dispatch<React.SetStateAction<IInputValues>>
 ) => ColumnsType<any>;
@@ -183,7 +184,8 @@ export type TSearchPropsCheckboxType = (
   key: string,
   setCheckboxValues: React.Dispatch<React.SetStateAction<ICheckboxValues>>,
   checkboxValues: ICheckboxValues,
-  setTablePagination: React.Dispatch<React.SetStateAction<IPagination>>
+  setTablePagination: React.Dispatch<React.SetStateAction<IPagination>>,
+  tablePagination: IPagination
 ) => ColumnType<IStatusItem>;
 
 export type TColumnCalendarPropsType = (
@@ -191,7 +193,8 @@ export type TColumnCalendarPropsType = (
   setSearchData: React.Dispatch<React.SetStateAction<IFilteredData>>,
   searchData: IFilteredData,
   key: string,
-  setTablePagination: React.Dispatch<React.SetStateAction<IPagination>>
+  tablePagination: IPagination,
+  setTablePagination: React.Dispatch<React.SetStateAction<IPagination>>,
 ) => ColumnType<IFilteredData>;
 
 export type TSearchPropsType = (
@@ -200,6 +203,7 @@ export type TSearchPropsType = (
   searchData: IFilteredData,
   key: string,
   setTablePagination: React.Dispatch<React.SetStateAction<IPagination>>,
+  tablePagination: IPagination,
   inputValues: IInputValues,
   setInputValues: React.Dispatch<React.SetStateAction<IInputValues>>
 ) => ColumnType<HTMLElement>;

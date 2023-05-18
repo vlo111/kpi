@@ -130,7 +130,7 @@ const searchDataObject: IFilteredData = {
 const inputChangeValues = {
   courseTitle: '',
   courseDescription: '',
-  duration: '',
+  duration: 1,
   partnerOrganization: ''
 };
 const SubActivitiesTable: React.FC = () => {
@@ -201,6 +201,7 @@ const SubActivitiesTable: React.FC = () => {
     setCheckboxValues,
     checkboxValues,
     setTablePagination,
+    tablePagination,
     inputValues,
     setInputValues
   );
@@ -225,6 +226,11 @@ const SubActivitiesTable: React.FC = () => {
     });
     setCheckboxValues({ ...checkboxSelected });
     setInputValues({ ...inputChangeValues });
+    setTablePagination({
+      ...tablePagination,
+      current: 1,
+      pageSize: 20
+    });
   };
 
   return (
@@ -250,6 +256,7 @@ const SubActivitiesTable: React.FC = () => {
       <Container>
         <Table
           columns={column}
+          // getPopupContainer={(trigger) => trigger.parentElement as HTMLElement }
           dataSource={data?.result}
           rowKey={(record) => record?.id as string}
           rowClassName={(record, index) =>

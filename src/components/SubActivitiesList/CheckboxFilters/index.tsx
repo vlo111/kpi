@@ -5,6 +5,7 @@ import { ReactComponent as SubActivitiesFilteredDataIcon } from '../../../assets
 import { AsnCheckbox } from '../../Forms/Checkbox';
 import {
   IStatusItem,
+  TChangeEventType,
   TSearchPropsCheckboxType
 } from '../../../types/api/subActivityTable';
 import { AsnButton } from '../../Forms/Button';
@@ -26,7 +27,8 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
   key,
   setCheckboxValues,
   checkboxValues,
-  setTablePagination
+  setTablePagination,
+  tablePagination
 ) => {
   if (filteredValue !== undefined && dataIndex === 'Organization') {
     filteredValue = filteredValue?.map((item) => {
@@ -93,8 +95,8 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
       });
       close();
       setTablePagination({
-        current: 1,
-        pageSize: 20
+        ...tablePagination,
+        current: 1
       });
     } else {
       setSearchData({
@@ -103,10 +105,23 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
       });
       close();
       setTablePagination({
-        current: 1,
-        pageSize: 20
+        ...tablePagination,
+        current: 1
       });
     }
+  };
+
+  const onCleanClick: TChangeEventType = (close) => {
+    close();
+    setCheckboxValues({ ...checkboxValues, [key]: [] });
+    setSearchData({
+      ...searchData,
+      [key]: undefined
+    });
+    setTablePagination({
+      ...tablePagination,
+      current: 1
+    });
   };
 
   return {
@@ -140,14 +155,7 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
         <ButtonContainer>
           <AsnButton
             className="default"
-            onClick={() => {
-              close();
-              setCheckboxValues({ ...checkboxValues, [key]: [] });
-              setSearchData({
-                ...searchData,
-                [key]: undefined
-              });
-            }}
+            onClick={() => onCleanClick(close)}
           >
             Clean
           </AsnButton>

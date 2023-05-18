@@ -33,6 +33,7 @@ export const useColumn: TColumnType = (
   setCheckboxValues,
   checkboxValues,
   setTablePagination,
+  tablePagination,
   inputValues,
   setInputValues
 ) => {
@@ -44,13 +45,13 @@ export const useColumn: TColumnType = (
         searchData,
         'courseTitle',
         setTablePagination,
+        tablePagination,
         inputValues,
         setInputValues
       ),
       title: () => <CustomTitle width="9rem">Title</CustomTitle>,
       dataIndex: 'title',
       ellipsis: false,
-      fixed: 'left',
       render: (text: string, record: { title: string }) => {
         return (
           <CustomParagraph
@@ -73,7 +74,8 @@ export const useColumn: TColumnType = (
         'status',
         setCheckboxValues,
         checkboxValues,
-        setTablePagination
+        setTablePagination,
+        tablePagination
       ),
       title: () => <CustomTitle width="5rem">Status</CustomTitle>,
       dataIndex: 'status',
@@ -104,7 +106,8 @@ export const useColumn: TColumnType = (
         'organizations',
         setCheckboxValues,
         checkboxValues,
-        setTablePagination
+        setTablePagination,
+        tablePagination
       ),
       title: <CustomTitle width="8rem">Organization</CustomTitle>,
       dataIndex: 'organization',
@@ -129,6 +132,7 @@ export const useColumn: TColumnType = (
         searchData,
         'courseDescription',
         setTablePagination,
+        tablePagination,
         inputValues,
         setInputValues
       ),
@@ -161,7 +165,8 @@ export const useColumn: TColumnType = (
         'managers',
         setCheckboxValues,
         checkboxValues,
-        setTablePagination
+        setTablePagination,
+        tablePagination
       ),
       title: () => (
         <CustomTitle width="12.5rem">Sub Activities manager</CustomTitle>
@@ -195,7 +200,8 @@ export const useColumn: TColumnType = (
         'assigned',
         setCheckboxValues,
         checkboxValues,
-        setTablePagination
+        setTablePagination,
+        tablePagination
       ),
       title: () => <CustomTitle width="9.5rem">Assigned People</CustomTitle>,
       dataIndex: 'assignedPeople',
@@ -217,7 +223,8 @@ export const useColumn: TColumnType = (
         'sectors',
         setCheckboxValues,
         checkboxValues,
-        setTablePagination
+        setTablePagination,
+        tablePagination
       ),
       title: () => <CustomTitle width="4.5rem">Sector</CustomTitle>,
       dataIndex: 'sector',
@@ -239,7 +246,8 @@ export const useColumn: TColumnType = (
         'regions',
         setCheckboxValues,
         checkboxValues,
-        setTablePagination
+        setTablePagination,
+        tablePagination
       ),
       title: () => <CustomTitle width="4.5rem">Region</CustomTitle>,
       dataIndex: 'region',
@@ -258,6 +266,7 @@ export const useColumn: TColumnType = (
         setSearchData,
         searchData,
         'startDate',
+        tablePagination,
         setTablePagination
       ),
       title: () => <CustomTitle width="7rem">Start Date</CustomTitle>,
@@ -277,6 +286,7 @@ export const useColumn: TColumnType = (
         setSearchData,
         searchData,
         'endDate',
+        tablePagination,
         setTablePagination
       ),
       title: () => <CustomTitle width="7rem">End Date</CustomTitle>,
@@ -299,7 +309,8 @@ export const useColumn: TColumnType = (
         'teachingModes',
         setCheckboxValues,
         checkboxValues,
-        setTablePagination
+        setTablePagination,
+        tablePagination
       ),
       title: () => <CustomTitle width="9.3rem">Teaching Mode</CustomTitle>,
       dataIndex: 'teachingMode',
@@ -319,6 +330,7 @@ export const useColumn: TColumnType = (
         searchData,
         'duration',
         setTablePagination,
+        tablePagination,
         inputValues,
         setInputValues
       ),
@@ -345,6 +357,7 @@ export const useColumn: TColumnType = (
         searchData,
         'partnerOrganization',
         setTablePagination,
+        tablePagination,
         inputValues,
         setInputValues
       ),

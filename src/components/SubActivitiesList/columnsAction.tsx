@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IColumnsAction, TAction } from '../../types/api/subActivityTable';
-import { Button } from './filterPopupStyle';
+import { ButtonActionTable } from './filterPopupStyle';
 import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg';
 import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg';
 
@@ -31,12 +31,12 @@ const ColumnsAction: React.FC<IColumnsAction> = ({
   };
   return (
     <ActionContainer>
-      <Button onClick={(e) => onEditClick(e, record?.subActivity?.id)}>
+      <ButtonActionTable onClick={(e) => onEditClick(e, record?.subActivity?.id)} className='action'>
         <EditIcon />
-      </Button>
-      <Button onClick={(e) => onDeleteClick(e, record?.id)}>
+      </ButtonActionTable>
+      <ButtonActionTable onClick={(e) => onDeleteClick(e, record?.id)} className='action'>
         <DeleteIcon />
-      </Button>
+      </ButtonActionTable>
     </ActionContainer>
   );
 };

@@ -39,6 +39,13 @@ export const Button = styled.button`
   background: none;
   cursor: pointer;
   width: 20px;
+`;
+
+export const ButtonActionTable = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 20px;
   position: relative;
 
   :hover {
