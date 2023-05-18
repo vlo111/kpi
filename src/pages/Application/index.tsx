@@ -96,8 +96,12 @@ const Application: React.FC = () => {
       setFormUrlModal(true);
       setCreatedItemResponse(data);
     },
-    onError: () => {
-      void message.error('Publishing failed. Please try again.');
+    onError: (e: {
+      response: {
+        data: { message: string }
+      }
+    }) => {
+      void message.error(e?.response?.data?.message);
     }
   });
 
@@ -110,8 +114,12 @@ const Application: React.FC = () => {
         )}`
       );
     },
-    onError: () => {
-      void message.error('Publishing failed. Please try again.');
+    onError: (e: {
+      response: {
+        data: { message: string }
+      }
+    }) => {
+      void message.error(e?.response?.data?.message);
     }
   });
 
