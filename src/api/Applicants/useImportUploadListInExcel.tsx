@@ -25,8 +25,6 @@ const useImportApplicantsIntoExcelFile: ImportApplicantList = () => {
       onSuccess: (data: {
         data: { successfulApplicants: IApplicantsList[], warnings: IImportApplicantsWarnings[] }
       }) => {
-        console.log(data, 'data');
-
         void queryClient.invalidateQueries([
           '/api/applicant/course/:sectionDataId'
         ]);
