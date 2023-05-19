@@ -44,15 +44,19 @@ const ApplicantsData: React.FC = () => {
     setOpenRow(false);
   };
 
-  const { refetch, isLoading } = useAllAplicants({
-    ...filters,
-    offset
-  }, projectId, {
-    onSuccess: (data: IApplicants): void => {
-      setResult(data);
-      setCount(data?.count);
+  const { refetch, isLoading } = useAllAplicants(
+    {
+      ...filters,
+      offset
+    },
+    projectId,
+    {
+      onSuccess: (data: IApplicants): void => {
+        setResult(data);
+        setCount(data?.count);
+      }
     }
-  });
+  );
 
   const serachData = useCallback(
     (search: string) => {
@@ -84,8 +88,8 @@ const ApplicantsData: React.FC = () => {
               to: values?.age?.[1] ?? values?.age?.to
             }
           : undefined,
-      regions: values?.regions,
-      statuses: values?.statuses,
+      regions: values?.regions?.length > 0 ? values?.regions : undefined,
+      statuses: values?.statuses?.length > 0 ? values?.statuses : undefined,
       student: values?.student,
       gender: values?.gender,
       disability: values?.disability,
@@ -94,18 +98,30 @@ const ApplicantsData: React.FC = () => {
 
     setOpen(false);
     form.setFieldValue('clearAll', true);
+    setOffset(0);
+
+    if (
+      (values?.regions?.length === 0 || values?.regions === undefined) &&
+      (values?.statuses?.length === 0 || values?.statuses === undefined)
+    ) {
+      form.setFieldValue('clearAll', false);
+    }
   };
 
   const column = useColumn({ filterData, onFinish, form, setOpen, open });
 
   const handleTableChange: HandleTableOnChange = (pagination) => {
     const { current } = pagination;
-    setOffset((current as number - 1) * 10);
+    setOffset(((current as number) - 1) * 10);
   };
 
   return (
     <Container>
-      <UseSearch setOffset={setOffset} filters={filters} serachData={serachData} result={result}/>
+      <UseSearch
+        setOffset={setOffset}
+        serachData={serachData}
+        result={result}
+      />
       <>
         <UseFilterTags
           filters={filters}
@@ -113,6 +129,7 @@ const ApplicantsData: React.FC = () => {
           form={form}
           setFilters={setFilters}
           refetch={refetch}
+          setOffset={setOffset}
         />
         <Table
           columns={column}
@@ -135,7 +152,6 @@ const ApplicantsData: React.FC = () => {
             total: count
           }}
           onChange={handleTableChange}
-
         />
       </>
       <Drawer width={'80%'} placement="right" onClose={onClose} open={openRow}>

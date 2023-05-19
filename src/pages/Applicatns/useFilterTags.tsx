@@ -7,7 +7,8 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
   filters,
   onFinish,
   form,
-  setFilters
+  setFilters,
+  setOffset
 }) => {
   const closeFilter = (filter: string): void => {
     const newAs: any = _.omit(filters, [filter]);
@@ -41,9 +42,12 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
       income: undefined,
       disability: undefined,
       gender: undefined,
-      statuses: undefined
+      statuses: undefined,
+      regions: undefined,
+      age: undefined
     }));
     form.setFieldValue('clearAll', false);
+    setOffset(0);
   }, [form, filters]);
 
   return (
