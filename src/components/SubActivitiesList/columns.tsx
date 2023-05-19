@@ -51,6 +51,7 @@ export const useColumn: TColumnType = (
       ),
       title: () => <CustomTitle width="9rem">Title</CustomTitle>,
       dataIndex: 'title',
+      fixed: 'left',
       ellipsis: false,
       render: (text: string, record: { title: string }) => {
         return (

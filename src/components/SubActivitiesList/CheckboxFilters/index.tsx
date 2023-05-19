@@ -80,6 +80,7 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
       };
     });
   }
+
   const onCheckboxChange = (value: CheckboxValueType[]): void => {
     setCheckboxValues({
       ...checkboxValues,
@@ -153,10 +154,7 @@ export const getColumnSearchPropsCheckbox: TSearchPropsCheckboxType = (
           ))}
         </AsnCheckbox.Group>
         <ButtonContainer>
-          <AsnButton
-            className="default"
-            onClick={() => onCleanClick(close)}
-          >
+          <AsnButton className="default" onClick={() => onCleanClick(close)}>
             Clean
           </AsnButton>
           <AsnButton className="primary" onClick={() => onNextClick(close)}>

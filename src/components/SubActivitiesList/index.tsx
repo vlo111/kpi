@@ -256,7 +256,6 @@ const SubActivitiesTable: React.FC = () => {
       <Container>
         <Table
           columns={column}
-          // getPopupContainer={(trigger) => trigger.parentElement as HTMLElement }
           dataSource={data?.result}
           rowKey={(record) => record?.id as string}
           rowClassName={(record, index) =>

@@ -13,7 +13,10 @@ import {
   PopupTitle
 } from '../filterPopupStyle';
 import { AsnButton } from '../../Forms/Button';
-import { TChangeEventType, TColumnCalendarPropsType } from '../../../types/api/subActivityTable';
+import {
+  TChangeEventType,
+  TColumnCalendarPropsType
+} from '../../../types/api/subActivityTable';
 
 const PopupCalendar = styled(Calendar)`
   .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
@@ -57,15 +60,17 @@ export const getColumnCalendarProps: TColumnCalendarPropsType = (
   };
 
   const onNextClick: TChangeEventType = (close) => {
-    setSearchData({
-      ...searchData,
-      [key]: newDate
-    });
-    close();
-    setTablePagination({
-      ...tablePagination,
-      current: 1
-    });
+    if (newDate !== undefined) {
+      setSearchData({
+        ...searchData,
+        [key]: newDate
+      });
+      close();
+      setTablePagination({
+        ...tablePagination,
+        current: 1
+      });
+    }
   };
 
   const onCleanClick: TChangeEventType = (close) => {
@@ -91,7 +96,7 @@ export const getColumnCalendarProps: TColumnCalendarPropsType = (
         </PopupHeader>
         <PopupCalendar fullscreen={false} onChange={onCalendarChange} />
         <ButtonContainer>
-          <AsnButton className="default" onClick={() => onCleanClick(close) }>
+          <AsnButton className="default" onClick={() => onCleanClick(close)}>
             Clean
           </AsnButton>
           <AsnButton className="primary" onClick={() => onNextClick(close)}>

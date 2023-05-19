@@ -60,7 +60,6 @@ export const getColumnSearchProps: TSearchPropsType = (
       setTablePagination({
         ...tablePagination,
         current: 1
-        // pageSize: 20
       });
     } else if (dataIndex === 'duration') {
       if (
@@ -99,6 +98,7 @@ export const getColumnSearchProps: TSearchPropsType = (
       [key]: value
     });
   };
+
   return {
     filterDropdown: ({ close }) => (
       <div
