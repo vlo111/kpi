@@ -182,9 +182,9 @@ const Application: React.FC = () => {
   const onPublishClick: Void = () => {
     if (applicationData !== undefined) {
       if (
-        formTitle?.current?.input?.value.length !== undefined &&
-        (formTitle?.current?.input?.value.length < 1 ||
-          formTitle?.current?.input?.value.length > 255)
+        formTitle?.current?.input?.value?.length !== undefined &&
+        (formTitle?.current?.input?.value?.length < 1 ||
+          formTitle?.current?.input?.value?.length > 255)
       ) {
         setIsValidateMessage(true);
       } else if (validateTitle !== undefined && validateTitle?.length > 0) {
