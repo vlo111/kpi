@@ -39,7 +39,7 @@ const UseSearch: React.FC<SearchApplicants> = ({
           placeholder="Search..."
         />
         <Row style={{ position: 'absolute', right: '25px', top: '111px', border: '1px solid #D9D9D9', padding: ' 4px 20px' }}>
-          Total members: {result?.count}
+          Total: {result?.count}
         </Row>
       </Space>
     </>

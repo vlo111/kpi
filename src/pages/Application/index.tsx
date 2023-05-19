@@ -194,7 +194,7 @@ const Application: React.FC = () => {
         setIsValidateMessage(false);
         const filteredCondition = form
           .getFieldValue('conditions')
-          .filter((item: any) => Boolean(item));
+          ?.filter((item: any) => Boolean(item));
         applicationData.description =
           formDescription.current !== null
             ? formDescription.current.resizableTextArea.textArea.value
@@ -233,7 +233,7 @@ const Application: React.FC = () => {
     if (applicationData !== undefined) {
       const filteredCondition = form
         .getFieldValue('conditions')
-        .filter((item: any) => Boolean(item));
+        ?.filter((item: any) => Boolean(item));
       applicationData.termsAndConditions = JSON.stringify(filteredCondition);
       applicationData.onlineSignature = onlineSignature;
       setIsOpenCreateActivityModal(true);
