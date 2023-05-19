@@ -4,7 +4,10 @@ import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
 import { IStatusFilter } from '../../../../../types/project';
-import { AsnCheckbox, AsnCheckboxGroup } from '../../../../../components/Forms/Checkbox';
+import {
+  AsnCheckbox,
+  AsnCheckboxGroup
+} from '../../../../../components/Forms/Checkbox';
 import { Onchange } from '../../../../../types/global';
 import { ReactComponent as CloseIcon } from '../../../../../assets/icons/closeIcon.svg';
 
@@ -42,44 +45,66 @@ export const StatusFilter: React.FC<IStatusFilter> = ({
           indeterminate={indeterminate}
           onChange={onCheckAllChange}
           checked={checkAll}
-          className='checkboxStatusFilter'
+          className="checkboxStatusFilter"
         >
           All
         </AsnCheckbox>
       </Col>
       <Col span={24}>
-        <AsnCheckboxGroup
-          options={plainOptions}
-          value={checkedList}
-          onChange={onChange}
-        />
+        <AsnCheckboxGroup value={checkedList} onChange={onChange}>
+          {plainOptions.map((item) => (
+            <AsnCheckbox key={item} value={item} style={{ marginLeft: '0px' }}>
+              {item === 'DONE' ? 'COMPLETED' : item}
+            </AsnCheckbox>
+          ))}
+        </AsnCheckboxGroup>
       </Col>
     </Row>
   );
   return (
     <>
-    <Popover
-      trigger="click"
-      open={open}
-      onOpenChange={handleOpenChange}
-      content={content}
-      placement="bottom"
-    >
-      <Button
-        type="link"
-        style={{ fontSize: 'var(--font-size-small', color: 'var(--dark-1)' }}
+      <Popover
+        trigger="click"
+        open={open}
+        onOpenChange={handleOpenChange}
+        content={content}
+        placement="bottom"
+        overlayStyle={{
+          width: '150px'
+        }}
       >
-        Status
-      </Button>
-    </Popover>
-    <Row style={{ display: 'flex', justifyContent: 'center' }}>
-    {(checkedList != null) &&
-        checkedList?.length > 2
-      ? (
-            <Col>All <CloseIcon onClick={onCheckAllChange} style={{ height: '10px', cursor: 'pointer' }}/> </Col>
-        )
-      : ((checkedList != null) && checkedList?.length > 0) ? <Col >{checkedList?.join(', ')} <CloseIcon onClick={onCheckAllChange} style={{ height: '10px', cursor: 'pointer' }}/> </Col> : null}
+        <Button
+          type="link"
+          style={{ fontSize: 'var(--font-size-small', color: 'var(--dark-1)' }}
+        >
+          Status
+        </Button>
+      </Popover>
+      <Row style={{ display: 'flex', justifyContent: 'center' }}>
+        {checkedList != null && checkedList?.length > 2
+          ? (
+          <Col>
+            All
+            <CloseIcon
+              onClick={onCheckAllChange}
+              style={{ height: '10px', cursor: 'pointer' }}
+            />
+          </Col>
+            )
+          : checkedList != null && checkedList?.length > 0
+            ? (
+          <Col>
+            {checkedList
+              .map((item) => (item === 'DONE' ? 'COMPLETED' : item))
+              ?.join(', ')}
+            <CloseIcon
+              onClick={onCheckAllChange}
+              style={{ height: '10px', cursor: 'pointer' }}
+            />
+          </Col>
+              )
+            : null}
       </Row>
-      </>
+    </>
   );
 };

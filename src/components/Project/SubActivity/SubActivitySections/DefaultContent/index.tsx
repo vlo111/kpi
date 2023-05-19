@@ -13,7 +13,15 @@ const DefaultContent: React.FC<any> = ({
   applicants,
   courseId,
   navigateRouteInfo,
-  files
+  files,
+  setOffset,
+  offset,
+  applicantCounts,
+  isLoading,
+  setSearch,
+  search,
+  sectionsCount,
+  tabIndex
 }) => {
   return (
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 32]}>
@@ -28,11 +36,25 @@ const DefaultContent: React.FC<any> = ({
           />
         </Col>
         <Col span={12}>
-          <SubActivityUsersInfo assignedUsers={assignedUsers} color={color} requIredDocs={requIredDocs.length >= 1}/>
+          <SubActivityUsersInfo assignedUsers={assignedUsers} color={color} requIredDocs={requIredDocs.length >= 1} />
         </Col>
       </Row>
       <Col>
-        {(status === 'ACTIVE' || status === 'DONE' || applicants?.length > 0) && <SubActivityUsersFullInfo navigateRouteInfo={navigateRouteInfo} status={status} color={color} applicants={applicants} courseId={courseId} />}
+        {(status === 'ACTIVE' || status === 'DONE' || applicants?.length > 0) && <SubActivityUsersFullInfo
+          setOffset={setOffset}
+          navigateRouteInfo={navigateRouteInfo}
+          status={status}
+          color={color}
+          applicants={applicants}
+          courseId={courseId}
+          offset={offset}
+          applicantCounts={applicantCounts}
+          isLoading={isLoading}
+          setSearch={setSearch}
+          search={search}
+          sectionsCount={sectionsCount}
+          tabIndex={tabIndex}
+        />}
       </Col>
     </Space>
   );

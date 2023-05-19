@@ -107,6 +107,7 @@ export interface IProjectDetails {
 }
 
 export interface IProjectDetailsItems {
+  regions?: string[]
   title: string
   name: string
   onDelete: (
@@ -430,6 +431,7 @@ export interface ISubActivitiesProps {
   selectedRowId: React.Key[]
   setSelectedRowId: React.Dispatch<React.SetStateAction<React.Key[] | []>>
   refetchSubActivities: any
+  refetch: any
 }
 
 export interface IAssignedFilter {
@@ -543,4 +545,23 @@ interface IProjectOverviewIds {
 export interface IOutletContext {
   projectOverview: IProjectOverviewIds
   setProjectOverview: React.Dispatch<React.SetStateAction<IProjectOverviewIds>>
+}
+
+export interface IErrorMessage {
+  response: {
+    data: { message: string }
+  }
+}
+
+export interface IProjectRegion {
+  updatedAt: string | null
+  title: string
+  projectId: string
+  id: string
+  deletedAt: string | null
+  createdAt: string | null
+}
+
+export interface IUpdateRegionErrorMessage {
+  response: { data: { message: string } }
 }

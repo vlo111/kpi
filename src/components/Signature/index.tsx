@@ -1,10 +1,13 @@
 import React, { useState, useRef } from 'react';
-import { Button, Space } from 'antd';
+import { Button, Space, message, Divider } from 'antd';
 import SignatureCanvas from 'react-signature-canvas';
 
 import { AsnModal } from '../Forms/Modal';
 import styled from 'styled-components';
 import { AsnButton } from '../Forms/Button';
+import { AsnForm } from '../Forms/Form';
+import userImageUpload from '../../api/UserProfile/useUserImageUpload';
+import _ from 'lodash';
 
 const SignatureModal = styled(AsnModal)`
   .ant-modal-content {
@@ -43,8 +46,12 @@ const SignatureModal = styled(AsnModal)`
   }
 `;
 
-const Signature: React.FC<{ view?: boolean }> = ({ view }) => {
+const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [imageURL, setImageURL] = useState<string | undefined>(undefined);
+
+  const form = AsnForm.useFormInstance();
+  const { mutate: uploadImage } = userImageUpload();
 
   const showModal = (): void => {
     return setIsModalOpen(true);
@@ -54,33 +61,68 @@ const Signature: React.FC<{ view?: boolean }> = ({ view }) => {
     setIsModalOpen(false);
   };
 
-  const [imageURL, setImageURL] = useState<string | undefined>();
-
   const sigCanvas = useRef<SignatureCanvas>(null);
 
   const handleClear = (): void => {
     sigCanvas.current?.clear();
   };
 
-  const handleSave = (): void => {
-    const dataUrl = sigCanvas.current?.toDataURL('image/png');
+  const handleSave = async (): Promise<void> => {
+    if ((sigCanvas?.current?.isEmpty()) === true) return;
+    const dataUrl = sigCanvas?.current?.getTrimmedCanvas().toDataURL();
+    const blob = await fetch(dataUrl as string)
+      .then(async res => await res.blob())
+      .catch(err => console.log(err));
+    const file = new File([blob as Blob], 'signature.png', { type: 'image/png' });
+    uploadImage(file, {
+      onSuccess: (data) => {
+        if (!_.isEmpty(data)) {
+          const newData = (data as { data: { result: string[] } }).data.result;
+          if (newData?.length > 0) {
+            form.setFieldValue('onlineSignaturePath', newData[0]);
+            form.setFields([
+              {
+                name: 'onlineSignaturePath',
+                errors: []
+              }
+            ]);
+          }
+        }
+      },
+      onError: () => {
+        void message.error('Something went wrong, Please enter online signature again', 2);
+      }
+    });
     setImageURL(dataUrl);
   };
 
   return (
-    <Space direction="horizontal">
-      <Button
-        type="link"
-        onClick={showModal}
-        style={{
-          fontSize: 'var(--base-font-size)',
-          color: 'var(--dark-1)',
-          fontWeight: 700
-        }}
-        disabled={view === true}
-      >
-        Online signature / Առցանց ստորագրություն
-      </Button>
+    <Space wrap>
+      <Space wrap onClick={showModal} style={{ cursor: 'pointer' }} align='start'>
+        <Button
+          type="link"
+          style={{
+            fontSize: 'var(--base-font-size)',
+            color: 'var(--dark-1)',
+            whiteSpace: 'normal',
+            wordWrap: 'break-word',
+            fontWeight: 700,
+            padding: '4px 15px 4px 0px'
+          }}
+          disabled={view === true}
+        >
+          Online signature / Առցանց ստորագրություն
+        </Button>
+        {(imageURL === undefined && (view === false || view === undefined)) && <Divider
+          type='horizontal'
+          orientation={'center'}
+          style={{
+            width: '180px',
+            borderColor: 'var(--dark)',
+            margin: '32 0 0 0'
+          }}
+        />}
+      </Space>
       <SignatureModal
         footer={false}
         open={isModalOpen}
@@ -118,7 +160,7 @@ const Signature: React.FC<{ view?: boolean }> = ({ view }) => {
             className="primary"
             htmlType="submit"
             onClick={() => {
-              handleSave();
+              void handleSave();
               handleCancel();
             }}
           >
@@ -126,18 +168,18 @@ const Signature: React.FC<{ view?: boolean }> = ({ view }) => {
           </AsnButton>
         </Space>
       </SignatureModal>
-      {imageURL !== null && Boolean(imageURL)
+      {imageURL !== null && (Boolean(imageURL) || Boolean(url))
         ? (
-        <img
-          src={imageURL}
-          alt="Signature"
-          style={{
-            display: 'block',
-            margin: '0 auto',
-            width: '200px',
-            height: '100px'
-          }}
-        />
+          <img
+            src={imageURL ?? url}
+            alt="Signature"
+            style={{
+              display: 'block',
+              margin: '0 auto',
+              width: '100px',
+              height: '50px'
+            }}
+          />
           )
         : null}
     </Space>

@@ -52,7 +52,6 @@ export const InputResultArea: React.FC<IResultsUpdate> = ({ createOrUpdate, isUp
         onNotSave={onNotSaveModal}
       />
       <div className="footer">
-        {/* eslint-disable-next-line no-constant-condition */}
         {isUpdate
           ? <>
             <AsnButton className="default" onClick={Cancel}>

@@ -10,6 +10,7 @@ import AsnSpin from '../../../components/Forms/Spin';
 import { IDataResult } from '../../../types/files';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import { Void } from '../../../types/global';
+import FileViewer from 'react-file-viewer';
 
 const Result = styled.div`
   .ant-collapse > .ant-collapse-item > .ant-collapse-header {
@@ -50,36 +51,21 @@ const DataResult: React.FC<IDataResult> = ({
   setFolderId,
   setFolderName,
   refetchFolderFiles,
-  isFetchingAllFilesSearch,
-  isFetchingSearchCourseFiles,
-  setPaginate,
   filesCount,
   refetchAllFiles,
-  setSearchPaginate,
-  search,
-  allFilesSearchCount,
-  currentPage,
-  searchCurrentPage,
   isFetchingAllFiles,
-  isFetchingCourseFiles
+  isFetchingCourseFiles,
+  setOffset,
+  offset
 }) => {
   const [fileName, setFileName] = useState('');
-  const [viewPdf, setViewPdf] = useState<null | string>(null);
+  const [viewPdf, setViewPdf] = useState<string | null >(null);
   const [opens, setOpens] = useState<boolean>(false);
 
   const handlePagination = (page: number): void => {
-    search.length > 2
-      ? setSearchPaginate({
-        offset: page === 1 ? 0 : (page - 1) * 24,
-        limit: 24,
-        currentPage: page
-      })
-      : setPaginate({
-        offset: page === 1 ? 0 : (page - 1) * 24,
-        limit: 24,
-        currentPage: page
-      });
+    setOffset((page - 1) * 24);
   };
+
   const handleCancel: Void = () => {
     setOpens(false);
     void refetchAllFiles();
@@ -96,13 +82,22 @@ const DataResult: React.FC<IDataResult> = ({
   const { Panel } = Collapse;
   if (
     isFetchingFolderFiles ||
-    isFetchingSearchCourseFiles ||
-    isFetchingAllFilesSearch ||
     isFetchingAllFiles ||
     isFetchingCourseFiles
   ) {
     return <AsnSpin />;
   }
+
+  const getFileExtension = (fileName: string | null): any => {
+    if (fileName == null) {
+      return '';
+    }
+    return fileName.slice((fileName.lastIndexOf('.') - 1 >>> 0) + 2).toLowerCase();
+  };
+
+  const fileExtension = getFileExtension(viewPdf);
+
+  const isVideo = ['mp4', 'avi', 'flv', 'ogv'].includes(fileExtension);
 
   return (
     <Result>
@@ -144,13 +139,9 @@ const DataResult: React.FC<IDataResult> = ({
           >
             <AsnPagination
               showSizeChanger={false}
-              current={search.length > 2 ? searchCurrentPage : currentPage}
+              current={(offset / 24) + 1}
               pageSize={24}
-              total={
-                search.length > 2
-                  ? Number(allFilesSearchCount)
-                  : Number(filesCount)
-              }
+              total={Number(filesCount)}
               onChange={handlePagination}
             />
           </Row>
@@ -201,7 +192,34 @@ const DataResult: React.FC<IDataResult> = ({
       >
         {viewPdf !== null && (
           <>
-            <DocViewer
+             {fileExtension === 'doc' && (
+        <FileViewer fileType="doc" filePath={viewPdf} />
+             )}
+      {fileExtension === 'docx' && (
+        <FileViewer fileType="docx" filePath={viewPdf} />
+      )}
+       {fileExtension === 'png' && (
+        <FileViewer fileType="png" filePath={viewPdf} />
+       )}
+           {fileExtension === 'pdf' && (
+                <DocViewer
+                documents={[{ uri: viewPdf }]}
+                pluginRenderers={DocViewerRenderers}
+                config={{
+                  header: {
+                    disableHeader: false,
+                    disableFileName: false,
+                    retainURLParams: false
+                  }
+                }}
+                style={{ height: window.innerHeight - 125 }}
+              />
+           )}
+      {isVideo && (
+        <video src={viewPdf} controls />
+      )}
+      {fileExtension === 'xlsx' && (
+        <DocViewer
               documents={[{ uri: viewPdf }]}
               pluginRenderers={DocViewerRenderers}
               config={{
@@ -213,6 +231,7 @@ const DataResult: React.FC<IDataResult> = ({
               }}
               style={{ height: window.innerHeight - 125 }}
             />
+      )}
           </>
         )}
       </Modal>

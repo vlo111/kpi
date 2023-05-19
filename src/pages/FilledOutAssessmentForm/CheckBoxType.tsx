@@ -7,7 +7,7 @@ import Grading from './Grading';
 import { IAnswersProps, IAnswer } from '../../types/api/assessment';
 import { FormItemWrapperCol, TotalScoreQuestion, AnswerScore, AnswerWrapper } from './styles';
 
-const CheckBoxType: React.FC<IAnswersProps> = ({ question, i, setAllScore, allScore }) => {
+const CheckBoxType: React.FC<IAnswersProps> = ({ question, i, setAllScore, allScore, activateSave }) => {
   const { title, answers, required, score, userEarnedScore, assessedScore } = question;
 
   const [grading, setGrading] = useState<boolean>(false);
@@ -51,6 +51,7 @@ const CheckBoxType: React.FC<IAnswersProps> = ({ question, i, setAllScore, allSc
                     i={i}
                     setAllScore={setAllScore}
                     allScore={allScore}
+                    activateSave={activateSave}
                 />}
         </FormItemWrapperCol>
   );

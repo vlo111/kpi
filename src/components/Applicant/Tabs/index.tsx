@@ -3,7 +3,6 @@ import { AsnTabs } from '../../Forms/Tabs';
 import { TabHeader } from './Tab/Header';
 import { TabContent } from './Tab/Content';
 import { IApplicantTabs, StatusItems } from '../../../types/applicant';
-// import useGetSection from '../../../api/Applicant/useGetSection';
 
 const ApplicantTabs: React.FC<IApplicantTabs> = ({ courses, applicant }) => {
   const items: StatusItems = useMemo(
@@ -12,7 +11,7 @@ const ApplicantTabs: React.FC<IApplicantTabs> = ({ courses, applicant }) => {
         return {
           key: `course${i}`,
           label: <TabHeader index={i} title={course.title} />,
-          children: <TabContent history={course.history} applicant={applicant} />
+          children: <TabContent histories={course.history} sectionId={course.sectionDataId} applicant={applicant} />
         };
       }),
     [courses]
@@ -21,6 +20,7 @@ const ApplicantTabs: React.FC<IApplicantTabs> = ({ courses, applicant }) => {
   return (
     <AsnTabs
       type="card"
+      destroyInactiveTabPane={true}
       defaultActiveKey={`course${courses.findIndex((c) => c.history !== undefined)}`}
       items={items}
     />

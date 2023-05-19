@@ -59,7 +59,8 @@ const FillAssessMentForm: React.FC = () => {
     const clonedValues = _.cloneDeep(values);
     const requestBody = {
       email: clonedValues.email,
-      apply: clonedValues?.apply.filter((item: { checkboxIds: string[] | undefined }) => delete item.checkboxIds)
+      apply: clonedValues?.apply.filter((item: { checkboxIds: string[] | undefined }) => delete item.checkboxIds),
+      onlineSignaturePath: clonedValues.onlineSignaturePath
     };
 
     applyForm({ id, requestBody }, {
@@ -69,13 +70,20 @@ const FillAssessMentForm: React.FC = () => {
           window.location.replace('https://www.google.com/');
         }, 1000);
       },
-      onError: ({ response: { status } }: { response: { status: number } }) => {
+      onError: ({
+        response: {
+          status,
+          data: { message: errorMessage }
+        }
+      }: {
+        response: { status: number, data: { message: string } }
+      }) => {
         if (status === 404) {
           form.scrollToField(['email'], FormScrollToErrorOptions);
           form.setFields([{ name: 'email', errors: ['Applicant with this email does not exists'] }]);
           setError(true);
         } else {
-          void message.error('Something went wrong', 2);
+          void message.error(errorMessage, 2);
         }
       }
     });
@@ -85,7 +93,7 @@ const FillAssessMentForm: React.FC = () => {
     return <AsnSpin />;
   }
 
-  const { title, questions, sectionDataTitle } = assessmentForm;
+  const { title, questions, sectionDataTitle, type } = assessmentForm;
 
   const initalValue = questions.map((question: IQuestion) => {
     return {
@@ -93,6 +101,13 @@ const FillAssessMentForm: React.FC = () => {
       answers: []
     };
   });
+
+  const handleKeyPress = (event: { key: string, preventDefault: () => void }): void => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
+
   return (
     <>
       {!success && <AsnModal
@@ -103,13 +118,14 @@ const FillAssessMentForm: React.FC = () => {
         footer={false}
       >
         <AsnTitle level={2}>{title}</AsnTitle>
-        <AsnParagraph style={{ marginBottom: '60px' }}>Pre-assessment form for {sectionDataTitle} course</AsnParagraph>
+        <AsnParagraph style={{ marginBottom: '60px' }}>{type === 'PRE_ASSESSMENT' ? 'Pre-assessment' : 'Post-assessment' } form for {sectionDataTitle} course</AsnParagraph>
         <AsnForm
           form={form}
           layout='vertical'
           onFinish={onFinish}
           name="preassesment"
           scrollToFirstError={FormScrollToErrorOptions}
+          onKeyDown={handleKeyPress}
         >
           <AsnForm.Item
             name="email"
@@ -153,7 +169,11 @@ const FillAssessMentForm: React.FC = () => {
             )}
           </AsnForm.List>
          {assessmentForm.onlineSignature &&
-          <AsnForm.Item>
+          <AsnForm.Item
+          name='onlineSignaturePath'
+          rules={[{ required: true, message: 'Please enter online signature' }]}
+          validateTrigger={['onChange', 'onBlur']}
+          >
             <Space direction='horizontal' align='center' style={{ paddingTop: '30px' }}>
               <Signature/>
             </Space>

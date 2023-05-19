@@ -133,7 +133,7 @@ const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
         {setValue(ApplicantInfo.CourseSource, applicant?.informedAboutUs)}
       </>
     ),
-    []
+    [applicant]
   );
 
   const user = useMemo(
@@ -151,13 +151,13 @@ const Applicant: React.FC<IApplicantProps> = ({ applicantId }) => {
   return (
     <Spin spinning={isLoading}>
       <Row height={100} style={{ padding: '2rem 4rem' }} gutter={[0, 32]}>
-        {/* {isBreadcrumb && ( */}
-        {/*   <Breadcrumb */}
-        {/*     projectId={projectId} */}
-        {/*     state={state} */}
-        {/*     applicantName={applicant.fullName} */}
-        {/*   /> */}
-        {/* )} */}
+        {isBreadcrumb && (
+          <Breadcrumb
+            projectId={projectId}
+            state={state}
+            applicantName={applicant.fullName}
+          />
+        )}
         <Row>
           <ApplicantProfile span={24}>
             <Row gutter={10} style={{ padding: '1rem' }}>

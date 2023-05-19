@@ -11,11 +11,22 @@ const SearchTeamMembers: React.FC<SearchHeaderTypes> = ({
   setShowModal,
   totalCount,
   permissionsList,
-  setSearchText
+  setSearchText,
+  setOffset
 }) => {
   const onChange = (data: React.ChangeEvent<HTMLInputElement>): void => {
-    setSearchText(data.target.value);
+    if (data.target.value === '') {
+      setSearchText(undefined);
+    }
   };
+
+  const onPressEnter = (e: React.SyntheticEvent<HTMLInputElement>): void => {
+    if (e.currentTarget.value.trim().length > 0) {
+      setSearchText(e.currentTarget.value.trim());
+      setOffset(0);
+    }
+  };
+
   return (
     <Row gutter={24}>
       <Col span={24}>
@@ -41,19 +52,20 @@ const SearchTeamMembers: React.FC<SearchHeaderTypes> = ({
                 md={{ span: 16 }}
               >
                 <AsnInput
-                   placeholder="Search"
-                   className='search_users'
-                   onChange={onChange}
-                   style={{
-                     height: '32px',
-                     border: 'none',
-                     fontWeight: 'var(--font-normal)',
-                     fontSize: 'var(--font-size-small)',
-                     borderRadius: '10px',
-                     boxShadow: 'var(--search-box-shadow)',
-                     color: 'var(--dark-4)',
-                     maxWidth: '300px'
-                   }}
+                  placeholder="Search"
+                  className='search_users'
+                  onChange={onChange}
+                  onPressEnter={onPressEnter}
+                  style={{
+                    height: '32px',
+                    border: 'none',
+                    fontWeight: 'var(--font-normal)',
+                    fontSize: 'var(--font-size-small)',
+                    borderRadius: '10px',
+                    boxShadow: 'var(--search-box-shadow)',
+                    color: 'var(--dark-4)',
+                    maxWidth: '300px'
+                  }}
                 />
               </Col>
             </Row>
@@ -82,7 +94,7 @@ const SearchTeamMembers: React.FC<SearchHeaderTypes> = ({
               marginLeft: '10px'
             }}
           >
-            Total members: {totalCount}
+            Total: {totalCount}
           </Col>
         </Row>
       </Col>

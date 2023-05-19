@@ -10,7 +10,7 @@ import { Void } from '../../types/global';
 
 export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
   const hide: Void = () => {
-    setOpen();
+    setOpen(false);
   };
 
   const onFinishFailed = (): void => {
@@ -31,7 +31,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
         >
           <Panel header="Age" key="1">
             <Form.Item name="age" >
-              <Slider range marks={marks} min={1} defaultValue={[18, 50]} />
+              <Slider range marks={marks} min={15} defaultValue={[18, 50]} />
             </Form.Item>
           </Panel>
           <Panel header="Gender" key="2">
@@ -109,7 +109,7 @@ export const UseFilters: React.FC<Ifiltres> = ({ setOpen, onFinish, form }) => {
             <AsnButton className="primary" htmlType="submit">
               Add Filter
             </AsnButton>
-          </Space>{' '}
+          </Space>
         </Form.Item>
       </Form>
     </ContentAssingersFilter>

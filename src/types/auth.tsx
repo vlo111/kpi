@@ -39,6 +39,11 @@ export interface ISuccessMessage {
     result: string
   }
 }
+export interface ITokenMessage {
+  response: {
+    data: { message: string }
+  }
+}
 
 export interface IResetPassword {
   password: string
@@ -46,7 +51,7 @@ export interface IResetPassword {
 }
 
 export interface IUserUpload {
-  result?: string []
+  result?: string[]
   data: { result: string[] }
 }
 export interface IUploadProps {
@@ -58,10 +63,13 @@ export interface IUploadProps {
   onRemove?: (file: any) => void
 }
 
-export type UploadSuccessResponse = (response: {
-  result: string[]
-}) => void;
+export type UploadSuccessResponse = (response: { result: string[] }) => void;
 
 export type UploadErrorResponse = () => void;
 
-export type UserImageUpload = UseMutation<Void, UploadErrorResponse, UploadSuccessResponse, string | Blob | RcFile >;
+export type UserImageUpload = UseMutation<
+Void,
+UploadErrorResponse,
+UploadSuccessResponse,
+string | Blob | RcFile
+>;

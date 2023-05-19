@@ -169,7 +169,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
           onFinish={onFinishedForm}
           name="addQuestion"
         >
-      {content.length > 0
+      {content?.length > 0
         ? (
         <>
           {content.map((item: IQuestion, index: number) => (
@@ -188,7 +188,7 @@ const ApplicationCard: React.FC<IApplicationCard> = ({
                 setAddOrUpdateQuestion={setAddOrUpdateQuestion}
                 setQuestionRowIndex={setQuestionRowIndex}
               />
-              {item.answerType === 'YES_NO' && item.relatedQuestions.length > 0
+              {item.answerType === 'YES_NO' && item.relatedQuestions?.length > 0
                 ? item.relatedQuestions.map((item, index) => (
                     <QuestionRowContainer
                       key={item.id !== undefined ? item.id : uuidv4()}

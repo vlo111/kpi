@@ -3,6 +3,7 @@ import { FormOptions, UseMutation, Void } from '../../global';
 import { IAttachmentSetting } from '../../project';
 import { EnumAssessmentFormTypes, INavigateRoteInfoTypes } from '../assessment';
 import { ResponseErrorParam } from '../project/get-project';
+import { SetStateAction } from 'react';
 
 export interface IDisableType {
   tabDisable?: boolean
@@ -29,8 +30,17 @@ export interface IDraggerProps {
   setReqDocs?: any
   keyName?: string
   name?: string
+  reqDocs?: any
 }
 
+export interface IfilePreview {
+  fileName?: string
+  id?: string
+  name?: string
+  status?: string
+  thumbUrl?: string | null
+  uid?: string
+}
 export interface IApplicantsList {
   id: string
   email: string
@@ -44,6 +54,14 @@ export interface IApplicantsListFullInfo {
   courseId: string
   navigateRouteInfo: INavigateRoteInfoTypes
   status: string
+  setOffset: React.Dispatch<React.SetStateAction<number>>
+  offset: number
+  applicantCounts: number
+  isLoading: boolean
+  setSearch: React.Dispatch<React.SetStateAction<string | undefined>>
+  search: string
+  sectionsCount: number
+  tabIndex: number
 }
 
 export interface ICourseStatusInfo {
@@ -257,7 +275,12 @@ export type GetAssignedUsersListByInputActivityId = (
   options?: FormOptions
 ) => UseGetAssignedUsersResponse;
 
-export type AttachFileSubActivity = UseMutation<Void, any, ResponseErrorParam, IAttachFileSubActivity>;
+export type AttachFileSubActivity = UseMutation<
+Void,
+any,
+ResponseErrorParam,
+IAttachFileSubActivity
+>;
 
 export type AssignUserInCourse = UseMutation<
 Void,
@@ -275,4 +298,44 @@ export interface IImportApplicantsWarnings {
       endDate: string
     }
   }
+}
+
+export interface IActiveTemplate {
+  applicationForm: string[] | []
+  courseStructure: string
+  description: string | null
+  id: string
+  phasesCount: number
+  title: string
+}
+export interface IResponseActiveTemplates {
+  count: number
+  has_more: boolean
+  result: IActiveTemplate[]
+}
+export interface IActiveTemplates {
+  data: IResponseActiveTemplates
+  isLoading: boolean
+}
+
+export type TUseGetTemplates = (
+  id: string,
+  search: string,
+  offset: number,
+  limit: number,
+  filters: { courseStructure: string | undefined, applicationForm: string[] | undefined },
+  options: FormOptions
+) => IActiveTemplates
+
+export interface IFiltersActiveTemplates {
+  applicationForm: string[] | undefined
+  courseStructure: string | undefined
+}
+export interface IActiveTemplatesProps {
+  search: string
+  setSearch: React.Dispatch<SetStateAction<string>>
+  setOffset: React.Dispatch<SetStateAction<number>>
+  setFilters: React.Dispatch<SetStateAction<IFiltersActiveTemplates>>
+  isLoading: boolean
+  templates: IActiveTemplate[]
 }

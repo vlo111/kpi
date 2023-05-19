@@ -3,23 +3,23 @@ import { Button, Popover, Typography } from 'antd';
 import moment from 'moment';
 import { FilterOutlined } from '@ant-design/icons';
 import { UseFilters } from './useFilters';
+import { Void } from '../../types/global';
 
 const today = new Date();
 const { Paragraph } = Typography;
 
 export const useColumn = ({ onFinish, form, setOpen, open }: any): any => {
-  const handleOpenChange = (newOpen: boolean): void => {
-    setOpen(newOpen);
+  const handleOpenChange = (newOpen: boolean): Void => {
+    return setOpen(newOpen);
   };
   return [
     {
       title: (
         <Popover
-          content={UseFilters({
-            setOpen,
-            onFinish,
-            form
-          })}
+          content={<UseFilters setOpen={setOpen}
+            onFinish={onFinish}
+            form={form}
+            />}
           title="Filter your results"
           trigger="click"
           overlayClassName="applicantsFilter"

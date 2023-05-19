@@ -116,7 +116,7 @@ export const InputResultArea = styled.div`
             }
 
             input {
-              width: 100% !important;
+              width: 95% !important;
               height: auto !important;
             }
           }

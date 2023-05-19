@@ -11,7 +11,8 @@ const GlobalStyle = createGlobalStyle`
     --secondary-light-orage: #F6976D;
     --secondary-light-amber: #F3C262;
     --primary-light-orange: #F07760;
-
+    
+    --dark-0: rgba(0,0,0,.85);
     --dark-1: #111B23;
     --dark-2: #263238;
     --dark-3: #5E647B;
@@ -241,6 +242,10 @@ const GlobalStyle = createGlobalStyle`
     top: 10px !important;
     width: auto!important;
     height: 500px !important;
+
+    .ant-modal-body{
+      padding: 3.5rem 1.5rem 1.5rem;
+    }
   }
   .applicantsFilter{
     .ant-popover-title{
@@ -265,9 +270,23 @@ const GlobalStyle = createGlobalStyle`
   .table-row-dark{
     background-color: var(--primary-light-3);
     cursor: pointer;
+    .ant-table-cell-fix-left{
+      background-color: var(--primary-light-3);
+      box-shadow: var(--base-box-shadow);
+    }
+    .ant-table-cell-fix-right{
+      background-color: var(--primary-light-3);
+      box-shadow: var(--base-box-shadow);
+    }
   }
   .table-row-light{
     cursor: pointer;
+    .ant-table-cell-fix-left{
+      box-shadow: var(--base-box-shadow);
+    }
+    .ant-table-cell-fix-right{
+      box-shadow: var(--base-box-shadow);
+    }
   }
 
   .customCascaderPopup{
@@ -288,6 +307,13 @@ const GlobalStyle = createGlobalStyle`
       padding: 6px 0;
       margin-right: 1px;
       max-height: 142px;
+      position: relative;
+      max-width: 13rem !important;
+      padding-right: 10px;
+    }
+    .ant-cascader-menu-item-expand-icon {
+      position: absolute;
+      right: 0px;
     }
     .ant-cascader-checkbox-checked .ant-cascader-checkbox-inner{
       background-color: var(--dark-border-ultramarine);
@@ -412,8 +438,27 @@ const GlobalStyle = createGlobalStyle`
   canvas{
     border: 1px solid var(--dark-5);
     border-bottom: 1px solid var(--dark-border-ultramarine) !important;
-
   }
+  .pg-viewer-wrapper {
+    text-align: center;
+  .photo-viewer-container{
+    height: calc(91vh - 40px) !important;
+    width: 100% !important;
+
+    img{
+      height: auto !important;
+      width: 100% !important;
+    }
+    
+  }
+  .document-container{
+    height: calc(91vh - 40px) !important;
+    text-align: center;
+  }
+}
+video{
+  height: calc(91vh - 40px) !important;
+}
 
 `;
 

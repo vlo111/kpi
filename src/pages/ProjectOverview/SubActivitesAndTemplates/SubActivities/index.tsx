@@ -9,7 +9,8 @@ import {
   Typography,
   Tooltip,
   Avatar,
-  Popover
+  Popover,
+  message
 } from 'antd';
 import styled from 'styled-components';
 import moment from 'moment';
@@ -17,21 +18,23 @@ import moment from 'moment';
 import { Void } from '../../../../types/global';
 import { ISubActivities, ISubActivitiesProps } from '../../../../types/project';
 import { AsnCardSubActivity } from '../../../../components/Forms/Card/SubActivityCard';
-import { ReactComponent as Calendar } from '../../../../assets/icons/calendar.svg';
-import { ReactComponent as Location } from '../../../../assets/icons/location.svg';
 import { AsnButton } from '../../../../components/Forms/Button';
 import { AssingnesFilter } from '../Filter/Assigned';
 import { DateFilterCards } from '../Filter/DataPicker';
 import { StatusFilter } from '../Filter/Status';
 import AddSubActivity from '../AddActivity';
 import EditSubCourse from '../../../../components/Project/SubActivity/SubActivityModals/Edit';
-
 import AsnAvatar from '../../../../components/Forms/Avatar';
+import { ConfirmModal } from '../../../../components/Forms/Modal/Confirm';
+import useDeleteSubActivity from '../../../../api/Activity/SubActivity/useDeleteSubActivity';
+
 import { AssignedUserType } from '../../../../types/api/activity/subActivity';
 import { ReactComponent as PointSvg } from '../../../../assets/icons/point.svg';
 import { ReactComponent as EditSvg } from '../../../../assets/icons/edit.svg';
-// import { ReactComponent as DeleteSvg } from '../../../../assets/icons/delete.svg';
+import { ReactComponent as DeleteSvg } from '../../../../assets/icons/delete.svg';
 import { ReactComponent as CloseSvg } from '../../../../assets/icons/closeIcon.svg';
+import { ReactComponent as Calendar } from '../../../../assets/icons/calendar.svg';
+import { ReactComponent as Location } from '../../../../assets/icons/location.svg';
 
 const Container = styled.div`
   .ant-select:not(.ant-select-customize-input) .ant-select-selector {
@@ -91,10 +94,12 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
   setAssignedUsersIds,
   selectedRowId,
   setSelectedRowId,
-  refetchSubActivities
+  refetchSubActivities,
+  refetch
 }) => {
   const [isOpenCreateActivityModal, setIsOpenCreateActivityModal] =
     useState<boolean>(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
 
   const [openPopover, setOpenPopover] = useState({
     show: false,
@@ -103,6 +108,20 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
 
   const [openCreateSubActivity, setOpenCreateSubActivity] = useState<boolean>(false);
   const [subActivityId, setSubActivityId] = useState('');
+  const [courseId, setCourseId] = useState('');
+
+  const { mutate: deleteCourse } = useDeleteSubActivity(
+    {
+      onSuccess: () => {
+        refetchSubActivities();
+        refetch();
+      },
+      onError: ({ response: { data: { message: errorMessage } } }: { response: { data: { message: string } } }) => {
+        void message.error(errorMessage, 2);
+      }
+    }
+  );
+
   const { id } = useParams();
 
   const resetFilter: Void = () => {
@@ -131,7 +150,13 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
     handleOpenChange(false, '');
   };
 
-  const content = (subActivityId: string): React.ReactElement => {
+  const handleDeleteCourse = (id: string): void => {
+    setCourseId(id);
+    setOpenConfirmModal(true);
+    handleOpenChange(false, '');
+  };
+
+  const content = (subActivityId: string, id: string): React.ReactElement => {
     return (
       <>
         <Row
@@ -146,10 +171,10 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
             <EditSvg style={{ marginRight: '10px' }} />
             <Paragraph className='tooltip_title'>Edit</Paragraph>
           </Row>
-          {/* <Row align={'middle'} style={{ cursor: 'pointer' }}>
+          <Row align={'middle'} style={{ cursor: 'pointer' }} onClick={() => handleDeleteCourse(id)}>
             <DeleteSvg style={{ marginRight: '10px' }} />
             <Paragraph className='tooltip_title'>Delete</Paragraph>
-          </Row> */}
+          </Row>
         </Space>
       </>
     );
@@ -213,7 +238,7 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
               </Button>
               {subActivities?.map((item: ISubActivities, i: number) => (
                 <Popover
-                  content={() => content(item?.subActivityId)}
+                  content={() => content(item?.subActivityId, item?.id)}
                   placement="bottom"
                   trigger="click"
                   key={item?.id}
@@ -341,6 +366,15 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
           refetch={refetchSubActivities}
         />
       }
+      <ConfirmModal
+       styles={{ gap: '6rem' }}
+       yes="Delete"
+       no="Cancel"
+       open={openConfirmModal}
+       title="Are you sure you want to delete the course?"
+       onSubmit={() => deleteCourse({ id: courseId })}
+       onCancel={() => setOpenConfirmModal(false)}
+       />
     </>
   );
 };

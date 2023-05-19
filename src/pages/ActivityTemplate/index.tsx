@@ -218,8 +218,8 @@ const ActivityTemplate: React.FC = () => {
         createSecondStepTemplateFn({
           id: templateId,
           data: {
-            applicationForm: form.getFieldValue('includeForm'),
-            courseStructure: form.getFieldValue('courseStructure')
+            applicationForm: form.getFieldValue('includeForm') ?? [],
+            courseStructure: form.getFieldValue('courseStructure') ?? 'ONE_SECTION'
           }
         });
       }
@@ -247,10 +247,16 @@ const ActivityTemplate: React.FC = () => {
   useEffect(() => {
     if (data !== undefined) {
       form.setFieldsValue({
-        includeForm: data?.applicationForm !== null ? data?.applicationForm : [],
-        courseStructure: data?.courseStructure === null
-          ? 'ONE_SECTION'
-          : data?.courseStructure
+        includeForm:
+          form.getFieldValue('includeForm') !== undefined
+            ? form.getFieldValue('includeForm')
+            : data?.applicationForm,
+        courseStructure:
+          form.getFieldValue('courseStructure') !== undefined
+            ? form.getFieldValue('courseStructure')
+            : data?.courseStructure === null
+              ? 'ONE_SECTION'
+              : data?.courseStructure
       });
     }
   }, [data]);
@@ -310,7 +316,7 @@ const ActivityTemplate: React.FC = () => {
             </Col>
             <Col span={24}>
               <Form.Item name="includeForm">
-                <AsnCheckbox.Group disabled={data?.status === 'PUBLISHED'}>
+                <AsnCheckbox.Group >
                   <AsnCheckbox
                     width="2rem"
                     height="2rem"
@@ -358,7 +364,7 @@ const ActivityTemplate: React.FC = () => {
             </Col>
             <Col span={24}>
               <Form.Item name="courseStructure">
-                <Radio.Group disabled={data?.status === 'PUBLISHED'}>
+                <Radio.Group >
                   <Radio
                     value={'ONE_SECTION'}
                     style={{

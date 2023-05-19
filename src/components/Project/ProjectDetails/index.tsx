@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Col, Row } from 'antd';
+import { Col, Row, message } from 'antd';
 
 import { AsnForm } from '../../Forms/Form';
 import { ConfirmModal } from '../../Forms/Modal/Confirm';
@@ -12,7 +12,8 @@ import { Void } from '../../../types/global';
 import {
   IStepsUpdate,
   OpenDeleteResultModal,
-  ProjectDetailsDelete
+  ProjectDetailsDelete,
+  IUpdateRegionErrorMessage
 } from '../../../types/project';
 
 import useGetProjectDetails from '../../../api/Details/useGetProjectDetails';
@@ -40,7 +41,7 @@ export const ProjectDetailComponent: React.FC<IStepsUpdate> = ({ isUpdate }) => 
     deletedRegionIds: []
   };
 
-  const { projectDetails, isLoading } = useGetProjectDetails(id);
+  const { projectDetails, isLoading, isFetching } = useGetProjectDetails(id, { enabled: Boolean(id) });
 
   const [openDeleteResultModal, setOpenDeleteResultModal] = useState<OpenDeleteResultModal>();
 
@@ -50,14 +51,17 @@ export const ProjectDetailComponent: React.FC<IStepsUpdate> = ({ isUpdate }) => 
     }
   };
 
+  const onError = ({ response: { data: { message: errorMessage } } }: IUpdateRegionErrorMessage): void => {
+    void message.error(errorMessage, 2);
+  };
+
   const { mutate: createProjectDetails } = useCreateProjectDetails({ onSuccess });
 
-  const { mutate: updateProjectDetails } = useUpdateProjectDetails({ onSuccess });
+  const { mutate: updateProjectDetails } = useUpdateProjectDetails({ onSuccess, onError });
 
   const onFinish: Void = () => {
     if (id !== undefined) {
       const { deletedOrganizationIds, deletedRegionIds, deletedSectorIds, organizations, regions, sectors } = form.getFieldValue([]);
-
       const data = {
         organizations,
         regions,
@@ -95,7 +99,7 @@ export const ProjectDetailComponent: React.FC<IStepsUpdate> = ({ isUpdate }) => 
 
       form.setFieldsValue({
         organizations: initField,
-        regions: initField,
+        regions: [],
         sectors: initField
       });
     }
@@ -126,7 +130,7 @@ export const ProjectDetailComponent: React.FC<IStepsUpdate> = ({ isUpdate }) => 
     setOpenDeleteResultModal(undefined);
   };
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return <AsnSpin />;
   }
 
@@ -142,9 +146,10 @@ export const ProjectDetailComponent: React.FC<IStepsUpdate> = ({ isUpdate }) => 
         validateMessages={VALIDATE_PROJECT_DETAILS_MESSAGES}
         name="dynamic_form_item"
         onFinish={onFinish}
+        onFinishFailed={(val) => console.log(val)}
       >
         <Items name="organizations" title='Organizations' onDelete={onDeleteHandler}/>
-        <Items name="regions" title='Regions' onDelete={onDeleteHandler}/>
+        <Items name="regions" title='Regions' onDelete={onDeleteHandler} regions={projectDetails?.regions?.map((region) => region.title)}/>
         <Items name="sectors" title='Sectors' onDelete={onDeleteHandler}/>
         <Row className="accept-buttons">
           {isUpdate

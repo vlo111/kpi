@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Tabs } from 'antd';
 import TabPane from 'antd/lib/tabs/TabPane';
 
-import { IPaginate } from '../../types/files';
-import { defaultLimit } from '../../helpers/constants';
-import AsnSpin from '../../components/Forms/Spin';
 import { AsnTreeFiles } from './AsnTree';
 import { SearchImport } from './Search';
 import { useProject } from '../../hooks/useProject';
@@ -77,34 +74,26 @@ const Files: React.FC = () => {
   const [courseId, setCourseId] = useState<string | null>(null);
   const [folderId, setFolderId] = useState<string>('');
   const [folderName, setFolderName] = useState<string>('');
-  const [search, setSearch] = useState<string>('');
-  const [paginate, setPaginate] = useState<IPaginate>(defaultLimit);
+  const [search, setSearch] = useState<string | undefined>(undefined);
+  const [offset, setOffset] = useState<number>(0);
 
   const { id } = useParams();
   const { projectName } = useProject();
-  const { limit, offset, currentPage } = paginate;
+
   const {
-    data: { result: files, count: filesCount },
-    refetch: refetchAllFiles, isLoading, isFetching: isFetchingAllFiles
-  } = useGetAllFile(id, offset, limit, { enabled: Boolean(id) });
+    data: { result: files, count: filesCount, allCount },
+    refetch: refetchAllFiles, isFetching: isFetchingAllFiles
+  } = useGetAllFile(id, offset, 24, search, { enabled: Boolean(id) && (courseId === null) });
 
   const {
     data: { result: courseFiles }, refetch, isFetching: isFetchingCourseFiles
-  } = useGetCoursFile(courseId, { enabled: Boolean(courseId) });
+  } = useGetCoursFile(courseId, search, { enabled: Boolean(courseId) });
 
   const { data: { result: folderFiles }, isFetching: isFetchingFolderFiles, refetch: refetchFolderFiles } =
     useGetFolderFiles(courseId,
       folderId,
       { enabled: (Boolean(folderId) && Boolean(courseId)) }
     );
-
-  useEffect(() => {
-    refetchAllFiles();
-  }, [limit, offset]);
-
-  if (isLoading === true) {
-    return <AsnSpin />;
-  }
 
   return (
     <Tab>
@@ -127,7 +116,7 @@ const Files: React.FC = () => {
             setFolderId={setFolderId}
             isFetchingFolderFiles={isFetchingFolderFiles}
             setFolderName={setFolderName}
-            filesCount={filesCount}
+            filesCount={allCount}
             folderId={folderId}
             courseId={courseId}
           />
@@ -135,7 +124,6 @@ const Files: React.FC = () => {
       </Tabs>
       <SearchImport
         setSearch={setSearch}
-        search={search}
         refetch={refetch}
         courseId={courseId}
         files={files}
@@ -148,11 +136,11 @@ const Files: React.FC = () => {
         setFolderName={setFolderName}
         refetchFolderFiles={refetchFolderFiles}
         refetchAllFiles={refetchAllFiles}
-        setPaginate={setPaginate}
+        setOffset={setOffset}
         filesCount={filesCount}
-        currentPage={currentPage}
         isFetchingAllFiles={isFetchingAllFiles}
         isFetchingCourseFiles={isFetchingCourseFiles}
+        offset={offset}
       />
     </Tab>
   );

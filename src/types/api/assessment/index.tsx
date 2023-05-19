@@ -301,6 +301,7 @@ export interface IAnswersProps {
   i: number
   setAllScore?: React.Dispatch<React.SetStateAction<number | undefined>>
   allScore?: number | undefined
+  activateSave?: boolean
 }
 export interface IAssessmentFormAssess {
   id: string
@@ -321,6 +322,7 @@ export interface IGradingAssessmentForm {
   userEarnedScore: number
   setAllScore?: React.Dispatch<React.SetStateAction<number | undefined>>
   allScore?: number | undefined
+  activateSave?: boolean
 }
 
 export interface IAssessAnswer {
@@ -356,6 +358,15 @@ export interface IFooterButtons {
   title: string
   type: string
   active: boolean
+}
+export interface IPreviewAssessmentForm {
+  data?: IResult
+  isPreviewForm?: boolean
+  setIsPreviewForm?: React.Dispatch<React.SetStateAction<boolean>> | any
+  setOpenPreviewAssessmentForm?: React.Dispatch<React.SetStateAction<boolean>> | any
+  openPreviewAssessmentForm?: boolean
+  formId?: string | undefined | any
+  applicantPreview?: boolean
 }
 
 export interface IAssessmentForms {

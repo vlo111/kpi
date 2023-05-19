@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Col, Row, Space } from 'antd';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
+import { Col, message, Row, Space } from 'antd';
 
 import DraggerForm from '../SubActivityForms/Dragger';
 import FormWrapper from '../../SubActivityWrapper';
@@ -18,16 +18,28 @@ const SubActivityDocuments: React.FC<any> = ({
   const [defaultFileList, setDefaultFileList] = useState<any>([]);
   const [keyName, setKeyName] = useState('');
   const [reqDocs, setReqDocs] = useState([]);
-  const { mutate: AttachFile } = useAttacheFilesSubActivitySection({});
+  const { mutate: AttachFile } = useAttacheFilesSubActivitySection({
+    onError: (e: { response: { data: { message: string } } }) => {
+      void message.error(e.response.data.message);
+      setDefaultFileList(defaultFileList.filter(
+        (i: { lastModifiedDate: string | undefined }) => i.lastModifiedDate === undefined
+      ));
+    },
+    onSuccess: () => {
+      setFileList([]);
+    }
+  });
 
-  useEffect(() => {
-    if (files?.length !== 0) {
+  useLayoutEffect(() => {
+    if (files?.length > 0) {
       const newFile = files?.map((file: any, i: number) => {
         return {
           uid: `${i++}`,
           name: file.originalName,
           fileName: file.name,
-          thumbUrl: file.path
+          thumbUrl: file.path,
+          status: 'done',
+          id: file.id
         };
       });
       setDefaultFileList(newFile);
@@ -53,7 +65,10 @@ const SubActivityDocuments: React.FC<any> = ({
   }, [fileList]);
 
   return (
-    <FormWrapper className={requIredDocs?.length >= 1 ? 'documents_info' : 'required_doc'} color={color}>
+    <FormWrapper
+      className={requIredDocs?.length >= 1 ? 'documents_info' : 'required_doc'}
+      color={color}
+    >
       <DraggerForm
         text="File/Documents"
         docType="GENERAL_DOCUMENT"
@@ -63,6 +78,8 @@ const SubActivityDocuments: React.FC<any> = ({
         defaultFileList={defaultFileList}
         setDefaultFileList={setDefaultFileList}
         name="subActivity"
+        reqDocs={reqDocs}
+        setReqDocs={setReqDocs}
       />
       {requIredDocs.length >= 1 && (
         <Space
@@ -102,31 +119,32 @@ const SubActivityDocuments: React.FC<any> = ({
                 <Col
                   style={{ textAlign: 'start', display: 'flex' }}
                   span={8}
-                  onClick={() => setKeyName(doc.title)}
+                  onClick={() => {
+                    setKeyName(doc.title);
+                  }}
                 >
                   <DraggerForm
                     text="File/Documents"
                     setReqDocs={setReqDocs}
                     docType="REQUIRED_DOCUMENT"
-                    disabled={
-                      status === 'INACTIVE' ||
+                    disabled={status === 'INACTIVE' ||
                       reqDocs.filter(
                         (i: { keyname: string }) => i.keyname === doc.title
-                      ).length === doc.count
-                    }
+                      ).length === doc.count}
                     fileList={fileList}
                     setFileList={setFileList}
                     defaultFileList={defaultFileList}
                     setDefaultFileList={setDefaultFileList}
                     keyName={keyName}
-                  />
+                    />
+
                   <Row
-                   style={{
-                     whiteSpace: 'nowrap',
-                     overflow: 'hidden',
-                     textOverflow: 'ellipsis'
-                   }}
-                    >
+                    style={{
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis'
+                    }}
+                  >
                     {doc.title}
                   </Row>
                 </Col>

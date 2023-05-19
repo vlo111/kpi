@@ -77,9 +77,11 @@ interface IGetApplicant { isLoading?: boolean, applicant: IApplicant, courses: I
 export type UseGetApplicant = (id: string | undefined) => IGetApplicant | undefined
 
 export interface IApproveModalProps {
-  applicants: Array<{ id: string, fullName: string }>
+  applicants: Array<{ id: string, fullName: string, fullname?: string }>
   open: string
   onCancel: () => void
+  setSelectedRowKeys?: React.Dispatch<React.SetStateAction<React.Key[]>>
+  setOffset?: React.Dispatch<React.SetStateAction<number>>
 }
 export interface ImportParams {
   sectionDataId: string
@@ -110,6 +112,7 @@ export interface IPreAssessMentForm {
   preAssessmentCheckedAt: string
   postAssessmentAppliedAt: string
   postAssessmentCheckedAt: string
+  onlineSignaturePath: string
 }
 export interface IGetApplicantForm {
   checker: {
@@ -138,7 +141,7 @@ export type ImportApplicantList = UseMutation<Void, any, ResponseErrorParam, Imp
 export type OnNoteHandler = ChangeEventHandler<HTMLTextAreaElement>;
 
 export interface ICourseProps {
-  history: IHistory
+  history: IHistory | { id: undefined, status: string }
   applicant: IApplicant
   isFirst: boolean
   isLast: boolean
@@ -147,7 +150,7 @@ export interface ICourseProps {
 }
 
 export interface ICourses {
-  histories: IHistory[]
+  histories: IHistory[] | Array<{ id: undefined, status: string }>
   applicant: IApplicant
 }
 
@@ -170,10 +173,14 @@ export interface IApplicantTabs {
 }
 
 export interface INote {
-  id: string
-  text: string
   inactive: boolean
+  history: IHistory | { id: undefined, status: string }
+}
+
+export interface INoteContent {
+  text: string | undefined
   reasonsForRejection: string[] | null
+  onClose: (close: boolean) => void
 }
 
 export type ShowNote = boolean | string;
@@ -230,4 +237,33 @@ export interface IApplicantPublicForm {
   applicantId?: string
   sectionDataId?: string
   type?: string
+}
+
+interface IResultApplicant {
+  email: string
+  id: string
+  fullname: string
+  postassessmentscore: null | string
+  postassessmentsubmitted: boolean
+  preassessmentscore: null | string
+  preassessmentsubmitted: boolean
+  status: string
+}
+export interface ISingleApplicant {
+  count: number
+  has_more: boolean
+  result: IResultApplicant[]
+}
+
+export interface IGetApplicants {
+  data: ISingleApplicant
+  isSuccess: boolean
+  isLoading: boolean
+}
+
+export type TUseGetApllicants = (id: string, search: string | undefined, offset: number, limit: number, options?: AssessmentFormOptions) => IGetApplicants
+export interface IErrorMessage {
+  response: {
+    data: { message: string }
+  }
 }

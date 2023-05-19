@@ -10,7 +10,11 @@ import { AsnForm } from '../Forms/Form';
 import { AsnInput, AsnTextArea } from '../Forms/Input';
 import { ICreateTemplateModal, AddManagerHandle } from '../../types/project';
 import { PATHS } from '../../helpers/constants';
-import { ICreateTemplateResponse, IUpdateTemplateMessage, IUpdateTemplateErrorMessage } from '../../types/api/activity/template';
+import {
+  ICreateTemplateResponse,
+  IUpdateTemplateMessage,
+  IUpdateTemplateErrorMessage
+} from '../../types/api/activity/template';
 import getSingleTemplate from '../../api/Activity/Template/useGetSingleActivityTemplate';
 import useCreateActivityTemplate from '../../api/Activity/Template/useCreateActivityTemplate';
 import useUpdateActivityTemplate from '../../api/Activity/Template/useUpdateActivityTemplate';
@@ -26,7 +30,7 @@ const CreateTemplateContainer = styled.div`
 `;
 
 const TemplateAsnModal = styled(AsnModal)`
- .ant-modal-content {
+  .ant-modal-content {
     padding: 5rem 4rem 3rem;
   }
 `;
@@ -47,20 +51,35 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
       if ((data.result.id ?? '').length > 0) {
         navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', data.result.id)}`);
       }
+    },
+    onError: () => {
+      void message.error('Something went wrong !!', 2);
     }
   });
 
   const { mutate: updateTemplate } = useUpdateActivityTemplate({
-    onSuccess: ({ data: { result: { successMessage } } }: IUpdateTemplateMessage) => {
+    onSuccess: ({
+      data: {
+        result: { successMessage }
+      }
+    }: IUpdateTemplateMessage) => {
       void message.success(successMessage, 2);
-      navigate(`/${PATHS.ACTIVITYTEMPLATE.replace(':id', templateId as string)}`);
+      navigate(
+        `/${PATHS.ACTIVITYTEMPLATE.replace(':id', templateId as string)}`
+      );
     },
-    onError: ({ response: { data: { message: errorMessage } } }: IUpdateTemplateErrorMessage) => {
+    onError: ({
+      response: {
+        data: { message: errorMessage }
+      }
+    }: IUpdateTemplateErrorMessage) => {
       void message.error(errorMessage, 2);
     }
   });
 
-  const { data, isFetching } = getSingleTemplate(templateId, { enabled: Boolean(templateId) });
+  const { data, isFetching } = getSingleTemplate(templateId, {
+    enabled: Boolean(templateId)
+  });
 
   const onCancelClick: AddManagerHandle = () => {
     setIsOpenCreateActivityModal(false);
@@ -100,14 +119,18 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
   }, []);
 
   if (isFetching === true) {
-    return <AsnSpin/>;
+    return <AsnSpin />;
   }
 
   return (
     <TemplateAsnModal
       footer={false}
       open={isOpenCreateActivityModal}
-      title={edit !== undefined ? 'Edit activity Template' : 'Create activity Template'}
+      title={
+        edit !== undefined
+          ? 'Edit activity Template'
+          : 'Create activity Template'
+      }
       onCancel={handleCancel}
     >
       <CreateTemplateContainer>
@@ -118,12 +141,12 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
           onFinish={onFinish}
           autoComplete="off"
         >
-          <AsnForm.Item label='Category'>
+          <AsnForm.Item label="Category">
             <AsnInput value={'Courses'} disabled={true} />
           </AsnForm.Item>
           <AsnForm.Item
             name="templateName"
-            label='Template Name'
+            label="Template Name"
             rules={[
               { required: true, message: 'Please enter Template Name' },
               {
@@ -139,7 +162,7 @@ const CreateTemplate: React.FC<ICreateTemplateModal> = ({
           </AsnForm.Item>
           <AsnForm.Item
             name="description"
-            label='Description'
+            label="Description"
             rules={[{ max: 256, message: 'Maximum 256 characters.' }]}
             initialValue={data?.description ?? ''}
           >

@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { AsnButton } from '../../../Forms/Button';
 import DefaultContent from './DefaultContent';
-import { ReactComponent as Settings } from '../../../../assets/icons/setting.svg';
 import CourseStatusForm from './SubActivityForms/Applicant/CourseStatus';
 import { colors } from '../../../../types/api/activity/subActivity';
 
@@ -89,7 +88,16 @@ const SubActivitySections: React.FC<any> = ({
   assignedUsers,
   applicationForm,
   refetch,
-  navigateRouteInfo
+  navigateRouteInfo,
+  applicants,
+  setOffset,
+  offset,
+  applicantCounts,
+  isLoading,
+  setSearch,
+  search,
+  sectionsCount,
+  tabIndex
 }) => {
   const { Title } = Typography;
   const { TabPane } = Tabs;
@@ -103,19 +111,6 @@ const SubActivitySections: React.FC<any> = ({
   return (
     <SectionsWrapper color={filteredColor[0]?.color}>
       <Space direction="vertical" style={{ width: '100%' }}>
-        <Title
-          level={4}
-          style={{
-            color: 'var(--dark-border-ultramarine)',
-            fontWeight: 'var(--font-normal)',
-            marginRight: '8vw',
-            display: 'flex',
-            alignItems: 'center'
-          }}
-        >
-          Course Roadmap
-          <Settings className="settings_svg" />
-        </Title>
         <Tabs
           activeKey={activeKey}
           onChange={handleTabChange}
@@ -142,12 +137,20 @@ const SubActivitySections: React.FC<any> = ({
             <DefaultContent
               navigateRouteInfo={navigateRouteInfo}
               assignedUsers={assignedUsers}
-              applicants={activity?.applicants}
+              applicants={applicants}
               color={filteredColor[0]?.color}
               status={activity?.status}
               courseId={activity?.id}
               files={activity?.section?.files}
               requIredDocs={activity?.section?.requiredDocuments}
+              setOffset={setOffset}
+              offset={offset}
+              applicantCounts={applicantCounts}
+              isLoading={isLoading}
+              setSearch={setSearch}
+              search={search}
+              sectionsCount={sectionsCount}
+              tabIndex={tabIndex}
             />
           </TabPane>
           {activity?.section?.sectionSettingMap?.map((item: any) => (

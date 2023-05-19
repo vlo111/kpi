@@ -1,13 +1,14 @@
+import React, { useCallback } from 'react';
 import { Tag } from 'antd';
 import _ from 'lodash';
-import React, { useCallback } from 'react';
-import { IfilterResult } from './applicantsTypes';
+import { IfilterResult, Iseacrh } from './applicantsTypes';
 
 export const UseFilterTags: React.FC<IfilterResult> = ({
   filters,
   onFinish,
   form,
-  setFilters
+  setFilters,
+  setOffset
 }) => {
   const closeFilter = (filter: string): void => {
     const newAs: any = _.omit(filters, [filter]);
@@ -33,17 +34,20 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
 
   const resetFilters = useCallback(() => {
     form.resetFields();
-    setFilters({
-      search: '',
-      limit: 100,
+    setFilters((prevState: Iseacrh) => ({
+      ...prevState,
+      limit: 10,
       offset: 0,
       student: undefined,
       income: undefined,
       disability: undefined,
       gender: undefined,
-      statuses: undefined
-    });
+      statuses: undefined,
+      regions: undefined,
+      age: undefined
+    }));
     form.setFieldValue('clearAll', false);
+    setOffset(0);
   }, [form, filters]);
 
   return (
@@ -72,7 +76,7 @@ export const UseFilterTags: React.FC<IfilterResult> = ({
           )}
           {filters?.income !== undefined && (
             <Tag onClose={() => closeFilter('income')} closable>
-              {`Income: ${filters?.income ? 'yes' : 'no'}`}
+              {`Paid job: ${filters?.income ? 'yes' : 'no'}`}
             </Tag>
           )}
           {filters?.disability !== undefined && (

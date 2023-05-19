@@ -4,11 +4,11 @@ import { FormInstance } from 'antd';
 import { Key } from 'react';
 
 export interface SearchApplicants {
-  filters: any
   serachData: any
   result: {
     count: number
   }
+  setOffset: React.Dispatch<React.SetStateAction<number>>
 }
 export interface DataType {
   key: Key
@@ -96,6 +96,7 @@ export interface IfilterResult {
   form: FormInstance<string>
   setFilters: any
   refetch: () => Promise<UseQueryResult>
+  setOffset: React.Dispatch<React.SetStateAction<number>>
 }
 export interface IApplicants {
   data: never[]
@@ -105,5 +106,5 @@ export interface IApplicants {
 export interface Ifiltres {
   form: FormInstance<string>
   onFinish: () => void
-  setOpen: () => boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }

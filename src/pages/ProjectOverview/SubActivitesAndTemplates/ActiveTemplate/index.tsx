@@ -6,7 +6,7 @@ import styled from 'styled-components';
 // import { PATHS } from '../../../../helpers/constants';
 import { ConfirmModal } from '../../../../components/Forms/Modal/Confirm';
 import CreateTemplate from '../../../../components/CreateTemplateModal';
-import { IActiveTemplate, IOutletContext } from '../../../../types/project';
+import { IActiveTemplate, IErrorMessage, IOutletContext } from '../../../../types/project';
 import useDuplicateTemplate from '../../../../api/Activity/Template/useDuplicateTemplate';
 import useDeleteActivityTemplate from '../../../../api/Activity/Template/useDeleteActivityTemplate';
 import { ReactComponent as TrashSvg } from '../../../../assets/icons/trash.svg';
@@ -51,6 +51,9 @@ const Container = styled.div`
   }
   .ant-card-head {
     border-bottom: 0;
+    position: absolute;
+    top: 0 ;
+    width: 100%;
   }
   .ant-row {
     row-gap: 16px !important;
@@ -138,8 +141,8 @@ export const ActiveTempalate: React.FC<IActiveTemplate> = ({
       refetch();
       setOpenDeleteModal(false);
     },
-    onError: () => {
-      void message.error('Something went wrong', 2);
+    onError: (error: IErrorMessage) => {
+      void message.error(error.response.data.message, 2);
     }
   });
   const { mutate: duplicateTemplate } = useDuplicateTemplate({

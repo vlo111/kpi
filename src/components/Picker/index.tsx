@@ -25,17 +25,27 @@ export const PickerSpace = styled(Space)`
   }
 `;
 
-const AsnPicker: React.FC<IAsnPicker> = ({ startDate, endDate }) => {
+const AsnPicker: React.FC<IAsnPicker> = ({ startDate: start, endDate: end }) => {
   const form = AsnForm.useFormInstance();
 
   const disabledDate: DisabledDate = (current, item) => {
+    if (end !== undefined && item === 'start') {
+      const endDate = form.getFieldValue(['sectionsData', ...end]);
+      return current > (endDate ?? current);
+    }
+
+    if (start !== undefined && item === 'end') {
+      const startDate = form.getFieldValue(['sectionsData', ...start]);
+      const tomorrow = startDate?.clone()?.add(1, 'days') ?? current;
+      return current < tomorrow;
+    }
+
     const { startDate, endDate } = form.getFieldsValue();
 
     if (item === 'start') {
       return current > (endDate ?? current);
     } else {
       const tomorrow = startDate?.clone()?.add(1, 'days') ?? current;
-
       return current < tomorrow;
     }
   };
@@ -44,7 +54,7 @@ const AsnPicker: React.FC<IAsnPicker> = ({ startDate, endDate }) => {
     <PickerSpace size={24}>
       <Col span={24}>
         <AsnForm.Item
-          name={startDate ?? 'startDate'}
+          name={start ?? 'startDate'}
           label="Start Date"
           rules={[
             {
@@ -64,7 +74,7 @@ const AsnPicker: React.FC<IAsnPicker> = ({ startDate, endDate }) => {
       </Col>
       <Col span={24}>
         <AsnForm.Item
-          name={endDate ?? 'endDate'}
+          name={end ?? 'endDate'}
           label="End Date"
           rules={[
             {

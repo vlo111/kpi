@@ -62,7 +62,7 @@ export const AsnTreeFiles: React.FC<IFilesProps> = ({
   const [resultAreaId, setResultAreaId] = useState<string>('');
   const [inputActivityId, setInputActivityID] = useState<string>('');
 
-  const { data } = useGetProjectFiles(id, { enabled: Boolean(id) });
+  const { data, isFetching: isFetchingFileNames } = useGetProjectFiles(id, { enabled: Boolean(id) });
   const { data: { result: resultAreas }, isFetching: isFetchingResultArea } = useGetResultAreaFile(resultAreaId, { enabled: Boolean(resultAreaId) });
   const { data: courseNames, isFetching: isFetchingInputActivity } = useGetInputActivity(inputActivityId, { enabled: Boolean(inputActivityId) });
 
@@ -81,7 +81,7 @@ export const AsnTreeFiles: React.FC<IFilesProps> = ({
     setCourseId(id);
     setFolderId('');
     if (search !== '') {
-      setSearch('');
+      setSearch(undefined);
     }
   };
 
@@ -98,11 +98,15 @@ export const AsnTreeFiles: React.FC<IFilesProps> = ({
       setExpandedKeys([]);
     }
     if (search !== '') {
-      setSearch('');
+      setSearch(undefined);
     }
   };
 
-  if (isFetching || isFetchingFolderFiles || (Boolean(isFetchingResultArea)) || (Boolean(isFetchingInputActivity))) {
+  if (isFetching ||
+    isFetchingFolderFiles ||
+    Boolean(isFetchingFileNames) ||
+    (Boolean(isFetchingResultArea)) ||
+    (Boolean(isFetchingInputActivity))) {
     return <AsnSpin />;
   }
 
@@ -181,7 +185,6 @@ export const AsnTreeFiles: React.FC<IFilesProps> = ({
           style={{ color: 'var(--dark-border-ultramarine)', fontSize: 'var(--base-font-size)' }}
           onClick={() => fetchAllFiles()}
         >
-          {' '}
           All Files ({filesCount})
         </Button>
       </Title>

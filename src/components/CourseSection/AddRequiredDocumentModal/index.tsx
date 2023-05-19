@@ -93,7 +93,7 @@ const AddRequiredDocumentModal: React.FC<IAddRequiredDocument> = ({
                   }
                 ]}
               >
-                <AsnInput placeholder="example:" />
+                <AsnInput placeholder="CV.docx" />
               </Form.Item>
               <Form.Item name="documentCount">
                 <CustomInputNumber min={1} max={100} className="primary" />

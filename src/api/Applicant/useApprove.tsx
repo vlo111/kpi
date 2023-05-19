@@ -21,11 +21,11 @@ const useApproveApplicant: UseApproveApplicant = () => {
     {
       onSuccess: () => {
         void queryClient.invalidateQueries([
-          'api/applicant/:id/project/:projectId'
+          'api/applicant/:id/course/:sectionDataId/history'
         ]);
 
         void queryClient.invalidateQueries([
-          '/api/sub-activity'
+          '/api/applicant/course/:sectionDataId'
         ]);
 
         void message.success('successfully approved', 2);
