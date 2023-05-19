@@ -18,7 +18,8 @@ export const useColumn = ({ onFinish, form, setOpen, open }: any): any => {
         <Popover
           content={<UseFilters setOpen={setOpen}
             onFinish={onFinish}
-            form={form} />}
+            form={form}
+            />}
           title="Filter your results"
           trigger="click"
           overlayClassName="applicantsFilter"

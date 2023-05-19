@@ -4,7 +4,6 @@ import { FormInstance } from 'antd';
 import { Key } from 'react';
 
 export interface SearchApplicants {
-  filters: any
   serachData: any
   result: {
     count: number
@@ -97,6 +96,7 @@ export interface IfilterResult {
   form: FormInstance<string>
   setFilters: any
   refetch: () => Promise<UseQueryResult>
+  setOffset: React.Dispatch<React.SetStateAction<number>>
 }
 export interface IApplicants {
   data: never[]

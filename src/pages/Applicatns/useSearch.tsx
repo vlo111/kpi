@@ -5,7 +5,6 @@ import { SearchApplicants } from './applicantsTypes';
 const { Title } = Typography;
 
 const UseSearch: React.FC<SearchApplicants> = ({
-  filters,
   serachData,
   result,
   setOffset
@@ -13,6 +12,7 @@ const UseSearch: React.FC<SearchApplicants> = ({
   const onChange = (data: React.ChangeEvent<HTMLInputElement>): void => {
     if (data.target.value === '') {
       serachData(undefined);
+      setOffset(0);
     }
   };
 
