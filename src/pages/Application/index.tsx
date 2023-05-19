@@ -96,8 +96,12 @@ const Application: React.FC = () => {
       setFormUrlModal(true);
       setCreatedItemResponse(data);
     },
-    onError: () => {
-      void message.error('Publishing failed. Please try again.');
+    onError: (e: {
+      response: {
+        data: { message: string }
+      }
+    }) => {
+      void message.error(e?.response?.data?.message);
     }
   });
 
@@ -110,8 +114,12 @@ const Application: React.FC = () => {
         )}`
       );
     },
-    onError: () => {
-      void message.error('Publishing failed. Please try again.');
+    onError: (e: {
+      response: {
+        data: { message: string }
+      }
+    }) => {
+      void message.error(e?.response?.data?.message);
     }
   });
 
@@ -174,9 +182,9 @@ const Application: React.FC = () => {
   const onPublishClick: Void = () => {
     if (applicationData !== undefined) {
       if (
-        formTitle?.current?.input?.value.length !== undefined &&
-        (formTitle?.current?.input?.value.length < 1 ||
-          formTitle?.current?.input?.value.length > 255)
+        formTitle?.current?.input?.value?.length !== undefined &&
+        (formTitle?.current?.input?.value?.length < 1 ||
+          formTitle?.current?.input?.value?.length > 255)
       ) {
         setIsValidateMessage(true);
       } else if (validateTitle !== undefined && validateTitle?.length > 0) {
