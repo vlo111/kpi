@@ -444,7 +444,6 @@ const GlobalStyle = createGlobalStyle`
 video{
   height: calc(91vh - 40px) !important;
 }
-
 `;
 
 export default GlobalStyle;
