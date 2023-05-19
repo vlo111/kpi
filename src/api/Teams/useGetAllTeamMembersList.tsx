@@ -11,7 +11,7 @@ const useGetAllTeamsList: (
 ) => UseGetAllTeamsListResult = (params, options = { enabled: true }) => {
   const result = useQuery(
     [USE_GET_TEAM_LIST, params],
-    async () => await client.get(`${USE_GET_TEAM_LIST}/${params?.projectId}`, { params: { limit: params.limit, offset: params.offset, search: params.search } }),
+    async () => await client.post(`${USE_GET_TEAM_LIST}/${params?.projectId}`, { limit: params.limit, offset: params.offset, search: params.search }),
     {
       select: (data) => data?.data,
       retry: false,
