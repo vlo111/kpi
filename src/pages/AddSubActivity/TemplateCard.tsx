@@ -79,7 +79,11 @@ const TemplateCard: React.FC<{ template: IActiveTemplate }> = ({ template }) => 
                             Template Name:
                         </AsnCol>
                         <AsnCol span={16}>
-                            <AsnParagraph ellipsis={{ rows: 1, expandable: true, symbol: 'View More' }} style={{ color: 'var(--dark-3)' }}>
+                            <AsnParagraph
+                                ellipsis={{ rows: 1, expandable: true, symbol: 'View More' }}
+                                style={{ color: 'var(--dark-3)', cursor: 'default' }}
+                                onClick={(e) => e.stopPropagation()}
+                            >
                                 {title}
                             </AsnParagraph>
                         </AsnCol>

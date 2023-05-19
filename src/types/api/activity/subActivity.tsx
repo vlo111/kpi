@@ -340,6 +340,7 @@ export interface IFilesPreview {
   setUrl: React.Dispatch<React.SetStateAction< string | null >>
   openPreview: boolean
   setOpenPreview: React.Dispatch<React.SetStateAction<boolean>>
+}
 export interface IActiveTemplate {
   applicationForm: string[] | []
   courseStructure: string
