@@ -7,7 +7,7 @@ const url = '/api/file/project/:id/all';
 const useGetAllFile: any = (id: string, offset: number, limit: number, search?: string, options = { enabled: true }) => {
   const result = useQuery(
     [url, id, search, offset],
-    async () => await client.get(url.replace(':id', id), { params: { offset, limit, search } }),
+    async () => await client.post(url.replace(':id', id), { offset, limit, search }),
     {
       select: (data) => data?.data,
       ...options

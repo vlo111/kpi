@@ -3,6 +3,7 @@ import { message } from 'antd';
 
 import { ImportApplicantList, ImportParams } from '../../types/applicant';
 import client from '../client';
+import { IApplicantsList, IImportApplicantsWarnings } from '../../types/api/activity/subActivity';
 
 export const url = '/api/applicant/upload/list';
 
@@ -21,9 +22,22 @@ const useImportApplicantsIntoExcelFile: ImportApplicantList = () => {
       return await client.post(url, form, config);
     },
     {
-      onSuccess: () => {
-        void queryClient.invalidateQueries(['/api/applicant/course/:sectionDataId']);
-        void message.success('Applicants have been successfully added');
+      onSuccess: (data: {
+        data: { successfulApplicants: IApplicantsList[], warnings: IImportApplicantsWarnings[] }
+      }) => {
+        void queryClient.invalidateQueries([
+          '/api/applicant/course/:sectionDataId'
+        ]);
+        if (
+          data?.data.warnings?.length === 0 &&
+          data?.data.successfulApplicants?.length === 0
+        ) {
+          void message.error('Insufficient file format !!');
+        } else {
+          if (data?.data.warnings?.length === 0) {
+            void message.success('Applicants have been successfully added');
+          }
+        }
       },
       onError: () => {
         void message.error('Insufficient file format !!');

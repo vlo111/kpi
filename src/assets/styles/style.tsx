@@ -11,7 +11,8 @@ const GlobalStyle = createGlobalStyle`
     --secondary-light-orage: #F6976D;
     --secondary-light-amber: #F3C262;
     --primary-light-orange: #F07760;
-
+    
+    --dark-0: rgba(0,0,0,.85);
     --dark-1: #111B23;
     --dark-2: #263238;
     --dark-3: #5E647B;
@@ -269,9 +270,23 @@ const GlobalStyle = createGlobalStyle`
   .table-row-dark{
     background-color: var(--primary-light-3);
     cursor: pointer;
+    .ant-table-cell-fix-left{
+      background-color: var(--primary-light-3);
+      box-shadow: var(--base-box-shadow);
+    }
+    .ant-table-cell-fix-right{
+      background-color: var(--primary-light-3);
+      box-shadow: var(--base-box-shadow);
+    }
   }
   .table-row-light{
     cursor: pointer;
+    .ant-table-cell-fix-left{
+      box-shadow: var(--base-box-shadow);
+    }
+    .ant-table-cell-fix-right{
+      box-shadow: var(--base-box-shadow);
+    }
   }
 
   .customCascaderPopup{

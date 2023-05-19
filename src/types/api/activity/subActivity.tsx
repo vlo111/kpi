@@ -3,6 +3,7 @@ import { FormOptions, UseMutation, Void } from '../../global';
 import { IAttachmentSetting } from '../../project';
 import { EnumAssessmentFormTypes, INavigateRoteInfoTypes } from '../assessment';
 import { ResponseErrorParam } from '../project/get-project';
+import { SetStateAction } from 'react';
 
 export interface IDisableType {
   tabDisable?: boolean
@@ -339,4 +340,42 @@ export interface IFilesPreview {
   setUrl: React.Dispatch<React.SetStateAction< string | null >>
   openPreview: boolean
   setOpenPreview: React.Dispatch<React.SetStateAction<boolean>>
+export interface IActiveTemplate {
+  applicationForm: string[] | []
+  courseStructure: string
+  description: string | null
+  id: string
+  phasesCount: number
+  title: string
+}
+export interface IResponseActiveTemplates {
+  count: number
+  has_more: boolean
+  result: IActiveTemplate[]
+}
+export interface IActiveTemplates {
+  data: IResponseActiveTemplates
+  isLoading: boolean
+}
+
+export type TUseGetTemplates = (
+  id: string,
+  search: string,
+  offset: number,
+  limit: number,
+  filters: { courseStructure: string | undefined, applicationForm: string[] | undefined },
+  options: FormOptions
+) => IActiveTemplates
+
+export interface IFiltersActiveTemplates {
+  applicationForm: string[] | undefined
+  courseStructure: string | undefined
+}
+export interface IActiveTemplatesProps {
+  search: string
+  setSearch: React.Dispatch<SetStateAction<string>>
+  setOffset: React.Dispatch<SetStateAction<number>>
+  setFilters: React.Dispatch<SetStateAction<IFiltersActiveTemplates>>
+  isLoading: boolean
+  templates: IActiveTemplate[]
 }

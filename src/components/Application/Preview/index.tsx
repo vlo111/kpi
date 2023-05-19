@@ -104,7 +104,7 @@ const PreviewModal: React.FC<IPreviewModal> = ({
             )
           : null}
         {questionData?.termsAndConditions !== undefined &&
-        conditionsData.length > 0
+        conditionsData?.length > 0
           ? (
           <TermsCondition
             termsConditionData={

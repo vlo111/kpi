@@ -32,8 +32,14 @@ const Grading: React.FC<IGradingAssessmentForm> = ({
     setGrading(e);
   };
 
+  const handleKeyDown = (event: { key: string, preventDefault: () => void }): void => {
+    if (event.key === ' ') {
+      event.preventDefault();
+    }
+  };
+
   return (
-    <Row justify='end'>
+    <Row justify='end' onKeyDown={handleKeyDown}>
       <Col>
         {grading && (activateSave === false) &&
           <AsnForm.Item name={[i, 'score']} >
@@ -44,13 +50,16 @@ const Grading: React.FC<IGradingAssessmentForm> = ({
               max={score}
               min={0}
               onChange={(e) => setEarnedScore(e as number)}
-              onPressEnter={(e) => e.preventDefault()}
             />
           </AsnForm.Item>
         }
         {(activateSave === false) && <Space direction='horizontal' align='center'>
           <AsnParagraph className='main' disabled={grading}>Auto-grading</AsnParagraph>
-          <AsnSwitch style={{ backgroundColor: 'var(--secondary-green)' }} checked={grading} onChange={(e) => handleGrading(e)} />
+          <AsnSwitch
+            style={{ backgroundColor: 'var(--secondary-green)' }}
+            checked={grading}
+            onChange={(e) => handleGrading(e)}
+          />
           <AsnParagraph className='main' disabled={!grading}>Manual grading</AsnParagraph>
         </Space>}
       </Col>

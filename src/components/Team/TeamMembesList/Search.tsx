@@ -94,7 +94,7 @@ const SearchTeamMembers: React.FC<SearchHeaderTypes> = ({
               marginLeft: '10px'
             }}
           >
-            Total members: {totalCount}
+            Total: {totalCount}
           </Col>
         </Row>
       </Col>

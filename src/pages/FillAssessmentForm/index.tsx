@@ -101,6 +101,13 @@ const FillAssessMentForm: React.FC = () => {
       answers: []
     };
   });
+
+  const handleKeyPress = (event: { key: string, preventDefault: () => void }): void => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
+
   return (
     <>
       {!success && <AsnModal
@@ -118,6 +125,7 @@ const FillAssessMentForm: React.FC = () => {
           onFinish={onFinish}
           name="preassesment"
           scrollToFirstError={FormScrollToErrorOptions}
+          onKeyDown={handleKeyPress}
         >
           <AsnForm.Item
             name="email"
