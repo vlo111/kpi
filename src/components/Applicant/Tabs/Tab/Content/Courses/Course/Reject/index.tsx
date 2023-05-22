@@ -98,7 +98,8 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
   open,
   onCancel,
   setOffset,
-  setSelectedRowKeys
+  setSelectedRowKeys,
+  setSelectedApplicants
 }) => {
   const [form] = AsnForm.useForm();
 
@@ -114,6 +115,9 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
         if (setSelectedRowKeys !== undefined && setOffset !== undefined) {
           setSelectedRowKeys([]);
           setOffset(0);
+        }
+        if (setSelectedApplicants !== undefined) {
+          setSelectedApplicants([]);
         }
       }
     });
@@ -147,9 +151,8 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
           }}
         >
           {applicants.map((a, index) => (
-            <p key={a.id}>{`${a.fullName ?? a.fullname}${
-              applicants.length - 1 !== index ? ',' : ''
-            }`}</p>
+            <p key={a.id}>{`${a.fullName ?? a.fullname}${applicants.length - 1 !== index ? ',' : ''
+              }`}</p>
           ))}
         </Space>
         <Title className="reason-title" level={5}>

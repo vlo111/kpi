@@ -330,6 +330,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                   tabIndex={tabIndex}
                   setSelectedRowKeys={setSelectedRowKeys}
                   setOffset={setOffset}
+                  setSelectedApplicants={setSelectedApplicants}
                 />
               </>
               )}

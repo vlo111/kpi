@@ -1,3 +1,4 @@
+
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import client from '../../client';
@@ -5,7 +6,7 @@ import { message } from 'antd';
 
 const url = 'api/media/upload/file';
 
-const useFileUpload: any = () => {
+const useFileUpload: any = (noQuery?: boolean) => {
   const queryClient = useQueryClient();
   return useMutation(
     async (params: { file: any, type: string }) => {
@@ -20,8 +21,10 @@ const useFileUpload: any = () => {
     },
     {
       onSuccess: () => {
-        void queryClient.invalidateQueries(['api/sub-activity/course']);
-        void queryClient.invalidateQueries(['/api/sub-activity']);
+        if (noQuery === undefined) {
+          void queryClient.invalidateQueries(['api/sub-activity/course']);
+          void queryClient.invalidateQueries(['/api/sub-activity']);
+        }
       },
       onError: ({
         response: {
