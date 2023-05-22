@@ -74,7 +74,8 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
   open,
   onCancel,
   setSelectedRowKeys,
-  setOffset
+  setOffset,
+  setSelectedApplicants
 }) => {
   const [noteText, setNoteText] = useState<string>();
   const { mutate: approveApplicant } = useApproveApplicant();
@@ -89,6 +90,9 @@ const ApproveModal: React.FC<IApproveModalProps> = ({
         if (setSelectedRowKeys !== undefined && setOffset !== undefined) {
           setSelectedRowKeys([]);
           setOffset(0);
+        }
+        if (setSelectedApplicants !== undefined) {
+          setSelectedApplicants([]);
         }
       }
     });

@@ -23,7 +23,8 @@ const CourseInformation: React.FC<{}> = () => {
   const [projectId, setProjectId] = useState('');
 
   const onChange = (key: string): void => {
-    setCourseTitle(key);
+    const title = data?.sectionsData?.filter((item: { id: string }) => item.id === key)[0].title;
+    setCourseTitle(title);
   };
 
   useEffect(() => {

@@ -21,6 +21,7 @@ interface ISubActivityStatus {
   tabIndex: number
   setSelectedRowKeys?: React.Dispatch<React.SetStateAction<React.Key[]>>
   setOffset?: React.Dispatch<React.SetStateAction<number>>
+  setSelectedApplicants: React.Dispatch<React.SetStateAction<IApplicantData[] | []>>
 }
 
 const StatusRow = styled(Row)<{ right: string }>`
@@ -54,7 +55,8 @@ const SubActivityStatus: React.FC<ISubActivityStatus> = ({
   sectionsCount,
   tabIndex,
   setOffset,
-  setSelectedRowKeys
+  setSelectedRowKeys,
+  setSelectedApplicants
 }) => {
   const [openFinish, setOpenFinish] = useState<boolean>(false);
   const [openMove, setOpenMove] = useState<boolean>(false);
@@ -157,6 +159,7 @@ const SubActivityStatus: React.FC<ISubActivityStatus> = ({
         onCancel={() => setOpenApprove('')}
         setSelectedRowKeys={setSelectedRowKeys}
         setOffset={setOffset}
+        setSelectedApplicants={setSelectedApplicants}
       />
       <RejectModal
         applicants={applicants}
@@ -164,6 +167,7 @@ const SubActivityStatus: React.FC<ISubActivityStatus> = ({
         onCancel={() => setOpenReject('')}
         setSelectedRowKeys={setSelectedRowKeys}
         setOffset={setOffset}
+        setSelectedApplicants={setSelectedApplicants}
       />
     </>
   );

@@ -3,7 +3,7 @@ import client from '../../client';
 
 const url = '/api/sub-activity';
 
-const GetSingleSubActivity: any = (id: string, params: object = {}, options = { enabled: false }) => {
+const GetSingleSubActivity: any = (id: string, params: object = {}, options = { enabled: true }) => {
   const result = useQuery(
     [url, id],
     async () => await client.get(`${url}/${id}`, params),
@@ -14,7 +14,7 @@ const GetSingleSubActivity: any = (id: string, params: object = {}, options = { 
   );
   const { data, isSuccess, refetch, isLoading } = result;
   return {
-    data,
+    data: isSuccess ? data : {},
     isSuccess,
     refetch,
     isLoading

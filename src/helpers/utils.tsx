@@ -20,6 +20,11 @@ import { CascadedData } from '../types/teams';
 import { ApplicantAccessStatus, ApplicantDefaultStatus } from './constants';
 import { ReactComponent as RejectSvg } from '../assets/icons/reject.svg';
 import { ReactComponent as ApproveSvg } from '../assets/icons/approve.svg';
+import { ReactComponent as WordSvg } from '../assets/icons/word.svg';
+import { ReactComponent as ExcelSvg } from '../assets/icons/excel.svg';
+import { ReactComponent as ImageSvg } from '../assets/icons/image.svg';
+import { ReactComponent as PdfSvg } from '../assets/icons/pdf.svg';
+import { ReactComponent as FileTypeSvg } from '../assets/icons/file.svg';
 
 /** Logout the user */
 export const logOut: TVoid = () => {
@@ -27,7 +32,7 @@ export const logOut: TVoid = () => {
   window.location.reload();
 };
 
-export const noop: TVoid = () => {};
+export const noop: TVoid = () => { };
 
 export const handleErrorMessage = (response: any): string => {
   return response?.data?.message;
@@ -114,15 +119,15 @@ export const answerTypes = (type: string, question: IQuestion): JSX.Element => {
           <Fragment key={answer?.id !== undefined ? answer.id : uuidv4()}>
             {answer.title?.includes('Other')
               ? (
-              <DividerLine>
-                <Radio value={answer.title} />
-                <Divider orientation="left" plain>
-                  {answer.title}
-                </Divider>
-              </DividerLine>
+                <DividerLine>
+                  <Radio value={answer.title} />
+                  <Divider orientation="left" plain>
+                    {answer.title}
+                  </Divider>
+                </DividerLine>
                 )
               : (
-              <Radio value={answer.title}>{answer.title}</Radio>
+                <Radio value={answer.title}>{answer.title}</Radio>
                 )}
           </Fragment>
         ))}
@@ -146,18 +151,18 @@ export const answerTypes = (type: string, question: IQuestion): JSX.Element => {
       </Radio.Group>
       {question.relatedQuestions?.length > 0
         ? (
-        <>
-          {question.relatedQuestions?.map((relatedQuestion: any) => (
-            <RelatedQuestion
-              key={
-                relatedQuestion?.id !== undefined
-                  ? relatedQuestion?.id
-                  : uuidv4()
-              }
-              relatedQuestion={relatedQuestion}
-            />
-          ))}
-        </>
+          <>
+            {question.relatedQuestions?.map((relatedQuestion: any) => (
+              <RelatedQuestion
+                key={
+                  relatedQuestion?.id !== undefined
+                    ? relatedQuestion?.id
+                    : uuidv4()
+                }
+                relatedQuestion={relatedQuestion}
+              />
+            ))}
+          </>
           )
         : null}
     </>
@@ -169,17 +174,17 @@ export const answerTypes = (type: string, question: IQuestion): JSX.Element => {
         <Fragment key={answer?.id !== undefined ? answer.id : uuidv4()}>
           {answer.title?.includes('Other')
             ? (
-            <DividerLine>
-              <AsnCheckbox value={answer.title} />
-              <Divider orientation="left" plain>
-                {answer.title}
-              </Divider>
-            </DividerLine>
+              <DividerLine>
+                <AsnCheckbox value={answer.title} />
+                <Divider orientation="left" plain>
+                  {answer.title}
+                </Divider>
+              </DividerLine>
               )
             : (
-            <AsnCheckbox defaultChecked={index === 0}>
-              {answer.title}
-            </AsnCheckbox>
+              <AsnCheckbox defaultChecked={index === 0}>
+                {answer.title}
+              </AsnCheckbox>
               )}
         </Fragment>
       ))}
@@ -365,3 +370,27 @@ const Separate: () => React.ReactNode = () => (
     </Col>
   </Row>
 );
+
+const svgStyle = {
+  width: 16,
+  height: 21
+};
+
+export const findFileType = (name: string): React.ReactNode => {
+  const type = name.split('.').pop();
+  switch (type) {
+    case 'xlsx':
+      return <ExcelSvg style={{ ...svgStyle }} />;
+    case 'doc':
+    case 'docx':
+      return <WordSvg style={{ ...svgStyle }} />;
+    case 'pdf':
+      return <PdfSvg style={{ ...svgStyle }} />;
+    case 'gif':
+    case 'png':
+    case 'jpeg':
+      return <ImageSvg style={{ ...svgStyle }}/>;
+    default:
+      return <FileTypeSvg style={{ ...svgStyle }}/>;
+  }
+};

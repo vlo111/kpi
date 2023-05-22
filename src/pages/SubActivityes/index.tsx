@@ -10,6 +10,7 @@ import SubActivityHeader from '../../components/Project/SubActivity/SubActivtyHe
 import ResultAreasTitles from '../ProjectOverview/ResultAreasTitles';
 import AsnBreadcrumb from '../../components/Forms/Breadcrumb';
 import { IOutletContext } from '../../types/project';
+import AsnSpin from '../../components/Forms/Spin';
 
 const Wrapper = styled.div<{ mode: string }>`
   padding: ${(props) =>
@@ -52,21 +53,25 @@ const Wrapper = styled.div<{ mode: string }>`
   }
 `;
 
-const SubActivity: React.FC<{}> = () => {
+const SubActivity: React.FC = () => {
   const { setProjectOverview } = useOutletContext<IOutletContext>();
   const { id: subActivityId } = useParams<{ id: string }>();
-  const [courseTitle, setCourseTitle] = useState('');
-  const [activityTitle, setActivityTitle] = useState('');
-  const [resultAreaTitle, setResultAreaTitle] = useState('');
-  const [projectId, setProjectId] = useState('');
-  const { data, refetch } = GetSingleSubActivity(subActivityId, { courseInfo: false }, {});
+
+  const [courseTitle, setCourseTitle] = useState<string | undefined>(undefined);
   const [active, setActive] = useState<number>(1);
   const [search, setSearch] = useState<string | undefined>(undefined);
   const [courseId, setCourseId] = useState<string | undefined>(undefined);
   const [tabIndex, setTabIndex] = useState<number>(0);
   const [offset, setOffset] = useState<number>(0);
 
-  const { data: applicants, isLoading } = useGetApplicants(courseId ?? data?.sectionsData[0]?.id, search, offset, 10, { enabled: Boolean(courseId ?? data?.sectionsData[0]?.id) });
+  const { data, refetch, isLoading: isLoadingSubActivity } = GetSingleSubActivity(subActivityId, { courseInfo: false }, { enabled: Boolean(subActivityId) });
+
+  const { data: applicants, isLoading } = useGetApplicants(courseId ?? data?.sectionsData?.[0]?.id,
+    search,
+    offset,
+    10,
+    { enabled: Boolean(courseId ?? data?.sectionsData?.[0]?.id) }
+  );
 
   const onChange = (key: string): void => {
     setCourseId(key);
@@ -76,39 +81,40 @@ const SubActivity: React.FC<{}> = () => {
     setCourseTitle(courseTitle);
   };
 
+  const mode = (
+    data?.inputActivity?.resultArea?.project?.id !== '' ? data?.sectionsData?.length > 1 : false
+  ).toString();
+
   useEffect(() => {
-    setCourseTitle(data?.sectionsData[0]?.title);
-    setActivityTitle(data?.inputActivity?.title);
-    setResultAreaTitle(data?.inputActivity?.resultArea?.title);
-    setProjectId(data?.inputActivity?.resultArea?.project?.id);
+    setCourseTitle(data?.sectionsData?.[0]?.title);
     setProjectOverview({
       areaOrder: data?.inputActivity?.resultArea?.order,
       activityId: data?.inputActivityId,
       resultAreaTitle: data?.inputActivity?.resultArea?.title,
       activityTitle: data?.inputActivity?.title
     });
-  }, [data]);
+  }, [isLoadingSubActivity]);
 
-  const mode = (
-    projectId !== '' ? data?.sectionsData?.length > 1 : false
-  ).toString();
+  if (isLoadingSubActivity === true) {
+    return <AsnSpin />;
+  }
 
   return (
     <Wrapper mode={mode}>
-      {Boolean(projectId) && (
+      {Boolean(data?.inputActivity?.resultArea?.project?.id) && (
         <AsnBreadcrumb
           routes={[
             {
-              path: `/project/overview/${projectId}`,
-              breadcrumbName: resultAreaTitle
+              path: `/project/overview/${data?.inputActivity?.resultArea?.project?.id as string}`,
+              breadcrumbName: data?.inputActivity?.resultArea?.title
             },
             {
-              path: `/project/overview/${projectId}`,
-              breadcrumbName: activityTitle
+              path: `/project/overview/${data?.inputActivity?.resultArea?.project?.id as string}`,
+              breadcrumbName: data?.inputActivity?.title
             },
             {
               path: '',
-              breadcrumbName: courseTitle
+              breadcrumbName: courseTitle ?? data?.sectionsData?.[0]?.title
             }
           ]}
         />
@@ -118,10 +124,10 @@ const SubActivity: React.FC<{}> = () => {
           {data?.sectionsData?.map(
             (item: { title: string, id: string }, i: number) => (
               <Tabs.TabPane
-                key={item.id}
+                key={item?.id}
                 tab={
                   <ResultAreasTitles
-                    title={item.title}
+                    title={item?.title}
                     projectItems={data?.sectionsData?.length}
                     index={i}
                     active={active}
@@ -133,7 +139,12 @@ const SubActivity: React.FC<{}> = () => {
                 <SubActivityHeader inputActivityId={data?.id} activity={item} region={data?.region} />
                 <SubActivitySections
                   activity={item}
-                  navigateRouteInfo={{ courseTitle, inputActivityTitle: activityTitle, resultAreaTitle, courseId: data?.id }}
+                  navigateRouteInfo={{
+                    courseTitle,
+                    inputActivityTitle: data?.inputActivity?.title,
+                    resultAreaTitle: data?.inputActivity?.resultArea?.title,
+                    courseId: data?.id
+                  }}
                   refetch={refetch}
                   index={i}
                   assignedUsers={data?.assignees}
@@ -162,7 +173,12 @@ const SubActivity: React.FC<{}> = () => {
           />
           <SubActivitySections
             refetch={refetch}
-            navigateRouteInfo={{ courseTitle, inputActivityTitle: activityTitle, resultAreaTitle, courseId: data?.id }}
+            navigateRouteInfo={{
+              courseTitle,
+              inputActivityTitle: data?.inputActivity?.title,
+              resultAreaTitle: data?.inputActivity?.resultArea?.title,
+              courseId: data?.id
+            }}
             activity={data?.sectionsData[0]}
             index={0}
             assignedUsers={data?.assignees}

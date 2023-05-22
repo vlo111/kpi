@@ -95,7 +95,7 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
             className="course_tabs"
           >
             {courseData?.sectionsData?.map((course: any) => (
-              <Tabs.TabPane key={course.title} tab={<>{course.title}</>}>
+              <Tabs.TabPane key={course.id} tab={<>{course.title}</>}>
                 <Row style={{ marginBottom: '1.2vh' }}>
                   <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>
                     Title
