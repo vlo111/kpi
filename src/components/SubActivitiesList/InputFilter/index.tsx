@@ -70,10 +70,18 @@ export const getColumnSearchProps: TSearchPropsType = (
           ...searchData,
           [key]: inputValues.duration
         });
+        setTablePagination({
+          ...tablePagination,
+          current: 1
+        });
       } else {
         setSearchData({
           ...searchData,
           [key]: undefined
+        });
+        setTablePagination({
+          ...tablePagination,
+          current: 1
         });
       }
     } else if (inputValues[key].length === 0) {

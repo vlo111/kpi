@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Table, Drawer } from 'antd';
 
 import UseSearch from './useSearch';
@@ -99,14 +99,16 @@ const ApplicantsData: React.FC = () => {
     setOpen(false);
     form.setFieldValue('clearAll', true);
     setOffset(0);
+  };
 
-    if (
-      (values?.regions?.length === 0 || values?.regions === undefined) &&
-      (values?.statuses?.length === 0 || values?.statuses === undefined)
-    ) {
+  useEffect(() => {
+    delete filters.limit;
+    delete filters.offset;
+    const allUndefined = Object.values(filters).every((elem) => elem === undefined);
+    if (allUndefined) {
       form.setFieldValue('clearAll', false);
     }
-  };
+  }, [filters]);
 
   const column = useColumn({ filterData, onFinish, form, setOpen, open });
 
