@@ -89,7 +89,7 @@ const AssignUserModal: React.FC<IAssignUserModalTypes> = ({
     >
       <Space direction="vertical" className="users_list_content">
         {Boolean(data) &&
-          data.map((item) => (
+          data?.map((item) => (
             <Space
               key={item.id}
               onClick={() => selectItem(item)}

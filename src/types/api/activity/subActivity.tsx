@@ -132,7 +132,10 @@ export interface IWrapperProps {
 export interface IAttachFileSubActivity {
   id: string
   data: {
-    files: string[]
+    files: [{
+      file: string
+      keyname?: string
+    }]
     sectionSettingId?: string
     visible?: boolean
   }
@@ -158,8 +161,8 @@ export interface IAssignedUserType {
 
 export interface IManagerType {
   assignedUsers: IAssignedUserType[]
-  color: string | undefined
-  requIredDocs: boolean
+  openUsersModal: boolean
+  setOpenUsersModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface ICreateSubActivityProps {
@@ -300,6 +303,44 @@ export interface IImportApplicantsWarnings {
   }
 }
 
+export interface IFiles {
+  id: string
+  name: string
+  originalName: string
+  path: string
+  keyname: string
+}
+export interface IGeneralDocuments {
+  generalFiles: IFiles[]
+  courseId: string
+  openGeneralDocs: boolean
+  setOpenGeneralDocs: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export interface IRequiredDocuments {
+  requIredDocs: [{
+    count: number
+    title: string
+  }]
+  requiredFiles: IFiles[]
+  openRequiredDocs: boolean
+  setOpenRequiredDocs: React.Dispatch<React.SetStateAction<boolean>>
+  courseId: string
+}
+
+export interface IUploadService {
+  type: string
+  courseId: string
+  keyname?: string
+  disableUploadReqDoc?: boolean
+}
+
+export interface IFilesPreview {
+  url: string | null
+  setUrl: React.Dispatch<React.SetStateAction< string | null >>
+  openPreview: boolean
+  setOpenPreview: React.Dispatch<React.SetStateAction<boolean>>
+}
 export interface IActiveTemplate {
   applicationForm: string[] | []
   courseStructure: string

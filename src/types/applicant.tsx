@@ -3,6 +3,7 @@ import { ChangeEventHandler } from 'react';
 import { TabsProps } from 'antd';
 import { UseMutation, Void } from './global';
 import { ResponseErrorParam } from './api/project/get-project';
+import { IApplicantData as IApplicantSubActivity } from './api/activity/subActivity';
 
 export interface IApplicant {
   id: string
@@ -82,6 +83,7 @@ export interface IApproveModalProps {
   onCancel: () => void
   setSelectedRowKeys?: React.Dispatch<React.SetStateAction<React.Key[]>>
   setOffset?: React.Dispatch<React.SetStateAction<number>>
+  setSelectedApplicants?: React.Dispatch<React.SetStateAction<IApplicantSubActivity[] | []>>
 }
 export interface ImportParams {
   sectionDataId: string
