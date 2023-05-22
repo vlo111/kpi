@@ -23,7 +23,7 @@ export const Container = styled.div`
   box-shadow: var(--base-box-shadow);
   margin: 16px 16px 0px 16px;
   overflow: hidden;
-  height: 85vh;
+  height: 80vh;
 
   .ant-input-group-wrapper {
     width: 400px;
@@ -103,6 +103,12 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
   padding: 16px 16px 0px 16px;
 `;
+
+const TotalContainer = styled.div`
+  border: 1px solid var(--light-border-gray);
+  padding: 4px 20px;
+`;
+
 const checkboxSelected = {
   status: [],
   organizations: [],
@@ -159,8 +165,7 @@ const SubActivitiesTable: React.FC = () => {
       [key: string]: string | string[] | undefined | CheckboxValueType[]
     } = {};
     for (const k of Object.keys(searchData).filter(
-      (item) =>
-        searchData[item] !== undefined
+      (item) => searchData[item] !== undefined
     )) {
       data[k] = searchData[k];
     }
@@ -253,6 +258,14 @@ const SubActivitiesTable: React.FC = () => {
           Add Sub-Activity
         </AsnButton>
       </ButtonContainer>
+      <div style={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        padding: '1rem 1rem 0rem'
+      }}>
+        <TotalContainer>Total: {data?.count}</TotalContainer>
+      </div>
       <Container>
         <Table
           columns={column}
