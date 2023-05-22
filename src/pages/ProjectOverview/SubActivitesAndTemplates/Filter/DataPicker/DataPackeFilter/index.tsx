@@ -35,6 +35,7 @@ export const DateFilter: React.FC<IDateFilterCards> = ({
 }) => {
   const [form] = AsnForm.useForm();
   const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
 
   const onFinish: TVoid = (values) => {
     const { from, to, radio } = values;
@@ -49,10 +50,20 @@ export const DateFilter: React.FC<IDateFilterCards> = ({
       setStartTime(item.format());
     }
   };
+  const onChangeEnd: (item: Moment | null) => void = (item) => {
+    if (item !== null) {
+      setEndTime(item.format());
+    }
+  };
+
   const disabledDateEndPicker: (current: Moment) => boolean = (current: Moment) => {
-    if (startTime === '') return true;
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    return current && current < moment(startTime);
+    const date = startTime === '' ? moment(dateSearch.from) : startTime;
+    return current < moment(date);
+  };
+
+  const disabledDateStartPicker: (current: Moment) => boolean = (current: Moment) => {
+    const date = endTime === '' ? moment(dateSearch.to) : endTime;
+    return current > moment(date);
   };
 
   useEffect(() => {
@@ -79,6 +90,7 @@ export const DateFilter: React.FC<IDateFilterCards> = ({
                 format="DD/MM/YYYY"
                 placeholder="01/01/23"
                 onChange={onChange}
+                disabledDate={disabledDateStartPicker}
               />
             </AsnForm.Item>
           </Col>
@@ -87,6 +99,7 @@ export const DateFilter: React.FC<IDateFilterCards> = ({
               <AsnDatePicker
                 placeholder="01/01/23"
                 format="DD/MM/YYYY"
+                onChange={onChangeEnd}
                 disabledDate={disabledDateEndPicker}
               />
             </AsnForm.Item>
