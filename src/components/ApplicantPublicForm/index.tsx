@@ -323,7 +323,7 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
       {(data?.activeDeadline === true ||
         data?.activeDeadline === undefined) && (
         <Row>
-          <Col style={{ margin: '0 auto' }} lg={12}>
+          <Col style={{ margin: '0 auto' }} lg={preview ? 20 : 12}>
             <FillApplicationFormContainer>
               <AsnForm
                 form={form}
