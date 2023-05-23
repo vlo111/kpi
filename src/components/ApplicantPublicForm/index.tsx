@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
-import { Form, Row, Space, Spin, Typography, message } from 'antd';
+import { Form, Row, Col, Space, Spin, Typography, message } from 'antd';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -24,7 +24,12 @@ import useGetForm from '../../api/Applicant/useGetForm';
 import useCreateApplicant from '../../api/Applicant/useApplyApplicant';
 import useSingleApplicationForm from '../../api/ApplicationForm/useGetSingleApplicationForm';
 
-import { FormScrollToErrorOptions, KeyName, PATHS, SectionName } from '../../helpers/constants';
+import {
+  FormScrollToErrorOptions,
+  KeyName,
+  PATHS,
+  SectionName
+} from '../../helpers/constants';
 import { getRelatedQuestions, getAnswers } from '../../helpers/applicationForm';
 
 import { ReactComponent as SuccessfulIcon } from '../../assets/icons/successful.svg';
@@ -36,11 +41,11 @@ const { Title } = Typography;
 
 const FillApplicationFormContainer = styled.div`
   padding: 3rem 3.75rem 3.75rem;
-  width: 55%;
+  //width: 55%;
+  margin: 1rem auto;
   background-color: var(--white);
   box-shadow: 0px 4px 30px rgba(113, 103, 246, 0.2);
   border-radius: 10px;
-  margin: 3rem auto;
   display: flex;
   flex-direction: column;
 
@@ -304,7 +309,10 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
       console.log(e);
     }
   };
-  const handleKeyPress = (event: { key: string, preventDefault: () => void }): void => {
+  const handleKeyPress = (event: {
+    key: string
+    preventDefault: () => void
+  }): void => {
     if (event.key === 'Enter') {
       event.preventDefault();
     }
@@ -312,36 +320,44 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
 
   return (
     <Spin spinning={isLoading}>
-      { (data?.activeDeadline === true || data?.activeDeadline === undefined) && (
-        <FillApplicationFormContainer>
-          <AsnForm
-            form={form}
-            onFinish={onFinish}
-            autoComplete="off"
-            disabled={preview}
-            scrollToFirstError={FormScrollToErrorOptions}
-            onKeyDown={handleKeyPress}
-          >
-            <SectionTitle className="title">{title}</SectionTitle>
-            <FormText>{description}</FormText>
-            <ApplicationForm
-              sections={applicationFormSections}
-              terms={termsAndConditions}
-              online={onlineSignature}
-              onlineSignaturePath={onlineSignaturePath}
-              preview={preview}
-            />
-            {!preview && (
-              <AsnButton
-                className="primary"
-                htmlType="submit"
-                style={{ width: 'clamp(8.5rem, 7vw, 24rem)', float: 'right' }}
+      {(data?.activeDeadline === true ||
+        data?.activeDeadline === undefined) && (
+        <Row>
+          <Col style={{ margin: '0 auto' }} lg={12}>
+            <FillApplicationFormContainer>
+              <AsnForm
+                form={form}
+                onFinish={onFinish}
+                autoComplete="off"
+                disabled={preview}
+                scrollToFirstError={FormScrollToErrorOptions}
+                onKeyDown={handleKeyPress}
               >
-                Publish
-              </AsnButton>
-            )}
-          </AsnForm>
-        </FillApplicationFormContainer>
+                <SectionTitle className="title">{title}</SectionTitle>
+                <FormText>{description}</FormText>
+                <ApplicationForm
+                  sections={applicationFormSections}
+                  terms={termsAndConditions}
+                  online={onlineSignature}
+                  onlineSignaturePath={onlineSignaturePath}
+                  preview={preview}
+                />
+                {!preview && (
+                  <AsnButton
+                    className="primary"
+                    htmlType="submit"
+                    style={{
+                      width: 'clamp(8.5rem, 7vw, 24rem)',
+                      float: 'right'
+                    }}
+                  >
+                    Publish
+                  </AsnButton>
+                )}
+              </AsnForm>
+            </FillApplicationFormContainer>
+          </Col>
+        </Row>
       )}
       {data?.activeDeadline === false && (
         <NotAccessContent direction="vertical">
