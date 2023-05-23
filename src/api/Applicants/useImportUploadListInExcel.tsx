@@ -39,8 +39,12 @@ const useImportApplicantsIntoExcelFile: ImportApplicantList = () => {
           }
         }
       },
-      onError: () => {
-        void message.error('Insufficient file format !!');
+      onError: ({
+        response: {
+          data: { message: error }
+        }
+      }) => {
+        void message.error(error);
       }
     }
   );
