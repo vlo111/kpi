@@ -12,6 +12,7 @@ import { IApplicants, iFinishApplicant, Iseacrh } from './applicantsTypes';
 import Applicant from '../../components/Applicant';
 import { useProject } from '../../hooks/useProject';
 import { HandleTableOnChange } from '../../types/teams';
+import _ from 'lodash';
 
 const ApplicantsData: React.FC = () => {
   const [result, setResult] = useState<any>();
@@ -102,9 +103,12 @@ const ApplicantsData: React.FC = () => {
   };
 
   useEffect(() => {
-    delete filters.limit;
-    delete filters.offset;
-    const allUndefined = Object.values(filters).every((elem) => elem === undefined);
+    const filtersClone = _.cloneDeep(filters);
+    delete filtersClone.limit;
+    delete filtersClone.offset;
+    const allUndefined = Object.values(filtersClone).every(
+      (elem) => elem === undefined
+    );
     if (allUndefined) {
       form.setFieldValue('clearAll', false);
     }
@@ -136,6 +140,7 @@ const ApplicantsData: React.FC = () => {
         <Table
           columns={column}
           dataSource={result?.result}
+          rowKey={(record) => record?.id as string}
           rowClassName={(record, index) =>
             index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
           }
