@@ -303,7 +303,7 @@ export const useColumn: TColumnType = (
     },
     {
       ...getColumnSearchPropsCheckbox(
-        'Teaching Mode',
+        'Mode',
         subActivityFilterTeachingMode,
         setSearchData,
         searchData,
@@ -313,12 +313,12 @@ export const useColumn: TColumnType = (
         setTablePagination,
         tablePagination
       ),
-      title: () => <CustomTitle width="9.3rem">Teaching Mode</CustomTitle>,
+      title: () => <CustomTitle width="5.3rem">Mode</CustomTitle>,
       dataIndex: 'teachingMode',
       ellipsis: false,
       render: (text: string, record: ITeachingMode) => {
         return (
-          <CustomParagraph width="10rem">
+          <CustomParagraph width="6rem">
             {record?.data?.teachingMode}
           </CustomParagraph>
         );

@@ -238,7 +238,7 @@ const CreateSubActivityModal: React.FC<ICreateSubActivityProps> = ({ templateId,
             <AsnPicker />
             <AsnForm.Item
               name="teaching_mode"
-              label="Teaching Mode"
+              label="Mode"
               rules={[{ required: true }]}
             >
               <AsnSelect
