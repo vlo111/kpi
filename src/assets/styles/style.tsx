@@ -458,6 +458,7 @@ const GlobalStyle = createGlobalStyle`
 }
 video{
   height: calc(91vh - 40px) !important;
+  width: 100% !important;
 }
 `;
 

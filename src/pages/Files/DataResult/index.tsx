@@ -59,7 +59,7 @@ const DataResult: React.FC<IDataResult> = ({
   offset
 }) => {
   const [fileName, setFileName] = useState('');
-  const [viewPdf, setViewPdf] = useState<string | null >(null);
+  const [viewPdf, setViewPdf] = useState<string | null>(null);
   const [opens, setOpens] = useState<boolean>(false);
 
   const handlePagination = (page: number): void => {
@@ -80,11 +80,7 @@ const DataResult: React.FC<IDataResult> = ({
   };
 
   const { Panel } = Collapse;
-  if (
-    isFetchingFolderFiles ||
-    isFetchingAllFiles ||
-    isFetchingCourseFiles
-  ) {
+  if (isFetchingFolderFiles || isFetchingAllFiles || isFetchingCourseFiles) {
     return <AsnSpin />;
   }
 
@@ -92,7 +88,9 @@ const DataResult: React.FC<IDataResult> = ({
     if (fileName == null) {
       return '';
     }
-    return fileName.slice((fileName.lastIndexOf('.') - 1 >>> 0) + 2).toLowerCase();
+    return fileName
+      .slice(((fileName.lastIndexOf('.') - 1) >>> 0) + 2)
+      .toLowerCase();
   };
 
   const fileExtension = getFileExtension(viewPdf);
@@ -139,7 +137,7 @@ const DataResult: React.FC<IDataResult> = ({
           >
             <AsnPagination
               showSizeChanger={false}
-              current={(offset / 24) + 1}
+              current={offset / 24 + 1}
               pageSize={24}
               total={Number(filesCount)}
               onChange={handlePagination}
@@ -192,34 +190,8 @@ const DataResult: React.FC<IDataResult> = ({
       >
         {viewPdf !== null && (
           <>
-             {fileExtension === 'doc' && (
-        <FileViewer fileType="doc" filePath={viewPdf} />
-             )}
-      {fileExtension === 'docx' && (
-        <FileViewer fileType="docx" filePath={viewPdf} />
-      )}
-       {fileExtension === 'png' && (
-        <FileViewer fileType="png" filePath={viewPdf} />
-       )}
-           {fileExtension === 'pdf' && (
-                <DocViewer
-                documents={[{ uri: viewPdf }]}
-                pluginRenderers={DocViewerRenderers}
-                config={{
-                  header: {
-                    disableHeader: false,
-                    disableFileName: false,
-                    retainURLParams: false
-                  }
-                }}
-                style={{ height: window.innerHeight - 125 }}
-              />
-           )}
-      {isVideo && (
-        <video src={viewPdf} controls />
-      )}
-      {fileExtension === 'xlsx' && (
-        <DocViewer
+            {fileExtension === 'doc' && (
+              <DocViewer
               documents={[{ uri: viewPdf }]}
               pluginRenderers={DocViewerRenderers}
               config={{
@@ -231,7 +203,45 @@ const DataResult: React.FC<IDataResult> = ({
               }}
               style={{ height: window.innerHeight - 125 }}
             />
-      )}
+            )}
+            {fileExtension === 'docx' && (
+              <FileViewer fileType="docx" filePath={viewPdf} />
+            )}
+            {fileExtension === 'png' && (
+              <FileViewer fileType="png" filePath={viewPdf} />
+            )}
+            {fileExtension === 'jpeg' && (
+              <FileViewer fileType="jpeg" filePath={viewPdf} />
+            )}
+            {fileExtension === 'pdf' && (
+              <DocViewer
+                documents={[{ uri: viewPdf }]}
+                pluginRenderers={DocViewerRenderers}
+                config={{
+                  header: {
+                    disableHeader: false,
+                    disableFileName: false,
+                    retainURLParams: false
+                  }
+                }}
+                style={{ height: window.innerHeight - 125 }}
+              />
+            )}
+            {isVideo && <video src={viewPdf} controls />}
+            {fileExtension === 'xlsx' && (
+              <DocViewer
+                documents={[{ uri: viewPdf }]}
+                pluginRenderers={DocViewerRenderers}
+                config={{
+                  header: {
+                    disableHeader: false,
+                    disableFileName: false,
+                    retainURLParams: false
+                  }
+                }}
+                style={{ height: window.innerHeight - 125 }}
+              />
+            )}
           </>
         )}
       </Modal>
