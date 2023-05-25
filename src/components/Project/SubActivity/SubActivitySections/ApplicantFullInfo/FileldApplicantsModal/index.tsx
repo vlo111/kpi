@@ -10,6 +10,7 @@ const TitleWrapper = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: end;
     gap: 1rem;
 `;
 
