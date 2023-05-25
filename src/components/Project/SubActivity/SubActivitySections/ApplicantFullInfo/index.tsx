@@ -11,7 +11,8 @@ import {
   IApplicantData,
   IApplicantsListFullInfo,
   IUserListTypes,
-  IImportApplicantsWarnings
+  IImportApplicantsWarnings,
+  IImportApplicantsFailed
 } from '../../../../../types/api/activity/subActivity';
 import { AsnTable } from '../../../../Forms/Table';
 import FormWrapper from '../../SubActivityWrapper';
@@ -32,6 +33,7 @@ import SubActivityStatus from './Status';
 import { AsnModal } from '../../../../Forms/Modal';
 import { AsnButton } from '../../../../Forms/Button';
 import _ from 'lodash';
+import FailedApplicantsModal from './FileldApplicantsModal';
 
 const AntTable = styled(AsnTable)`
   .ant-table-pagination.ant-pagination {
@@ -43,9 +45,12 @@ const AsnInput = styled(Input)`
   border-radius: 10px;
   max-width: 300px;
   &.ant-input {
-    :hover {border-color: var(--dark-border-ultramarine)};
-    :focus {border-color: var(--dark-border-ultramarine);
-      box-shadow: none; 
+    :hover {
+      border-color: var(--dark-border-ultramarine);
+    }
+    :focus {
+      border-color: var(--dark-border-ultramarine);
+      box-shadow: none;
     }
   }
 `;
@@ -71,6 +76,8 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   >([]);
   const [showWarnings, setShowWarnings] = useState<boolean>(false);
   const [warnings, setWarnings] = useState<IImportApplicantsWarnings[]>();
+  const [showFailedModal, setShowFailedModal] = useState<boolean>(false);
+  const [failedData, setFailedData] = useState<IImportApplicantsFailed[]>();
 
   const navigate = useNavigate();
   const { mutate: addFileCourse } = useAttacheFiles();
@@ -87,12 +94,23 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
         {
           onSuccess: (data) => {
             if (!_.isEmpty(data)) {
-              const newData = (data as { data: { warnings: IImportApplicantsWarnings[] } }).data.warnings;
+              const newData = (
+                data as { data: { warnings: IImportApplicantsWarnings[] } }
+              ).data.warnings;
+              const failedData = (
+                data as {
+                  data: { failedApplicants: IImportApplicantsFailed[] }
+                }
+              ).data.failedApplicants;
               if (newData?.length > 0) {
                 setShowWarnings(true);
                 setWarnings(newData);
               }
-            };
+              if (failedData?.length > 0) {
+                setShowFailedModal(true);
+                setFailedData(failedData);
+              }
+            }
           }
         }
       );
@@ -242,7 +260,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
 
   const handlePagination = (pagination: TablePaginationConfig): void => {
     const { current } = pagination;
-    setOffset((current as number - 1) * 10);
+    setOffset(((current as number) - 1) * 10);
   };
 
   const handleSearch = (e: React.SyntheticEvent<HTMLInputElement>): void => {
@@ -274,11 +292,13 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                   }}
                 />
               </Button>
-               { (applicants?.length > 0 || search?.length > 0) && <AsnInput
-                placeholder='Search...'
-                onPressEnter={handleSearch}
-                onChange={handleChange}
-                />}
+              {(applicants?.length > 0 || search?.length > 0) && (
+                <AsnInput
+                  placeholder="Search..."
+                  onPressEnter={handleSearch}
+                  onChange={handleChange}
+                />
+              )}
             </Col>
             <Col style={{ display: 'flex', gap: '5px' }}>
               Upload list of applicants
@@ -297,43 +317,51 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                 There are no applicants
               </Row>
             </>
-          )
-            : (
-              <>
-                <AntTable
-                  size="middle"
-                  onRow={(record) => {
-                    return {
-                      onClick: () => {
-                        navigate(
-                          `/${PATHS.APPLICANT.replace(':id', record.id)}`,
-                          {
-                            state: { navigateRouteInfo }
-                          }
-                        );
+          ) : (
+            <>
+              <AntTable
+                size="middle"
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      navigate(
+                        `/${PATHS.APPLICANT.replace(':id', record.id)}`,
+                        {
+                          state: { navigateRouteInfo }
+                        }
+                      );
+                    }
+                  };
+                }}
+                columns={columns}
+                dataSource={applicants}
+                rowKey="id"
+                pagination={
+                  applicantCounts > 10
+                    ? {
+                        current: offset / 10 + 1,
+                        total: applicantCounts,
+                        pageSize: 10,
+                        showSizeChanger: false
                       }
-                    };
-                  }}
-                  columns={columns}
-                  dataSource={applicants}
-                  rowKey="id"
-                  pagination={applicantCounts > 10 ? { current: offset / 10 + 1, total: applicantCounts, pageSize: 10, showSizeChanger: false } : false}
-                  rowSelection={rowSelection}
-                  onChange={handlePagination}
-                  loading={isLoading}
-                />
-                <SubActivityStatus
-                  status={status}
-                  sectionDataId={courseId}
-                  applicants={selectedApplicants}
-                  sectionsCount={sectionsCount}
-                  tabIndex={tabIndex}
-                  setSelectedRowKeys={setSelectedRowKeys}
-                  setOffset={setOffset}
-                  setSelectedApplicants={setSelectedApplicants}
-                />
-              </>
-              )}
+                    : false
+                }
+                rowSelection={rowSelection}
+                onChange={handlePagination}
+                loading={isLoading}
+              />
+              <SubActivityStatus
+                status={status}
+                sectionDataId={courseId}
+                applicants={selectedApplicants}
+                sectionsCount={sectionsCount}
+                tabIndex={tabIndex}
+                setSelectedRowKeys={setSelectedRowKeys}
+                setOffset={setOffset}
+                setSelectedApplicants={setSelectedApplicants}
+              />
+            </>
+          )}
         </Space>
       </FormWrapper>
       <AsnModal
@@ -357,6 +385,7 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
           OK
         </AsnButton>
       </AsnModal>
+      <FailedApplicantsModal showFailedModal={showFailedModal} setShowFailedModal={setShowFailedModal} failedData={failedData} />
     </>
   );
 };
