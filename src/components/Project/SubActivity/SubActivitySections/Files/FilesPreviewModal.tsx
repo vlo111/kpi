@@ -5,7 +5,12 @@ import { Modal } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import { IFilesPreview } from '../../../../../types/api/activity/subActivity';
 
-const FilesPreviewModal: React.FC<IFilesPreview> = ({ url, setUrl, openPreview, setOpenPreview }) => {
+const FilesPreviewModal: React.FC<IFilesPreview> = ({
+  url,
+  setUrl,
+  openPreview,
+  setOpenPreview
+}) => {
   const getFileExtension = (fileName: string): string => {
     if (fileName == null) {
       return '';
@@ -24,57 +29,72 @@ const FilesPreviewModal: React.FC<IFilesPreview> = ({ url, setUrl, openPreview, 
   };
 
   return (
-        <Modal
-            open={openPreview}
-            onCancel={handleCancel}
-            okText={''}
-            className="filePreviewModal"
-        >
-            {url !== null && (
-                <>
-                    {fileExtension === 'doc' && (
-                        <FileViewer fileType="doc" filePath={url} />
-                    )}
-                    {fileExtension === 'docx' && (
-                        <FileViewer fileType="docx" filePath={url} />
-                    )}
-                    {fileExtension === 'png' && (
-                        <FileViewer fileType="png" filePath={url} />
-                    )}
-                    {fileExtension === 'pdf' && (
-                        <DocViewer
-                            documents={[{ uri: url }]}
-                            pluginRenderers={DocViewerRenderers}
-                            config={{
-                              header: {
-                                disableHeader: false,
-                                disableFileName: false,
-                                retainURLParams: false
-                              }
-                            }}
-                            style={{ height: window.innerHeight - 125 }}
-                            key={uuidv4()}
-                        />
-                    )}
-                    {isVideo && <video src={url} controls />}
-                    {fileExtension === 'xlsx' && (
-                        <DocViewer
-                            documents={[{ uri: url }]}
-                            pluginRenderers={DocViewerRenderers}
-                            config={{
-                              header: {
-                                disableHeader: false,
-                                disableFileName: false,
-                                retainURLParams: false
-                              }
-                            }}
-                            style={{ height: window.innerHeight - 125 }}
-                            key={uuidv4()}
-                        />
-                    )}
-                </>
-            )}
-        </Modal>
+    <Modal
+      open={openPreview}
+      onCancel={handleCancel}
+      okText={''}
+      className="filePreviewModal"
+    >
+      {url !== null && (
+        <>
+          {fileExtension === 'doc' && (
+            <DocViewer
+              documents={[{ uri: url }]}
+              pluginRenderers={DocViewerRenderers}
+              config={{
+                header: {
+                  disableHeader: false,
+                  disableFileName: false,
+                  retainURLParams: false
+                }
+              }}
+              style={{ height: window.innerHeight - 125 }}
+              key={uuidv4()}
+            />
+          )}
+          {fileExtension === 'docx' && (
+            <FileViewer fileType="docx" filePath={url} />
+          )}
+          {fileExtension === 'png' && (
+            <FileViewer fileType="png" filePath={url} />
+          )}
+          {fileExtension === 'jpeg' && (
+            <FileViewer fileType="jpeg" filePath={url} />
+          )}
+          {fileExtension === 'pdf' && (
+            <DocViewer
+              documents={[{ uri: url }]}
+              pluginRenderers={DocViewerRenderers}
+              config={{
+                header: {
+                  disableHeader: false,
+                  disableFileName: false,
+                  retainURLParams: false
+                }
+              }}
+              style={{ height: window.innerHeight - 125 }}
+              key={uuidv4()}
+            />
+          )}
+          {isVideo && <video src={url} controls />}
+          {fileExtension === 'xlsx' && (
+            <DocViewer
+              documents={[{ uri: url }]}
+              pluginRenderers={DocViewerRenderers}
+              config={{
+                header: {
+                  disableHeader: false,
+                  disableFileName: false,
+                  retainURLParams: false
+                }
+              }}
+              style={{ height: window.innerHeight - 125 }}
+              key={uuidv4()}
+            />
+          )}
+        </>
+      )}
+    </Modal>
   );
 };
 

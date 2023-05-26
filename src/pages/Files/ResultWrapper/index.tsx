@@ -21,11 +21,21 @@ const DocumentCard = styled(Col)`
   }
 `;
 const { Paragraph } = Typography;
-const ResultWrapper: React.FC<IResultWrapper> = ({ files, onRemoveFile, setOpens, setViewPdf, fileName, handleFileClick, all }) => {
-  const [openPopOver, setOpenPopOver] = useState<{ id: string, show: boolean }>({
-    id: '',
-    show: false
-  });
+const ResultWrapper: React.FC<IResultWrapper> = ({
+  files,
+  onRemoveFile,
+  setOpens,
+  setViewPdf,
+  fileName,
+  handleFileClick,
+  all
+}) => {
+  const [openPopOver, setOpenPopOver] = useState<{ id: string, show: boolean }>(
+    {
+      id: '',
+      show: false
+    }
+  );
   const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
   const [docName, setDocName] = useState('');
 
@@ -81,18 +91,21 @@ const ResultWrapper: React.FC<IResultWrapper> = ({ files, onRemoveFile, setOpens
   const content = (name: string, path: string): ReactElement => {
     return (
       <>
-        <Button type="link" onClick={(e) => {
-          hide();
-          preview(fileName);
-        }}>
+        <Button
+          type="link"
+          onClick={(e) => {
+            hide();
+            preview(fileName);
+          }}
+        >
           {' '}
           <EyeOutlined />
-          preview
+          Preview
         </Button>
-        <Button type="link" onClick={() => handleDelete(name) }>
+        <Button type="link" onClick={() => handleDelete(name)}>
           {' '}
           <DeleteOutlined />
-          delete
+          Delete
         </Button>
         <DocumentDonload hide={hide} name={name} path={path} />
       </>
@@ -101,50 +114,62 @@ const ResultWrapper: React.FC<IResultWrapper> = ({ files, onRemoveFile, setOpens
 
   return (
     <>
-    <Row gutter={[10, 50]} style={all ? { overflow: 'auto', width: '100%', padding: '30px 0', background: 'white' } : {}} >
-      {files?.map((file) => (
-        <Popover
-          key={file?.path}
-          trigger="click"
-          content={() => content(file?.name, file?.path)}
-          placement="bottom"
-          overlayClassName="documentPopover"
-          open={!!openPopOver.show && (openPopOver.id === file.path)}
-          onOpenChange={(newOpen) => handleOpenChange(newOpen, file.path)}
-          getPopupContainer={(trigger: HTMLElement) => trigger.parentElement as HTMLElement}
-        >
-          <DocumentCard sm={14} xxl={6} xl={8} md={12}>
-            <Col
-              onClick={() => handleFileClick(file?.path)}
-            >
-              {uploadImgfile(file)}
-              <Col style={{ cursor: 'pointer' }}>
-              <Tooltip title={file?.originalName}>
-                        <Paragraph
-                          strong
-                          ellipsis={{
-                            rows: 1
-                          }}
-                          style={{ width: '120px' }}
-                        >
-                          {file?.originalName}
-                        </Paragraph>
-                      </Tooltip>
+      <Row
+        gutter={[10, 50]}
+        style={
+          all
+            ? {
+                overflow: 'auto',
+                width: '100%',
+                padding: '30px 0',
+                background: 'white'
+              }
+            : {}
+        }
+      >
+        {files?.map((file) => (
+          <Popover
+            key={file?.path}
+            trigger="click"
+            content={() => content(file?.name, file?.path)}
+            placement="bottom"
+            overlayClassName="documentPopover"
+            open={!!openPopOver.show && openPopOver.id === file.path}
+            onOpenChange={(newOpen) => handleOpenChange(newOpen, file.path)}
+            getPopupContainer={(trigger: HTMLElement) =>
+              trigger.parentElement as HTMLElement
+            }
+          >
+            <DocumentCard sm={14} xxl={6} xl={8} md={12}>
+              <Col onClick={() => handleFileClick(file?.path)}>
+                {uploadImgfile(file)}
+                <Col style={{ cursor: 'pointer' }}>
+                  <Tooltip title={file?.originalName}>
+                    <Paragraph
+                      strong
+                      ellipsis={{
+                        rows: 1
+                      }}
+                      style={{ width: '120px' }}
+                    >
+                      {file?.originalName}
+                    </Paragraph>
+                  </Tooltip>
+                </Col>
               </Col>
-            </Col>
-          </DocumentCard>
-        </Popover>
-      ))}
-    </Row>
-    <ConfirmModal
-       styles={{ gap: '6rem' }}
-       yes="Delete"
-       no="Cancel"
-       open={openConfirmModal}
-       title="Are you sure you want to delete the file?"
-       onSubmit={() => onRemoveFile(docName) }
-       onCancel={() => setOpenConfirmModal(false)}
-       />
+            </DocumentCard>
+          </Popover>
+        ))}
+      </Row>
+      <ConfirmModal
+        styles={{ gap: '6rem' }}
+        yes="Delete"
+        no="Cancel"
+        open={openConfirmModal}
+        title="Are you sure you want to delete the file?"
+        onSubmit={() => onRemoveFile(docName)}
+        onCancel={() => setOpenConfirmModal(false)}
+      />
     </>
   );
 };
