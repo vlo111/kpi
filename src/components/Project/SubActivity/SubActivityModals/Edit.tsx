@@ -166,11 +166,11 @@ const EditSubCourse: React.FC<ICreateSubActivityTypes> = ({
     }
   };
 
-  const attachments = subActivity?.sectionsData[0].data.customInputs;
+  const attachments = subActivity?.sectionsData?.[0]?.data?.customInputs;
 
   useEffect(() => {
     if (subActivity !== undefined) {
-      const initialData = subActivity?.sectionsData.map((item: any) => ({
+      const initialData = subActivity?.sectionsData?.map((item: any) => ({
         customInputs: item?.data?.customInputs,
         files: item?.data?.files,
         title: item?.data?.title,
@@ -184,7 +184,7 @@ const EditSubCourse: React.FC<ICreateSubActivityTypes> = ({
         organization: subActivity?.organization?.id,
         region: subActivity?.region?.id,
         sector: subActivity?.sector?.id,
-        ...initialData[0],
+        ...initialData?.[0],
         sectionsData: initialData
       });
     }
