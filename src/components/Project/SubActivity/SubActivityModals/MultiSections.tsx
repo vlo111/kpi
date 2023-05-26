@@ -71,7 +71,7 @@ const MultiSections: React.FC<IMultiSections> = ({
                       />
                       <AsnForm.Item
                         name={[i, 'teaching_mode']}
-                        label="Teaching Mode"
+                        label="Mode"
                         rules={[{ required: true }]}
                       >
                         <AsnSelect

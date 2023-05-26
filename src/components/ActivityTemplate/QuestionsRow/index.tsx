@@ -208,7 +208,8 @@ const QuestionsRow: React.FC<IQuestionsRow> = ({
                     fontSize: 'var(--font-size-small)'
                   }}
                 >
-                  {option},
+                  {option}
+                  {item?.setting?.data?.length - 1 === index ? '' : ','}
                 </Col>
                   ))
                 )

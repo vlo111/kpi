@@ -133,7 +133,7 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
                 </Row>
                 <Row style={{ marginBottom: '1.2vh' }}>
                   <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>
-                    Teaching Mode
+                    Mode
                   </AntCol>
                   <AntCol span={12}>{course?.data.teachingMode}</AntCol>
                 </Row>
@@ -203,7 +203,7 @@ const CourseInfo: React.FC<any> = ({ courseData, onChange }) => {
             </Row>
             <Row>
               <AntCol sm={{ offset: 2 }} md={{ offset: 5 }}>
-                Teaching Mode
+                Mode
               </AntCol>
               <AntCol span={12}>
                 {courseData?.sectionsData[0]?.data?.teachingMode}
