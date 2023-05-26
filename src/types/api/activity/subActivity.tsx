@@ -302,6 +302,28 @@ export interface IImportApplicantsWarnings {
     }
   }
 }
+export interface IImportApplicantsFailed {
+  fullName: string
+  region: string
+  community: string
+  gender: string
+  phone: number
+  email: string
+  student?: string
+  studyType?: string
+  educationLevel?: string
+  profession?: string
+  income?: string
+  vulnerabilities?: string
+  informedAboutUs?: string
+  studentBool?: boolean
+  disabilityBool?: boolean
+}
+export interface IFailedApplicantsModal {
+  showFailedModal: boolean
+  setShowFailedModal: React.Dispatch<React.SetStateAction<boolean>>
+  failedData: IImportApplicantsFailed[] | undefined
+}
 
 export interface IFiles {
   id: string
