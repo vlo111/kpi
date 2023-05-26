@@ -80,6 +80,10 @@ const SectionsWrapper = styled.div<{ color: string | undefined }>`
   .ant-space-align-center {
     text-align: center;
   }
+  .ant-tabs-tab-btn {
+    position: relative;
+    bottom: 13px
+  }
 `;
 
 const SubActivitySections: React.FC<any> = ({
@@ -117,12 +121,16 @@ const SubActivitySections: React.FC<any> = ({
           className="custom_section_tabs"
         >
           <TabPane forceRender key="1">
-            {(activity?.status === 'INACTIVE') && (
+            {activity?.status === 'INACTIVE' && (
               <Row justify="center">
                 <AsnButton
                   type="primary"
                   className="primary"
-                  disabled={(activity?.status === 'INACTIVE' && activity?.applicants?.length === 0) && index !== 0}
+                  disabled={
+                    activity?.status === 'INACTIVE' &&
+                    activity?.applicants?.length === 0 &&
+                    index !== 0
+                  }
                   style={{ width: '35vw' }}
                   onClick={() => {
                     setActiveKey(
@@ -161,7 +169,6 @@ const SubActivitySections: React.FC<any> = ({
                 <Space direction="vertical" align="center">
                   <Title level={4}>{item?.setting?.title}</Title>
                   <Badge color="var(--primary-light-orange)" />
-                  <Title level={5}>{item?.setting?.title}</Title>
                 </Space>
               }
             >
