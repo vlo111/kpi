@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react';
-import { Button, Space, message, Divider } from 'antd';
+import { Button, Space, Divider } from 'antd';
 import SignatureCanvas from 'react-signature-canvas';
 
 import { AsnModal } from '../Forms/Modal';
 import styled from 'styled-components';
 import { AsnButton } from '../Forms/Button';
 import { AsnForm } from '../Forms/Form';
-import userImageUpload from '../../api/UserProfile/useUserImageUpload';
-import _ from 'lodash';
+// import userImageUpload from '../../api/UserProfile/useUserImageUpload';
+// import _ from 'lodash';
 
 const SignatureModal = styled(AsnModal)`
   .ant-modal-content {
@@ -51,7 +51,7 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
   const [imageURL, setImageURL] = useState<string | undefined>(undefined);
 
   const form = AsnForm.useFormInstance();
-  const { mutate: uploadImage } = userImageUpload();
+  // const { mutate: uploadImage } = userImageUpload();
 
   const showModal = (): void => {
     return setIsModalOpen(true);
@@ -65,34 +65,44 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
 
   const handleClear = (): void => {
     sigCanvas.current?.clear();
+    form.setFieldValue('onlineSignaturePath', null);
+    form.setFields([
+      {
+        name: 'onlineSignaturePath',
+        errors: []
+      }
+    ]);
+    setImageURL(undefined);
   };
+
+  console.log(sigCanvas?.current?.getTrimmedCanvas().toDataURL());
 
   const handleSave = async (): Promise<void> => {
     if ((sigCanvas?.current?.isEmpty()) === true) return;
     const dataUrl = sigCanvas?.current?.getTrimmedCanvas().toDataURL();
-    const blob = await fetch(dataUrl as string)
-      .then(async res => await res.blob())
-      .catch(err => console.log(err));
-    const file = new File([blob as Blob], 'signature.png', { type: 'image/png' });
-    uploadImage(file, {
-      onSuccess: (data) => {
-        if (!_.isEmpty(data)) {
-          const newData = (data as { data: { result: string[] } }).data.result;
-          if (newData?.length > 0) {
-            form.setFieldValue('onlineSignaturePath', newData[0]);
-            form.setFields([
-              {
-                name: 'onlineSignaturePath',
-                errors: []
-              }
-            ]);
-          }
-        }
-      },
-      onError: () => {
-        void message.error('Something went wrong, Please enter online signature again', 2);
+    // const blob = await fetch(dataUrl as string)
+    //   .then(async res => await res.blob())
+    //   .catch(err => console.log(err));
+    // const file = new File([blob as Blob], 'signature.png', { type: 'image/png' });
+    // uploadImage(file, {
+    //   onSuccess: (data) => {
+    //     if (!_.isEmpty(data)) {
+    //       const newData = (data as { data: { result: string[] } }).data.result;
+    //       if (newData?.length > 0) {
+    form.setFieldValue('onlineSignaturePath', dataUrl);
+    form.setFields([
+      {
+        name: 'onlineSignaturePath',
+        errors: []
       }
-    });
+    ]);
+    //       }
+    //     }
+    //   },
+    //   onError: () => {
+    //     void message.error('Something went wrong, Please enter online signature again', 2);
+    //   }
+    // });
     setImageURL(dataUrl);
   };
 
