@@ -42,12 +42,17 @@ const SignatureModal = styled(AsnModal)`
       cursor: pointer;
     }
   }
+
+  .sigCanvas {
+    width: 100%;
+  }
 `;
 
 const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imageURL, setImageURL] = useState<string | undefined>(undefined);
 
+  const sigCanvas = useRef<SignatureCanvas>(null);
   const form = AsnForm.useFormInstance();
 
   const showModal = (): void => {
@@ -57,8 +62,6 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
   const handleCancel = (): void => {
     setIsModalOpen(false);
   };
-
-  const sigCanvas = useRef<SignatureCanvas>(null);
 
   const handleClear = (): void => {
     sigCanvas.current?.clear();
@@ -122,7 +125,7 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
           <SignatureCanvas
             penColor="blue"
             ref={sigCanvas}
-            canvasProps={{ width: 470, height: 500 }}
+            canvasProps={{ className: 'sigCanvas', height: 500 }}
           />
           <Button
             type="link"
