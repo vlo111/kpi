@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button, Space, Divider } from 'antd';
 import SignatureCanvas from 'react-signature-canvas';
 
@@ -42,18 +42,25 @@ const SignatureModal = styled(AsnModal)`
       cursor: pointer;
     }
   }
-
-  .sigCanvas {
-    width: 100%;
-  }
 `;
 
 const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imageURL, setImageURL] = useState<string | undefined>(undefined);
+  const [width, setWidth] = useState(window.innerWidth);
 
-  const sigCanvas = useRef<SignatureCanvas>(null);
   const form = AsnForm.useFormInstance();
+
+  const canvasWidth = (width < 590 && width > 430) ? 380 : (width <= 430 && width > 370) ? 290 : (width <= 370 && width >= 320) ? 230 : 470;
+  const canvasHeight = width < 470 ? 300 : 500;
+
+  const updateWindowDimensions = (): void => {
+    setWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', updateWindowDimensions);
+  }, [width]);
 
   const showModal = (): void => {
     return setIsModalOpen(true);
@@ -62,6 +69,8 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
   const handleCancel = (): void => {
     setIsModalOpen(false);
   };
+
+  const sigCanvas = useRef<SignatureCanvas>(null);
 
   const handleClear = (): void => {
     sigCanvas.current?.clear();
@@ -125,7 +134,7 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
           <SignatureCanvas
             penColor="blue"
             ref={sigCanvas}
-            canvasProps={{ className: 'sigCanvas', height: 500 }}
+            canvasProps={{ width: canvasWidth, height: canvasHeight }}
           />
           <Button
             type="link"
