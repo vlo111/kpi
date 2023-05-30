@@ -4,6 +4,12 @@ import FileViewer from 'react-file-viewer';
 import { Modal } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import { IFilesPreview } from '../../../../../types/api/activity/subActivity';
+import styled from 'styled-components';
+
+const Image = styled.img`
+  width: 100%;
+  height: 90vh;
+`;
 
 const FilesPreviewModal: React.FC<IFilesPreview> = ({
   url,
@@ -56,10 +62,12 @@ const FilesPreviewModal: React.FC<IFilesPreview> = ({
             <FileViewer fileType="docx" filePath={url} />
           )}
           {fileExtension === 'png' && (
-            <FileViewer fileType="png" filePath={url} />
+            // <FileViewer fileType="png" filePath={`${url}?t=${moment().unix()}`} />
+            <Image src={url} />
           )}
           {fileExtension === 'jpeg' && (
-            <FileViewer fileType="jpeg" filePath={url} />
+           <Image src={url} />
+          // <FileViewer fileType="jpeg" filePath={`${url}?t=${moment().unix()}`} />
           )}
           {fileExtension === 'pdf' && (
             <DocViewer
