@@ -8,9 +8,8 @@ import CourseFiles from '../CourseFiles';
 import ResultWrapper from '../ResultWrapper';
 import AsnSpin from '../../../components/Forms/Spin';
 import { IDataResult } from '../../../types/files';
-import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
+import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
 import { Void } from '../../../types/global';
-import FileViewer from 'react-file-viewer';
 
 const Result = styled.div`
   .ant-collapse > .ant-collapse-item > .ant-collapse-header {
@@ -190,30 +189,7 @@ const DataResult: React.FC<IDataResult> = ({
       >
         {viewPdf !== null && (
           <>
-            {fileExtension === 'doc' && (
-              <DocViewer
-              documents={[{ uri: viewPdf }]}
-              pluginRenderers={DocViewerRenderers}
-              config={{
-                header: {
-                  disableHeader: false,
-                  disableFileName: false,
-                  retainURLParams: false
-                }
-              }}
-              style={{ height: window.innerHeight - 125 }}
-            />
-            )}
-            {fileExtension === 'docx' && (
-              <FileViewer fileType="docx" filePath={viewPdf} />
-            )}
-            {fileExtension === 'png' && (
-              <FileViewer fileType="png" filePath={viewPdf} />
-            )}
-            {fileExtension === 'jpeg' && (
-              <FileViewer fileType="jpeg" filePath={viewPdf} />
-            )}
-            {fileExtension === 'pdf' && (
+            {!isVideo && (
               <DocViewer
                 documents={[{ uri: viewPdf }]}
                 pluginRenderers={DocViewerRenderers}
@@ -224,24 +200,10 @@ const DataResult: React.FC<IDataResult> = ({
                     retainURLParams: false
                   }
                 }}
-                style={{ height: window.innerHeight - 125 }}
+                style={{ height: window.innerHeight - 170 }}
               />
             )}
             {isVideo && <video src={viewPdf} controls />}
-            {fileExtension === 'xlsx' && (
-              <DocViewer
-                documents={[{ uri: viewPdf }]}
-                pluginRenderers={DocViewerRenderers}
-                config={{
-                  header: {
-                    disableHeader: false,
-                    disableFileName: false,
-                    retainURLParams: false
-                  }
-                }}
-                style={{ height: window.innerHeight - 125 }}
-              />
-            )}
           </>
         )}
       </Modal>

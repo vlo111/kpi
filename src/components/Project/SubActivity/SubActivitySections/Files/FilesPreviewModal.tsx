@@ -1,16 +1,9 @@
 import React from 'react';
-import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
-import FileViewer from 'react-file-viewer';
+import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
+
 import { Modal } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import { IFilesPreview } from '../../../../../types/api/activity/subActivity';
-import styled from 'styled-components';
-
-const Image = styled.img`
-  width: 100%;
-  height: 90vh;
-`;
-
 const FilesPreviewModal: React.FC<IFilesPreview> = ({
   url,
   setUrl,
@@ -43,7 +36,7 @@ const FilesPreviewModal: React.FC<IFilesPreview> = ({
     >
       {url !== null && (
         <>
-          {fileExtension === 'doc' && (
+          {!isVideo && (
             <DocViewer
               documents={[{ uri: url }]}
               pluginRenderers={DocViewerRenderers}
@@ -54,52 +47,11 @@ const FilesPreviewModal: React.FC<IFilesPreview> = ({
                   retainURLParams: false
                 }
               }}
-              style={{ height: window.innerHeight - 125 }}
-              key={uuidv4()}
-            />
-          )}
-          {fileExtension === 'docx' && (
-            <FileViewer fileType="docx" filePath={url} />
-          )}
-          {fileExtension === 'png' && (
-            // <FileViewer fileType="png" filePath={`${url}?t=${moment().unix()}`} />
-            <Image src={url} />
-          )}
-          {fileExtension === 'jpeg' && (
-           <Image src={url} />
-          // <FileViewer fileType="jpeg" filePath={`${url}?t=${moment().unix()}`} />
-          )}
-          {fileExtension === 'pdf' && (
-            <DocViewer
-              documents={[{ uri: url }]}
-              pluginRenderers={DocViewerRenderers}
-              config={{
-                header: {
-                  disableHeader: false,
-                  disableFileName: false,
-                  retainURLParams: false
-                }
-              }}
-              style={{ height: window.innerHeight - 125 }}
+              style={{ height: window.innerHeight - 170 }}
               key={uuidv4()}
             />
           )}
           {isVideo && <video src={url} controls />}
-          {fileExtension === 'xlsx' && (
-            <DocViewer
-              documents={[{ uri: url }]}
-              pluginRenderers={DocViewerRenderers}
-              config={{
-                header: {
-                  disableHeader: false,
-                  disableFileName: false,
-                  retainURLParams: false
-                }
-              }}
-              style={{ height: window.innerHeight - 125 }}
-              key={uuidv4()}
-            />
-          )}
         </>
       )}
     </Modal>
