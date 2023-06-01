@@ -9,7 +9,9 @@ import { AsnForm } from '../Forms/Form';
 
 const SignatureModal = styled(AsnModal)`
   .ant-modal-content {
-    padding: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .ant-modal-header {
@@ -51,6 +53,8 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imageURL, setImageURL] = useState<string | undefined>(undefined);
   const [width, setWidth] = useState(window.innerWidth);
+  const emptyBase64 =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAtJREFUGFdjYAACAAAFAAGq1chRAAAAAElFTkSuQmCC';
 
   const form = AsnForm.useFormInstance();
   const sigCanvas = useRef<SignatureCanvas>(null);
@@ -63,7 +67,7 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({
         : width <= 370 && width >= 320
           ? 230
           : 470;
-  const canvasHeight = width < 470 ? 300 : 500;
+  const canvasHeight = width < 470 ? 300 : 400;
 
   const updateWindowDimensions = (): void => {
     setWidth(window.innerWidth);
@@ -74,9 +78,6 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({
   }, [width]);
 
   const showModal = (): void => {
-    if (imageURL !== undefined) {
-      sigCanvas?.current?.fromDataURL(imageURL);
-    }
     setIsModalOpen(true);
   };
 
@@ -99,21 +100,32 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({
   const handleSave = async (): Promise<void> => {
     if (sigCanvas?.current?.isEmpty() === true) return;
     const dataUrl = sigCanvas?.current?.getTrimmedCanvas().toDataURL();
-    form.setFieldValue('onlineSignaturePath', dataUrl);
-    form.setFields([
-      {
-        name: 'onlineSignaturePath',
-        errors: []
-      }
-    ]);
-    setImageURL(dataUrl);
+    if (emptyBase64 === dataUrl) {
+      form.setFieldValue('onlineSignaturePath', null);
+      form.setFields([
+        {
+          name: 'onlineSignaturePath',
+          errors: []
+        }
+      ]);
+      setImageURL(undefined);
+    } else {
+      form.setFieldValue('onlineSignaturePath', dataUrl);
+      form.setFields([
+        {
+          name: 'onlineSignaturePath',
+          errors: []
+        }
+      ]);
+      setImageURL(dataUrl);
+    }
   };
 
   useEffect(() => {
     if (imageURL !== undefined) {
       sigCanvas?.current?.fromDataURL(imageURL);
     }
-  }, [imageURL, canvasWidth, canvasHeight]);
+  }, [canvasWidth, canvasHeight]);
 
   return (
     <Space wrap>
@@ -158,6 +170,7 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({
         <>
           <SignatureCanvas
             penColor="blue"
+            clearOnResize={false}
             ref={sigCanvas}
             canvasProps={{ width: canvasWidth, height: canvasHeight }}
           />
