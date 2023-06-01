@@ -376,6 +376,11 @@ export interface IResponseActiveTemplates {
   has_more: boolean
   result: IActiveTemplate[]
 }
+export interface IErrorMessageCurse {
+  response: {
+    data: { message: string }
+  }
+}
 export interface IActiveTemplates {
   data: IResponseActiveTemplates
   isLoading: boolean

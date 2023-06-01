@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Row, Typography } from 'antd';
+import { Row, Typography, message } from 'antd';
 
 import { AsnButton } from '../../../../../Forms/Button';
 import ApplicationFormItem from './ApplicantFormItems';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PATHS } from '../../../../../../helpers/constants';
-import { ICourseStatusInfo } from '../../../../../../types/api/activity/subActivity';
+import { ICourseStatusInfo, IErrorMessageCurse } from '../../../../../../types/api/activity/subActivity';
 import useStartSubActivityCourse from '../../../../../../api/Activity/SubActivity/useStartSubActivityCourse';
 import {
   EnumAssessmentFormTypes,
@@ -43,8 +43,8 @@ const CourseHeaderStatus: React.FC<ICourseStatusInfo> = ({
         state: { SubActivityId }
       });
     },
-    onError: () => {
-      console.log('err');
+    onError: ({ response: { data: { message: errorMessage } } }: IErrorMessageCurse) => {
+      void message.error(errorMessage, 2);
     }
   });
 
