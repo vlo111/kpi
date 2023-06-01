@@ -92,7 +92,7 @@ const SubActivityForm: React.FC<ICreateSubActivityProps> = ({
           <AsnForm.Item
             name="title"
             label="Title"
-            rules={[{ required: true, min: 2, max: 45 }]}
+            rules={[{ required: true, min: 2, max: 128 }]}
           >
             <AsnInput />
           </AsnForm.Item>
