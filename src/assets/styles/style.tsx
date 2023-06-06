@@ -246,6 +246,10 @@ const GlobalStyle = createGlobalStyle`
     .ant-modal-body{
       padding: 3.5rem 1.5rem 1.5rem;
     }
+
+    #image-renderer {
+      background-image: none !important;
+    }
   }
   .applicantsFilter{
     .ant-popover-title{

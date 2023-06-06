@@ -7,9 +7,8 @@ import { ReactComponent as LinkIcon } from '../../../SubActivityIcons/link.svg';
 import useFileUpload from '../../../../../../api/Activity/SubActivity/useUploadFile';
 import useDeleteFile from '../../../../../../api/Files/useDeleteFile';
 import { EyeOutlined } from '@ant-design/icons';
-import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
+import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
 import { Void } from '../../../../../../types/global';
-import FileViewer from 'react-file-viewer';
 import {
   IDraggerProps,
   IfilePreview
@@ -234,16 +233,7 @@ const DraggerForm: React.FC<IDraggerProps> = ({
       >
         {viewPdf !== null && (
           <>
-            {fileExtension === 'doc' && (
-              <FileViewer fileType="doc" filePath={viewPdf} />
-            )}
-            {fileExtension === 'docx' && (
-              <FileViewer fileType="docx" filePath={viewPdf} />
-            )}
-            {fileExtension === 'png' && (
-              <FileViewer fileType="png" filePath={viewPdf} />
-            )}
-            {fileExtension === 'pdf' && (
+            {!isVideo && (
               <DocViewer
                 documents={[{ uri: viewPdf }]}
                 pluginRenderers={DocViewerRenderers}
@@ -254,24 +244,10 @@ const DraggerForm: React.FC<IDraggerProps> = ({
                     retainURLParams: false
                   }
                 }}
-                style={{ height: window.innerHeight - 125 }}
+                style={{ height: window.innerHeight - 170 }}
               />
             )}
             {isVideo && <video src={viewPdf} controls />}
-            {fileExtension === 'xlsx' && (
-              <DocViewer
-                documents={[{ uri: viewPdf }]}
-                pluginRenderers={DocViewerRenderers}
-                config={{
-                  header: {
-                    disableHeader: false,
-                    disableFileName: false,
-                    retainURLParams: false
-                  }
-                }}
-                style={{ height: window.innerHeight - 125 }}
-              />
-            )}
           </>
         )}
       </Modal>
