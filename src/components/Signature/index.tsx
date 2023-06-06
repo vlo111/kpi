@@ -9,7 +9,9 @@ import { AsnForm } from '../Forms/Form';
 
 const SignatureModal = styled(AsnModal)`
   .ant-modal-content {
-    padding: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .ant-modal-header {
@@ -44,15 +46,28 @@ const SignatureModal = styled(AsnModal)`
   }
 `;
 
-const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) => {
+const Signature: React.FC<{ view?: boolean, url?: string }> = ({
+  view,
+  url
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imageURL, setImageURL] = useState<string | undefined>(undefined);
   const [width, setWidth] = useState(window.innerWidth);
+  const emptyBase64 =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAtJREFUGFdjYAACAAAFAAGq1chRAAAAAElFTkSuQmCC';
 
   const form = AsnForm.useFormInstance();
+  const sigCanvas = useRef<SignatureCanvas>(null);
 
-  const canvasWidth = (width < 590 && width > 430) ? 380 : (width <= 430 && width > 370) ? 290 : (width <= 370 && width >= 320) ? 230 : 470;
-  const canvasHeight = width < 470 ? 300 : 500;
+  const canvasWidth =
+    width < 590 && width > 430
+      ? 380
+      : width <= 430 && width > 370
+        ? 290
+        : width <= 370 && width >= 320
+          ? 230
+          : 470;
+  const canvasHeight = width < 470 ? 300 : 400;
 
   const updateWindowDimensions = (): void => {
     setWidth(window.innerWidth);
@@ -63,14 +78,12 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
   }, [width]);
 
   const showModal = (): void => {
-    return setIsModalOpen(true);
+    setIsModalOpen(true);
   };
 
   const handleCancel = (): void => {
     setIsModalOpen(false);
   };
-
-  const sigCanvas = useRef<SignatureCanvas>(null);
 
   const handleClear = (): void => {
     sigCanvas.current?.clear();
@@ -85,21 +98,43 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
   };
 
   const handleSave = async (): Promise<void> => {
-    if ((sigCanvas?.current?.isEmpty()) === true) return;
+    if (sigCanvas?.current?.isEmpty() === true) return;
     const dataUrl = sigCanvas?.current?.getTrimmedCanvas().toDataURL();
-    form.setFieldValue('onlineSignaturePath', dataUrl);
-    form.setFields([
-      {
-        name: 'onlineSignaturePath',
-        errors: []
-      }
-    ]);
-    setImageURL(dataUrl);
+    if (emptyBase64 === dataUrl) {
+      form.setFieldValue('onlineSignaturePath', null);
+      form.setFields([
+        {
+          name: 'onlineSignaturePath',
+          errors: []
+        }
+      ]);
+      setImageURL(undefined);
+    } else {
+      form.setFieldValue('onlineSignaturePath', dataUrl);
+      form.setFields([
+        {
+          name: 'onlineSignaturePath',
+          errors: []
+        }
+      ]);
+      setImageURL(dataUrl);
+    }
   };
+
+  useEffect(() => {
+    if (imageURL !== undefined) {
+      sigCanvas?.current?.fromDataURL(imageURL);
+    }
+  }, [canvasWidth, canvasHeight]);
 
   return (
     <Space wrap>
-      <Space wrap onClick={showModal} style={{ cursor: 'pointer' }} align='start'>
+      <Space
+        wrap
+        onClick={showModal}
+        style={{ cursor: 'pointer' }}
+        align="start"
+      >
         <Button
           type="link"
           style={{
@@ -114,15 +149,17 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
         >
           Online signature / Առցանց ստորագրություն
         </Button>
-        {(imageURL === undefined && (view === false || view === undefined)) && <Divider
-          type='horizontal'
-          orientation={'center'}
-          style={{
-            width: '180px',
-            borderColor: 'var(--dark)',
-            margin: '32 0 0 0'
-          }}
-        />}
+        {imageURL === undefined && (view === false || view === undefined) && (
+          <Divider
+            type="horizontal"
+            orientation={'center'}
+            style={{
+              width: '180px',
+              borderColor: 'var(--dark)',
+              margin: '32 0 0 0'
+            }}
+          />
+        )}
       </Space>
       <SignatureModal
         footer={false}
@@ -133,6 +170,7 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
         <>
           <SignatureCanvas
             penColor="blue"
+            clearOnResize={false}
             ref={sigCanvas}
             canvasProps={{ width: canvasWidth, height: canvasHeight }}
           />
@@ -171,16 +209,16 @@ const Signature: React.FC<{ view?: boolean, url?: string }> = ({ view, url }) =>
       </SignatureModal>
       {imageURL !== null && (Boolean(imageURL) || Boolean(url))
         ? (
-          <img
-            src={imageURL ?? url}
-            alt="Signature"
-            style={{
-              display: 'block',
-              margin: '0 auto',
-              width: '100px',
-              height: '50px'
-            }}
-          />
+        <img
+          src={imageURL ?? url}
+          alt="Signature"
+          style={{
+            display: 'block',
+            margin: '0 auto',
+            width: '100px',
+            height: '50px'
+          }}
+        />
           )
         : null}
     </Space>
