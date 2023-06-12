@@ -61,17 +61,7 @@ export const Container = styled.div`
   box-shadow: var(--base-box-shadow);
   border-radius: 20px 20px 0px 0px;
   margin: 16px 0px 0px 16px;
-  overflow: hidden;
-  height: 98%;
-
-  .ant-input-group-wrapper {
-    width: 400px;
-    padding: 32px 0px 42px 0px;
-  }
-  .ant-table-wrapper {
-    height: calc(100% - 144px);
-    overflow: auto;
-  }
+  
   .ant-pagination-item-link {
     border: none !important;
   }
@@ -88,11 +78,6 @@ export const Container = styled.div`
   .ant-table-pagination-right {
     justify-content: center;
     align-items: end;
-    padding-bottom: 10px;
-    position: fixed;
-    bottom: 0px;
-    width: 80%;
-    margin: 0;
   }
   .ant-tag {
     height: 24px;
