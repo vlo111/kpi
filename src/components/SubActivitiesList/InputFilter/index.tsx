@@ -68,7 +68,7 @@ export const getColumnSearchProps: TSearchPropsType = (
       ) {
         setSearchData({
           ...searchData,
-          [key]: inputValues.duration
+          [key]: inputValues.duration ?? 1
         });
         setTablePagination({
           ...tablePagination,
