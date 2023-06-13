@@ -22,17 +22,6 @@ export const Container = styled.div`
   background: var(--white);
   box-shadow: var(--base-box-shadow);
   margin: 16px 16px 0px 16px;
-  overflow: hidden;
-  height: 80vh;
-
-  .ant-input-group-wrapper {
-    width: 400px;
-    padding: 32px 0px 42px 0px;
-  }
-  .ant-table-wrapper {
-    height: calc(100% - 50px);
-    overflow: auto;
-  }
   .ant-pagination-item-link {
     border: none !important;
   }
@@ -50,10 +39,6 @@ export const Container = styled.div`
   .ant-table-pagination-right {
     justify-content: center;
     align-items: end;
-    padding-bottom: 10px;
-    position: fixed;
-    bottom: 0px;
-    width: 80%;
     margin: 5px;
   }
   .ant-tag {
@@ -65,17 +50,6 @@ export const Container = styled.div`
   }
   .ant-table table {
     width: auto;
-  }
-  .clearfilter {
-    background-color: var(--white);
-    border: none;
-    color: var(--dark-border-ultramarine);
-    cursor: pointer;
-  }
-  .tableName {
-    strong {
-      font-weight: 400;
-    }
   }
 
   .react-resizable-handle {
@@ -271,6 +245,7 @@ const SubActivitiesTable: React.FC = () => {
           columns={column}
           dataSource={data?.result}
           rowKey={(record) => record?.id as string}
+          scroll={{ y: '65vh' }}
           rowClassName={(record, index) =>
             index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
           }
