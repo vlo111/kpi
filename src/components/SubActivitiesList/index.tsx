@@ -257,7 +257,9 @@ const SubActivitiesTable: React.FC = () => {
                   `/project/${PATHS.SUBACTIVITY.replace(
                     ':id',
                     record?.subActivity?.id
-                  )}`
+                  )}`, {
+                    state: { table: true }
+                  }
                 );
               }
             };

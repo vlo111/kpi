@@ -270,7 +270,9 @@ export const SubActivity: React.FC<ISubActivitiesProps> = ({
                       gutter={[8, 11]}
                       style={{ padding: '15px 0', cursor: 'pointer' }}
                       onClick={() => {
-                        navigate(`/project/sub-activity/${item?.subActivityId}`);
+                        navigate(`/project/sub-activity/${item?.subActivityId}`, {
+                          state: { table: false }
+                        });
                       }
                       }
                     >
