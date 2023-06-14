@@ -264,7 +264,9 @@ export const optionsStatus = [
   { label: 'Pre-Assessment', value: 'PRE_ASSESSMENT' },
   { label: 'Participant', value: 'PARTICIPANT' },
   { label: 'Post-Assessment ', value: 'POST_ASSESSMENT' },
-  { label: 'Trained', value: 'TRAINED' }
+  { label: 'Trained', value: 'TRAINED' },
+  { label: 'Not-enrolled', value: 'NOT_ENROLLED' },
+  { label: 'Dropped', value: 'DROPPED' }
 ];
 // Age function
 export const marks: SliderMarks = {
