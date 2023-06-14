@@ -105,13 +105,15 @@ const searchDataObject: IFilteredData = {
   duration: undefined,
   teachingModes: undefined,
   partnerOrganization: undefined,
-  managers: undefined
+  managers: undefined,
+  activities: undefined
 };
 const inputChangeValues = {
   courseTitle: '',
   courseDescription: '',
   duration: 1,
-  partnerOrganization: ''
+  partnerOrganization: '',
+  activities: ''
 };
 const SubActivitiesTable: React.FC = () => {
   const navigate = useNavigate();
