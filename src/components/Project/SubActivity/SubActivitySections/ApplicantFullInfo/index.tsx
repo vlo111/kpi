@@ -55,6 +55,12 @@ const AsnInput = styled(Input)`
   }
 `;
 
+const TotalContainer = styled.div`
+  border: 1px solid var(--light-border-gray);
+  padding: 4px 20px;
+  width: 10vw;
+`;
+
 const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
   color,
   applicants,
@@ -281,7 +287,14 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
     <>
       <FormWrapper className="users_full_list" margin={0} color={color}>
         <Space style={{ width: '100%' }} size={[0, 32]} direction="vertical">
-          <Row justify="space-between" align="middle">
+          <Row
+            justify="space-between"
+            align="middle"
+            style={{
+              display: 'flex',
+              alignItems: 'flex-start'
+            }}
+          >
             <Col span={14} style={{ display: 'flex', alignItems: 'center' }}>
               Applicants{' '}
               <Button type="link">
@@ -300,11 +313,22 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
                 />
               )}
             </Col>
-            <Col style={{ display: 'flex', gap: '5px' }}>
-              Upload list of applicants
-              <AsnDragger2 {...props} disabled={status === 'DONE'}>
-                <CloudDownloadOutlined />
-              </AsnDragger2>
+
+            <Col
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-end',
+                gap: '8px'
+              }}
+            >
+              <Col style={{ display: 'flex', gap: '5px' }}>
+                Upload list of applicants
+                <AsnDragger2 {...props} disabled={status === 'DONE'}>
+                  <CloudDownloadOutlined />
+                </AsnDragger2>
+              </Col>
+              <TotalContainer>Total: {applicantCounts}</TotalContainer>
             </Col>
           </Row>
           {/* eslint-disable-next-line multiline-ternary */}
@@ -385,7 +409,11 @@ const SubActivityUsersFullInfo: React.FC<IApplicantsListFullInfo> = ({
           OK
         </AsnButton>
       </AsnModal>
-      <FailedApplicantsModal showFailedModal={showFailedModal} setShowFailedModal={setShowFailedModal} failedData={failedData} />
+      <FailedApplicantsModal
+        showFailedModal={showFailedModal}
+        setShowFailedModal={setShowFailedModal}
+        failedData={failedData}
+      />
     </>
   );
 };
