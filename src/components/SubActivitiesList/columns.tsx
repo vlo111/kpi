@@ -67,6 +67,40 @@ export const useColumn: TColumnType = (
       }
     },
     {
+      ...getColumnSearchProps(
+        'activities',
+        setSearchData,
+        searchData,
+        'activities',
+        setTablePagination,
+        tablePagination,
+        inputValues,
+        setInputValues
+      ),
+      title: () => <CustomTitle width="9rem">Activity</CustomTitle>,
+      dataIndex: 'activities',
+      ellipsis: false,
+      render: (
+        text: string,
+        record: { subActivity: { inputActivity: { title: string } } }
+      ) => {
+        let subString = record?.subActivity?.inputActivity?.title?.slice(0, 20);
+        if (record?.subActivity?.inputActivity?.title?.length > 20) {
+          subString += '...';
+        }
+        return (
+          <CustomParagraph
+            width="10rem"
+            ellipsis={{
+              rows: 1
+            }}
+          >
+            {subString}
+          </CustomParagraph>
+        );
+      }
+    },
+    {
       ...getColumnSearchPropsCheckbox(
         'Status',
         subActivityTableFilterStatus,
