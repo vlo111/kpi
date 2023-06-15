@@ -99,6 +99,9 @@ export interface ICourseNames {
   title: string
   id: string
   count: number
+  status: string
+  start_date: string
+  end_date: string
 }
 
 export interface ICourseFilesProps {
