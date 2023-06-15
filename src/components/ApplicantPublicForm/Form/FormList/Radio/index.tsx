@@ -34,6 +34,7 @@ const setRequired: SetRequired = (item) => [
 
 const SectionRadio: React.FC<IFormItemProps> = ({
   title,
+  defaultRelatedValue = true,
   answers,
   index,
   formName,
@@ -41,7 +42,7 @@ const SectionRadio: React.FC<IFormItemProps> = ({
 }) => {
   const form = AsnForm.useFormInstance();
 
-  const [showRelatedQuestion, setShowRelatedQuestion] = useState(true);
+  const [showRelatedQuestion, setShowRelatedQuestion] = useState(defaultRelatedValue);
 
   const [openOther, setOpenOther] = useState(false);
   const [otherRules, setOtherRules] = useState(setRequired(false));
