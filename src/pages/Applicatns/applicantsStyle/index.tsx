@@ -1,4 +1,7 @@
+import { Typography } from 'antd';
 import styled from 'styled-components';
+
+const { Paragraph } = Typography;
 
 export const ContentAssingersFilter = styled.div`
   .ant-collapse
@@ -111,4 +114,13 @@ export const Container = styled.div`
   cursor: col-resize;
 }
 
+`;
+
+export const CustomParagraphApplicants = styled(Paragraph)<{ width: string }>`
+  width: ${(props) => props.width} !important;
+  margin-bottom: "0rem";
+`;
+
+export const CustomTitleApplicants = styled.div<{ width: string }>`
+  width: ${(props) => props.width} !important;
 `;
