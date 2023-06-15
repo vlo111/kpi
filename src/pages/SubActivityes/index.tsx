@@ -83,7 +83,7 @@ const SubActivity: React.FC = () => {
   const [tabIndex, setTabIndex] = useState<number>(0);
   const [offset, setOffset] = useState<number>(0);
 
-  const { table } = location.state;
+  const { table } = location.state ?? { table: false };
 
   const {
     data,
