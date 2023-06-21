@@ -31,7 +31,7 @@ const ListItems: React.FC<IApplicationFormProps> = ({ name, section, preview }) 
           relatedQuestions
         };
 
-        return renderQuestionForm(keyName, answerType, index, props);
+        return renderQuestionForm(keyName, answerType, index, props, preview);
       }
     } catch (e) {
       console.log(e);

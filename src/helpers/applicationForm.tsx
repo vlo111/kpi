@@ -90,9 +90,7 @@ export const renderQuestionForm: RenderQuestionForm = (
       return (
         <SectionRadio
           key={index}
-          defaultRelatedValue={
-            preview !== false || SectionName.otherInfo !== props.formName
-          }
+          defaultRelatedValue={SectionName.otherInfo === props.formName ? preview === true : true}
           {...props}
         />
       );
