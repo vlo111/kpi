@@ -92,7 +92,7 @@ const RequiredDocuments: React.FC<IRequiredDocuments> = ({ requIredDocs, require
                       type="REQUIRED_DOCUMENT"
                       courseId={courseId}
                       keyname={doc?.title}
-                      disableUploadReqDoc={requiredFiles?.filter((file) => file.keyname === doc.title)?.length === doc.count}
+                      disableUploadReqDoc={requiredFiles?.filter((file) => file.keyname.trim() === doc.title.trim())?.length === doc.count}
                     />
                     <AntParagraph
                       ellipsis={{ rows: 1, expandable: true, symbol: <>View More</> }}
@@ -108,16 +108,16 @@ const RequiredDocuments: React.FC<IRequiredDocuments> = ({ requIredDocs, require
                   </Paragraph>
                 </Col>
                 <Col span={3} push={4} style={{ textAlign: 'center' }}>
-                  {(requiredFiles?.filter((file) => file.keyname === doc.title)?.length === doc.count)
+                  {(requiredFiles?.filter((file) => file.keyname.trim() === doc.title.trim())?.length === doc.count)
                     ? <DonneSvg />
                     : <Paragraph
                       style={{ marginBottom: 0 }}>
-                      {requiredFiles?.filter((file) => file.keyname === doc.title).length}/{doc.count}
+                      {requiredFiles?.filter((file) => file.keyname.trim() === doc.title.trim()).length}/{doc.count}
                     </Paragraph>
                   }
                 </Col>
               </Row>
-              {requiredFiles?.length > 0 && requiredFiles?.filter((file) => file.keyname === doc.title)?.map((item) => (
+              {requiredFiles?.length > 0 && requiredFiles?.filter((file) => file.keyname.trim() === doc.title.trim())?.map((item) => (
                 <Row style={{ width: '100%', marginTop: '8px' }} key={i}>
                   <Col span={13} >
                     <Space style={{ paddingLeft: '34px' }} align='center'>
