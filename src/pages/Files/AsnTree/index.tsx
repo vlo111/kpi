@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button, Col, Row, Tree, Typography } from 'antd';
+import { Button, Col, Row, Tooltip, Tree, Typography } from 'antd';
 import type { DataNode } from 'antd/es/tree';
 
 import AsnSpin from '../../../components/Forms/Spin';
-import { IFilesProps, IExpandResultArea, IExpandInputActivity, IExpandCourse, INameAndId, ICourseNames } from '../../../types/files';
+import {
+  IFilesProps,
+  IExpandResultArea,
+  IExpandInputActivity,
+  IExpandCourse,
+  INameAndId,
+  ICourseNames
+} from '../../../types/files';
 import { TVoid } from '../../../types/global';
 import useGetProjectFiles from '../../../api/Files/useGetProjectFiles';
 import useGetResultAreaFile from '../../../api/Files/useGetResultAreFiles';
@@ -16,14 +23,16 @@ import { ReactComponent as Folder } from '../UploadImg/folder.svg';
 import { ReactComponent as Up } from '..//UploadImg/up.svg';
 import { ReactComponent as Down } from '../UploadImg/down.svg';
 import { Key } from 'antd/lib/table/interface';
+import moment from 'moment';
 
 const { Title } = Typography;
 
 const { DirectoryTree } = Tree;
 const AsnTree = styled(DirectoryTree)`
-  .ant-tree-switcher{
+  .ant-tree-switcher {
     display: none;
-  } .ant-tree-switcher_close{
+  }
+  .ant-tree-switcher_close {
     display: none;
   }
 `;
@@ -32,15 +41,15 @@ const AsnRow = styled(Row)`
   padding-bottom: 10px;
 `;
 const AsnCol = styled(Col)`
-    width: 120px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 const CloseFolderSvg = styled(CloseFolder)`
-    margin-right: 10px;
-    width: 24px;
-    height: 15px;
+  margin-right: 10px;
+  width: 24px;
+  height: 15px;
 `;
 
 export const AsnTreeFiles: React.FC<IFilesProps> = ({
@@ -62,22 +71,38 @@ export const AsnTreeFiles: React.FC<IFilesProps> = ({
   const [resultAreaId, setResultAreaId] = useState<string>('');
   const [inputActivityId, setInputActivityID] = useState<string>('');
 
-  const { data, isFetching: isFetchingFileNames } = useGetProjectFiles(id, { enabled: Boolean(id) });
-  const { data: { result: resultAreas }, isFetching: isFetchingResultArea } = useGetResultAreaFile(resultAreaId, { enabled: Boolean(resultAreaId) });
-  const { data: courseNames, isFetching: isFetchingInputActivity } = useGetInputActivity(inputActivityId, { enabled: Boolean(inputActivityId) });
+  const { data, isFetching: isFetchingFileNames } = useGetProjectFiles(id, {
+    enabled: Boolean(id)
+  });
+  const {
+    data: { result: resultAreas },
+    isFetching: isFetchingResultArea
+  } = useGetResultAreaFile(resultAreaId, { enabled: Boolean(resultAreaId) });
+  const { data: courseNames, isFetching: isFetchingInputActivity } =
+    useGetInputActivity(inputActivityId, { enabled: Boolean(inputActivityId) });
 
   const handleExpandResultArea: IExpandResultArea = (id, key) => {
-    expandedKeys.length > 0 && expandedKeys[0] === key ? setExpandedKeys([]) : setExpandedKeys([key]);
+    expandedKeys.length > 0 && expandedKeys[0] === key
+      ? setExpandedKeys([])
+      : setExpandedKeys([key]);
     setResultAreaId(id);
   };
 
-  const handleExpandInputActivity: IExpandInputActivity = (id, key, prevKey) => {
-    expandedKeys.length > 1 && expandedKeys[1] === key ? setExpandedKeys([prevKey]) : setExpandedKeys([prevKey, key]);
+  const handleExpandInputActivity: IExpandInputActivity = (
+    id,
+    key,
+    prevKey
+  ) => {
+    expandedKeys.length > 1 && expandedKeys[1] === key
+      ? setExpandedKeys([prevKey])
+      : setExpandedKeys([prevKey, key]);
     setInputActivityID(id);
   };
 
   const handleExpandCourse: IExpandCourse = (id, key, prevKey, index) => {
-    expandedKeys.length > 2 && expandedKeys[2] === key ? setExpandedKeys([index, prevKey]) : setExpandedKeys([index, prevKey, key]);
+    expandedKeys.length > 2 && expandedKeys[2] === key
+      ? setExpandedKeys([index, prevKey])
+      : setExpandedKeys([index, prevKey, key]);
     setCourseId(id);
     setFolderId('');
     if (search !== '') {
@@ -102,67 +127,144 @@ export const AsnTreeFiles: React.FC<IFilesProps> = ({
     }
   };
 
-  if (isFetching ||
+  if (
+    isFetching ||
     isFetchingFolderFiles ||
     Boolean(isFetchingFileNames) ||
-    (Boolean(isFetchingResultArea)) ||
-    (Boolean(isFetchingInputActivity))) {
+    Boolean(isFetchingResultArea) ||
+    Boolean(isFetchingInputActivity)
+  ) {
     return <AsnSpin />;
   }
 
-  const defaultVal: DataNode[] = data?.result?.map((item: INameAndId, i: string) => {
-    return {
-      title: <AsnRow onClick={() => handleExpandResultArea(item.id, i)}>
-        {expandedKeys[0] === i ? <OpenFolder style={{ marginRight: '10px' }} /> : <CloseFolderSvg />}
-        <AsnCol>{item?.title}</AsnCol>
-        {expandedKeys[0] === i ? <Up style={{ marginLeft: '20px' }} /> : <Down style={{ marginLeft: '20px' }} />}
-      </AsnRow>,
-      key: i,
-      icon: <></>,
-      children: resultAreas?.map((name: INameAndId, j: string) => {
-        return {
-          title: <AsnRow onClick={() => handleExpandInputActivity(name.id, `${i}-${j}`, i)}>
-            {expandedKeys[1] === `${i}-${j}` ? <OpenFolder style={{ marginRight: '10px' }} /> : <CloseFolderSvg />}
-            <AsnCol>{name?.title}</AsnCol>
-            {expandedKeys[1] === `${i}-${j}` ? <Up style={{ marginLeft: '20px' }} /> : <Down style={{ marginLeft: '20px' }} />}
-          </AsnRow>,
-          key: `${i}-${j}`,
-          icon: <></>,
-          children: courseNames?.result?.map((course: ICourseNames, f: string) => {
-            if (course?.count > 0) {
-              return {
-                title: (
-                  <AsnRow
-                    onClick={() => handleExpandCourse(course.id, `${i}-${j}-${f}`, `${i}-${j}`, i)}>
-                    {expandedKeys[2] === `${i}-${j}-${f}` ? <OpenFolder style={{ marginRight: '10px' }} /> : <CloseFolderSvg />}
-                    <AsnCol>{course?.title}</AsnCol>
-                    {expandedKeys[2] === `${i}-${j}-${f}` ? <Up style={{ marginLeft: '20px' }} /> : <Down style={{ marginLeft: '20px' }} />}
-                  </AsnRow>
-                ),
-                key: `${i}-${j}-${f}`,
-                icon: <></>,
-                children: courseFiles?.folders?.map((file, k: number) => {
+  const defaultVal: DataNode[] = data?.result?.map(
+    (item: INameAndId, i: string) => {
+      return {
+        title: (
+          <AsnRow onClick={() => handleExpandResultArea(item.id, i)}>
+            {expandedKeys[0] === i
+              ? (
+              <OpenFolder style={{ marginRight: '10px' }} />
+                )
+              : (
+              <CloseFolderSvg />
+                )}
+            <Tooltip placement="top" title={`${item?.title}`}>
+              <AsnCol>{item?.title}</AsnCol>{' '}
+            </Tooltip>
+            {expandedKeys[0] === i
+              ? (
+              <Up style={{ marginLeft: '20px' }} />
+                )
+              : (
+              <Down style={{ marginLeft: '20px' }} />
+                )}
+          </AsnRow>
+        ),
+        key: i,
+        icon: <></>,
+        children: resultAreas?.map((name: INameAndId, j: string) => {
+          return {
+            title: (
+              <AsnRow
+                onClick={() =>
+                  handleExpandInputActivity(name.id, `${i}-${j}`, i)
+                }
+              >
+                {expandedKeys[1] === `${i}-${j}`
+                  ? (
+                  <OpenFolder style={{ marginRight: '10px' }} />
+                    )
+                  : (
+                  <CloseFolderSvg />
+                    )}
+                <Tooltip placement="top" title={`${name?.title}`}>
+                  <AsnCol>{name?.title}</AsnCol>
+                </Tooltip>
+                {expandedKeys[1] === `${i}-${j}`
+                  ? (
+                  <Up style={{ marginLeft: '20px' }} />
+                    )
+                  : (
+                  <Down style={{ marginLeft: '20px' }} />
+                    )}
+              </AsnRow>
+            ),
+            key: `${i}-${j}`,
+            icon: <></>,
+            children: courseNames?.result?.map(
+              (course: ICourseNames, f: string) => {
+                if (course?.count > 0) {
                   return {
-                    title:
+                    title: (
                       <AsnRow
-                        align={'middle'}
-                        onClick={() => handleExpandFolder(file?.title, file?.id)}>
-                        <Folder style={{ marginRight: '10px' }} />
-                        <AsnCol>{file?.title}</AsnCol>
-                      </AsnRow>,
+                        onClick={() =>
+                          handleExpandCourse(
+                            course.id,
+                            `${i}-${j}-${f}`,
+                            `${i}-${j}`,
+                            i
+                          )
+                        }
+                      >
+                        {expandedKeys[2] === `${i}-${j}-${f}`
+                          ? (
+                          <OpenFolder style={{ marginRight: '10px' }} />
+                            )
+                          : (
+                          <CloseFolderSvg />
+                            )}
+                        <Tooltip
+                          placement="top"
+                          title={`${course?.title} / ${moment(
+                            course?.start_date
+                          ).format('DD.MM.YYYY')}-${moment(
+                            course?.end_date
+                          ).format('DD.MM.YYYY')} / ${course?.status}`}
+                        >
+                          <AsnCol>{course?.title}</AsnCol>
+                        </Tooltip>
+                        {expandedKeys[2] === `${i}-${j}-${f}`
+                          ? (
+                          <Up style={{ marginLeft: '20px' }} />
+                            )
+                          : (
+                          <Down style={{ marginLeft: '20px' }} />
+                            )}
+                      </AsnRow>
+                    ),
+                    key: `${i}-${j}-${f}`,
                     icon: <></>,
-                    key: `${i}-${j}-${f}-${k}`,
-                    isLeaf: true
+                    children: courseFiles?.folders?.map((file, k: number) => {
+                      return {
+                        title: (
+                          <AsnRow
+                            align={'middle'}
+                            onClick={() =>
+                              handleExpandFolder(file?.title, file?.id)
+                            }
+                          >
+                            <Folder style={{ marginRight: '10px' }} />
+                            <Tooltip placement="top" title={`${file?.title}`}>
+                              <AsnCol>{file?.title}</AsnCol>
+                            </Tooltip>
+                          </AsnRow>
+                        ),
+                        icon: <></>,
+                        key: `${i}-${j}-${f}-${k}`,
+                        isLeaf: true
+                      };
+                    })
                   };
-                })
-              };
-            }
-            return null;
-          })
-        };
-      })
-    };
-  });
+                }
+                return null;
+              }
+            )
+          };
+        })
+      };
+    }
+  );
 
   return (
     <>
@@ -182,7 +284,10 @@ export const AsnTreeFiles: React.FC<IFilesProps> = ({
       >
         <Button
           type="link"
-          style={{ color: 'var(--dark-border-ultramarine)', fontSize: 'var(--base-font-size)' }}
+          style={{
+            color: 'var(--dark-border-ultramarine)',
+            fontSize: 'var(--base-font-size)'
+          }}
           onClick={() => fetchAllFiles()}
         >
           All Files ({filesCount})
