@@ -65,6 +65,7 @@ export type RenderQuestionForm = (
 
 export interface IFormItemProps {
   index: number
+  defaultRelatedValue?: boolean
   title: string
   answers: IAnswer[]
   required?: boolean

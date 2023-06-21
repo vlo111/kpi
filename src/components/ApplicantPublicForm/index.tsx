@@ -73,7 +73,7 @@ const FillApplicationFormContainer = styled.div`
 
   .ant-select:not(.ant-select-customize-input) .ant-select-selector {
     background-color: var(--white) !important;
-    border: 1px solid var(--dark-5) !important;
+    border: 1px solid var(--dark-5);
   }
 
   .ant-picker.ant-picker-disabled {

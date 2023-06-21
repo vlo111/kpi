@@ -1,4 +1,12 @@
-import { AnswerTypes, ErrorRequireMessages, KeyName, phoneErrorMesage, phoneRegExp, Placeholders } from './constants';
+import {
+  AnswerTypes,
+  ErrorRequireMessages,
+  KeyName,
+  phoneErrorMesage,
+  phoneRegExp,
+  Placeholders,
+  SectionName
+} from './constants';
 import SectionCheckBox from '../components/ApplicantPublicForm/Form/FormList/CheckBox';
 import SectionSelect from '../components/ApplicantPublicForm/Form/FormList/Select';
 import SectionRadio from '../components/ApplicantPublicForm/Form/FormList/Radio';
@@ -13,7 +21,11 @@ import {
   InitAnswer,
   RenderQuestionForm
 } from '../types/application';
-import { IApplicationFormSections, IQuestion, IRelatedQuestion } from '../types/api/application/applicationForm1';
+import {
+  IApplicationFormSections,
+  IQuestion,
+  IRelatedQuestion
+} from '../types/api/application/applicationForm1';
 
 export const renderQuestionForm: RenderQuestionForm = (
   keyName,
@@ -31,20 +43,27 @@ export const renderQuestionForm: RenderQuestionForm = (
       break;
     }
     case KeyName.dob: {
-      props.rules = [
-        { required: props.required }
-      ];
+      props.rules = [{ required: props.required }];
       props.placeholder = Placeholders.date;
       break;
     }
     case KeyName.email: {
-      props.rules = [{ required: props.required }, { type: KeyName.email }, { max: 128 }];
+      props.rules = [
+        { required: props.required },
+        { type: KeyName.email },
+        { max: 128 }
+      ];
       props.placeholder = Placeholders.email;
       break;
     }
     default: {
-      if (answerType === AnswerTypes.options || answerType === AnswerTypes.checkbox) {
-        props.rules = props.rules = [{ required: props.required, message: ErrorRequireMessages.checkbox }];
+      if (
+        answerType === AnswerTypes.options ||
+        answerType === AnswerTypes.checkbox
+      ) {
+        props.rules = props.rules = [
+          { required: props.required, message: ErrorRequireMessages.checkbox }
+        ];
       } else {
         props.rules = [{ required: props.required }];
       }
@@ -67,7 +86,13 @@ export const renderQuestionForm: RenderQuestionForm = (
       return <SectionText key={index} {...props} />;
     }
     case AnswerTypes.yesNo: {
-      return <SectionRadio key={index} {...props} />;
+      return (
+        <SectionRadio
+          key={index}
+          defaultRelatedValue={SectionName.otherInfo !== props.formName}
+          {...props}
+        />
+      );
     }
     default: {
       return <SectionDate key={index} {...props} />;
@@ -88,7 +113,9 @@ const concatRelatedAnswers: ConcatAnswers = (items, educationQuestion) => {
   educationQuestion[key] = educationQuestion[key].concat(relatedQuestionAnswer);
 };
 
-export const getRelatedQuestions: (section: IApplicationFormSections) => IFormQuestion = (section) => {
+export const getRelatedQuestions: (
+  section: IApplicationFormSections
+) => IFormQuestion = (section) => {
   const question: IFormQuestion = {
     [section.keyName]: getAnswers(section.questions)
   };
@@ -106,8 +133,7 @@ const initAnswers: InitAnswer = (keyName, answerType, answers) => {
 };
 
 const convertAnswerForm: ConvertAnswerForm = (key, answers) => ({
-  id: answers[0]?.id
-  // text: answers[0]?.title
+  id: key === 'disability' ? answers[1]?.id : answers[0]?.id
 });
 
 /**
