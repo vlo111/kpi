@@ -10,9 +10,14 @@ import { Void } from '../../../../../../../../types/global';
 
 import useGetAssessmentFormByCourseId from '../../../../../../../../api/AssessmentForm/useGetAssessmentFormCourseId';
 import useResendApplicant from '../../../../../../../../api/Applicant/useResendApplicant';
-import { AssessmentStatus, PATHS } from '../../../../../../../../helpers/constants';
+import {
+  AssessmentStatus,
+  PATHS
+} from '../../../../../../../../helpers/constants';
 import { ReactComponent as ResendSvg } from '../../Icons/resend.svg';
 import { IFiles, IHistory } from '../../../../../../../../types/applicant';
+import FilesPreviewModal from '../../../../../../../Project/SubActivity/SubActivitySections/Files/FilesPreviewModal';
+import FileMap from './FileMap';
 
 const Modal = styled(AsnModal)`
   .ant-modal-content {
@@ -26,15 +31,26 @@ const Modal = styled(AsnModal)`
 
 const Files: React.FC<IFiles> = ({ applicantId, history }) => {
   const [openPreviewApplicant, setOpenPreviewApplicant] = useState('');
-  const [openPreviewAssessmentForm, setOpenPreviewAssessmentForm] = useState<boolean>(false);
+  const [openPreview, setOpenPreview] = useState<boolean>(false);
+  const [url, setUrl] = useState<string | null>(null);
+  const [openPreviewAssessmentForm, setOpenPreviewAssessmentForm] =
+    useState<boolean>(false);
   const navigate = useNavigate();
+
   const { mutate: resendApplicant } = useResendApplicant('');
-  const { data: forms } = useGetAssessmentFormByCourseId(history.sectionDataId,
+
+  const { data: forms } = useGetAssessmentFormByCourseId(
+    history.sectionDataId,
     { type: history.status },
     {
-      enabled: (Boolean(history.sectionDataId) &&
-      Boolean(history.status === 'PRE_ASSESSMENT' || history.status === 'POST_ASSESSMENT'))
-    });
+      enabled:
+        Boolean(history.sectionDataId) &&
+        Boolean(
+          history.status === 'PRE_ASSESSMENT' ||
+            history.status === 'POST_ASSESSMENT'
+        )
+    }
+  );
 
   const hasActiveForm = forms[0];
 
@@ -47,9 +63,13 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
   };
 
   const handleStatus = (history: IHistory): void => {
-    const { preAssessmentForm, sectionDataId, status, postAssessmentForm } = history;
+    const { preAssessmentForm, sectionDataId, status, postAssessmentForm } =
+      history;
     if (preAssessmentForm || postAssessmentForm) {
-      navigate(`/${PATHS.FILLEDOUTASSESSMENTFORM}`.replace(':id', applicantId), { state: { sectionDataId, type: status } });
+      navigate(
+        `/${PATHS.FILLEDOUTASSESSMENTFORM}`.replace(':id', applicantId),
+        { state: { sectionDataId, type: status } }
+      );
     } else {
       setOpenPreviewAssessmentForm(true);
     }
@@ -57,77 +77,95 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
 
   return (
     <>
-      {history.id !== undefined && history?.status === 'APPLICANT' && history?.applicationForm && (
-        <span
-          className="file"
-          onClick={() => {
-            setOpenPreviewApplicant('APPLICATION');
-          }}
-        >
-          Application Form
-        </span>
-      )}
-      {history?.status === 'PRE_ASSESSMENT' && history.hasPreAssessmentForm && (Boolean(((hasActiveForm?.active) ?? false))) && (
-        <div className="assessment-section">
-          <span className="file" onClick={() => handleStatus(history)}>Pre Assessment:</span>
-          <div className="assessment">
-            {!history?.preAssessmentForm
-              ? (
-                <div className="resend">
-                  <p>{AssessmentStatus.NotSubmitted}</p>
-                  <div className="icon" title="Re-send" onClick={onResendHandler}>
-                    <ResendSvg />
-                  </div>
-                </div>
-                )
-              : history.preAssessmentForm && history.preAssessmentScore === null
-                ? (
-                    AssessmentStatus.NotAssessed
-                  )
-                : (
-                  <p>score {history.preAssessmentScore}/{history.preAssessmentMaxScore}</p>
-                  )
-            }
-          </div>
-        </div>
-      )}
-       {history?.status === 'POST_ASSESSMENT' && history.hasPostAssessmentForm && (Boolean(((hasActiveForm?.active) ?? false))) && (
-        <div className="assessment-section">
-          <span className="file" onClick={() => handleStatus(history)}>Post Assessment:</span>
-          <div className="assessment">
-            {!history?.postAssessmentForm
-              ? (
-                <div className="resend">
-                  <p>{AssessmentStatus.NotSubmitted}</p>
-                  <div className="icon" title="Re-send" onClick={onResendHandler}>
-                    <ResendSvg />
-                  </div>
-                </div>
-                )
-              : history.postAssessmentForm && history.postAssessmentScore === null
-                ? (
-                    AssessmentStatus.NotAssessed
-                  )
-                : (
-                  <p>score {history.postAssessmentScore}/{history.postAssessmentMaxScore}</p>
-                  )
-            }
-          </div>
-        </div>
-       )}
       {history.id !== undefined &&
-        history.files.map((f) => (
-          <a
-            key={f.originalName}
+        history?.status === 'APPLICANT' &&
+        history?.applicationForm && (
+          <span
             className="file"
-            href={f.path}
-            target="_blank"
-            download={f.path}
-            rel="noreferrer"
+            onClick={() => {
+              setOpenPreviewApplicant('APPLICATION');
+            }}
           >
-            {f.originalName}
-          </a>
-        ))}
+            Application Form
+          </span>
+      )}
+      {history?.status === 'PRE_ASSESSMENT' &&
+        history.hasPreAssessmentForm &&
+        Boolean(hasActiveForm?.active ?? false) && (
+          <div className="assessment-section">
+            <span className="file" onClick={() => handleStatus(history)}>
+              Pre Assessment:
+            </span>
+            <div className="assessment">
+              {!history?.preAssessmentForm
+                ? (
+                <div className="resend">
+                  <p>{AssessmentStatus.NotSubmitted}</p>
+                  <div
+                    className="icon"
+                    title="Re-send"
+                    onClick={onResendHandler}
+                  >
+                    <ResendSvg />
+                  </div>
+                </div>
+                  )
+                : history.preAssessmentForm &&
+                history.preAssessmentScore === null
+                  ? (
+                      AssessmentStatus.NotAssessed
+                    )
+                  : (
+                <p>
+                  score {history.preAssessmentScore}/
+                  {history.preAssessmentMaxScore}
+                </p>
+                    )}
+            </div>
+          </div>
+      )}
+      {history?.status === 'POST_ASSESSMENT' &&
+        history.hasPostAssessmentForm &&
+        Boolean(hasActiveForm?.active ?? false) && (
+          <div className="assessment-section">
+            <span className="file" onClick={() => handleStatus(history)}>
+              Post Assessment:
+            </span>
+            <div className="assessment">
+              {!history?.postAssessmentForm
+                ? (
+                <div className="resend">
+                  <p>{AssessmentStatus.NotSubmitted}</p>
+                  <div
+                    className="icon"
+                    title="Re-send"
+                    onClick={onResendHandler}
+                  >
+                    <ResendSvg />
+                  </div>
+                </div>
+                  )
+                : history.postAssessmentForm &&
+                history.postAssessmentScore === null
+                  ? (
+                      AssessmentStatus.NotAssessed
+                    )
+                  : (
+                <p>
+                  score {history.postAssessmentScore}/
+                  {history.postAssessmentMaxScore}
+                </p>
+                    )}
+            </div>
+          </div>
+      )}
+      {history.id !== undefined && (
+        <FileMap
+          history={history}
+          setOpenPreview={setOpenPreview}
+          setUrl={setUrl}
+        />
+      )}
       <Modal
         footer={false}
         open={openPreviewApplicant !== ''}
@@ -141,13 +179,20 @@ const Files: React.FC<IFiles> = ({ applicantId, history }) => {
           preview={true}
         />
       </Modal>
-      {openPreviewAssessmentForm &&
-      <PreviewAssessmentForm
-        openPreviewAssessmentForm={openPreviewAssessmentForm}
-        setOpenPreviewAssessmentForm={setOpenPreviewAssessmentForm}
-        formId={hasActiveForm.id}
-        applicantPreview={true}
-      />}
+      <FilesPreviewModal
+        setUrl={setUrl}
+        url={url}
+        openPreview={openPreview}
+        setOpenPreview={setOpenPreview}
+      />
+      {openPreviewAssessmentForm && (
+        <PreviewAssessmentForm
+          openPreviewAssessmentForm={openPreviewAssessmentForm}
+          setOpenPreviewAssessmentForm={setOpenPreviewAssessmentForm}
+          formId={hasActiveForm.id}
+          applicantPreview={true}
+        />
+      )}
     </>
   );
 };

@@ -187,17 +187,17 @@ const Course: React.FC<ICourseProps> = ({
         >
           <Col span={24}>
             <AntRow>
-              <Col span={6}>
+              <Col span={5}>
                 {history.id === undefined
                   ? 'N/A'
                   : moment(history?.updatedAt).format('DD/MM/YYYY')}
               </Col>
-              <Col span={6}>
+              <Col span={5}>
                 <Status status={history.status} />
               </Col>
-              <Col span={6} className="files">
+              <Col span={8} className="files">
                 {history.id !== undefined && (
-                  <Files applicantId={applicant.id} history={history} />
+                  <Files applicantId={applicant.id} history={history}/>
                 )}
               </Col>
               <Col

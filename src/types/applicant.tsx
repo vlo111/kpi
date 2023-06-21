@@ -73,9 +73,15 @@ export interface IFile {
   type: string
 }
 
-interface IGetApplicant { isLoading?: boolean, applicant: IApplicant, courses: ICourse[] }
+interface IGetApplicant {
+  isLoading?: boolean
+  applicant: IApplicant
+  courses: ICourse[]
+}
 
-export type UseGetApplicant = (id: string | undefined) => IGetApplicant | undefined
+export type UseGetApplicant = (
+  id: string | undefined
+) => IGetApplicant | undefined;
 
 export interface IApproveModalProps {
   applicants: Array<{ id: string, fullName: string, fullname?: string }>
@@ -83,7 +89,9 @@ export interface IApproveModalProps {
   onCancel: () => void
   setSelectedRowKeys?: React.Dispatch<React.SetStateAction<React.Key[]>>
   setOffset?: React.Dispatch<React.SetStateAction<number>>
-  setSelectedApplicants?: React.Dispatch<React.SetStateAction<IApplicantSubActivity[] | []>>
+  setSelectedApplicants?: React.Dispatch<
+  React.SetStateAction<IApplicantSubActivity[] | []>
+  >
 }
 export interface ImportParams {
   sectionDataId: string
@@ -137,8 +145,18 @@ export interface IGetApplicantFormResult {
   refetch: any
 }
 
-export type useGetApplicantForm = (id: string, sectionDataId: string, type: string, options?: AssessmentFormOptions) => IGetApplicantFormResult
-export type ImportApplicantList = UseMutation<Void, any, ResponseErrorParam, ImportParams>
+export type useGetApplicantForm = (
+  id: string,
+  sectionDataId: string,
+  type: string,
+  options?: AssessmentFormOptions
+) => IGetApplicantFormResult;
+export type ImportApplicantList = UseMutation<
+Void,
+any,
+ResponseErrorParam,
+ImportParams
+>;
 
 export type OnNoteHandler = ChangeEventHandler<HTMLTextAreaElement>;
 
@@ -228,7 +246,15 @@ export interface IApplicantAccessStatus {
   PostAssessment: string
 }
 
-export interface IFiles { applicantId: string, history: IHistory }
+export interface IFiles {
+  applicantId: string
+  history: IHistory
+}
+export interface IFileMap {
+  history: IHistory
+  setOpenPreview: React.Dispatch<React.SetStateAction<boolean>>
+  setUrl: React.Dispatch<React.SetStateAction<string | null>>
+}
 
 export interface IApplicantProps {
   applicantId?: string
@@ -263,7 +289,13 @@ export interface IGetApplicants {
   isLoading: boolean
 }
 
-export type TUseGetApllicants = (id: string, search: string | undefined, offset: number, limit: number, options?: AssessmentFormOptions) => IGetApplicants
+export type TUseGetApllicants = (
+  id: string,
+  search: string | undefined,
+  offset: number,
+  limit: number,
+  options?: AssessmentFormOptions
+) => IGetApplicants;
 export interface IErrorMessage {
   response: {
     data: { message: string }
