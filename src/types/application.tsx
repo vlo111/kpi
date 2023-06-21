@@ -34,6 +34,7 @@ export type GetSectionItem = (index: number) => JSX.Element | undefined;
 
 export interface IApplicationFormProps {
   name: string
+  preview: boolean
   section: IApplicationFormSections
 }
 
@@ -54,13 +55,15 @@ export interface IApplicationFormItems {
   title: string
   description: string
   section: IApplicationFormSections
+  preview: boolean
 }
 
 export type RenderQuestionForm = (
   keyName: string,
   answerType: string,
   index: number,
-  props: IFormItemProps
+  props: IFormItemProps,
+  preview?: boolean
 ) => JSX.Element;
 
 export interface IFormItemProps {
