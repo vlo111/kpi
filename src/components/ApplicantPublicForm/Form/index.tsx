@@ -21,6 +21,7 @@ const ApplicationForm: React.FC<IApplicationForm> = ({
           description={item?.description}
           name={Object.values(SectionName)[index]}
           section={item}
+          preview={preview}
         />
       ))}
       <TermsConditions

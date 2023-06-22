@@ -4,6 +4,7 @@ import { AsnForm } from '../../../../Forms/Form';
 import { AsnDatePicker } from '../../../../Forms/DatePicker';
 
 import { IFormItemProps } from '../../../../../types/application';
+import moment from 'moment';
 
 const SectionDate: React.FC<IFormItemProps> = ({ index, title, placeholder, rules }) => {
   return (
@@ -16,6 +17,7 @@ const SectionDate: React.FC<IFormItemProps> = ({ index, title, placeholder, rule
     >
       <AsnDatePicker
         format="DD/MM/YYYY"
+        defaultPickerValue={moment('01/01/2008')}
         placeholder={placeholder}
         style={{ height: '44px', width: '100%' }}
       />

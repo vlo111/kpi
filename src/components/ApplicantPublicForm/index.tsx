@@ -218,7 +218,7 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
       const [personalDetails, education, otherInfo, personalInfo] =
         applicationFormSections;
 
-      const getAnswers: GetAnswers = (items) =>
+      const answers: GetAnswers = (items) =>
         items?.map((p: IQuestion | IRelatedQuestion) => {
           const answer: IAnswerProps = {
             questionId: p.id,
@@ -245,24 +245,24 @@ const ApplicantPublicForm: React.FC<IApplicantPublicForm> = ({
         .filter((f: IRelatedQuestion[]) => f.length)
         .flat();
 
-      const educationAnswers = getAnswers(relatedQuestionsEducation);
+      const educationAnswers = answers(relatedQuestionsEducation);
 
       const relatedQuestionsOther: IRelatedQuestion[] = otherInfo.questions
         .map((q: IQuestion) => q.relatedQuestions)
         .filter((f: IRelatedQuestion[]) => f.length)
         .flat();
 
-      const otherAnswers = getAnswers(relatedQuestionsOther);
+      const otherAnswers = answers(relatedQuestionsOther);
 
       const questions = {
-        [personalDetails.keyName]: getAnswers(personalDetails.questions),
-        [education.keyName]: getAnswers(education.questions).concat(
+        [personalDetails.keyName]: answers(personalDetails.questions),
+        [education.keyName]: answers(education.questions).concat(
           educationAnswers
         ),
-        [otherInfo.keyName]: getAnswers(otherInfo.questions).concat(
+        [otherInfo.keyName]: answers(otherInfo.questions).concat(
           otherAnswers
         ),
-        [personalInfo.keyName]: getAnswers(personalInfo.questions)
+        [personalInfo.keyName]: answers(personalInfo.questions)
       };
 
       questions[personalDetails.keyName][1].answers[0].text = moment(

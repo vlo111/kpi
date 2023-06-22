@@ -11,7 +11,8 @@ const ApplicationForm: React.FC<IApplicationFormItems> = ({
   name,
   title,
   description,
-  section
+  section,
+  preview
 }) => {
   if (!(section.questions.length > 0)) {
     return null;
@@ -20,7 +21,7 @@ const ApplicationForm: React.FC<IApplicationFormItems> = ({
     <>
       <SectionTitle>{title}</SectionTitle>
       <FormText>{description}</FormText>
-      <ListItems name={name} section={section} />
+      <ListItems name={name} section={section} preview={preview} />
     </>
   );
 };

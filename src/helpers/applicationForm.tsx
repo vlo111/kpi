@@ -31,7 +31,8 @@ export const renderQuestionForm: RenderQuestionForm = (
   keyName,
   answerType,
   index,
-  props
+  props,
+  preview
 ) => {
   switch (keyName) {
     case KeyName.phone: {
@@ -89,7 +90,7 @@ export const renderQuestionForm: RenderQuestionForm = (
       return (
         <SectionRadio
           key={index}
-          defaultRelatedValue={SectionName.otherInfo !== props.formName}
+          defaultRelatedValue={SectionName.otherInfo === props.formName ? preview === true : true}
           {...props}
         />
       );
@@ -102,6 +103,7 @@ export const renderQuestionForm: RenderQuestionForm = (
 
 const concatRelatedAnswers: ConcatAnswers = (items, educationQuestion) => {
   const relatedQuestions: IRelatedQuestion[] = items.questions
+    .filter((q) => q.keyName !== 'disability')
     .map((q: IQuestion) => q.relatedQuestions)
     .filter((f: IRelatedQuestion[]) => f.length)
     .flat();
@@ -125,12 +127,10 @@ export const getRelatedQuestions: (
   return question;
 };
 
-const initAnswers: InitAnswer = (keyName, answerType, answers) => {
-  if (keyName === AnswerTypes.region || answerType === AnswerTypes.checkbox) {
-    return [];
-  }
-  return [convertAnswerForm(keyName, answers)];
-};
+const initAnswers: InitAnswer = (keyName, answerType, answers) =>
+  keyName === AnswerTypes.region || answerType === AnswerTypes.checkbox
+    ? []
+    : [convertAnswerForm(keyName, answers)];
 
 const convertAnswerForm: ConvertAnswerForm = (key, answers) => ({
   id: key === 'disability' ? answers[1]?.id : answers[0]?.id
