@@ -116,7 +116,7 @@ export const useColumn: TColumnType = (
       dataIndex: 'status',
       ellipsis: false,
       render: (text: string, record: { status: string }) => {
-        const upperCase = `${record?.status[0]}${record?.status
+        const upperCase = `${record?.status?.[0]}${record?.status
           .toLowerCase()
           .slice(1)}`;
         const status = upperCase === 'Done' ? 'Completed' : upperCase;
@@ -413,7 +413,7 @@ export const useColumn: TColumnType = (
               rows: 1
             }}
           >
-            {partnerOrganization[0]?.partner_organization}
+            {partnerOrganization?.[0]?.partner_organization}
           </CustomParagraph>
         );
       }
