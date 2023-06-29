@@ -221,7 +221,7 @@ export const useColumn: TColumnType = (
               rows: 1
             }}
           >
-            {` ${record?.subActivity?.manager?.firstName} ${record?.subActivity?.manager?.lastName}`}
+            {` ${record?.subActivity?.author?.firstName} ${record?.subActivity?.author?.lastName}`}
           </CustomParagraph>
         );
       }

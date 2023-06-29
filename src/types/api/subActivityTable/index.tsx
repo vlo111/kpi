@@ -112,7 +112,7 @@ export interface IAssignedPeople {
   }
 }
 export interface ISubActivitiesManager {
-  manager: { firstName: string, lastName: string }
+  author: { firstName: string, lastName: string }
 }
 
 export interface IAllFiltered {
